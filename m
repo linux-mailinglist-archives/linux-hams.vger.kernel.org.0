@@ -2,110 +2,146 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ABDB32684
-	for <lists+linux-hams@lfdr.de>; Mon,  3 Jun 2019 04:17:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CC3033E1F
+	for <lists+linux-hams@lfdr.de>; Tue,  4 Jun 2019 06:59:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbfFCCRR (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 2 Jun 2019 22:17:17 -0400
-Received: from mail-ed1-f43.google.com ([209.85.208.43]:35162 "EHLO
-        mail-ed1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726561AbfFCCRQ (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 2 Jun 2019 22:17:16 -0400
-Received: by mail-ed1-f43.google.com with SMTP id p26so24664329edr.2
-        for <linux-hams@vger.kernel.org>; Sun, 02 Jun 2019 19:17:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=IzGhEC/wUC48hivBHHfohlPJnezwP4Vn2voBER9H2lk=;
-        b=rhxVv4UsnAizcE6YBnHzSadxB5PIhnL5eB6UYf0R9qaFlbZF29lbY/aA6QKODwrqyu
-         MncapgL5vtLH0cBLTr53b1QaBE+J0HfdnHAii709iUqu2B9aFnBNgKJANdG+kWJAsYW0
-         /xiv5FVO8Qx81oxaBVLANJRWn7KDC7FAh1g1+Sgcqkr9Zd4CI8UkC8sABgaFEKlh0mx3
-         Z2HAU+lF0qFGRTbOCO27GNsfPeEfL7Jt8f/ttMakgLHAkqcfaosktqZAB8dK2iWDgtT1
-         7tc7T7E2CRJPePRZPWvPPMCD3LgQ0Aetp5hYLoZnylHVi6LS4oAPb+RY3R7dFb6X7gSq
-         d5XA==
+        id S1726427AbfFDE7G (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 4 Jun 2019 00:59:06 -0400
+Received: from mail-it1-f199.google.com ([209.85.166.199]:39906 "EHLO
+        mail-it1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726352AbfFDE7G (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 4 Jun 2019 00:59:06 -0400
+Received: by mail-it1-f199.google.com with SMTP id 188so1020090ith.4
+        for <linux-hams@vger.kernel.org>; Mon, 03 Jun 2019 21:59:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=IzGhEC/wUC48hivBHHfohlPJnezwP4Vn2voBER9H2lk=;
-        b=QK2m5EPYIxbEiruNSZfCiYEKAnlsTJZRvMDd88GO+f1PBZLGUM9yLBUerPGsUVBLj4
-         uk8OqxdyOLViGjqQXv82/F+fmfjVazk9TbdBkQQ4wgY1IxeSQUraU5dmgK0YUgP43Say
-         8bHkW+Tog4h2wxoqhBHD1wbDJKX21n4kF4FXS2d33UCas9oDc93YgwulybQqECFGXpAx
-         zpCZE/WqrAWNXojea6zwO67fxLsiDnempNceKN45ntG2huyrjYwGe1X+Qby9oqvGn5Oi
-         eBKkree1aHUl0xxsqPjqef08K5D/L8b8R6ZCK21JtOzLkioqbBO8Qw1cU9hJCSnEc3wH
-         C4Pg==
-X-Gm-Message-State: APjAAAWCIhbj80vEJTbE1yGR/EU2uAyWkGm3rYBxC2HE4sP0U8Sd3KbG
-        5/KH3w3bn/F0dSFZ8byrHlXk/4kDbRoACTjEgoJuyA==
-X-Google-Smtp-Source: APXvYqwWESgxghqQa34aJeDCNW/fPHdk2KtyucbRH6QeqqtnMBdP4BGUqhRYKZ6feQAIZ7aKtYTXL6pVQuBOC7BJw4M=
-X-Received: by 2002:aa7:c607:: with SMTP id h7mr23028616edq.269.1559528234506;
- Sun, 02 Jun 2019 19:17:14 -0700 (PDT)
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=TTDReImnbsPUfsbHC9WPWZEbpuEYQR4VhJJHGQELGSY=;
+        b=k8uXwBJhLrP6QxQ36+g/KwoI0n8GnAUiUpupvntup5c0RJ1+NBNouIb6QyaZSZAW2C
+         YVm8isLq78gzpwgJZ9CjBYqyqOVM+ip9mnXQ9PYdsQx+BY8lh3zbF8dvf7rXAy5/o3kr
+         ngKOLqxAl46H2QhqW8C1HP/W78HThlbcAnUT67evewJFixsLjZ3vNeRhnp6K+hr5go/R
+         Xle+XapgG9qkwGwEqzw331aROcfT/E7P1IImWVxhyLLP4lmRITnwPRZnf/DVdq8QQdyb
+         CpbF0XppUJt1KW3O/aCnQL70qsKC+8x/sTsBZHzyeRqcx7bKROT5frH7Gj0+nbf99J0J
+         9KAw==
+X-Gm-Message-State: APjAAAXKntnhQdnW1l6NRuytT7gRkaPKV7X0sJFMMwzoVM/k+1GN6QzZ
+        ep0cZqkmOXH5XkcbXu3ApUXl8Az7DdcX9inHCIMFLG2btUqR
+X-Google-Smtp-Source: APXvYqxhOTHCxmPPGUlRYIewZVdGpcmTCrQduA2Xdse33/kHj/bIPyHrvD0dun9841nI60bFqTIyH3BCmNbfMgaNz9JLeN4NfBWQ
 MIME-Version: 1.0
-References: <CAKDpQX=UP1cwrMm0KsBTw_wc=K324wSFWQy=_tjfk89pHOg4cQ@mail.gmail.com>
-In-Reply-To: <CAKDpQX=UP1cwrMm0KsBTw_wc=K324wSFWQy=_tjfk89pHOg4cQ@mail.gmail.com>
-From:   Curt Mills <curt.we7u@gmail.com>
-Date:   Sun, 2 Jun 2019 19:17:03 -0700
-Message-ID: <CAKDpQXkqsdzHbDKD7LyecfRZofroOsKngDcNK-K=oOJBrBvk8w@mail.gmail.com>
-Subject: Fwd: Xastir Release 2.1.2
-To:     Linux-Hams List <linux-hams@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Received: by 2002:a02:c492:: with SMTP id t18mr14002910jam.67.1559624345428;
+ Mon, 03 Jun 2019 21:59:05 -0700 (PDT)
+Date:   Mon, 03 Jun 2019 21:59:05 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000017b026058a785790@google.com>
+Subject: INFO: rcu detected stall in rose_connect
+From:   syzbot <syzbot+af81c7a21a31b18bec0e@syzkaller.appspotmail.com>
+To:     davem@davemloft.net, linux-hams@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        ralf@linux-mips.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-This release of Xastir implements the following changes:
+Hello,
 
-- National Weather Service shapefile script updated, dbfawk files added.
+syzbot found the following crash on:
 
-- Compilation errors in OS X earlier than 10.6 fixed.
+HEAD commit:    0462eaac Merge git://git.kernel.org/pub/scm/linux/kernel/g..
+git tree:       net-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=12fda636a00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b7b54c66298f8420
+dashboard link: https://syzkaller.appspot.com/bug?extid=af81c7a21a31b18bec0e
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
 
-- Tiger WMS server maps added.
+Unfortunately, I don't have any reproducer for this crash yet.
 
-- A new set of National Map .geo files replaces those that referenced
-WMS products that have gone off-line since the last release.
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+af81c7a21a31b18bec0e@syzkaller.appspotmail.com
 
-- GDAL and OGR support removed.
+rcu: INFO: rcu_preempt self-detected stall on CPU
+rcu: 	0-...!: (10499 ticks this GP) idle=5fa/1/0x4000000000000002  
+softirq=44473/44473 fqs=15
+	(t=10501 jiffies g=63393 q=282)
+rcu: rcu_preempt kthread starved for 10470 jiffies! g63393 f0x0  
+RCU_GP_WAIT_FQS(5) ->state=0x402 ->cpu=1
+rcu: RCU grace-period kthread stack dump:
+rcu_preempt     I29056    10      2 0x80004000
+Call Trace:
+  context_switch kernel/sched/core.c:2818 [inline]
+  __schedule+0x7cb/0x1560 kernel/sched/core.c:3445
+  schedule+0xa8/0x260 kernel/sched/core.c:3509
+  schedule_timeout+0x486/0xc50 kernel/time/timer.c:1807
+  rcu_gp_fqs_loop kernel/rcu/tree.c:1589 [inline]
+  rcu_gp_kthread+0x9b2/0x18b0 kernel/rcu/tree.c:1746
+  kthread+0x354/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+NMI backtrace for cpu 0
+CPU: 0 PID: 25729 Comm: syz-executor.0 Not tainted 5.2.0-rc2+ #9
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  <IRQ>
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x172/0x1f0 lib/dump_stack.c:113
+  nmi_cpu_backtrace.cold+0x63/0xa4 lib/nmi_backtrace.c:101
+  nmi_trigger_cpumask_backtrace+0x1be/0x236 lib/nmi_backtrace.c:62
+  arch_trigger_cpumask_backtrace+0x14/0x20 arch/x86/kernel/apic/hw_nmi.c:38
+  trigger_single_cpu_backtrace include/linux/nmi.h:164 [inline]
+  rcu_dump_cpu_stacks+0x183/0x1cf kernel/rcu/tree_stall.h:254
+  print_cpu_stall kernel/rcu/tree_stall.h:455 [inline]
+  check_cpu_stall kernel/rcu/tree_stall.h:529 [inline]
+  rcu_pending kernel/rcu/tree.c:2625 [inline]
+  rcu_sched_clock_irq.cold+0x4d1/0xbfd kernel/rcu/tree.c:2161
+  update_process_times+0x32/0x80 kernel/time/timer.c:1639
+  tick_sched_handle+0xa2/0x190 kernel/time/tick-sched.c:167
+  tick_sched_timer+0x47/0x130 kernel/time/tick-sched.c:1298
+  __run_hrtimer kernel/time/hrtimer.c:1389 [inline]
+  __hrtimer_run_queues+0x33b/0xdd0 kernel/time/hrtimer.c:1451
+  hrtimer_interrupt+0x314/0x770 kernel/time/hrtimer.c:1509
+  local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1041 [inline]
+  smp_apic_timer_interrupt+0x111/0x550 arch/x86/kernel/apic/apic.c:1066
+  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:806
+  </IRQ>
+RIP: 0010:preempt_count arch/x86/include/asm/preempt.h:26 [inline]
+RIP: 0010:check_kcov_mode kernel/kcov.c:68 [inline]
+RIP: 0010:__sanitizer_cov_trace_pc+0x11/0x50 kernel/kcov.c:102
+Code: 48 c7 05 8e 89 f5 08 00 00 00 00 e9 a4 e9 ff ff 90 90 90 90 90 90 90  
+90 90 55 48 89 e5 48 8b 75 08 65 48 8b 04 25 c0 fd 01 00 <65> 8b 15 b0 57  
+91 7e 81 e2 00 01 1f 00 75 2b 8b 90 e0 12 00 00 83
+RSP: 0018:ffff888062d17c00 EFLAGS: 00000297 ORIG_RAX: ffffffffffffff13
+RAX: ffff8880875ce680 RBX: dffffc0000000000 RCX: ffffffff864bdd76
+RDX: 0000000000000001 RSI: ffffffff864bdd14 RDI: 0000000000000004
+RBP: ffff888062d17c00 R08: ffff8880875ce680 R09: ffffed100c5a2f70
+R10: ffffed100c5a2f6f R11: 0000000000000003 R12: ffff88808ce48600
+R13: 0000000000000001 R14: ffff888216685300 R15: 0000000000000000
+  rose_find_socket+0x54/0x120 net/rose/af_rose.c:281
+  rose_new_lci net/rose/af_rose.c:302 [inline]
+  rose_new_lci+0xca/0x140 net/rose/af_rose.c:296
+  rose_connect+0x3b8/0x1510 net/rose/af_rose.c:776
+  __sys_connect+0x264/0x330 net/socket.c:1840
+  __do_sys_connect net/socket.c:1851 [inline]
+  __se_sys_connect net/socket.c:1848 [inline]
+  __x64_sys_connect+0x73/0xb0 net/socket.c:1848
+  do_syscall_64+0xfd/0x680 arch/x86/entry/common.c:301
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x459279
+Code: fd b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
+48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
+ff 0f 83 cb b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007eff2ff64c78 EFLAGS: 00000246 ORIG_RAX: 000000000000002a
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000459279
+RDX: 0000000000000040 RSI: 0000000020000040 RDI: 0000000000000004
+RBP: 000000000075bf20 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007eff2ff656d4
+R13: 00000000004bf7f6 R14: 00000000004d0d38 R15: 00000000ffffffff
 
-- Xastir builds are now reproducible (builds no longer contain the
-build date and time).
 
-- Deprecated GraphicsMagick and ImageMagick function calls replaced
-with new API.
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-- Download of tiled maps is now handled by a download manager running
-in a separate thread, dramatically improving map update speed.
-
-- Obsolete interface to old Tiger/Line map server removed (the server
-went down years ago).
-
-- OpenTrac decoding support removed.
-
-- Support for the old PocketAPRS (PalmOS based APRS) map format has
-been removed.  Users of these old map types should transition to a
-more modern format.
-
-- Xastir sources no longer contains a copy of an old version of
-shapelib source.  Shapelib support must now always be provided by an
-external library.
-
-- The embryonic "Xastir-qt" project has been moved to a separate repository.
-
-- "Xastir -V" will now cause Xastir to report its version number (with
-git sha-1 hash appended if built from a git clone) and exit.
-
-- Support for many additional satellite navigation (GNSS) receivers
-has been added to the existing GPS support.  Prior to this release,
-only NMEA sentences starting with $GP were recognized.
-
-- Many compilation warnings from recent GCC and Clang compilers have
-been eliminated, resulting in a cleaner build.
-
-- Our Makefiles now default to "silent rules" to reduce uninteresting
-output during compliation.  The old, noisier behavior may be invoked
-by adding "V=1" to the "make" line at build time.
-
-- The configure summary now shows the status of its probe for Xpm
-libraries under "Xpm / Snapshots".
-
-Xastir web pages: xastir.org
-Xastir Code: github.com/Xastir/Xastir
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
