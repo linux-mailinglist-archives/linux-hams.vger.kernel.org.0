@@ -2,69 +2,64 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BD88347C8
-	for <lists+linux-hams@lfdr.de>; Tue,  4 Jun 2019 15:14:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07562348B9
+	for <lists+linux-hams@lfdr.de>; Tue,  4 Jun 2019 15:31:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727123AbfFDNOA (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 4 Jun 2019 09:14:00 -0400
-Received: from mx01-fr.bfs.de ([193.174.231.67]:55601 "EHLO mx01-fr.bfs.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727129AbfFDNOA (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Tue, 4 Jun 2019 09:14:00 -0400
-Received: from mail-fr.bfs.de (mail-fr.bfs.de [10.177.18.200])
-        by mx01-fr.bfs.de (Postfix) with ESMTPS id BAA8C200CC;
-        Tue,  4 Jun 2019 15:13:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901;
-        t=1559654031; h=from:from:sender:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uuat3jEUgV8d8Ls/g6U2agD8YFGq9VD0MoYpCf6RTtE=;
-        b=jbJA1LoMy6ZCrN+Yt7gIMk/+5Jeb1t7lbzGGwwakeH3JdRsN51rsO47xUy2PvFva9lwLUb
-        lLykpLmrMnIIwKNyFtk7ZJS/oEvge4iO6O+2PRd9o2lJtMPKb34xkQq5WOPrzBsEJd585J
-        g7WiJMjlrwqyfNy9nkH7CypdTokQJgR4It37Oq9YyP0CVqEZaIXTLK2G60XF3Fbtih0r6g
-        EZxwPmTpYnuP0i1+JdFnadHY98R8jRmYZcPtAVWGuAHo5X2Nq4eM58zSkWkX6FTHvW++5o
-        AipUvdLe1rM0SKWdvVgUidigbKTpUUOzyhBpTEibLMCSjWLOLb9P5EIrtTOtxA==
-Received: from [134.92.181.33] (unknown [134.92.181.33])
-        by mail-fr.bfs.de (Postfix) with ESMTPS id C7BAFBEEBD;
-        Tue,  4 Jun 2019 15:13:50 +0200 (CEST)
-Message-ID: <5CF66E8E.1050100@bfs.de>
-Date:   Tue, 04 Jun 2019 15:13:50 +0200
-From:   walter harms <wharms@bfs.de>
-Reply-To: wharms@bfs.de
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; de; rv:1.9.1.16) Gecko/20101125 SUSE/3.0.11 Thunderbird/3.0.11
-MIME-Version: 1.0
-To:     Young Xiao <92siuyang@gmail.com>
-CC:     ralf@linux-mips.org, davem@davemloft.net,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        id S1727430AbfFDNbd (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 4 Jun 2019 09:31:33 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:37208 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727041AbfFDNbc (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 4 Jun 2019 09:31:32 -0400
+Received: by mail-pf1-f193.google.com with SMTP id a23so12713657pff.4;
+        Tue, 04 Jun 2019 06:31:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=3b5aub+eecNpo+4U92Rj62KFwfdLX+w3MzlhVC2SeQ0=;
+        b=nDr3GyLSyEbLOjZ9Kc+s6Gi2ZoFfHg9lNRMq6CdYJRbZJrSjQnpOJZ1/A21Zr+7Jz8
+         Bjr2dkpMZu6188dW0lBPP5JSEYTPmjlCXRnbtKMTBzMOO1bvVj01fkQiD6eNMotQ6p+N
+         0rCYw3UkWqbvUFw3LCUvtF6sI4iL34c7cNgg4JYHgC/0ObVA+BN5q1C/Jmc0eYfivG+J
+         eTrk46MFrtKj/4xjj/ZrQQxsPnwdg6+hH+bejYT5ePWNkVMvt0m3sB2NwM2LcAtHVGPf
+         BflIm5CRvE0Nm3swYtM70TbGRXCaimgvLr3KQWN4pkNQUd1gUDe1tge6v9xwH3zB0HIG
+         WZaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3b5aub+eecNpo+4U92Rj62KFwfdLX+w3MzlhVC2SeQ0=;
+        b=ATXEhslJTtIjK4z8fWkDGt8WzR3vYdwxxBX6cNutv03lg/cXRHETcMeMByP1fyRLN7
+         71Wfwore1O838SYJXVTQL+MEpyX3lP8YkatRXI9o5HcsBDW/QF2Hp3+55/u7W58LhjFR
+         rtRVGlSaOnHS5bTCAYRQ94qF8FGQCZisUxXO5sJ2tk+8h/wEkDSZOQUIr5EnlefJIXca
+         HoZisftyHJmlUx6JtU1vQJhQOIFlyr3lRa4kpIxISfh2OE48aM73zoyPpPYJwY+isb1m
+         0qnhjysZA2g432ko3dLt4AT9Q8Dixt54ECLlbClOHIvjS+4JAO6FREXOVhmAXbX5BarH
+         Hijg==
+X-Gm-Message-State: APjAAAXVRGqR2q7OSS96P0BuEwhtJwRIoO0oXzxMqjh8XWw0Xyc2cS91
+        NWTkW3xE+AadgcXqMdjpg88CqY6e
+X-Google-Smtp-Source: APXvYqyvUvoqZQRwD3+IAd/XJ22hnRVQk6nNZvcu9NNlpa4H7aEFxjUBMjmxaQ/jZhpt4l5kPXeS2w==
+X-Received: by 2002:a17:90a:a596:: with SMTP id b22mr24671756pjq.20.1559655091975;
+        Tue, 04 Jun 2019 06:31:31 -0700 (PDT)
+Received: from [192.168.86.235] (c-73-241-150-70.hsd1.ca.comcast.net. [73.241.150.70])
+        by smtp.gmail.com with ESMTPSA id u123sm18874576pfu.67.2019.06.04.06.31.30
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 04 Jun 2019 06:31:31 -0700 (PDT)
 Subject: Re: [PATCH] rose: af_rose: avoid overflows in rose_setsockopt()
+To:     Young Xiao <92siuyang@gmail.com>, ralf@linux-mips.org,
+        davem@davemloft.net, linux-hams@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <1559650290-17054-1-git-send-email-92siuyang@gmail.com>
+From:   Eric Dumazet <eric.dumazet@gmail.com>
+Message-ID: <a3ac9063-b11a-347d-713b-846907765366@gmail.com>
+Date:   Tue, 4 Jun 2019 06:31:29 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
 In-Reply-To: <1559650290-17054-1-git-send-email-92siuyang@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.10
-Authentication-Results: mx01-fr.bfs.de
-X-Spamd-Result: default: False [-3.10 / 7.00];
-         ARC_NA(0.00)[];
-         HAS_REPLYTO(0.00)[wharms@bfs.de];
-         BAYES_HAM(-3.00)[100.00%];
-         FROM_HAS_DN(0.00)[];
-         TO_DN_SOME(0.00)[];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         FREEMAIL_ENVRCPT(0.00)[gmail.com];
-         MIME_GOOD(-0.10)[text/plain];
-         REPLYTO_ADDR_EQ_FROM(0.00)[];
-         RCPT_COUNT_FIVE(0.00)[6];
-         DKIM_SIGNED(0.00)[];
-         NEURAL_HAM(-0.00)[-0.999,0];
-         FREEMAIL_TO(0.00)[gmail.com];
-         FROM_EQ_ENVFROM(0.00)[];
-         MIME_TRACE(0.00)[0:+];
-         RCVD_COUNT_TWO(0.00)[2];
-         MID_RHS_MATCH_FROM(0.00)[];
-         RCVD_TLS_ALL(0.00)[]
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
@@ -72,7 +67,7 @@ X-Mailing-List: linux-hams@vger.kernel.org
 
 
 
-Am 04.06.2019 14:11, schrieb Young Xiao:
+On 6/4/19 5:11 AM, Young Xiao wrote:
 > Check setsockopt arguments to avoid overflows and return -EINVAL for
 > too large arguments.
 > 
@@ -101,11 +96,6 @@ Am 04.06.2019 14:11, schrieb Young Xiao:
 > -	if (optlen < sizeof(int))
 > +	if (optlen < sizeof(unsigned int))
 >  		return -EINVAL;
-
-I do not thing that this will change much,
-but maybe you would like to check against the sizeof (opt) here ?
-
-
 >  
 > -	if (get_user(opt, (int __user *)optval))
 > +	if (get_user(opt, (unsigned int __user *)optval))
@@ -115,8 +105,6 @@ but maybe you would like to check against the sizeof (opt) here ?
 > @@ -389,31 +389,31 @@ static int rose_setsockopt(struct socket *sock, int level, int optname,
 >  		return 0;
 >  
-
-
 >  	case ROSE_T1:
 > -		if (opt < 1)
 > +		if (opt < 1 || opt > ULONG_MAX / HZ)
@@ -144,22 +132,14 @@ but maybe you would like to check against the sizeof (opt) here ?
 >  			return -EINVAL;
 >  		rose->hb = opt * HZ;
 >  		return 0;
-
- you can simplify this jungle by checking and calculation first
- and then set the correct rose->XX
-
 >  
 >  	case ROSE_IDLE:
 > -		if (opt < 0)
 > +		if (opt < 0 || opt > ULONG_MAX / HZ)
+
+Buggy check.
+
 >  			return -EINVAL;
-
-You made opt unsigned or ?
-
 >  		rose->idle = opt * 60 * HZ;
 >  		return 0;
-
-my 2 cents,
-
-re,
- wh
+> 
