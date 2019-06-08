@@ -2,63 +2,43 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4141D38509
-	for <lists+linux-hams@lfdr.de>; Fri,  7 Jun 2019 09:29:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 895D439BDC
+	for <lists+linux-hams@lfdr.de>; Sat,  8 Jun 2019 10:36:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727417AbfFGH27 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 7 Jun 2019 03:28:59 -0400
-Received: from smtp1.iitb.ac.in ([103.21.127.13]:60576 "EHLO smtp1.iitb.ac.in"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727391AbfFGH27 (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Fri, 7 Jun 2019 03:28:59 -0400
-Received: from ldns2.iitb.ac.in (ldns2.iitb.ac.in [10.200.12.2])
-        by smtp1.iitb.ac.in (Postfix) with SMTP id 16E6D103DF55
-        for <linux-hams@vger.kernel.org>; Fri,  7 Jun 2019 12:01:54 +0530 (IST)
-Received: (qmail 29995 invoked by uid 510); 7 Jun 2019 12:01:34 +0530
-X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns2 (envelope-from <rws@aero.iitb.ac.in>, uid 501) with qmail-scanner-2.11
- spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.100.0/25472} 
- Clear:RC:1(10.200.1.25):SA:0(1.5/7.0):. Processed in 3.224183 secs; 07 Jun 2019 12:01:34 +0530
-X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on ldns2.iitb.ac.in
-X-Spam-Level: *
-X-Spam-Status: No, score=1.5 required=7.0 tests=BAYES_50,IITB_ORIG,
-        MISSING_HEADERS,PROPER_IITB_MSGID autolearn=disabled version=3.4.1
-X-Spam-Pyzor: Reported 1 times.
-X-Envelope-From: rws@aero.iitb.ac.in
-X-Qmail-Scanner-Mime-Attachments: |
-X-Qmail-Scanner-Zip-Files: |
-Received: from unknown (HELO ldns2.iitb.ac.in) (10.200.1.25)
-  by ldns2.iitb.ac.in with SMTP; 7 Jun 2019 12:01:31 +0530
-Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
-        by ldns2.iitb.ac.in (Postfix) with ESMTP id CB958341965;
-        Fri,  7 Jun 2019 12:01:17 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 9509A8902E52F;
-        Fri,  7 Jun 2019 12:01:17 +0530 (IST)
-Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
-        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 3VnK-_U7b-vs; Fri,  7 Jun 2019 12:01:17 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 5DAB88902E54D;
-        Fri,  7 Jun 2019 12:01:14 +0530 (IST)
-X-Virus-Scanned: amavisd-new at aero.iitb.ac.in
-Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
-        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id TgJiwoMo_EHZ; Fri,  7 Jun 2019 12:01:14 +0530 (IST)
-Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 0EEE684310111;
-        Fri,  7 Jun 2019 12:01:10 +0530 (IST)
-Date:   Fri, 7 Jun 2019 12:01:09 +0530 (IST)
-From:   Martins Henry <rws@aero.iitb.ac.in>
-Message-ID: <412557711.60336.1559889069980.JavaMail.zimbra@aero.iitb.ac.in>
-Subject: Thanks and I wait for your answer
+        id S1726642AbfFHIgG (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 8 Jun 2019 04:36:06 -0400
+Received: from mail-io1-f71.google.com ([209.85.166.71]:46039 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726265AbfFHIgG (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 8 Jun 2019 04:36:06 -0400
+Received: by mail-io1-f71.google.com with SMTP id b197so3438747iof.12
+        for <linux-hams@vger.kernel.org>; Sat, 08 Jun 2019 01:36:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=fkX3S/tPJEfO5/PQ4Wk37gR465AkH5W+vB2a+wWl59Y=;
+        b=FzdmoougMhCj6z6n+vTc0c1f/bksue7ma1xIrPDjxraPRSQRGfR8QXuL1nYABDrW0c
+         Oiv6fgJ4/Z9k3JeThxa/eAvFQVCFZyzD8iM9445V5MjkeW+wfIsoxwpLjrFfHkf3h138
+         DJ8JlddyVkshztkdt3UEKhJ0TQoqdgZRLrerRHuYsmYA1hqUS78fqzmd7MwQNQz4gluO
+         nV+3u36nVCboK0+qYGd+/tJfQdEvzoJbsqobsbUQTA7voMEk08Zd/hHjQUq5cYAJ3x7D
+         RxYx2FmAgyAJy5vWRqtQtQCcAzE4y45cvGM8yqH48a58s9UfGiZ1bIkl8vCPCtDWqqZT
+         rjwA==
+X-Gm-Message-State: APjAAAWKe692MNfM40RXBUgx7qCrZ5YKtTys5TLiZa39qLZoJzMSR4zM
+        hj6nXUlsud6NZ/ZQDK4poYBmfivfWqEEXX9X3ujYzTpxQEEd
+X-Google-Smtp-Source: APXvYqxfMVxXk9WA9chqUCvvz96lOoRsKKqehXtwiABs8q4Gh1jv6ThJ6W6b3H3EnnYSaZDfWGLlyYRitrl38tk9NV1LLhaWCSem
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.101.1.5]
-X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF11 (Win)/8.8.12_GA_3794)
-Thread-Index: SsslhYkcLNFU69da/wYft5cO9/ZYnA==
-Thread-Topic: Thanks and I wait for your answer
-To:     unlisted-recipients:; (no To-header on input)
+X-Received: by 2002:a6b:5a0c:: with SMTP id o12mr3678402iob.281.1559982965162;
+ Sat, 08 Jun 2019 01:36:05 -0700 (PDT)
+Date:   Sat, 08 Jun 2019 01:36:05 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000007e8b70058acbd60f@google.com>
+Subject: KASAN: use-after-free Read in nr_release
+From:   syzbot <syzbot+6eaef7158b19e3fec3a0@syzkaller.appspotmail.com>
+To:     davem@davemloft.net, linux-hams@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        ralf@linux-mips.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
@@ -66,27 +46,139 @@ X-Mailing-List: linux-hams@vger.kernel.org
 
 Hello,
 
-I am Martin Henry, An American Citizen; I am the personal secretary to
-Mr. Donald Railton, the controller of a Lottery Company. Please I am
-having big problem now, I have a 6yrs old daughter who has leukemia, a
-disease of the blood, and she needs a bone marrow transplant or she
-will die.
+syzbot found the following crash on:
 
-Please I am only asking for your help and you will benefit from it
-also. As an insider with Lottery Firm, working as the personal
-secretary to the controller, I want you to send me your name to play,
-I have some numbers that are going to win, stored in his secret data
-system in the office. The Lottery is an online entry with credit card
-anywhere with a name and address. All I want you to do is to send your
-name to play it and I will send confirmation to you.
+HEAD commit:    85cb9287 net: rds: fix memory leak in rds_ib_flush_mr_pool
+git tree:       net
+console output: https://syzkaller.appspot.com/x/log.txt?x=133e162ea00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4f721a391cd46ea
+dashboard link: https://syzkaller.appspot.com/bug?extid=6eaef7158b19e3fec3a0
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
 
-I will play with my card on your name and the Prize will be shared
-equally between us. Immediately the results are released they will
-contact you for payment as the oversea winner. The lotto can be played
-with 9.00 dollars, or 50 dollars but the prize will be Millions.
-Remember that I am playing on your name with my card; I just want to
-front you for this, because I need this money to save the life of my
-little daughter.
+Unfortunately, I don't have any reproducer for this crash yet.
 
-Thanks and I wait for your answer
-Martin Henry.
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+6eaef7158b19e3fec3a0@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: use-after-free in atomic_read  
+include/asm-generic/atomic-instrumented.h:26 [inline]
+BUG: KASAN: use-after-free in refcount_inc_not_zero_checked+0x81/0x200  
+lib/refcount.c:123
+Read of size 4 at addr ffff88807bd1a3c0 by task syz-executor.4/31693
+
+CPU: 1 PID: 31693 Comm: syz-executor.4 Not tainted 5.2.0-rc2+ #43
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x172/0x1f0 lib/dump_stack.c:113
+  print_address_description.cold+0x7c/0x20d mm/kasan/report.c:188
+  __kasan_report.cold+0x1b/0x40 mm/kasan/report.c:317
+  kasan_report+0x12/0x20 mm/kasan/common.c:614
+  check_memory_region_inline mm/kasan/generic.c:185 [inline]
+  check_memory_region+0x123/0x190 mm/kasan/generic.c:191
+  kasan_check_read+0x11/0x20 mm/kasan/common.c:94
+  atomic_read include/asm-generic/atomic-instrumented.h:26 [inline]
+  refcount_inc_not_zero_checked+0x81/0x200 lib/refcount.c:123
+  refcount_inc_checked+0x17/0x70 lib/refcount.c:156
+  sock_hold include/net/sock.h:654 [inline]
+  nr_release+0x62/0x3b0 net/netrom/af_netrom.c:523
+  __sock_release+0xce/0x2a0 net/socket.c:607
+  sock_close+0x1b/0x30 net/socket.c:1279
+  __fput+0x2ff/0x890 fs/file_table.c:280
+  ____fput+0x16/0x20 fs/file_table.c:313
+  task_work_run+0x145/0x1c0 kernel/task_work.c:113
+  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+  exit_to_usermode_loop+0x273/0x2c0 arch/x86/entry/common.c:168
+  prepare_exit_to_usermode arch/x86/entry/common.c:199 [inline]
+  syscall_return_slowpath arch/x86/entry/common.c:279 [inline]
+  do_syscall_64+0x58e/0x680 arch/x86/entry/common.c:304
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x412f61
+Code: 75 14 b8 03 00 00 00 0f 05 48 3d 01 f0 ff ff 0f 83 04 1b 00 00 c3 48  
+83 ec 08 e8 0a fc ff ff 48 89 04 24 b8 03 00 00 00 0f 05 <48> 8b 3c 24 48  
+89 c2 e8 53 fc ff ff 48 89 d0 48 83 c4 08 48 3d 01
+RSP: 002b:00007ffda8e7f4d0 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
+RAX: 0000000000000000 RBX: 0000000000000005 RCX: 0000000000412f61
+RDX: 0000000000000000 RSI: ffffffff87168e98 RDI: 0000000000000004
+RBP: 0000000000000001 R08: ffffffff81009897 R09: 0000000017981f41
+R10: 00007ffda8e7f5b0 R11: 0000000000000293 R12: 000000000075c920
+R13: 000000000075c920 R14: 000000000018a8f4 R15: 000000000075c10c
+
+Allocated by task 31694:
+  save_stack+0x23/0x90 mm/kasan/common.c:71
+  set_track mm/kasan/common.c:79 [inline]
+  __kasan_kmalloc mm/kasan/common.c:489 [inline]
+  __kasan_kmalloc.constprop.0+0xcf/0xe0 mm/kasan/common.c:462
+  kasan_kmalloc+0x9/0x10 mm/kasan/common.c:503
+  __do_kmalloc mm/slab.c:3660 [inline]
+  __kmalloc+0x15c/0x740 mm/slab.c:3669
+  kmalloc include/linux/slab.h:552 [inline]
+  sk_prot_alloc+0x19c/0x2e0 net/core/sock.c:1608
+  sk_alloc+0x39/0xf70 net/core/sock.c:1662
+  nr_create+0xb9/0x5e0 net/netrom/af_netrom.c:436
+  __sock_create+0x3d8/0x730 net/socket.c:1430
+  sock_create net/socket.c:1481 [inline]
+  __sys_socket+0x103/0x220 net/socket.c:1523
+  __do_sys_socket net/socket.c:1532 [inline]
+  __se_sys_socket net/socket.c:1530 [inline]
+  __x64_sys_socket+0x73/0xb0 net/socket.c:1530
+  do_syscall_64+0xfd/0x680 arch/x86/entry/common.c:301
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+
+Freed by task 31693:
+  save_stack+0x23/0x90 mm/kasan/common.c:71
+  set_track mm/kasan/common.c:79 [inline]
+  __kasan_slab_free+0x102/0x150 mm/kasan/common.c:451
+  kasan_slab_free+0xe/0x10 mm/kasan/common.c:459
+  __cache_free mm/slab.c:3432 [inline]
+  kfree+0xcf/0x220 mm/slab.c:3755
+  sk_prot_free net/core/sock.c:1645 [inline]
+  __sk_destruct+0x4f7/0x6e0 net/core/sock.c:1731
+  sk_destruct+0x7b/0x90 net/core/sock.c:1739
+  __sk_free+0xce/0x300 net/core/sock.c:1750
+  sk_free+0x42/0x50 net/core/sock.c:1761
+  sock_put include/net/sock.h:1728 [inline]
+  nr_release+0x332/0x3b0 net/netrom/af_netrom.c:557
+  __sock_release+0xce/0x2a0 net/socket.c:607
+  sock_close+0x1b/0x30 net/socket.c:1279
+  __fput+0x2ff/0x890 fs/file_table.c:280
+  ____fput+0x16/0x20 fs/file_table.c:313
+  task_work_run+0x145/0x1c0 kernel/task_work.c:113
+  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+  exit_to_usermode_loop+0x273/0x2c0 arch/x86/entry/common.c:168
+  prepare_exit_to_usermode arch/x86/entry/common.c:199 [inline]
+  syscall_return_slowpath arch/x86/entry/common.c:279 [inline]
+  do_syscall_64+0x58e/0x680 arch/x86/entry/common.c:304
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+
+The buggy address belongs to the object at ffff88807bd1a340
+  which belongs to the cache kmalloc-2k of size 2048
+The buggy address is located 128 bytes inside of
+  2048-byte region [ffff88807bd1a340, ffff88807bd1ab40)
+The buggy address belongs to the page:
+page:ffffea0001ef4680 refcount:1 mapcount:0 mapping:ffff8880aa400c40  
+index:0xffff88807bd1b440 compound_mapcount: 0
+flags: 0x1fffc0000010200(slab|head)
+raw: 01fffc0000010200 ffffea0002a48788 ffffea00018fc508 ffff8880aa400c40
+raw: ffff88807bd1b440 ffff88807bd1a340 0000000100000002 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+  ffff88807bd1a280: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+  ffff88807bd1a300: fc fc fc fc fc fc fc fc fb fb fb fb fb fb fb fb
+> ffff88807bd1a380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                            ^
+  ffff88807bd1a400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff88807bd1a480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
