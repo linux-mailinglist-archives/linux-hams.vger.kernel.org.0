@@ -2,44 +2,73 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 67F3842415
-	for <lists+linux-hams@lfdr.de>; Wed, 12 Jun 2019 13:35:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCBE047AC5
+	for <lists+linux-hams@lfdr.de>; Mon, 17 Jun 2019 09:28:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406506AbfFLLen convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hams@lfdr.de>); Wed, 12 Jun 2019 07:34:43 -0400
-Received: from corgi.wingnets.ne.jp ([210.230.216.243]:37798 "EHLO
-        corgi.wingnets.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406406AbfFLLen (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 12 Jun 2019 07:34:43 -0400
-X-Greylist: delayed 679 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Jun 2019 07:34:43 EDT
-Received: from [74.208.242.139] (unknown [74.208.242.139])
-        by corgi.wingnets.ne.jp (Postfix) with ESMTP id E9DF015A2F;
-        Wed, 12 Jun 2019 20:19:23 +0900 (JST)
+        id S1726020AbfFQH2a (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 17 Jun 2019 03:28:30 -0400
+Received: from slot0.nejknio.cf ([89.32.41.233]:46849 "EHLO slot0.nejknio.cf"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725919AbfFQH2a (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Mon, 17 Jun 2019 03:28:30 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=nejknio.cf;
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=trade1@nejknio.cf;
+ bh=73Xs4LxjK+lP+h5mKCyFyWTpkoQ=;
+ b=KkOGJ+NW448L5goU38c+HVC1OOjiTzFJD/NIt6NzkfYftHzrsFEvhnNAXzrYWD3opEL+ZjDpnS2z
+   2qAGYfxUDH66usmPOjoZbcDxMX3/O/LILwp8CBPg4Vvrr8SF9/RwTQ08iipQiHAGnaKA5cXj1yy5
+   woZvkQGsy5fm6ZWqfeCrG2enJMGjy/97loD4aMdfGdvlQH9svutkGgWfhL4qE/nPdhK3ecUG08UI
+   VbLh4kP7UX6/Hn6b65WOZbrbO8usmeGCQuy6fURdateWsg1kJjnEc75AaWY0B7lySgNgiE+l6C7+
+   Yc1PK9FhOW6JEOXRTmYNMqQ6I8fvWnTyClUJ5Q==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=nejknio.cf;
+ b=SWQecs8emaX7HG1tKsmIvCRy7TMUC8jtXE3lwZ8yftL5hgg39uQfRlkHn2yqOOMKwi6W417/N7nI
+   vhuGCo+Fj4KnUUfnYTe3etORY6ZbI8pUa8Sp1SBzybzFKAMdJRr/Wnid0o520dS2jagsbWRVb9tQ
+   nXlkMdV+twtGwBYcjcVHZKPpfqn0QEbZklyLkUnQX+XUH8BkmXzMdYOsaP9MzatguxHL5Pdybp0h
+   d3nZpYJCZggqO9RpQd6FNmoZjX2zONuCZfE4t2vXskjKfEfuBDjq+66jSnpsOte0HDl6Kv2UWFEb
+   ETW3tzvMy2kJK7A7xnqkRmBjd3HCxDV1y1qg1g==;
 Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: quoted-printable
 Content-Description: Mail message body
-Subject: Zu unserem Vorteil!  
-To:     Recipients <01010acb@hkfl.online>
-From:   "Pedro Moreira" <01010acb@hkfl.online>
-Date:   Wed, 12 Jun 2019 11:19:19 +0000
-Reply-To: a123@hkfl.online
-Message-Id: <20190612111923.E9DF015A2F@corgi.wingnets.ne.jp>
+Subject: PRODUCT INQUIRY FOR EXPORT SHIPMENT
+To:     Recipients <trade1@nejknio.cf>
+From:   "Mark Maths" <trade1@nejknio.cf>
+Date:   Mon, 17 Jun 2019 10:08:32 +0300
+Reply-To: purchase_m.maths@aol.com
+Message-ID: <0.0.1.D2A.1D524DB6E401966.0@slot0.nejknio.cf>
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Schöne Grüße!!
+Dear Sales team,
+ =
 
-Als erstes, möchte ich Ihnen um Ihre vertrauen in diese Transaktion bitten, diese ist völlig vertraulich und streng Geheim. Doch ich weiß dass, die Transaktion auf diese Größe, jeder besorgt und beunruhigt machen kann, aber ich versichere Ihnen, das am Ende alles gut laufen wird.Ich werde anfangen, indem ich mich anständig vorstelle. Es wird Ihnen sicherlich überraschen diesen Brief zu erhalten, da wir vorher keine Absprache hatte. Mein name ist Pedro Moreira, die Berater des verstorbenen Herr Richard <mf:Lastname> aus Deutschland.
-Meine Absicht Sie zu kontaktieren geht darum, Ihre Mitwirkung um die Geld von unserer verstorbenen Kunde zu sichern, und zu verhindern das es nicht von der Bank beschlagnahmend oder verzollt wird, wo das Geld in Wert von 6.950.000.00 Millionen Euro von der verstorbene eingezahlt wurde, bevor er starb.
+In furtherance to our market research, we have reviewed all your products t=
+ypes and we have finally interested in your product for our market here in =
 
-Die Bank hat mir eine Notiz ausgefertigt eine Nachfolger Verwandtschaft zu kontaktieren, sonst wird das Geld an der Bank Eigentum umgeleitet. Bislang, habe ich mit aller meine Mühe versucht jemanden zu kontaktieren, der mit den verstorbene in Verwandtschaft steht, dies war leider erfolglos. Aus diesem Grund habe ich sie kontaktiert. Eigentlich, bitte ich Sie um Ihre Einwilligung, Sie der Bank als der Nachfolger Verwandt/Besitzerin des Geldes unsere verstorbene Kunde zu repräsentieren, da Sie den gleichen Nachname haben und somit wird der Betrag an Ihnen gezahlt.
 
-Alle legale Dokumente, die sie benötigen um Sie zu unterstützen und den Anspruch als meinen Mandant Nachfolger Verwandtschaft zu erhalten, werde ich ihnen zur Verfügung stellen. Um diese Transaktion zu ermöglichen, alles was ich brauche ist eine ehrliche Zusammenarbeit. Ich möchte vorschlagen, dass 20% von dem Geld an Hilfsorganisation verschenkt wird, während das übliche 80 % gleichmäßig an uns verteilt wird. Ich möchte ihnen vergewissern, dass dieser Auftrag völlig Risikofrei ist. Ich werde meine Position als Berater des verstobenes die Transaktion erfolgreich durchführen.
+United State for your production. We introduce ourselves as Emilxa Tram SRL=
+, A general group of company located in the United State. =
 
-Die geplante Transaktion wird unter eine autorisierte Anordnung durchgeführt, was Sie schützen wird.Falls das Geschäftsleben nicht Ihre Moral entspricht, dann bitte ich Sie meine Entschuldigung zu akzeptieren. Falls Sie im Gegenteil wünschen mit mir dieses Ziel zu Erringen, dann bitte ich Sie für weitere Detail mit mir kontakt aufzunehmen. 
 
-Mit freundlichen Grüßen,
-Herr Pedro Moreira.
+We are sourcing for new suppliers from your location =
+
+
+Kindly advice us if you accept new purchase orders, I will forward our PO f=
+or urgent order.
+
+Waiting for your response to send order. Reply to ( purchase_m.maths@aol.co=
+m)
+
+Best regards.
+Mark Maths
+Company Address:
+Emilxa Tram SRL Company Limited
+P.O. Box 978
+Road Town
+Tortola
+British Virgin Islands
+Contact information:
+Tel: +1 (284) 493 7235
+Email: purchase_m.maths@aol.com
+https://meridianbvi.com/contact-us/
