@@ -2,73 +2,58 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BCBE047AC5
-	for <lists+linux-hams@lfdr.de>; Mon, 17 Jun 2019 09:28:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88C0A4A895
+	for <lists+linux-hams@lfdr.de>; Tue, 18 Jun 2019 19:39:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726020AbfFQH2a (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 17 Jun 2019 03:28:30 -0400
-Received: from slot0.nejknio.cf ([89.32.41.233]:46849 "EHLO slot0.nejknio.cf"
+        id S1729754AbfFRRio (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 18 Jun 2019 13:38:44 -0400
+Received: from smtp2.ono.com ([62.42.230.179]:18612 "EHLO smtp2.ono.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725919AbfFQH2a (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Mon, 17 Jun 2019 03:28:30 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=nejknio.cf;
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=trade1@nejknio.cf;
- bh=73Xs4LxjK+lP+h5mKCyFyWTpkoQ=;
- b=KkOGJ+NW448L5goU38c+HVC1OOjiTzFJD/NIt6NzkfYftHzrsFEvhnNAXzrYWD3opEL+ZjDpnS2z
-   2qAGYfxUDH66usmPOjoZbcDxMX3/O/LILwp8CBPg4Vvrr8SF9/RwTQ08iipQiHAGnaKA5cXj1yy5
-   woZvkQGsy5fm6ZWqfeCrG2enJMGjy/97loD4aMdfGdvlQH9svutkGgWfhL4qE/nPdhK3ecUG08UI
-   VbLh4kP7UX6/Hn6b65WOZbrbO8usmeGCQuy6fURdateWsg1kJjnEc75AaWY0B7lySgNgiE+l6C7+
-   Yc1PK9FhOW6JEOXRTmYNMqQ6I8fvWnTyClUJ5Q==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=nejknio.cf;
- b=SWQecs8emaX7HG1tKsmIvCRy7TMUC8jtXE3lwZ8yftL5hgg39uQfRlkHn2yqOOMKwi6W417/N7nI
-   vhuGCo+Fj4KnUUfnYTe3etORY6ZbI8pUa8Sp1SBzybzFKAMdJRr/Wnid0o520dS2jagsbWRVb9tQ
-   nXlkMdV+twtGwBYcjcVHZKPpfqn0QEbZklyLkUnQX+XUH8BkmXzMdYOsaP9MzatguxHL5Pdybp0h
-   d3nZpYJCZggqO9RpQd6FNmoZjX2zONuCZfE4t2vXskjKfEfuBDjq+66jSnpsOte0HDl6Kv2UWFEb
-   ETW3tzvMy2kJK7A7xnqkRmBjd3HCxDV1y1qg1g==;
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1729477AbfFRRio (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Tue, 18 Jun 2019 13:38:44 -0400
+X-Junkmail-Premium-Raw: score=26/50,refid=2.7.2:2019.6.18.165417:17:26.894,ip=62.42.230.133,rules=__HAS_MSGID,
+ __SANE_MSGID, MSGID_JMAIL_DEFAULT, INVALID_MSGID_NO_FQDN, __HAS_FROM,
+ FROM_NAME_PHRASE, FROM_NAME_ALLCAPS, __HAS_REPLYTO, __FRAUD_WEBMAIL_REPLYTO,
+ BLANK_SUBJECT, __MIME_VERSION, __CT, __CT_TEXT_PLAIN, __CTE, MISSING_HEADERS,
+ __ANY_URI, __FRAUD_BODY_WEBMAIL, __URI_NO_WWW, __NO_HTML_TAG_RAW,
+ BODYTEXTP_SIZE_400_LESS, BODY_SIZE_200_299, BODYTEXTP_SIZE_3000_LESS,
+ __MIME_TEXT_P1, __MIME_TEXT_ONLY, __URI_NS, HTML_00_01, HTML_00_10,
+ BODY_SIZE_5000_LESS, __FRAUD_WEBMAIL, WEBMAIL_REPLYTO_NOT_FROM,
+ FRAUD_WEBMAIL_R_NOT_F, __MIME_TEXT_P, FRAUD_LITTLE_BODY,
+ __PHISH_SPEAR_STRUCTURE_1, BODY_SIZE_1000_LESS, BODY_SIZE_2000_LESS,
+ SMALL_BODY, __PHISH_SPEAR_STRUCTURE_2, REPLYTO_FROM_DIFF_ADDY, NO_URI_HTTPS,
+ BODY_SIZE_7000_LESS, TO_MALFORMED
+Received: from resprs03 (62.42.230.133) by smtp2.ono.com (9.0.019.09-1)
+        id 5CAF0F5D03693A66; Tue, 18 Jun 2019 19:30:26 +0200
+Received: from (149.126.75.9) by webmailcpr03n.ono.com;  Tue, 18 Jun 2019 19:30:24 +0200
+Message-ID: <33042059.649451560879024452.JavaMail.defaultUser@defaultHost>
+Date:   Tue, 18 Jun 2019 19:30:24 +0200 (CEST)
+From:   DR ALBERT ZONGO <rjpd@ono.com>
+Reply-To: dralbertddzongo@gmail.com
+Subject: 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: PRODUCT INQUIRY FOR EXPORT SHIPMENT
-To:     Recipients <trade1@nejknio.cf>
-From:   "Mark Maths" <trade1@nejknio.cf>
-Date:   Mon, 17 Jun 2019 10:08:32 +0300
-Reply-To: purchase_m.maths@aol.com
-Message-ID: <0.0.1.D2A.1D524DB6E401966.0@slot0.nejknio.cf>
+Content-Type: text/plain;charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Dear Sales team,
- =
-
-In furtherance to our market research, we have reviewed all your products t=
-ypes and we have finally interested in your product for our market here in =
 
 
-United State for your production. We introduce ourselves as Emilxa Tram SRL=
-, A general group of company located in the United State. =
 
+--
+Greetings,
 
-We are sourcing for new suppliers from your location =
+I have an intending proposal for you please i need you to contact my 
+private
 
+ E-mail (dralbertddzongo@gmail.com) for more updates,
 
-Kindly advice us if you accept new purchase orders, I will forward our PO f=
-or urgent order.
+Best Wishes.
 
-Waiting for your response to send order. Reply to ( purchase_m.maths@aol.co=
-m)
+DR ALBERT ZONGO
 
-Best regards.
-Mark Maths
-Company Address:
-Emilxa Tram SRL Company Limited
-P.O. Box 978
-Road Town
-Tortola
-British Virgin Islands
-Contact information:
-Tel: +1 (284) 493 7235
-Email: purchase_m.maths@aol.com
-https://meridianbvi.com/contact-us/
+--
+
