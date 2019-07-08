@@ -2,62 +2,80 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 940B360D4D
-	for <lists+linux-hams@lfdr.de>; Fri,  5 Jul 2019 23:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CBAD61B9D
+	for <lists+linux-hams@lfdr.de>; Mon,  8 Jul 2019 10:18:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727609AbfGEVtg (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 5 Jul 2019 17:49:36 -0400
-Received: from out176.e-adjacentdigital.co.uk ([178.156.202.12]:55670 "EHLO
-        slot0.mathewsons.ga" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S1725882AbfGEVtf (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 5 Jul 2019 17:49:35 -0400
-X-Greylist: delayed 622 seconds by postgrey-1.27 at vger.kernel.org; Fri, 05 Jul 2019 17:49:34 EDT
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=mathewsons.ga;
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=purchase@mathewsons.ga;
- bh=onxYcir3NvpNjk2I/gjm/O+ljxo=;
- b=O4RK1DBam7QhixS740hX78+vxRdq5HRa91VsJCnMjxGPTWgDNV+lWt77ADKIqAop3DzZWHkexQHN
-   2kW/OKJ+Cc3GY/Q6Kkw5Kgsdkbj0OlbwhHfZmvktPB16B9y0lyA4KGHvZvPgJacY/+IpzN5jY/ya
-   Z4ioZ8ATKuyQc/ypmuMajQyI7uPJC+qkRNuiGKbPeu5gkwPyDPzKqRZhweAx/oXNr76WpUpHnRfz
-   +ydfO+FP8ry544/88g0mKcoJHAPzy1Sqnb7g0EkSafC1ubqiiOWGj+uPC5zbU909QUkVoHnuKRsG
-   YeqjAaeZlv5LYTVz6MtM2Uh4veDKwxetUF8bvw==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=mathewsons.ga;
- b=k+3h8FYVamEQ3QWdbPwiKnwMtoTVun/Ni0bCO2OLQMm9kg4gpg4dYKP/ejwL4Nyk4Z9vJqLab0gV
-   iJOO9B1027TLAN1KjnS7pR/z50lQYW1tvnpQbAvFI/pXN5Ekbo10jbeZdmlI5l9fMcDqQjepn59x
-   GBl+vRNcayrxbae9kbO/SGo6z+3w685qIcuIDjLs9ino+5mmh7OFi9YbF6FQweVRiTZ2pckUA9cV
-   RBl4q9bBblsYGyScqkDzneNVwRzBATAkaXXrDSGO5FuJ89hv+a6X5td36Nt6t377oe0CK5gVo9mk
-   Bu04RrlYsgHDgM7OUdh1SHgwWoaFRV7b6VgMKg==;
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1726185AbfGHISz convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hams@lfdr.de>); Mon, 8 Jul 2019 04:18:55 -0400
+Received: from [113.16.174.142] ([113.16.174.142]:32133 "HELO ghzq.com.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with SMTP
+        id S1726084AbfGHISy (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Mon, 8 Jul 2019 04:18:54 -0400
+X-Greylist: delayed 328 seconds by postgrey-1.27 at vger.kernel.org; Mon, 08 Jul 2019 04:18:51 EDT
+X-EYOU-SPAMVALUE: 0
+X-EMDG-ORIGINAL-FROM: <huanglf@ghzq.com.cn>
+X-EMDG-ORIGINAL-TO: <linux-hams@vger.kernel.org>
+X-EMDG-ORIGINAL-IP: 127.0.0.1
+X-EMDG-VER: 4.1.1
+X-EMDG-ABROAD: no
+Received: (eyou anti_spam gateway 4.1.0); Mon, 08 Jul 2019 16:13:02 +0800
+X-EMDG-MID: <762573582.07613@ghzq.com.cn>
+Received: from 127.0.0.1 by 127.0.0.1 with SMTP; Mon, 08 Jul 2019 16:13:02 +0800
+Received: from [127.0.0.1] ([127.0.0.1] [192.168.105.143])
+        by ghzq.com.cn (MTA v483e020) with ESMTP id c97be78e1d9a2765ccdaad2164c446a5
+        for <linux-hams@vger.kernel.org>; Mon, 08 Jul 2019 16:12:59 +0800
+X-Eyou-Smtpauth: huanglf@ghzq.com.cn
+From:   Ansley <huanglf@ghzq.com.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Quotes needed For July Shipments
-To:     Recipients <purchase@mathewsons.ga>
-From:   "Sales -Jpexcc." <purchase@mathewsons.ga>
-Date:   Sat, 06 Jul 2019 00:39:03 +0300
-Reply-To: jpexcc@aol.com
-Message-ID: <0.0.39.647.1D53379DEAE056C.0@slot0.mathewsons.ga>
+Message-ID: <5.0.3J.345.3O844D23JDX8304.6@ghzq.com.cn>
+Subject: Your account was under attack! Change your access data!
+Date:   Mon, 8 Jul 2019 11:11:08 +0300
+To:     linux-hams@vger.kernel.org
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=UTF-8
+X-EMarSys-Environment: njmkoobk
+X-Felis-L: 4JU88IK3F7C50W75B4E0YL4IB22BTKVVD
+X-ClientProxiedBy: 748.61.660.670
+X-Eyou-Sender: <huanglf@ghzq.com.cn>
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello dear,
- =
+Hello!
 
-We are in the market for your products after meeting at your stand during l=
-ast expo.
- =
+I am a hacker who has access to your operating system.
+I also have full access to your account.
 
-Please kindly send us your latest catalog and price list so as to start a n=
-ew project/order as promised during the exhibition. =
+I've been watching you for a few months now.
+The fact is that you were infected with malware through an adult site that you visited.
 
- =
+If you are not familiar with this, I will explain.
+Trojan Virus gives me full access and control over a computer or other device.
+This means that I can see everything on your screen, turn on the camera and microphone, but you do not know about it.
 
-I would appreciate your response about the above details required so we can=
- revert back to you asap.
- =
+I also have access to all your contacts and all your correspondence.
 
-Kind regards
- =
+Why your antivirus did not detect malware?
+Answer: My malware uses the driver, I update its signatures every 4 hours so that your antivirus is silent.
 
-Rhema Zoeh
+I made a video showing how you satisfy yourself in the left half of the screen, and in the right half you see the video that you watched.
+With one click of the mouse, I can send this video to all your emails and contacts on social networks.
+I can also post access to all your e-mail correspondence and messengers that you use.
+
+If you want to prevent this,
+transfer the amount of $500 to my bitcoin address (if you do not know how to do this, write to Google: "Buy Bitcoin").
+
+My bitcoin address (BTC Wallet) is:  35BbMowcvf6X254hs5Ki5svQTEprFv3zpJ
+
+After receiving the payment, I will delete the video and you will never hear me again.
+I give you 50 hours (more than 2 days) to pay.
+I have a notice reading this letter, and the timer will work when you see this letter.
+
+Filing a complaint somewhere does not make sense because this email cannot be tracked like my bitcoin address.
+I do not make any mistakes.
+
+If I find that you have shared this message with someone else, the video will be immediately distributed.
+
+Best regards!
+
