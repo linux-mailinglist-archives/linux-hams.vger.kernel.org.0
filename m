@@ -2,43 +2,42 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E471E629B9
-	for <lists+linux-hams@lfdr.de>; Mon,  8 Jul 2019 21:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10D7363881
+	for <lists+linux-hams@lfdr.de>; Tue,  9 Jul 2019 17:21:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391744AbfGHThI (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 8 Jul 2019 15:37:08 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:46219 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391734AbfGHThI (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 8 Jul 2019 15:37:08 -0400
-Received: by mail-io1-f71.google.com with SMTP id s83so20173269iod.13
-        for <linux-hams@vger.kernel.org>; Mon, 08 Jul 2019 12:37:07 -0700 (PDT)
+        id S1726403AbfGIPVH (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 9 Jul 2019 11:21:07 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:53734 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726401AbfGIPVH (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 9 Jul 2019 11:21:07 -0400
+Received: by mail-io1-f69.google.com with SMTP id h3so23407900iob.20
+        for <linux-hams@vger.kernel.org>; Tue, 09 Jul 2019 08:21:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=gnWX0kUsdC0eHJTIMNthjAqQdaNjnsisdz8RZUKdFIY=;
-        b=VUh0qOEa6/Qluwnu4zIq5169VGHHE+SupN4uGTdfvv1aYzWcXpqKp32Qw9LsbetIk2
-         fPOg68j+cYpttE57sbNZvBwbE4jGUQeOorVFeinwoX0WGW9V12SRiAS2zQ7FKAlVxztR
-         mlnfe111syfGWbew57c+a2fdctGYLOpt5ikVPGQR+DCKpR1NHnPnh8yG/MsNiKGJ2AUQ
-         Gs/vBW5xILl5b8iB3KTfyA/azhZoSGvwojpOrXQHDd5FuGgrb042C8FaArDZ57NnAfSL
-         MqWptCf+7Roirg52sTFyqDpqtQ0GzjFIKT5XdHQrXPQyQPG5dZNvSMxNSf1bMTPWpakv
-         2QTQ==
-X-Gm-Message-State: APjAAAUM35yba00VoPuVIXZWVll6aRU5UL9Q5VuMuKNq3y6Dfp4n6bS8
-        od/tJyXnLBRRn3/cZthKM4lRtuOOPLFXEAWzn4V650UzRrnW
-X-Google-Smtp-Source: APXvYqx+P1gcjJTw+mYefApBU6g5uc8dauxNcKbcisA1Nv5cDy/iQvYLMOG+J0EhTcQjjvIVy1AbUhYpOOcfSYCQF1cvNV+G5XW6
+        bh=U47SrC59jUZEcT2zXHFHbXhcijZLr+s4w3teAwbwRn0=;
+        b=rMo1RoWG8HN0dFrh491XLc8XkdGfOvsWmjp/Poi0VnsrcnNVQRfV36FDa37WpHze/6
+         N3k5V3IDk0bcld643ejyHtNpdXavfznTLUQMp2X0NMkINQeb1SK2TMyzty4/mruZ+qKf
+         LdOc6MrmHbUlug/4QkuNBFWMBITxByTBbCUJVc28rqoyUGLYAWghqv3tb568KPLcbh+B
+         yuB60rf1cdRMYiZ0EwfkoqQz0rddGe+0r2FkGJBIjHXc7ESZcYaNDRU4YW8unCytywFg
+         mls4dCpRP/hZOJRnKE+/HJRFA1AnJmvaxgIgcEsADKAyw8y+8i5PXqnugU4y3U7rL3GT
+         no7w==
+X-Gm-Message-State: APjAAAWkdFrHjfe97r1LUz3Ca34T+w+xzgMpmjSwT/QcD80fhvyV4SWB
+        15BogtTQho16DAQlbG5FpyN+BlbmvWcqtWbJng/kmr6yKMth
+X-Google-Smtp-Source: APXvYqxF/ENmrLuxq5YS3gLbLMNersWqGr+KnIZs99Lb6CcNxLN7PJtaxBANHHoZi1wrO2N/maSErJTHIf9mX2CWNdYiT4nl5Ylt
 MIME-Version: 1.0
-X-Received: by 2002:a02:ab83:: with SMTP id t3mr23245388jan.133.1562614627005;
- Mon, 08 Jul 2019 12:37:07 -0700 (PDT)
-Date:   Mon, 08 Jul 2019 12:37:07 -0700
+X-Received: by 2002:a05:6638:303:: with SMTP id w3mr17400786jap.103.1562685666069;
+ Tue, 09 Jul 2019 08:21:06 -0700 (PDT)
+Date:   Tue, 09 Jul 2019 08:21:06 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c3810f058d30910b@google.com>
-Subject: WARNING: held lock freed! (2)
-From:   syzbot <syzbot+e54ed2cb16c6da22c549@syzkaller.appspotmail.com>
+Message-ID: <0000000000000595ea058d411c35@google.com>
+Subject: WARNING: refcount bug in nr_insert_socket
+From:   syzbot <syzbot+ec1fd464d849d91c3665@syzkaller.appspotmail.com>
 To:     davem@davemloft.net, linux-hams@vger.kernel.org,
         linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        ralf@linux-mips.org, syzkaller-bugs@googlegroups.com,
-        xiyou.wangcong@gmail.com
+        ralf@linux-mips.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
@@ -49,204 +48,104 @@ Hello,
 
 syzbot found the following crash on:
 
-HEAD commit:    9d1bc24b bonding: validate ip header before check IPPROTO_..
-git tree:       net
-console output: https://syzkaller.appspot.com/x/log.txt?x=152fab25a00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e7c31a94f66cc0aa
-dashboard link: https://syzkaller.appspot.com/bug?extid=e54ed2cb16c6da22c549
+HEAD commit:    4608a726 Add linux-next specific files for 20190709
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=1387b608600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7a02e36d356a9a17
+dashboard link: https://syzkaller.appspot.com/bug?extid=ec1fd464d849d91c3665
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11ad60bba00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=165d2453a00000
-
-The bug was bisected to:
-
-commit c8c8218ec5af5d2598381883acbefbf604e56b5e
-Author: Cong Wang <xiyou.wangcong@gmail.com>
-Date:   Thu Jun 27 21:30:58 2019 +0000
-
-     netrom: fix a memory leak in nr_rx_frame()
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1489854ba00000
-final crash:    https://syzkaller.appspot.com/x/report.txt?x=1689854ba00000
-console output: https://syzkaller.appspot.com/x/log.txt?x=1289854ba00000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16b47be8600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15172e7ba00000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+e54ed2cb16c6da22c549@syzkaller.appspotmail.com
-Fixes: c8c8218ec5af ("netrom: fix a memory leak in nr_rx_frame()")
+Reported-by: syzbot+ec1fd464d849d91c3665@syzkaller.appspotmail.com
 
-=========================
-WARNING: held lock freed!
-5.2.0-rc6+ #75 Not tainted
--------------------------
-syz-executor315/8559 is freeing memory ffff88809faed2c0-ffff88809faedabf,  
-with a lock still held there!
-00000000cf45dbdb (sk_lock-AF_NETROM){+.+.}, at: lock_sock  
-include/net/sock.h:1522 [inline]
-00000000cf45dbdb (sk_lock-AF_NETROM){+.+.}, at: nr_release+0x11a/0x3b0  
-net/netrom/af_netrom.c:522
-2 locks held by syz-executor315/8559:
-  #0: 00000000c0a19dcd (&sb->s_type->i_mutex_key#11){+.+.}, at: inode_lock  
-include/linux/fs.h:778 [inline]
-  #0: 00000000c0a19dcd (&sb->s_type->i_mutex_key#11){+.+.}, at:  
-__sock_release+0x89/0x2a0 net/socket.c:600
-  #1: 00000000cf45dbdb (sk_lock-AF_NETROM){+.+.}, at: lock_sock  
-include/net/sock.h:1522 [inline]
-  #1: 00000000cf45dbdb (sk_lock-AF_NETROM){+.+.}, at: nr_release+0x11a/0x3b0  
-net/netrom/af_netrom.c:522
-
-stack backtrace:
-CPU: 0 PID: 8559 Comm: syz-executor315 Not tainted 5.2.0-rc6+ #75
+------------[ cut here ]------------
+refcount_t: increment on 0; use-after-free.
+WARNING: CPU: 0 PID: 14391 at lib/refcount.c:156 refcount_inc_checked  
+lib/refcount.c:156 [inline]
+WARNING: CPU: 0 PID: 14391 at lib/refcount.c:156  
+refcount_inc_checked+0x61/0x70 lib/refcount.c:154
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 0 PID: 14391 Comm: syz-executor638 Not tainted 5.2.0-next-20190709 #34
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
 Call Trace:
+  <IRQ>
   __dump_stack lib/dump_stack.c:77 [inline]
   dump_stack+0x172/0x1f0 lib/dump_stack.c:113
-  print_freed_lock_bug kernel/locking/lockdep.c:5077 [inline]
-  debug_check_no_locks_freed.cold+0x9d/0xa9 kernel/locking/lockdep.c:5110
-  kfree+0xb1/0x220 mm/slab.c:3752
-  sk_prot_free net/core/sock.c:1636 [inline]
-  __sk_destruct+0x4f7/0x6e0 net/core/sock.c:1722
-  sk_destruct+0x7b/0x90 net/core/sock.c:1730
-  __sk_free+0xce/0x300 net/core/sock.c:1741
-  sk_free+0x42/0x50 net/core/sock.c:1752
-  sock_put include/net/sock.h:1725 [inline]
-  nr_destroy_socket+0x3df/0x4a0 net/netrom/af_netrom.c:288
-  nr_release+0x323/0x3b0 net/netrom/af_netrom.c:530
-  __sock_release+0xce/0x2a0 net/socket.c:601
-  sock_close+0x1b/0x30 net/socket.c:1273
-  __fput+0x2ff/0x890 fs/file_table.c:280
-  ____fput+0x16/0x20 fs/file_table.c:313
-  task_work_run+0x145/0x1c0 kernel/task_work.c:113
-  tracehook_notify_resume include/linux/tracehook.h:185 [inline]
-  exit_to_usermode_loop+0x273/0x2c0 arch/x86/entry/common.c:168
-  prepare_exit_to_usermode arch/x86/entry/common.c:199 [inline]
-  syscall_return_slowpath arch/x86/entry/common.c:279 [inline]
-  do_syscall_64+0x58e/0x680 arch/x86/entry/common.c:304
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x447269
-Code: e8 7c 14 03 00 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7  
-48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 cb 0e fc ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007f653a7bed88 EFLAGS: 00000246 ORIG_RAX: 000000000000002d
-RAX: ffffffffffffff95 RBX: 00000000006dcc48 RCX: 0000000000447269
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000003
-RBP: 00000000006dcc40 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00000000006dcc4c
-R13: 0000003066736362 R14: 002cc7eb47000000 R15: 0000003066736362
-==================================================================
-BUG: KASAN: use-after-free in debug_spin_lock_before  
-kernel/locking/spinlock_debug.c:83 [inline]
-BUG: KASAN: use-after-free in do_raw_spin_lock+0x28a/0x2e0  
-kernel/locking/spinlock_debug.c:112
-Read of size 4 at addr ffff88809faed34c by task syz-executor315/8559
-
-CPU: 1 PID: 8559 Comm: syz-executor315 Not tainted 5.2.0-rc6+ #75
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0x172/0x1f0 lib/dump_stack.c:113
-  print_address_description.cold+0x7c/0x20d mm/kasan/report.c:188
-  __kasan_report.cold+0x1b/0x40 mm/kasan/report.c:317
-  kasan_report+0x12/0x20 mm/kasan/common.c:614
-  __asan_report_load4_noabort+0x14/0x20 mm/kasan/generic_report.c:131
-  debug_spin_lock_before kernel/locking/spinlock_debug.c:83 [inline]
-  do_raw_spin_lock+0x28a/0x2e0 kernel/locking/spinlock_debug.c:112
-  __raw_spin_lock_bh include/linux/spinlock_api_smp.h:136 [inline]
-  _raw_spin_lock_bh+0x3b/0x50 kernel/locking/spinlock.c:175
-  spin_lock_bh include/linux/spinlock.h:343 [inline]
-  release_sock+0x20/0x1c0 net/core/sock.c:2928
-  nr_release+0x2df/0x3b0 net/netrom/af_netrom.c:553
-  __sock_release+0xce/0x2a0 net/socket.c:601
-  sock_close+0x1b/0x30 net/socket.c:1273
-  __fput+0x2ff/0x890 fs/file_table.c:280
-  ____fput+0x16/0x20 fs/file_table.c:313
-  task_work_run+0x145/0x1c0 kernel/task_work.c:113
-  tracehook_notify_resume include/linux/tracehook.h:185 [inline]
-  exit_to_usermode_loop+0x273/0x2c0 arch/x86/entry/common.c:168
-  prepare_exit_to_usermode arch/x86/entry/common.c:199 [inline]
-  syscall_return_slowpath arch/x86/entry/common.c:279 [inline]
-  do_syscall_64+0x58e/0x680 arch/x86/entry/common.c:304
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x447269
-Code: e8 7c 14 03 00 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7  
-48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 cb 0e fc ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007f653a7bed88 EFLAGS: 00000246 ORIG_RAX: 000000000000002d
-RAX: ffffffffffffff95 RBX: 00000000006dcc48 RCX: 0000000000447269
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000003
-RBP: 00000000006dcc40 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00000000006dcc4c
-R13: 0000003066736362 R14: 002cc7eb47000000 R15: 0000003066736362
-
-Allocated by task 8562:
-  save_stack+0x23/0x90 mm/kasan/common.c:71
-  set_track mm/kasan/common.c:79 [inline]
-  __kasan_kmalloc mm/kasan/common.c:489 [inline]
-  __kasan_kmalloc.constprop.0+0xcf/0xe0 mm/kasan/common.c:462
-  kasan_kmalloc+0x9/0x10 mm/kasan/common.c:503
-  __do_kmalloc mm/slab.c:3660 [inline]
-  __kmalloc+0x15c/0x740 mm/slab.c:3669
-  kmalloc include/linux/slab.h:552 [inline]
-  sk_prot_alloc+0x19c/0x2e0 net/core/sock.c:1599
-  sk_alloc+0x39/0xf70 net/core/sock.c:1653
-  nr_make_new net/netrom/af_netrom.c:476 [inline]
-  nr_rx_frame+0x733/0x1e70 net/netrom/af_netrom.c:959
+  panic+0x2dc/0x755 kernel/panic.c:219
+  __warn.cold+0x20/0x4c kernel/panic.c:576
+  report_bug+0x263/0x2b0 lib/bug.c:186
+  fixup_bug arch/x86/kernel/traps.c:179 [inline]
+  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+  do_error_trap+0x11b/0x200 arch/x86/kernel/traps.c:272
+  do_invalid_op+0x37/0x50 arch/x86/kernel/traps.c:291
+  invalid_op+0x14/0x20 arch/x86/entry/entry_64.S:1008
+RIP: 0010:refcount_inc_checked lib/refcount.c:156 [inline]
+RIP: 0010:refcount_inc_checked+0x61/0x70 lib/refcount.c:154
+Code: 1d 83 26 64 06 31 ff 89 de e8 5b 44 35 fe 84 db 75 dd e8 12 43 35 fe  
+48 c7 c7 60 04 c6 87 c6 05 63 26 64 06 01 e8 77 ab 06 fe <0f> 0b eb c1 90  
+90 90 90 90 90 90 90 90 90 90 55 48 89 e5 41 57 41
+RSP: 0018:ffff8880ae809bf0 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000100 RSI: ffffffff815bfa86 RDI: ffffed1015d01370
+RBP: ffff8880ae809c00 R08: ffff8880988924c0 R09: fffffbfff14a7757
+R10: fffffbfff14a7756 R11: ffffffff8a53bab7 R12: ffff888097414c80
+R13: ffff888097414c68 R14: ffff888096051348 R15: ffff888096051320
+  sock_hold include/net/sock.h:649 [inline]
+  sk_add_node include/net/sock.h:701 [inline]
+  nr_insert_socket+0x2d/0xe0 net/netrom/af_netrom.c:137
+  nr_rx_frame+0x1605/0x1e73 net/netrom/af_netrom.c:1023
   nr_loopback_timer+0x7b/0x170 net/netrom/nr_loopback.c:59
-  call_timer_fn+0x193/0x720 kernel/time/timer.c:1322
+  call_timer_fn+0x1ac/0x780 kernel/time/timer.c:1322
   expire_timers kernel/time/timer.c:1366 [inline]
   __run_timers kernel/time/timer.c:1685 [inline]
   __run_timers kernel/time/timer.c:1653 [inline]
-  run_timer_softirq+0x66f/0x1740 kernel/time/timer.c:1698
-  __do_softirq+0x25c/0x94c kernel/softirq.c:292
-
-Freed by task 8559:
-  save_stack+0x23/0x90 mm/kasan/common.c:71
-  set_track mm/kasan/common.c:79 [inline]
-  __kasan_slab_free+0x102/0x150 mm/kasan/common.c:451
-  kasan_slab_free+0xe/0x10 mm/kasan/common.c:459
-  __cache_free mm/slab.c:3432 [inline]
-  kfree+0xcf/0x220 mm/slab.c:3755
-  sk_prot_free net/core/sock.c:1636 [inline]
-  __sk_destruct+0x4f7/0x6e0 net/core/sock.c:1722
-  sk_destruct+0x7b/0x90 net/core/sock.c:1730
-  __sk_free+0xce/0x300 net/core/sock.c:1741
-  sk_free+0x42/0x50 net/core/sock.c:1752
-  sock_put include/net/sock.h:1725 [inline]
-  nr_destroy_socket+0x3df/0x4a0 net/netrom/af_netrom.c:288
-  nr_release+0x323/0x3b0 net/netrom/af_netrom.c:530
-  __sock_release+0xce/0x2a0 net/socket.c:601
-  sock_close+0x1b/0x30 net/socket.c:1273
-  __fput+0x2ff/0x890 fs/file_table.c:280
-  ____fput+0x16/0x20 fs/file_table.c:313
-  task_work_run+0x145/0x1c0 kernel/task_work.c:113
-  tracehook_notify_resume include/linux/tracehook.h:185 [inline]
-  exit_to_usermode_loop+0x273/0x2c0 arch/x86/entry/common.c:168
-  prepare_exit_to_usermode arch/x86/entry/common.c:199 [inline]
-  syscall_return_slowpath arch/x86/entry/common.c:279 [inline]
-  do_syscall_64+0x58e/0x680 arch/x86/entry/common.c:304
+  run_timer_softirq+0x697/0x17a0 kernel/time/timer.c:1698
+  __do_softirq+0x262/0x98c kernel/softirq.c:292
+  invoke_softirq kernel/softirq.c:373 [inline]
+  irq_exit+0x19b/0x1e0 kernel/softirq.c:413
+  exiting_irq arch/x86/include/asm/apic.h:537 [inline]
+  smp_apic_timer_interrupt+0x1a3/0x610 arch/x86/kernel/apic/apic.c:1095
+  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:828
+  </IRQ>
+RIP: 0010:arch_local_irq_restore arch/x86/include/asm/paravirt.h:767  
+[inline]
+RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:160  
+[inline]
+RIP: 0010:_raw_spin_unlock_irqrestore+0x95/0xe0  
+kernel/locking/spinlock.c:191
+Code: 48 c7 c0 d0 e3 d2 88 48 ba 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c  
+10 00 75 39 48 83 3d d2 3e 99 01 00 74 24 48 89 df 57 9d <0f> 1f 44 00 00  
+bf 01 00 00 00 e8 fc c8 14 fa 65 8b 05 6d 58 c8 78
+RSP: 0018:ffff88808720fd10 EFLAGS: 00000286 ORIG_RAX: ffffffffffffff13
+RAX: 1ffffffff11a5c7a RBX: 0000000000000286 RCX: 0000000000000000
+RDX: dffffc0000000000 RSI: 0000000000000006 RDI: 0000000000000286
+RBP: ffff88808720fd20 R08: ffff8880988924c0 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff8aa79aa8
+R13: ffffffff8aa79aa0 R14: ffff88809683add0 R15: ffff88808720fdc0
+  debug_object_free lib/debugobjects.c:823 [inline]
+  debug_object_free+0x1f1/0x390 lib/debugobjects.c:796
+  destroy_hrtimer_on_stack kernel/time/hrtimer.c:432 [inline]
+  hrtimer_nanosleep+0x2d8/0x570 kernel/time/hrtimer.c:1748
+  __do_sys_nanosleep kernel/time/hrtimer.c:1767 [inline]
+  __se_sys_nanosleep kernel/time/hrtimer.c:1754 [inline]
+  __x64_sys_nanosleep+0x1a6/0x220 kernel/time/hrtimer.c:1754
+  do_syscall_64+0xfd/0x6a0 arch/x86/entry/common.c:296
   entry_SYSCALL_64_after_hwframe+0x49/0xbe
-
-The buggy address belongs to the object at ffff88809faed2c0
-  which belongs to the cache kmalloc-2k of size 2048
-The buggy address is located 140 bytes inside of
-  2048-byte region [ffff88809faed2c0, ffff88809faedac0)
-The buggy address belongs to the page:
-page:ffffea00027ebb00 refcount:1 mapcount:0 mapping:ffff8880aa400c40  
-index:0x0 compound_mapcount: 0
-flags: 0x1fffc0000010200(slab|head)
-raw: 01fffc0000010200 ffffea000242cd08 ffffea00023df908 ffff8880aa400c40
-raw: 0000000000000000 ffff88809faec1c0 0000000100000003 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff88809faed200: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-  ffff88809faed280: fc fc fc fc fc fc fc fc fb fb fb fb fb fb fb fb
-> ffff88809faed300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                               ^
-  ffff88809faed380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff88809faed400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
+RIP: 0033:0x447811
+Code: 75 14 b8 23 00 00 00 0f 05 48 3d 01 f0 ff ff 0f 83 b4 1e fc ff c3 48  
+83 ec 08 e8 6a 44 00 00 48 89 04 24 b8 23 00 00 00 0f 05 <48> 8b 3c 24 48  
+89 c2 e8 b3 44 00 00 48 89 d0 48 83 c4 08 48 3d 01
+RSP: 002b:00007ffcca488140 EFLAGS: 00000293 ORIG_RAX: 0000000000000023
+RAX: ffffffffffffffda RBX: 0000000000000048 RCX: 0000000000447811
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00007ffcca488150
+RBP: 00000000006dfc6c R08: 00000000004b1a31 R09: 00000000004b1a31
+R10: 00007ffcca488180 R11: 0000000000000293 R12: 00000000006dfc60
+R13: 0000000000000002 R14: 000000000000002d R15: 20c49ba5e353f7cf
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
 
 
 ---
@@ -256,6 +155,5 @@ syzbot engineers can be reached at syzkaller@googlegroups.com.
 
 syzbot will keep track of this bug report. See:
 https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 syzbot can test patches for this bug, for details see:
 https://goo.gl/tpsmEJ#testing-patches
