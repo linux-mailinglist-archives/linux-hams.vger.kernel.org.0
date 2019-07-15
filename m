@@ -2,66 +2,79 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6921A687B2
-	for <lists+linux-hams@lfdr.de>; Mon, 15 Jul 2019 13:04:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1587469838
+	for <lists+linux-hams@lfdr.de>; Mon, 15 Jul 2019 17:17:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729661AbfGOLDi (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 15 Jul 2019 07:03:38 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:44632 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729843AbfGOLDi (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 15 Jul 2019 07:03:38 -0400
-Received: by mail-pg1-f195.google.com with SMTP id i18so7534134pgl.11
-        for <linux-hams@vger.kernel.org>; Mon, 15 Jul 2019 04:03:37 -0700 (PDT)
+        id S1730475AbfGOPRj (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 15 Jul 2019 11:17:39 -0400
+Received: from mail-ed1-f43.google.com ([209.85.208.43]:36126 "EHLO
+        mail-ed1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730221AbfGOPRj (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 15 Jul 2019 11:17:39 -0400
+Received: by mail-ed1-f43.google.com with SMTP id k21so15892522edq.3
+        for <linux-hams@vger.kernel.org>; Mon, 15 Jul 2019 08:17:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=at1U0zLzNGQlxAxn9clrRSHSPpGB2zlKGmciYViXmzQ=;
-        b=QRb1GBodFoBhFvJPBdxPE4VAqCl+I+T1SKUDc8YhKIcP8qXLNKmtBmeLwjLs/FO9lZ
-         75gCGAxY+YSs9c6HnUneWVQ5Kuc7cIu7HA1ZwTW36nCFWmVeEdZxTARPq/JJ6pFyLQCC
-         i5F57UJ0HSPfhhGiuIoSnyQ2CEuZZYzSvF/92SwjNSSKKvpKVbRgR8KxSyIf95yOdirX
-         vUpU9SAkZRrnMLlykrQni0TuHswl2ZAFQk4VFvbGPWK0ElKuMbgEj9smyMqgESRQW96Z
-         0AILN2JphlyIDpV3m3PpFXakYu3MGnxotH6bOcGMyGpkv5udFQwKTslRRPJv+1YEgJFw
-         GLhA==
+        h=mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=VGoZ5zhoCPnycUOFZEOdZ9s+w8Unc1jdSiDuwHRxYNk=;
+        b=mC93kSXAYEJVaHaLo/wAA7/DAjGCcjWn/344/pURDI/mKsU/5C4Qk9On1nfCll0qoY
+         /rmpZkormkSICcQIW3hSd6OXGqsprWR1E5dAY4bmIzXVkYKQ8zKbiHJ1M+/WlEq16/dK
+         EwfwaSgO3ChLhFvcU1tjrflFgUEGXMh6D4KftSaruUYE0WyINRmulYkSTcb86Iv9Qhtr
+         Gp+twrE4ogedKZUU15zHOrBOQyKXfJMkLRCZIlCM4PBT56qeZudLWRCxZ8/YxhVr0Zjf
+         0sTwLil0c4fLxgAs42NcrImGnfSKza0D/+CYT4/ig66TQJBiGorBK4fij6FyBfRy+jV8
+         Ahxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=at1U0zLzNGQlxAxn9clrRSHSPpGB2zlKGmciYViXmzQ=;
-        b=TR39DrUg1FxNL9tIBjcBtCXFG0vePZK85D7+NvEGVt3SBf2FLA/dFB65ecXjpv55Ts
-         5hcgKZstbT7lciB2aP8HtZIWEiyN5uxx+0N486qFmcrM4oMR4nnHrdVNd26E3ILCgByK
-         Bxtxazv+Q4g5KLyCZad8xpeUEwtKGYPaTa5NscAGtN3qBAdcd2udVWTo60Z4P2dKDXTe
-         56/7KZqmAjy27W011JmHKSZ2A3/F6WZs4JeIyt6G8XAByJjUDGf2MF3aJksVEfgV7ljw
-         Bky+G/4tG9vQiVgs7xAI0pnmgUGmQcimUsVOwK1cQQnNKFIH7HHEJZdOhoZSaLzYwB3Y
-         5OjA==
-X-Gm-Message-State: APjAAAUYGaCoCCtxSCNBvAPPi63Z/A53EqCk4kHmd/LMdCB9X3YM26Zt
-        Pn1bklkX5VgPlPBALB2NWQ2MSf+y5jXK9wTAlDg=
-X-Google-Smtp-Source: APXvYqzZtOEA+O4p1z4qZpCetbNMVF7GlYWpoUrGzFqj2Xbxoz/rNpVURYzRILo4We5FvCDz7WNaWyJleYBMiLbsRiY=
-X-Received: by 2002:a17:90a:9903:: with SMTP id b3mr28453816pjp.80.1563188616818;
- Mon, 15 Jul 2019 04:03:36 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=VGoZ5zhoCPnycUOFZEOdZ9s+w8Unc1jdSiDuwHRxYNk=;
+        b=llT/du8BifrDrXBRkV2MtQPaHIxEkSH8wlPfTXnbfGD8ULGtq21t+t17CZ0KZ3Bq7U
+         B91LEvIiH2VP1b51chNLVqk8jCBWIpcEwAV5mrPzmYV4mefzGXmex+ZuDhwlrGO+M/fq
+         QfM8WzHWDp77MX4Jz5U26U/MvOe5avslabQhv42dv5FGUJtjVaIaO7LZnA6APbD2HXEW
+         ewgDrqX4E/RncghdUPSTGdxfnyEZVw/+g0ujshXVVVvhUPOnPlwRcFlyhrI+5dwIrUh4
+         Axq6HAJ7TiuAhk5tZi9e3XiJlFtDMFGFVD4MOfe5jya4WRVjxLFFD/B+FS72r6Tj1i89
+         Pqzw==
+X-Gm-Message-State: APjAAAWtPMUBLrFuXHv+OQhmlwMV2Clcg4deiSktESbd3fCQsyhMvBzy
+        AO7tkowVgZBTvycPZM8o3URsMzXR8+bdYo2iJ+KVrjIw
+X-Google-Smtp-Source: APXvYqwwmFymD0ag9z2JKetVajfrsRjAOzVAGpELOOCr6aKEIc8RNx+L7Sp9W5Qd+RsewEtKLg8hfVWlsFADFb2fmjo=
+X-Received: by 2002:a05:6402:134c:: with SMTP id y12mr23761127edw.96.1563203856980;
+ Mon, 15 Jul 2019 08:17:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a17:90a:b78d:0:0:0:0 with HTTP; Mon, 15 Jul 2019 04:03:36
- -0700 (PDT)
-From:   Donald Douglas <ddouglasng@gmail.com>
-Date:   Mon, 15 Jul 2019 04:03:36 -0700
-Message-ID: <CALVR28EtFZG5M72gg5535c6GQgjUkrOmnToQem=_bwo5pu8tgQ@mail.gmail.com>
-Subject: Kindly Respond
-To:     undisclosed-recipients:;
+From:   Curt Mills <curt.we7u@gmail.com>
+Date:   Mon, 15 Jul 2019 08:17:26 -0700
+Message-ID: <CAKDpQXnU7PCWCfD-=DZq-Eik85tc00X+OiQBD8B39y6fVt6Y4g@mail.gmail.com>
+Subject: Xastir Release 2.1.4
+To:     Linux-Hams List <linux-hams@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello,
-I am Barr Fredrick Mbogo a business consultant i have a lucrative
-business to discuss with you from the Eastern part of Africa Uganda to
-be precise aimed at agreed percentage upon your acceptance of my hand
-in business and friendship. Kindly respond to me if you are interested
-to partner with me for an update. Very important.
+Xastir Release 2.1.4
 
-Yours Sincerely,
-Donald Douglas,
-For,
-Barr Frederick Mbogo
-Legal Consultant.
-Reply to: barrfredmbogo@consultant.com
+Repository: Xastir/Xastir =C2=B7 Tag: Release-2.1.4 =C2=B7 Commit: 8ee4af9 =
+=C2=B7
+Released by: tvrusso
+
+This is a maintenance release that is being made primarily because a
+bug in Xastir impacts use with GraphicsMagick versions 1.3.32 and
+later, and is preventing adoption of Xastir 2.1.2 in package
+management systems.
+
+The following changes have been made since Release 2.1.2:
+
+- Code reformatting to match new project style
+- Numerous updates to decrease number of warnings from gcc8
+- Fix compiler warnings from OS X clang about use of hard-coded degree
+symbols in strings.
+- Removed the "--without-rtree" option: rtree is now always built into
+Xastir if shapefile support is enabled.
+- Removed vestigial references to gettext/libintl
+internationalization, which hasn't actually been used since at least
+2002
+- Fix compilation error with GraphicsMagick 1.3.32 and later.
+
+https://github.com/Xastir/Xastir
