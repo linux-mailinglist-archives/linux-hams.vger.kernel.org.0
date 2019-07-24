@@ -2,56 +2,55 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A4FED7296B
-	for <lists+linux-hams@lfdr.de>; Wed, 24 Jul 2019 10:02:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F341C73484
+	for <lists+linux-hams@lfdr.de>; Wed, 24 Jul 2019 19:02:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726442AbfGXICF (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 24 Jul 2019 04:02:05 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:35364 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726347AbfGXICF (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 24 Jul 2019 04:02:05 -0400
-Received: by mail-io1-f66.google.com with SMTP id m24so87695626ioo.2
-        for <linux-hams@vger.kernel.org>; Wed, 24 Jul 2019 01:02:04 -0700 (PDT)
+        id S1726601AbfGXRC1 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 24 Jul 2019 13:02:27 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:44848 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726074AbfGXRC1 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 24 Jul 2019 13:02:27 -0400
+Received: by mail-pg1-f196.google.com with SMTP id i18so21531294pgl.11;
+        Wed, 24 Jul 2019 10:02:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZpELpXZSSnQ+e7/1lwzRijm6kavkrokO6GLtsw9fuV0=;
-        b=JwKg4GIvFbJO5YwYWbAJdFJp1+mANUlNeWtfS5YJz1LG/VusuAjOU09iWNiRlFuNHs
-         XWx5coRVGyCJQn2QpBPH3hitrIIBRwad4Iok7A1qRdTLQjrC3sxKeNjbu5SUCjxcNzD4
-         fo9niMh4IiWkQv3udhNpV0Y6aOlcGgA2kejax+oSoab6+wvGiCso6jJ7coB0gmBKEt+s
-         ipb/8ucl5bBIlqOuL38zOufUs0aWBXS8K4AnK1EFuehnwkRiiB/h8RwDdwZqezNLDG8T
-         Z/zjX+nAEl9hVp2BtWuXPVr0DRj7wPvX8FIl2+G/nwxBbyUINeW8zQVQRqtdMy9dZDiu
-         x+iw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=XdfjyZYov5e+yFyCZFSdjA9ozf2so8hFh6lGGKUEDEA=;
+        b=HnS9bv3Ioyt94j0IXtTI344vge8EaVaV6iR43tbNyXlhm2NZzPWCS4LAZZeB7NYi3u
+         +Qy8/sPlcUerqwhHQdGvnVTp1in3kWgOfg6BzxAQclmb5u+8j7/O6SsmUyUHnJpIN5Se
+         aYGSpzNlOvfbKIaXCvbCfmyhVnDmJ5EX78zjbzShvZ+MK+2jVR54u1V5x1/tVKJOViYw
+         c/uPLaCim4zlh6GpBFgFqV3FN1Sv4IwS86WyjIeNUhkMs9+emHQW3Tr/4MP94p6y+8xC
+         gDQ6zzPA2w/DqvdxSvv29S+Ls4/8bupaYP0zm2dra33Au7Q2W25eFj+hrbNw4hYowP4A
+         u1Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZpELpXZSSnQ+e7/1lwzRijm6kavkrokO6GLtsw9fuV0=;
-        b=Z/iCfHNP9TgCqBzLlyYa+MNgIZyOXKiXycFXpMuQSRhDr7X92clJ0DvdvEAF2pHqeD
-         boDPsd6c0O1LSxtKPZpY31famd84MTQUpijEDKCVTQSJwyb6G0K8Sn1GOE4jwYJNSXIw
-         lZyA0HNRMkZwj7GnsUBRPvV7nITDZjdsMEI7SARe3iupBMigmA8eLj2qZOfE0KRSFMn4
-         e6GryFqbsIfMhpyYJFQwafYqiRnhr0ZqgXjcmoR0dz4ByshUCtWON7J7hf54bzJUFh/X
-         +z2lYnQIAhwtdhTWzdSjqVd2uv3/ICGnqq0V2Vzkx4nIlnG88b7cHEiRrn/39SCnhX9D
-         FRdw==
-X-Gm-Message-State: APjAAAXoTaDk1T2MXa2YUO4J38axIkHBO4yqPpt1OkSGX8FjjZ/0xyc/
-        8+Er72OEY3sNtxsHCga1PLuvGgxbs3IuHT8ohXMVVQ==
-X-Google-Smtp-Source: APXvYqx+SVNDI1oseLGo7yIVur0e2cfnChvuGs1uNJGP5sugMwXmaKGfcTH8AHDPyxq12vRfCBJvejJZuxiEDnmTwLk=
-X-Received: by 2002:a6b:641a:: with SMTP id t26mr29709718iog.3.1563955323876;
- Wed, 24 Jul 2019 01:02:03 -0700 (PDT)
+         :message-id:subject:to;
+        bh=XdfjyZYov5e+yFyCZFSdjA9ozf2so8hFh6lGGKUEDEA=;
+        b=RaMY7XqQI7y44aYHz72+G7BZsdOd+fzK3+c/Ffd+UT73+VPWww/YliSI35PLNwOwLt
+         SR5HPRRxqF7HCFxADHWd2Ltyp/yHBTthxx3qo8ROW/vxfsmup+oHztqGncsqpDInSri3
+         fydhWJRqQGTQ/PU32U6cbdvVVj67bVaJZ2wudIiNrBqJvaZ04WZ4oFQYoycWb+56mZyA
+         f0SeEozocgNG8ifYgFhyfivtFubnItJwN9wMkVjxJ+2ivz40GdDd1CG+wKxcXI9a92wM
+         Ikm5UAbuX+reZRFCM2GftXbhfWjEzuP7VmbG1UhdvntBX7tC3C74KlXcIOfUpS/yXkzM
+         topQ==
+X-Gm-Message-State: APjAAAWSbKQZ9PtvPiNYn0WR9OLoBXeLFUCQ8bQy9ZdGgtZ8uAL7I8Rt
+        pcsjxWsZdtlmxOd9exIN+zpmAPYbyFS1aynitD8YmRwNsG4=
+X-Google-Smtp-Source: APXvYqyZVouTVE7j+s/aVmMN+YF1ttTVD2pQY1TtIfurMx0pXKz9VvHRAPtYXVAXlK587EtQYoZ26HMgFx0/o1N0Lxc=
+X-Received: by 2002:a63:5811:: with SMTP id m17mr11803696pgb.237.1563987745677;
+ Wed, 24 Jul 2019 10:02:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190724024049.GC643@sol.localdomain> <623ff230-5883-560c-22d0-3e6b0eeaba39@mcn.org>
-In-Reply-To: <623ff230-5883-560c-22d0-3e6b0eeaba39@mcn.org>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Wed, 24 Jul 2019 10:01:51 +0200
-Message-ID: <CACT4Y+aqUPQ-T8zZBFiyDu7v8gk_3j+B3NEtuKC7aupQU9JFzA@mail.gmail.com>
-Subject: Re: Reminder: 3 open syzbot bugs in "net/ax25" subsystem
-To:     Joe <joego@mcn.org>
-Cc:     linux-hams <linux-hams@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
+References: <20190724014723.GJ643@sol.localdomain>
+In-Reply-To: <20190724014723.GJ643@sol.localdomain>
+From:   Cong Wang <xiyou.wangcong@gmail.com>
+Date:   Wed, 24 Jul 2019 10:02:14 -0700
+Message-ID: <CAM_iQpWFjifODv+cWPSEk7RZ5xz8mg-oGuxkfTJMC7W-vPVwFA@mail.gmail.com>
+Subject: Re: Reminder: 13 open syzbot bugs in "net/netrom" subsystem
+To:     linux-hams <linux-hams@vger.kernel.org>,
+        Linux Kernel Network Developers <netdev@vger.kernel.org>,
         Ralf Baechle <ralf@linux-mips.org>,
         "David S. Miller" <davem@davemloft.net>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
         LKML <linux-kernel@vger.kernel.org>,
         syzkaller-bugs <syzkaller-bugs@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -60,100 +59,23 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Wed, Jul 24, 2019 at 5:42 AM Joe <joego@mcn.org> wrote:
+On Tue, Jul 23, 2019 at 6:47 PM Eric Biggers <ebiggers@kernel.org> wrote:
 >
-> Hi Eric, How do I get off of this thread? When I try to unsubscribe it
-> tells me I'm not a member of the group.
-
-Hi Joe,
-
-If you received it via netdev or linux-hams mailing lists, here are
-instructions on how to unsubscribe:
-http://vger.kernel.org/vger-lists.html#netdev
-http://vger.kernel.org/vger-lists.html#linux-hams
-
-
-
-> On 7/23/19 7:40 PM, Eric Biggers wrote:
-> > [This email was generated by a script.  Let me know if you have any suggestions
-> > to make it better, or if you want it re-generated with the latest status.]
-> >
-> > Of the currently open syzbot reports against the upstream kernel, I've manually
-> > marked 3 of them as possibly being bugs in the "net/ax25" subsystem.  I've
-> > listed these reports below, sorted by an algorithm that tries to list first the
-> > reports most likely to be still valid, important, and actionable.
-> >
-> > If you believe a bug is no longer valid, please close the syzbot report by
-> > sending a '#syz fix', '#syz dup', or '#syz invalid' command in reply to the
-> > original thread, as explained at https://goo.gl/tpsmEJ#status
-> >
-> > If you believe I misattributed a bug to the "net/ax25" subsystem, please let me
-> > know, and if possible forward the report to the correct people or mailing list.
-> >
-> > Here are the bugs:
-> >
-> > --------------------------------------------------------------------------------
-> > Title:              general protection fault in ax25_send_frame
-> > Last occurred:      0 days ago
-> > Reported:           204 days ago
-> > Branches:           Mainline and others
-> > Dashboard link:     https://syzkaller.appspot.com/bug?id=1cdd5b120f129364fc8e9b2b027826cf99fa696e
-> > Original thread:    https://lkml.kernel.org/lkml/0000000000009ea37c057e58d787@google.com/T/#u
-> >
-> > Unfortunately, this bug does not have a reproducer.
-> >
-> > No one replied to the original thread for this bug.
-> >
-> > If you fix this bug, please add the following tag to the commit:
-> >      Reported-by: syzbot+e0b81535a27b8be39502@syzkaller.appspotmail.com
-> >
-> > If you send any email or patch for this bug, please consider replying to the
-> > original thread.  For the git send-email command to use, or tips on how to reply
-> > if the thread isn't in your mailbox, see the "Reply instructions" at
-> > https://lkml.kernel.org/r/0000000000009ea37c057e58d787@google.com
-> >
-> > --------------------------------------------------------------------------------
-> > Title:              KASAN: stack-out-of-bounds Write in ax25_getname
-> > Last occurred:      90 days ago
-> > Reported:           206 days ago
-> > Branches:           Mainline and others
-> > Dashboard link:     https://syzkaller.appspot.com/bug?id=fb195f91dc044978c1b186f1288b1eff61edcc20
-> > Original thread:    https://lkml.kernel.org/lkml/000000000000ed4120057e2df0c6@google.com/T/#u
-> >
-> > This bug has a syzkaller reproducer only.
-> >
-> > No one replied to the original thread for this bug.
-> >
-> > If you fix this bug, please add the following tag to the commit:
-> >      Reported-by: syzbot+6a29097222b4d3b8617c@syzkaller.appspotmail.com
-> >
-> > If you send any email or patch for this bug, please consider replying to the
-> > original thread.  For the git send-email command to use, or tips on how to reply
-> > if the thread isn't in your mailbox, see the "Reply instructions" at
-> > https://lkml.kernel.org/r/000000000000ed4120057e2df0c6@google.com
-> >
-> > --------------------------------------------------------------------------------
-> > Title:              inconsistent lock state in ax25_std_heartbeat_expiry
-> > Last occurred:      122 days ago
-> > Reported:           120 days ago
-> > Branches:           net
-> > Dashboard link:     https://syzkaller.appspot.com/bug?id=9086a8eac930890b2730d6441093bd478e32913f
-> > Original thread:    https://lkml.kernel.org/lkml/0000000000001b07250584efbee3@google.com/T/#u
-> >
-> > Unfortunately, this bug does not have a reproducer.
-> >
-> > The original thread for this bug received 2 replies; the last was 119 days ago.
-> >
-> > If you fix this bug, please add the following tag to the commit:
-> >      Reported-by: syzbot+e350b81e95a6a214da8a@syzkaller.appspotmail.com
-> >
-> > If you send any email or patch for this bug, please consider replying to the
-> > original thread.  For the git send-email command to use, or tips on how to reply
-> > if the thread isn't in your mailbox, see the "Reply instructions" at
-> > https://lkml.kernel.org/r/0000000000001b07250584efbee3@google.com
-> >
+> [This email was generated by a script.  Let me know if you have any suggestions
+> to make it better, or if you want it re-generated with the latest status.]
 >
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/623ff230-5883-560c-22d0-3e6b0eeaba39%40mcn.org.
+> Of the currently open syzbot reports against the upstream kernel, I've manually
+> marked 13 of them as possibly being bugs in the "net/netrom" subsystem.  I've
+> listed these reports below, sorted by an algorithm that tries to list first the
+> reports most likely to be still valid, important, and actionable.
+>
+> Of these 13 bugs, 8 were seen in mainline in the last week.
+>
+> Of these 13 bugs, 4 were bisected to commits from the following person:
+>
+>         Cong Wang <xiyou.wangcong@gmail.com>
+
+These 4 should be fixed by this pending patch:
+http://patchwork.ozlabs.org/patch/1135398/
+
+Thanks.
