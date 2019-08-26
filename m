@@ -2,52 +2,77 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3C749BF90
-	for <lists+linux-hams@lfdr.de>; Sat, 24 Aug 2019 21:00:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EDDB9D639
+	for <lists+linux-hams@lfdr.de>; Mon, 26 Aug 2019 21:03:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727916AbfHXTAa convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hams@lfdr.de>); Sat, 24 Aug 2019 15:00:30 -0400
-Received: from smtp2.osep.mendoza.gov.ar ([200.16.135.145]:52900 "HELO
-        smtp2.osep.mendoza.gov.ar" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727948AbfHXTAa (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 24 Aug 2019 15:00:30 -0400
-Received: (qmail 402 invoked from network); 24 Aug 2019 14:14:38 -0000
-Received: from unknown (HELO zimbra.servers.dg.intranet) (10.10.195.224)
-  by smtp2.osep.mendoza.gov.ar with SMTP; 24 Aug 2019 14:14:38 -0000
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.servers.dg.intranet (Postfix) with ESMTP id DB8B3CF7CC66;
-        Sat, 24 Aug 2019 11:14:37 -0300 (ART)
-Received: from zimbra.servers.dg.intranet ([127.0.0.1])
-        by localhost (zimbra.servers.dg.intranet [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id RViPrJdL95bg; Sat, 24 Aug 2019 11:14:37 -0300 (ART)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.servers.dg.intranet (Postfix) with ESMTP id 877BBCF7CC58;
-        Sat, 24 Aug 2019 11:14:37 -0300 (ART)
-X-Virus-Scanned: amavisd-new at osep.mendoza.gov.ar
-Received: from zimbra.servers.dg.intranet ([127.0.0.1])
-        by localhost (zimbra.servers.dg.intranet [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 9n2-6F1Dy9XD; Sat, 24 Aug 2019 11:14:37 -0300 (ART)
-Received: from zimbra.servers.dg.intranet (zimbra.servers.dg.intranet [10.10.195.224])
-        by zimbra.servers.dg.intranet (Postfix) with ESMTP id BAAEBCF7CC40;
-        Sat, 24 Aug 2019 11:14:36 -0300 (ART)
-Date:   Sat, 24 Aug 2019 11:14:36 -0300 (ART)
-From:   "Herr.Robert Jackson" <liliana.marinero@osep.mendoza.gov.ar>
-Reply-To: SKY GROUP FINANCIAL <skygroupfinancial0@gmail.com>
-Message-ID: <1268244548.24999093.1566656076742.JavaMail.zimbra@osep.mendoza.gov.ar>
-Subject: 
+        id S1732578AbfHZTDH (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 26 Aug 2019 15:03:07 -0400
+Received: from smtp10.smtpout.orange.fr ([80.12.242.132]:47645 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729632AbfHZTDH (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 26 Aug 2019 15:03:07 -0400
+Received: from localhost.localdomain ([93.22.133.61])
+        by mwinf5d87 with ME
+        id tv32200091KePP903v333z; Mon, 26 Aug 2019 21:03:04 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 26 Aug 2019 21:03:04 +0200
+X-ME-IP: 93.22.133.61
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     ajk@comnets.uni-bremen.de, davem@davemloft.net
+Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] net/hamradio/6pack: Fix the size of a sk_buff used in 'sp_bump()'
+Date:   Mon, 26 Aug 2019 21:02:09 +0200
+Message-Id: <20190826190209.16795-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [172.16.3.2]
-X-Mailer: Zimbra 8.6.0_GA_1153 (zclient/8.6.0_GA_1153)
-Thread-Topic: 
-Thread-Index: 9gdTMQJ8JBu8cvpzdFVmtKjzn0qahQ==
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
+We 'allocate' 'count' bytes here. In fact, 'dev_alloc_skb' already add some
+extra space for padding, so a bit more is allocated.
 
+However, we use 1 byte for the KISS command, then copy 'count' bytes, so
+count+1 bytes.
 
-Wir sind zuverlässige, vertrauenswürdige Kreditgeber, leihen wir Unternehmen und Einzelpersonen zu einem niedrigen Zinssatz von 2%, Sind Sie auf der Suche nach einem Geschäftskredit, Privatkredite, Schuldenkonsolidierung, unbesicherte Kredite, Risikokapital, wenn ja Kontaktieren Sie uns jetzt für weitere Einzelheiten.
+Explicitly allocate and use 1 more byte to be safe.
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+This patch should be safe, be however may no be the correct way to fix the
+"buffer overflow". Maybe, the allocated size is correct and we should have:
+   memcpy(ptr, sp->cooked_buf + 1, count - 1);
+or
+   memcpy(ptr, sp->cooked_buf + 1, count - 1sp->rcount);
+
+I've not dig deep enough to understand the link betwwen 'rcount' and
+how 'cooked_buf' is used.
+---
+ drivers/net/hamradio/6pack.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
+index 331c16d30d5d..23281aeeb222 100644
+--- a/drivers/net/hamradio/6pack.c
++++ b/drivers/net/hamradio/6pack.c
+@@ -344,10 +344,10 @@ static void sp_bump(struct sixpack *sp, char cmd)
+ 
+ 	sp->dev->stats.rx_bytes += count;
+ 
+-	if ((skb = dev_alloc_skb(count)) == NULL)
++	if ((skb = dev_alloc_skb(count + 1)) == NULL)
+ 		goto out_mem;
+ 
+-	ptr = skb_put(skb, count);
++	ptr = skb_put(skb, count + 1);
+ 	*ptr++ = cmd;	/* KISS command */
+ 
+ 	memcpy(ptr, sp->cooked_buf + 1, count);
+-- 
+2.20.1
+
