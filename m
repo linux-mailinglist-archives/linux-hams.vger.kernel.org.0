@@ -2,39 +2,39 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EEF67A1874
-	for <lists+linux-hams@lfdr.de>; Thu, 29 Aug 2019 13:28:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC1E6A3E5D
+	for <lists+linux-hams@lfdr.de>; Fri, 30 Aug 2019 21:28:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727951AbfH2L2P (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 29 Aug 2019 07:28:15 -0400
-Received: from mail-io1-f72.google.com ([209.85.166.72]:36757 "EHLO
+        id S1728236AbfH3T2L (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 30 Aug 2019 15:28:11 -0400
+Received: from mail-io1-f72.google.com ([209.85.166.72]:47454 "EHLO
         mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727066AbfH2L2I (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 29 Aug 2019 07:28:08 -0400
-Received: by mail-io1-f72.google.com with SMTP id i6so3647974ioi.3
-        for <linux-hams@vger.kernel.org>; Thu, 29 Aug 2019 04:28:08 -0700 (PDT)
+        with ESMTP id S1728117AbfH3T2J (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 30 Aug 2019 15:28:09 -0400
+Received: by mail-io1-f72.google.com with SMTP id b22so9682940iod.14
+        for <linux-hams@vger.kernel.org>; Fri, 30 Aug 2019 12:28:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=jm0AoHzXqdgzw5LLLgvxIqcYRxO7mGVi27Qk0d1O4E4=;
-        b=HXU6dKbtdcExL9GxtEpRMbzuldW8hK2vhnI6JA/Fcc4HtpXc23I/2W8b0BZyGka9oo
-         VOCgrh+/351K188EQuX0Vn0Bd/mfX8gzjuqhMARlQM3X9+xhEXXamUwk5BKnEnI2dbgk
-         TzSoLzgae/WWFqeEpU19CYrqXz+/+3oIr4T1+cAR0AD2hZ5CLmrHUH5BUtpWa0CPmeeY
-         eucBy6H4j8ZGi3C7dtSh7+5lLKIj+01Cm8tFtZp7DdcFRivE5t6ucctr1/jNND2lgp/X
-         ea0MViTNdCbiwog231RhxHJ6sBl/XHLjybYcTf3n9ITSTogSuu5McNORzc3jXVeeyrpG
-         pIHw==
-X-Gm-Message-State: APjAAAWJ8jTHyBmIl9mQMmIG81lYz5ThhizPvnbYExUHoP+tgRRtfaF7
-        K8+r6lgRuIKTWQwAtYrOE9FVvksiXmEsFr6X3q952URfCNmG
-X-Google-Smtp-Source: APXvYqwqUCZfDytgW8WQRfldcOib9wfo8lV7j7B+lMVeBmVKUfAlZK8vs/1Md2nS+NvNXA4QlQN2sGnE1VwnDOlb/+2FnX8Ls433
+        bh=eYi+Zn08d1CsnsLxKTjynm4R7M42OiHyCSdhNao9910=;
+        b=CSQsf6b7uetFOr7vBzZjsiiTvqWYQOFkLpFQqqiUCErekgKvOhm0j4yCb+s3SKfkbX
+         xpbpie3BB3yuNzPpixOQxQPUHU0vwoN+lsEEFijy8q6aJCma7t0vAK3AVtI3YRx4wL2v
+         t4CXGsNJ70Qu4bGG+4/Qapp3cgLTpATsj90zhrZBbSoGkxtLv7+shxLMsaEtpn68zeMI
+         ZJmU2FkS8X7PBqot2M77nTxi6zxpak4omUyXuahxT8fFdo+6PWJs0hR7AW3FhiXpSz68
+         3de2ACWxgrlHsl+708Zz/FShGeOrq5HdiQ84BI4pp+hky3ZdwTfCVTcpI7P1GD4L06xz
+         t/Qg==
+X-Gm-Message-State: APjAAAUQUCs0soWt5DSWWFeFL/VH+iLMDUIN9T2OJBR0pXJFqm0t1oIU
+        bdyWRAZTWQRFjqFiHQx1c3aM1+JBVJc0Ia4Ajd6NSNUkDVHV
+X-Google-Smtp-Source: APXvYqwcSUpc2JyCSA4KFngTbJSiU8mhBPJymAyd6LtJtJzcrOQL1rOX56eS3iYa/EY7oekw7YbnkpH0LJNHXIXomlJFtnc5l8VX
 MIME-Version: 1.0
-X-Received: by 2002:a02:4e43:: with SMTP id r64mr6978224jaa.34.1567078087463;
- Thu, 29 Aug 2019 04:28:07 -0700 (PDT)
-Date:   Thu, 29 Aug 2019 04:28:07 -0700
+X-Received: by 2002:a6b:4a08:: with SMTP id w8mr8266964iob.246.1567193288238;
+ Fri, 30 Aug 2019 12:28:08 -0700 (PDT)
+Date:   Fri, 30 Aug 2019 12:28:08 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000bd21b205913fccfa@google.com>
-Subject: KASAN: use-after-free Read in nr_release (2)
-From:   syzbot <syzbot+fd05016a0b263a41eb33@syzkaller.appspotmail.com>
+Message-ID: <0000000000003d789d05915a9fa3@google.com>
+Subject: memory leak in nr_rx_frame (2)
+From:   syzbot <syzbot+0145ea560de205bc09f0@syzkaller.appspotmail.com>
 To:     davem@davemloft.net, linux-hams@vger.kernel.org,
         linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
         ralf@linux-mips.org, syzkaller-bugs@googlegroups.com
@@ -50,128 +50,115 @@ syzbot found the following crash on:
 
 HEAD commit:    6525771f Merge tag 'arc-5.3-rc7' of git://git.kernel.org/p..
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11f44d82600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2a6a2b9826fdadf9
-dashboard link: https://syzkaller.appspot.com/bug?extid=fd05016a0b263a41eb33
+console output: https://syzkaller.appspot.com/x/log.txt?x=10200912600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e6131eafb9408877
+dashboard link: https://syzkaller.appspot.com/bug?extid=0145ea560de205bc09f0
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16c627ca600000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12b51f9c600000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+fd05016a0b263a41eb33@syzkaller.appspotmail.com
+Reported-by: syzbot+0145ea560de205bc09f0@syzkaller.appspotmail.com
 
-==================================================================
-BUG: KASAN: use-after-free in atomic_read  
-include/asm-generic/atomic-instrumented.h:26 [inline]
-BUG: KASAN: use-after-free in refcount_inc_not_zero_checked+0x81/0x200  
-lib/refcount.c:123
-Read of size 4 at addr ffff888094849540 by task syz-executor.2/9817
+2019/08/29 23:31:49 executed programs: 8
+2019/08/29 23:31:56 executed programs: 15
+2019/08/29 23:32:02 executed programs: 24
+BUG: memory leak
+unreferenced object 0xffff888123355800 (size 2048):
+   comm "softirq", pid 0, jiffies 4295062008 (age 25.620s)
+   hex dump (first 32 bytes):
+     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+     06 00 07 40 00 00 00 00 00 00 00 00 00 00 00 00  ...@............
+   backtrace:
+     [<00000000bbb1ff80>] kmemleak_alloc_recursive  
+include/linux/kmemleak.h:43 [inline]
+     [<00000000bbb1ff80>] slab_post_alloc_hook mm/slab.h:522 [inline]
+     [<00000000bbb1ff80>] slab_alloc mm/slab.c:3319 [inline]
+     [<00000000bbb1ff80>] __do_kmalloc mm/slab.c:3653 [inline]
+     [<00000000bbb1ff80>] __kmalloc+0x169/0x300 mm/slab.c:3664
+     [<000000003948180d>] kmalloc include/linux/slab.h:557 [inline]
+     [<000000003948180d>] sk_prot_alloc+0x112/0x170 net/core/sock.c:1603
+     [<00000000ad5c33ee>] sk_alloc+0x35/0x2f0 net/core/sock.c:1657
+     [<000000004e2b1f5c>] nr_make_new net/netrom/af_netrom.c:476 [inline]
+     [<000000004e2b1f5c>] nr_rx_frame+0x339/0x8ee net/netrom/af_netrom.c:959
+     [<00000000df4c3d82>] nr_loopback_timer+0x4e/0xd0  
+net/netrom/nr_loopback.c:59
+     [<00000000e886ef23>] call_timer_fn+0x45/0x1e0 kernel/time/timer.c:1322
+     [<00000000cc0c55bd>] expire_timers kernel/time/timer.c:1366 [inline]
+     [<00000000cc0c55bd>] __run_timers kernel/time/timer.c:1685 [inline]
+     [<00000000cc0c55bd>] __run_timers kernel/time/timer.c:1653 [inline]
+     [<00000000cc0c55bd>] run_timer_softirq+0x256/0x740  
+kernel/time/timer.c:1698
+     [<000000008a8ac853>] __do_softirq+0x115/0x33f kernel/softirq.c:292
+     [<00000000c33f7c40>] invoke_softirq kernel/softirq.c:373 [inline]
+     [<00000000c33f7c40>] irq_exit+0xbb/0xe0 kernel/softirq.c:413
+     [<00000000dc851865>] exiting_irq arch/x86/include/asm/apic.h:537  
+[inline]
+     [<00000000dc851865>] smp_apic_timer_interrupt+0x96/0x190  
+arch/x86/kernel/apic/apic.c:1133
+     [<000000006a57c22f>] apic_timer_interrupt+0xf/0x20  
+arch/x86/entry/entry_64.S:830
+     [<00000000ec52384e>] arch_local_irq_restore  
+arch/x86/include/asm/paravirt.h:768 [inline]
+     [<00000000ec52384e>] console_unlock.part.0+0x5f0/0x6d0  
+kernel/printk/printk.c:2471
+     [<0000000013f07031>] console_unlock kernel/printk/printk.c:2364 [inline]
+     [<0000000013f07031>] vprintk_emit+0x251/0x360  
+kernel/printk/printk.c:1986
+     [<00000000704abaae>] vprintk_default+0x28/0x30  
+kernel/printk/printk.c:2013
+     [<000000008aa8a0ba>] vprintk_func+0x59/0xfa  
+kernel/printk/printk_safe.c:386
+     [<000000004d884645>] printk+0x60/0x7d kernel/printk/printk.c:2046
 
-CPU: 1 PID: 9817 Comm: syz-executor.2 Not tainted 5.3.0-rc6+ #128
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0x172/0x1f0 lib/dump_stack.c:113
-  print_address_description.cold+0xd4/0x306 mm/kasan/report.c:351
-  __kasan_report.cold+0x1b/0x36 mm/kasan/report.c:482
-  kasan_report+0x12/0x17 mm/kasan/common.c:618
-  check_memory_region_inline mm/kasan/generic.c:185 [inline]
-  check_memory_region+0x134/0x1a0 mm/kasan/generic.c:192
-  __kasan_check_read+0x11/0x20 mm/kasan/common.c:92
-  atomic_read include/asm-generic/atomic-instrumented.h:26 [inline]
-  refcount_inc_not_zero_checked+0x81/0x200 lib/refcount.c:123
-  refcount_inc_checked+0x17/0x70 lib/refcount.c:156
-  sock_hold include/net/sock.h:649 [inline]
-  nr_release+0x62/0x3e0 net/netrom/af_netrom.c:520
-  __sock_release+0xce/0x280 net/socket.c:590
-  sock_close+0x1e/0x30 net/socket.c:1268
-  __fput+0x2ff/0x890 fs/file_table.c:280
-  ____fput+0x16/0x20 fs/file_table.c:313
-  task_work_run+0x145/0x1c0 kernel/task_work.c:113
-  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
-  exit_to_usermode_loop+0x316/0x380 arch/x86/entry/common.c:163
-  prepare_exit_to_usermode arch/x86/entry/common.c:194 [inline]
-  syscall_return_slowpath arch/x86/entry/common.c:274 [inline]
-  do_syscall_64+0x5a9/0x6a0 arch/x86/entry/common.c:299
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x413561
-Code: 75 14 b8 03 00 00 00 0f 05 48 3d 01 f0 ff ff 0f 83 04 1b 00 00 c3 48  
-83 ec 08 e8 0a fc ff ff 48 89 04 24 b8 03 00 00 00 0f 05 <48> 8b 3c 24 48  
-89 c2 e8 53 fc ff ff 48 89 d0 48 83 c4 08 48 3d 01
-RSP: 002b:00007ffcd6d6ea60 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
-RAX: 0000000000000000 RBX: 0000000000000006 RCX: 0000000000413561
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000005
-RBP: 0000000000000001 R08: ffffffffffffffff R09: ffffffffffffffff
-R10: 00007ffcd6d6eb40 R11: 0000000000000293 R12: 000000000075c9a0
-R13: 000000000075c9a0 R14: 0000000000761aa0 R15: ffffffffffffffff
+BUG: memory leak
+unreferenced object 0xffff88810e8bd820 (size 32):
+   comm "softirq", pid 0, jiffies 4295062008 (age 25.620s)
+   hex dump (first 32 bytes):
+     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+     03 00 00 00 03 00 00 00 0f 00 00 00 00 00 00 00  ................
+   backtrace:
+     [<0000000092f05cd5>] kmemleak_alloc_recursive  
+include/linux/kmemleak.h:43 [inline]
+     [<0000000092f05cd5>] slab_post_alloc_hook mm/slab.h:522 [inline]
+     [<0000000092f05cd5>] slab_alloc mm/slab.c:3319 [inline]
+     [<0000000092f05cd5>] kmem_cache_alloc_trace+0x145/0x2c0 mm/slab.c:3548
+     [<00000000f2b13853>] kmalloc include/linux/slab.h:552 [inline]
+     [<00000000f2b13853>] kzalloc include/linux/slab.h:748 [inline]
+     [<00000000f2b13853>] selinux_sk_alloc_security+0x48/0xb0  
+security/selinux/hooks.c:5073
+     [<000000002301f7f8>] security_sk_alloc+0x49/0x70  
+security/security.c:2029
+     [<000000009fb5708b>] sk_prot_alloc+0x12d/0x170 net/core/sock.c:1606
+     [<00000000ad5c33ee>] sk_alloc+0x35/0x2f0 net/core/sock.c:1657
+     [<000000004e2b1f5c>] nr_make_new net/netrom/af_netrom.c:476 [inline]
+     [<000000004e2b1f5c>] nr_rx_frame+0x339/0x8ee net/netrom/af_netrom.c:959
+     [<00000000df4c3d82>] nr_loopback_timer+0x4e/0xd0  
+net/netrom/nr_loopback.c:59
+     [<00000000e886ef23>] call_timer_fn+0x45/0x1e0 kernel/time/timer.c:1322
+     [<00000000cc0c55bd>] expire_timers kernel/time/timer.c:1366 [inline]
+     [<00000000cc0c55bd>] __run_timers kernel/time/timer.c:1685 [inline]
+     [<00000000cc0c55bd>] __run_timers kernel/time/timer.c:1653 [inline]
+     [<00000000cc0c55bd>] run_timer_softirq+0x256/0x740  
+kernel/time/timer.c:1698
+     [<000000008a8ac853>] __do_softirq+0x115/0x33f kernel/softirq.c:292
+     [<00000000c33f7c40>] invoke_softirq kernel/softirq.c:373 [inline]
+     [<00000000c33f7c40>] irq_exit+0xbb/0xe0 kernel/softirq.c:413
+     [<00000000dc851865>] exiting_irq arch/x86/include/asm/apic.h:537  
+[inline]
+     [<00000000dc851865>] smp_apic_timer_interrupt+0x96/0x190  
+arch/x86/kernel/apic/apic.c:1133
+     [<000000006a57c22f>] apic_timer_interrupt+0xf/0x20  
+arch/x86/entry/entry_64.S:830
+     [<00000000ec52384e>] arch_local_irq_restore  
+arch/x86/include/asm/paravirt.h:768 [inline]
+     [<00000000ec52384e>] console_unlock.part.0+0x5f0/0x6d0  
+kernel/printk/printk.c:2471
+     [<0000000013f07031>] console_unlock kernel/printk/printk.c:2364 [inline]
+     [<0000000013f07031>] vprintk_emit+0x251/0x360  
+kernel/printk/printk.c:1986
+     [<00000000704abaae>] vprintk_default+0x28/0x30  
+kernel/printk/printk.c:2013
 
-Allocated by task 9818:
-  save_stack+0x23/0x90 mm/kasan/common.c:69
-  set_track mm/kasan/common.c:77 [inline]
-  __kasan_kmalloc mm/kasan/common.c:493 [inline]
-  __kasan_kmalloc.constprop.0+0xcf/0xe0 mm/kasan/common.c:466
-  kasan_kmalloc+0x9/0x10 mm/kasan/common.c:507
-  __do_kmalloc mm/slab.c:3655 [inline]
-  __kmalloc+0x163/0x770 mm/slab.c:3664
-  kmalloc include/linux/slab.h:557 [inline]
-  sk_prot_alloc+0x23a/0x310 net/core/sock.c:1603
-  sk_alloc+0x39/0xf70 net/core/sock.c:1657
-  nr_create+0xb9/0x5e0 net/netrom/af_netrom.c:433
-  __sock_create+0x3d8/0x730 net/socket.c:1418
-  sock_create net/socket.c:1469 [inline]
-  __sys_socket+0x103/0x220 net/socket.c:1511
-  __do_sys_socket net/socket.c:1520 [inline]
-  __se_sys_socket net/socket.c:1518 [inline]
-  __x64_sys_socket+0x73/0xb0 net/socket.c:1518
-  do_syscall_64+0xfd/0x6a0 arch/x86/entry/common.c:296
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-
-Freed by task 9817:
-  save_stack+0x23/0x90 mm/kasan/common.c:69
-  set_track mm/kasan/common.c:77 [inline]
-  __kasan_slab_free+0x102/0x150 mm/kasan/common.c:455
-  kasan_slab_free+0xe/0x10 mm/kasan/common.c:463
-  __cache_free mm/slab.c:3425 [inline]
-  kfree+0x10a/0x2c0 mm/slab.c:3756
-  sk_prot_free net/core/sock.c:1640 [inline]
-  __sk_destruct+0x4f7/0x6e0 net/core/sock.c:1726
-  sk_destruct+0x86/0xa0 net/core/sock.c:1734
-  __sk_free+0xfb/0x360 net/core/sock.c:1745
-  sk_free+0x42/0x50 net/core/sock.c:1756
-  sock_put include/net/sock.h:1725 [inline]
-  nr_release+0x356/0x3e0 net/netrom/af_netrom.c:554
-  __sock_release+0xce/0x280 net/socket.c:590
-  sock_close+0x1e/0x30 net/socket.c:1268
-  __fput+0x2ff/0x890 fs/file_table.c:280
-  ____fput+0x16/0x20 fs/file_table.c:313
-  task_work_run+0x145/0x1c0 kernel/task_work.c:113
-  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
-  exit_to_usermode_loop+0x316/0x380 arch/x86/entry/common.c:163
-  prepare_exit_to_usermode arch/x86/entry/common.c:194 [inline]
-  syscall_return_slowpath arch/x86/entry/common.c:274 [inline]
-  do_syscall_64+0x5a9/0x6a0 arch/x86/entry/common.c:299
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-
-The buggy address belongs to the object at ffff8880948494c0
-  which belongs to the cache kmalloc-2k of size 2048
-The buggy address is located 128 bytes inside of
-  2048-byte region [ffff8880948494c0, ffff888094849cc0)
-The buggy address belongs to the page:
-page:ffffea0002521200 refcount:1 mapcount:0 mapping:ffff8880aa400e00  
-index:0x0 compound_mapcount: 0
-flags: 0x1fffc0000010200(slab|head)
-raw: 01fffc0000010200 ffffea00024ff508 ffffea0002560088 ffff8880aa400e00
-raw: 0000000000000000 ffff8880948483c0 0000000100000003 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff888094849400: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-  ffff888094849480: fc fc fc fc fc fc fc fc fb fb fb fb fb fb fb fb
-> ffff888094849500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                            ^
-  ffff888094849580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff888094849600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
 
 
 ---
