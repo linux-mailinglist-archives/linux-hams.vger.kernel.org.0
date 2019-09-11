@@ -2,27 +2,42 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B3F89AF989
-	for <lists+linux-hams@lfdr.de>; Wed, 11 Sep 2019 11:53:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4BDEAFC75
+	for <lists+linux-hams@lfdr.de>; Wed, 11 Sep 2019 14:24:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726857AbfIKJxS (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 11 Sep 2019 05:53:18 -0400
-Received: from [167.71.34.219] ([167.71.34.219]:35848 "EHLO TEST.localdomain"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726341AbfIKJxS (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Wed, 11 Sep 2019 05:53:18 -0400
-Received: from 127.0.0.1 (TEST [127.0.0.1])
-        by TEST.localdomain (Postfix) with SMTP id 7917C2219B1;
-        Tue, 10 Sep 2019 21:54:43 +0000 (UTC)
-From:   128128linux-gcc@vger.rutgers.edu
-Reply-To: prodawez@cuvox.de
-To:     linux-gcc@vger.rutgers.edu
-Subject: Zdravstvujte! Vas interesujut klientskie bazy dannyh?
-Message-Id: <20190910215443.7917C2219B1@TEST.localdomain>
-Date:   Tue, 10 Sep 2019 21:54:43 +0000 (UTC)
+        id S1726696AbfIKMYS (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 11 Sep 2019 08:24:18 -0400
+Received: from host200-115-40-89.static.arubacloud.fr ([89.40.115.200]:46062
+        "EHLO mail.qeaudio.ga" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
+        with ESMTP id S1726198AbfIKMYS (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 11 Sep 2019 08:24:18 -0400
+Received: by mail.qeaudio.ga (Postfix, from userid 48)
+        id 64ED1766CD; Wed, 11 Sep 2019 08:08:02 -0400 (EDT)
+To:     linux-hams@vger.kernel.org
+Subject: Inquiry 11/Sept/2019
+X-PHP-Originating-Script: 0:bmaiiler.php
+From:   Julian Smith <juliansmith2015@mail.ru>
+Reply-To: julian.smith@list.ru
+MIME-Version: 1.0
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+Message-Id: <20190911120909.64ED1766CD@mail.qeaudio.ga>
+Date:   Wed, 11 Sep 2019 08:08:02 -0400 (EDT)
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Zdravstvujte! Vas interesujut klientskie bazy dannyh?
+Hi,friend,
+
+This is Julian Smith and i am purchasing manager from E-cloth Co.,LTD in the UK.
+We are glad to know about your company from the web and we are interested in your products.
+Could you kindly send us your Latest catalog and price list for our trial order.
+
+Thanks and Best Regards,
+
+Ms Julian Smith
+Purchasing Manager
+E-cloth Co.,LTD
+
+
