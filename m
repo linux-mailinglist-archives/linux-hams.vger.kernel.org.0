@@ -2,82 +2,103 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32E35B888B
-	for <lists+linux-hams@lfdr.de>; Fri, 20 Sep 2019 02:24:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3E62C0FDD
+	for <lists+linux-hams@lfdr.de>; Sat, 28 Sep 2019 07:41:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390105AbfITAX7 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 19 Sep 2019 20:23:59 -0400
-Received: from out116-71-vmse04.mailcluster.com.au ([116.90.5.71]:37015 "EHLO
-        out116-71-vmse04.mailcluster.com.au" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389347AbfITAX7 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>);
-        Thu, 19 Sep 2019 20:23:59 -0400
-X-Greylist: delayed 1130 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Sep 2019 20:23:58 EDT
-Received: from vmcp59.digitalpacific.com.au ([101.0.119.195])
-        by vmse04.mailcluster.com.au with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.89)
-        (envelope-from <foodbyte@vmcp59.digitalpacific.com.au>)
-        id 1iB6Q0-00052k-D8
-        for linux-hams@vger.kernel.org; Fri, 20 Sep 2019 10:05:04 +1000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=vmcp59.digitalpacific.com.au; s=default; h=Content-Type:MIME-Version:
-        Message-ID:From:Date:Subject:To:Sender:Reply-To:Cc:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=CO0A7FonHEtiSRCbLl8foanz55Ubdo5o3c8+h+tE8is=; b=u0h+an7Jp1cq2duoLU2c1ApDL
-        cVuIPGXqobD2B/nqeK0+NRsyOTNZY1sZqcx4s34Ys0MjrTGWkYbK+4FBGmasvFddTW1xkDd0S+a1b
-        deS4hAgpj68219tCUUb1foJYb+40qKSxOeTpPeaz0OJn3xUvF8DHC6uthpZ5quP6niMlerk3AJQbR
-        D2ovV/K3jmuUB/aw31s5v+Ptf3hqTavWos7BBztpMkNSRscXNqC+1+J0QgjQlygR/BsAPlPfLOvuF
-        QQAoUJGwd8h0VHIEzuDWfUvbINDP95SUsgfvQs8F5hdr6chIJI53akEUJB7OPmz5VjMHPyFfiR7So
-        hIeCbZvAA==;
-Received: from foodbyte by vmcp59.digitalpacific.com.au with local (Exim 4.92)
-        (envelope-from <foodbyte@vmcp59.digitalpacific.com.au>)
-        id 1iB6Pz-00An74-P0
-        for linux-hams@vger.kernel.org; Fri, 20 Sep 2019 10:04:59 +1000
-To:     linux-hams@vger.kernel.org
-Subject: Buy Essay Online - Get Top Grade With Perfect Essay From Us
-X-PHP-Script: www.fairiesandmonkeys.com.au/index.php for 185.206.224.213
-X-PHP-Filename: /home/foodbyte/fairiesandmonkeys.com.au/index.php REMOTE_ADDR: 185.206.224.213
-Date:   Fri, 20 Sep 2019 00:04:59 +0000
-From:   Charlesgep <linux-hams@vger.kernel.org>
-Message-ID: <6cafe61e4be9c1ef75b8666a2675695a@www.fairiesandmonkeys.com.au>
-X-Mailer: PHPMailer 5.2.22 (https://github.com/PHPMailer/PHPMailer)
+        id S1725770AbfI1FlP (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 28 Sep 2019 01:41:15 -0400
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:35993 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725283AbfI1FlP (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 28 Sep 2019 01:41:15 -0400
+Received: by mail-vs1-f67.google.com with SMTP id v19so3342676vsv.3
+        for <linux-hams@vger.kernel.org>; Fri, 27 Sep 2019 22:41:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=nXdc/fKhFZlnRKbvmhwFc0LUIdrs0p1lekkxMWj0VRU=;
+        b=C/rvo9139eG8XeXpsO5251TO9Pp+ilDykAmRSPly/TCNRlm5x+zMWFgIyVm2kPA67W
+         fvrKCDV0vJv1NZFbZuDjfjXYpkvxh/Umfniy0VFZXevBv8iZ6i8I5F8DlAG5aL21KQhI
+         YNk9q8l6JrN/CJr3p6pg4lNLqs3EfstbWwdR5ueaYHRYFqIbmcc9Zx1aY1Csx6NI0aMV
+         nTIOmbxNHwIhRDAxLLtBixZ+LBw4WkimBXuYDuNHuDaw6VFyG48sXHrnmBiIzwco9yHd
+         rm/BzMJK2Dfi0L4/kr8NEpDKlBK3n5fQE7oZVrNjW80YrIfj4VBWfCEvkQQO3fjVgomy
+         twYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:content-transfer-encoding;
+        bh=nXdc/fKhFZlnRKbvmhwFc0LUIdrs0p1lekkxMWj0VRU=;
+        b=LYAtzH/3KIZhsYl5pmePyq7ap4fNtPAooTSq5W7BIk80mJu4IyptcFJaYI5EYTHz7S
+         yT4XzRonyIVqTTICIKDJLH9DFYy2cz9CisKe8ExSA+a2OYrNuPhAQCdYTd/XuG/yC9/I
+         tgLYRs2oIHcIAeicLKXryhxuKifq44IWnA5/iBG42YQ5ttKmtyYa0moz4Ittcd8oLnLg
+         ClXHaLRcTh8ICnGg2xcSlk2MTEYx0xdHJYoga8Zpt48u9Ltd1AeN2cjNXl7toHxOytSC
+         uyvRCMHtEnFETxBzfIU+Y2crcQVo+qRd9E/xRcqxPzhWiJzpZPyHQWPlRoQsxeFJE+ln
+         JdPw==
+X-Gm-Message-State: APjAAAVvQIXvGPoAHCrsP96AuJM08re6qQaouWxlQk+448CRcIu3i3fI
+        /768pWkOc1S5m2OPdYoh9wbdIJMlbuDu6uCMSoE=
+X-Google-Smtp-Source: APXvYqxbreWAvw08A+7l8VsO7OhxYkZAYhy5xNTyS0ahi9/q9fgMLgQV/fCYoAjT940+RgiF05QHHeRcdE29qY9+hVY=
+X-Received: by 2002:a67:fd63:: with SMTP id h3mr4158368vsa.102.1569649273209;
+ Fri, 27 Sep 2019 22:41:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Originating-User: foodbyte
-X-Originating-IP: 101.0.119.195
-X-SpamExperts-Domain: digipac-sh-outbound5.mailcluster.com.au
-X-SpamExperts-Username: 101.0.119.195
-Authentication-Results: mailcluster.com.au; auth=pass smtp.auth=101.0.119.195@digipac-sh-outbound5.mailcluster.com.au
-X-SpamExperts-Outgoing-Class: unsure
-X-SpamExperts-Outgoing-Evidence: Combined (0.65)
-X-Recommended-Action: accept
-X-Filter-ID: Mvzo4OR0dZXEDF/gcnlw0dWQ8c9lblW44odAlK6ziUapSDasLI4SayDByyq9LIhVXAXzp9HTs+BR
- acYW2uK+s0TNWdUk1Ol2OGx3IfrIJKywOmJyM1qr8uRnWBrbSAGDmJak+fhINPt8Lbw0Dj/+nrsr
- 2GHY/oPc/Sj6e6fjMOPgo34CxMJsfFVRRl+N7XQz2qVZkpB3gU06rgwmcZDeXUMC83EcGqebH9oT
- x2HeTuL2EV0CftD1cIPD82Szm7FBT0faNNeCAjrPaSFl/DrSyQgpF/XYTAfhXPXkYNtuSltXIbz9
- wLab5ahqxDMTXrhawt1b1HY0grMIpCv5YnH1/iQ647MWR4ctQMzD1CymYeAIKnW/yY23VWX23PXP
- icabfueIslAnPGmpJ2YaPZ2iWING6JTOwf6wRbpdMnI2BxuF9Tw8dMRM0p4mZkHM69Dm88MMN36b
- lxZWb5gfI5gpsQSmOkn8qUj301T6l8aKLkjXJbH/eREZ32uf97rVbut3BoCKrJ44DyMbfkCW+Top
- C8lhhl7P+Le0LKMoqwWJA/oRyb8Cm2IArdB6vQ11MirfYvAd8idIHjZjP5ygeuS8jmDmnroh/8hH
- WR/Etfk4HCQTo4dLz8XEDoyijq2CEGKcGplHcpVCCoX989hgB8R+yCAoOToVGHU3EenTFCA16CjS
- 82lno1ciol8VncZvb6Ht8haMF8xkXYXFE79HLrqg2c+IHFAXoHFe72SWiIhKNkhjK35s5lnxte+D
- ymjJStjOgL6xZ7JaPMSt1qaG6+ZDIREVniihuDwEGDcmr6e3OPScL8Z8L/4z5DdO6N1YsMxmT4x3
- +CwCvNAvbHJykIMK8dlyk+AQkotsPJoL8t0u+9imu6hDsX9egCvT53g649re+lUH2/3NjSHxqwRi
- ZsYawrxiYqN/uT3y6K5oTs84XjI7itdeSzPCvHOn5NeyFieTVR00nw6TDN0y4o3k8u536rUBZRuK
- EVOL+q9EayDYyjaBs0Gyi91g3Z1m1x38y3futlGAt5x3fhdG0sXkZmStmAr1+dBaj5zo8cd8rDZd
- dTKoj8G88YkqhXoOMQnly5dO3RnUzjSLdi+Hs1kZnXBUro5IZwQ9AfURQmUJ5jCNQZQBXoXqfdxZ
- 6Xsc9abISq4C9d+5vHN31Kj5HZW+Ontb0w==
-X-Report-Abuse-To: spam@vmse01.mailcluster.com.au
+Received: by 2002:ab0:5e8:0:0:0:0:0 with HTTP; Fri, 27 Sep 2019 22:41:12 -0700 (PDT)
+From:   Estelle Herve <estelleherve03@gmail.com>
+Date:   Sat, 28 Sep 2019 00:41:12 -0500
+X-Google-Sender-Auth: QKkHu6dj900KER82TxL5m13jgO4
+Message-ID: <CA+npw4sNmwdtW2X31DYhbSLxP7hu3nZQp99nWnKDtH7EHPhrJg@mail.gmail.com>
+Subject: Attn:Urgent response needed....
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hi Charlesgep ,
+Good day Dear favoured one,
 
-Thanks for contact us we will contact to  you very soon.
---
-This e-mail was sent from a contact form on  (http://www.fairiesandmonkeys.com.au)
+Calvary Greetings in the name of the LORD Almighty and Our LORD JESUS
+CHRIST the giver of every good thing. Good day, i know this letter
+will definitely come to you as a huge
+surprise, but I implore you to take the time to go through it
+carefully as the decision you make will go off a long way to determine
+my future and continued existence. I am Mrs. Estelle Herve aging widow
+of 63 years old suffering from long time illness Cancer. I have some
+funds I inherited from my late husband, The sum of (US$8.5 Million
+Dollars) and I needed a very honest and God fearing who can withdraw
+this money then use the funds for Charity works. I WISH TO GIVE THIS
+FUNDS TO YOU FOR CHARITY WORKS.I found your contact through social
+network after honest prayers to the LORD to bring me a helper and i
+decided to contact you if you may be willing and interested to handle
+these trust funds in good faith before anything happens to me.
 
+I accept this decision because I do not have any child who will
+inherit this money after I die. I want your urgent reply to me so that
+I will give you the deposit receipt which
+the BANK issued to me as next of kin for immediate transfer of the
+money to your account in your country, to start the good work of God,
+I want you to use the 40/percent of the total amount to help yourself
+in doing the project.
+
+I am desperately in keen need of assistance and I have summoned up
+courage to contact you for this task, you must not fail me and the
+millions of the poor people in our today=E2=80=99s
+WORLD. This is not stolen money and there are no dangers involved,100%
+RISK FREE with full legal proof. Please if you would be able to use
+the funds for the Charity works kindly let me know immediately. I will
+appreciate your utmost confidentiality and trust in this matter to
+accomplish my heart desire, as I don't want anything that will
+jeopardize my last wish. I want you to take 40 percent of the total
+money for your personal use while 60% of the money will go to charity.
+I will appreciate your utmost confidentiality and trust in this
+matter to accomplish my heart desire, as I don't want anything that
+will jeopardize my last wish as i said before please.
+
+Finally, i will give you more details about the project as soon as I
+receive your reply in my private email (estelleherve03@gmail.com) to
+handle this project because I do not want to state all here until I
+see your reply, desire and commitment to handle this project.
+
+
+Thanks and God bless you
+Mrs Estelle Herve
