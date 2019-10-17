@@ -2,29 +2,30 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25E18D54FA
-	for <lists+linux-hams@lfdr.de>; Sun, 13 Oct 2019 09:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2E4ADBEDA
+	for <lists+linux-hams@lfdr.de>; Fri, 18 Oct 2019 09:52:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728681AbfJMHgC (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 13 Oct 2019 03:36:02 -0400
-Received: from [206.81.8.171] ([206.81.8.171]:56546 "EHLO varon.localdomain"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728198AbfJMHgB (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Sun, 13 Oct 2019 03:36:01 -0400
-Received: from 127.0.0.1 (varon [127.0.0.1])
-        by varon.localdomain (Postfix) with SMTP id 290C355D635;
-        Fri, 11 Oct 2019 10:21:17 +0000 (UTC)
-Received: from (HELO 1iqb) [176.71.184.19] by 127.0.0.1 for <linhao63@jlonline.com>; Fri, 11 Oct 2019 03:19:21 -0700
-Message-ID: <4-806$5o5$$r$as6q109r731c@hkg.so2qo8>
-From:   "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
-Reply-To: "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
-To:     linhao63@jlonline.com
-Subject: RE:PERSONAL LETTER FROM MRS RASHIA AMIRA ??
-Date:   Fri, 11 Oct 19 03:19:21 GMT
-X-Mailer: Microsoft Outlook IMO, Build 9.0.2416 (9.0.2910.0)
+        id S2504889AbfJRHwV (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 18 Oct 2019 03:52:21 -0400
+Received: from zaovasilisa.ru ([88.200.194.99]:46823 "EHLO usrv.lan"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2504820AbfJRHwP (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Fri, 18 Oct 2019 03:52:15 -0400
+X-Greylist: delayed 39671 seconds by postgrey-1.27 at vger.kernel.org; Fri, 18 Oct 2019 03:51:51 EDT
+Received: from 127.0.0.1 (localhost [127.0.0.1])
+        by usrv.lan (Postfix) with SMTP id CC3F818647F;
+        Thu, 17 Oct 2019 17:04:03 +0400 (MSD)
+Received: from [72.215.151.127] by 127.0.0.1 with ESMTP id 72A686FDC7F; Thu, 17 Oct 2019 18:59:02 +0600
+Message-ID: <735ui-$$-55e3--c$i$-l0-18w85$-6@8d6h1006syk>
+From:   "Mr Ekrem Bayraktar" <dave@dbsoundfactory.com>
+Reply-To: "Mr Ekrem Bayraktar" <dave@dbsoundfactory.com>
+To:     links@q.vu
+Subject: MOTHERLESS CHILDREN IN YOUR CITY !!
+Date:   Thu, 17 Oct 19 18:59:02 GMT
+X-Mailer: AOL 7.0 for Windows US sub 118
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-        boundary="C.F387.BA..3D"
+        boundary="EFA7_FB09FAD2"
 X-Priority: 3
 X-MSMail-Priority: Normal
 Sender: linux-hams-owner@vger.kernel.org
@@ -33,30 +34,42 @@ List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
 
---C.F387.BA..3D
+--EFA7_FB09FAD2
 Content-Type: text/plain;
 Content-Transfer-Encoding: quoted-printable
 
-Greetings
-
-My name is Barrister Hans Erich.
-
-I have a client who is interested to invest in your country, she is a well=
- known politician in her country and deserve a lucrative investment partne=
-rship with you outside her country without any delay   Please can you mana=
-ge such investment please Kindly reply for further details.
-
-Your full nameS -----------
+Dear Sir / Madam
 
 
-Your urgent response will be appreciated
 
-Thank you and God bless you.
+Since ever we left your country back to Canada , we have gotten Government=
+ approval and we have been busying planning for the less privilege Childre=
+n projects.
 
-Barrister Hans Erich
+We are planning to release first batch of the funds $2,990,000.00 within 1=
+4 days for building an estate for motherless children in your city.
 
-Yours sincerely,
-Barrister Hans Erich
+I want you to use my mother;s company name to register this charity projec=
+t in your country after receiving the project funds.
 
---C.F387.BA..3D--
+It must be registered as { Bayraktar Group Homeless Children Ltd }.
+
+
+Can you handle and supervise this big project ?
+Can you manager all the workers as a senior supervisor ?
+We want to be sure you can handle it before we proceed with this project.
+
+
+Please call me if you want to hear from us + 1-917 580 4919.
+Please can you manage such project please Kindly reply for further details=
+.
+
+Your full names-----------
+
+
+
+Ekrem Bayraktar.
+Bayraktar Shipping Group
+
+--EFA7_FB09FAD2--
 
