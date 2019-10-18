@@ -2,25 +2,29 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7FA8DD597
-	for <lists+linux-hams@lfdr.de>; Sat, 19 Oct 2019 01:45:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F897DE1D9
+	for <lists+linux-hams@lfdr.de>; Mon, 21 Oct 2019 03:56:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727832AbfJRXpT (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 18 Oct 2019 19:45:19 -0400
-Received: from [221.146.236.9] ([221.146.236.9]:37775 "EHLO theworld.email"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726986AbfJRXpT (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Fri, 18 Oct 2019 19:45:19 -0400
-Received: from (HELO abwi) [145.80.214.33] by Shop01 with SMTP for <qmtisrtp@guessgen.de>; Thu, 17 Oct 2019 11:27:16 -0500
-Message-ID: <8d0z7mdo9k-2@ol18.u.hr823q>
+        id S1726767AbfJUB42 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sun, 20 Oct 2019 21:56:28 -0400
+Received: from [185.116.42.18] ([185.116.42.18]:18173 "EHLO swnlsrv_1"
+        rhost-flags-FAIL-FAIL-FAIL-FAIL) by vger.kernel.org with ESMTP
+        id S1726764AbfJUB41 (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Sun, 20 Oct 2019 21:56:27 -0400
+Received: from 127.0.0.1 (localhost [127.0.0.1])
+        by swnlsrv_1 (Postfix) with SMTP id BC6EACA8F2D;
+        Sat, 19 Oct 2019 02:48:14 +0200 (CEST)
+Received: from [87.190.246.119] by 127.0.0.1 SMTP id c20H9HcPD8qjfj; Fri, 18 Oct 2019 22:43:23 -0200
+Message-ID: <n6-f1z141soz$34@3bj58v5e.0.11>
 From:   "Mr Barrister Hans Erich" <Barrister_Hans@stationlibraryjhelum.com>
 Reply-To: "Mr Barrister Hans Erich" <Barrister_Hans@stationlibraryjhelum.com>
-To:     qmtisrtp@guessgen.de
+To:     david@3s-solar.com
 Subject: RE:PERSONAL LETTER FROM MRS RASHIA AMIRA
-Date:   Thu, 17 Oct 19 11:27:16 GMT
+Date:   Fri, 18 Oct 19 22:43:23 GMT
+X-Mailer: Microsoft Outlook Express 5.00.2615.200
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-        boundary="..9C8_3.2.DBC4"
+        boundary="B_.E91C3.4B_B_92_"
 X-Priority: 3
 X-MSMail-Priority: Normal
 Sender: linux-hams-owner@vger.kernel.org
@@ -29,7 +33,7 @@ List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
 
---..9C8_3.2.DBC4
+--B_.E91C3.4B_B_92_
 Content-Type: text/plain;
 Content-Transfer-Encoding: quoted-printable
 
@@ -54,5 +58,5 @@ Barrister Hans Erich
 Yours sincerely,
 Barrister Hans Erich
 
---..9C8_3.2.DBC4--
+--B_.E91C3.4B_B_92_--
 
