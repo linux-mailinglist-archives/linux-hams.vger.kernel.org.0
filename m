@@ -2,42 +2,29 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E6D0F3227
-	for <lists+linux-hams@lfdr.de>; Thu,  7 Nov 2019 16:09:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84D86F40BD
+	for <lists+linux-hams@lfdr.de>; Fri,  8 Nov 2019 07:47:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729889AbfKGPJ0 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 7 Nov 2019 10:09:26 -0500
-Received: from [211.53.128.215] ([211.53.128.215]:49660 "EHLO MAIL.isd.co.kr"
+        id S1725730AbfKHGrk (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 8 Nov 2019 01:47:40 -0500
+Received: from [167.71.13.249] ([167.71.13.249]:45434 "EHLO TEST.localdomain"
         rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729724AbfKGPJZ (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Thu, 7 Nov 2019 10:09:25 -0500
-Received: from 192.168.1.3 (217.217.179.17) by MAIL.isd.co.kr (10.10.10.22)
- with Microsoft SMTP Server id 14.3.123.3; Fri, 8 Nov 2019 00:08:15 +0900
-Date:   Thu, 7 Nov 2019 16:08:14 +0100
-From:   Peter Wong <choimj@isd.co.kr>
-Reply-To: Peter Wong <pw178483@protonmail.com>
-To:     <linux-hams@vger.kernel.org>
-Message-ID: <29820071.22535.1573139296110.JavaMail.cash@211.53.128.215>
-Subject: Investment opportunity
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [217.217.179.17]
+        id S1725372AbfKHGrk (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Fri, 8 Nov 2019 01:47:40 -0500
+X-Greylist: delayed 45054 seconds by postgrey-1.27 at vger.kernel.org; Fri, 08 Nov 2019 01:47:40 EST
+Received: from localhost (TEST [127.0.0.1])
+        by TEST.localdomain (Postfix) with SMTP id C3F7A1891A8;
+        Thu,  7 Nov 2019 16:58:10 +0000 (UTC)
+From:   prodawez@teleworm.us
+To:     safonovaolga@inbox.ru
+Reply-To: prodawez@teleworm.us
+Subject: Zdravstvujte! Vas interesujut bazy dannyh dlja prodazhi Vashih tovarov i uslug?
+Message-Id: <20191107165810.C3F7A1891A8@TEST.localdomain>
+Date:   Thu,  7 Nov 2019 16:58:10 +0000 (UTC)
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Greetings,
-
-Find attached email very confidential. reply for more details
-
-Thanks.
-Peter Wong
-
-
-
-
-----------------------------------------------------
-This email was sent by the shareware version of Postman Professional.
+Zdravstvujte! Vas interesujut bazy dannyh dlja prodazhi Vashih tovarov i uslug?
 
