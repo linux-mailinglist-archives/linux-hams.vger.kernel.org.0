@@ -2,86 +2,86 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E323EFE1EC
-	for <lists+linux-hams@lfdr.de>; Fri, 15 Nov 2019 16:49:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DF84FE612
+	for <lists+linux-hams@lfdr.de>; Fri, 15 Nov 2019 20:55:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727696AbfKOPtv (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 15 Nov 2019 10:49:51 -0500
-Received: from mail-io1-f68.google.com ([209.85.166.68]:36221 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727590AbfKOPtp (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 15 Nov 2019 10:49:45 -0500
-Received: by mail-io1-f68.google.com with SMTP id s3so10930851ioe.3
-        for <linux-hams@vger.kernel.org>; Fri, 15 Nov 2019 07:49:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
-        b=T96mBsWswYjsm0w7ecYkWpV509ib/ulk9bHbI0Xwo0rzkePegh7rSfOcmzGbyf8vTc
-         lns/HOXyf4/6jOYDVIgZ/CZyIfN2m2y88qVdmXSABhNsP0MXDIRsHGSOOd7wWkwuGiQx
-         ehcoBpFXp6INIFq3jwmveina1L3fsWjpzHRhMvlhwo8OJ8Dy4xuFXwCrYZiL/Ja/dmiU
-         sEvBblBcC09ww5H/W1Li3rJXBc1TYjMn46kjeboNwYGUiqFeNnjz46iJxarBlBzUTpau
-         7EU4w1MkRxjhgPFrJ2/ipVqnuE4IawmENFYcW1JVUg9OFLrEKZvfb77T8+3XayPV4Zd+
-         KrHA==
+        id S1726704AbfKOTzC (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 15 Nov 2019 14:55:02 -0500
+Received: from mail-il1-f198.google.com ([209.85.166.198]:34690 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726755AbfKOTzC (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 15 Nov 2019 14:55:02 -0500
+Received: by mail-il1-f198.google.com with SMTP id m12so9832974ilq.1
+        for <linux-hams@vger.kernel.org>; Fri, 15 Nov 2019 11:55:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
-        b=rf7JEL1xVMmJW3Tex40Osq4YZCuVsVZSkMQ36cdaIaiomk1KalezFCK2Vrc75gnDUQ
-         T2v9qY0FD/IhG0dv2KyVxV1BDGI37baeNhXtcUW5K1jX7CKOgylhB+YFo/pJV0PlqxA9
-         dbDIrh9uX3rC4VcWnM8HaG6YMe5EAK8xT8GAVeMC3M1tEPVNXzHdwoYoOx4TKOaG5ye9
-         G7cicPUoYXyXFAAkzDNb0bDGzCFBvXjM6YQDLcjA5AFZ/xGfn7TZGMHl1skTJ1dbikJW
-         i7KdAg9a8A7QcrBHbDBkAgAucZeaX/Te2S5AZDDXuBAYMnhD0RbhMinN+SlRknGmDmiu
-         6YXA==
-X-Gm-Message-State: APjAAAVxq6EG2Yl2zcAp7n+qUcgkdZ/U94lRlrG82VvFkeCNjHVxNmRn
-        0FDU0hc/f7TGUbtbC9VS7j2ScM/DP6PmZto34A==
-X-Google-Smtp-Source: APXvYqxEj1beLI6zhjihT/lmX2Dk324PGcIr8veC5c+0F/PFQKT7AeNYgljOGh72OwNqCMMZvqGkvMbSAqCkDjgGkjg=
-X-Received: by 2002:a5e:8e02:: with SMTP id a2mr1343031ion.269.1573832982053;
- Fri, 15 Nov 2019 07:49:42 -0800 (PST)
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=U5n1EJvZkiPV6GmPCMijT0bUs78C96Uzo+x4t7ZUFTY=;
+        b=mwDaR4EFW1hlgBnmdl6sWyW4SVSJnr4ZCrCy+okzfi7FrYBtzsoM1oGheD63l8nK3r
+         Bon0pXK7WezopBVvWg0HzJDF96R3DHxQ5O/uX4LiVSTceVmui28TiZiyE7+OLCZk4vyk
+         xspGf46ELo+jaVB5aOcIh6X7hXmEm4eme+nEEQChlO+c33xEXvKuV+vhmGDsz0LBy9Qi
+         QhuE8ZK6rahzD7De6LM8jyVhNs2AvrCLH5gmFEUqswUd36wwqfSODhMWTMZ2tKuRajfl
+         0IZ+pcvXhy7LJI+PU0ysUJ5PrYa/+xOJJl3NyP5YWm90PlYHi9MrWy+nY8ujDUWFV1wd
+         pxUg==
+X-Gm-Message-State: APjAAAV5UCy/uou2rUQgD7DEYaT0lSH0JJepMM+2MuBfLmT/0yOhCUJ3
+        8XfVa7BrgaXexEc/aZeXV+oz4JEwH0RLibzC02mX+wIyVf7Y
+X-Google-Smtp-Source: APXvYqxIGmxq4iqQA3DbtD/X1J4Jz5IYKL9pXLRzICSI/jIAIToGkzSJvfrosilkvOBlbcbr72OpVhz6cPCg1PZfxcNzZX7u8n7q
 MIME-Version: 1.0
-Received: by 2002:a02:7749:0:0:0:0:0 with HTTP; Fri, 15 Nov 2019 07:49:41
- -0800 (PST)
-Reply-To: moneygram.1820@outlook.fr
-From:   "Ms.Mary Coster" <info.zennitbankplcnigerian@gmail.com>
-Date:   Fri, 15 Nov 2019 16:49:41 +0100
-Message-ID: <CABHzvrkUQbbmg0Gr7foD3OjAJiY7Fd37=SW3mU=fnOPOcOyNdQ@mail.gmail.com>
-Subject: Goodnews, I have deposited your transfer total amount US$4.8million
- Dollars with Money Gram this morning. we agreed you will be receiving it
- $5000.00 daily.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+X-Received: by 2002:a02:a09:: with SMTP id 9mr2409414jaw.84.1573847701206;
+ Fri, 15 Nov 2019 11:55:01 -0800 (PST)
+Date:   Fri, 15 Nov 2019 11:55:01 -0800
+In-Reply-To: <000000000000ec7273058b877e1f@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000029432d059767f930@google.com>
+Subject: Re: BUG: MAX_LOCKDEP_ENTRIES too low!
+From:   syzbot <syzbot+cd0ec5211ac07c18c049@syzkaller.appspotmail.com>
+To:     a@unstable.cc, alex.aring@gmail.com, allison@lohutok.net,
+        andrew@lunn.ch, andy@greyhouse.net, ap420073@gmail.com,
+        ast@domdv.de, b.a.t.m.a.n@lists.open-mesh.org,
+        bridge@lists.linux-foundation.org, cleech@redhat.com,
+        daniel@iogearbox.net, davem@davemloft.net, dev@openvswitch.org,
+        dsa@cumulusnetworks.com, edumazet@google.com, f.fainelli@gmail.com,
+        fw@strlen.de, gbastien@versatic.net, gregkh@linuxfoundation.org,
+        gustavo@embeddedor.com, haiyangz@microsoft.com,
+        idosch@mellanox.com, info@metux.net, j.vosburgh@gmail.com, j@w1.fi,
+        jack@suse.com, jack@suse.cz, jakub.kicinski@netronome.com,
+        jhs@mojatatu.com, jiri@mellanox.com, jiri@resnulli.us,
+        johan.hedberg@gmail.com, johannes.berg@intel.com,
+        john.hurley@netronome.com, jwi@linux.ibm.com,
+        kstewart@linuxfoundation.org, kvalo@codeaurora.org,
+        kys@microsoft.com, linmiaohe@huawei.com,
+        linux-bluetooth@vger.kernel.org, linux-hams@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ppp@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-wpan@vger.kernel.org, liuhangbin@gmail.com,
+        marcel@holtmann.org, mareklindner@neomailbox.ch, mcroce@redhat.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Attn, Dear
-Goodnews, I have deposited your transfer total amount US$4.8million
-Dollars with Money Gram this morning. we agreed you will be receiving
-it $5000.00 daily.
-Contact Mr. John Dave Director, Money Gram to pick up your first Money
-Gram payment $5000.00 today.
-Contact Person; Mr. John Dave Director, Money Gram,International
-Remittance-Benin
-Email; moneygram.1820@outlook.fr
-Telephone; +229 62619517
-Please re-confirm your address to him once again such as listed below.
-1.Your Full Name..............................
-2.Address.........................
-3.Country....................
-4.Sex.........................................
-5.Your telephone numbers..........................
-6. Copy of your ID...........................
-This is to avoid sending your funds to wrong person, He is waiting to
-hear from you urgent today.
-Let me know once you pick up your transfer $5000.00 today.
-Finally, Note I have paid for the service fees, but only money will
-send to him is $90.00 transfer fee before you can pick up the transfer
-today.
-Ask, Mr. John Dave Director, Money Gram to give you direction where to
-send your transfer fee $90.00 only to Him Immediately so that you can
-pick up $5000.00 us dollars today.
-Thanks for undrstanding.
-Mary Coster
-m.coster@aol.com
+syzbot has bisected this bug to:
+
+commit ab92d68fc22f9afab480153bd82a20f6e2533769
+Author: Taehee Yoo <ap420073@gmail.com>
+Date:   Mon Oct 21 18:47:51 2019 +0000
+
+     net: core: add generic lockdep keys
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1126f5c2e00000
+start commit:   0e3f1ad8 Remove VirtualBox guest shared folders filesystem
+git tree:       upstream
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=1326f5c2e00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1526f5c2e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1aab6d4187ddf667
+dashboard link: https://syzkaller.appspot.com/bug?extid=cd0ec5211ac07c18c049
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1171546ae00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=133ed206e00000
+
+Reported-by: syzbot+cd0ec5211ac07c18c049@syzkaller.appspotmail.com
+Fixes: ab92d68fc22f ("net: core: add generic lockdep keys")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
