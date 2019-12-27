@@ -2,27 +2,27 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 865BA12B982
-	for <lists+linux-hams@lfdr.de>; Fri, 27 Dec 2019 19:06:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6955012BA6A
+	for <lists+linux-hams@lfdr.de>; Fri, 27 Dec 2019 19:18:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728135AbfL0SFf (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 27 Dec 2019 13:05:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60100 "EHLO mail.kernel.org"
+        id S1727577AbfL0SSq (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 27 Dec 2019 13:18:46 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39572 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728018AbfL0SDB (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Fri, 27 Dec 2019 13:03:01 -0500
+        id S1727621AbfL0SPB (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Fri, 27 Dec 2019 13:15:01 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7C33C206F4;
-        Fri, 27 Dec 2019 18:02:59 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5A639208C4;
+        Fri, 27 Dec 2019 18:14:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577469780;
-        bh=V+y1RXXTCBSytwzMwDDRRaLL7aZVwZ/Fabbl0Ftkn6Y=;
+        s=default; t=1577470500;
+        bh=sY+PAO6PQXF97m0j8972Icrm+RH32I6EwgEHPlBEW98=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=I/s0aFg1pj5zQAxMNQjz24o+/NqRhU5nw/tdkvOz4jFcuq7ISOk2lFIvlQ8F4V9Jd
-         mzC69Hw62mm6wHJ7aygtv/iTEDr722ZND8qJlJkBkJRHb3LlPD7Q5sVx65qZmMfwTn
-         pcWGi3pZ+OFk8t+b07gvzwPCcNnfmAesWalvSzxc=
+        b=I8evDIroG0UzVGF/eFLP1jkPAtVT3I/j94xNVT/DCpbehqip7Bl5D2+1vYbes+u84
+         5aYql650UPoFVPaNbU7+ylFY7Rft8exxGtjIVY3dZ4rA6SvTxElMR/Se040hgHKMoJ
+         7xWsGjWY5y5o7kmyGd09odHcT1kzlQSCAhTk/7kA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Eric Dumazet <edumazet@google.com>,
@@ -31,12 +31,12 @@ Cc:     Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <jakub.kicinski@netronome.com>,
         Sasha Levin <sashal@kernel.org>, linux-hams@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 30/57] 6pack,mkiss: fix possible deadlock
-Date:   Fri, 27 Dec 2019 13:01:55 -0500
-Message-Id: <20191227180222.7076-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 19/38] 6pack,mkiss: fix possible deadlock
+Date:   Fri, 27 Dec 2019 13:14:16 -0500
+Message-Id: <20191227181435.7644-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191227180222.7076-1-sashal@kernel.org>
-References: <20191227180222.7076-1-sashal@kernel.org>
+In-Reply-To: <20191227181435.7644-1-sashal@kernel.org>
+References: <20191227181435.7644-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -189,7 +189,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
-index 021a8ec411ab..6d4742d10a78 100644
+index 470b3dcd54e5..03c96a6cbafd 100644
 --- a/drivers/net/hamradio/6pack.c
 +++ b/drivers/net/hamradio/6pack.c
 @@ -665,10 +665,10 @@ static void sixpack_close(struct tty_struct *tty)
@@ -206,7 +206,7 @@ index 021a8ec411ab..6d4742d10a78 100644
  		return;
  
 diff --git a/drivers/net/hamradio/mkiss.c b/drivers/net/hamradio/mkiss.c
-index aec6c26563cf..9fd7dab42a53 100644
+index e0a6b1a0ca88..088fe5d34f50 100644
 --- a/drivers/net/hamradio/mkiss.c
 +++ b/drivers/net/hamradio/mkiss.c
 @@ -783,10 +783,10 @@ static void mkiss_close(struct tty_struct *tty)
