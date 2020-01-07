@@ -2,80 +2,78 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B2EA0132B20
-	for <lists+linux-hams@lfdr.de>; Tue,  7 Jan 2020 17:32:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2C37133009
+	for <lists+linux-hams@lfdr.de>; Tue,  7 Jan 2020 20:56:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728348AbgAGQcc (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 7 Jan 2020 11:32:32 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:52294 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728173AbgAGQcc (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 7 Jan 2020 11:32:32 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 007GTOjE080833;
-        Tue, 7 Jan 2020 16:32:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=N9upsMAlLmvUTlzkavWx89kJXD4D8Kh3lf2UkOHuARQ=;
- b=jghIoYUKa4Tcd1/4KIHmlyRe4FKxZri6W8Bw5FCHWW2VAFwfpDlhHZ7tYfmxGmemKirS
- Jg7bo8ytoScK//fvs+27q1bV9xb9LVZxzPC1uTceWZuZj2dwavs/RMXyCGqTPpj6HWhL
- ORvN9Pl19WqGkgkcoxvbH8F5hN1WaZme6gKQTDSUIiOWXefzjhlwsAHLyKnm63r0mDIB
- RvYY5Pt5vpoMiGNe5B01P3YZBrlOdVhx3+YrW6iA5OmoAK5GjLnF3q9oXUJqmocBJF4N
- 4mI8+FxdDdGdd15C5MNIFg7MiYRSoaPFePyos0nYtdIrZVK2VcrFRYT0SrQIL/auKxFH Xw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 2xajnpxncb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 07 Jan 2020 16:32:18 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 007GTYRF081834;
-        Tue, 7 Jan 2020 16:32:17 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3030.oracle.com with ESMTP id 2xcjvdgt15-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 07 Jan 2020 16:32:17 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 007GWC8e031346;
-        Tue, 7 Jan 2020 16:32:15 GMT
-Received: from kadam (/129.205.23.165)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 07 Jan 2020 08:32:11 -0800
-Date:   Tue, 7 Jan 2020 19:32:02 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Colin King <colin.king@canonical.com>
-Cc:     Ralf Baechle <ralf@linux-mips.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net/rose: remove redundant assignment to variable failed
-Message-ID: <20200107163202.GD27042@kadam>
-References: <20200107152415.106353-1-colin.king@canonical.com>
- <20200107161827.GO3911@kadam>
+        id S1728566AbgAGT4j (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 7 Jan 2020 14:56:39 -0500
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:38209 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728634AbgAGT4i (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 7 Jan 2020 14:56:38 -0500
+Received: by mail-ed1-f65.google.com with SMTP id i16so626730edr.5
+        for <linux-hams@vger.kernel.org>; Tue, 07 Jan 2020 11:56:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=lUsTd9lJYwK928kai9reachpHe0HC9Hv8/gDLGwtaBI=;
+        b=m/Udengj3famfT4AeeQ1IRW+yMW7VasUnASahB37i/PoeHrkRBk2CGyFKYNukmjW7S
+         L8SRka5Jakx3oOkJPsG2IofN9vOqI+MJeZI3Q0YE0hhIfxJgla/Mvi4GlBIJ0+PXKJyR
+         fGhtIsUmeS9lphgKJPwASTV0Wis5x+akjvA6FztTMBR/K8fgi7sOjdtLa1OeTeeGw/oC
+         WuhGv+1qsxod0shrSr56iRhzuujf6ypC8mQV8JosjFfNeYtuq3xDGNFupimiXFOQL0SO
+         8SxYRsEAywqZcf7WmcQRmN/Qkf20W+/a6rRSJl252WjsQoa/SZxLvQ4mGRJVkfZ3ex9s
+         ABpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=lUsTd9lJYwK928kai9reachpHe0HC9Hv8/gDLGwtaBI=;
+        b=pXV0Elry0m9hhB3ofq9y7fHkzlYmW7NbZ+qRMsI8tDLPx/uzaAwK8lMapRzOBlsnft
+         B52un8f1m7YQK4FFifB1VAwsGUaJ65TTMyWmVrgWOSxpbvtdWbmDPIVqY90EL/WAzGzp
+         AuB3qJEPgyPP0Y971S5OVCoR5kEH5WxYxjkfNVldgnUPrpxa+XaFGE1JFofanuZpUSOg
+         L2LTQgP5BVdWT3PF3gaoW8w6+JpQZC/nkyz03dPJuPFi+JFL9TZHDwHag37hF3tXJvUp
+         GbWCWLX+A28cMEpR3iKqbWb6gxus9R3KhODhD4M2INUJACRuDDJXrxdk5f+rdos4OXcR
+         +CQg==
+X-Gm-Message-State: APjAAAXuhgTe69UQSJBNsCpAB29pznUUtL1EwNgiE4zySjMwwJ5Pbalg
+        zJuYY4AFZy1ahgVIxK+OYPZJ5BkrRKOSgUcVPIg=
+X-Google-Smtp-Source: APXvYqzNbcT08PcgNHBR6CjdjGMonF1aREtl3FixKkalZzLFfyP3YZsjOtPyVn2SjFoUiZ8TzNVIEuitC7fnDU0d3Kk=
+X-Received: by 2002:a17:907:20ef:: with SMTP id rh15mr1111482ejb.325.1578426995176;
+ Tue, 07 Jan 2020 11:56:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200107161827.GO3911@kadam>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9492 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=963
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001070135
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9492 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001070135
+Received: by 2002:a17:906:72c6:0:0:0:0 with HTTP; Tue, 7 Jan 2020 11:56:34
+ -0800 (PST)
+Reply-To: dhlexpresscouriercompany.nyusa@gmail.com
+From:   "Dr. William Johnson" <currency1000000@gmail.com>
+Date:   Tue, 7 Jan 2020 20:56:34 +0100
+Message-ID: <CAPqfnSEyU1pBR_7HT2g1KK7i8caLMBQ8yPA8KRDVm+MN-K_Z4w@mail.gmail.com>
+Subject: contact Dhl office New York to receive your Prepaid ATM Master Card
+ worth $15.8Million US DOLLARS now.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Never mind.  I misread what the code is doing.  Your patch is correct.
-My patch would have been harmless but made the code even more confusing.
-
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-regards,
-dan carpenter
+ATTN Dear Beneficiary.
+Goodnews
+I have Registered your Prepaid ATM Master Card
+worth $15.800,000.00 US DOLLARS with Courier company
+asigned to deliver it to you today.
+So contact Dhl office New York to receive your Prepaid ATM Master Card
+worth $15.8Million US DOLLARS now.
+Contact Person: Mrs. Mary Michael, Director, DHL Courier Company-NY USA. 10218
+Email. dhlexpresscouriercompany.nyusa@gmail.com
+Call the office +(202) 890-8752
+Rec-Confirmed your mailing address to the office as I listed below.
+Your Full Name--------------
+House Address-----------
+Your working Phone Number----------------
+ID copy-------------------------
+Sex-----------------------------
+Note,delivery fee to your address is only $25.00. send it to this
+company urgent on itunes card today so that DHL will deliver this
+Prepaid ATM Master Card to you today according to our finally
+agreement.
+Thanks for coperations,
+Dr. William Johnson
