@@ -2,72 +2,66 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F59C185E86
-	for <lists+linux-hams@lfdr.de>; Sun, 15 Mar 2020 17:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0D91185EF6
+	for <lists+linux-hams@lfdr.de>; Sun, 15 Mar 2020 19:28:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728880AbgCOQm7 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 15 Mar 2020 12:42:59 -0400
-Received: from mail-wm1-f45.google.com ([209.85.128.45]:38258 "EHLO
-        mail-wm1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728682AbgCOQm6 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 15 Mar 2020 12:42:58 -0400
-Received: by mail-wm1-f45.google.com with SMTP id t13so9069724wmi.3
-        for <linux-hams@vger.kernel.org>; Sun, 15 Mar 2020 09:42:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=P4lNRbBw/zOfneiN3cCzj1oIP1ruIuUL04TBx8txt44=;
-        b=CkTVUx2J+vF+tV6l8jt+fwCmN912r/BadHlY/2kORVkwK+EzKRKmcSaWN/AIl51TBR
-         7243OnIo1dCoCFCXZY/YSeQg3b+j5HSiIcVs56bIX1HsF8AeZq4ppXH7302eRyapvaIl
-         NUEifmy0bX3c05DSU5009T8T2dMLaOKUmqpO6U2J/PmYnZzsky7yBG6sw5A3VXEY32/g
-         EP6F4MRXLr6VBgBdS1bN4xVQrRKm7wc9M+NQR0v+37q1/NT416SJi9MyHnG7ln3C0FUA
-         fRFw8qnqYHkK/1E859REFPIJTrsbsXKQh90AMgOrUqUZN2cDrjauuAyUBpbEjVaIbgPS
-         JE4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=P4lNRbBw/zOfneiN3cCzj1oIP1ruIuUL04TBx8txt44=;
-        b=L+12szoxu0ZBrggk9+VsVrgufnJ39XmJ6BCcEwXUeI41LZF6jGTLrItPKJbjJMTNfs
-         XjSS9DjQMFHMUGFxwNGWqPxV1ZGyJ4SReqlwgx3c+jh424+l25uQNhXLzRLivkE8duHj
-         Rwb/aqKBlyCIUxUIz4WuoT2jMuNljXQgLHVWG9rGdJ86j5dC+mo0NLUqr4bbkzEVPKoS
-         sr/Yf9T6UxZHC5HoZ2G9emWUg/zg5MIblrH91Hb9XQ3Rmh8wrL/GW70KL3pxYZ1vGZlb
-         sVIbnUrimNpY0tcqfewJL1IvbF6oAI3EILHWEcYAQy5HbQAyf4V3Yo4RC0XKVW6EIsiM
-         wRww==
-X-Gm-Message-State: ANhLgQ0X5uOQwWBNJuOAZtvwrA8kaAbmvTFNyvSFYw+ezdWFOzNUHuL5
-        sGC1CaY4wQvd4z3Hfcvadb3wT3urrzgzXhy/kCWxdmDn438=
-X-Google-Smtp-Source: ADFU+vt26PvK7sN5sT45IGH0Pp6F6vUpQOy+f9f93PpU+0Ac6jjjTHHg9YvJN7B0ScR4ITT9iyrhFG0I4kj1e+neEEo=
-X-Received: by 2002:a7b:c62a:: with SMTP id p10mr20914527wmk.46.1584290576174;
- Sun, 15 Mar 2020 09:42:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAJ4MR4Z=DQQ=cZoKb=7vS+5nx0u9AhTxjeApsmKW2K2WRx-bhw@mail.gmail.com>
-In-Reply-To: <CAJ4MR4Z=DQQ=cZoKb=7vS+5nx0u9AhTxjeApsmKW2K2WRx-bhw@mail.gmail.com>
-From:   Ivan Savitsky <jcuken321@gmail.com>
-Date:   Sun, 15 Mar 2020 18:42:45 +0200
-Message-ID: <CAJ4MR4bWV4FyiyyUmRLVgn84fq_uTyJRchwHYx2=rmBzL1KhDQ@mail.gmail.com>
+        id S1728145AbgCOS2p convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hams@lfdr.de>); Sun, 15 Mar 2020 14:28:45 -0400
+Received: from trinity.trinnet.net ([96.78.144.185]:2264 "EHLO
+        trinity3.trinnet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727399AbgCOS2o (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sun, 15 Mar 2020 14:28:44 -0400
+X-Greylist: delayed 3542 seconds by postgrey-1.27 at vger.kernel.org; Sun, 15 Mar 2020 14:28:44 EDT
+Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
+        by trinity3.trinnet.net (TrinityOS/8.15.2) with ESMTP id 02FHTg8c031843
+        for <linux-hams@vger.kernel.org>; Sun, 15 Mar 2020 09:29:42 -0800
 Subject: Re: Quesion: AX.25 socket data corruption
 To:     linux-hams@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <CAJ4MR4Z=DQQ=cZoKb=7vS+5nx0u9AhTxjeApsmKW2K2WRx-bhw@mail.gmail.com>
+ <CAJ4MR4bWV4FyiyyUmRLVgn84fq_uTyJRchwHYx2=rmBzL1KhDQ@mail.gmail.com>
+From:   David Ranch <linux-hams@trinnet.net>
+Message-ID: <bcee9062-8e2c-5c64-112f-e8ce3c3e2129@trinnet.net>
+Date:   Sun, 15 Mar 2020 10:29:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAJ4MR4bWV4FyiyyUmRLVgn84fq_uTyJRchwHYx2=rmBzL1KhDQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Sun, 15 Mar 2020 09:29:42 -0800 (GMT+8)
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Now I ran out of ideas while debugging my proxy.c.
-It really looks like indeed there is a system buffer corruption during
-the write() into SOCK_SEQPACKET socket.
 
-Today I did what I had to do in the first place before anything else =E2=80=
-=94
-tried something that worked before for years.
-I log in into the remote system via AX.25 SVC  by using the 'call'
-utility and see if the in/out data is consistent.
-What I found: there is a data corruption there as well. I recorded a
-short video where hexdump output misalignment
-is shown. Here is the YouTube link if anyone interested:
-https://youtu.be/K4vhCXLK1b0
+Hello Ivan,
 
-With best regards,
-Ivan
+Thank you for posting this video and bug report at 
+https://github.com/ve7fet/linuxax25/issues/9#issuecomment-599236879 .  
+With this easier to reproduce scenario, maybe we can find a kernel 
+developer to help us debug and fix this issue.  Finding this resource to 
+fix this has been a serious challenge so far.
+
+--David
+KI6ZHD
+
+
+On 03/15/2020 09:42 AM, Ivan Savitsky wrote:
+> Now I ran out of ideas while debugging my proxy.c.
+> It really looks like indeed there is a system buffer corruption during
+> the write() into SOCK_SEQPACKET socket.
+>
+> Today I did what I had to do in the first place before anything else —
+> tried something that worked before for years.
+> I log in into the remote system via AX.25 SVC  by using the 'call'
+> utility and see if the in/out data is consistent.
+> What I found: there is a data corruption there as well. I recorded a
+> short video where hexdump output misalignment
+> is shown. Here is the YouTube link if anyone interested:
+> https://youtu.be/K4vhCXLK1b0
+>
+> With best regards,
+> Ivan
+
+
