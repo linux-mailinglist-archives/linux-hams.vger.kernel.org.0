@@ -2,142 +2,997 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C09F6185F8E
-	for <lists+linux-hams@lfdr.de>; Sun, 15 Mar 2020 20:22:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75090186661
+	for <lists+linux-hams@lfdr.de>; Mon, 16 Mar 2020 09:25:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728481AbgCOTWW (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 15 Mar 2020 15:22:22 -0400
-Received: from ecuador.junglevision.com ([50.79.209.146]:45038 "EHLO
-        ecuador.junglevision.junglevision.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728480AbgCOTWW (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>);
-        Sun, 15 Mar 2020 15:22:22 -0400
-X-Greylist: delayed 1439 seconds by postgrey-1.27 at vger.kernel.org; Sun, 15 Mar 2020 15:22:21 EDT
-Received: from [50.79.209.151] (chile.junglevision.com [50.79.209.151])
-        (authenticated bits=0)
-        by ecuador.junglevision.junglevision.com (8.15.2/8.15.2) with ESMTPSA id 02FIwLBl006836
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO)
-        for <linux-hams@vger.kernel.org>; Sun, 15 Mar 2020 14:58:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=junglevision.com;
-        s=default; t=1584298702;
-        bh=NOXX6AIZ44PER/OgfpZwjut45Mk3/lwkLgPo+MS1O+M=;
-        h=Subject:To:References:From:Date:In-Reply-To;
-        b=aQAESQnh7EH78ZT3fEBW5Fe9kctDCrS58Zln0JQF0nf/k/t9gQTvHjtOj2IyvkdLL
-         VDV+hZFhyECldPFsECJ80J6O0vKOUknXb7/qayp5b2JTc1dVjhhcPZW8YjvyYsBkf6
-         NQB25Ns+n8iPj78oLtMiTDVDQECLw369xacliJ5g=
+        id S1729961AbgCPIZn convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hams@lfdr.de>); Mon, 16 Mar 2020 04:25:43 -0400
+Received: from einhorn-mail.in-berlin.de ([217.197.80.20]:54033 "EHLO
+        einhorn-mail.in-berlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728302AbgCPIZm (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 16 Mar 2020 04:25:42 -0400
+X-Greylist: delayed 667 seconds by postgrey-1.27 at vger.kernel.org; Mon, 16 Mar 2020 04:25:37 EDT
+X-Envelope-From: thomas@x-berg.in-berlin.de
+Received: from x-berg.in-berlin.de (x-change.in-berlin.de [217.197.86.40])
+        by einhorn.in-berlin.de  with ESMTPS id 02G8EPwk025421
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 16 Mar 2020 09:14:25 +0100
+Received: from thomas by x-berg.in-berlin.de with local (Exim 4.84_2)
+        (envelope-from <thomas@x-berg.in-berlin.de>)
+        id 1jDkqZ-0000uo-5W; Mon, 16 Mar 2020 09:11:39 +0100
+Date:   Mon, 16 Mar 2020 09:11:39 +0100
+From:   Thomas Osterried <thomas@x-berg.in-berlin.de>
+To:     Cathryn Mataga <cathryn@junglevision.com>
+Cc:     linux-hams@vger.kernel.org
 Subject: Re: Quesion: AX.25 socket data corruption
-To:     linux-hams@vger.kernel.org
+Message-ID: <20200316081139.GA3322@x-berg.in-berlin.de>
 References: <CAJ4MR4aaQPvoX4=qzzUShkM+Xr5FUjb8nt047mT1khWvABoZLA@mail.gmail.com>
-From:   Cathryn Mataga <cathryn@junglevision.com>
-Message-ID: <8d229b1d-ee6c-23b5-fd61-c6f04a4974e4@junglevision.com>
-Date:   Sun, 15 Mar 2020 11:58:21 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ <8d229b1d-ee6c-23b5-fd61-c6f04a4974e4@junglevision.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJ4MR4aaQPvoX4=qzzUShkM+Xr5FUjb8nt047mT1khWvABoZLA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <8d229b1d-ee6c-23b5-fd61-c6f04a4974e4@junglevision.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Believe duplicated packets are expected (just due to how this stuff 
-works.)Â  but if the final stream was corrupted, that's something bad 
-going on.Â  Interesting, that two are 80 bytes and one is 160 bytes 
-long.Â  Is the bad data in the 80 byte one?
+Hello,
 
-Btw, your sample code is clear and easy to understand.
+unfortunately, the linux kernel ax25 stack has several bugs that need
+to be fixed. They came due to performance improvements in the past
+years.
 
-On 2/24/2020 5:11 AM, Ivan Savitsky wrote:
-> Hello,
->
-> I was asking this question on
-> https://github.com/ve7fet/linuxax25/issues but was directed to this
-> mailing list for further investigation. I apologise for possible
-> duplicates if you're reading the both discussions.
->
-> I'm writing a proxy between a AX.25 VC socket and a TCP socket.
-> It is needed for programmes like telnet to work directly over AX.25 VC.
-> This allows full screen visual remote terminal access without using IP
-> over AX.25.
->
-> On the server side I'm creating a listening AX.25 socket. After
-> accepting a AX.25 client, the TCP connection to the telnetd is
-> created.
->
-> On the client side a listening TCP socket is created. After accepting
-> a telnet connection to the TCP socket, the AX.25 VC is created.
->
-> The AX.25 link I am currently testing is created by ax25ipd over the
-> Ethernet LAN between two linux PCs which reside in the same room. I've
-> done a few tests over the real radio as well with same results.
->
-> The problem is that the data passing between the two sockets (VC and
-> TCP) is quite often became corrupted, duplicated or misplaced. In the
-> packet dump with axlisten command there are "REJ" frames from the
-> client side and duplicated "I" frames from the server side which are
-> corresponding to the corrupted output in the telnet session (LORA3-8
-> is a server and LORA4 is a client):
->
-> axip: fm LORA3-8 to LORA4 ctl I76^ pid=F0(Text) len 64 12:08:23
-> axip: fm LORA4 to LORA3-8 ctl REJ7v 12:08:23
-> axip: fm LORA3-8 to LORA4 ctl I77+ pid=F0(Text) len 80 12:08:23
-> axip: fm LORA4 to LORA3-8 ctl RR0- 12:08:23
-> axip: fm LORA3-8 to LORA4 ctl I77+ pid=F0(Text) len 160 12:08:23
-> axip: fm LORA4 to LORA3-8 ctl REJ0- 12:08:23
-> axip: fm LORA3-8 to LORA4 ctl I77^ pid=F0(Text) len 80 12:08:23
-> axip: fm LORA3-8 to LORA4 ctl I70+ pid=F0(Text) len 256 12:08:23
->
-> The data forwarding routine is straightforward:
->
-> /* Forward data between sockets */
-> void forward_data(int source_sock, int destination_sock, const char* name) {
->      ssize_t n;
->      fd_set read_fd;
->      char buffer[BUF_SIZE];
->
->      if (fcntl(source_sock, F_SETFL, O_NONBLOCK) < 0) {
->          perror("socket");
->          close(source_sock);
->          return;
->      }
->
->      int paclen = ax25_config_get_paclen(ax25_port);
->
->      while (1) {
->          FD_ZERO(&read_fd);
->          FD_SET(source_sock, &read_fd);
->          select(source_sock + 1, &read_fd, NULL, NULL, NULL);
->          if (FD_ISSET(source_sock, &read_fd)) {
->              n = read(source_sock, buffer, BUF_SIZE);
->          }
->          if (n <=0 ) break;
->
->          int offset = 0;
->
->          while (offset != n) {
->              int len = (n-offset > paclen) ? paclen : n-offset;
->              int ret = write(destination_sock, buffer+offset, len); //
-> send data to output socket
->              if (ret == -1) {
->                  printf("\n");
->                  if (errno == EWOULDBLOCK || errno == EAGAIN) {
->                      perror("write");
->                      usleep(100000);
->                      continue;
->                  }
->                  break;
->              }
->              offset += ret;
->          }
->      }
-> â€¦
->
-> The question is: whether it is possible to pass the data reliably in
-> such a manner between the VC and TCP sockets and, if so, what should
-> be done from my side to eliminate the data corruption?
->
-> Thanks,
-> Ivan
+I reported it to Ralf dl5rb <ralf@linux-mips.org> in Feb 2016 and
+to linux-hams@vger.kernel.org.
+
+Some lines were suppressed in transmission. Some are transmitted again,
+out of order, with another sequence number.
+It happens on data blocks; no swap of single characters.
+
+
+I'll append here what I've observed, for documentation. Since I wrote
+it in german, please pardon that I'm not translating it. I can, if
+you like.
+
+
+If you disable SMP (kernel boot option), things become a bit better.
+
+===
+
+
+Von: Thomas Osterried <thomas@x-berg.in-berlin.de>
+Betreff: kernel ax25: lost and out-of-order data
+Datum: 12. Februar 2016 um 19:12:12 MEZ
+An: linux-hams@vger.kernel.org
+Message-Id: <20160212181212.GD24276@x-berg.in-berlin.de>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+
+Hello,
+
+this is a bug report for the kernel ax25 outqueue:
+
+- some packets with different content are transmitted with the same AX.25 sequence-number.
+- some data is sent twice; we also observe out-of-order data
+
+I generated a file with testpatterns, which consists of a line number (aligned to 256 bytes) in the form "007811 deadbeefde...\n". The file size is 2MB.
+
+I downloaded the file via an AX.25 connection from db0fhn's linux to db0fhn's linux via db0fhn's xnet ( call -r -s dl9sau bpq1 db0fhn-9 db0fhn ).
+
+I traced the packets with listen -a and stored the trace (for being able to see what happened).
+
+The files differ (/tmp/testfile.raw is the original file,  /var/ax25/testfile.raw is the file downloaded with call):
+diff /tmp/testfile.raw /var/ax25/testfile.raw
+< 000699 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdea
+dbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbee
+fdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+...
+
+
+# grep 000699 /tmp/testfile.raw /var/ax25/testfile.raw
+/tmp/testfile.raw:000699 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdea
+dbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbee
+fdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+
+=> Line number 000699 was not received.
+
+
+
+listen -a shows the packets from linux to the xnet program:
+
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I50^ pid=F0(Text) len 256
+0000  000697 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I51^ pid=F0(Text) len 256
+0000  000698 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I51^ pid=F0(Text) len 256
+0000  000699 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I52^ pid=F0(Text) len 256
+0000  000700 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+..
+
+You see the different content (000698 und 00069) in the SAME AX.25 sequenze-Number (I51)?
+
+
+This came back from the xnet digi:
+
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN* ctl I46^ pid=F0(Text) len 256
+0000  000697 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN* ctl I47^ pid=F0(Text) len 256
+0000  000698 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN* ctl I40^ pid=F0(Text) len 256
+0000  000700 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN* ctl I41^ pid=F0(Text) len 256
+0000  000702 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+
+=> Packet 000699 is missing.
+
+xnet did not complain about the packets with the different data and same sequence number (and silently dropped the second packet).
+
+
+A verification if data corruption has happened (loss of characters):
+
+
+root@db0fhn:/home/thomas# grep ^0 /var/ax25/testfile.raw  | awk '{print $2}' |sort -u
+deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+root@db0fhn:/home/thomas# grep ^0 /tmp/testfile.raw  | awk '{print $2}' |sort -u
+deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+root@db0fhn:/home/thomas# 
+
+=> We do not have shortened lines or wrong characters.
+
+
+
+
+The losses of our user content lines occur blockwise:
+
+Looking for missing "lines" in the download (because it had the same sequence number than its predecessor):
+
+$ for i in $(grep ^0 /tmp/testfile.raw |awk '{print $1}'); do grep -q "^$i " /var/ax25/testfile.raw || echo $i ; done
+
+[When an error occurs, it mostly occurs more times again, and then becomes healthy again. I make it more readable by writing empty lines after a "block"]:
+
+000699
+000701
+000703
+000705
+
+001230
+001232
+001234
+001236
+001238
+001240
+001242
+
+001783
+001785
+
+002160
+002162
+002164
+002166
+002168
+002170
+002172
+
+002952
+002954
+002956
+002958
+002960
+002962
+002964
+
+003336
+003338
+003340
+003342
+003344
+003346
+
+003890
+003892
+003894
+003896
+
+004815
+004817
+004819
+004821
+004823
+004825
+004827
+
+005901
+005903
+005905
+005907
+005909
+005911
+
+006091
+006093
+006095
+006097
+006099
+006101
+006103
+
+
+The testfile ends with line number 007812.
+
+
+One thing is very obvious: after one affected packet, the next one is ok again. Most of the time, this repeats, up to 7 times.
+The largest blocks contain 7 lost lines, which means, that out of 14 packets every second packet was sent with the same sequence-number.
+
+
+
+We also had out-of-order-receiption. line numbers, where the previous packet had a higher line number than the current:
+
+
+$ LAST=0; for i in $(grep ^0 /var/ax25/testfile.raw |awk '{print $1}'); do if [ $LAST -gt $i ]; then echo $LAST $i ;fi ; LAST=$i  ; done|less
+000891 000862
+001789 001787
+001799 001787
+002179 002173
+002971 002965
+003909 003897
+$ 
+
+In the example of 001789 we look at the trace file of listen -a:
+
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I50^ pid=F0(Text) len 256 
+0000  001786 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+
+^ 001787 is missing
+v
+
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I51^ pid=F0(Text) len 256 
+0000  001788 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I52+ pid=F0(Text) len 256 
+0000  001789 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I53+ pid=F0(Text) len 256 
+0000  001787 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+
+^ here is 001787, which comes after 1789.
+v [be aware of the next packet for line 001790 has the same sequence-number as the previous-previous-packet]
+
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I52^ pid=F0(Text) len 256 
+0000  001790 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I53+ pid=F0(Text) len 256 
+0000  001791 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+
+
+Unfortunately, it's not enough. Line 001787 was received 2 times: shown here with context +/- one line:
+
+$ grep -B1 -A1 001787 /var/ax25/testfile.raw 
+001789 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+001787 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+001791 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+--
+001799 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+001787 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+001790 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+
+Furthermore, the second occurence is completely out of order ( 001799 , then 001787 a second time, then 001790 ).
+
+
+
+===========
+
+Consistency verify of my test environment: axspawn works ok:
+
+axspwan reads from pty of his child (login->shell->bget) and writes the output to the kernel
+
+strace -p 8312 -e write -s 2048 2> /tmp/axspawn-write-trace
+
+Original file:
+$ wc /tmp/testfile.raw 
+  7813   15626 2000128 /tmp/testfile.raw
+
+$ grep 'write(1, "0' /tmp/axspawn-write-trace |grep -v "= -1 EAGAIN (" |cut -d'"' -f2-|awk '{print $1}' |wc
+  7813    7813   54691
+
+=> every line of the file testfile.raw was written to the kernel.
+
+Every line is a direct successor of the previous line:
+$ p=-1; for i in $(grep 'write(1, "0' /tmp/axspawn-write-trace |grep -v "= -1 EAGAIN (" |cut -d'"' -f2-|awk '{print $1}'); do if [ $(echo $p +1 -$i |bc) != 0 ] ; then echo $i $p ;fi; p=$i ; done
+$ 
+
+76 times an -1 EAGAIN occured and the line was written again (because the kernel buffers were full) until it succeeded:
+$ grep 'write(1, "0' /tmp/axspawn-write-trace |grep  "= -1 EAGAIN ("|wc
+    76     760   24472
+$ 
+
+
+
+The testfile was generated with generate-testfile.c :
+
+#include <stdio.h>
+
+unsigned long datasize = 2*1000*1000L;
+
+char * payload="deadbeef";
+
+int main()
+{
+ unsigned long num = 0;
+
+ for (num = 0; (num *256) < datasize; num++) {
+   int i;
+   printf("%6.6ld ", num);
+   for (i = 0; i < 31; i++)
+     printf(payload);
+   printf("\n");
+ }
+}
+
+
+
+vy 73,
+	- Thomas  dl9sau
+
+
+===
+
+Betreff: packetloss in der kernel outqueue
+Datum: 12. Februar 2016 um 15:32:10 MEZ
+
+Hallo Ralf,
+
+ich postuliere einen packetloss in der kernel outqueue.
+
+Ich habe mir eine Datei mit Testpattern erzeugt, bestehend aus Pakenummer (aligned auf 256 bytes) in From "007811 deadbeefde...\n" und ist etwa 2MB gross.
+
+Ich lade ueber eine ax25-Verbindung von db0fhn's linux nach db0fhn's linux via db0fhn's xnet Daten herunter.
+Ich habe mit listen -a dem transfer zugeschaut und in ein file geschrieben.
+
+diff /tmp/testfile.raw /var/ax25/testfile.raw
+< 000699 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdea
+dbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbee
+fdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+
+# grep 000699 /tmp/testfile.raw /var/ax25/testfile.raw
+/tmp/testfile.raw:000699 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdea
+dbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbee
+fdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+
+=> die Zeile 000699 wurde nicht empfangen.
+
+
+listen -a zeigt hier die Pakete vom linux an den xnet:
+
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I50^ pid=F0(Text) len 256
+0000  000697 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I51^ pid=F0(Text) len 256
+0000  000698 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I51^ pid=F0(Text) len 256
+0000  000699 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I52^ pid=F0(Text) len 256
+0000  000700 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+
+Erkennst Du die unterschiedlichen Inhalte (000698 und 00069) bei GLEICHER sequenze-Number (I51)?
+
+
+Entsprechend kam vom xnet-Digi zurueck:
+
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN* ctl I46^ pid=F0(Text) len 256
+0000  000697 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN* ctl I47^ pid=F0(Text) len 256
+0000  000698 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN* ctl I40^ pid=F0(Text) len 256
+0000  000700 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN* ctl I41^ pid=F0(Text) len 256
+0000  000702 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+
+=> Paket 000699 fehlt.
+xnet hatte sich ueber das Paket mit unterschiedlichen Daten und falscher sequence-number nicht beschwert, das zweite dieser Pakete aber stillschweigend verworfen.
+
+
+
+Noch eine Prüfung auf data corruption (Verlust einzelner character):
+
+root@db0fhn:/home/thomas# grep ^0 /var/ax25/testfile.raw  | awk '{print $2}' |sort -u
+deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+root@db0fhn:/home/thomas# grep ^0 /tmp/testfile.raw  | awk '{print $2}' |sort -u
+deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+root@db0fhn:/home/thomas# 
+
+=> Wir finden keine verkürzte Zeile oder falsche Buchstaben.
+
+
+vy 73,
+	- Thomas  dl9sau
+
+
+===
+
+
+Betreff: Aw: packetloss in der kernel outqueue
+Datum: 12. Februar 2016 um 15:46:48 MEZ
+
+Nachtrag: das könnte noch interessant sein:
+
+Die Verluste tauchen wenn dann in Serie auf:
+
+Zeige Pakete die im Download fehlen:
+$ for i in $(grep ^0 /tmp/testfile.raw |awk '{print $1}'
+); do grep -q "^$i " /var/ax25/testfile.raw || echo $i ; done
+
+Ich mache das mal übersichtlicher indem ich Leerzeilen um die Blöcke stelle:
+
+000699
+000701
+000703
+000705
+
+001230
+001232
+001234
+001236
+001238
+001240
+001242
+
+001783
+001785
+
+002160
+002162
+002164
+002166
+002168
+002170
+002172
+
+002952
+002954
+002956
+002958
+002960
+002962
+002964
+
+003336
+003338
+003340
+003342
+003344
+003346
+
+003890
+003892
+003894
+003896
+
+004815
+004817
+004819
+004821
+004823
+004825
+004827
+
+005901
+005903
+005905
+005907
+005909
+005911
+
+006091
+006093
+006095
+006097
+006099
+006101
+006103
+
+
+Das Testfile geht bis Nummer 007812.
+
+
+Sehr auffällig ist das Muster: es ist immer genau 1 Paket betroffen und das nächste ist wieder ok. In der Regel ist dann aber wieder das übernächste betroffen und das überübernächste ist wieder ok.
+
+Die längsten zusammenhängenden Blöcke sind 7, wo also von 14 Paketen jedes zweite mit der selben squence-Nummer wie sein Vorgänger verschickt wurde.
+
+
+
+===
+
+
+Betreff: Aw: packetloss in der kernel outqueue
+Datum: 12. Februar 2016 um 16:57:14 MEZ
+
+
+Out of order receiption gab's auch: Zeilennummern wo das vorhergehende Paket eine höhere Nummer hat als das aktuelle:
+
+
+# LAST=0; for i in $(grep ^0 /var/ax25/testfile.raw |awk '{print $1}'); do if [ $LAST -gt $i ]; then echo $LAST $i ;fi ; LAST=$i  ; done|less
+000891 000862
+001789 001787
+001799 001787
+002179 002173
+002971 002965
+003909 003897
+
+Am Beispiel von 001789 schaue ich mir das im listen trace file an:
+
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I50^ pid=F0(Text) len 256 
+0000  001786 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+
+^ 001787 fehlt
+v
+
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I51^ pid=F0(Text) len 256 
+0000  001788 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I52+ pid=F0(Text) len 256 
+0000  001789 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I53+ pid=F0(Text) len 256 
+0000  001787 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+
+^ hier ist die 001787, kommt nach der 1790.
+
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I52^ pid=F0(Text) len 256 
+0000  001790 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0080  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+00C0  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef.
+bpq1: fm DB0FHN-9 to DL9SAU via DB0FHN ctl I53+ pid=F0(Text) len 256 
+0000  001791 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+0040  eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+
+
+Es kommt aber noch besser:
+001787 wurde 2x empfangen: hier mit kontext +/- eine Zeile:
+grep -B1 -A1 001787 /var/ax25/testfile.raw 
+
+
+001789 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefd
+eadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+001787 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+001791 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+--
+001799 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+001787 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+001790 deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+
+Das zweite Vorkommen ist komplett alles out-of-order.
+
+
+
+===
+
+
+
+Other kernel ax25 bugs that need to be fixed:
+============================================
+
+Von: Thomas Osterried <thomas@x-berg.in-berlin.de>
+Betreff: linux kernel-ax25 - some patches
+Datum: 15. Februar 2016 um 15:00:36 MEZ
+An: linux-hams-owner@vger.kernel.org
+Message-Id: <20160215140035.GF24276@x-berg.in-berlin.de>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+
+Hello,
+
+I'd like to suggest the following patches to the linux kernel ax25.
+
+
+If the MTU of the iface is > 256, then AX.25 segmentation feature is available.
+Currently, AX.25 segmentation is only available for AX25_I (I-Frames), i.E. IP mode VC (aka as ka9q fragmentation).
+
+
+1. AX.25 segmentation on I-Frames
+---------------------------------
+
+If the iface has an mtu of 256, it's not segmented and passes normally through the iface.
+
+# axparms  --route  add bpq2 dl9sau-15  --ipmode V
+
+# 228 bytes payload + 8 bytes icmp + 20 bytes IP = 256
+
+
+$ ping -s 228 -c1 44.128.128.10
+bpq2: fm DL9SAU to DL9SAU-15 ctl I00^ pid=CC(IP) len 256
+IP: len 256 44.128.128.1->44.128.128.10 ihl 20 ttl 64 DF prot ICMP
+ICMP: type Echo Request id 8042 seq 1
+0000  Y}.V............................ !"#$%&'()*+,-./0123456789:;<=>?
+0040  @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~.
+0080  ................................................................
+00C0  ....................................
+
+
+Now, we switch the mtu of the iface to 1500:
+
+# ifconfig bpq1 mtu 1500
+
+$ ping -c1 -s 1200  44.128.128.10
+PING 44.128.128.10 (44.128.128.10) 1200(1228) bytes of data.
+
+bpq2: fm DL9SAU to DL9SAU-15 ctl I36^ pid=8(segment) len 255  First seg; remain
+4
+IP: len 1228 44.128.128.1->44.128.128.10 ihl 20 ttl 64 DF prot ICMP
+ICMP: type Echo Request id 6151 seq 1
+0000  ...V....uj...................... !"#$%&'()*+,-./0123456789:;<=>?
+0040  @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~.
+0080  ................................................................
+00C0  .................................
+
+
+Problem: We see that the length of the packet is 255 instead of 256.
+The segmenter uses the value "paclen" for the segmentation size.
+
+Patch:
+
+--- net/ax25/ax25_out.c.orig     2016-02-14 00:03:57.000000000 +0100
++++ net/ax25/ax25_out.c  2016-02-14 00:04:08.000000000 +0100
+
+@@ -134,7 +134,7 @@ void ax25_output(ax25_cb *ax25, int pacl
+                      skb_pull(skb, 1); /* skip PID */
+                      ka9qfrag = 0;
+              } else {
+-                       paclen -= 2;    /* Allow for fragment control info */
++                       paclen -= 1;    /* Allow for fragment control info */
+                      ka9qfrag = 1;
+              }
+
+Argue:
+
+The skb holds the PID in the first position, follewed by the payload.
+The routine that builds the ax25-packet takes the first byte and puts it in the PID header-field.
+
+If segmentation should take place, two bytes are prepended: AX25_P_SEGMENT (for the later PID header field) and the fragment-number, which becomes the first byte in the ax25 data packet.
+At the first segment-frame, the PID (i.E. 0xCC at IP) becomes part of of the payload (behind the fragment-number).
+But that additional byte is now regarded as normal payload (length of payload += 1).
+Then, this whole payload is split over multibple packets. These packets need one byte left in front for the fragmentation number. => We have to assume packlen -=1 (not -= 2).
+
+
+Prove:
+
+$ ping -s 227 -c1 44.128.128.10
+PING 44.128.128.10 (44.128.128.10) 227(255) bytes of data.
+
+bpq2: fm DL9SAU to DL9SAU-15 ctl I21^ pid=CC(IP) len 255 
+IP: len 255 44.128.128.1->44.128.128.10 ihl 20 ttl 64 DF prot ICMP
+ICMP: type Echo Request id 3885 seq 1
+0000  5..V............................ !"#$%&'()*+,-./0123456789:;<=>?
+0040  @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~.
+0080  ................................................................
+00C0  ...................................
+
+$ ping -s 228 -c1 44.128.128.10
+PING 44.128.128.10 (44.128.128.10) 228(256) bytes of data.
+
+bpq2: fm DL9SAU to DL9SAU-15 ctl I32^ pid=CC(IP) len 256 
+IP: len 256 44.128.128.1->44.128.128.10 ihl 20 ttl 64 DF prot ICMP
+ICMP: type Echo Request id 3886 seq 1
+0000  H..V.....f...................... !"#$%&'()*+,-./0123456789:;<=>?
+0040  @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~.
+0080  ................................................................
+00C0  ....................................
+
+$ ping -s 229 -c1 44.128.128.10
+bpq2: fm DL9SAU to DL9SAU-15 ctl I00^ pid=8(segment) len 256  First seg; remain 1
+IP: len 257 44.128.128.1->44.128.128.10 ihl 20 ttl 64 DF prot ICMP
+ICMP: type Echo Request id 3888 seq 1
+0000  Y..V............................ !"#$%&'()*+,-./0123456789:;<=>?
+0040  @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~.
+0080  ................................................................
+00C0  ..................................
+bpq2: fm DL9SAU to DL9SAU-15 ctl I01+ pid=8(segment) len 4  remain 0
+0000  ...
+
+$ ping -s 230 -c1 44.128.128.10
+PING 44.128.128.10 (44.128.128.10) 230(258) bytes of data.
+
+bpq2: fm DL9SAU to DL9SAU-15 ctl I12^ pid=8(segment) len 256  First seg; remain 1
+IP: len 258 44.128.128.1->44.128.128.10 ihl 20 ttl 64 DF prot ICMP
+ICMP: type Echo Request id 3889 seq 1
+0000  m..V....B....................... !"#$%&'()*+,-./0123456789:;<=>?
+0040  @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~.
+0080  ................................................................
+00C0  ..................................
+bpq2: fm DL9SAU to DL9SAU-15 ctl I13+ pid=8(segment) len 5  remain 0
+0000  ....
+
+
+For PID text, the alignment of 256 was correct, because they're just cut'ed in pieces, and are not sent with PID_SEGMENT and thus have no extra prepended segment number byte.
+
+
+
+2. AX.25 segmentation in the UI-Frame case
+------------------------------------------
+
+2.1 Data coming from the userspcace via syscall sendto()
+--------------------------------------------------------
+
+The data sent on the interfaces may exceed the MTU of the interface.
+Since no AX.25 segmenter is implemented for AX25_UI frames, an additional check is needed: not only check against dev->mtu but also check against the paclen.  [AX25_I frames will go to ax25_output in this function and handled correctly]
+
+# ifconfig bpq2 mtu 256
+# strace -esendto beacon -s bpq2 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+sendto(3, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"..., 1280, 0, {sa_family=AF_AX25, sa_data="\222\210\212\234\250@\0AC\211\0\0\0\0"}, 72) = -1 EMSGSIZE (Message too long)
++++ exited with 1 +++
+
+
+Now, we configure the MTU of the iface to 1500:
+# ifconfig bpq2 mtu 1500
+
+bpq2: fm DL9SAU to IDENT ctl UI^ pid=F0(Text) len 1280 
+0000  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0040  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0080  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+00C0  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0100  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0140  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0180  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+01C0  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0200  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0240  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0280  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+02C0  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0300  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0340  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0380  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+03C0  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0400  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0440  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0480  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+04C0  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+
+=> The packet leaving the interface is too large.
+
+
+Patch:
+
+
+diff -Naupr af_ax25.c{.orig,}
+--- net/ax25/af_ax25.c.orig      2015-11-18 11:08:46.000000000 +0100
++++ net/ax25/af_ax25.c   2016-02-15 09:12:21.000000000 +0100
+@@ -1466,7 +1466,16 @@ static int ax25_sendmsg(struct kiocb *io
+              goto out;
+      }
+
+-       if (len > ax25->ax25_dev->dev->mtu) {
++       if (len > ax25->ax25_dev->dev->mtu ||
++               (sk->sk_type == SOCK_DGRAM && len > ax25->paclen)) {
++               /* DL9SAU - added the second part of the check:
++                  On I-Frames, ax25_output() is called below, which brings us
++                  to the ax25 segmenter. AX.25 segmentation is currently only
++                  implemented for I-frames.
++                  On UI-Frames, nothing can help the size to packlen (no
++                  segmentation strategy). Thus, too large packets would leave
++                  the iface. We throw away messages with length > paclen.
++                */
+              err = -EMSGSIZE;
+              goto out;
+      }
+
+
+Prove:
+strace beacon ...
+sendto(3, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"..., 1280, 0, {sa_family=AF_AX25, sa_data="\250\212b\246\250@\0\301\344\244\0\0\0\0"}, 72) = -1 EMSGSIZE (Message too long)
++++ exit
+
+=> No packet is sent to the iface if data is > paclen. Error-code to the userspace is the same as in the mtu 256.
+
+
+I'm not 100% sure, but as far as I understand the AX25 protocol spec, AX25 layer segmentation is also valid for UI frames.
+It may be worth to think about.
+My guess it was not implemented is: it's harder to do. Timeouts for waiting of would have to be implemented.
+
+
+2.2 IP-packets coming from the ip stack
+---------------------------------------
+
+When the ip stack sends data, the mtu of the iface is the only relevant factor.
+On IP Mode VC, segmentation could take place if mtu is > 256 => segments are filled up to paclen (as discussed above). => No problem. It's implemented in ax25_rebuild_header().
+On IP Mode DG, there's no AX25_UI segmenter implemented.
+
+Unfortunately, I see no good way to handle this.
+We're just called via ax25_hard_header() (.create) and ax25_rebuild_header() (.rebuild) from the IP stack and get the packet aligned to MAX MTU of the iface.
+
+Even worse, ax25_rebuild_header() has no capability to signal the ip_layer (that sent us that big packet as it is) that something went wrong.
+ax25_hard_harder() has also no capability to signal upward.
+
+
+Here's the problematic packet:
+
+# ifconfig bpq2 mtu 1500
+$ ping -c1 -s 1200  44.128.128.10 
+PING 44.128.128.10 (44.128.128.10) 1200(1228) bytes of data.
+bpq2: fm DL9SAU to DL9SAU-15 ctl UI pid=CC(IP) len 1228 
+
+IP: len 1228 44.128.128.1->44.128.128.10 ihl 20 ttl 64 DF prot ICMP
+ICMP: type Echo Request id 6091 seq 1
+0000  i..V....Vd...................... !"#$%&'()*+,-./0123456789:;<=>?
+0040  @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~.
+0080  ................................................................
+00C0  ................................................................
+0100  ................................ !"#$%&'()*+,-./0123456789:;<=>?
+0140  @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~.
+0180  ................................................................
+01C0  ................................................................
+0200  ................................ !"#$%&'()*+,-./0123456789:;<=>?
+0240  @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~.
+0280  ................................................................
+02C0  ................................................................
+0300  ................................ !"#$%&'()*+,-./0123456789:;<=>?
+0340  @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~.
+0380  ................................................................
+03C0  ................................................................
+0400  ................................ !"#$%&'()*+,-./0123456789:;<=>?
+0440  @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~.
+0480  ................................................
+
+
+
+FIRST approach:
+
+--- net/ax25/ax25_ip.c.orig      2015-11-18 11:08:46.000000000 +0100
++++ net/ax25/ax25_ip.c   2016-02-15 00:41:33.000000000 +0100
+@@ -186,6 +186,12 @@ int ax25_rebuild_header(struct sk_buff *
+                      goto put;
+              }
+      }
++       if (skb->len > AX25_HEADER_LEN + ax25_dev->values[AX25_VALUES_PACLEN]) {
++               /* dl9sau: throw away too large packet (due to the paclen, not dev->mtu (that's why they arrive here. Larger MTU has to be possible in order to be able to have ax25 sementation feature). Affects only AX25_UI (no ax25 segmenter implemented) as well as AX25_I (for packets other than IP; IP Mode VC has gone already above to the ax25 segmenter (via ax25_send_frame() -> ax25_output() ) )
++                 Unfortunately, there's no clean way to signal upward that something failed.
++               */
++               goto put;
++       }
+
+      bp[7]  &= ~AX25_CBIT;
+      bp[7]  &= ~AX25_EBIT;
+
+
+Prove:
+oversized packet is silently discarded. listen -a shows nothing. Nothing is reported to the sending userspace program.
+
+
+
+
+SECOND approach (not nice, but looks good):
+
+
+--- net/ax25/ax25_ip.c.orig      2015-11-18 11:08:46.000000000 +0100
++++ net/ax25/ax25_ip.c   2016-02-15 14:25:11.000000000 +0100
+@@ -186,6 +186,33 @@ int ax25_rebuild_header(struct sk_buff *
+                      goto put;
+              }
+      }
++       if (skb->len > AX25_HEADER_LEN + ax25_dev->values[AX25_VALUES_PACLEN]) {
++               /* DL9SAU: throw away too large packet (due to the paclen
++                    (not: dev->mtu (that's the reason that brought us here).
++                    Larger MTU has to be possible in order to be able to have
++                    the ax25 sementation feature).
++                   Affects only AX25_UI (no ax25 segmenter implemented) as well
++                  as portions of AX25_I (for packets other than IP).
++                  IP Mode VC has gone already above to the ax25 segmenter
++                  (via ax25_send_frame() -> ax25_output() ).
++                  Unfortunately, there's no clean way to signal upward that
++                  something failed.
++                  A workaround is the icmp_send() in IP mode DG.
++               */
++               if (bp[16] == AX25_P_IP) {
++                       /* compiler did not like #include <net/icmp.h> */
++extern void icmp_send(struct sk_buff *skb_in, int type, int code, __be32 info);
++#define ICMP_DEST_UNREACH       3       /* Destination Unreachable      */
++#define ICMP_FRAG_NEEDED        4       /* Fragmentation Needed/DF set  */
++                       /* cut off our ax25 header; moves skb start back to
++                          the IP payload
++                        */
++                       skb_pull(skb, AX25_HEADER_LEN);
++                       icmp_send(skb, ICMP_DEST_UNREACH, ICMP_FRAG_NEEDED, htonl(ax25_dev->values[AX25_VALUES_PACLEN]));
++               }
++               /* then throw away the packet */
++               goto put;
++       }
+
+      bp[7]  &= ~AX25_CBIT;
+      bp[7]  &= ~AX25_EBIT;
+
+
+
+Prove:
+
+# tcpdump -vv -e -ni lo icmp &
+
+$ ping -s 229 -c1 44.128.128.10
+PING 44.128.128.10 (44.128.128.10) 229(257) bytes of data.
+From 44.128.128.1 icmp_seq=1 Frag needed and DF set (mtu = 256)
+
+--- 44.128.128.10 ping statistics ---
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+$ 
+
+14:20:06.694999 00:00:00:00:00:00 > 00:00:00:00:00:00, ethertype IPv4 (0x0800), length 299: (tos 0xc0, ttl 64, id 2392, offset 0, flags [none], proto ICMP (1), length 285)
+  44.128.128.1 > 44.128.128.1: ICMP 44.128.128.10 unreachable - need to frag (mtu 256), length 265
+      (tos 0x0, ttl 64, id 50720, offset 0, flags [DF], proto ICMP (1), length 257)
+  44.128.128.1 > 44.128.128.10: ICMP echo request, id 4720, seq 1, length 237
+
+
+
+That second approach is ugly but cewl? ;)
+
+
+
+
+
+
+
+====
+
+
+vy 73,
+	- Thomas  dl9sau
