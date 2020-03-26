@@ -2,108 +2,89 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB80D19070D
-	for <lists+linux-hams@lfdr.de>; Tue, 24 Mar 2020 09:08:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 596551948FC
+	for <lists+linux-hams@lfdr.de>; Thu, 26 Mar 2020 21:28:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726081AbgCXIIQ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 24 Mar 2020 04:08:16 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:41507 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726108AbgCXIIM (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 24 Mar 2020 04:08:12 -0400
-Received: by mail-io1-f69.google.com with SMTP id n15so14170956iog.8
-        for <linux-hams@vger.kernel.org>; Tue, 24 Mar 2020 01:08:12 -0700 (PDT)
+        id S1728884AbgCZU2X (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 26 Mar 2020 16:28:23 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43634 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728866AbgCZU2W (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 26 Mar 2020 16:28:22 -0400
+Received: by mail-lj1-f196.google.com with SMTP id g27so7843244ljn.10
+        for <linux-hams@vger.kernel.org>; Thu, 26 Mar 2020 13:28:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=uIvUjlehSVigkxhw02yxSAS/Jekd0JL8sbxoZE/mhG8=;
+        b=YVNmI5X6phcrckh6RoQu9a+teygYOVbW/Bl4PBt0SBu31zUt+xwqv/EEUDu4u3Wfsu
+         TtAMZDxWg0qLC7YfdoYqGTePcdYifxTv5zTCiwpmN2rwH0DQUsnuvWw3o6apGIPLiQ0N
+         7xYGXQWrw231F4xiARaKVUUBWWvaSi0xaySIAnAAV4ZZ7vNh1QX0Y9+CMrBdEGLGg5/1
+         hrQH/A3PAiSHetLesdJtU2rEhvWLHi0tKa0CWz5LhLN6eX2CPqw6YAbgihnrT8KDqaHN
+         azF03eprFppfA+OpE8sTl5kO0H7hnhZE9nEMHe8Nzgc6wVyjru9ZWc4fMoalXU4pL6UK
+         9N/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=hHXlzX2YhutrAXAO/2d9zPrQ+gr2qIaq8tPdZuhbzNc=;
-        b=hp8RoYGQ85UFbqZWnu6rZ8Pdw7f+HT/yYwrhku5Lk3GcKF5yOVmQZB4jozLYR1Akpn
-         oLGOi27L56J0wwNpbjTt8N3NjLAWdjZoPdZ1YKIg8FNg4eUs66wMLiMeVk38lLMejCYW
-         sY3Pu9K/I06acTRK63LVml5vikjqq7UKRkSu4KaG7JulvGHu7FSu73hjA/AMycgADkTx
-         8Gusr7Q87ItncnzhhRGJe5N7S09DM8KGnGaiZecq/+rpU/D3H1Sp2094ByZeCGnOZ1aX
-         yQzdbI1qMsrr/4s2yaaTEa1iQ6CpZ+/OaKVglmkRLwFumC4kRt1jZmeuiAVFwms/gXj6
-         ZmOQ==
-X-Gm-Message-State: ANhLgQ0mZ1UUvFHromXxLjC7Pd4u3zbi+K9SWu9hOklI3cNrq0x1diNB
-        1u3VDuiejZilOzXebOrYEUOOsFVJ2AHEYdgyMr9ndqjr80CA
-X-Google-Smtp-Source: ADFU+vveVCtjZFe00P8L3XaLLQqnYWVVmmBwqGMbFCFoBQ1tSt95B7Zv+mSEhz6cOYO8MKdGXim2hF2cI87+uh34wivVtdtgOkSM
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=uIvUjlehSVigkxhw02yxSAS/Jekd0JL8sbxoZE/mhG8=;
+        b=K7dbQoT3uQQZmYjxwuPvGnuu15NAYEhVR8pTyjZediS4bXyb4LvS32u6KG1l4pj5Qh
+         cTt+2/H//qPHgXFlPmHgFTgV7vz/340sa+MPakeN8BmLIUmGrzMc4E7dKVY40+qxkmjO
+         NiE3sp78fUGEZqt1e1+gIEeJVfRtkRvhQdxv0membj9bo0wg7o6O1zFzyli/GMyaQX8p
+         npBAn55oPV0rJMQ7l9nknx177lJ8q/j56NGka3YBGcRW3CDnzY/xoLYCybwSDnlLvH9e
+         fhNKtoZjmO3IgnYett0XcNcEMnugtwXCOdnNnziUxgRFYUo/ocpSIYx0akcDoiWJZyFQ
+         qCHQ==
+X-Gm-Message-State: AGi0PuYsdRDRqU45P8j5MY9nn1ZGEAG7cCQnzn3YHPjCSdX1kmBrExvw
+        Rk0suyZm47bQVQYbanrfdo/crNox4Ys49T21WGfZfW+W
+X-Google-Smtp-Source: ADFU+vvMzR/OdU42YUFRp9s1QrUWHpyqFi8ArC68Bh588bo08Lo2bBjjUOCxvBVCfTMUD++UfiIyHVUWPsCy0PRGM7c=
+X-Received: by 2002:a2e:7307:: with SMTP id o7mr6203242ljc.118.1585254500357;
+ Thu, 26 Mar 2020 13:28:20 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a02:3808:: with SMTP id b8mr24506069jaa.136.1585037291793;
- Tue, 24 Mar 2020 01:08:11 -0700 (PDT)
-Date:   Tue, 24 Mar 2020 01:08:11 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000bbb17d05a19540cd@google.com>
-Subject: KCSAN: data-race in decode_data.part.0 / sixpack_receive_buf
-From:   syzbot <syzbot+673c2668e8c71c021637@syzkaller.appspotmail.com>
-To:     ajk@comnets.uni-bremen.de, davem@davemloft.net, elver@google.com,
-        linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Received: by 2002:a2e:8556:0:0:0:0:0 with HTTP; Thu, 26 Mar 2020 13:28:19
+ -0700 (PDT)
+Reply-To: officework_progress@yahoo.com
+From:   Andrew Ede <lmenkwa12@gmail.com>
+Date:   Thu, 26 Mar 2020 22:28:19 +0200
+Message-ID: <CAHPhtMDxeqYVxJC_4doKGC6fVM=pMH3-AGBCn4FA77JtRnW6fQ@mail.gmail.com>
+Subject: CAN YOU WORK WITH US?
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello,
+Good day.
 
-syzbot found the following crash on:
+My reason of contacting you is that I and my colleagues working in our
+country=E2=80=99s National Petroleum Corporation want to buy any existing
+modern crude oil refinery in any part of the world.
 
-HEAD commit:    245a4300 Merge branch 'rcu/kcsan' into tip/locking/kcsan
-git tree:       https://github.com/google/ktsan.git kcsan
-console output: https://syzkaller.appspot.com/x/log.txt?x=16543101e00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=a4b9db179318d21f
-dashboard link: https://syzkaller.appspot.com/bug?extid=673c2668e8c71c021637
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+We are ready to buy any available land to build the Refinery or buy
+the existing one anywhere outside Africa. We will make you our foreign
+partner abroad with some percentage shareholding if you will be
+interested to work with us on this project.
 
-Unfortunately, I don't have any reproducer for this crash yet.
+We have the sum of ($600 Million Dollars) Six Hundred Million Dollars
+for this project.
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+673c2668e8c71c021637@syzkaller.appspotmail.com
+Meanwhile, this amount of ($600 Million Dollars) will be accessible
+through Foreign Contract Purchase Fund. We are going to clarify what
+we meant by Foreign Contract Purchase Fund as soon as we hear from you
+for better understanding and the way forward.
 
-==================================================================
-BUG: KCSAN: data-race in decode_data.part.0 / sixpack_receive_buf
+However, in case you are not capable to handle this project with us,
+please kindly connect us to any capable person or company that would
+handle the project with us in order to enable us proceed at once.
 
-read to 0xffff8880a68aa8f6 of 1 bytes by task 8699 on cpu 1:
- decode_data.part.0+0x8d/0x120 drivers/net/hamradio/6pack.c:846
- decode_data drivers/net/hamradio/6pack.c:965 [inline]
- sixpack_decode drivers/net/hamradio/6pack.c:968 [inline]
- sixpack_receive_buf+0x901/0xb90 drivers/net/hamradio/6pack.c:458
- tiocsti drivers/tty/tty_io.c:2200 [inline]
- tty_ioctl+0xb75/0xe10 drivers/tty/tty_io.c:2576
- vfs_ioctl fs/ioctl.c:47 [inline]
- file_ioctl fs/ioctl.c:545 [inline]
- do_vfs_ioctl+0x84f/0xcf0 fs/ioctl.c:732
- ksys_ioctl+0xbd/0xe0 fs/ioctl.c:749
- __do_sys_ioctl fs/ioctl.c:756 [inline]
- __se_sys_ioctl fs/ioctl.c:754 [inline]
- __x64_sys_ioctl+0x4c/0x60 fs/ioctl.c:754
- do_syscall_64+0xcc/0x3a0 arch/x86/entry/common.c:294
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
+We hope to hear you in no distance time through this e-mail address
+at: officework_progress@yahoo.com, for immediate communication and
+more facts on how to go on.
 
-write to 0xffff8880a68aa8f6 of 1 bytes by task 8154 on cpu 0:
- decode_data drivers/net/hamradio/6pack.c:837 [inline]
- sixpack_decode drivers/net/hamradio/6pack.c:968 [inline]
- sixpack_receive_buf+0x40e/0xb90 drivers/net/hamradio/6pack.c:458
- tty_ldisc_receive_buf+0xeb/0xf0 drivers/tty/tty_buffer.c:465
- tty_port_default_receive_buf+0x87/0xd0 drivers/tty/tty_port.c:38
- receive_buf drivers/tty/tty_buffer.c:481 [inline]
- flush_to_ldisc+0x1d5/0x260 drivers/tty/tty_buffer.c:533
- process_one_work+0x3d4/0x890 kernel/workqueue.c:2264
- worker_thread+0xa0/0x800 kernel/workqueue.c:2410
- kthread+0x1d4/0x200 drivers/block/aoe/aoecmd.c:1253
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:352
+With respect
 
-Reported by Kernel Concurrency Sanitizer on:
-CPU: 0 PID: 8154 Comm: kworker/u4:5 Not tainted 5.5.0-rc1-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: events_unbound flush_to_ldisc
-==================================================================
+Best Regards
 
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Andrew Ede and Co,,
