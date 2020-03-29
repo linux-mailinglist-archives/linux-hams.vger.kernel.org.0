@@ -2,96 +2,55 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4685D196DED
-	for <lists+linux-hams@lfdr.de>; Sun, 29 Mar 2020 16:33:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA950196E26
+	for <lists+linux-hams@lfdr.de>; Sun, 29 Mar 2020 17:17:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728276AbgC2Odk (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 29 Mar 2020 10:33:40 -0400
-Received: from mr011msr.fastwebnet.it ([85.18.95.111]:39148 "EHLO
-        mr011msr.fastwebnet.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727167AbgC2Odj (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 29 Mar 2020 10:33:39 -0400
-X-Greylist: delayed 316 seconds by postgrey-1.27 at vger.kernel.org; Sun, 29 Mar 2020 10:33:39 EDT
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedugedrudeifedgjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuhfetuffvhgfguedpucfqfgfvnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpedfofgrrhgtohcuffhiucforghrthhinhhoucdlkfghvdfqjfgimddfuceoihifvdhohhigsehifidvohhhgidrnhgvtheqnecuffhomhgrihhnpehsohhurhgtvghfohhrghgvrdhnvghtpdhtrhhinhhithihohhsrdgtohhmnecukfhppedvrddvfeekrdduleeirdejjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhephhgvlhhopegludelvddrudeikedruddruddufegnpdhinhgvthepvddrvdefkedrudeliedrjeejpdhmrghilhhfrhhomhepoehifidvohhhgiesihifvdhohhigrdhnvghtqecuuefqffgjpeekuefkvffokffogfdprhgtphhtthhopeeoihifvdhohhigsehifidvohhhgidrnhgvtheqpdhrtghpthhtohepoehlihhnuhigqdhhrghmshesthhrihhnnhgvthdrnhgvtheqpdhrtghpthhtohepoehlihhnuhigqdhhrghmshesvhhgvghrrdhkvghrnhgvlhdrohhrgheq
-X-RazorGate-Vade-Verdict: clean 0
-X-RazorGate-Vade-Classification: clean
-Received: from [192.168.1.113] (2.238.196.77) by mr011msr.fastwebnet.it (5.8.208) (authenticated as madimartino@fastwebnet.it)
-        id 5E3193B6032F7472; Sun, 29 Mar 2020 16:28:19 +0200
+        id S1728041AbgC2PRi (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sun, 29 Mar 2020 11:17:38 -0400
+Received: from trinity.trinnet.net ([96.78.144.185]:2195 "EHLO
+        trinity3.trinnet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727933AbgC2PRh (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sun, 29 Mar 2020 11:17:37 -0400
+Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
+        by trinity3.trinnet.net (TrinityOS/8.15.2) with ESMTP id 02TFHbRN017114
+        for <linux-hams@vger.kernel.org>; Sun, 29 Mar 2020 07:17:37 -0800
 Subject: Re: New Linpac pre-release ready for testing..
-To:     David Ranch <linux-hams@trinnet.net>,
-        Linux Hams <linux-hams@vger.kernel.org>
+To:     Linux Hams <linux-hams@vger.kernel.org>
 References: <4df52fc2-29b3-dcfd-613a-cb165b411bea@trinnet.net>
-From:   "Marco Di Martino (IW2OHX)" <iw2ohx@iw2ohx.net>
-Message-ID: <e47e6651-5614-ce7a-513e-712ebfbc39ad@iw2ohx.net>
-Date:   Sun, 29 Mar 2020 16:28:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ <e47e6651-5614-ce7a-513e-712ebfbc39ad@iw2ohx.net>
+From:   David Ranch <linux-hams@trinnet.net>
+Message-ID: <0f65254c-9308-5c87-dbe5-bf5d8b01e351@trinnet.net>
+Date:   Sun, 29 Mar 2020 08:17:37 -0700
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <4df52fc2-29b3-dcfd-613a-cb165b411bea@trinnet.net>
+In-Reply-To: <e47e6651-5614-ce7a-513e-712ebfbc39ad@iw2ohx.net>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Sun, 29 Mar 2020 07:17:37 -0800 (GMT+8)
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello David,
 
-thanks a lot for your effort.
+Great!  Thanks for the report!
 
-Well, I've just compiled it and started having fun with Linpac.
+--David
+KI6ZHD
 
-All fine so far on Ubuntu 18.04!
 
-Regards,
-
-Marco
-
-iw2ohx
-
-On 27/03/20 18:48, David Ranch wrote:
-> Hello Everyone,
+On 03/29/2020 07:28 AM, Marco Di Martino (IW2OHX) wrote:
+> Hello David,
 >
-> If you're a Linux AX.25 user, I'm looking for compile-savvy testers to 
-> give the new version of Linpac posted in my DEVELOP branch a test:
+> thanks a lot for your effort.
 >
->    https://sourceforge.net/projects/linpac/
+> Well, I've just compiled it and started having fun with Linpac.
 >
+> All fine so far on Ubuntu 18.04!
 >
-> If you're not familiar with Linpac, the description is:
->    --
->    A modular TUI oriented (ncurses) amateur radio AX.25 keyboard to 
-> keyboard chat and PBBS program using Linux's AX.25 stack. Includes 
-> support for multiple concurrent connected sessions, a unconnected (UI) 
-> message screen, and an automated packet message client
->    --
+> Regards,
 >
+> Marco
 >
-> Compiling and install guides are available in :
->
->    - The source's README file
->    https://sourceforge.net/p/linpac/linpac/ci/develop/tree/README
->
->    - Raspberry Pi / Debian centric guide:
-> http://www.trinityos.com/HAM/CentosDigitalModes/RPi/rpi4-setup.html#28.install-linpac 
->
->
->    - Centos centric (includes screen captures):
-> http://www.trinityos.com/HAM/CentosDigitalModes/hampacketizing-centos.html#11.linpac 
->
->
->
-> If you need any help, you can post to this list or to the Discussion 
-> area on SourceForge:
->
->    https://sourceforge.net/p/linpac/discussion/
->
-> If you find any bugs / real issues, please create a ticket on Linpac's 
-> SourceForge area:
->
->    https://sourceforge.net/p/linpac/_list/tickets
->
->
-> --David
-> KI6ZHD
+> iw2ohx
