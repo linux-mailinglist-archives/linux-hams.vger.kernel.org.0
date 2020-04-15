@@ -2,110 +2,91 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 792D31A6612
-	for <lists+linux-hams@lfdr.de>; Mon, 13 Apr 2020 13:59:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A755E1A973C
+	for <lists+linux-hams@lfdr.de>; Wed, 15 Apr 2020 10:46:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729389AbgDML7Z (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 13 Apr 2020 07:59:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43786 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729203AbgDMLt5 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 13 Apr 2020 07:49:57 -0400
-X-Greylist: delayed 500 seconds by postgrey-1.27 at vger.kernel.org; Mon, 13 Apr 2020 07:49:50 EDT
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EDCAC00860B
-        for <linux-hams@vger.kernel.org>; Mon, 13 Apr 2020 04:41:09 -0700 (PDT)
-Received: by mail-il1-x132.google.com with SMTP id i14so8147835ilr.11
-        for <linux-hams@vger.kernel.org>; Mon, 13 Apr 2020 04:41:09 -0700 (PDT)
+        id S2894948AbgDOIpu (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 15 Apr 2020 04:45:50 -0400
+Received: from mail.fudan.edu.cn ([202.120.224.73]:55850 "EHLO fudan.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2894947AbgDOIpn (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Wed, 15 Apr 2020 04:45:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=qlKWExEze9qCqlwbpw1q4+d2Zjr4ETGVa64TcX+dTlk=;
-        b=HxOaFJZljqXQIeSLw7dw+YeTIVe76Yo57NkC3rYQjPPsruaWLZEetJYgTw7mDA7iYw
-         4KM/sQKuVdxfTyBgHy0QGrcgvhBAp/s2WR+7lhwMEms7c5U3ARzlxX4w9gHN6kyIVCTo
-         InVjjBwajQbgYMLlLr/dGAnfAOq75HLmi2bmQShdg5UrDH6ZNHdmpjirCjsFE3E+W3lI
-         4HPNdhIk9GHy3wOVy8qt79oLhQ3V0WJ+l2R8YfTk5No8OB207Mc1ssyzLdiNdU6iDIon
-         HSnId1sWR9JHq8BkscMOY+TVCS7WuDDdfTSRJRDObUGUY3pKdsd/NGq97n4qtv5szVJr
-         IEMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=qlKWExEze9qCqlwbpw1q4+d2Zjr4ETGVa64TcX+dTlk=;
-        b=bXM7BIKr1hAjKsZl8jiTGvzEqgLj4csl0l+5/GFzMKHfe8vQswgpHI2h2NspSF+Qju
-         lkVt7XEBmbqtEEoHMIhhFEMxaRZvEEZLHN6rWCJ9VSICl+wmeLwaRmh55h2E83UX5LuQ
-         4TQbbgTnwUnayf99bSAyNapt43pajR+3KPzuoMHvgbV8uOwWOoMGwBIhj1/m+uH4xw1J
-         Hw51z2BGRuZDj6xgQQpNLA73P9MHGGt25X4/Rvo5JyjKjne7vLzhksqfssPCZ/Z3U+tk
-         frK5BqkpS95szcObgvLvQ1EPTBWNchz7gwLISifiW0GbOaNfsoiNrtPsQ+KLcRCbVkEP
-         uDPg==
-X-Gm-Message-State: AGi0PubKHy7U/5ZIEH+NsISLtOENmX34yGvOajuVZpq5+KG5DpKCQHSf
-        E1U3pNWHD+2CAfwl6Q7JSOZHtT71geobU/bVym4SS8o=
-X-Google-Smtp-Source: APiQypJ8Xf5JZIaJmuakcegBHklRN/w3ObzOY1fG2hZhiF0393fUgrxf6qaSVcLD5pLEm/4TEQgoj9oGK8tQ5EeyGAU=
-X-Received: by 2002:a05:6e02:c8f:: with SMTP id b15mr14965961ile.35.1586778068198;
- Mon, 13 Apr 2020 04:41:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a02:5e49:0:0:0:0:0 with HTTP; Mon, 13 Apr 2020 04:41:07
- -0700 (PDT)
-Reply-To: mgbenin903@gmail.com
-From:   Barrister Robert Richter UN-Attorney at Law Court-Benin 
-        <info.zennitbankplcnigerian@gmail.com>
-Date:   Mon, 13 Apr 2020 13:41:07 +0200
-Message-ID: <CABHzvrm3rWryg1yAooKeHwdxzrKD47PRAEfC+ay1A6i5z3Wdiw@mail.gmail.com>
-Subject: I have already sent you first payment US$5000.00 this morning through
- MONEY Gram service.it is available to pick up in address now.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        d=fudan.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+        Message-Id; bh=e38fCYno9Kg9NlWmZaHhXh61HmgAfMMOj8Y0iA5cL+s=; b=a
+        owa2vF1f4sVbxAm5sfCk7LCq0+kPR80uHE0lAA/A1rhwAAKRyK9bA5YxTWw9+o2X
+        qmbmNqmOTQKzxXMCV2LrOuNIzpCIXf2cuEYGwvX6O3QclJJvAu50bYV9hBDsE18L
+        PN1GkD4XYGi4Ek7gvQrdvacN9IZYcbYlB90iS+KaZ0=
+Received: from localhost.localdomain (unknown [120.229.255.108])
+        by app2 (Coremail) with SMTP id XQUFCgC3voIayJZegFVZAA--.91S3;
+        Wed, 15 Apr 2020 16:38:51 +0800 (CST)
+From:   Xiyu Yang <xiyuyang19@fudan.edu.cn>
+To:     Ralf Baechle <ralf@linux-mips.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-hams@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     yuanxzhang@fudan.edu.cn, kjlu@umn.edu,
+        Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+        Xin Tan <tanxin.ctf@gmail.com>
+Subject: [PATCH] net: netrom: Fix potential nr_neigh refcnt leak in nr_add_node
+Date:   Wed, 15 Apr 2020 16:36:19 +0800
+Message-Id: <1586939780-69791-1-git-send-email-xiyuyang19@fudan.edu.cn>
+X-Mailer: git-send-email 2.7.4
+X-CM-TRANSID: XQUFCgC3voIayJZegFVZAA--.91S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7XryDAryfCrW7KF1kWF4UArb_yoWkuFX_GF
+        1kWF9rWwn5Jr40g34jgw4fX39xta18Jr1rXrWfCrWaq34Ygw17ArZ5ur95ur1fWw4rGF98
+        C3s5JrW2y3WxujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbTkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_GcCE
+        3s1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
+        1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+        w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMc
+        vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v
+        4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK67AK6r43MxAIw28IcxkI7VAKI48JMx
+        C20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAF
+        wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20x
+        vE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v2
+        0xvaj40_Zr0_Wr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI
+        0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU6Hq7UUUUU=
+X-CM-SenderInfo: irzsiiysuqikmy6i3vldqovvfxof0/
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-ATTN DEAR BENEFICIARY.
+nr_add_node() invokes nr_neigh_get_dev(), which returns a local
+reference of the nr_neigh object to "nr_neigh" with increased refcnt.
 
-GOOD NEWS.
+When nr_add_node() returns, "nr_neigh" becomes invalid, so the refcount
+should be decreased to keep refcount balanced.
 
-I have already sent you first payment US$5000.00 this morning through
-MONEY Gram service.it is available to pick up in address now.
+The issue happens in one normal path of nr_add_node(), which forgets to
+decrease the refcnt increased by nr_neigh_get_dev() and causes a refcnt
+leak. It should decrease the refcnt before the function returns like
+other normal paths do.
 
-So we advise you to Contact This Money Gram office to pick up your
-transfer $US5000.00 today.
+Fix this issue by calling nr_neigh_put() before the nr_add_node()
+returns.
 
+Signed-off-by: Xiyu Yang <xiyuyang19@fudan.edu.cn>
+Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
+---
+ net/netrom/nr_route.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Note that your compensation payment funds is total amount $US2.800,000
-Million Dollars.We have instructed the Money Gram Agent,Mr. James
-Gadner to keep sending the transfer to you daily, but the maximum
-amount you will be receiving everyday is US$5000.00. Contact Agent now
-to pick up your first payment $US5000.00 immediately.
+diff --git a/net/netrom/nr_route.c b/net/netrom/nr_route.c
+index d41335bad1f8..89cd9de21594 100644
+--- a/net/netrom/nr_route.c
++++ b/net/netrom/nr_route.c
+@@ -208,6 +208,7 @@ static int __must_check nr_add_node(ax25_address *nr, const char *mnemonic,
+ 		/* refcount initialized at 1 */
+ 		spin_unlock_bh(&nr_node_list_lock);
+ 
++		nr_neigh_put(nr_neigh);
+ 		return 0;
+ 	}
+ 	nr_node_lock(nr_node);
+-- 
+2.7.4
 
-Contact Person, Mr. James Gadner, Dir. Money Gram Benin.
-Email: mgbenin903@gmail.com
-Telephone Numbers: +229 62819378/ +229 98477762
-
-HERE IS YOUR PAYMENT DETAILS FOR THE FIRST =C2=A3US5000.00 SENT TODAY.
-
-Track View Website link:
-https://secure.moneygram.com/track
-Sender=E2=80=99s First name: David
-Sender=E2=80=99s Last Name: Joiner
-Money Transfer Control Number (MTCN) (REFERENCE)# 26046856
-
-Contact the Mmoney Gram Urgent and reconfirm your address to the
-office before, they will allow you to pick up the transfer today.
-
-HERE IS WHAT REQUIRED OF YOU.
-
-YOUR FULL NAME---------
-ADDRESS--------------
-COUNTRY-----------------------------
-TELEPHONE NUMBERS-----------------
-
-Note, I paid the transfer fee for you, but only you are required to
-send to the office is $75 only,Been Your Payment File activation fee,
-Send once you contact the office,before you can able to pick up your
-transfer today.
-
-Let me know once you pick up first payment today.
-
-Barrister Robert Richter UN-Attorney at Law Court-Benin
