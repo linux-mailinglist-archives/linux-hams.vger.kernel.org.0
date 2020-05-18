@@ -2,67 +2,55 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 618561C1DEC
-	for <lists+linux-hams@lfdr.de>; Fri,  1 May 2020 21:33:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A2271D7749
+	for <lists+linux-hams@lfdr.de>; Mon, 18 May 2020 13:35:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726815AbgEATdL (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 1 May 2020 15:33:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51486 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726377AbgEATdL (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 1 May 2020 15:33:11 -0400
-Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E5C9C061A0C;
-        Fri,  1 May 2020 12:33:11 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 1F6D414BE8274;
-        Fri,  1 May 2020 12:33:09 -0700 (PDT)
-Date:   Fri, 01 May 2020 12:33:08 -0700 (PDT)
-Message-Id: <20200501.123308.956105770476039545.davem@davemloft.net>
-To:     mchehab+huawei@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, chessman@tux.org, netdev@vger.kernel.org,
-        andrew.hendry@gmail.com, zorik@amazon.com, stranche@codeaurora.org,
-        irusskikh@marvell.com, jdmason@kudzu.us, haiyangz@microsoft.com,
-        linux-x25@vger.kernel.org, wei.liu@kernel.org,
-        linux-hyperv@vger.kernel.org, kvalo@codeaurora.org,
-        kuba@kernel.org, subashab@codeaurora.org, dsahern@kernel.org,
-        kys@microsoft.com, kou.ishizaki@toshiba.co.jp, jreuter@yaina.de,
-        saeedb@amazon.com, shrijeet@gmail.com, netanel@amazon.com,
-        stas.yakovlev@gmail.com, gtzalik@amazon.com, maxk@qti.qualcomm.com,
-        akiyano@amazon.com, linux-wireless@vger.kernel.org,
-        linux-hams@vger.kernel.org, linux-parisc@vger.kernel.org,
-        klassert@kernel.org, sthemmin@microsoft.com
-Subject: Re: [PATCH 00/37]net: manually convert files to ReST format - part
- 3 (final)
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <cover.1588344146.git.mchehab+huawei@kernel.org>
-References: <cover.1588344146.git.mchehab+huawei@kernel.org>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Fri, 01 May 2020 12:33:10 -0700 (PDT)
+        id S1727990AbgERLfi (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 18 May 2020 07:35:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726739AbgERLfi (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 18 May 2020 07:35:38 -0400
+X-Greylist: delayed 1915 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 May 2020 04:35:37 PDT
+Received: from vps.dvp24.com (unknown [IPv6:2a02:348:36:5b8c::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1BA1C05BD09;
+        Mon, 18 May 2020 04:35:37 -0700 (PDT)
+Received: from localhost ([127.0.0.1] helo=dvp24.com)
+        by vps.dvp24.com with esmtpa (Exim 4.77)
+        (envelope-from <abhay@dvp24.com>)
+        id 1jadYZ-0006rf-Up; Mon, 18 May 2020 13:03:39 +0200
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Mon, 18 May 2020 12:03:39 +0100
+From:   pedro hills <abhay@dvp24.com>
+To:     undisclosed-recipients:;
+Subject: (DONATION) $2 Million Has Been Donated
+Reply-To: <pedrohills@outlook.es>
+Mail-Reply-To: <pedrohills@outlook.es>
+Message-ID: <f63d46632b20d7492a1d2e423510606e@dvp24.com>
+X-Sender: abhay@dvp24.com
+User-Agent: Roundcube Webmail/0.7.1
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Date: Fri,  1 May 2020 16:44:22 +0200
 
-> That's the third part (and the final one) of my work to convert the networking
-> text files into ReST. it is based on linux-next next-20200430 branch.
-> 
-> The full series (including those ones) are at:
-> 
-> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=net-docs
-> 
-> The  built output documents, on html format is at:
-> 
-> 	https://www.infradead.org/~mchehab/kernel_docs/networking/
 
-Series applied, thanks for doing all of this work.
+-- 
+$2 Million Has Been Donated To You,By PEDRO this is Real For More Info
+  Contact PEDRO immediately for your clame This Email:
+  pedrohills@outlook.es
+
+  Contact phone number +34632232897
+  Send Your Response To: pedrohills@outlook.es
+
+  2 Millionen US-Dollar wurden an Sie gespendet. Von PEDRO ist dies für
+weitere Informationen real
+  Wenden Sie sich umgehend an PEDRO. Diese E-Mail:
+  pedrohills@outlook.es
+
+  Kontakttelefonnummer +34632232897
+  Senden Sie Ihre Antwort an: pedrohills@outlook.es
