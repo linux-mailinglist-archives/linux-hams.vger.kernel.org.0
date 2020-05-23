@@ -2,147 +2,65 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C67F1DC7FA
-	for <lists+linux-hams@lfdr.de>; Thu, 21 May 2020 09:49:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72CC81DF9E8
+	for <lists+linux-hams@lfdr.de>; Sat, 23 May 2020 20:00:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727003AbgEUHtH (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 21 May 2020 03:49:07 -0400
-Received: from mx1.riseup.net ([198.252.153.129]:57442 "EHLO mx1.riseup.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726208AbgEUHtH (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Thu, 21 May 2020 03:49:07 -0400
-Received: from bell.riseup.net (bell-pn.riseup.net [10.0.1.178])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "*.riseup.net", Issuer "Sectigo RSA Domain Validation Secure Server CA" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 49SMFZ5RJWzFfvt;
-        Thu, 21 May 2020 00:49:06 -0700 (PDT)
-X-Riseup-User-ID: 9414E9A4931EBACE942780CE0E0E7B02FDAF8049E08456FB12357BAC3D9C4329
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by bell.riseup.net (Postfix) with ESMTPSA id 49SMFY6yxczJmq8;
-        Thu, 21 May 2020 00:49:01 -0700 (PDT)
-Subject: Fwd: [Int-area] draft-learmonth-intarea-rfc1226-bis-00
-References: <90e3bce1-cd60-b45b-d4d9-11da99ee2093@hambsd.org>
-To:     linux-hams@vger.kernel.org, 44net@mailman.ampr.org
-Reply-To: Int-area@ietf.org, irl@hambsd.org
-From:   "Iain R. Learmonth" <irl@hambsd.org>
-Organization: HamBSD Project
-X-Forwarded-Message-Id: <90e3bce1-cd60-b45b-d4d9-11da99ee2093@hambsd.org>
-Message-ID: <d9fad05a-feb9-5f38-e1ff-9978a3931076@hambsd.org>
-Date:   Thu, 21 May 2020 08:49:00 +0100
+        id S2387954AbgEWSAh (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 23 May 2020 14:00:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55738 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726948AbgEWSAU (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 23 May 2020 14:00:20 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 081E5C08C5C8
+        for <linux-hams@vger.kernel.org>; Sat, 23 May 2020 11:00:20 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id n18so6715599pfa.2
+        for <linux-hams@vger.kernel.org>; Sat, 23 May 2020 11:00:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=F3NMDrR9dummcUXdRfruEEfbIS6yB2vx68nB8Asq/5Q=;
+        b=DLUdlLdqK1bsV3DbEuTTyBWxouo7TOwyxri4APWQD3NqiMSIjirU+KuWgkxjC+SPXd
+         U5bKcUrFxXkujPWjXtLFF/k/nfilKzP5EjBajrS/8510fneO07cpMqdcHCxwrpi40/q7
+         /O0e1HoJlTbh5NB1junI0CHT5u7OlL96wLc3EVtoU1jy6h6mu/94Ij3+HmmWjDrdLWVh
+         jTwO4Rc/jE6wel14tPJDJsn6k0/UDkI9Or/XCFS691xyvyogoxyI2h7yK06Suh6ePv/U
+         +lZz7VywgsFgSxYL/B5mLPOXcZ0fktkIkUnyPxHg9tbmvqat4Bb8GZAodniIxvBVB3XB
+         mJxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=F3NMDrR9dummcUXdRfruEEfbIS6yB2vx68nB8Asq/5Q=;
+        b=YFVQZTRIzgT7JvvwMaYQoQf5CC64DPlUCYFUXVWdhM+gbFAjDfnFS6tD37JuFz28DJ
+         a84aOMIFHDWQC3agOvwR5lFvTJNrAZofWpYc1uAibihulC9x/E7KuApy/LrQ8oR2uR7C
+         ktKZ2ic4E4UpyzP8SHgWe9ozF39C8tSLF7829iYTdiqwy/YK6Qy31zQEZMMDtewgTyIL
+         kKtxApBTM+aiQcfnKeTyTO9r2UW2um9l9ppbd2QaFH0Z/MrGQzgZwzFtQhcMqzSKBP2R
+         N3jU4Bh7+efoD0Yvl9pKVKGKWTfWZLNgg3U1z+Dx9kPyBRKoHSGfvHmCN9AFoFW18baE
+         EqdA==
+X-Gm-Message-State: AOAM530s8jYx4xS0wzaX6lSpk23whI/27tcpgSSIAs9tHRvPypLP26/o
+        xjLUQTcEfTn+Wqi0lMxbpyRjRr0q6UuaFg7rL+HnRb4k
+X-Google-Smtp-Source: ABdhPJxI0GNvtYFRzubiNKehFnBmeNa8IdxO7hQ3TxAldsg7mTxyy0v9X6v2Fayhxp/lnxt7tCbB9QFJVJ60H98MgEQ=
+X-Received: by 2002:a0c:ed4b:: with SMTP id v11mr9120627qvq.179.1590256818769;
+ Sat, 23 May 2020 11:00:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <90e3bce1-cd60-b45b-d4d9-11da99ee2093@hambsd.org>
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Received: by 2002:aed:3ac5:0:0:0:0:0 with HTTP; Sat, 23 May 2020 11:00:18
+ -0700 (PDT)
+Reply-To: mrs.chantala2055@gmail.com
+From:   mrs chantal <mrs.chantaltwo@gmail.com>
+Date:   Sat, 23 May 2020 18:00:18 +0000
+Message-ID: <CAGVwK0UnqGdMqCxvjeR06i5Ca=SScOHB3E1kfQEUa4_tgZN-cQ@mail.gmail.com>
+Subject: jjCompliment
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hi All,
-
-I am working on updating the spec for "AX.25 over IP" at the IETF. I'd
-be happy to receive any reviews and/or comments of the latest draft,
-details in the message forwarded below.
-
-You can email me directly, or on the intarea mailing list at the IETF.
-
-Thanks,
-Iain.
-
-
--------- Forwarded Message --------
-Subject: 	[Int-area] draft-learmonth-intarea-rfc1226-bis-00
-Date: 	Thu, 21 May 2020 08:25:11 +0100
-From: 	Iain R. Learmonth <irl@hambsd.org>
-Organization: 	HamBSD Project
-To: 	Int-area@ietf.org
-
-
-
-Hi All,
-
-I have just submitted a draft containing a refresh for RFC1226, "AX.25
-over IP".
-
-URL:
-https://www.ietf.org/internet-drafts/draft-learmonth-intarea-rfc1226-bis-00.txt
-Status:
-https://datatracker.ietf.org/doc/draft-learmonth-intarea-rfc1226-bis/
-Htmlized:
-https://tools.ietf.org/html/draft-learmonth-intarea-rfc1226-bis-00
-Htmlized:
-https://datatracker.ietf.org/doc/html/draft-learmonth-intarea-rfc1226-bis
-
-I am happy to receive any comments you may have. This draft has been
-discussed within the TAPR APRSSIG mailing list, and that thread can be
-found here:
-
-http://lists.tapr.org/pipermail/aprssig_lists.tapr.org/2020-May/048579.html
-
-I plan to survey existing implementations to see whether or not they are
-currently interoperable, and will be producing an implementation for
-HamBSD (https://hambsd.org/).
-
-Currently this is specified for unicast IP, however I can see benefits
-to enabling multicast use. I would like to have multicast use covered in
-this update.
-
-There is also the question of UDP encapsulated AX.25 which currently
-seems to have been made up by every implementation. I will include that
-in my survey, and see if there can be some consensus drawn there. I'm
-not sure if it is appropriate to add the UDP encapsulation details to
-this draft, or if it would be preferred to make that a separate draft,
-maybe even in a different area/WG.
-
-Thanks,
-Iain.
-
-
--------- Forwarded Message --------
-Subject: New Version Notification for
-draft-learmonth-intarea-rfc1226-bis-00.txt
-Date: Thu, 21 May 2020 00:14:45 -0700
-From: internet-drafts@ietf.org
-To: Iain Learmonth <irl@hambsd.org>, Iain R. Learmonth <irl@hambsd.org>
-
-
-A new version of I-D, draft-learmonth-intarea-rfc1226-bis-00.txt
-has been successfully submitted by Iain R. Learmonth and posted to the
-IETF repository.
-
-Name: draft-learmonth-intarea-rfc1226-bis
-Revision: 00
-Title: Internet Protocol Encapsulation of AX.25 Frames
-Document date: 2020-05-21
-Group: Individual Submission
-Pages: 6
-
-
-
-Abstract:
-This document describes a method for the encapsulation of AX.25 Link
-Access Protocol for Amateur Packet Radio frames within IPv4 and IPv6
-packets. Obsoletes RFC1226.
-
-Note
-
-Comments are solicited and should be addressed to the author(s).
-
-The sources for this draft are at:
-
-https://github.com/irl/draft-rfc1226-bis
-
-
-
-
-Please note that it may take a couple of minutes from the time of submission
-until the htmlized version and diff are available at tools.ietf.org.
-
-The IETF Secretariat
-
-
-_______________________________________________
-Int-area mailing list
-Int-area@ietf.org
-https://www.ietf.org/mailman/listinfo/int-area
+     Compliment of the day to you. I am Mrs.CHANTAL I am sending this brief
+    letter to solicit your partnership to transfer $13.5 Million US
+    Dollars.I shall send you more information and procedures when I receive
+    positive response From you. Please send me a message in My private
+    email address is ( mrschantal066@gmail.com  )
+    Best Regards
+    MrS.Chantal
