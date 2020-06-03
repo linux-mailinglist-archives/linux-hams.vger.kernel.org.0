@@ -2,51 +2,53 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 109EE1EEE0B
-	for <lists+linux-hams@lfdr.de>; Fri,  5 Jun 2020 00:59:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 855FD1F0143
+	for <lists+linux-hams@lfdr.de>; Fri,  5 Jun 2020 22:56:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727103AbgFDW7B (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 4 Jun 2020 18:59:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47674 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726221AbgFDW7B (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 4 Jun 2020 18:59:01 -0400
-Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8857C08C5C0;
-        Thu,  4 Jun 2020 15:59:00 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 1FF4011F5F8D1;
-        Thu,  4 Jun 2020 15:59:00 -0700 (PDT)
-Date:   Thu, 04 Jun 2020 15:58:59 -0700 (PDT)
-Message-Id: <20200604.155859.185403656964744319.davem@davemloft.net>
-To:     wanghai38@huawei.com
-Cc:     jpr@f6fbb.org, kuba@kernel.org, linux-hams@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] yam: fix possible memory leak in yam_init_driver
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20200604121851.63880-1-wanghai38@huawei.com>
-References: <20200604121851.63880-1-wanghai38@huawei.com>
-X-Mailer: Mew version 6.8 on Emacs 26.3
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Thu, 04 Jun 2020 15:59:00 -0700 (PDT)
+        id S1728031AbgFEU4z (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 5 Jun 2020 16:56:55 -0400
+Received: from unassigned-102-a.cspirefiber.net ([173.235.82.102]:52552 "EHLO
+        clearos.ia.lan" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726664AbgFEU4z (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 5 Jun 2020 16:56:55 -0400
+Received: from Shop01 (localhost [127.0.0.1])
+        by clearos.ia.lan (Postfix) with SMTP id 5ACB74DAD49;
+        Wed,  3 Jun 2020 13:16:29 -0500 (CDT)
+Received: from [198.246.32.221]
+        by Shop01 id 7x5Nu5xyj4Hj;
+        Wed, 03 Jun 2020 18:15:52 -0100
+Message-ID: <k27$h-1$5g6ao@u8sb9q2>
+From:   "SUHIL ABDULZAHRA" <tbryant6@woh.rr.com>
+Reply-To: "SUHIL ABDULZAHRA" <tbryant6@woh.rr.com>
+To:     cdykas@orland135.org
+Subject: I NEED YOUR ATTENTION
+Date:   Wed, 03 Jun 20 18:15:52 GMT
+X-Mailer: Microsoft Outlook Express 5.50.4133.2400
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+        boundary="A4F_..BB8F164_C25F"
+X-Priority: 3
+X-MSMail-Priority: Normal
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-From: Wang Hai <wanghai38@huawei.com>
-Date: Thu, 4 Jun 2020 20:18:51 +0800
 
-> If register_netdev(dev) fails, free_netdev(dev) needs
-> to be called, otherwise a memory leak will occur.
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Wang Hai <wanghai38@huawei.com>
+--A4F_..BB8F164_C25F
+Content-Type: text/plain;
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks.
+My name is Mr. SUHIL ABDULZAHRA BADR AL-ASADI from IRAQ Ministry of Oil (M=
+oO).  
+Please, I desire to have a confidentially funds transaction with you value=
+d at $66 million dollars for safe keeping and investment? 
+Please forward your response to my private email: abdulzahrasuhil@gmail.co=
+m for further details.
+
+Thank you
+Mr. SUHIL ABDULZAHRA
+https://oil.gov.iq
+
+--A4F_..BB8F164_C25F--
+
