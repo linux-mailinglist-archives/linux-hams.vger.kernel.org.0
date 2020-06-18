@@ -2,39 +2,39 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38D241FE510
-	for <lists+linux-hams@lfdr.de>; Thu, 18 Jun 2020 04:23:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 218791FE2BB
+	for <lists+linux-hams@lfdr.de>; Thu, 18 Jun 2020 04:04:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728727AbgFRBSN (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 17 Jun 2020 21:18:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49556 "EHLO mail.kernel.org"
+        id S1730936AbgFRBXP (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 17 Jun 2020 21:23:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56706 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727098AbgFRBSK (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:18:10 -0400
+        id S1730107AbgFRBXN (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Wed, 17 Jun 2020 21:23:13 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6119821D7E;
-        Thu, 18 Jun 2020 01:18:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 97C2721974;
+        Thu, 18 Jun 2020 01:23:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592443090;
-        bh=2qodh3uYCK+UWwNLdpcdGPCezWMVsZdyfkfnb++3Vr8=;
+        s=default; t=1592443393;
+        bh=HMUNp5S7JgC4MKED6px7xVMS2rMtoj7TyHYEgUjlX8Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rkAgnsYv0HB2NgMG1TiZYCvO06Vvdo3vIyrK61uZrDt6cuvCt84PCDtuYwZbKEaQU
-         dYehMWaquGKo1oXmTdkLY7wzfU9QEZoqWp0DmQx651ZX+14KenKfFRJmf+AW7cLADD
-         cjK/X4v6mWlo7v9dV38xpPuzBH4kayX5dYEyM69s=
+        b=1ihu6LRSyXyKrfkhblZIo3Dv1yl1+4CK834Jr3+xFQJnDGOmO93PLLnDQ9qeyKpey
+         idsRxaIte+pD/SMif5FeXbBLlYT1Ccw8VW0/bkCN8BVlhA3vVfc1IAA782clgR67Ic
+         uj1qGosRGKfb2tFxsVFX47rVNkZRQo9rOeXvrBAI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Wang Hai <wanghai38@huawei.com>, Hulk Robot <hulkci@huawei.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-hams@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 071/266] yam: fix possible memory leak in yam_init_driver
-Date:   Wed, 17 Jun 2020 21:13:16 -0400
-Message-Id: <20200618011631.604574-71-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 040/172] yam: fix possible memory leak in yam_init_driver
+Date:   Wed, 17 Jun 2020 21:20:06 -0400
+Message-Id: <20200618012218.607130-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200618011631.604574-1-sashal@kernel.org>
-References: <20200618011631.604574-1-sashal@kernel.org>
+In-Reply-To: <20200618012218.607130-1-sashal@kernel.org>
+References: <20200618012218.607130-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -61,10 +61,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/net/hamradio/yam.c b/drivers/net/hamradio/yam.c
-index 71cdef9fb56b..5ab53e9942f3 100644
+index ba9df430fca6..fdab49872587 100644
 --- a/drivers/net/hamradio/yam.c
 +++ b/drivers/net/hamradio/yam.c
-@@ -1133,6 +1133,7 @@ static int __init yam_init_driver(void)
+@@ -1148,6 +1148,7 @@ static int __init yam_init_driver(void)
  		err = register_netdev(dev);
  		if (err) {
  			printk(KERN_WARNING "yam: cannot register net device %s\n", dev->name);
