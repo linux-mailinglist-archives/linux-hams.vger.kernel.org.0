@@ -2,48 +2,76 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 625921FA465
-	for <lists+linux-hams@lfdr.de>; Tue, 16 Jun 2020 01:37:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D563D1FE126
+	for <lists+linux-hams@lfdr.de>; Thu, 18 Jun 2020 03:53:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726836AbgFOXga convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hams@lfdr.de>); Mon, 15 Jun 2020 19:36:30 -0400
-Received: from mail.bnv.gob.ve ([201.249.200.115]:41360 "EHLO
-        correo.bnv.gob.ve" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726652AbgFOXg3 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 15 Jun 2020 19:36:29 -0400
-Received: from localhost (localhost.bnv.gob.ve [127.0.0.1])
-        by correo.bnv.gob.ve (Postfix) with ESMTP id EB6D73633A84;
-        Mon, 15 Jun 2020 17:55:07 -0400 (-04)
-Received: from correo.bnv.gob.ve ([127.0.0.1])
-        by localhost (correo.bnv.gob.ve [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Kt3ZVtIRxb9y; Mon, 15 Jun 2020 17:55:07 -0400 (-04)
-Received: from localhost (localhost.bnv.gob.ve [127.0.0.1])
-        by correo.bnv.gob.ve (Postfix) with ESMTP id A16503633A66;
-        Mon, 15 Jun 2020 17:55:07 -0400 (-04)
-X-Virus-Scanned: amavisd-new at bnv.gob.ve
-Received: from correo.bnv.gob.ve ([127.0.0.1])
-        by localhost (correo.bnv.gob.ve [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id jZB2nlNvzZFd; Mon, 15 Jun 2020 17:55:07 -0400 (-04)
-Received: from [10.122.16.20] (unknown [105.12.7.63])
-        by correo.bnv.gob.ve (Postfix) with ESMTPSA id 9AA7A3633A84;
-        Mon, 15 Jun 2020 17:54:57 -0400 (-04)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1731710AbgFRB0n (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 17 Jun 2020 21:26:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34334 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730346AbgFRB0l (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Wed, 17 Jun 2020 21:26:41 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D1D9F20776;
+        Thu, 18 Jun 2020 01:26:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592443600;
+        bh=eLj+WZVX7RpEdUqqaCcfffgguX5NmI4xWHrpyxqcq7M=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=sI/F9QmNO2nV/RHuuAjyTawetsfqfWoSRMoN5m3tVFzxILj7FMAfK/bwyrqVzBFfN
+         V5Cd5qCT7Pf4nZfdqy5f/loh2zEXM0YLAtx4epzx7fvFWPorLgb+EGRYEF9QnPhfxX
+         3FKdkDr5fcNeH0F96ryYlwPwjy4k6x8C53ainFhY=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Wang Hai <wanghai38@huawei.com>, Hulk Robot <hulkci@huawei.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, linux-hams@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 030/108] yam: fix possible memory leak in yam_init_driver
+Date:   Wed, 17 Jun 2020 21:24:42 -0400
+Message-Id: <20200618012600.608744-30-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200618012600.608744-1-sashal@kernel.org>
+References: <20200618012600.608744-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: donation of Euro 2,000,000.00.
-To:     Recipients <manuel@info.com>
-From:   "manuel franco" <manuel@info.com>
-Date:   Mon, 15 Jun 2020 23:54:49 +0200
-Reply-To: manuelfrancospende22@gmail.com
-Message-Id: <20200615215457.9AA7A3633A84@correo.bnv.gob.ve>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-You have a donation of Euro 2,000,000.00.
+From: Wang Hai <wanghai38@huawei.com>
 
-My name is Manuel Franco from the United States.
+[ Upstream commit 98749b7188affbf2900c2aab704a8853901d1139 ]
 
-I won the America lottery worth $768 million and I am donating a portion of it to just 5 lucky people and a few Orphanage homes as a memorandum of goodwill to humanity.email: manuelfrancospende@gmail.com
+If register_netdev(dev) fails, free_netdev(dev) needs
+to be called, otherwise a memory leak will occur.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Wang Hai <wanghai38@huawei.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/hamradio/yam.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/net/hamradio/yam.c b/drivers/net/hamradio/yam.c
+index 16a6e1193912..b74c735a423d 100644
+--- a/drivers/net/hamradio/yam.c
++++ b/drivers/net/hamradio/yam.c
+@@ -1162,6 +1162,7 @@ static int __init yam_init_driver(void)
+ 		err = register_netdev(dev);
+ 		if (err) {
+ 			printk(KERN_WARNING "yam: cannot register net device %s\n", dev->name);
++			free_netdev(dev);
+ 			goto error;
+ 		}
+ 		yam_devs[i] = dev;
+-- 
+2.25.1
+
