@@ -2,72 +2,80 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5C6320D565
-	for <lists+linux-hams@lfdr.de>; Mon, 29 Jun 2020 21:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6E9E2141AB
+	for <lists+linux-hams@lfdr.de>; Sat,  4 Jul 2020 00:42:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731767AbgF2TQ1 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 29 Jun 2020 15:16:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43990 "EHLO
+        id S1726639AbgGCWl3 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 3 Jul 2020 18:41:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731926AbgF2TQH (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 29 Jun 2020 15:16:07 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A48DC08C5E3
-        for <linux-hams@vger.kernel.org>; Mon, 29 Jun 2020 12:16:03 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id a14so3739210pfi.2
-        for <linux-hams@vger.kernel.org>; Mon, 29 Jun 2020 12:16:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=XdfoRVGuOCD2JOxmLnJxyvoO2f5zjf1xh4i//8cGLHs=;
-        b=E57soH+fAZU9oM/uuDn4bCNx2wALmvA7rwFsDeo/VdmyR4hSt+vRDMPW0qpAcJ9V/h
-         UbYJ9fIR9BUAZrS+1TfrEzBoFSxbLFUBB/IIzj7rfy4Y1SyxPmM/cs9fEremwVWV5m5u
-         b9v38myIgTBJNjasjLIOUO/K2CJS7vPJsURIlWBEC7RA0ax+vZbkexDjvFbqaAUgNm/w
-         yj4NkgHNxXLdKOO4AZsIv5vnXx8YMl4s3e1fTXh2Hp6rhwVI9k4nzVvvlc/OSvXrfpbl
-         +6DOlsrKa8IKCRxKxdcbetpm2uz+ZUKJBnziwlMhGJ11qW6bGQPIDGjYXF06+gry04Zz
-         3NGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=XdfoRVGuOCD2JOxmLnJxyvoO2f5zjf1xh4i//8cGLHs=;
-        b=PpMUrS7xUrrMbhCdODwom9C2IZbVe6D0GUp3qE/CSLLyrq+Aof3rsoTduGK35nw1Z8
-         ixehV0l8eczuJLhQwCgo51ORiPEjskyb9I4JQQvU3Xjd1R0IwWEEVx221xG0s3n38jnQ
-         LA0qtcQW6tQ/PiKwfjmpWhEO37rS/SnSvABWrS/HjsXMlY7F1lzy/tCxCp0b7DDl1FSg
-         B4iGhpHpF1sO4RIveH430cp3YSFM6wAAZwxFT1BQ9H74YB/X2Aiby/ItGwouSzaEGfrF
-         isq8JXfnlqNARbkjJ+lJhOTLig/pCeU2sXHk/hqc7ilu1HxXu++JcRzlYKXSoUzEssUD
-         D1rw==
-X-Gm-Message-State: AOAM532sasEf8KB1JT3VwmnNsO90Zde2acCrgnhxM+C+T2MP4YO8XnGS
-        jVFSsvAWU7Rsy0ZEXZzU2hcLksM3Plh8KKZCd2k60zjSVkY=
-X-Google-Smtp-Source: ABdhPJyNR5zXZ8o09DSJzsSA3OSccnAxM/c9AxKQjYYOZlXvOMCiHs1YW/1gQi1Sa70TQ2VOPtabshfviWRkV7+ICnM=
-X-Received: by 2002:a6b:db17:: with SMTP id t23mr18236117ioc.4.1593458159284;
- Mon, 29 Jun 2020 12:15:59 -0700 (PDT)
+        with ESMTP id S1726427AbgGCWl2 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 3 Jul 2020 18:41:28 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EBDCC08C5DD;
+        Fri,  3 Jul 2020 15:41:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=xpaMHC1vD6dAuT3tv6oAvD/0zO3jL2xtR09updKR6To=; b=PQLd5Om79sruyolWkHmqhI7TL1
+        D1PiUM3oe0ut/1blqmvdx1SKCHGvM5uqFb3o4NRrCWuoOxF9P0mYFiodGAU2dLflKvJMLR1Bn+AhY
+        1nzU2PbTj0wH8BBJ+HG5lmrX09hQk4O1qVlIXh1bx1MX8wQtEn8vPVocdCNiFFcJfI69tLboUCuVj
+        hEQNpbk4FO9P1JQdvsopsQ8VX/eUfndnS/ckGrwGPa8PEixWMHOyIkD82MuXdzvezFMAVWfdoyuP9
+        rD8LTjCVZY7p0L4nwqW3+FqYcpHrW/j0vME0Cph4diQWz2m9gZbZYpAvSH+3FlRSlu2Cewj/6fwzf
+        a4GrF+dQ==;
+Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jrUMy-0000A4-Bx; Fri, 03 Jul 2020 22:41:21 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        Ralf Baechle <ralf@linux-mips.org>, linux-hams@vger.kernel.org,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        linux-can@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        linux-afs@lists.infradead.org
+Subject: [PATCH 0/7] Documentation: networking: eliminate doubled words
+Date:   Fri,  3 Jul 2020 15:41:08 -0700
+Message-Id: <20200703224115.29769-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Received: by 2002:a05:6602:1588:0:0:0:0 with HTTP; Mon, 29 Jun 2020 12:15:58
- -0700 (PDT)
-Reply-To: mrs.victoria.alexander2@gmail.com
-From:   "mrs.victoria alexander" <markalexandermilley321@gmail.com>
-Date:   Mon, 29 Jun 2020 12:15:58 -0700
-Message-ID: <CAP7XNCwEGQ+-Q==u4yk4yvJdk1X+gsfSU6pUV_hROjmF=p-DHw@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Dear friend,
+Drop all duplicated words in Documentation/networking/ files.
+
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org
+Cc: Ralf Baechle <ralf@linux-mips.org>
+Cc: linux-hams@vger.kernel.org
+Cc: Wolfgang Grandegger <wg@grandegger.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>
+Cc: linux-can@vger.kernel.org
+Cc: Andrew Lunn <andrew@lunn.ch>
+Cc: Vivien Didelot <vivien.didelot@gmail.com>
+Cc: Florian Fainelli <f.fainelli@gmail.com>
+Cc: David Howells <dhowells@redhat.com>
+Cc: linux-afs@lists.infradead.org
 
 
-I have a business container transaction what that some of( $13million dollars)
-
- I would like to discuss with you. If you are interested, please
-contact my email
-
-address (mrs.victoria.alexander2@gmail.com)
-
-My WhatsApp number but only message (+19293737780)
-
-Please do not reply if you are not ready
-Thanks
+ Documentation/networking/arcnet.rst            |    2 +-
+ Documentation/networking/ax25.rst              |    2 +-
+ Documentation/networking/can_ucan_protocol.rst |    4 ++--
+ Documentation/networking/dsa/dsa.rst           |    2 +-
+ Documentation/networking/ip-sysctl.rst         |    2 +-
+ Documentation/networking/ipvs-sysctl.rst       |    2 +-
+ Documentation/networking/rxrpc.rst             |    2 +-
+ 7 files changed, 8 insertions(+), 8 deletions(-)
