@@ -2,126 +2,83 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BCDF21D264
-	for <lists+linux-hams@lfdr.de>; Mon, 13 Jul 2020 11:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0F1121D785
+	for <lists+linux-hams@lfdr.de>; Mon, 13 Jul 2020 15:49:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727035AbgGMJDB (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 13 Jul 2020 05:03:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33896 "EHLO
+        id S1729613AbgGMNt5 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 13 Jul 2020 09:49:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726360AbgGMJDB (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 13 Jul 2020 05:03:01 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A875C061755;
-        Mon, 13 Jul 2020 02:03:01 -0700 (PDT)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id EB8CFBC0D1;
-        Mon, 13 Jul 2020 09:02:57 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     ralf@linux-mips.org, davem@davemloft.net, kuba@kernel.org,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] [NET] AX.25 Kconfig: Replace HTTP links with HTTPS ones
-Date:   Mon, 13 Jul 2020 11:02:51 +0200
-Message-Id: <20200713090251.32640-1-grandmaster@al2klimov.de>
+        with ESMTP id S1729581AbgGMNt5 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 13 Jul 2020 09:49:57 -0400
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A561C061755
+        for <linux-hams@vger.kernel.org>; Mon, 13 Jul 2020 06:49:57 -0700 (PDT)
+Received: by mail-il1-x143.google.com with SMTP id e18so11183262ilr.7
+        for <linux-hams@vger.kernel.org>; Mon, 13 Jul 2020 06:49:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=Xb6Gu1lzDmHx/NQgpResSBUvAPC9JsRrTa2hFaXvwiE=;
+        b=hFS3XGu1SvXJvgE5XzkvM5W9fLkCB+HNW79kein8vFyDDLwp9KUWkZjJUSKWOBBhaX
+         C0wQJVHB5dp2RtGq+RKo/Rh9RthjGRpQF/vlQeieZ8//T9qqKKhs9Fh+tebPOMfoD5Ef
+         jok4QfR2H3zQyM3JwQAbVtyr1rrlxoL6jzEu9vSPHZKOnXRP7g8qSHnhb9zrmFLE2PWe
+         RzhCCFTOODrH+igsacBvOS+S8+3sF+AtbU6GZA3wxeDeAt0+p/xuqt6NIXVgboASd7JB
+         WxxvgIw/uQ0ggL0TxV7FVXrLUjpoY04gwdfuU+egnScRKsFjbBvVMhHtBNVg9+uHiFoo
+         i82g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=Xb6Gu1lzDmHx/NQgpResSBUvAPC9JsRrTa2hFaXvwiE=;
+        b=CvGrgpdpKS/X+ycfJBDTuyzeJcaddCaTRrLJYRH05kUsVn1Gbm2Cmz8OlNTrG9mHJ2
+         NPriHsGM/ktLKb95FIRk2l9hD06q0N0HRv48Pcppn1VMlUenq7eICC+Mu4NfU0nzMiou
+         la0SfjT4i+XirzJZVlsmDpJPuo2PLtUHH7iQbPzo6TQXRXxDh5odSgWOaX3wje2hrkpV
+         FGOOAVePRlXv8BwG3q1m1jCFsDRtCpkZLwlj3ukRIkQhQD5imBggEniFDA6oOdCU+agP
+         cPkBvwN9gI54bulLkrJxYp3jrlTwYZYFBPN3+p2i6gs4kWo+EDI6rsvelEwh2FajMh8M
+         XISQ==
+X-Gm-Message-State: AOAM530pvy0aQW5tz0dnfNVVzoPyYKJVqUGgqOaAnMyXsK2SaZR7Nfhf
+        /xAhK4bY5Q7c+/c5iZqv/0hilXNWrK0Vd2GLfK4=
+X-Google-Smtp-Source: ABdhPJwSWSg1LAclqSZebxkhD2rVYpvLk/wLOGr7fO0cD6p/sI3X1hIT2n5cGrB5j5h0Bz2/1LSgBhitdsdW6IvJtjc=
+X-Received: by 2002:a92:404e:: with SMTP id n75mr24871886ila.203.1594648196556;
+ Mon, 13 Jul 2020 06:49:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: +++++
-X-Spam-Level: *****
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+Reply-To: beatricel20@yandex.com
+Received: by 2002:a5d:8d05:0:0:0:0:0 with HTTP; Mon, 13 Jul 2020 06:49:56
+ -0700 (PDT)
+From:   Beatrice Johnson <beaticej20@gmail.com>
+Date:   Mon, 13 Jul 2020 06:49:56 -0700
+X-Google-Sender-Auth: D7_xbShwbxQU4a8sXBRabzZ-iAk
+Message-ID: <CAC6Xm2fcptFrkAqiXiipUXjFrL-vnDUZNTAWn-pPCvAuGadwTg@mail.gmail.com>
+Subject: I need Your Urgent assistance.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+I need Your Urgent assistance.
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
+My name is Beatrice Johnson. The only daughter of the late Mr. Madou
+Johnson. Here in Burkina Faso, i got your Email profile while
+searching for contact on Internet; I am contacting you to help me
+receive some amount of money in your country. So that I can travel to
+your country to continue my education over there,
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
- See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
- (Actually letting a shell for loop submit all this stuff for me.)
+Before my father died he deposited the Sum of ($4.5 Million) in a bank
+here and he advised me before he died to look for a faithful and
+reliable foreigner, who can help receive the Funds outside country, So
+that I can travel to meet you in your country. For my share percentage
+of the total amount 4.5 Million.
 
- If there are any URLs to be removed completely or at least not just HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also: https://lkml.org/lkml/2020/6/27/64
+I hope you are capable to receive the 4.5 Million in your country with
+trust.  I will like to travel to your country immediately the bank
+wire the funds into your account. You will take 30% of the total 4.5
+Million for your good and kind assistance to me. I will send to you
+the full details concerning the funds immediately I hear from you
+soon.
 
- If there are any valid, but yet not changed URLs:
- See: https://lkml.org/lkml/2020/6/26/837
+My Regards,
 
- If you apply the patch, please let me know.
-
- Sorry again to all maintainers who complained about subject lines.
- Now I realized that you want an actually perfect prefixes,
- not just subsystem ones.
- I tried my best...
- And yes, *I could* (at least half-)automate it.
- Impossible is nothing! :)
-
-
- net/ax25/Kconfig | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/net/ax25/Kconfig b/net/ax25/Kconfig
-index 97d686d115c0..d3a9843a043d 100644
---- a/net/ax25/Kconfig
-+++ b/net/ax25/Kconfig
-@@ -8,7 +8,7 @@ menuconfig HAMRADIO
- 	bool "Amateur Radio support"
- 	help
- 	  If you want to connect your Linux box to an amateur radio, answer Y
--	  here. You want to read <http://www.tapr.org/>
-+	  here. You want to read <https://www.tapr.org/>
- 	  and more specifically about AX.25 on Linux
- 	  <http://www.linux-ax25.org/>.
- 
-@@ -39,11 +39,11 @@ config AX25
- 	  Information about where to get supporting software for Linux amateur
- 	  radio as well as information about how to configure an AX.25 port is
- 	  contained in the AX25-HOWTO, available from
--	  <http://www.tldp.org/docs.html#howto>. You might also want to
-+	  <https://www.tldp.org/docs.html#howto>. You might also want to
- 	  check out the file <file:Documentation/networking/ax25.rst> in the
- 	  kernel source. More information about digital amateur radio in
- 	  general is on the WWW at
--	  <http://www.tapr.org/>.
-+	  <https://www.tapr.org/>.
- 
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called ax25.
-@@ -90,7 +90,7 @@ config NETROM
- 	  <http://www.linux-ax25.org>. You also might want to check out the
- 	  file <file:Documentation/networking/ax25.rst>. More information about
- 	  digital amateur radio in general is on the WWW at
--	  <http://www.tapr.org/>.
-+	  <https://www.tapr.org/>.
- 
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called netrom.
-@@ -109,7 +109,7 @@ config ROSE
- 	  <http://www.linux-ax25.org>.  You also might want to check out the
- 	  file <file:Documentation/networking/ax25.rst>. More information about
- 	  digital amateur radio in general is on the WWW at
--	  <http://www.tapr.org/>.
-+	  <https://www.tapr.org/>.
- 
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called rose.
--- 
-2.27.0
-
+Beatrice Johnson.
