@@ -2,44 +2,115 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5F452207B9
-	for <lists+linux-hams@lfdr.de>; Wed, 15 Jul 2020 10:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1F7E2252D3
+	for <lists+linux-hams@lfdr.de>; Sun, 19 Jul 2020 18:40:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729648AbgGOIrY (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 15 Jul 2020 04:47:24 -0400
-Received: from correo.yucatan.gob.mx ([187.141.74.27]:33786 "EHLO
-        antispam.yucatan.gob.mx" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729377AbgGOIrY (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 15 Jul 2020 04:47:24 -0400
-Received: from correo.yucatan.gob.mx ([192.168.25.101])
-        by antispam.yucatan.gob.mx  with ESMTP id 06F8H0ik024458-06F8H0ir024458
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=CAFAIL);
-        Wed, 15 Jul 2020 03:17:01 -0500
-From:   Felipe Francisco Romero Ruiz <felipe.romero@yucatan.gob.mx>
-To:     "NO-RELY@MICROSOFT.NET" <NO-RELY@MICROSOFT.NET>
-Subject: A lot of your incoming messages has been suspended
-Thread-Topic: A lot of your incoming messages has been suspended
-Thread-Index: AdZagFAgsU3YaOfxRHG3sV+827dyYQ==
-Date:   Wed, 15 Jul 2020 08:17:00 +0000
-Message-ID: <9B5224426D8A9A4F8725FFD78A10E7DA4D05CCF0@SRV-MAILBOX-02.gobierno1.yucatan.gob.mx>
-Accept-Language: es-ES, es-MX, en-US
-Content-Language: es-ES
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [80.248.74.211]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1726051AbgGSQj7 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sun, 19 Jul 2020 12:39:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52646 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725783AbgGSQj7 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sun, 19 Jul 2020 12:39:59 -0400
+Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3692C0619D2;
+        Sun, 19 Jul 2020 09:39:58 -0700 (PDT)
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id E2448BC086;
+        Sun, 19 Jul 2020 16:39:54 +0000 (UTC)
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     jreuter@yaina.de, davem@davemloft.net, kuba@kernel.org,
+        corbet@lwn.net, linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH for v5.9] ax25: Replace HTTP links with HTTPS ones
+Date:   Sun, 19 Jul 2020 18:39:48 +0200
+Message-Id: <20200719163948.60227-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: +++++
+X-Spam-Level: *****
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-TUlDUk9TT0ZUIFVSR0VOVCBOT1RJQ0UNCg0KQSBsb3Qgb2YgeW91ciBpbmNvbWluZyBtZXNzYWdl
-cyBoYXMgYmVlbiBzdXNwZW5kZWQgYmVjYXVzZSB5b3VyIGVtYWlsIGJveCBhY2NvdW50IGlzIG5v
-dCB2ZXJpZnkgYnkgTWljcm9zb2Z0IHZlcmlmaWNhdGlvbiB0ZWFtLiBJbiBvcmRlciB0byByZWNl
-aXZlDQoNCnlvdXIgbWVzc2FnZXMgZG8gdmVyaWZ5IG5vdywNCg0KVkVSSUZJQ0FUSU9OPGh0dHBz
-Oi8vc3VyZWdvNy53aXhzaXRlLmNvbS9teXNpdGU+4oCLDQoNCldlIGFwb2xvZ2lzZSBmb3IgYW55
-IGluY29udmVuaWVuY2UgYW5kIGFwcHJlY2lhdGUgeW91ciB1bmRlcnN0YW5kaW5nLg0KDQoNCg0K
-VGhhbmsgWW91Lg0KDQpNaWNyb3NvZnQgVmVyaWZpY2F0aW9uIFRlYW0NCg0KQ29weXJpZ2h0IMKp
-IDIwMjAgV2VibWFpbCAuSW5jIC4gQWxsIHJpZ2h0cyByZXNlcnZlZC4NCg0K
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
+
+Deterministic algorithm:
+For each file:
+  If not .svg:
+    For each line:
+      If doesn't contain `\bxmlns\b`:
+        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+            If both the HTTP and HTTPS versions
+            return 200 OK and serve the same content:
+              Replace HTTP with HTTPS.
+
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+---
+ Continuing my work started at 93431e0607e5.
+ See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+ (Actually letting a shell for loop submit all this stuff for me.)
+
+ If there are any URLs to be removed completely
+ or at least not (just) HTTPSified:
+ Just clearly say so and I'll *undo my change*.
+ See also: https://lkml.org/lkml/2020/6/27/64
+
+ If there are any valid, but yet not changed URLs:
+ See: https://lkml.org/lkml/2020/6/26/837
+
+ If you apply the patch, please let me know.
+
+ Sorry again to all maintainers who complained about subject lines.
+ Now I realized that you want an actually perfect prefixes,
+ not just subsystem ones.
+ I tried my best...
+ And yes, *I could* (at least half-)automate it.
+ Impossible is nothing! :)
+
+
+ Documentation/networking/z8530drv.rst | 4 ++--
+ drivers/net/hamradio/scc.c            | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/networking/z8530drv.rst b/Documentation/networking/z8530drv.rst
+index d2942760f167..79c7f72f32c8 100644
+--- a/Documentation/networking/z8530drv.rst
++++ b/Documentation/networking/z8530drv.rst
+@@ -18,7 +18,7 @@ Internet:
+ Please note that the information in this document may be hopelessly outdated.
+ A new version of the documentation, along with links to other important
+ Linux Kernel AX.25 documentation and programs, is available on
+-http://yaina.de/jreuter
++https://yaina.de/jreuter
+ 
+ Copyright |copy| 1993,2000 by Joerg Reuter DL1BKE <jreuter@yaina.de>
+ 
+@@ -683,4 +683,4 @@ in the Linux standard distribution and their support.
+ 	Joerg Reuter	ampr-net: dl1bke@db0pra.ampr.org
+ 			AX-25   : DL1BKE @ DB0ABH.#BAY.DEU.EU
+ 			Internet: jreuter@yaina.de
+-			WWW     : http://yaina.de/jreuter
++			WWW     : https://yaina.de/jreuter
+diff --git a/drivers/net/hamradio/scc.c b/drivers/net/hamradio/scc.c
+index 33fdd55c6122..875d9262ef78 100644
+--- a/drivers/net/hamradio/scc.c
++++ b/drivers/net/hamradio/scc.c
+@@ -131,7 +131,7 @@
+    Joerg Reuter	ampr-net: dl1bke@db0pra.ampr.org
+ 		AX-25   : DL1BKE @ DB0ABH.#BAY.DEU.EU
+ 		Internet: jreuter@yaina.de
+-		www     : http://yaina.de/jreuter
++		www     : https://yaina.de/jreuter
+ */
+ 
+ /* ----------------------------------------------------------------------- */
+-- 
+2.27.0
+
