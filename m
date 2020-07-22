@@ -2,132 +2,105 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D785229364
-	for <lists+linux-hams@lfdr.de>; Wed, 22 Jul 2020 10:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1E8A229B34
+	for <lists+linux-hams@lfdr.de>; Wed, 22 Jul 2020 17:21:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729217AbgGVI0u (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 22 Jul 2020 04:26:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51922 "EHLO
+        id S1732792AbgGVPUR (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 22 Jul 2020 11:20:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728927AbgGVI0s (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 22 Jul 2020 04:26:48 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B70C05BD0F
-        for <linux-hams@vger.kernel.org>; Wed, 22 Jul 2020 01:26:46 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id a1so981334edt.10
-        for <linux-hams@vger.kernel.org>; Wed, 22 Jul 2020 01:26:46 -0700 (PDT)
+        with ESMTP id S1728046AbgGVPUR (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 22 Jul 2020 11:20:17 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD13C0619DC;
+        Wed, 22 Jul 2020 08:20:17 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id di5so1155679qvb.11;
+        Wed, 22 Jul 2020 08:20:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tessares-net.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ijnpSqTzlWs7OuuIHaz94zTqsgZ4TkbrlxGL7rF8SvM=;
-        b=xFRbFe5eYCppxJ62qFkLFv33fQa9ER4RHEl34g5WwIC4xdcR+4tivo7mnn1S+rNlbS
-         cMN8QwQ1eW0avv9rFxBRIQMUktSGW06zNgKrNWQvq5F25hq8QLzdYCQ1hmqL4iSIvq09
-         Szc8YdqC97qHUqKRHbhQr8/oguhWktZDZtVMGTavTEfzVAENBpjq7LQbsQSFC/Qb56AS
-         G/7MNxNktsXQmENPoH9ousqNoZVBW0eyiSYtxkhGP/mapdbBWtSCpZCTmHbB+1rtyqO0
-         wY2Oxf7ffMMplrOPj5lpx8Ya/rpegVFUOFLBmwqnjZVN6pLS4eW+iRKkCxAtMw4/FDqK
-         d09g==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mC+9VCisrQOLG6kTWdRwYqg9YnRsNnWuSWD6BGUaBPU=;
+        b=FZ8HekGeo5ShXhCW8K3Qz+diyX/yNtoMBwYcfNlQOkYqwJMOBDgkjjnrXxMcFytvl0
+         EUX2omBZVUM4mZLAJv89P8Bsab6RM96iDKoWFBid86ut6Rknmzs9hd4FivGcc5tzWmQe
+         WPpqaU6RcomIDNnm5zy7m/x16lXpOcKVuJ8icY/dPG9fNcMZwDbSClIimXXW4FeW0x/k
+         sYD9XbJqXHFmkDNHbxUi39CWdyXfFfd2joCrE6kn+tBk1FIU6AqzTvCiRBhFHukdqTv/
+         A/2auoshCGbIidQlhZt5lalBFxNltjZZYOPyxB0qTqMD5DqmgL5eZl/75YGNCnWB3mq1
+         /gDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ijnpSqTzlWs7OuuIHaz94zTqsgZ4TkbrlxGL7rF8SvM=;
-        b=PNd54M+F5GZF68Muodax5vH7USOX3eCdOLvcrKWyCOKwj+nCZwo/awcgDBZoCqxNre
-         xGJQKzsW1/GycrOIWNDvpFATrq5q0phAYHQAii16e6J2zj/u4rAZehKkGNMHQjpxQoXB
-         Hmks0H1sq00nvoLWsKiKPOCA2nUI15WX56jEsX0MOK07aciVwaT2VokeyBnowMFSMbtq
-         QjRueDPNv/vdRpYMu+I6qSkyInUAKz2AZI20JlWzbEXRw5o9wDJRCHQx9nnmnafXGC0Q
-         2r/qmW521JHvkSU9sTlTZ8oF53NgMoq65xP2vMc9724Cw1GvWeFW+Rixi3RFqnFsEowJ
-         b+BQ==
-X-Gm-Message-State: AOAM5330kvRLAehdmxC6TP0HjqcCzEmWV5q2LtAYuF7bt76qOD/waj8n
-        kCPPUWdX2FBaBDOCUbzHpGYu+A==
-X-Google-Smtp-Source: ABdhPJxnWSvai+9iaNos8sJtXdeBHraQbZUkyduEvMUxv8nKJJQfjOWUUSDiYYhu744BzkT/PRbBSQ==
-X-Received: by 2002:aa7:d341:: with SMTP id m1mr28525320edr.50.1595406404862;
-        Wed, 22 Jul 2020 01:26:44 -0700 (PDT)
-Received: from tsr-lap-08.nix.tessares.net ([79.132.248.22])
-        by smtp.gmail.com with ESMTPSA id x16sm19025267edr.52.2020.07.22.01.26.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jul 2020 01:26:44 -0700 (PDT)
-Subject: Re: [MPTCP] [PATCH 24/24] net: pass a sockptr_t into ->setsockopt
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Eric Dumazet <edumazet@google.com>,
-        linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        linux-sctp@vger.kernel.org, linux-hams@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, bridge@lists.linux-foundation.org,
-        linux-can@vger.kernel.org, dccp@vger.kernel.org,
-        linux-decnet-user@lists.sourceforge.net,
-        linux-wpan@vger.kernel.org, linux-s390@vger.kernel.org,
-        mptcp@lists.01.org, lvs-devel@vger.kernel.org,
-        rds-devel@oss.oracle.com, linux-afs@lists.infradead.org,
-        tipc-discussion@lists.sourceforge.net, linux-x25@vger.kernel.org
-References: <20200720124737.118617-1-hch@lst.de>
- <20200720124737.118617-25-hch@lst.de>
-From:   Matthieu Baerts <matthieu.baerts@tessares.net>
-Message-ID: <b3665200-2476-9d35-8dea-d5da141c6b70@tessares.net>
-Date:   Wed, 22 Jul 2020 10:26:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        bh=mC+9VCisrQOLG6kTWdRwYqg9YnRsNnWuSWD6BGUaBPU=;
+        b=EpJUoU3ByiX0FpbuMhoow2vNygHAiYkh8DUefhVS65aKN+pxJrkSTl6p2Yzm67VN46
+         G9NCXk+D/j7/6LjZQbYolTFW6pN9nldmLQ63/Za6nmkVpWlb9T9DWHgnshgJmNdAbEwj
+         Co1P1IZey/92VGygwhX0BIYtPFYxV+ooKUtstBIrKWQIQRNbe9P8uyJUQ8aNEbyQK0W7
+         0WD4MhoYjNSg2oqJT7TmPDYSoxKu6Vamn0qXSyxo3tL8FIf5PoA6ESmlyCXFpxM3J4AX
+         /YYzSwfasBz8l8oe2yanmEIGOPvnIPxz/zlqVbHqWIRK5DDgGS3eBCDJ5YrRQANhxii+
+         VIaw==
+X-Gm-Message-State: AOAM531ePh71OXvi/pIJxzl5rr7fTuYcuEk6V4gHBMiZM14u+ei/FC0N
+        5WhaEmTmD3igUuuihK4RdA==
+X-Google-Smtp-Source: ABdhPJyQlAbWhv80O6xSt+eVr/q5xPqqgm6J3gKBuQeelHhV7/HpWfRDD0xY6q8tS7Z3mN/bUfbdRQ==
+X-Received: by 2002:ad4:4583:: with SMTP id x3mr454680qvu.133.1595431216569;
+        Wed, 22 Jul 2020 08:20:16 -0700 (PDT)
+Received: from localhost.localdomain (c-76-119-149-155.hsd1.ma.comcast.net. [76.119.149.155])
+        by smtp.gmail.com with ESMTPSA id 16sm147427qkv.48.2020.07.22.08.20.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2020 08:20:16 -0700 (PDT)
+From:   Peilin Ye <yepeilin.cs@gmail.com>
+To:     Joerg Reuter <jreuter@yaina.de>, Ralf Baechle <ralf@linux-mips.org>
+Cc:     Peilin Ye <yepeilin.cs@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        syzkaller-bugs@googlegroups.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-hams@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH net] AX.25: Fix out-of-bounds read in ax25_connect()
+Date:   Wed, 22 Jul 2020 11:19:01 -0400
+Message-Id: <20200722151901.350003-1-yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200720124737.118617-25-hch@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hi Christoph,
+Checks on `addr_len` and `fsa->fsa_ax25.sax25_ndigis` are insufficient.
+ax25_connect() can go out of bounds when `fsa->fsa_ax25.sax25_ndigis`
+equals to 7 or 8. Fix it.
 
-On 20/07/2020 14:47, Christoph Hellwig wrote:
-> Rework the remaining setsockopt code to pass a sockptr_t instead of a
-> plain user pointer.  This removes the last remaining set_fs(KERNEL_DS)
-> outside of architecture specific code.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
+This issue has been reported as a KMSAN uninit-value bug, because in such
+a case, ax25_connect() reaches into the uninitialized portion of the
+`struct sockaddr_storage` statically allocated in __sys_connect().
 
-...
-> diff --git a/net/mptcp/protocol.c b/net/mptcp/protocol.c
-> index 27b6f250b87dfd..30a8e697b9db9c 100644
-> --- a/net/mptcp/protocol.c
-> +++ b/net/mptcp/protocol.c
-> @@ -1627,7 +1627,7 @@ static void mptcp_destroy(struct sock *sk)
->   }
->   
->   static int mptcp_setsockopt_sol_socket(struct mptcp_sock *msk, int optname,
-> -				       char __user *optval, unsigned int optlen)
-> +				       sockptr_t optval, unsigned int optlen)
->   {
->   	struct sock *sk = (struct sock *)msk;
->   	struct socket *ssock;
-> @@ -1643,8 +1643,8 @@ static int mptcp_setsockopt_sol_socket(struct mptcp_sock *msk, int optname,
->   			return -EINVAL;
->   		}
->   
-> -		ret = sock_setsockopt(ssock, SOL_SOCKET, optname,
-> -				      USER_SOCKPTR(optval), optlen);
-> +		ret = sock_setsockopt(ssock, SOL_SOCKET, optname, optval,
-> +				      optlen);
+It is safe to remove `fsa->fsa_ax25.sax25_ndigis > AX25_MAX_DIGIS` because
+`addr_len` is guaranteed to be less than or equal to
+`sizeof(struct full_sockaddr_ax25)`.
 
-A very small detail related to the modifications in MPTCP code, only if 
-you have to send a v2 and if you don't mind: may you move "optlen" to 
-the previous line like it was before your patch 7/24. Same below at the 
-end of the function.
+Reported-by: syzbot+c82752228ed975b0a623@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?id=55ef9d629f3b3d7d70b69558015b63b48d01af66
+Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+---
+ net/ax25/af_ax25.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-That would reduce the global diff in MPTCP files to function signatures 
-only.
-
-Cheers,
-Matt
+diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+index fd91cd34f25e..ef5bf116157a 100644
+--- a/net/ax25/af_ax25.c
++++ b/net/ax25/af_ax25.c
+@@ -1187,7 +1187,9 @@ static int __must_check ax25_connect(struct socket *sock,
+ 	if (addr_len > sizeof(struct sockaddr_ax25) &&
+ 	    fsa->fsa_ax25.sax25_ndigis != 0) {
+ 		/* Valid number of digipeaters ? */
+-		if (fsa->fsa_ax25.sax25_ndigis < 1 || fsa->fsa_ax25.sax25_ndigis > AX25_MAX_DIGIS) {
++		if (fsa->fsa_ax25.sax25_ndigis < 1 ||
++		    addr_len < sizeof(struct sockaddr_ax25) +
++		    sizeof(ax25_address) * fsa->fsa_ax25.sax25_ndigis) {
+ 			err = -EINVAL;
+ 			goto out_release;
+ 		}
 -- 
-Tessares | Belgium | Hybrid Access Solutions
-www.tessares.net
+2.25.1
+
