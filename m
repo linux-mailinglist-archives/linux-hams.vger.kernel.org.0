@@ -2,122 +2,127 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0467B22B3BD
-	for <lists+linux-hams@lfdr.de>; Thu, 23 Jul 2020 18:40:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE78822B3D4
+	for <lists+linux-hams@lfdr.de>; Thu, 23 Jul 2020 18:44:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729917AbgGWQkk (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 23 Jul 2020 12:40:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41366 "EHLO
+        id S1729907AbgGWQnz (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 23 Jul 2020 12:43:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729894AbgGWQkj (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 23 Jul 2020 12:40:39 -0400
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E1E6C0619E4
-        for <linux-hams@vger.kernel.org>; Thu, 23 Jul 2020 09:40:39 -0700 (PDT)
-Received: by mail-yb1-xb43.google.com with SMTP id c14so3175018ybj.0
-        for <linux-hams@vger.kernel.org>; Thu, 23 Jul 2020 09:40:39 -0700 (PDT)
+        with ESMTP id S1727044AbgGWQnz (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 23 Jul 2020 12:43:55 -0400
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17EA6C0619DC;
+        Thu, 23 Jul 2020 09:43:55 -0700 (PDT)
+Received: by mail-qt1-x843.google.com with SMTP id j10so4829867qtq.11;
+        Thu, 23 Jul 2020 09:43:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gMZVcJy5uwQT4vGlr1ERHcQqosY3c4kI9divmT2Lqpo=;
-        b=gwjAdDF942fvpXcwvyR0uuIMKC72vX+1xaZmY+P/HlmQuhIFDMmqtrrmpEAYoODFls
-         2whE4wMib2QcLaOVE4J+SdVBQ6P2JsY+v8YTFDd3JbEzache4FI5T4xBht2IkLXzQ/Sy
-         1WIGux4f/lVv0pdf+puWJ2nV8J8wAU2lYqlJCRbXSl2WNeWZR9h1y1lVklRZc/KIqgKe
-         Aj/ehWw+f2o0CsdkKfDY/zbJ5hlw20DhQPkwOJEN7mcdPxjJE6/p+eukZAHUXZngVbCf
-         sdt5+ZH+ulKqsBPsP5u7/dtuM4Y4W/S7rVtNSNPkcxfWu5kl7dPPev0Qj6brKbcngU4o
-         aoNg==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=MEzelzK6A1iR0Hq7ZpzeCYIL/zPgCeRTH83ADsVGxVg=;
+        b=kX9ZDlrNi/NNtBhQdsixkzD+2djUYGtXWcT5dSG6iUJ9uAZDl3d6DMpXFQH6zNSXEy
+         QJ9idstZlH1PlPtq8ZMZcuVDgEw+SWGRhlDOWItu0rti2XQrNeV0g1DJel1zfTcqLcM2
+         nozFlKR2fi654peEjxpEkk8ralx/uwSHM3HH9j0dVZIHp5kBuwrKPlt2yZ3idTSmwd7t
+         u7wMV1l85Wkyz6UHBb+Hul95XmPkmMi3I6V1dNxcdCJJcFlKcwtccMMubJAk1kp83uvY
+         Ol2XIYLoEltNvBWDgwnh92J+ckXaEuPh62V8YRFCcaZF1OxXMtMGGSojmMOuc/KPS7tH
+         KOfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gMZVcJy5uwQT4vGlr1ERHcQqosY3c4kI9divmT2Lqpo=;
-        b=j707OAuxhyuXqqJwS7TNpZc7bulUoq8Jpgs0rjk9N42TRhOkNMC9omyl0iDwnyVQz4
-         dkR5xdd1zSHdw9OU1lHS+VQGmZQ0m/qIHx7FSEH3ku89qCgRDrIj8jJYxWv5QGjucFKJ
-         dUcf0OlNHD9yi2gFsOs4xYk75iObtghEDzJR0ZXhy7csr51v6+zNKA2/GERpkxrh+bo5
-         u9joe6VLiy2BvYP9+a75Mcyto4kDdATIQu27zWpyjBlbUreiOINSJUPOqmGTsTuygPZi
-         5aqVulBtkImEAearp1MvM9q7ungyXJsJmMurLaTJrGUBxEWMFbc9zg872azeVjC67hWO
-         sVcg==
-X-Gm-Message-State: AOAM5323NN7t6JAE/WT5No8H9x+eqUX9QOwrR4bFsSqHaVGpjqM7Ttff
-        DpysndkflKW8+wMjTECDRAl2RvOV6vzuFLFuHiLgMA==
-X-Google-Smtp-Source: ABdhPJwjoH5EQjleheyC3y94ZN3qZdobs4/50/anePotqNf3BbB0YqTnucY8g4u2RzRMw5fRhYkM1LWDXZ+gqUBrIW0=
-X-Received: by 2002:a25:a121:: with SMTP id z30mr8500302ybh.408.1595522438544;
- Thu, 23 Jul 2020 09:40:38 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=MEzelzK6A1iR0Hq7ZpzeCYIL/zPgCeRTH83ADsVGxVg=;
+        b=ZREUIngC6CKpxaSsELPweFNQdDn3CcsA3HuFGZZ33Bgdfw8GjK0QTxPN8ayo8WFboI
+         wudKtmuLlLyFPxmSsAYGeoV4TdfD3C9HopDJrc+PG3aQI/1rs9lFgpY41tW9kOn4pofj
+         fwthrXuKp+03rvQuzEDIjOqSOK3uL1URe6UULLHP8fAHZnvrfcMp0a9dtPkf90i+kxlJ
+         A2AQDroA5wGmNwdUT8zaG3Odq190cfelIPxXCENC2QlMXZqejSGeLdH57io0AvUZ3p/5
+         9z/j68NcEP6x5PEPEISU9h0xNC9dGV8BmYuo+F+xzywTL82XtEWmy9q2Tb2nrXXBsuNB
+         Qd8w==
+X-Gm-Message-State: AOAM532YPJhi9WuYvOQp2Z0lJD1e2jDyjNf4gA7w9SAKWb18jiunkf4O
+        /PJ+VPnrvY4tw+FFLe3Mfg==
+X-Google-Smtp-Source: ABdhPJypQVQ/7ruPg17P9HpCoEw1Fd2hBQjD42iQgBhKQA07at/5hrtKIBWajFHaziSgQDpC0GhOvA==
+X-Received: by 2002:ac8:3528:: with SMTP id y37mr4281156qtb.308.1595522634257;
+        Thu, 23 Jul 2020 09:43:54 -0700 (PDT)
+Received: from PWN (c-76-119-149-155.hsd1.ma.comcast.net. [76.119.149.155])
+        by smtp.gmail.com with ESMTPSA id t93sm2842529qtd.97.2020.07.23.09.43.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2020 09:43:53 -0700 (PDT)
+Date:   Thu, 23 Jul 2020 12:43:51 -0400
+From:   Peilin Ye <yepeilin.cs@gmail.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Joerg Reuter <jreuter@yaina.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        syzkaller-bugs@googlegroups.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-hams@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH net] AX.25: Fix out-of-bounds read
+ in ax25_connect()
+Message-ID: <20200723164351.GA413286@PWN>
+References: <20200722151901.350003-1-yepeilin.cs@gmail.com>
+ <20200723142814.GQ2549@kadam>
+ <20200723151355.GA412829@PWN>
+ <20200723155057.GS2549@kadam>
 MIME-Version: 1.0
-References: <20200723060908.50081-1-hch@lst.de> <20200723060908.50081-5-hch@lst.de>
-In-Reply-To: <20200723060908.50081-5-hch@lst.de>
-From:   Eric Dumazet <edumazet@google.com>
-Date:   Thu, 23 Jul 2020 09:40:27 -0700
-Message-ID: <CANn89iJ3LKth-iWwh0+P3D3RqtDNv4AyXkkzhXr0oSEvE_JoRQ@mail.gmail.com>
-Subject: Re: [PATCH 04/26] net: add a new sockptr_t type
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
-        <linux-crypto@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        linux-sctp@vger.kernel.org, linux-hams@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, bridge@lists.linux-foundation.org,
-        linux-can@vger.kernel.org, dccp@vger.kernel.org,
-        linux-decnet-user@lists.sourceforge.net,
-        linux-wpan@vger.kernel.org, linux-s390@vger.kernel.org,
-        mptcp@lists.01.org, lvs-devel@vger.kernel.org,
-        rds-devel@oss.oracle.com, linux-afs@lists.infradead.org,
-        tipc-discussion@lists.sourceforge.net, linux-x25@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200723155057.GS2549@kadam>
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Wed, Jul 22, 2020 at 11:09 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> Add a uptr_t type that can hold a pointer to either a user or kernel
-> memory region, and simply helpers to copy to and from it.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  include/linux/sockptr.h | 104 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 104 insertions(+)
->  create mode 100644 include/linux/sockptr.h
->
-> diff --git a/include/linux/sockptr.h b/include/linux/sockptr.h
-> new file mode 100644
-> index 00000000000000..700856e13ea0c4
-> --- /dev/null
-> +++ b/include/linux/sockptr.h
-> @@ -0,0 +1,104 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2020 Christoph Hellwig.
-> + *
-> + * Support for "universal" pointers that can point to either kernel or userspace
-> + * memory.
-> + */
-> +#ifndef _LINUX_SOCKPTR_H
-> +#define _LINUX_SOCKPTR_H
-> +
-> +#include <linux/slab.h>
-> +#include <linux/uaccess.h>
-> +
-> +typedef struct {
-> +       union {
-> +               void            *kernel;
-> +               void __user     *user;
-> +       };
-> +       bool            is_kernel : 1;
-> +} sockptr_t;
->
+On Thu, Jul 23, 2020 at 06:50:58PM +0300, Dan Carpenter wrote:
+> On Thu, Jul 23, 2020 at 11:13:55AM -0400, Peilin Ye wrote:
+> > On Thu, Jul 23, 2020 at 05:28:15PM +0300, Dan Carpenter wrote:
+> > > On Wed, Jul 22, 2020 at 11:19:01AM -0400, Peilin Ye wrote:
+> > > > Checks on `addr_len` and `fsa->fsa_ax25.sax25_ndigis` are insufficient.
+> > > > ax25_connect() can go out of bounds when `fsa->fsa_ax25.sax25_ndigis`
+> > > > equals to 7 or 8. Fix it.
+> > > > 
+> > > > This issue has been reported as a KMSAN uninit-value bug, because in such
+> > > > a case, ax25_connect() reaches into the uninitialized portion of the
+> > > > `struct sockaddr_storage` statically allocated in __sys_connect().
+> > > > 
+> > > > It is safe to remove `fsa->fsa_ax25.sax25_ndigis > AX25_MAX_DIGIS` because
+> > > > `addr_len` is guaranteed to be less than or equal to
+> > > > `sizeof(struct full_sockaddr_ax25)`.
+> > > > 
+> > > > Reported-by: syzbot+c82752228ed975b0a623@syzkaller.appspotmail.com
+> > > > Link: https://syzkaller.appspot.com/bug?id=55ef9d629f3b3d7d70b69558015b63b48d01af66
+> > > > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> > > > ---
+> > > >  net/ax25/af_ax25.c | 4 +++-
+> > > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+> > > > index fd91cd34f25e..ef5bf116157a 100644
+> > > > --- a/net/ax25/af_ax25.c
+> > > > +++ b/net/ax25/af_ax25.c
+> > > > @@ -1187,7 +1187,9 @@ static int __must_check ax25_connect(struct socket *sock,
+> > > >  	if (addr_len > sizeof(struct sockaddr_ax25) &&
+> > > >  	    fsa->fsa_ax25.sax25_ndigis != 0) {
+> > > >  		/* Valid number of digipeaters ? */
+> > > > -		if (fsa->fsa_ax25.sax25_ndigis < 1 || fsa->fsa_ax25.sax25_ndigis > AX25_MAX_DIGIS) {
+> > > > +		if (fsa->fsa_ax25.sax25_ndigis < 1 ||
+> > > > +		    addr_len < sizeof(struct sockaddr_ax25) +
+> > > > +		    sizeof(ax25_address) * fsa->fsa_ax25.sax25_ndigis) {
+> > > 
+> > > The "sizeof(ax25_address) * fsa->fsa_ax25.sax25_ndigis" can have an
+> > > integer overflow so you still need the
+> > > "fsa->fsa_ax25.sax25_ndigis > AX25_MAX_DIGIS" check.
+> > 
+> > Thank you for fixing this up! I did some math but I didn't think of
+> > that. Will be more careful when removing things.
+> 
+> No problem.  You had the right approach to look for ways to clean things
+> up.
+> 
+> Your patches make me happy because you're trying to fix important bugs.
 
-I am not sure why you chose sockptr_t   for something that really seems generic.
+It is very encouraging to hear that! I will try to do what I can do.
 
-Or is it really meant to be exclusive to setsockopt() and/or getsockopt() ?
-
-If the first user of this had been futex code, we would have used
-futexptr_t, I guess.
+Thank you,
+Peilin Ye
