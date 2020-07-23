@@ -2,64 +2,60 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8994B22B3D9
-	for <lists+linux-hams@lfdr.de>; Thu, 23 Jul 2020 18:44:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5925A22B691
+	for <lists+linux-hams@lfdr.de>; Thu, 23 Jul 2020 21:11:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729841AbgGWQoi (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 23 Jul 2020 12:44:38 -0400
-Received: from verein.lst.de ([213.95.11.211]:60887 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726621AbgGWQoi (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Thu, 23 Jul 2020 12:44:38 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 8C74368AFE; Thu, 23 Jul 2020 18:44:32 +0200 (CEST)
-Date:   Thu, 23 Jul 2020 18:44:32 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Eric Dumazet <edumazet@google.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
-        <linux-crypto@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        linux-sctp@vger.kernel.org, linux-hams@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, bridge@lists.linux-foundation.org,
-        linux-can@vger.kernel.org, dccp@vger.kernel.org,
-        linux-decnet-user@lists.sourceforge.net,
-        linux-wpan@vger.kernel.org, linux-s390@vger.kernel.org,
-        mptcp@lists.01.org, lvs-devel@vger.kernel.org,
-        rds-devel@oss.oracle.com, linux-afs@lists.infradead.org,
-        tipc-discussion@lists.sourceforge.net, linux-x25@vger.kernel.org
-Subject: Re: [PATCH 04/26] net: add a new sockptr_t type
-Message-ID: <20200723164432.GA20917@lst.de>
-References: <20200723060908.50081-1-hch@lst.de> <20200723060908.50081-5-hch@lst.de> <CANn89iJ3LKth-iWwh0+P3D3RqtDNv4AyXkkzhXr0oSEvE_JoRQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANn89iJ3LKth-iWwh0+P3D3RqtDNv4AyXkkzhXr0oSEvE_JoRQ@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+        id S1727850AbgGWTKj (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 23 Jul 2020 15:10:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36512 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726814AbgGWTKj (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 23 Jul 2020 15:10:39 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5BF3C0619DC;
+        Thu, 23 Jul 2020 12:10:38 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 100CF13B3DA0E;
+        Thu, 23 Jul 2020 11:53:53 -0700 (PDT)
+Date:   Thu, 23 Jul 2020 12:10:37 -0700 (PDT)
+Message-Id: <20200723.121037.1733642913138811577.davem@davemloft.net>
+To:     dan.carpenter@oracle.com
+Cc:     jreuter@yaina.de, yepeilin.cs@gmail.com, ralf@linux-mips.org,
+        kuba@kernel.org, linux-hams@vger.kernel.org,
+        netdev@vger.kernel.org, gregkh@linuxfoundation.org,
+        syzkaller-bugs@googlegroups.com,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH net] AX.25: Prevent integer overflows in connect and
+ sendmsg
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20200723144957.GA293102@mwanda>
+References: <20200722.175714.1713497446730685740.davem@davemloft.net>
+        <20200723144957.GA293102@mwanda>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Thu, 23 Jul 2020 11:53:53 -0700 (PDT)
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Thu, Jul 23, 2020 at 09:40:27AM -0700, Eric Dumazet wrote:
-> I am not sure why you chose sockptr_t   for something that really seems generic.
-> 
-> Or is it really meant to be exclusive to setsockopt() and/or getsockopt() ?
-> 
-> If the first user of this had been futex code, we would have used
-> futexptr_t, I guess.
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Thu, 23 Jul 2020 17:49:57 +0300
 
-It was originally intended to be generic and called uptr_t, based
-on me misunderstanding that Linus wanted a file operation for it,
-which he absolutely didn't and hate with passion.  So the plan is to
-only use it for setsockopt for now, although there are some arguments
-for also using it in sendmsg/recvmsg.  There is no need to use it for
-getsockopt.
+> We recently added some bounds checking in ax25_connect() and
+> ax25_sendmsg() and we so we removed the AX25_MAX_DIGIS checks because
+> they were no longer required.
+> 
+> Unfortunately, I believe they are required to prevent integer overflows
+> so I have added them back.
+> 
+> Fixes: 8885bb0621f0 ("AX.25: Prevent out-of-bounds read in ax25_sendmsg()")
+> Fixes: 2f2a7ffad5c6 ("AX.25: Fix out-of-bounds read in ax25_connect()")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+Applied, thanks Dan.
