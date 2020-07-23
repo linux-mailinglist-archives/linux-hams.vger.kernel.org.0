@@ -2,114 +2,125 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8A5F22B1D0
-	for <lists+linux-hams@lfdr.de>; Thu, 23 Jul 2020 16:50:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2F0822B1E6
+	for <lists+linux-hams@lfdr.de>; Thu, 23 Jul 2020 16:56:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727111AbgGWOu0 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 23 Jul 2020 10:50:26 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:35396 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726761AbgGWOu0 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 23 Jul 2020 10:50:26 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06NElNDp100901;
-        Thu, 23 Jul 2020 14:50:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type : in-reply-to;
- s=corp-2020-01-29; bh=jykVeaaj1de3HdC9bQbpFC12yVlqXQBg90kokCdh8VM=;
- b=OFlBu+ZyA5PUaIeiOHa/OCO2esXfYFSgbTbN/iF6x97HEwumrDf9+IkqKtNqXm/GYFv5
- e8ugZFFlFLyXTwGS+s2/86DvWT+5baDMN0wmlm0U5VUKOUjH+oCXl5hLdJfOvIkPTWcf
- TSB1DboGbimlTcmNuiJNxfR+nuNVh35WU4yYWGfg+MYkHsz/O75pjf548HXsDnmaZhYr
- 5m1QJa+aP7FOOaGmDIuisacRMNHHOfKAwxxMFVwAezt+53XE13aUNLg71ouzVwJriKJf
- xyAmSX7cj8uSsyrSO9/ZEtOViSQTmaYVay+M9qtnWjcSVdvwFEbepHt9sp0dmdfzC4xK ew== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2120.oracle.com with ESMTP id 32d6ksx1vg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 23 Jul 2020 14:50:07 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06NEgOuI144883;
-        Thu, 23 Jul 2020 14:50:06 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3030.oracle.com with ESMTP id 32fc4qhqep-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 23 Jul 2020 14:50:06 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06NEo5ko012251;
-        Thu, 23 Jul 2020 14:50:05 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 23 Jul 2020 14:50:05 +0000
-Date:   Thu, 23 Jul 2020 17:49:57 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Joerg Reuter <jreuter@yaina.de>, Peilin Ye <yepeilin.cs@gmail.com>
-Cc:     Ralf Baechle <ralf@linux-mips.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, linux-hams@vger.kernel.org,
-        netdev@vger.kernel.org, gregkh@linuxfoundation.org,
-        syzkaller-bugs@googlegroups.com,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH net] AX.25: Prevent integer overflows in connect and sendmsg
-Message-ID: <20200723144957.GA293102@mwanda>
+        id S1728716AbgGWO4h convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hams@lfdr.de>); Thu, 23 Jul 2020 10:56:37 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:52777 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728306AbgGWO4h (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>);
+        Thu, 23 Jul 2020 10:56:37 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-82-SdYRZOb-OAyxxDdIZA3c_Q-1; Thu, 23 Jul 2020 15:56:34 +0100
+X-MC-Unique: SdYRZOb-OAyxxDdIZA3c_Q-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Thu, 23 Jul 2020 15:56:33 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Thu, 23 Jul 2020 15:56:33 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Christoph Hellwig' <hch@lst.de>
+CC:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        Eric Dumazet <edumazet@google.com>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        "netfilter-devel@vger.kernel.org" <netfilter-devel@vger.kernel.org>,
+        "coreteam@netfilter.org" <coreteam@netfilter.org>,
+        "linux-sctp@vger.kernel.org" <linux-sctp@vger.kernel.org>,
+        "linux-hams@vger.kernel.org" <linux-hams@vger.kernel.org>,
+        "linux-bluetooth@vger.kernel.org" <linux-bluetooth@vger.kernel.org>,
+        "bridge@lists.linux-foundation.org" 
+        <bridge@lists.linux-foundation.org>,
+        "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
+        "dccp@vger.kernel.org" <dccp@vger.kernel.org>,
+        "linux-decnet-user@lists.sourceforge.net" 
+        <linux-decnet-user@lists.sourceforge.net>,
+        "linux-wpan@vger.kernel.org" <linux-wpan@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "mptcp@lists.01.org" <mptcp@lists.01.org>,
+        "lvs-devel@vger.kernel.org" <lvs-devel@vger.kernel.org>,
+        "rds-devel@oss.oracle.com" <rds-devel@oss.oracle.com>,
+        "linux-afs@lists.infradead.org" <linux-afs@lists.infradead.org>,
+        "tipc-discussion@lists.sourceforge.net" 
+        <tipc-discussion@lists.sourceforge.net>,
+        "linux-x25@vger.kernel.org" <linux-x25@vger.kernel.org>
+Subject: RE: [PATCH 03/26] bpfilter: reject kernel addresses
+Thread-Topic: [PATCH 03/26] bpfilter: reject kernel addresses
+Thread-Index: AQHWYLhxJPyZOJNDGEen8+LVytPg86kVPIvA///w6YCAABGh0A==
+Date:   Thu, 23 Jul 2020 14:56:33 +0000
+Message-ID: <5fc6b1716f1b4534bda95bab49512754@AcuMS.aculab.com>
+References: <20200723060908.50081-1-hch@lst.de>
+ <20200723060908.50081-4-hch@lst.de>
+ <c3dc5b4d84e64230bb6ca8df7bb70705@AcuMS.aculab.com>
+ <20200723144455.GA12280@lst.de>
+In-Reply-To: <20200723144455.GA12280@lst.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200722.175714.1713497446730685740.davem@davemloft.net>
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9690 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
- suspectscore=0 mlxlogscore=999 adultscore=0 spamscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007230110
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9690 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=0
- bulkscore=0 mlxscore=0 mlxlogscore=999 impostorscore=0 priorityscore=1501
- lowpriorityscore=0 phishscore=0 spamscore=0 adultscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007230110
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-We recently added some bounds checking in ax25_connect() and
-ax25_sendmsg() and we so we removed the AX25_MAX_DIGIS checks because
-they were no longer required.
+From: 'Christoph Hellwig'
+> Sent: 23 July 2020 15:45
+> 
+> On Thu, Jul 23, 2020 at 02:42:11PM +0000, David Laight wrote:
+> > From: Christoph Hellwig
+> > > Sent: 23 July 2020 07:09
+> > >
+> > > The bpfilter user mode helper processes the optval address using
+> > > process_vm_readv.  Don't send it kernel addresses fed under
+> > > set_fs(KERNEL_DS) as that won't work.
+> >
+> > What sort of operations is the bpf filter doing on the sockopt buffers?
+> >
+> > Any attempts to reject some requests can be thwarted by a second
+> > application thread modifying the buffer after the bpf filter has
+> > checked that it allowed.
+> >
+> > You can't do security by reading a user buffer twice.
+> 
+> I'm not saying that I approve of the design, but the current bpfilter
+> design uses process_vm_readv to access the buffer, which obviously does
+> not work with kernel buffers.
 
-Unfortunately, I believe they are required to prevent integer overflows
-so I have added them back.
+Is this a different bit of bpf that that which used to directly
+intercept setsockopt() requests and pass them down from a kernel buffer?
 
-Fixes: 8885bb0621f0 ("AX.25: Prevent out-of-bounds read in ax25_sendmsg()")
-Fixes: 2f2a7ffad5c6 ("AX.25: Fix out-of-bounds read in ax25_connect()")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
-From code review.  Not tested.  It should be harmless though.
+I can't held feeling that bpf is getting 'too big for its boots' and
+will have a local-user privilege escalation hiding in it somewhere.
 
- net/ax25/af_ax25.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+I've had to fix my 'out of tree' driver to remove the [sg]etsockopt()
+calls. Some of the replacements will go badly wrong if I've accidentally
+lost track of the socket type.
+I do have a daemon process sleeping in the driver - so I can wake it up
+and make the requests from it with a user buffer.
+I may have to implement that to get the negotiated number of 'ostreams'
+to an SCTP connection.
 
-diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-index 0862fe49d434..dec3f35467c9 100644
---- a/net/ax25/af_ax25.c
-+++ b/net/ax25/af_ax25.c
-@@ -1188,6 +1188,7 @@ static int __must_check ax25_connect(struct socket *sock,
- 	    fsa->fsa_ax25.sax25_ndigis != 0) {
- 		/* Valid number of digipeaters ? */
- 		if (fsa->fsa_ax25.sax25_ndigis < 1 ||
-+		    fsa->fsa_ax25.sax25_ndigis > AX25_MAX_DIGIS ||
- 		    addr_len < sizeof(struct sockaddr_ax25) +
- 		    sizeof(ax25_address) * fsa->fsa_ax25.sax25_ndigis) {
- 			err = -EINVAL;
-@@ -1509,7 +1510,9 @@ static int ax25_sendmsg(struct socket *sock, struct msghdr *msg, size_t len)
- 			struct full_sockaddr_ax25 *fsa = (struct full_sockaddr_ax25 *)usax;
- 
- 			/* Valid number of digipeaters ? */
--			if (usax->sax25_ndigis < 1 || addr_len < sizeof(struct sockaddr_ax25) +
-+			if (usax->sax25_ndigis < 1 ||
-+			    usax->sax25_ndigis > AX25_MAX_DIGIS ||
-+			    addr_len < sizeof(struct sockaddr_ax25) +
- 			    sizeof(ax25_address) * usax->sax25_ndigis) {
- 				err = -EINVAL;
- 				goto out;
--- 
-2.27.0
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
