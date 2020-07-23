@@ -2,60 +2,103 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5925A22B691
-	for <lists+linux-hams@lfdr.de>; Thu, 23 Jul 2020 21:11:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69CFC22B904
+	for <lists+linux-hams@lfdr.de>; Thu, 23 Jul 2020 23:56:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727850AbgGWTKj (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 23 Jul 2020 15:10:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36512 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726814AbgGWTKj (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 23 Jul 2020 15:10:39 -0400
-Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5BF3C0619DC;
-        Thu, 23 Jul 2020 12:10:38 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 100CF13B3DA0E;
-        Thu, 23 Jul 2020 11:53:53 -0700 (PDT)
-Date:   Thu, 23 Jul 2020 12:10:37 -0700 (PDT)
-Message-Id: <20200723.121037.1733642913138811577.davem@davemloft.net>
-To:     dan.carpenter@oracle.com
-Cc:     jreuter@yaina.de, yepeilin.cs@gmail.com, ralf@linux-mips.org,
-        kuba@kernel.org, linux-hams@vger.kernel.org,
-        netdev@vger.kernel.org, gregkh@linuxfoundation.org,
+        id S1727120AbgGWV4r (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 23 Jul 2020 17:56:47 -0400
+Received: from pecan-mail.exetel.com.au ([220.233.0.8]:45715 "EHLO
+        pecan.exetel.com.au" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726638AbgGWV4q (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 23 Jul 2020 17:56:46 -0400
+X-Greylist: delayed 914 seconds by postgrey-1.27 at vger.kernel.org; Thu, 23 Jul 2020 17:56:45 EDT
+Received: from 221.167.233.220.static.exetel.com.au ([220.233.167.221] helo=[192.168.1.125])
+        by pecan.exetel.com.au with esmtp (Exim 4.91)
+        (envelope-from <vk2tv@exemail.com.au>)
+        id 1jyixu-0006Af-0h; Fri, 24 Jul 2020 07:41:22 +1000
+Subject: Re: [Linux-kernel-mentees] [PATCH net] AX.25: Fix out-of-bounds read
+ in ax25_connect()
+To:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Peilin Ye <yepeilin.cs@gmail.com>
+Cc:     Joerg Reuter <jreuter@yaina.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         syzkaller-bugs@googlegroups.com,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH net] AX.25: Prevent integer overflows in connect and
- sendmsg
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20200723144957.GA293102@mwanda>
-References: <20200722.175714.1713497446730685740.davem@davemloft.net>
-        <20200723144957.GA293102@mwanda>
-X-Mailer: Mew version 6.8 on Emacs 26.3
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-hams@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200722151901.350003-1-yepeilin.cs@gmail.com>
+ <20200723142814.GQ2549@kadam> <20200723151355.GA412829@PWN>
+ <20200723155057.GS2549@kadam>
+From:   vk2tv <vk2tv@exemail.com.au>
+Message-ID: <88638b87-0021-71af-cda8-5a58c81a6e8a@exemail.com.au>
+Date:   Fri, 24 Jul 2020 07:41:20 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <20200723155057.GS2549@kadam>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Thu, 23 Jul 2020 11:53:53 -0700 (PDT)
+Content-Language: en-US
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Thu, 23 Jul 2020 17:49:57 +0300
 
-> We recently added some bounds checking in ax25_connect() and
-> ax25_sendmsg() and we so we removed the AX25_MAX_DIGIS checks because
-> they were no longer required.
-> 
-> Unfortunately, I believe they are required to prevent integer overflows
-> so I have added them back.
-> 
-> Fixes: 8885bb0621f0 ("AX.25: Prevent out-of-bounds read in ax25_sendmsg()")
-> Fixes: 2f2a7ffad5c6 ("AX.25: Fix out-of-bounds read in ax25_connect()")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-Applied, thanks Dan.
+On 24/7/20 1:50 am, Dan Carpenter wrote:
+> On Thu, Jul 23, 2020 at 11:13:55AM -0400, Peilin Ye wrote:
+>> On Thu, Jul 23, 2020 at 05:28:15PM +0300, Dan Carpenter wrote:
+>>> On Wed, Jul 22, 2020 at 11:19:01AM -0400, Peilin Ye wrote:
+>>>> Checks on `addr_len` and `fsa->fsa_ax25.sax25_ndigis` are insufficient.
+>>>> ax25_connect() can go out of bounds when `fsa->fsa_ax25.sax25_ndigis`
+>>>> equals to 7 or 8. Fix it.
+>>>>
+>>>> This issue has been reported as a KMSAN uninit-value bug, because in such
+>>>> a case, ax25_connect() reaches into the uninitialized portion of the
+>>>> `struct sockaddr_storage` statically allocated in __sys_connect().
+>>>>
+>>>> It is safe to remove `fsa->fsa_ax25.sax25_ndigis > AX25_MAX_DIGIS` because
+>>>> `addr_len` is guaranteed to be less than or equal to
+>>>> `sizeof(struct full_sockaddr_ax25)`.
+>>>>
+>>>> Reported-by: syzbot+c82752228ed975b0a623@syzkaller.appspotmail.com
+>>>> Link: https://syzkaller.appspot.com/bug?id=55ef9d629f3b3d7d70b69558015b63b48d01af66
+>>>> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+>>>> ---
+>>>>   net/ax25/af_ax25.c | 4 +++-
+>>>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+>>>> index fd91cd34f25e..ef5bf116157a 100644
+>>>> --- a/net/ax25/af_ax25.c
+>>>> +++ b/net/ax25/af_ax25.c
+>>>> @@ -1187,7 +1187,9 @@ static int __must_check ax25_connect(struct socket *sock,
+>>>>   	if (addr_len > sizeof(struct sockaddr_ax25) &&
+>>>>   	    fsa->fsa_ax25.sax25_ndigis != 0) {
+>>>>   		/* Valid number of digipeaters ? */
+>>>> -		if (fsa->fsa_ax25.sax25_ndigis < 1 || fsa->fsa_ax25.sax25_ndigis > AX25_MAX_DIGIS) {
+>>>> +		if (fsa->fsa_ax25.sax25_ndigis < 1 ||
+>>>> +		    addr_len < sizeof(struct sockaddr_ax25) +
+>>>> +		    sizeof(ax25_address) * fsa->fsa_ax25.sax25_ndigis) {
+>>> The "sizeof(ax25_address) * fsa->fsa_ax25.sax25_ndigis" can have an
+>>> integer overflow so you still need the
+>>> "fsa->fsa_ax25.sax25_ndigis > AX25_MAX_DIGIS" check.
+>> Thank you for fixing this up! I did some math but I didn't think of
+>> that. Will be more careful when removing things.
+> No problem.  You had the right approach to look for ways to clean things
+> up.
+>
+> Your patches make me happy because you're trying to fix important bugs.
+>
+> regards,
+> dan carpenter
+As a long-term user (25 years) of kernel ax25 I appreciate any and all 
+efforts to improve the code (which I mostly don't understand), and I 
+applaud those individuals rising to the task.
+
+Thanks guys (and gals).
+
+Ray vk2tv
