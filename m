@@ -2,43 +2,88 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 388DF22D7FB
-	for <lists+linux-hams@lfdr.de>; Sat, 25 Jul 2020 16:10:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE12422DC70
+	for <lists+linux-hams@lfdr.de>; Sun, 26 Jul 2020 09:03:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727093AbgGYOK0 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 25 Jul 2020 10:10:26 -0400
-Received: from smtpa.netcabo.pt ([212.113.163.67]:42977 "EHLO
-        mx01.smtpa.netcabo.pt" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726904AbgGYOK0 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 25 Jul 2020 10:10:26 -0400
-X-Greylist: delayed 584 seconds by postgrey-1.27 at vger.kernel.org; Sat, 25 Jul 2020 10:10:26 EDT
-Received: (Haraka outbound); Sat, 25 Jul 2020 15:00:35 +0100
-Authentication-Results: mx01.smtpa.netcabo.pt; auth=pass (login)
-Received: from smtp.netcabo.pt (178-217-140-24.multinet24.pl [178.217.140.24])
-        by mx01.smtpa.netcabo.pt with ESMTPSA id A6C9AE20-5588-4A6D-8750-97C809CE1754.1
-        envelope-from <speattle@netcabo.pt> (authenticated bits=0)
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 verify=FAIL);
-        Sat, 25 Jul 2020 15:00:35 +0100
-Content-transfer-encoding: 7bit
-From:   "S P" <speattle@netcabo.pt>
-Content-type: text/plain; charset=us-ascii
-MIME-version: 1.0 (1.0)
-Date:   Sat, 25 Jul 2020 10:08:12 -0400
-Message-Id: <F7A631AC-76A1-436A-D5CE-EC52E19609E7@netcabo.pt>
-Subject: 
-To:     "linux hams" <linux-hams@vger.kernel.org>
-Reply-To: "S P" <speattler@yahoo.com>
-X-Mailer: iPhone Mail (17F75)
+        id S1726682AbgGZHDT (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sun, 26 Jul 2020 03:03:19 -0400
+Received: from verein.lst.de ([213.95.11.211]:39756 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725789AbgGZHDS (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Sun, 26 Jul 2020 03:03:18 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 2AB2768B05; Sun, 26 Jul 2020 09:03:12 +0200 (CEST)
+Date:   Sun, 26 Jul 2020 09:03:11 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     David Miller <davem@davemloft.net>
+Cc:     hch@lst.de, kuba@kernel.org, ast@kernel.org, daniel@iogearbox.net,
+        kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org, edumazet@google.com,
+        linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+        linux-sctp@vger.kernel.org, linux-hams@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, bridge@lists.linux-foundation.org,
+        linux-can@vger.kernel.org, dccp@vger.kernel.org,
+        linux-decnet-user@lists.sourceforge.net,
+        linux-wpan@vger.kernel.org, linux-s390@vger.kernel.org,
+        mptcp@lists.01.org, lvs-devel@vger.kernel.org,
+        rds-devel@oss.oracle.com, linux-afs@lists.infradead.org,
+        tipc-discussion@lists.sourceforge.net, linux-x25@vger.kernel.org
+Subject: Re: get rid of the address_space override in setsockopt v2
+Message-ID: <20200726070311.GA16687@lst.de>
+References: <20200723060908.50081-1-hch@lst.de> <20200724.154342.1433271593505001306.davem@davemloft.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200724.154342.1433271593505001306.davem@davemloft.net>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
- Linux
+On Fri, Jul 24, 2020 at 03:43:42PM -0700, David Miller wrote:
+> > Changes since v1:
+> >  - check that users don't pass in kernel addresses
+> >  - more bpfilter cleanups
+> >  - cosmetic mptcp tweak
+> 
+> Series applied to net-next, I'm build testing and will push this out when
+> that is done.
 
+The buildbot found one warning with the isdn debug code after a few
+days, here is what I think is the best fix:
 
-https://clck.ru/Prr7x
+---
+From 6601732f7a54db5f04efba08f7e9224e5b757112 Mon Sep 17 00:00:00 2001
+From: Christoph Hellwig <hch@lst.de>
+Date: Sun, 26 Jul 2020 09:00:09 +0200
+Subject: mISDN: remove a debug printk in data_sock_setsockopt
 
+The %p won't work with the new sockptr_t type.  But in the times of
+ftrace, bpftrace and co these kinds of debug printks are pretty anyway,
+so just remove the whole debug printk.
 
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/isdn/mISDN/socket.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-S
+diff --git a/drivers/isdn/mISDN/socket.c b/drivers/isdn/mISDN/socket.c
+index 1b2b91479107bc..2c58a6fe6d129e 100644
+--- a/drivers/isdn/mISDN/socket.c
++++ b/drivers/isdn/mISDN/socket.c
+@@ -406,10 +406,6 @@ static int data_sock_setsockopt(struct socket *sock, int level, int optname,
+ 	struct sock *sk = sock->sk;
+ 	int err = 0, opt = 0;
+ 
+-	if (*debug & DEBUG_SOCKET)
+-		printk(KERN_DEBUG "%s(%p, %d, %x, %p, %d)\n", __func__, sock,
+-		       level, optname, optval, len);
+-
+ 	lock_sock(sk);
+ 
+ 	switch (optname) {
+-- 
+2.27.0
+
