@@ -2,68 +2,96 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38E1E244E8D
-	for <lists+linux-hams@lfdr.de>; Fri, 14 Aug 2020 20:48:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29E162457EF
+	for <lists+linux-hams@lfdr.de>; Sun, 16 Aug 2020 16:29:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726738AbgHNSsJ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 14 Aug 2020 14:48:09 -0400
-Received: from mail-il1-f198.google.com ([209.85.166.198]:38776 "EHLO
-        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726541AbgHNSsJ (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 14 Aug 2020 14:48:09 -0400
-Received: by mail-il1-f198.google.com with SMTP id t79so7161313ild.5
-        for <linux-hams@vger.kernel.org>; Fri, 14 Aug 2020 11:48:08 -0700 (PDT)
+        id S1729504AbgHPO3E (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sun, 16 Aug 2020 10:29:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57088 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729449AbgHPO2f (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sun, 16 Aug 2020 10:28:35 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC0D7C061344
+        for <linux-hams@vger.kernel.org>; Sun, 16 Aug 2020 07:28:33 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id k20so11864560wmi.5
+        for <linux-hams@vger.kernel.org>; Sun, 16 Aug 2020 07:28:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
+        b=NAKDDu3zYGlp6/1rTFA3zLXzfLNUWElMFpld1DGXTqZ3f2C1G5vMMGgQBtzYdv61gR
+         j0gW2VjYzcAEQEK9JcrA+yGSHFEXNhE9RNkaz3uxkanP37gacJrIVytgT7/c7zGkA2Dy
+         XJB3L8ToVDoWAD9Rvm7U849RIrxncLk9xI9S/Uu5ZGT/cXsim2IUQmYeZsKFSBsv6kJT
+         3kDR9KLYjND6JPpx0YTAndrQaTelzP3558OkivI4ykhj79/nak1F6z80uX1/EQIXmTKV
+         I+kUa6Zt2XAbNuMItIuLndMdaWWyo32PYvWKoOywYCMLUV2UDlYdbpJ66arhF+MiPCa0
+         yMKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=FdIRXuZCQukDRQ0XU5HzlXLbagxjzssCGhlf1mUy6ZA=;
-        b=f9q4tWCrevJp9wi98CVE3EcVKSDlcfxEVeybK5BVEHBSc+coyN7vHs9OvdywYms1i9
-         lasF4VNXoz2orAvvlbfwvriD29CMB/uRwwXFpgU4eBgiQ4plcmmdaRhE1+HazhEshlxy
-         806NQxOORz2q0+cdZJ6IKw12y8QGOEZob/IhKd3WFJ9hlnse3ogaYL5/59Acca/vPIXC
-         7w8W045ip2l1bdX+FvFtfW0POP4maUG+x6sU7oThn8YXkv+eizUFadR/I5qVzsUdMlDX
-         OIKflehlNBb9b5ZpMO7gnpY8mmKBF6Jk8pbIrBgUAEYEWQkdEQqcNE2QJtKMD+3O0lIb
-         6boQ==
-X-Gm-Message-State: AOAM530+WAygDEtZsvs3hqiONlM3HauEbQgxLQnqBqxLOkdUOuv2RVjI
-        YOUNlu6i2O7FoHfT+4hK3EYNY5/5FyTywbEdV+tsyD51csgY
-X-Google-Smtp-Source: ABdhPJzNTvNy1dhu9pwSXa3tWa4iLGVzBCdcRYK93MYJzzPqsQW/K4PnkT/GdTdJGW94oI0/s3HorImYD5cpCRRwVwYGVaoycdZT
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
+        b=cg/u6dvBSzMv5lJ5hxwRZ8Oeww303Tvl3xTd6CoIdCbHN1uKtdtvnHLM+SFhkEeV7Y
+         ZAO1mIWERR5dQPYApZcf29JjMk6EXE+RFz7+kurnSgujJqRlhTUNc62CVld3VUfs2kF7
+         GKvCxw3HjW1tdVNdm3TYzIUI6Rdp/5HPr9XyPLau/P3Islj6jfL+A+bjC6fkNhxHx+sI
+         2eyTkh5W4qLR7pxJZyUz+iL4XFzQ5ZSOo752zOKCaRSFjsJmPGrAsILXbPtzpJmmshg+
+         7WSur4p/iGUZagQZESX5S4Mvid4OfUGD0kIEireQ2+3B5ozHh11rlT33NXz2xzanJWrf
+         25NQ==
+X-Gm-Message-State: AOAM530rLQORaUHoNK6JU+NBR41zhzatU1v6I17chGRECwV3ihle0G0p
+        H32bROeytnRnU3Wj1U9Ef4cAsRrmpZ+wy7CVMYg=
+X-Google-Smtp-Source: ABdhPJydZZ8FQlFGmrB/EDLy0Z8gH5X03F6EFXypW4K1vf8iv94WhLhI3iwPKgeJEaRZZocHWED4lUmYPOBkTFPeX+4=
+X-Received: by 2002:a1c:a1c7:: with SMTP id k190mr10461870wme.1.1597588111746;
+ Sun, 16 Aug 2020 07:28:31 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:c09:: with SMTP id d9mr3762153ile.289.1597430888599;
- Fri, 14 Aug 2020 11:48:08 -0700 (PDT)
-Date:   Fri, 14 Aug 2020 11:48:08 -0700
-In-Reply-To: <000000000000eea12405843bc43c@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000ab163105acdadc50@google.com>
-Subject: Re: KASAN: use-after-free Read in refcount_inc_not_zero_checked (2)
-From:   syzbot <syzbot+eff6b596cc8194e2f029@syzkaller.appspotmail.com>
-To:     ardb@kernel.org, davem@davemloft.net, linux-efi@vger.kernel.org,
-        linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mingo@kernel.org, netdev@vger.kernel.org, nivedita@alum.mit.edu,
-        ralf@linux-mips.org, syzkaller-bugs@googlegroups.com
+Received: by 2002:a5d:6cd3:0:0:0:0:0 with HTTP; Sun, 16 Aug 2020 07:28:30
+ -0700 (PDT)
+Reply-To: sctnld11170@tlen.pl
+From:   "Mr. Scott Donald" <confianzayrentabilidad@gmail.com>
+Date:   Sun, 16 Aug 2020 07:28:30 -0700
+Message-ID: <CANrrfX7wwL97G=jb--8nb9jH8oRO8T90L6NGSfg1HfnzMyyHcw@mail.gmail.com>
+Subject: Hello, Please
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-syzbot suspects this issue was fixed by commit:
+--=20
+Dear Friend,
 
-commit 987053a30016a7d9ab3e4ad973e7c51aeb1f1ef6
-Author: Arvind Sankar <nivedita@alum.mit.edu>
-Date:   Thu Apr 30 18:28:40 2020 +0000
+I'm Mr. Scott Donald a Successful businessMan dealing with
+Exportation, I got your mail contact through search to let you know my
+intension and my Ugly Situation Am a dying Man here in Los Angeles
+California Hospital Bed in (USA), I Lost my Wife and my only Daughter
+for Covid-19 and I also have a problem in my Health and I can die
+anytime I Know,
 
-    efi/x86: Move command-line initrd loading to efi_main
+I have a project that I am about to hand over to you. and I already
+instructed the Bankia S.A. Madrid, Spain(BSA) to transfer my fund sum
+of =C2=A33,7M GBP. Equivalent to =E2=82=AC4,077,033.91 EUR, to you as to en=
+able you
+to give 50% of this fund to Charitable Home in your State and take 50%
+don't think otherwise and why would anybody send someone you barely
+know to help you deliver a message, help me do this for the happiness
+of my soul and for God to mercy me and my Family and give Us a good
+place.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11680f6a900000
-start commit:   9c7dc824 Merge tag '5.1-rc-smb3' of git://git.samba.org/sf..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7e1aaa1cfbfe1abf
-dashboard link: https://syzkaller.appspot.com/bug?extid=eff6b596cc8194e2f029
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17e294a3200000
+please, do as I said there was someone from your State that I deeply
+love so very very much and I miss her so badly I have no means to
+reach any Charitable Home there. that is why I go for a personal
+search of the Country and State and I got your mail contact through
+search to let you know my Bitterness and please, help me is getting
+Dark I ask my Doctor to help me keep you notice failure for me to
+reach you in person Your urgent Response, here is my Doctor Whats-app
+Number for urgent notice +13019692737
 
-If the result looks correct, please mark the issue as fixed by replying with:
+Hope To Hear From You. I'm sending this email to you for the second
+time yet no response from you.
 
-#syz fix: efi/x86: Move command-line initrd loading to efi_main
+My Regards.
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Mr. Scott Donald
+CEO
