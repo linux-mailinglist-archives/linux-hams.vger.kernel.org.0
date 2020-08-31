@@ -2,96 +2,91 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29E162457EF
-	for <lists+linux-hams@lfdr.de>; Sun, 16 Aug 2020 16:29:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B826E258457
+	for <lists+linux-hams@lfdr.de>; Tue,  1 Sep 2020 01:17:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729504AbgHPO3E (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 16 Aug 2020 10:29:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57088 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729449AbgHPO2f (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 16 Aug 2020 10:28:35 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC0D7C061344
-        for <linux-hams@vger.kernel.org>; Sun, 16 Aug 2020 07:28:33 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id k20so11864560wmi.5
-        for <linux-hams@vger.kernel.org>; Sun, 16 Aug 2020 07:28:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=NAKDDu3zYGlp6/1rTFA3zLXzfLNUWElMFpld1DGXTqZ3f2C1G5vMMGgQBtzYdv61gR
-         j0gW2VjYzcAEQEK9JcrA+yGSHFEXNhE9RNkaz3uxkanP37gacJrIVytgT7/c7zGkA2Dy
-         XJB3L8ToVDoWAD9Rvm7U849RIrxncLk9xI9S/Uu5ZGT/cXsim2IUQmYeZsKFSBsv6kJT
-         3kDR9KLYjND6JPpx0YTAndrQaTelzP3558OkivI4ykhj79/nak1F6z80uX1/EQIXmTKV
-         I+kUa6Zt2XAbNuMItIuLndMdaWWyo32PYvWKoOywYCMLUV2UDlYdbpJ66arhF+MiPCa0
-         yMKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=cg/u6dvBSzMv5lJ5hxwRZ8Oeww303Tvl3xTd6CoIdCbHN1uKtdtvnHLM+SFhkEeV7Y
-         ZAO1mIWERR5dQPYApZcf29JjMk6EXE+RFz7+kurnSgujJqRlhTUNc62CVld3VUfs2kF7
-         GKvCxw3HjW1tdVNdm3TYzIUI6Rdp/5HPr9XyPLau/P3Islj6jfL+A+bjC6fkNhxHx+sI
-         2eyTkh5W4qLR7pxJZyUz+iL4XFzQ5ZSOo752zOKCaRSFjsJmPGrAsILXbPtzpJmmshg+
-         7WSur4p/iGUZagQZESX5S4Mvid4OfUGD0kIEireQ2+3B5ozHh11rlT33NXz2xzanJWrf
-         25NQ==
-X-Gm-Message-State: AOAM530rLQORaUHoNK6JU+NBR41zhzatU1v6I17chGRECwV3ihle0G0p
-        H32bROeytnRnU3Wj1U9Ef4cAsRrmpZ+wy7CVMYg=
-X-Google-Smtp-Source: ABdhPJydZZ8FQlFGmrB/EDLy0Z8gH5X03F6EFXypW4K1vf8iv94WhLhI3iwPKgeJEaRZZocHWED4lUmYPOBkTFPeX+4=
-X-Received: by 2002:a1c:a1c7:: with SMTP id k190mr10461870wme.1.1597588111746;
- Sun, 16 Aug 2020 07:28:31 -0700 (PDT)
+        id S1725929AbgHaXRp (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 31 Aug 2020 19:17:45 -0400
+Received: from mail.rusoil.net ([188.128.114.25]:52254 "EHLO mail.rusoil.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725872AbgHaXRp (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Mon, 31 Aug 2020 19:17:45 -0400
+X-Greylist: delayed 551 seconds by postgrey-1.27 at vger.kernel.org; Mon, 31 Aug 2020 19:17:44 EDT
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.rusoil.net (Postfix) with ESMTP id 66483414A2;
+        Tue,  1 Sep 2020 04:06:54 +0500 (YEKT)
+Received: from mail.rusoil.net ([127.0.0.1])
+        by localhost (mail.rusoil.net [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id L3j_Nu9koeEc; Tue,  1 Sep 2020 04:06:54 +0500 (YEKT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.rusoil.net (Postfix) with ESMTP id 836E2414A4;
+        Tue,  1 Sep 2020 04:06:52 +0500 (YEKT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rusoil.net 836E2414A4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rusoil.net;
+        s=maildkim; t=1598915212;
+        bh=KFvGR6gAFm0yl5WBtL76rbO5qPl0QF+h+TSHRjjMpNY=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=ox1hodZk9e6kIkHvLQcCqvnTG8CpcxmN2bf0C8Dfav/GYXXl5b5+GSdbg1f9U+QEv
+         uMsRy4cRcRQK1uVsEGxBlG48NhE24zf1235x8LbSaUvF7AMwR7PLGMCPw2VEb5lmVy
+         NR0qFbHhfMOeiZ3FkWfcHE9QaQYw3oM3zczOOh3A=
+X-Virus-Scanned: amavisd-new at mail.rusoil.net
+Received: from mail.rusoil.net ([127.0.0.1])
+        by localhost (mail.rusoil.net [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id E2EuTO4y-PNf; Tue,  1 Sep 2020 04:06:52 +0500 (YEKT)
+Received: from mail.rusoil.net (mail.rusoil.net [172.16.7.34])
+        by mail.rusoil.net (Postfix) with ESMTP id 56C564145F;
+        Tue,  1 Sep 2020 04:06:46 +0500 (YEKT)
+Date:   Tue, 1 Sep 2020 04:06:46 +0500 (YEKT)
+From:   Blue Oak Mortgage and Loans <usts@rusoil.net>
+Reply-To: Blue Oak Mortgage and Loans <info@bluelmtg.net>
+Message-ID: <1574411406.614813.1598915206266.JavaMail.zimbra@rusoil.net>
+Subject: We finance Business and Projects
 MIME-Version: 1.0
-Received: by 2002:a5d:6cd3:0:0:0:0:0 with HTTP; Sun, 16 Aug 2020 07:28:30
- -0700 (PDT)
-Reply-To: sctnld11170@tlen.pl
-From:   "Mr. Scott Donald" <confianzayrentabilidad@gmail.com>
-Date:   Sun, 16 Aug 2020 07:28:30 -0700
-Message-ID: <CANrrfX7wwL97G=jb--8nb9jH8oRO8T90L6NGSfg1HfnzMyyHcw@mail.gmail.com>
-Subject: Hello, Please
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [192.210.183.69]
+X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF79 (Win)/8.8.12_GA_3794)
+Thread-Index: HQk9CGInV3h2+lTuCsjXPSyy3xYuIw==
+Thread-Topic: We finance Business and Projects
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
---=20
-Dear Friend,
 
-I'm Mr. Scott Donald a Successful businessMan dealing with
-Exportation, I got your mail contact through search to let you know my
-intension and my Ugly Situation Am a dying Man here in Los Angeles
-California Hospital Bed in (USA), I Lost my Wife and my only Daughter
-for Covid-19 and I also have a problem in my Health and I can die
-anytime I Know,
 
-I have a project that I am about to hand over to you. and I already
-instructed the Bankia S.A. Madrid, Spain(BSA) to transfer my fund sum
-of =C2=A33,7M GBP. Equivalent to =E2=82=AC4,077,033.91 EUR, to you as to en=
-able you
-to give 50% of this fund to Charitable Home in your State and take 50%
-don't think otherwise and why would anybody send someone you barely
-know to help you deliver a message, help me do this for the happiness
-of my soul and for God to mercy me and my Family and give Us a good
-place.
+Welcome to Blue Oak Mortgage and Loans.
 
-please, do as I said there was someone from your State that I deeply
-love so very very much and I miss her so badly I have no means to
-reach any Charitable Home there. that is why I go for a personal
-search of the Country and State and I got your mail contact through
-search to let you know my Bitterness and please, help me is getting
-Dark I ask my Doctor to help me keep you notice failure for me to
-reach you in person Your urgent Response, here is my Doctor Whats-app
-Number for urgent notice +13019692737
+We have a huge Portfolio of Credit, for financing projects and Business of =
+large volume. The procedures are as follows:-=20
 
-Hope To Hear From You. I'm sending this email to you for the second
-time yet no response from you.
+1-The client needs to send a brief summary of the project. This must includ=
+e the total amount required for the project, estimated return on investment=
+, loan repayment period.
 
-My Regards.
+2- The interest rate will be 2% annually.
 
-Mr. Scott Donald
-CEO
+3- Large Project must be Insured.=20
+
+
+3- Funding will take approximately 10 banking days from the day you present=
+ the insurance certificate.
+=20
+If you are satisfied with the above procedures send me a letter of intent w=
+riting on your company letterhead.=20
+
+For further details to go about procuring a loan from: Kindly respond immed=
+iately to this email:=20
+
+
+Regards, as we await your response.=20
+
+Email : info@bluelmtg.net
+
+Best Regards=20
+Michael Thomas
+
+Blue Oak Mortgage and Loans.=C2=A0
+Tel. +90-552-365-3483
+Whats App : +90-552-365-3483
