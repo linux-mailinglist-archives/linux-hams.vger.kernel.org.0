@@ -2,66 +2,79 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FAE926528B
-	for <lists+linux-hams@lfdr.de>; Thu, 10 Sep 2020 23:20:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36B78265A6E
+	for <lists+linux-hams@lfdr.de>; Fri, 11 Sep 2020 09:21:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727081AbgIJVOH (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 10 Sep 2020 17:14:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55596 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731034AbgIJO2b (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 10 Sep 2020 10:28:31 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 475D9C0617A2
-        for <linux-hams@vger.kernel.org>; Thu, 10 Sep 2020 07:18:35 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id v15so4317534pgh.6
-        for <linux-hams@vger.kernel.org>; Thu, 10 Sep 2020 07:18:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:date:from:to:reply-to:content-transfer-encoding
-         :subject:message-id;
-        bh=z9cbGQzvCZGdv2stQ4JjJcY1G86CqEMBICg5YK+66dU=;
-        b=T+LRsJD9xcAqKMu+1ssYUKeEArvUAY+XmpUsGsq7I/wbQE5cAa4SwPrmT8H3gzvNHk
-         6a0sUXjHm3H91nTLsFvsn66Xdwv5n276wfWTdjUj/HNGo8UUnooHgmVoqz8sBairozPs
-         uGRkDCaYBgjPJ+Gr+VgdkqJmOQttVspvul0ayzBRClC0IvhlwHsuoO6KTmK2EB81vqHH
-         jXvUR1VaEFyPfPHWw5zN8f0JoUVNIO9bOcbsmCGoimcVx3SsvXMR+PB/3wx0glmVlXYM
-         UExUSVQ/r/xbmpdjS4ahPGeDRIi0g+VSgKRqHHGJpYzT/e0MpDld0Td6HlgNv10tR/u6
-         jOQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:from:to:reply-to
-         :content-transfer-encoding:subject:message-id;
-        bh=z9cbGQzvCZGdv2stQ4JjJcY1G86CqEMBICg5YK+66dU=;
-        b=MuE3WSyCoZWqe5+diipUv9meMdO96QQZu4ntiwaM39/iaErl0HXW7Wmt7Yah+vBbWL
-         pE1vErw/RkCkmDQykoadaF0/1Fk8lx+Tw/Ggu4lg8rIFaxvvTur/Qu3ZMXq8B/OzRLfa
-         peKREHpfjisOgL49vlPrtwdtBMLMMuJbGD+EgW3sTsi1ZRYX7ADnvaXdYkG6pIB9W04X
-         bbhEG6rIBcPFyaTrY10Cu5Pme2EqzsmSaJq+rMtO0tD7zpKBgoVy1h6L29kOkmea6ZZ1
-         sTF0ldyOq0foRJbdb34tMRmcRe3TlUC/BlviSIGjzpPjvEtALP5C0656HRWYarZXUAAW
-         7shA==
-X-Gm-Message-State: AOAM530lNcDMzLhhJNg+8ixmUImzqLW9U9VOoK3OnzW9so81s9yyi6hr
-        jtXEkcc2+4+WDZm0pzH8yd33PGqq7Q==
-X-Google-Smtp-Source: ABdhPJyVgVB66IypKMMWSYF9oU7k6k9X4B01a7jaZ2e18BN/ocGoNIysU/THDnHIQvywFXxZu1S05w==
-X-Received: by 2002:a62:1dcb:0:b029:13e:d13d:a131 with SMTP id d194-20020a621dcb0000b029013ed13da131mr5595479pfd.25.1599747513859;
-        Thu, 10 Sep 2020 07:18:33 -0700 (PDT)
-Received: from WIN-25FFVSIPLS1 (149-255-36-142.static.hvvc.us. [149.255.36.142])
-        by smtp.gmail.com with ESMTPSA id l5sm4835668pgm.80.2020.09.10.07.18.32
-        for <linux-hams@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 10 Sep 2020 07:18:32 -0700 (PDT)
-MIME-Version: 1.0
-Date:   Thu, 10 Sep 2020 07:18:24 -0700
-X-Priority: 3 (Normal)
-From:   nebraskabella02@gmail.com
+        id S1725550AbgIKHVt convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hams@lfdr.de>); Fri, 11 Sep 2020 03:21:49 -0400
+Received: from mail.flex.co.jp ([211.8.82.123]:58884 "EHLO www.flex.co.jp"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725535AbgIKHVt (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Fri, 11 Sep 2020 03:21:49 -0400
+Received: from live.com.mx ([103.89.89.225])
+        (authenticated bits=0)
+        by www.flex.co.jp (MTA) with ESMTP id 0898njWK009557
+        for <linux-hams@vger.kernel.org>; Wed, 9 Sep 2020 17:49:51 +0900
+Reply-To: powerinthewords@yahoo.co.jp
+From:   piyin.crhe@live.com.mx
 To:     linux-hams@vger.kernel.org
-Reply-To: nebraskabella02@gmail.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-Subject: hey
-Message-ID: <7BEDEC95D525460E84FBA537C8533CA9EE52635D@WIN-25FFVSIPLS1>
+Subject: =?utf-8?Q?=5BSpam=5D?=
+ We are still waiting for your email...
+Date:   09 Sep 2020 01:49:49 -0700
+Message-ID: <20200909014949.FEFFBF293EA382E4@live.com.mx>
+MIME-Version: 1.0
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+X-SpamInfo: FortiGuard-AntiSpam ip, connection black ip 103.89.89.225
 Sender: linux-hams-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Facebook sweepstake lottery notification, Click on this link to claim yo=
-ur winning payment https://zfrmz.com/Ps5t04H6zwHXI1u9RV8F
+Dear Beneficiary,
+
+We wish to inform you that a power of attorney was forwarded to 
+our office  by two gentlemen regarding your unclaimed fund of $56 
+Million Dollar. One of them is an American citizen named Mr. 
+Robert Porter and the other is Mr. Wilhelm Berg a Swedish 
+citizen.We have be waiting for you to contact us since last year.
+
+The document claims these gentlemen to be your authorized 
+representatives, and the power of attorney states that you are 
+already deceased.  It further states that your death was due to 
+lung cancer, with your date of death being January 27th, 2020.
+
+They have now submitted a new account to replace the receiving 
+account that was in the original claim of funds. These funds have 
+remained unclaimed for quite some time and the need for 
+resolution is pressing. Below is the new account they have 
+submitted.
+
+Account Name's :  Robert Porter /Wilhelm Berg
+Account: 5007-29 438 66
+IBAN-nr: SE4150000000050072943866
+Bic-kod: ESSESESS
+Skandinaviska Enskilda Banken. (SEB :)
+SWEDEN .
+
+In the event that you are in fact still alive, we ask that you 
+confirm your existence by responding to this email. You are to 
+view this as a matter requiring immediate attention and response. 
+We have 48 hr monitoring of all activities within Federal Reserve 
+Bank.On this regard,you will be directed to any of our office 
+center that you will go in person to sign the final papers,
+because we have our payment center in Europe,Asia,America and 
+Canada.You will go to any of the office that you will be directed 
+to with the copy of the documents of your fund.
+
+We have contacted the bank in the Sweden asking them to wait for 
+further directives from Federal Reserve Bank, prior to 
+authorizing any withdrawals in any form.  Our request is based 
+entirely on our attempt to verify that you are in fact deceased, 
+before money is wrongly disbursed.
+
+Your in Service,
+
+Robert Steven Kaplan
+2200 N Pearl St, Dallas, TX 75201, United States
