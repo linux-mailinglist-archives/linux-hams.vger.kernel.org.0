@@ -2,114 +2,95 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 579152693B4
-	for <lists+linux-hams@lfdr.de>; Mon, 14 Sep 2020 19:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B975027365F
+	for <lists+linux-hams@lfdr.de>; Tue, 22 Sep 2020 01:12:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725957AbgINRjy (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 14 Sep 2020 13:39:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46158 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726087AbgINMZq (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 14 Sep 2020 08:25:46 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17CC1C03542D
-        for <linux-hams@vger.kernel.org>; Mon, 14 Sep 2020 05:22:14 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id b124so12447250pfg.13
-        for <linux-hams@vger.kernel.org>; Mon, 14 Sep 2020 05:22:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=gxYQz48aGorfvze6exW0FuIKKJvVhs5z+cRnEenJUaY=;
-        b=SCVNXkOmibRRFjngC0F7Eobu+h7Toa35YdceOgJFszjwMhgE8sRK29ZJDt/FAdNOgp
-         elwnkGFmPaN+beLnM61TrC/MgliLJC9ZzzopJnX+8sFtTdZ0eplAAmpRa8pLIQwYPalq
-         RsWap5ujMYIqAf+vrWL6oAMPJ9jYgn9h6CrSvli5JXe5LeTRjMBHRwaKoEda4AGn4FCL
-         UqXXA6VVXUF6WJ0uJ9ioeTEVoVTNZF4+igr0J50tmAzqp2FNc6jk9ZBRBZPcW2lDyb+E
-         mP/qF3MFHracZFjdwlyzH8ZKe0bCApRglOEP8fm9xy3qpQbWnR3YoSEa9g8Ilan1/6C2
-         wtyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=gxYQz48aGorfvze6exW0FuIKKJvVhs5z+cRnEenJUaY=;
-        b=AaY1wAXQ+X1Y6uiEsfrgpgvK2NpIYop4T1FRBi40pJ/tA8oeWNFwrA/pmBSmWZM0Mf
-         zhTVl7lRUrO3AL3Z+Ddw4nk8Nl4TIzkjZhE7nP7mGt6tyclTUiQxQokAaOdMPzNRVtqx
-         V77b9QMcHrZ1ntnkXgUnFhQahditwkn17ppcD5pc37jk0Pt17/C9Nwh9mHFEx4iTkxC/
-         mgV15jmuflBW8Nu6HLQsqdfiwOLVanb3MPwTSpUvoxnBMKj43otoRVK2cS6iY1czNRYU
-         qOlMozsykoOsMA53LL90if8yA2j5ygbJxF+dJu6xfpmLGbsRmBBMxDuoQNCm/jx5kmjY
-         awwg==
-X-Gm-Message-State: AOAM533u/GWX3x4Hi1Fm3xR6hGYk9yMovVgdUiRXF6mowB3+mwLkYSN+
-        NbeuHJoyoqHDM5ycA1Fqb6eRQb406PcDMuFXk9Q=
-X-Google-Smtp-Source: ABdhPJwlEK1x3W215XNYgXIYNI6Qzpscz0H551WXj1IZgzgq2DfrN4PDbxOMeAFLUMiNouzC8JvXVAaBvL4wnMBWzxc=
-X-Received: by 2002:a17:902:c151:: with SMTP id 17mr13942646plj.49.1600086133234;
- Mon, 14 Sep 2020 05:22:13 -0700 (PDT)
+        id S1728852AbgIUXMW (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 21 Sep 2020 19:12:22 -0400
+Received: from mail.rusoil.net ([188.128.114.25]:58282 "EHLO mail.rusoil.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728741AbgIUXMV (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Mon, 21 Sep 2020 19:12:21 -0400
+X-Greylist: delayed 421 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Sep 2020 19:12:11 EDT
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.rusoil.net (Postfix) with ESMTP id 9EF1840C07;
+        Tue, 22 Sep 2020 04:08:14 +0500 (YEKT)
+Received: from mail.rusoil.net ([127.0.0.1])
+        by localhost (mail.rusoil.net [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id SVpSP78GR2pZ; Tue, 22 Sep 2020 04:08:14 +0500 (YEKT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.rusoil.net (Postfix) with ESMTP id 3D89E40D78;
+        Tue, 22 Sep 2020 04:08:13 +0500 (YEKT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rusoil.net 3D89E40D78
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rusoil.net;
+        s=maildkim; t=1600729693;
+        bh=6R3BgBYiA7fkqGiiNDuwPskBnpH9JXyNAW/l3ZEA+wY=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=Vnjy6nBVnSTcINEW6kER3ugTxQ4KBYKS36YiGFr6YA3B4INc+KiGVhbak8MS9Qjs4
+         d1hbAool1vpcT5tqzIahdEndE3qiAPgBOX6jsmCcvHSMZhz19GFDJ1aQySn107enqY
+         lwxWqbZRY2a+BQ8VxoJh3Rpje7MgA+/fhr9SupmU=
+X-Virus-Scanned: amavisd-new at mail.rusoil.net
+Received: from mail.rusoil.net ([127.0.0.1])
+        by localhost (mail.rusoil.net [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id KLkCjnFIcNrK; Tue, 22 Sep 2020 04:08:12 +0500 (YEKT)
+Received: from mail.rusoil.net (mail.rusoil.net [172.16.7.34])
+        by mail.rusoil.net (Postfix) with ESMTP id 6147940C07;
+        Tue, 22 Sep 2020 04:08:10 +0500 (YEKT)
+Date:   Tue, 22 Sep 2020 04:08:09 +0500 (YEKT)
+From:   Blue Oak Mortgage and Loans <em@rusoil.net>
+Reply-To: Blue Oak Mortgage and Loans <info@bluelmtg.net>
+Message-ID: <2020026523.907101.1600729689731.JavaMail.zimbra@rusoil.net>
+Subject: Wir finanzieren Projekte und Unternehmen
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:60d1:0:0:0:0 with HTTP; Mon, 14 Sep 2020 05:22:12
- -0700 (PDT)
-Reply-To: mrsmegwilliam6@gmail.com
-From:   Ms Mary Mcniff <diplomaticstoragecourier@gmail.com>
-Date:   Mon, 14 Sep 2020 05:22:12 -0700
-Message-ID: <CAD72A3OnM5UkEyx5+TmVZo5JKyyXnina5eDs7ktk=zCWMkbT3A@mail.gmail.com>
-Subject: Your Respond ASAP
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Sender: linux-hams-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [192.210.183.69]
+X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF79 (Win)/8.8.12_GA_3794)
+Thread-Index: IhGK+mMcCqn+S/Et9t28g8ApaUDaLg==
+Thread-Topic: Wir finanzieren Projekte und Unternehmen
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
--- 
-From Chief Compliance Officer, Citigroup Inc CITIBANK
-388 Greenwich St, New York, 10013, United States United.
-PAYMENT CODE: FRB010
-Swift: PTBLBXXX
-==============================================
 
-Attention: Beneficiary,
 
-We write to inform you that Series of meetings have been held over the
-past 2 weeks with the Secretary General of United Nations,U.S
-Department of State and Dubai Union Organization this ended last
-week.And parcel is under our custody right now, It will deliver to you
-within 24 hours once you clear the charges which will cost you
-according to the BANKERS COURIER SERVICES that wish to deliver your
-ATM CARD card to
-you immediately.
+Dies ist ein Newsletter von Blue Oak Mortgage and Loans. Bitte melden Sie s=
+ich ab, wenn Sie keine E-Mail mehr von uns erhalten m=C3=B6chten.
 
-However, it is the pleasure of this office to inform you that your ATM
-CARD number; is 29741733 and it has been approved and upgraded in your
-favor .you call me for the pin code numbers. The ATM CARD value is us
-$10.5 Million only.
 
-Kindly contact the paying bank for the claim of your ATM visa card
-payment fund $10,500,000.00 through the below contact information;
+Eine kurze Einf=C3=BChrung.
 
-Contact Person:Mr Williams S Young
-Director of Financial Controller
-Bank Name: CITIBANK
-Bank address; 388 Greenwich St,
-New York City,10013, United States
-Email:mrsmegwilliam6@gmail.com
+Wir sind ein f=C3=BChrendes Finanzierungsunternehmen in Europa. Wir finanzi=
+eren Startups / etablierte Unternehmen, finanzieren Gro=C3=9Fprojekte (Bau,=
+ Landwirtschaft, Immobilien und dergleichen) zu einem niedrigen Zinssatz vo=
+n 2% pro Jahr.
 
-Reconfirm the following information?
 
-(1)Your Full Name=============
-(2)Mobile Phone Number======
-(3)Current Home Address==== ====
-(4)Fax Number================
-(5)Passport/Drivers license ======
+Darlehensverfahren
 
-Endeavor to keep me posted once you contacted the officer in charge
-through the above mentioned information.
+1. Sie m=C3=BCssen das Online-Bewerbungsformular ausf=C3=BCllen und eine or=
+dnungsgem=C3=A4=C3=9F unterschriebene Kopie an uns zur=C3=BCcksenden.
 
-Your timely response is highly appreciated.To this end, you are
-required to forward your payment information as follows to enable us
-load your fund into the card with your information and deliver it to
-your door step. as the BANKERS COURIER SERVICES are in charge of the
-delivery services to your destination.
+2. M=C3=B6glicherweise m=C3=BCssen Sie Finanzdokumente als unterst=C3=BCtze=
+nden Nachweis f=C3=BCr die F=C3=A4higkeit zur R=C3=BCckzahlung von Krediten=
+ vorlegen.
 
-Yours truly;
+3. Wenn Ihr Darlehen genehmigt wurde, m=C3=BCssen Sie eine Versicherungsgar=
+antie f=C3=BCr die Darlehenssicherheit vorlegen. Wir empfehlen eine Versich=
+erungsgesellschaft. Sie sind allein verantwortlich f=C3=BCr die Zahlung und=
+ den Erwerb der Anleihe, die als Sicherheit dienen. Die H=C3=B6he der Anlei=
+he h=C3=A4ngt von Ihrem Darlehensbetrag ab. Die Versicherungsgesellschaft w=
+ird Sie durch den Prozess f=C3=BChren. (F=C3=BCr Gro=C3=9Fprojekte)
 
-Ms Mary Mcniff.
-Chief Compliance Officer, Citigroup Inc
-FEDERAL RESERVE SYSTEM.
-Email: marymcniff7@gmail.com.
+4. Ihr =C3=9Cberweisungsprozess wird eingeleitet, sobald die Versicherungsa=
+nleihe =C3=BCberpr=C3=BCft wurde. Ihr Darlehensr=C3=BCckzahlungsplan wird i=
+m NC-Darlehensvertragsformular aufgef=C3=BChrt.
+
+Wenn die Bedingungen Sie beruhigen, k=C3=B6nnen Sie uns =C3=BCber die Whats=
+App-Nummer / E-Mail kontaktieren und auch unsere Website besuchen, um weite=
+re Informationen zu erhalten. Wir freuen uns darauf, von Ihnen zu h=C3=B6re=
+n.
+
+WhatsApp: + 90-552-365-3483
+E-Mail: info@bluelmtg.net
