@@ -2,21 +2,22 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FF22277A6C
-	for <lists+linux-hams@lfdr.de>; Thu, 24 Sep 2020 22:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D55C127F04C
+	for <lists+linux-hams@lfdr.de>; Wed, 30 Sep 2020 19:25:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726281AbgIXUaC (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 24 Sep 2020 16:30:02 -0400
-Received: from [125.140.134.231] ([125.140.134.231]:59260 "EHLO
-        WIN-DAONO245HJF" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726606AbgIXUaA (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 24 Sep 2020 16:30:00 -0400
-Received: from User ([185.191.231.247]) by WIN-DAONO245HJF with Microsoft SMTPSVC(8.5.9600.16384);
-         Fri, 25 Sep 2020 05:26:36 +0900
-Reply-To: <samthong5555@yahoo.com>
-From:   "SAM THONG" <samthong5555@gmail.com>
-Subject: Business Acquisition 1
-Date:   Thu, 24 Sep 2020 13:26:36 -0700
+        id S1731496AbgI3RYN (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 30 Sep 2020 13:24:13 -0400
+Received: from [110.74.151.213] ([110.74.151.213]:36213 "EHLO
+        mail.bless.gov.my" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725837AbgI3RYN (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 30 Sep 2020 13:24:13 -0400
+Received: from User (unknown [172.20.84.1])
+        by mail.bless.gov.my (Postfix) with SMTP id 3992868525BE;
+        Wed, 30 Sep 2020 18:45:48 +0800 (MYT)
+Reply-To: <iinfo446@gmail.com>
+From:   "Mrs. Susan Carter" <test@mail.bless.gov.my>
+Subject: Good day,    
+Date:   Wed, 30 Sep 2020 11:46:09 +0100
 MIME-Version: 1.0
 Content-Type: text/plain;
         charset="Windows-1251"
@@ -25,65 +26,20 @@ X-Priority: 3
 X-MSMail-Priority: Normal
 X-Mailer: Microsoft Outlook Express 6.00.2600.0000
 X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <WIN-DAONO245HJFR4fa00e70a06@WIN-DAONO245HJF>
-X-OriginalArrivalTime: 24 Sep 2020 20:26:36.0694 (UTC) FILETIME=[005C8B60:01D692B1]
-To:     unlisted-recipients:; (no To-header on input)
+Message-Id: <20200930104549.3992868525BE@mail.bless.gov.my>
+To:     undisclosed-recipients:;
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
+Good day,
 
+My name are Mrs. Susan Carter an America but a United Kingdom Citizen, I???m 57 years old, widow, married to late Eng Martins Carter who is a British, who until his death worked with Dutch Filtration for Twenty-Six years before he died in the year 2015 after a brief illness that lasted only five days.
 
-Dear sir
+When my late husband was alive he deposited the sum of US$50 Million in bank USA through his Financial Lawyer in the United State of America and we all agreed as a couple to donate all of that to charity. Following my health (Lung Cancer), my Doctor told me that I may not live longer than required due to my health condition.
 
-Our underwriter company is seeking the attention of genuine and reliable persons, companies
+Looking forward to seeing someone who can use the money for charitable work.
 
-who are indeed in need of funds as investment capital or business expansion in form of a
-
-direct loan to partner with us and benefit in our new Loan and Project funding programs.
-
-
-
-We offer flexible loans and funding for various projects at very affordable low interest
-
-rate of 3% annually for a period of 1-15 years on Non collateral loan/funding . We offer
-
-loan/funding from a minimum of Euro ? / USD$ 1 Million to Euro ? / USD$ 1 Billion. Max,
-
-depending on the nature of business/project.
-
-We are currently funding for:-
-
-
-
-* Starting up a Franchise
-
-* Business Acquisition
-
-* Business Expansion
-
-* Commercial Real Estate purchase
-
-* Consultancy and Contract Execution, Marine , ETC.
-
-
-
-Kindly get in touch for further details and procedure. samthong5555@yahoo.com 
-
-
-
-Respectfully,
-
-
-SAM THONG
-
-
-
-
-
-
-
-	
-
-
-
+Best Regards
+Yours sincerely
+Mrs. Susan Carter
