@@ -2,62 +2,74 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD4BB28CA0C
-	for <lists+linux-hams@lfdr.de>; Tue, 13 Oct 2020 10:20:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7D4028CD2D
+	for <lists+linux-hams@lfdr.de>; Tue, 13 Oct 2020 13:58:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389340AbgJMIUG (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 13 Oct 2020 04:20:06 -0400
-Received: from mail.fastestway24.com ([5.249.159.217]:33640 "EHLO
-        mail.fastestway24.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390282AbgJMIUG (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 13 Oct 2020 04:20:06 -0400
-X-Greylist: delayed 491 seconds by postgrey-1.27 at vger.kernel.org; Tue, 13 Oct 2020 04:20:05 EDT
-Received: by mail.fastestway24.com (Postfix, from userid 1001)
-        id 9D382A2F31; Tue, 13 Oct 2020 09:11:40 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fastestway24.com;
-        s=mail; t=1602576712;
-        bh=YGOlxoddnI3PXnh41XMWUfU0z9xsorZLZcAPNbcZr/c=;
-        h=Date:From:To:Subject:From;
-        b=PbQHIuWSAtYf9iP1pNtABrhGzIux5o/wwFuvj9ByHd7UAcP1rQo96vunmS4Zv2x1Z
-         WUGQa8UKl3Xo0J1cspgvPsP4tiSNAm1+7i375dZ4aatVvuwZ/dM4Fr6Vh+JlQj/6om
-         xAiF4PstNETRfTl3btfhTYcIAW0Chy6IkgN1UH1DZ1OuUWnLwm1Y/mYymlt5ZwZsMc
-         vNnpy1+DC3jpC4c+g9sdKkmv4jXdQdKAvv2TuHmata574QNoM2YpzLAD7J56giQq7R
-         aXPCySc/tYUr54kIHttRX3mpKC4/7Hj+GMnIySd3gNcFvDk5VVh7TQyEwbyolrcGYW
-         pMgzqadXGYcUw==
-Received: by mail.fastestway24.com for <linux-hams@vger.kernel.org>; Tue, 13 Oct 2020 08:11:18 GMT
-Message-ID: <20201013074502-0.1.4d.9kzf.0.83zpll9ial@fastestway24.com>
-Date:   Tue, 13 Oct 2020 08:11:18 GMT
-From:   "William Jones" <william.jones@fastestway24.com>
-To:     <linux-hams@vger.kernel.org>
-Subject: Disinfectant
-X-Mailer: mail.fastestway24.com
+        id S1728133AbgJML5a (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 13 Oct 2020 07:57:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57508 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727646AbgJMLys (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Tue, 13 Oct 2020 07:54:48 -0400
+Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4DCEE2250E;
+        Tue, 13 Oct 2020 11:54:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602590081;
+        bh=sA+LLjFnYe1xhNIVyej80xZ8cWbaGG48uMqipjGVTpU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=LSzM1wvJqUAXFS6m9P2E6qFFWxGvCxzBYv3AULvTyNSjajA3ScICrG51V1TLkaiKi
+         CRePNr1nN7U/Ga1IgdjlxjYofBzhmPtT8pg7XIeiqpTXF1OM9UNEfyotouNS+r5EbV
+         Rh7bBfxOioGCoR24o1cSUC20vntOEs+Mg6xtigEc=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kSIt5-006CVw-C1; Tue, 13 Oct 2020 13:54:39 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Joerg Reuter <jreuter@yaina.de>, linux-hams@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH v6 58/80] drivers: net: hamradio: fix document location
+Date:   Tue, 13 Oct 2020 13:54:13 +0200
+Message-Id: <483eed6c0db2a62b89dd0e3586493c56c4fbed1b.1602589096.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
+References: <cover.1602589096.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Good morning,
+The hamradio docs were moved to a different dir.
+Update its location accordingly.
 
-looking for companies interested in raising additional capital by diversi=
-fying their offer in soaps, liquids and gels for hand disinfection and co=
-smetics for body and hair care.
+Fixes: 14474950252c ("docs: networking: move z8530 to the hw driver section")
 
-The distribution of innovative products corresponding to the current pref=
-erences of customers in the field of hygiene and preventive healthcare al=
-lows our partners to gain new markets and achieve better economic results=
-=2E
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/net/hamradio/scc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In addition to products with bactericidal action, our range includes show=
-er gels, shampoos and hair conditioners, as well as efficient, concentrat=
-ed detergents.
+diff --git a/drivers/net/hamradio/scc.c b/drivers/net/hamradio/scc.c
+index 1e915871baa7..36eeb80406f2 100644
+--- a/drivers/net/hamradio/scc.c
++++ b/drivers/net/hamradio/scc.c
+@@ -7,7 +7,7 @@
+  *            ------------------
+  *
+  * You can find a subset of the documentation in 
+- * Documentation/networking/device_drivers/wan/z8530drv.rst.
++ * Documentation/networking/device_drivers/hamradio/z8530drv.rst.
+  */
+ 
+ /*
+-- 
+2.26.2
 
-The versatility (suitable for all skin types) combined with an affordable=
- price means that customers make an informed choice of a product among ot=
-hers available on the market.
-
-Are you interested in cooperation?
-
-
-William Jones
