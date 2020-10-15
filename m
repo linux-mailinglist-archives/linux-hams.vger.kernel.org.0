@@ -2,74 +2,105 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7D4028CD2D
-	for <lists+linux-hams@lfdr.de>; Tue, 13 Oct 2020 13:58:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 341B528EA39
+	for <lists+linux-hams@lfdr.de>; Thu, 15 Oct 2020 03:35:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728133AbgJML5a (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 13 Oct 2020 07:57:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57508 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727646AbgJMLys (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Tue, 13 Oct 2020 07:54:48 -0400
-Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4DCEE2250E;
-        Tue, 13 Oct 2020 11:54:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602590081;
-        bh=sA+LLjFnYe1xhNIVyej80xZ8cWbaGG48uMqipjGVTpU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LSzM1wvJqUAXFS6m9P2E6qFFWxGvCxzBYv3AULvTyNSjajA3ScICrG51V1TLkaiKi
-         CRePNr1nN7U/Ga1IgdjlxjYofBzhmPtT8pg7XIeiqpTXF1OM9UNEfyotouNS+r5EbV
-         Rh7bBfxOioGCoR24o1cSUC20vntOEs+Mg6xtigEc=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kSIt5-006CVw-C1; Tue, 13 Oct 2020 13:54:39 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Joerg Reuter <jreuter@yaina.de>, linux-hams@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v6 58/80] drivers: net: hamradio: fix document location
-Date:   Tue, 13 Oct 2020 13:54:13 +0200
-Message-Id: <483eed6c0db2a62b89dd0e3586493c56c4fbed1b.1602589096.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
-References: <cover.1602589096.git.mchehab+huawei@kernel.org>
+        id S1732309AbgJOBe5 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 14 Oct 2020 21:34:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49826 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732241AbgJOBeh (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 14 Oct 2020 21:34:37 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6C54C0F26D1;
+        Wed, 14 Oct 2020 17:17:58 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id gv6so761636pjb.4;
+        Wed, 14 Oct 2020 17:17:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q5OVoE3pJbhdauHqlTDobbIRkF4tseIWuc4U1qOzq+k=;
+        b=A/Z6g0IJ6RJqvoV2/izYHd/zFI83zBsUvMQMKk+wJFD0U7iXs69ZqVHfm1gCLTtw1c
+         jSXGeZxxttxmRx50ZBSCb8D+fru54qFF/caQxWmrmhVbbhq8KegiZLd150mvM7Eb+4wI
+         7zh92ZN0K0zA3zociLwYzzbSzZbzd4P0iCwiUAkdHM/b+QFmSigWQ3A0S/WFaarzgIbl
+         M5UlnQZjT6+dXqdDkSqwb3hW/fAuXH3exOe4A2Plkch6mSH8ZOcM3ewVfyRmy9Rvoyjr
+         9k1K2GRsGyzkE0pQcl4J4Y5BDBGFuIH4Hhnq9aRv3TbZpxT6pQBHHVM2Ru7+8SIZx5UK
+         lm4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q5OVoE3pJbhdauHqlTDobbIRkF4tseIWuc4U1qOzq+k=;
+        b=fZEwW0AsutYKAZNHrPm48o9qSwOhKc7E6cXtTdNvbrEOABJZ5CrbOSCU5IUonvf2MX
+         qOtOcx8bIBBBZF/3hr4E0yOUInYA0JtNPay8entU0gNy3jZQXCmG2f6dNW/vh47zVnU/
+         1N4KoBq0eGdjkpBnqA2MwW90hIZTekM4bJJnfNYIP46eWThrRgaFRGV0qzHU9ZO6ecc7
+         mGP/Y1ApPoV71z5lgn3e9UUg7r7TEcakCxrjoXv4GeKnmedFTK0W4iuxe8GkcLPDa1nV
+         wTZ/KTePARvN7sFhV7wz7zffRReRIawjHnV+jw3lP7WeHqR9isSliC9v3yV0pZM6oncJ
+         0+jw==
+X-Gm-Message-State: AOAM531XcvedT+YCKJvmPBvsZTKwi1KkmiCnWSNltCxpZ2puDiW5MnP2
+        puk40wvNhJ0gLgq8GnkDG9/4m9HixA/6hXNo
+X-Google-Smtp-Source: ABdhPJyXZSnNq/7NhUpZFjrT3ftcuE/CUx4RBJZ4VuG77OQfBJ/DtHJujHyQvVgyCv8CE/jz89HZsA==
+X-Received: by 2002:a17:902:be06:b029:d3:e6c5:52a0 with SMTP id r6-20020a170902be06b02900d3e6c552a0mr1392257pls.77.1602721078145;
+        Wed, 14 Oct 2020 17:17:58 -0700 (PDT)
+Received: from localhost.localdomain ([45.118.167.204])
+        by smtp.googlemail.com with ESMTPSA id j24sm738040pjn.9.2020.10.14.17.17.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2020 17:17:57 -0700 (PDT)
+From:   Anmol Karn <anmol.karan123@gmail.com>
+To:     ralf@linux-mips.org, davem@davemloft.net, kuba@kernel.org
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hams@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        syzkaller-bugs@googlegroups.com, anmol.karan123@gmail.com,
+        syzbot+a1c743815982d9496393@syzkaller.appspotmail.com
+Subject: [Linux-kernel-mentees] [PATCH] net: rose: Fix Null pointer dereference in rose_send_frame()
+Date:   Thu, 15 Oct 2020 05:47:12 +0530
+Message-Id: <20201015001712.72976-1-anmol.karan123@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-The hamradio docs were moved to a different dir.
-Update its location accordingly.
+In rose_send_frame(), when comparing two ax.25 addresses, it assigns rose_call to 
+either global ROSE callsign or default port, but when the former block triggers and 
+rose_call is assigned by (ax25_address *)neigh->dev->dev_addr, a NULL pointer is 
+dereferenced by 'neigh' when dereferencing 'dev'.
 
-Fixes: 14474950252c ("docs: networking: move z8530 to the hw driver section")
+- net/rose/rose_link.c
+This bug seems to get triggered in this line:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+rose_call = (ax25_address *)neigh->dev->dev_addr;
+
+Prevent it by checking NULL condition for neigh->dev before comparing addressed for 
+rose_call initialization.
+
+Reported-by: syzbot+a1c743815982d9496393@syzkaller.appspotmail.com 
+Link: https://syzkaller.appspot.com/bug?id=9d2a7ca8c7f2e4b682c97578dfa3f236258300b3 
+Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
 ---
- drivers/net/hamradio/scc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I am bit sceptical about the error return code, please suggest if anything else is 
+appropriate in place of '-ENODEV'.
 
-diff --git a/drivers/net/hamradio/scc.c b/drivers/net/hamradio/scc.c
-index 1e915871baa7..36eeb80406f2 100644
---- a/drivers/net/hamradio/scc.c
-+++ b/drivers/net/hamradio/scc.c
-@@ -7,7 +7,7 @@
-  *            ------------------
-  *
-  * You can find a subset of the documentation in 
-- * Documentation/networking/device_drivers/wan/z8530drv.rst.
-+ * Documentation/networking/device_drivers/hamradio/z8530drv.rst.
-  */
+ net/rose/rose_link.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/net/rose/rose_link.c b/net/rose/rose_link.c
+index f6102e6f5161..92ea6a31d575 100644
+--- a/net/rose/rose_link.c
++++ b/net/rose/rose_link.c
+@@ -97,6 +97,9 @@ static int rose_send_frame(struct sk_buff *skb, struct rose_neigh *neigh)
+ 	ax25_address *rose_call;
+ 	ax25_cb *ax25s;
  
- /*
++	if (!neigh->dev)
++		return -ENODEV;
++
+ 	if (ax25cmp(&rose_callsign, &null_ax25_address) == 0)
+ 		rose_call = (ax25_address *)neigh->dev->dev_addr;
+ 	else
 -- 
-2.26.2
+2.28.0
 
