@@ -2,27 +2,27 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DA012AA017
-	for <lists+linux-hams@lfdr.de>; Fri,  6 Nov 2020 23:21:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA85D2A9FEE
+	for <lists+linux-hams@lfdr.de>; Fri,  6 Nov 2020 23:20:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729049AbgKFWSw (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 6 Nov 2020 17:18:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42310 "EHLO mail.kernel.org"
+        id S1729133AbgKFWTC (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 6 Nov 2020 17:19:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42446 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729092AbgKFWSt (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Fri, 6 Nov 2020 17:18:49 -0500
+        id S1728777AbgKFWS6 (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Fri, 6 Nov 2020 17:18:58 -0500
 Received: from localhost.localdomain (HSI-KBW-46-223-126-90.hsi.kabel-badenwuerttemberg.de [46.223.126.90])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5CD9A20B80;
-        Fri,  6 Nov 2020 22:18:46 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 596F6206F9;
+        Fri,  6 Nov 2020 22:18:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604701128;
-        bh=DGkbWw7wjmAMM5ZBe2lu9569wYUoHpHLpYIRPiD7wVw=;
+        s=default; t=1604701134;
+        bh=5r0Twy0hkZ46Ow4AB53hpgvjT7PSWzsT+mWa0mgW00s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RuNu4yRVDyrwIhAAfUVh6EgSYsGe7j7/QQ+iZjZiLtyW/C9+nb6HukDfcO5mMt5rX
-         yv1aaaUDZFKlEvBUStuhWHMw0UraCwb/uQKW/ROw+XCP5FRNO/MLUAOvG2GIEp4VQh
-         he+wZw3HIZ9rBgBE8/gqLnx6qvhvDiTAkOS/BWiI=
+        b=BUVyYqYJ1u60yxZopNvlHebY97P5pBN9bVymcdNo7MXyiUrR9Uc2POrH7xmodAxhH
+         /0FmfUz1nK/pKTV+UGDchrsJMz8DW/ANxkKq4ApsOOSmZ2fbvQNejc/8kMNw2ZLocv
+         yfN0mACv/WDBKbPluMzBXdQYOHZWI6jNpvnuOmNA=
 From:   Arnd Bergmann <arnd@kernel.org>
 To:     netdev@vger.kernel.org
 Cc:     Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
@@ -33,9 +33,9 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
         Johannes Berg <johannes@sipsolutions.net>,
         Andrew Lunn <andrew@lunn.ch>,
         Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [RFC net-next 19/28] dev_ioctl: pass SIOCDEVPRIVATE data separately
-Date:   Fri,  6 Nov 2020 23:17:34 +0100
-Message-Id: <20201106221743.3271965-20-arnd@kernel.org>
+Subject: [RFC net-next 21/28] wan: use ndo_siocdevprivate
+Date:   Fri,  6 Nov 2020 23:17:36 +0100
+Message-Id: <20201106221743.3271965-22-arnd@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201106221743.3271965-1-arnd@kernel.org>
 References: <20201106221743.3271965-1-arnd@kernel.org>
@@ -47,258 +47,584 @@ X-Mailing-List: linux-hams@vger.kernel.org
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The compat handlers for SIOCDEVPRIVATE are incorrect for any driver that
-passes data as part of struct ifreq rather than as an ifr_data pointer, or
-that passes data back this way, since the compat_ifr_data_ioctl() helper
-overwrites the ifr_data pointer and does not copy anything back out.
+The wan drivers each support some custom SIOCDEVPRIVATE
+ioctls, plus the common SIOCWANDEV command.
 
-Since all drivers using devprivate commands are now converted to the
-new .ndo_siocdevprivate callback, fix this by adding the missing piece
-and passing the pointer separately the whole way.
+Split these so the ioctl callback only deals with SIOCWANDEV
+and the rest is handled by ndo_siocdevprivate.
 
-This further unifies the native and compat logic for socket ioctls,
-as the new code now passes the correct pointer as well as the correct
-data for both native and compat ioctls.
+It might make sense to also split out SIOCWANDEV into a
+separate callback in order to eventually remove ndo_do_ioctl
+entirely.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- include/linux/netdevice.h |  4 +--
- net/core/dev_ioctl.c      | 22 +++++++++-------
- net/ethtool/ioctl.c       |  3 +--
- net/socket.c              | 55 +++++++++------------------------------
- 4 files changed, 28 insertions(+), 56 deletions(-)
+ drivers/net/wan/c101.c         | 20 +++++++++++++-----
+ drivers/net/wan/dlci.c         |  7 ++++---
+ drivers/net/wan/farsync.c      | 38 ++++++++++++++++++++++++++--------
+ drivers/net/wan/hdlc_fr.c      |  3 +++
+ drivers/net/wan/lmc/lmc_main.c | 38 ++++++++++++++++++++--------------
+ drivers/net/wan/n2.c           | 18 ++++++++++------
+ drivers/net/wan/pc300too.c     | 19 ++++++++++-------
+ drivers/net/wan/pci200syn.c    | 19 ++++++++++-------
+ drivers/net/wan/sbni.c         | 12 +++++------
+ drivers/net/wan/sdla.c         |  8 +++----
+ 10 files changed, 120 insertions(+), 62 deletions(-)
 
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 93f980e1d69b..931a4a0668f6 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -3833,9 +3833,9 @@ bool dev_valid_name(const char *name);
- int get_user_ifreq(struct ifreq *ifr, void __user **ifrdata, void __user *arg);
- int put_user_ifreq(struct ifreq *ifr, void __user *arg);
- int dev_ioctl(struct net *net, unsigned int cmd, struct ifreq *ifr,
--		bool *need_copyout);
-+		void __user *data, bool *need_copyout);
- int dev_ifconf(struct net *net, struct ifconf __user *ifc);
--int dev_ethtool(struct net *net, struct ifreq *);
-+int dev_ethtool(struct net *net, struct ifreq *, void __user *userdata);
- unsigned int dev_get_flags(const struct net_device *);
- int __dev_change_flags(struct net_device *dev, unsigned int flags,
- 		       struct netlink_ext_ack *extack);
-diff --git a/net/core/dev_ioctl.c b/net/core/dev_ioctl.c
-index 58daf41a4a08..1fdacd7ab210 100644
---- a/net/core/dev_ioctl.c
-+++ b/net/core/dev_ioctl.c
-@@ -269,11 +269,10 @@ static int dev_do_ioctl(struct net_device *dev,
- 	return err;
+diff --git a/drivers/net/wan/c101.c b/drivers/net/wan/c101.c
+index c354a5143e99..9821ead5df8a 100644
+--- a/drivers/net/wan/c101.c
++++ b/drivers/net/wan/c101.c
+@@ -219,14 +219,12 @@ static int c101_close(struct net_device *dev)
  }
  
--static int dev_siocdevprivate(struct net_device *dev,
--			      struct ifreq *ifr, unsigned int cmd)
-+static int dev_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
-+			      void __user *data, unsigned int cmd)
- {
- 	const struct net_device_ops *ops = dev->netdev_ops;
--	void __user *data = ifr->ifr_data;
  
- 	if (ops->ndo_siocdevprivate) {
- 		if (netif_device_present(dev))
-@@ -283,13 +282,15 @@ static int dev_siocdevprivate(struct net_device *dev,
+-static int c101_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
++static int c101_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
++			       void __user *data, int cmd)
+ {
+-	const size_t size = sizeof(sync_serial_settings);
+-	sync_serial_settings new_line;
+-	sync_serial_settings __user *line = ifr->ifr_settings.ifs_ifsu.sync;
++#ifdef DEBUG_RINGS
+ 	port_t *port = dev_to_port(dev);
+ 
+-#ifdef DEBUG_RINGS
+ 	if (cmd == SIOCDEVPRIVATE) {
+ 		sca_dump_rings(dev);
+ 		printk(KERN_DEBUG "MSCI1: ST: %02x %02x %02x %02x\n",
+@@ -237,6 +235,17 @@ static int c101_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ 		return 0;
  	}
+ #endif
++
++	return -EOPNOTSUPP;
++}
++
++static int c101_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
++{
++	const size_t size = sizeof(sync_serial_settings);
++	sync_serial_settings new_line;
++	sync_serial_settings __user *line = ifr->ifr_settings.ifs_ifsu.sync;
++	port_t *port = dev_to_port(dev);
++
+ 	if (cmd != SIOCWANDEV)
+ 		return hdlc_ioctl(dev, ifr, cmd);
  
- 	/* fall back to do_ioctl for drivers not yet converted */
-+	ifr->ifr_data = data;
- 	return dev_do_ioctl(dev, ifr, cmd);
+@@ -300,6 +309,7 @@ static const struct net_device_ops c101_ops = {
+ 	.ndo_stop       = c101_close,
+ 	.ndo_start_xmit = hdlc_start_xmit,
+ 	.ndo_do_ioctl   = c101_ioctl,
++	.ndo_siocdevprivate = c101_siocdevprivate,
+ };
+ 
+ static int __init c101_run(unsigned long irq, unsigned long winbase)
+diff --git a/drivers/net/wan/dlci.c b/drivers/net/wan/dlci.c
+index 3ca4daf63389..057bf9080536 100644
+--- a/drivers/net/wan/dlci.c
++++ b/drivers/net/wan/dlci.c
+@@ -229,7 +229,8 @@ static int dlci_config(struct net_device *dev, struct dlci_conf __user *conf, in
+ 	return 0;
  }
  
- /*
-  *	Perform the SIOCxIFxxx calls, inside rtnl_lock()
-  */
--static int dev_ifsioc(struct net *net, struct ifreq *ifr, unsigned int cmd)
-+static int dev_ifsioc(struct net *net, struct ifreq *ifr, void __user *data,
-+	              unsigned int cmd)
+-static int dlci_dev_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
++static int dlci_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
++			       void __user *data, int cmd)
  {
- 	int err;
- 	struct net_device *dev = __dev_get_by_name(net, ifr->ifr_name);
-@@ -365,7 +366,7 @@ static int dev_ifsioc(struct net *net, struct ifreq *ifr, unsigned int cmd)
- 	default:
- 		if (cmd >= SIOCDEVPRIVATE &&
- 		    cmd <= SIOCDEVPRIVATE + 15)
--			return dev_siocdevprivate(dev, ifr, cmd);
-+			return dev_siocdevprivate(dev, ifr, data, cmd);
+ 	struct dlci_local *dlp;
  
- 		if (cmd == SIOCBONDENSLAVE ||
- 		    cmd == SIOCBONDRELEASE ||
-@@ -434,7 +435,8 @@ EXPORT_SYMBOL(dev_load);
-  *	positive or a negative errno code on error.
-  */
+@@ -252,7 +253,7 @@ static int dlci_dev_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ 			if (!*(short *)(dev->dev_addr))
+ 				return -EINVAL;
  
--int dev_ioctl(struct net *net, unsigned int cmd, struct ifreq *ifr, bool *need_copyout)
-+int dev_ioctl(struct net *net, unsigned int cmd, struct ifreq *ifr,
-+		void __user *data, bool *need_copyout)
+-			return dlci_config(dev, ifr->ifr_data, cmd == DLCI_GET_CONF);
++			return dlci_config(dev, data, cmd == DLCI_GET_CONF);
+ 
+ 		default: 
+ 			return -EOPNOTSUPP;
+@@ -458,7 +459,7 @@ static const struct header_ops dlci_header_ops = {
+ static const struct net_device_ops dlci_netdev_ops = {
+ 	.ndo_open	= dlci_open,
+ 	.ndo_stop	= dlci_close,
+-	.ndo_do_ioctl	= dlci_dev_ioctl,
++	.ndo_siocdevprivate = dlci_siocdevprivate,
+ 	.ndo_start_xmit	= dlci_transmit,
+ 	.ndo_change_mtu	= dlci_change_mtu,
+ };
+diff --git a/drivers/net/wan/farsync.c b/drivers/net/wan/farsync.c
+index b50cf11d197d..1ee0245bf30a 100644
+--- a/drivers/net/wan/farsync.c
++++ b/drivers/net/wan/farsync.c
+@@ -1975,7 +1975,7 @@ fst_get_iface(struct fst_card_info *card, struct fst_port_info *port,
+ }
+ 
+ static int
+-fst_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
++fst_siocdevprivate(struct net_device *dev, struct ifreq *ifr, void __user *data, int cmd)
  {
- 	int ret;
- 	char *colon;
-@@ -480,7 +482,7 @@ int dev_ioctl(struct net *net, unsigned int cmd, struct ifreq *ifr, bool *need_c
- 	case SIOCETHTOOL:
- 		dev_load(net, ifr->ifr_name);
- 		rtnl_lock();
--		ret = dev_ethtool(net, ifr);
-+		ret = dev_ethtool(net, ifr, data);
- 		rtnl_unlock();
- 		if (colon)
- 			*colon = ':';
-@@ -499,7 +501,7 @@ int dev_ioctl(struct net *net, unsigned int cmd, struct ifreq *ifr, bool *need_c
- 		if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
- 			return -EPERM;
- 		rtnl_lock();
--		ret = dev_ifsioc(net, ifr, cmd);
-+		ret = dev_ifsioc(net, ifr, data, cmd);
- 		rtnl_unlock();
- 		if (colon)
- 			*colon = ':';
-@@ -545,7 +547,7 @@ int dev_ioctl(struct net *net, unsigned int cmd, struct ifreq *ifr, bool *need_c
- 	case SIOCBONDINFOQUERY:
- 		dev_load(net, ifr->ifr_name);
- 		rtnl_lock();
--		ret = dev_ifsioc(net, ifr, cmd);
-+		ret = dev_ifsioc(net, ifr, data, cmd);
- 		rtnl_unlock();
- 		if (need_copyout)
- 			*need_copyout = false;
-@@ -570,7 +572,7 @@ int dev_ioctl(struct net *net, unsigned int cmd, struct ifreq *ifr, bool *need_c
- 		     cmd <= SIOCDEVPRIVATE + 15)) {
- 			dev_load(net, ifr->ifr_name);
- 			rtnl_lock();
--			ret = dev_ifsioc(net, ifr, cmd);
-+			ret = dev_ifsioc(net, ifr, data, cmd);
- 			rtnl_unlock();
- 			return ret;
+ 	struct fst_card_info *card;
+ 	struct fst_port_info *port;
+@@ -1984,7 +1984,7 @@ fst_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ 	unsigned long flags;
+ 	void *buf;
+ 
+-	dbg(DBG_IOCTL, "ioctl: %x, %p\n", cmd, ifr->ifr_data);
++	dbg(DBG_IOCTL, "ioctl: %x, %p\n", cmd, data);
+ 
+ 	port = dev_to_port(dev);
+ 	card = port->card;
+@@ -2008,10 +2008,10 @@ fst_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ 		/* First copy in the header with the length and offset of data
+ 		 * to write
+ 		 */
+-		if (ifr->ifr_data == NULL) {
++		if (data == NULL) {
+ 			return -EINVAL;
  		}
-diff --git a/net/ethtool/ioctl.c b/net/ethtool/ioctl.c
-index f9dcb126baf6..3d3306fb28a8 100644
---- a/net/ethtool/ioctl.c
-+++ b/net/ethtool/ioctl.c
-@@ -2671,10 +2671,9 @@ static int ethtool_set_fecparam(struct net_device *dev, void __user *useraddr)
- 
- /* The main entry point in this file.  Called from net/core/dev_ioctl.c */
- 
--int dev_ethtool(struct net *net, struct ifreq *ifr)
-+int dev_ethtool(struct net *net, struct ifreq *ifr, void __user *useraddr)
- {
- 	struct net_device *dev = __dev_get_by_name(net, ifr->ifr_name);
--	void __user *useraddr = ifr->ifr_data;
- 	u32 ethcmd, sub_cmd;
- 	int rc;
- 	netdev_features_t old_features;
-diff --git a/net/socket.c b/net/socket.c
-index 6917835d2f3e..1e077182d0fd 100644
---- a/net/socket.c
-+++ b/net/socket.c
-@@ -1045,6 +1045,7 @@ static long sock_do_ioctl(struct net *net, struct socket *sock,
- 	bool need_copyout;
- 	int err;
- 	void __user *argp = (void __user *)arg;
-+	void __user *data;
- 
- 	err = sock->ops->ioctl(sock, cmd, arg);
- 
-@@ -1055,11 +1056,11 @@ static long sock_do_ioctl(struct net *net, struct socket *sock,
- 	if (err != -ENOIOCTLCMD)
- 		return err;
- 
--	if (copy_from_user(&ifr, argp, sizeof(struct ifreq)))
-+	if (get_user_ifreq(&ifr, &data, argp))
- 		return -EFAULT;
--	err = dev_ioctl(net, cmd, &ifr, &need_copyout);
-+	err = dev_ioctl(net, cmd, &ifr, data, &need_copyout);
- 	if (!err && need_copyout)
--		if (copy_to_user(argp, &ifr, sizeof(struct ifreq)))
-+		if (put_user_ifreq(&ifr, argp))
+-		if (copy_from_user(&wrthdr, ifr->ifr_data,
++		if (copy_from_user(&wrthdr, data,
+ 				   sizeof (struct fstioc_write))) {
  			return -EFAULT;
+ 		}
+@@ -2026,7 +2026,7 @@ fst_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
  
- 	return err;
-@@ -1096,12 +1097,13 @@ static long sock_ioctl(struct file *file, unsigned cmd, unsigned long arg)
- 	net = sock_net(sk);
- 	if (unlikely(cmd >= SIOCDEVPRIVATE && cmd <= (SIOCDEVPRIVATE + 15))) {
- 		struct ifreq ifr;
-+		void __user *data;
- 		bool need_copyout;
--		if (copy_from_user(&ifr, argp, sizeof(struct ifreq)))
-+		if (get_user_ifreq(&ifr, &data, argp))
+ 		/* Now copy the data to the card. */
+ 
+-		buf = memdup_user(ifr->ifr_data + sizeof(struct fstioc_write),
++		buf = memdup_user(data + sizeof(struct fstioc_write),
+ 				  wrthdr.size);
+ 		if (IS_ERR(buf))
+ 			return PTR_ERR(buf);
+@@ -2059,13 +2059,13 @@ fst_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ 			}
+ 		}
+ 
+-		if (ifr->ifr_data == NULL) {
++		if (data == NULL) {
+ 			return -EINVAL;
+ 		}
+ 
+ 		gather_conf_info(card, port, &info);
+ 
+-		if (copy_to_user(ifr->ifr_data, &info, sizeof (info))) {
++		if (copy_to_user(data, &info, sizeof (info))) {
  			return -EFAULT;
--		err = dev_ioctl(net, cmd, &ifr, &need_copyout);
-+		err = dev_ioctl(net, cmd, &ifr, data, &need_copyout);
- 		if (!err && need_copyout)
--			if (copy_to_user(argp, &ifr, sizeof(struct ifreq)))
-+			if (put_user_ifreq(&ifr, argp))
- 				return -EFAULT;
- 	} else
- #ifdef CONFIG_WEXT_CORE
-@@ -3158,7 +3160,7 @@ static int compat_siocwandev(struct net *net, struct compat_ifreq __user *uifr32
- 	saved = ifr.ifr_settings.ifs_ifsu.raw_hdlc;
- 	ifr.ifr_settings.ifs_ifsu.raw_hdlc = compat_ptr(uptr32);
+ 		}
+ 		return 0;
+@@ -2082,12 +2082,31 @@ fst_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ 			       card->card_no, card->state);
+ 			return -EIO;
+ 		}
+-		if (copy_from_user(&info, ifr->ifr_data, sizeof (info))) {
++		if (copy_from_user(&info, data, sizeof (info))) {
+ 			return -EFAULT;
+ 		}
  
--	err = dev_ioctl(net, SIOCWANDEV, &ifr, NULL);
-+	err = dev_ioctl(net, SIOCWANDEV, &ifr, NULL, NULL);
- 	if (!err) {
- 		ifr.ifr_settings.ifs_ifsu.raw_hdlc = saved;
- 		if (put_user_ifreq(&ifr, uifr32))
-@@ -3172,42 +3174,13 @@ static int compat_ifr_data_ioctl(struct net *net, unsigned int cmd,
- 				 struct compat_ifreq __user *u_ifreq32)
+ 		return set_conf_from_info(card, port, &info);
++	default:
++		return -EINVAL;
++	}
++}
+ 
++static int
++fst_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
++{
++	struct fst_card_info *card;
++	struct fst_port_info *port;
++
++	dbg(DBG_IOCTL, "ioctl: %x, %x\n", cmd, ifr->ifr_settings.type);
++
++	port = dev_to_port(dev);
++	card = port->card;
++
++	if (!capable(CAP_NET_ADMIN))
++		return -EPERM;
++
++	switch (cmd) {
+ 	case SIOCWANDEV:
+ 		switch (ifr->ifr_settings.type) {
+ 		case IF_GET_IFACE:
+@@ -2389,7 +2408,8 @@ static const struct net_device_ops fst_ops = {
+ 	.ndo_open       = fst_open,
+ 	.ndo_stop       = fst_close,
+ 	.ndo_start_xmit = hdlc_start_xmit,
+-	.ndo_do_ioctl   = fst_ioctl,
++	.ndo_do_ioctl	= fst_ioctl,
++	.ndo_siocdevprivate = fst_siocdevprivate,
+ 	.ndo_tx_timeout = fst_tx_timeout,
+ };
+ 
+diff --git a/drivers/net/wan/hdlc_fr.c b/drivers/net/wan/hdlc_fr.c
+index 409e5a7ad8e2..018f608e01d6 100644
+--- a/drivers/net/wan/hdlc_fr.c
++++ b/drivers/net/wan/hdlc_fr.c
+@@ -380,6 +380,9 @@ static int pvc_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ 	struct pvc_device *pvc = dev->ml_priv;
+ 	fr_proto_pvc_info info;
+ 
++	if (cmd != SIOCWANDEV)
++		return -EOPNOTSUPP;
++
+ 	if (ifr->ifr_settings.type == IF_GET_PROTO) {
+ 		if (dev->type == ARPHRD_ETHER)
+ 			ifr->ifr_settings.type = IF_PROTO_FR_ETH_PVC;
+diff --git a/drivers/net/wan/lmc/lmc_main.c b/drivers/net/wan/lmc/lmc_main.c
+index 36600b0a0ab0..76fcc4bd39c8 100644
+--- a/drivers/net/wan/lmc/lmc_main.c
++++ b/drivers/net/wan/lmc/lmc_main.c
+@@ -105,7 +105,8 @@ static void lmc_driver_timeout(struct net_device *dev, unsigned int txqueue);
+  * linux reserves 16 device specific IOCTLs.  We call them
+  * LMCIOC* to control various bits of our world.
+  */
+-int lmc_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd) /*fold00*/
++static int lmc_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
++			void __user *data, int cmd) /*fold00*/
  {
- 	struct ifreq ifreq;
--	u32 data32;
-+	void __user *data;
+     lmc_softc_t *sc = dev_to_sc(dev);
+     lmc_ctl_t ctl;
+@@ -124,7 +125,7 @@ int lmc_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd) /*fold00*/
+          * To date internally, just copy this out to the user.
+          */
+     case LMCIOCGINFO: /*fold01*/
+-	if (copy_to_user(ifr->ifr_data, &sc->ictl, sizeof(lmc_ctl_t)))
++	if (copy_to_user(data, &sc->ictl, sizeof(lmc_ctl_t)))
+ 		ret = -EFAULT;
+ 	else
+ 		ret = 0;
+@@ -141,7 +142,7 @@ int lmc_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd) /*fold00*/
+             break;
+         }
  
--	if (copy_from_user(ifreq.ifr_name, u_ifreq32->ifr_name, IFNAMSIZ))
-+	if (get_user_ifreq(&ifreq, &data, u_ifreq32))
- 		return -EFAULT;
--	if (get_user(data32, &u_ifreq32->ifr_data))
--		return -EFAULT;
--	ifreq.ifr_data = compat_ptr(data32);
-+	ifreq.ifr_data = data;
+-	if (copy_from_user(&ctl, ifr->ifr_data, sizeof(lmc_ctl_t))) {
++	if (copy_from_user(&ctl, data, sizeof(lmc_ctl_t))) {
+ 		ret = -EFAULT;
+ 		break;
+ 	}
+@@ -171,7 +172,7 @@ int lmc_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd) /*fold00*/
+ 		break;
+ 	    }
  
--	return dev_ioctl(net, cmd, &ifreq, NULL);
--}
--
--static int compat_ifreq_ioctl(struct net *net, struct socket *sock,
--			      unsigned int cmd,
--			      struct compat_ifreq __user *uifr32)
--{
--	struct ifreq ifr;
--	bool need_copyout;
--	int err;
--
--	err = sock->ops->ioctl(sock, cmd, arg);
--
--	/*
--	 * If this ioctl is unknown try to hand it down
--	 * to the NIC driver.
--	 */
--	if (err != -ENOIOCTLCMD)
--		return err;
--
--	if (get_user_ifreq(&ifr, NULL, uifr32))
--		return -EFAULT;
--	err = dev_ioctl(net, cmd, &ifr, &need_copyout);
--	if (!err && need_copyout)
--		if (put_user_ifreq(&ifr, uifr32))
--			return -EFAULT;
--
--	return err;
-+	return dev_ioctl(net, cmd, &ifreq, data, NULL);
+-	    if (copy_from_user(&new_type, ifr->ifr_data, sizeof(u16))) {
++	    if (copy_from_user(&new_type, data, sizeof(u16))) {
+ 		ret = -EFAULT;
+ 		break;
+ 	    }
+@@ -211,7 +212,7 @@ int lmc_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd) /*fold00*/
+ 
+         sc->lmc_xinfo.Magic1 = 0xDEADBEEF;
+ 
+-        if (copy_to_user(ifr->ifr_data, &sc->lmc_xinfo,
++        if (copy_to_user(data, &sc->lmc_xinfo,
+ 			 sizeof(struct lmc_xinfo)))
+ 		ret = -EFAULT;
+ 	else
+@@ -245,9 +246,9 @@ int lmc_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd) /*fold00*/
+ 			    regVal & T1FRAMER_SEF_MASK;
+ 	    }
+ 	    spin_unlock_irqrestore(&sc->lmc_lock, flags);
+-	    if (copy_to_user(ifr->ifr_data, &sc->lmc_device->stats,
++	    if (copy_to_user(data, &sc->lmc_device->stats,
+ 			     sizeof(sc->lmc_device->stats)) ||
+-		copy_to_user(ifr->ifr_data + sizeof(sc->lmc_device->stats),
++		copy_to_user(data + sizeof(sc->lmc_device->stats),
+ 			     &sc->extra_stats, sizeof(sc->extra_stats)))
+ 		    ret = -EFAULT;
+ 	    else
+@@ -282,7 +283,7 @@ int lmc_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd) /*fold00*/
+             break;
+         }
+ 
+-	if (copy_from_user(&ctl, ifr->ifr_data, sizeof(lmc_ctl_t))) {
++	if (copy_from_user(&ctl, data, sizeof(lmc_ctl_t))) {
+ 		ret = -EFAULT;
+ 		break;
+ 	}
+@@ -314,11 +315,11 @@ int lmc_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd) /*fold00*/
+ 
+ #ifdef DEBUG
+     case LMCIOCDUMPEVENTLOG:
+-	if (copy_to_user(ifr->ifr_data, &lmcEventLogIndex, sizeof(u32))) {
++	if (copy_to_user(data, &lmcEventLogIndex, sizeof(u32))) {
+ 		ret = -EFAULT;
+ 		break;
+ 	}
+-	if (copy_to_user(ifr->ifr_data + sizeof(u32), lmcEventLogBuf,
++	if (copy_to_user(data + sizeof(u32), lmcEventLogBuf,
+ 			 sizeof(lmcEventLogBuf)))
+ 		ret = -EFAULT;
+ 	else
+@@ -346,7 +347,7 @@ int lmc_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd) /*fold00*/
+              */
+             netif_stop_queue(dev);
+ 
+-	    if (copy_from_user(&xc, ifr->ifr_data, sizeof(struct lmc_xilinx_control))) {
++	    if (copy_from_user(&xc, data, sizeof(struct lmc_xilinx_control))) {
+ 		ret = -EFAULT;
+ 		break;
+ 	    }
+@@ -611,15 +612,21 @@ int lmc_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd) /*fold00*/
+ 
+         }
+         break;
+-    default: /*fold01*/
+-        /* If we don't know what to do, give the protocol a shot. */
+-        ret = lmc_proto_ioctl (sc, ifr, cmd);
+-        break;
++    default:
++	break;
+     }
+ 
+     return ret;
  }
  
- /* Since old style bridge ioctl's endup using SIOCDEVPRIVATE
-@@ -3311,8 +3284,6 @@ static int compat_sock_ioctl_trans(struct file *file, struct socket *sock,
- 	case SIOCBONDRELEASE:
- 	case SIOCBONDSETHWADDR:
- 	case SIOCBONDCHANGEACTIVE:
--		return compat_ifreq_ioctl(net, sock, cmd, argp);
++int lmc_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
++{
++	if (cmd != SIOCWANDEV)
++		return -EOPNOTSUPP;
++
++	return lmc_proto_ioctl(dev_to_sc(dev), ifr, cmd);
++}
++
+ 
+ /* the watchdog process that cruises around */
+ static void lmc_watchdog(struct timer_list *t) /*fold00*/
+@@ -791,6 +798,7 @@ static const struct net_device_ops lmc_ops = {
+ 	.ndo_stop       = lmc_close,
+ 	.ndo_start_xmit = hdlc_start_xmit,
+ 	.ndo_do_ioctl   = lmc_ioctl,
++	.ndo_siocdevprivate = lmc_siocdevprivate,
+ 	.ndo_tx_timeout = lmc_driver_timeout,
+ 	.ndo_get_stats  = lmc_get_stats,
+ };
+diff --git a/drivers/net/wan/n2.c b/drivers/net/wan/n2.c
+index 5bf4463873b1..c203c4fb29a6 100644
+--- a/drivers/net/wan/n2.c
++++ b/drivers/net/wan/n2.c
+@@ -242,6 +242,17 @@ static int n2_close(struct net_device *dev)
+ }
+ 
+ 
++static int n2_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
++			     void __user *data, int cmd)
++{
++#ifdef DEBUG_RINGS
++	if (cmd == SIOCDEVPRIVATE) {
++		sca_dump_rings(dev);
++		return 0;
++	}
++#endif
++	return -EOPNOTSUPP;
++}
+ 
+ static int n2_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ {
+@@ -250,12 +261,6 @@ static int n2_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ 	sync_serial_settings __user *line = ifr->ifr_settings.ifs_ifsu.sync;
+ 	port_t *port = dev_to_port(dev);
+ 
+-#ifdef DEBUG_RINGS
+-	if (cmd == SIOCDEVPRIVATE) {
+-		sca_dump_rings(dev);
+-		return 0;
+-	}
+-#endif
+ 	if (cmd != SIOCWANDEV)
+ 		return hdlc_ioctl(dev, ifr, cmd);
+ 
+@@ -329,6 +334,7 @@ static const struct net_device_ops n2_ops = {
+ 	.ndo_stop       = n2_close,
+ 	.ndo_start_xmit = hdlc_start_xmit,
+ 	.ndo_do_ioctl   = n2_ioctl,
++	.ndo_siocdevprivate = n2_siocdevprivate,
+ };
+ 
+ static int __init n2_run(unsigned long io, unsigned long irq,
+diff --git a/drivers/net/wan/pc300too.c b/drivers/net/wan/pc300too.c
+index 001fd378d417..17073ed3456c 100644
+--- a/drivers/net/wan/pc300too.c
++++ b/drivers/net/wan/pc300too.c
+@@ -186,7 +186,17 @@ static int pc300_close(struct net_device *dev)
+ 	return 0;
+ }
+ 
 -
- 	case SIOCSARP:
- 	case SIOCGARP:
- 	case SIOCDARP:
++static int pc300_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
++				void __user *data, int cmd)
++{
++#ifdef DEBUG_RINGS
++	if (cmd == SIOCDEVPRIVATE) {
++		sca_dump_rings(dev);
++		return 0;
++	}
++#endif
++	return -EOPNOTSUPP;
++}
+ 
+ static int pc300_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ {
+@@ -196,12 +206,6 @@ static int pc300_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ 	int new_type;
+ 	port_t *port = dev_to_port(dev);
+ 
+-#ifdef DEBUG_RINGS
+-	if (cmd == SIOCDEVPRIVATE) {
+-		sca_dump_rings(dev);
+-		return 0;
+-	}
+-#endif
+ 	if (cmd != SIOCWANDEV)
+ 		return hdlc_ioctl(dev, ifr, cmd);
+ 
+@@ -290,6 +294,7 @@ static const struct net_device_ops pc300_ops = {
+ 	.ndo_stop       = pc300_close,
+ 	.ndo_start_xmit = hdlc_start_xmit,
+ 	.ndo_do_ioctl   = pc300_ioctl,
++	.ndo_siocdevprivate = pc300_siocdevprivate,
+ };
+ 
+ static int pc300_pci_init_one(struct pci_dev *pdev,
+diff --git a/drivers/net/wan/pci200syn.c b/drivers/net/wan/pci200syn.c
+index d0062224b216..489453c52d3a 100644
+--- a/drivers/net/wan/pci200syn.c
++++ b/drivers/net/wan/pci200syn.c
+@@ -177,7 +177,17 @@ static int pci200_close(struct net_device *dev)
+ 	return 0;
+ }
+ 
+-
++static int pci200_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
++				 void __user *data, int cmd)
++{
++#ifdef DEBUG_RINGS
++	if (cmd == SIOCDEVPRIVATE) {
++		sca_dump_rings(dev);
++		return 0;
++	}
++#endif
++	return -EOPNOTSUPP;
++}
+ 
+ static int pci200_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ {
+@@ -186,12 +196,6 @@ static int pci200_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ 	sync_serial_settings __user *line = ifr->ifr_settings.ifs_ifsu.sync;
+ 	port_t *port = dev_to_port(dev);
+ 
+-#ifdef DEBUG_RINGS
+-	if (cmd == SIOCDEVPRIVATE) {
+-		sca_dump_rings(dev);
+-		return 0;
+-	}
+-#endif
+ 	if (cmd != SIOCWANDEV)
+ 		return hdlc_ioctl(dev, ifr, cmd);
+ 
+@@ -268,6 +272,7 @@ static const struct net_device_ops pci200_ops = {
+ 	.ndo_stop       = pci200_close,
+ 	.ndo_start_xmit = hdlc_start_xmit,
+ 	.ndo_do_ioctl   = pci200_ioctl,
++	.ndo_siocdevprivate = pci200_siocdevprivate,
+ };
+ 
+ static int pci200_pci_init_one(struct pci_dev *pdev,
+diff --git a/drivers/net/wan/sbni.c b/drivers/net/wan/sbni.c
+index 2fde439543fb..f540578b1349 100644
+--- a/drivers/net/wan/sbni.c
++++ b/drivers/net/wan/sbni.c
+@@ -119,7 +119,7 @@ static int  sbni_open( struct net_device * );
+ static int  sbni_close( struct net_device * );
+ static netdev_tx_t sbni_start_xmit(struct sk_buff *,
+ 					 struct net_device * );
+-static int  sbni_ioctl( struct net_device *, struct ifreq *, int );
++static int  sbni_siocdevprivate( struct net_device *, struct ifreq *, void __user *, int );
+ static void  set_multicast_list( struct net_device * );
+ 
+ static irqreturn_t sbni_interrupt( int, void * );
+@@ -211,7 +211,7 @@ static const struct net_device_ops sbni_netdev_ops = {
+ 	.ndo_stop		= sbni_close,
+ 	.ndo_start_xmit		= sbni_start_xmit,
+ 	.ndo_set_rx_mode	= set_multicast_list,
+-	.ndo_do_ioctl		= sbni_ioctl,
++	.ndo_siocdevprivate	= sbni_siocdevprivate,
+ 	.ndo_set_mac_address 	= eth_mac_addr,
+ 	.ndo_validate_addr	= eth_validate_addr,
+ };
+@@ -1297,7 +1297,7 @@ sbni_card_probe( unsigned long  ioaddr )
+ /* -------------------------------------------------------------------------- */
+ 
+ static int
+-sbni_ioctl( struct net_device  *dev,  struct ifreq  *ifr,  int  cmd )
++sbni_siocdevprivate( struct net_device  *dev,  struct ifreq  *ifr, void __user *data, int  cmd )
+ {
+ 	struct net_local  *nl = netdev_priv(dev);
+ 	struct sbni_flags  flags;
+@@ -1310,7 +1310,7 @@ sbni_ioctl( struct net_device  *dev,  struct ifreq  *ifr,  int  cmd )
+   
+ 	switch( cmd ) {
+ 	case  SIOCDEVGETINSTATS :
+-		if (copy_to_user( ifr->ifr_data, &nl->in_stats,
++		if (copy_to_user(data, &nl->in_stats,
+ 					sizeof(struct sbni_in_stats) ))
+ 			error = -EFAULT;
+ 		break;
+@@ -1328,7 +1328,7 @@ sbni_ioctl( struct net_device  *dev,  struct ifreq  *ifr,  int  cmd )
+ 		flags.rxl	= nl->cur_rxl_index;
+ 		flags.fixed_rxl	= nl->delta_rxl == 0;
+ 
+-		if (copy_to_user( ifr->ifr_data, &flags, sizeof flags ))
++		if (copy_to_user(data, &flags, sizeof flags ))
+ 			error = -EFAULT;
+ 		break;
+ 
+@@ -1358,7 +1358,7 @@ sbni_ioctl( struct net_device  *dev,  struct ifreq  *ifr,  int  cmd )
+ 		if (!capable(CAP_NET_ADMIN))
+ 			return  -EPERM;
+ 
+-		if (copy_from_user( slave_name, ifr->ifr_data, sizeof slave_name ))
++		if (copy_from_user( slave_name, data, sizeof slave_name ))
+ 			return -EFAULT;
+ 		slave_dev = dev_get_by_name(&init_net, slave_name );
+ 		if( !slave_dev  ||  !(slave_dev->flags & IFF_UP) ) {
+diff --git a/drivers/net/wan/sdla.c b/drivers/net/wan/sdla.c
+index bc2c1c7fb1a4..761e217e9954 100644
+--- a/drivers/net/wan/sdla.c
++++ b/drivers/net/wan/sdla.c
+@@ -1245,7 +1245,7 @@ static int sdla_reconfig(struct net_device *dev)
+ 	return 0;
+ }
+ 
+-static int sdla_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
++static int sdla_siocdevprivate(struct net_device *dev, struct ifreq *ifr, void __user *data, int cmd)
+ {
+ 	struct frad_local *flp;
+ 
+@@ -1261,7 +1261,7 @@ static int sdla_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ 	{
+ 		case FRAD_GET_CONF:
+ 		case FRAD_SET_CONF:
+-			return sdla_config(dev, ifr->ifr_data, cmd == FRAD_GET_CONF);
++			return sdla_config(dev, data, cmd == FRAD_GET_CONF);
+ 
+ 		case SDLA_IDENTIFY:
+ 			ifr->ifr_flags = flp->type;
+@@ -1298,7 +1298,7 @@ NOTE:  This is rather a useless action right now, as the
+ 		case SDLA_READMEM:
+ 			if(!capable(CAP_SYS_RAWIO))
+ 				return -EPERM;
+-			return sdla_xfer(dev, ifr->ifr_data, cmd == SDLA_READMEM);
++			return sdla_xfer(dev, data, cmd == SDLA_READMEM);
+ 
+ 		case SDLA_START:
+ 			sdla_start(dev);
+@@ -1586,7 +1586,7 @@ static int sdla_set_config(struct net_device *dev, struct ifmap *map)
+ static const struct net_device_ops sdla_netdev_ops = {
+ 	.ndo_open	= sdla_open,
+ 	.ndo_stop	= sdla_close,
+-	.ndo_do_ioctl	= sdla_ioctl,
++	.ndo_siocdevprivate = sdla_siocdevprivate,
+ 	.ndo_set_config	= sdla_set_config,
+ 	.ndo_start_xmit	= sdla_transmit,
+ 	.ndo_change_mtu	= sdla_change_mtu,
 -- 
 2.27.0
 
