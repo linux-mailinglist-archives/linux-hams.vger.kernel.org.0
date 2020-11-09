@@ -2,48 +2,52 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8DDF2AAABE
-	for <lists+linux-hams@lfdr.de>; Sun,  8 Nov 2020 12:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3CDD2AB6BE
+	for <lists+linux-hams@lfdr.de>; Mon,  9 Nov 2020 12:25:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727949AbgKHLnJ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 8 Nov 2020 06:43:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52266 "EHLO mail.kernel.org"
+        id S1729267AbgKILZ4 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 9 Nov 2020 06:25:56 -0500
+Received: from z5.mailgun.us ([104.130.96.5]:44330 "EHLO z5.mailgun.us"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726021AbgKHLnI (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Sun, 8 Nov 2020 06:43:08 -0500
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+        id S1727930AbgKILZ4 (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Mon, 9 Nov 2020 06:25:56 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1604921155; h=Content-Type: MIME-Version: Message-ID:
+ In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
+ bh=LXllegkU9Hqrn8ABy4ZLKOXWg3z4jJFDK0NqabfEc9c=; b=nhaLo8Ony/WzbycffTPQu+ZvC6HYIaFYLtGDgnFZvRSYLxInVJziZvK89V1vjggJgqfM8MSf
+ snDS9lW/1fZRMQBm8sqsJen+rn6e3uUtUN32DXBo+b4NJ3gKlYrCOLUsa5jfY/AQ3cXBcY/c
+ qZtbnibyPyJIdC0EcCGwDfKhCzU=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJmMDI4ZiIsICJsaW51eC1oYW1zQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 5fa92743c1b74298b7447130 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 09 Nov 2020 11:25:55
+ GMT
+Sender: kvalo=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 8314EC433FF; Mon,  9 Nov 2020 11:25:54 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ECC76221FA;
-        Sun,  8 Nov 2020 11:43:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604835786;
-        bh=4qcv3PIZoS9Ti9M9OtYV1punEYgw5Sm+kDyvXqo+hQY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=cDRAdYzLiZ+IhL2nfUuSHGyRVDqNzeN5Fjmlbav0H0lAVvL8TtfEHblAcT4AQ9r7a
-         5k/uNiUCUD/RLIEPkT/eoNdayDgyh4DLf9NojP8NIscEy0H6eZvXrIK/66ZPS5HRLl
-         flfTLVRDxH0PYsg+WKGMIFIIZyanbx2eDzEYoTsg=
-Received: by mail-oi1-f182.google.com with SMTP id j7so6889614oie.12;
-        Sun, 08 Nov 2020 03:43:05 -0800 (PST)
-X-Gm-Message-State: AOAM531dXTpDMZP8zJE9VQ7NcxYU/9/QVI94yvjgUt8Ojsqj4vsfo+qR
-        mCwlVJIMjzb2z7zPE5uG1t0gH6DJ/D/m+SXOmBg=
-X-Google-Smtp-Source: ABdhPJy9Hv8+gtR2q1q9eRdnrQmfMucRJEzdFZAQvvSugW1m7+Tb9RkaOCsD1/ioGJgKBxlUqmoSyklpyawgiwTjzzA=
-X-Received: by 2002:a05:6808:602:: with SMTP id y2mr6405737oih.11.1604835785227;
- Sun, 08 Nov 2020 03:43:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20201106221743.3271965-1-arnd@kernel.org> <20201107160612.2909063a@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <87tuu05c23.fsf@tynnyri.adurom.net>
-In-Reply-To: <87tuu05c23.fsf@tynnyri.adurom.net>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Sun, 8 Nov 2020 12:42:49 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3y5WxsibmTzvhv76G+rQ1Zjo_tW0UkXku0VnZdQa-__A@mail.gmail.com>
-Message-ID: <CAK8P3a3y5WxsibmTzvhv76G+rQ1Zjo_tW0UkXku0VnZdQa-__A@mail.gmail.com>
-Subject: Re: [RFC net-next 00/28] ndo_ioctl rework
-To:     Kalle Valo <kvalo@codeaurora.org>
+        (Authenticated sender: kvalo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 8792BC433C8;
+        Mon,  9 Nov 2020 11:25:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 8792BC433C8
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=kvalo@codeaurora.org
+From:   Kalle Valo <kvalo@codeaurora.org>
+To:     Arnd Bergmann <arnd@kernel.org>
 Cc:     Jakub Kicinski <kuba@kernel.org>,
         Networking <netdev@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         linux-wireless <linux-wireless@vger.kernel.org>,
         bridge@lists.linux-foundation.org, linux-hams@vger.kernel.org,
         Christoph Hellwig <hch@lst.de>,
@@ -51,27 +55,46 @@ Cc:     Jakub Kicinski <kuba@kernel.org>,
         Johannes Berg <johannes@sipsolutions.net>,
         Andrew Lunn <andrew@lunn.ch>,
         Heiner Kallweit <hkallweit1@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC net-next 00/28] ndo_ioctl rework
+References: <20201106221743.3271965-1-arnd@kernel.org>
+        <20201107160612.2909063a@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <87tuu05c23.fsf@tynnyri.adurom.net>
+        <CAK8P3a3y5WxsibmTzvhv76G+rQ1Zjo_tW0UkXku0VnZdQa-__A@mail.gmail.com>
+Date:   Mon, 09 Nov 2020 13:25:48 +0200
+In-Reply-To: <CAK8P3a3y5WxsibmTzvhv76G+rQ1Zjo_tW0UkXku0VnZdQa-__A@mail.gmail.com>
+        (Arnd Bergmann's message of "Sun, 8 Nov 2020 12:42:49 +0100")
+Message-ID: <87imaeg4ar.fsf@codeaurora.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.5 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Sun, Nov 8, 2020 at 12:21 PM Kalle Valo <kvalo@codeaurora.org> wrote:
-> Jakub Kicinski <kuba@kernel.org> writes:
->
-> So I don't know what to do. Should we try adding a warning like below? :)
->
->   "This ancient driver will be removed from the kernel in 2022, but if
->    it still works send report to <...@...> to avoid the removal."
->
-> How do other subsystems handle ancient drivers?
+Arnd Bergmann <arnd@kernel.org> writes:
 
-A good way to get everyone's attention would be to collect as many
-drivers as possible that are almost certainly unused and move them to
-drivers/staging/ with a warning like the above, as I just did for
-drivers/wimax. That would make it to the usual news outlets
-and lead to the remaining users (if any) noticing it so they can then
-ask for the drivers to be moved back -- or decide it's time to let go
-if the hardware can easily be replaced.
+> On Sun, Nov 8, 2020 at 12:21 PM Kalle Valo <kvalo@codeaurora.org> wrote:
+>> Jakub Kicinski <kuba@kernel.org> writes:
+>>
+>> So I don't know what to do. Should we try adding a warning like below? :)
+>>
+>>   "This ancient driver will be removed from the kernel in 2022, but if
+>>    it still works send report to <...@...> to avoid the removal."
+>>
+>> How do other subsystems handle ancient drivers?
+>
+> A good way to get everyone's attention would be to collect as many
+> drivers as possible that are almost certainly unused and move them to
+> drivers/staging/ with a warning like the above, as I just did for
+> drivers/wimax. That would make it to the usual news outlets
+> and lead to the remaining users (if any) noticing it so they can then
+> ask for the drivers to be moved back -- or decide it's time to let go
+> if the hardware can easily be replaced.
 
-      Arnd
+I like that. I think we first should make a list of drivers which we
+suspect are either unused or not working anymore.
+
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
