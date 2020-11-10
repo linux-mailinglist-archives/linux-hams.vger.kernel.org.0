@@ -2,53 +2,57 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32E5D2AFE9D
-	for <lists+linux-hams@lfdr.de>; Thu, 12 Nov 2020 06:39:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8327F2B01DC
+	for <lists+linux-hams@lfdr.de>; Thu, 12 Nov 2020 10:17:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725979AbgKLFjW (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 12 Nov 2020 00:39:22 -0500
-Received: from mail-proxy102.phy.heteml.jp ([157.7.189.102]:60950 "EHLO
-        mail-proxy102.phy.heteml.jp" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728130AbgKLDcF (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>);
-        Wed, 11 Nov 2020 22:32:05 -0500
-X-Greylist: delayed 399 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Nov 2020 22:32:03 EST
-Received: from mail-proxy102.phy.heteml.jp (localhost [127.0.0.1])
-        by mail-proxy102.phy.heteml.jp (Postfix) with ESMTP id E68169C10B9;
-        Thu, 12 Nov 2020 12:25:19 +0900 (JST)
-Received: from 127.0.0.1 (127.0.0.1)
- by mail-proxy102.phy.heteml.jp (HETEML-Fsecure);
- Thu, 12 Nov 2020 12:25:19 +0900 (JST)
-X-Virus-Status: clean(HETEML-Fsecure)
-Received: from User (unknown [52.231.203.57])
-        (Authenticated sender: form@healingart-n.jp)
-        by mail-proxy102.phy.heteml.jp (Postfix) with ESMTPA;
-        Thu, 12 Nov 2020 12:25:19 +0900 (JST)
-Reply-To: <reemhashimymail@gmail.com>
-From:   "Reem" <form@healingart-n.jp>
-Subject: Hello Friend  12/11/2020
-Date:   Thu, 12 Nov 2020 03:25:21 -0000
+        id S1726061AbgKLJRQ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hams@lfdr.de>); Thu, 12 Nov 2020 04:17:16 -0500
+Received: from tigeramira.ro ([88.158.78.30]:44361 "EHLO mail.tigeramira.ro"
+        rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S1725995AbgKLJRQ (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Thu, 12 Nov 2020 04:17:16 -0500
+X-Greylist: delayed 68213 seconds by postgrey-1.27 at vger.kernel.org; Thu, 12 Nov 2020 04:17:15 EST
+Received: from localhost (localhost [127.0.0.1])
+        by mail.tigeramira.ro (Postfix) with ESMTP id 6AC63D656CC
+        for <linux-hams@vger.kernel.org>; Wed, 11 Nov 2020 03:44:33 +0200 (EET)
+Received: from mail.tigeramira.ro ([127.0.0.1])
+        by localhost (mail.tigeramira.ro [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 9MBtTVDAY7oV for <linux-hams@vger.kernel.org>;
+        Wed, 11 Nov 2020 03:44:17 +0200 (EET)
+Received: from mail.tigeramira.ro (localhost [127.0.0.1])
+        by mail.tigeramira.ro (Postfix) with ESMTP id D61B8D47B1B
+        for <linux-hams@vger.kernel.org>; Tue, 10 Nov 2020 19:41:18 +0200 (EET)
+Received: from [156.96.44.214] (unknown [192.168.12.254])
+        by mail.tigeramira.ro (Postfix) with ESMTP id 53F1AD3FA0F
+        for <linux-hams@vger.kernel.org>; Tue, 10 Nov 2020 17:09:06 +0200 (EET)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-Id: <20201112032519.E68169C10B9@mail-proxy102.phy.heteml.jp>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Corporate and Personal Loan/
+To:     linux-hams@vger.kernel.org
+From:   "Investment  Corporate" <financialcapability6@gmail.com>
+Date:   Tue, 10 Nov 2020 06:09:34 -0800
+Reply-To: hmurrah39@gmail.com
+Message-Id: <20201110150907.53F1AD3FA0F@mail.tigeramira.ro>
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-My name is Reem Hashimy, the Emirates Minister of State and Managing Director of the United Arab Emirates (Dubai) World Expo 2020 Committee which has been postponed to October 2021 to March 2022 because of the Covid-19 pandemic.
- 
-I am writing to you to manage the funds I received as financial gratification from various foreign companies I assisted to receive a participation approval to the coming event. The amount is $44,762,906.00 United States dollars. But I can not personally manage the fund in my country because of the sensitive nature of my office and the certain restriction on married Muslim women.
+Hello linux-hams@vger.kernel.org
 
-For this reason, an agreement was reached with a consulting firm to direct the various financial gifts into an open beneficiary account in my name with a bank where it will be possible for me to instruct the transfer of ownership right to a third party for investment purpose; which is the reason I am contacting you to receive the fund and manage it as my investment partner. Note that the fund is NOT connected to any criminal or terrorist activity.
- 
-On your indication of interest with your information to include your name, your phone number and contact mailing address; I will instruct the consulting firm to process the fund from the bank to your country for investment purposes.
 
-Regards.
-Reem Hashimy.
+We are Base Investment Company offering Corporate and Personal Loan at 3% Interest Rate for a duration of 10Years.
+
+
+We also pay 1% commission to brokers, who introduce project owners for finance or other opportunities.
+
+
+Please get back to me if you are interested for more
+
+details.
+
+
+Yours faithfully,
+
+Hashim Murrah
