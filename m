@@ -2,126 +2,124 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C730C2C8464
-	for <lists+linux-hams@lfdr.de>; Mon, 30 Nov 2020 13:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18CF02C9757
+	for <lists+linux-hams@lfdr.de>; Tue,  1 Dec 2020 06:55:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726034AbgK3Mwu (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 30 Nov 2020 07:52:50 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:50934 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725900AbgK3Mwt (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 30 Nov 2020 07:52:49 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AUCT8MP161013;
-        Mon, 30 Nov 2020 12:51:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=iOSOzG9McZzuR7elPCodrNp8EvMHOEUV9ZwrGMMBHTc=;
- b=oQBOeWMrw8UceHrB/Wbw9Wdu1egQkl9bwNgFn489dVu4gBLcwMbNCxConO5X18gEzuSR
- En9Xgh3beCIufoft2mmjTEdXCkXG48K8iU6vZ6QhxQiru0S/wkwUW/kLvSRGCoZ1YDFi
- zXFMtfnFBZ+H3K7wizffM7KWjQjZRIO//LGVkprjZScpKS1XJw43dPPhI0U9jeOBaOpJ
- ihs/kNOvZmXaKeNCIStfv9bxQcD2UUBAFaQOSgv2BS8tokAeSLppr7/OHo9hGzLUjzDc
- PhtsjHl+TXP9CGsmDl1ZkNZlr44WsVNG9gHu8S1WhBjqJJpPUBzRtqSwcj3ZX4kV8gYi 1g== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 353dyqcv4e-1
+        id S1726814AbgLAFyu (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 1 Dec 2020 00:54:50 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:58724 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725859AbgLAFyt (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 1 Dec 2020 00:54:49 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B15n67q107471;
+        Tue, 1 Dec 2020 05:53:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=l9ihS9O8ty7fvCGsyg6t+FL2UWzq+Pp7wI7g9M3fu94=;
+ b=emDPbOhPomsDJ0NVhkgalKaWcDmTVt43uxmasZhRdsIKDAK5SyUn3ZBbDT0tfjc2Ub+G
+ pwnVB+2L6jYArSQUwoKsFjxw+gIeAIQd1agInCI9m5zu6sstYek99cFlGrF83pfAMoYp
+ 7h3VW08t/kH06cHx+UsVCvNai9zlonapT50haza8ExqU3V0ifCJ/7nW0lmA/qRSavM+P
+ eE0d7ezZdfPLepa71ISDd/u3VXj3GbiZhoaxq0dsKdiEuu46H687kMfk2k9ooRtVL0+n
+ yN1cC747fo++ObKGg9Es3E0DMkXRjQCXCIESHdIfuri0sdDNQNO6hiI2IHC3bOw+gche Nw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2130.oracle.com with ESMTP id 353c2aru96-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 30 Nov 2020 12:51:53 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AUCo0BT054569;
-        Mon, 30 Nov 2020 12:51:52 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 3540ewhm03-1
+        Tue, 01 Dec 2020 05:53:05 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B15oGDF104852;
+        Tue, 1 Dec 2020 05:53:04 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by userp3020.oracle.com with ESMTP id 3540arqfy6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 01 Dec 2020 05:53:04 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B15r2KY111063;
+        Tue, 1 Dec 2020 05:53:02 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3020.oracle.com with ESMTP id 3540arqfwj-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 30 Nov 2020 12:51:52 +0000
-Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AUCpmA1017759;
-        Mon, 30 Nov 2020 12:51:51 GMT
-Received: from kadam (/102.36.221.92)
+        Tue, 01 Dec 2020 05:53:02 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B15qbsa005213;
+        Tue, 1 Dec 2020 05:52:40 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 30 Nov 2020 04:51:47 -0800
-Date:   Mon, 30 Nov 2020 15:51:37 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
+        with ESMTP ; Mon, 30 Nov 2020 21:52:37 -0800
 To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     Ralf Baechle <ralf@linux-mips.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, linux-hams@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 109/141] net: netrom: Fix fall-through warnings for Clang
-Message-ID: <20201130125137.GE2767@kadam>
+Cc:     linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+        amd-gfx@lists.freedesktop.org, bridge@lists.linux-foundation.org,
+        ceph-devel@vger.kernel.org, cluster-devel@redhat.com,
+        coreteam@netfilter.org, devel@driverdev.osuosl.org,
+        dm-devel@redhat.com, drbd-dev@tron.linbit.com,
+        dri-devel@lists.freedesktop.org, GR-everest-linux-l2@marvell.com,
+        GR-Linux-NIC-Dev@marvell.com, intel-gfx@lists.freedesktop.org,
+        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net, linux-acpi@vger.kernel.org,
+        linux-afs@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net,
+        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-cifs@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-decnet-user@lists.sourceforge.net,
+        linux-ext4@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-geode@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-hams@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-ide@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
+        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
+        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
+        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
+        selinux@vger.kernel.org, target-devel@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net,
+        usb-storage@lists.one-eyed-alien.net,
+        virtualization@lists.linux-foundation.org,
+        wcn36xx@lists.infradead.org, x86@kernel.org,
+        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>,
+        Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <yq1h7p6gjkk.fsf@ca-mkp.ca.oracle.com>
 References: <cover.1605896059.git.gustavoars@kernel.org>
- <c9a262ebaebd704e66c264fb68462bd8b9664d38.1605896060.git.gustavoars@kernel.org>
+Date:   Tue, 01 Dec 2020 00:52:27 -0500
+In-Reply-To: <cover.1605896059.git.gustavoars@kernel.org> (Gustavo
+        A. R. Silva's message of "Fri, 20 Nov 2020 12:21:39 -0600")
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c9a262ebaebd704e66c264fb68462bd8b9664d38.1605896060.git.gustavoars@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9820 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 phishscore=0
- suspectscore=0 bulkscore=0 spamscore=0 adultscore=0 mlxlogscore=999
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9821 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 lowpriorityscore=0
+ clxscore=1011 bulkscore=0 mlxlogscore=289 phishscore=0 malwarescore=0
+ spamscore=0 adultscore=0 mlxscore=0 priorityscore=1501 impostorscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011300082
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9820 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0
- clxscore=1011 mlxscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999
- suspectscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011300081
+ definitions=main-2012010039
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Fri, Nov 20, 2020 at 12:38:15PM -0600, Gustavo A. R. Silva wrote:
-> In preparation to enable -Wimplicit-fallthrough for Clang, fix multiple
-> warnings by explicitly adding multiple break statements instead of
-> letting the code fall through to the next case.
-> 
-> Link: https://github.com/KSPP/linux/issues/115
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> ---
->  net/netrom/nr_route.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/net/netrom/nr_route.c b/net/netrom/nr_route.c
-> index 78da5eab252a..de0456073dc0 100644
-> --- a/net/netrom/nr_route.c
-> +++ b/net/netrom/nr_route.c
-> @@ -266,6 +266,7 @@ static int __must_check nr_add_node(ax25_address *nr, const char *mnemonic,
->  		fallthrough;
->  	case 2:
->  		re_sort_routes(nr_node, 0, 1);
-> +		break;
->  	case 1:
->  		break;
->  	}
-> @@ -359,6 +360,7 @@ static int nr_del_node(ax25_address *callsign, ax25_address *neighbour, struct n
->  					fallthrough;
->  				case 1:
->  					nr_node->routes[1] = nr_node->routes[2];
-> +					fallthrough;
 
-Make this one a break like the others.
+Gustavo,
 
->  				case 2:
->  					break;
->  				}
-> @@ -482,6 +484,7 @@ static int nr_dec_obs(void)
->  					fallthrough;
->  				case 1:
->  					s->routes[1] = s->routes[2];
-> +					break;
->  				case 2:
->  					break;
->  				}
-> @@ -529,6 +532,7 @@ void nr_rt_device_down(struct net_device *dev)
->  							fallthrough;
->  						case 1:
->  							t->routes[1] = t->routes[2];
-> +							break;
->  						case 2:
->  							break;
->  						}
+> This series aims to fix almost all remaining fall-through warnings in
+> order to enable -Wimplicit-fallthrough for Clang.
 
-regards,
-dan carpenter
+Applied 20-22,54,120-124 to 5.11/scsi-staging, thanks.
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
