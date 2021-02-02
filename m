@@ -2,64 +2,51 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23C9E30CDB0
-	for <lists+linux-hams@lfdr.de>; Tue,  2 Feb 2021 22:10:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 927E830B437
+	for <lists+linux-hams@lfdr.de>; Tue,  2 Feb 2021 01:40:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234000AbhBBVKX (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 2 Feb 2021 16:10:23 -0500
-Received: from [20.39.40.203] ([20.39.40.203]:65313 "EHLO optinix.in"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S231256AbhBBVKS (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Tue, 2 Feb 2021 16:10:18 -0500
-dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
-        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
-        b=TP5ImnyHcJd6ZOutD2G4fr5f8wWoUQwQgOLW2PI/280OHeTqlZLToIxAIofahXeo75Wu3EjCyPUkWCAvONVwZu0fevODO9NabCWAisW+z0dGu9MXtR6qZycknhfK+mQQvORufc2uJdOyxsLmIaqgju02ah6NTaY7MUrrDAsnypqV/dHvFc1ZCeNq9M9cnBgI6P8moRvB3Uy5b0Di8H1i0zAyCi2Ui0iRGfGkTkO0ugXob5Evs8zBCz+bQn
-        OGNJsvkyEuoIiGf1dhK8ZygeNRPTDeubCEGrI3iP2v+CePRDNJj0O+GADoZLV93dYARi5DbbBgbqte2GtdOqu1KHIrhw==
-Received: from User (Unknown [52.231.31.5])
-        by optinix.in with ESMTP
-        ; Sat, 30 Jan 2021 02:13:52 +0000
-Message-ID: <8F335769-7194-475D-8960-10F7C26454EB@optinix.in>
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <support@digitalsol.in>
-Subject: Re:read
-Date:   Sat, 30 Jan 2021 02:13:50 -0000
+        id S230088AbhBBAjs (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 1 Feb 2021 19:39:48 -0500
+Received: from trinity.trinnet.net ([96.78.144.185]:3980 "EHLO
+        trinity3.trinnet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230000AbhBBAjs (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 1 Feb 2021 19:39:48 -0500
+Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
+        by trinity3.trinnet.net (TrinityOS Hardened/TrinityOS Hardened) with ESMTP id 11202xvQ017997
+        for <linux-hams@vger.kernel.org>; Mon, 1 Feb 2021 16:02:59 -0800
+To:     Linux Hams <linux-hams@vger.kernel.org>
+From:   David Ranch <linux-hams@trinnet.net>
+Subject: Linpac 0.28 released!
+Message-ID: <a8078bf7-4cd4-9661-773d-78e5497f4a8c@trinnet.net>
+Date:   Mon, 1 Feb 2021 16:02:59 -0800
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To:     unlisted-recipients:; (no To-header on input)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Mon, 01 Feb 2021 16:02:59 -0800 (GMT+8)
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello,
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
+https://sourceforge.net/p/linpac/news/2021/02/linpac-028-released/
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+I'm happy to announce that Linpac 0.28 has been released. A HUGE thanks 
+to Martin KD6YAM for all his help in this release!
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
+This new version has some needed fixes (buffer overflows, stack 
+corruptions, etc), structural improvements to the code for mail, 
+integrated the lptelnet package for access as a client into client 
+(master control is still best via a screen session), improvements to the 
+mail reader view, initial support for relaying messages to/from 
+Kantronics KPC3 PBBS, updated the start-linpac.sh script to better work 
+with screen, tuned the mheard output, added native Debian debuild 
+support, more testing using ax25spyd, updated the User documentation 
+with additional FAQ entries, the applguide doc received major updates, 
+updated the linpac-todo.txt file, etc.
 
-Regards,
-Ms. Reem.
+--David
+KI6ZHD
+
 
