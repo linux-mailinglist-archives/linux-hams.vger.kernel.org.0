@@ -2,48 +2,68 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67F1F30B40D
-	for <lists+linux-hams@lfdr.de>; Tue,  2 Feb 2021 01:24:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EEF930DDE9
+	for <lists+linux-hams@lfdr.de>; Wed,  3 Feb 2021 16:19:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229927AbhBBAXo (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 1 Feb 2021 19:23:44 -0500
-Received: from trinity.trinnet.net ([96.78.144.185]:3969 "EHLO
-        trinity3.trinnet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbhBBAXn (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 1 Feb 2021 19:23:43 -0500
-X-Greylist: delayed 1203 seconds by postgrey-1.27 at vger.kernel.org; Mon, 01 Feb 2021 19:23:43 EST
-Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
-        by trinity3.trinnet.net (TrinityOS Hardened/TrinityOS Hardened) with ESMTP id 1120N23d018119
-        for <linux-hams@vger.kernel.org>; Mon, 1 Feb 2021 16:23:02 -0800
-To:     Linux Hams <linux-hams@vger.kernel.org>
-From:   David Ranch <linux-hams@trinnet.net>
-Subject: ax25mail-utils 0.14 released
-Message-ID: <6d23eeea-f898-629a-636b-3ae65f8c81fc@trinnet.net>
-Date:   Mon, 1 Feb 2021 16:23:02 -0800
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        id S234256AbhBCPQb (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 3 Feb 2021 10:16:31 -0500
+Received: from 198-20-226-115.unifiedlayer.com ([198.20.226.115]:42716 "EHLO
+        198-20-226-115.unifiedlayer.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233759AbhBCPOw (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 3 Feb 2021 10:14:52 -0500
+X-Greylist: delayed 28096 seconds by postgrey-1.27 at vger.kernel.org; Wed, 03 Feb 2021 10:14:46 EST
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=carnivalassure.com.bd; s=default; h=Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=miRpAdBSO5eDo01VDX+EK9bqGCmqMjXHS3kO16T6iWw=; b=w0lK0VI/z8H0duCatAteN0Iwc5
+        3G/G54MwGNKCfqonH6LHTViaP8936x7eQK7+re2PBNWY4tVbChNBcJyeAJfnieX/3WISXqPlMwWOC
+        fl7fvJ1xZpB4SP6ggH7J9g1MIqK6ZpQXo4+y7tK4qobcbm6QHPDPvTn+fJ1KnlpXIkyaAwiKZIg3+
+        AaI+TpfhTlxhAdHttFu2ogg1F+UklUQvcNwyV7oyRuJIIioseeYpfZZ9fjg2p6LGrb1qfupeXXTpo
+        Zk277PG4P2oOVwGioBRam0zGTwQWVIN7rioU987VZDnZDGscFlAousTOyLt6QntFSQhAVrF2OLcYd
+        k+0e1Nyg==;
+Received: from [127.0.0.1] (port=45548 helo=dot.dotlines.com.sg)
+        by dot.dotlines.com.sg with esmtpa (Exim 4.93)
+        (envelope-from <noreply@carnivalassure.com.bd>)
+        id 1l7CVT-0005U9-8i; Wed, 03 Feb 2021 01:23:19 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Mon, 01 Feb 2021 16:23:02 -0800 (GMT+8)
+Date:   Wed, 03 Feb 2021 01:23:18 -0600
+From:   Francois Pinault <noreply@carnivalassure.com.bd>
+To:     undisclosed-recipients:;
+Subject: Hello/Hallo
+Organization: Donation
+Reply-To: francoispinault1936@outlook.com
+Mail-Reply-To: francoispinault1936@outlook.com
+Message-ID: <daf030622886954284fef423f887a757@carnivalassure.com.bd>
+X-Sender: noreply@carnivalassure.com.bd
+User-Agent: Roundcube Webmail/1.3.15
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - dot.dotlines.com.sg
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - carnivalassure.com.bd
+X-Get-Message-Sender-Via: dot.dotlines.com.sg: authenticated_id: noreply@carnivalassure.com.bd
+X-Authenticated-Sender: dot.dotlines.com.sg: noreply@carnivalassure.com.bd
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
 
-Hello Everyone,
 
-I'm happy to announce that ax25mail-utils 0.14 has been released. A HUGE 
-thanks to Martin KD6YAM for all his help in this release!
+-- 
+Hallo, ich bin Herr Francois Pinault, ich habe Ihnen gespendet. Sie 
+können mein Profil auf Wikipedia, Google oder Forbes überprüfen.
 
-This new version has some needed fixes, structural improvements to the 
-code for mail, initial support for relaying messages to/from Kantronics 
-KPC3 PBBS, fixed broken config parsing, updated the native Debian 
-debuild support, improvements to the autoconf files, added the 
-ax25mail-utils.spec RPM spec file, etc.
+Für Ihren Spendenanspruch und weitere Informationen kontaktieren Sie 
+mich umgehend unter francoispinault1936@outlook.com
 
-https://sourceforge.net/p/ax25mail/news/2021/02/ax25mail-utils-014-released/
-
---David
-KI6ZHD
-
+Mit freundlichen Grüßen,
+Herr Francois Pinault
