@@ -2,78 +2,154 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B89B316F89
-	for <lists+linux-hams@lfdr.de>; Wed, 10 Feb 2021 20:06:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E070D321CA8
+	for <lists+linux-hams@lfdr.de>; Mon, 22 Feb 2021 17:20:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234181AbhBJTEv convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hams@lfdr.de>); Wed, 10 Feb 2021 14:04:51 -0500
-Received: from spam.auroraoh.com ([24.56.89.101]:49890 "EHLO
-        barracuda.auroraoh.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S233781AbhBJTEj (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 10 Feb 2021 14:04:39 -0500
-X-ASG-Debug-ID: 1612983751-112c0d6a799edf0001-V1vWWi
-Received: from COASRV-MAIL2.auroraoh.loc (coasrv-mail2.auroraoh.loc [10.3.1.15]) by barracuda.auroraoh.com with ESMTP id 5uUbz3ZeGsqrpfdl; Wed, 10 Feb 2021 14:02:31 -0500 (EST)
-X-Barracuda-Envelope-From: JanuskaD@auroraoh.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.3.1.15
-Received: from [172.20.10.5] (197.210.29.8) by COASRV-MAIL2.auroraoh.loc
- (10.3.1.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 9 Feb 2021
- 02:41:04 -0500
-Content-Type: text/plain; charset="iso-8859-1"
-X-Barracuda-RBL-Trusted-Forwarder: 172.20.10.5
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: We are a registered Private Loan Investment Company in the United Kingdom,
- we also registered with the Turkish British Chamber of Commerce and Industry
- (TBCCI) we have operations in Europe and Asia.
-To:     Recipients <januskad@auroraoh.com>
-X-ASG-Orig-Subj: We are a registered Private Loan Investment Company in the United Kingdom,
- we also registered with the Turkish British Chamber of Commerce and Industry
- (TBCCI) we have operations in Europe and Asia.
-From:   <januskad@auroraoh.com>
-Date:   Tue, 9 Feb 2021 15:40:17 +0800
-Reply-To: <cfolimiited@gmail.com>
-X-Priority: 1 (High)
-X-Antivirus: Avast (VPS 210207-2, 02/07/2021), Outbound message
-X-Antivirus-Status: Clean
-Message-ID: <d46ecc4f-b603-47c1-83c7-0caec3f47064@COASRV-MAIL2.auroraoh.loc>
-X-Originating-IP: [197.210.29.8]
-X-ClientProxiedBy: COASRV-MAIL3.auroraoh.loc (10.3.1.13) To
- COASRV-MAIL2.auroraoh.loc (10.3.1.15)
-X-Barracuda-Connect: coasrv-mail2.auroraoh.loc[10.3.1.15]
-X-Barracuda-Start-Time: 1612983751
-X-Barracuda-URL: https://10.3.1.12:443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at auroraoh.com
-X-Barracuda-Scan-Msg-Size: 755
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Spam-Score: 1.61
-X-Barracuda-Spam-Status: No, SCORE=1.61 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=5.0 tests=BSF_SC0_SA609_NRN, BSF_SC0_SA912_RP_FR, BSF_SC0_SA_TO_FROM_ADDR_MATCH, NO_REAL_NAME
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.87891
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.00 NO_REAL_NAME           From: does not include a real name
-        0.01 BSF_SC0_SA912_RP_FR    Custom Rule BSF_SC0_SA912_RP_FR
-        0.50 BSF_SC0_SA_TO_FROM_ADDR_MATCH Sender Address Matches Recipient
-                                   Address
-        1.10 BSF_SC0_SA609_NRN      Custom Rule SA609_NRN
+        id S231251AbhBVQU3 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 22 Feb 2021 11:20:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54430 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231244AbhBVQUZ (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 22 Feb 2021 11:20:25 -0500
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2B67C061574;
+        Mon, 22 Feb 2021 08:19:42 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id w1so30212044ejf.11;
+        Mon, 22 Feb 2021 08:19:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=jrKMxz76VrtujF1xTtdvcqWh/FiUwzdqgqPn8MABZcQ=;
+        b=tbCF6H7dNXWERfQSXS6cEb8eXbKZ4q0uTOEsLLhVC/ayjIosiu3ZdXWK3X6QJJpfTO
+         oP5eo1+Ja+BAy5CLSQIdpeEA69xPIckoipNbGE8SiK6P9ZpgTlESyb+DsYXapjzbzVi0
+         Psi4XvMUK6Zm8WwdD8/jVbGflL/RD3XZh2jY8FlNoDsxsfN/54xgI0mUW9Jm3jS8QJ6O
+         DoC//YlzI54ErTJ6HEHWpVCiIJ4k+pDXx4DAdNf2ZMUHfPcGdaDisB6IjQaE3CYT4c29
+         9pcqs6IicpJQvVRkY+tI7SsPqNeoXgRHZdsw+ET/Fa2YebRI82TOmwWxTDrXmNNsQLhB
+         c0hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=jrKMxz76VrtujF1xTtdvcqWh/FiUwzdqgqPn8MABZcQ=;
+        b=GnMH0O+GHTZhQQbrdaZ9Qwogg/ofAiFbr0R7xFh2wcj2nmUR4DS9TvbHIYhlSeBkXL
+         eWNlhLxaXbvmEUpoNFQVdEFInCLwk7X2yvC4GuRtbPb7KuwXnEAgo/6OLbr4BMwO9wz5
+         nLiYCYpy8JCmxgLHMYP+d5T454my+BdBe9JLKo6O3daXjDp9+vO2Hq0ZyMaRG5QPfq/X
+         Am59DjR9GDXXwFnVW3zip4Nos4mnotm6nJ8Fs9GBwgn9hv83KSCdC9DG316YBDIr4FTr
+         M7n96esAJ3IT/I5F4ytIxSYIwYTiBFKOmsK4t+uW6DGbJ/9C+IneciKaMOoPGs2H2Y4W
+         k8VQ==
+X-Gm-Message-State: AOAM531DfsZrQYGCnQcw49OmrE5n3WbYdVs4PiUjMJABOb+slC7/xpBI
+        p20BrNmH0rSMrUlMViC0xFY=
+X-Google-Smtp-Source: ABdhPJymsCglaF9UgI/Qnjwt/XNzwiLp23cWL9gxOA1KKbBrbEkowNuvAZGKz41lNo2Ny8QHbHP8RA==
+X-Received: by 2002:a17:906:3850:: with SMTP id w16mr22079770ejc.286.1614010781593;
+        Mon, 22 Feb 2021 08:19:41 -0800 (PST)
+Received: from felia.fritz.box ([2001:16b8:2d6b:2000:6504:2c93:2a67:f7e2])
+        by smtp.gmail.com with ESMTPSA id i7sm67876ejf.59.2021.02.22.08.19.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Feb 2021 08:19:40 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-mips@vger.kernel.org
+Cc:     "Maciej W . Rozycki" <macro@orcam.me.uk>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>, Willy Tarreau <w@1wt.eu>,
+        linux-edac@vger.kernel.org, linux-hams@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH 0/5] Remove dead linux-mips.org references
+Date:   Mon, 22 Feb 2021 17:19:00 +0100
+Message-Id: <20210222161905.1153-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-We are seeking for beneficiaries who source for fund to expand/relocating their business interest abroad. We are ready to fund projects outside Turkey and United Kingdom in the form of Soft Loan. We grant loans to both corporate and private entities at a low interest rate of 2% R.O.I per annul.
+Dear all,
 
-We like to grant loan in the following sectors: oil/Gas, banking, real estate, stock speculation and mining, transportation, health sector and tobacco, Communication Services, Agriculture Forestry & Fishing, thus any sector. The terms are very flexible and interesting.
+The domain lookup for linux-mips.org fails for quite some time now.
+Hence, webpages, the patchwork instance and Ralf Baechle's email there is
+not reachable anymore.
 
-Please contact us for more details;
+First, I updated all sections in MAINTAINERS for references with linux-mips.org.
+Then, I also quickly scanned through the whole git tree for linux-mips.org
+references, and step-wise filtered out obvious copyright holder lines and
+references to old email addresses.
+
+  git ls-files | xargs grep "linux-mips.org" | \
+    grep -v -i "Copyright" | grep -v -i "MODULE_AUTHOR" | grep -v -i "written" | \
+    grep -v "Ralf" | grep -v "Maciej" | grep -v "Yoichi" | grep -v "Ladislav"
 
 
-Kind regards,
+I removed dead references or replaced them with their living counterparts if
+available. However, these two cases remain and somebody might want to have a look:
 
-Paul McCann
+  1. case in ./arch/mips/include/asm/page.h:
+
+<snip>
+/*
+ * RELOC_HIDE was originally added by 6007b903dfe5f1d13e0c711ac2894bdd4a61b1ad
+ * (lmo) rsp. 8431fd094d625b94d364fe393076ccef88e6ce18 (kernel.org).  The
+ * discussion can be found in
+ * https://lore.kernel.org/lkml/a2ebde260608230500o3407b108hc03debb9da6e62c@mail.gmail.com
+ *
+ * It is unclear if the misscompilations mentioned in
+ * https://lore.kernel.org/lkml/1281303490-390-1-git-send-email-namhyung@gmail.com
+ * also affect MIPS so we keep this one until GCC 3.x has been retired
+ * before we can apply https://patchwork.linux-mips.org/patch/1541/
+ */
+</snip>
+
+  Decision: Keep as is. Although GCC 3.x is long retired, it is unclear what
+  https://patchwork.linux-mips.org/patch/1541/ is and if it has been already
+  applied or not.
+  Question: does anyone know how to identify this patch?
+
+
+  2. case in ./drivers/parport/parport_ip32.c:
+
+    linux-mips.org tree is referred to in an old To do item:
+
+<snip>
+ * To do:
+ *
+ *      Fully implement ECP mode.
+ *      EPP and ECP mode need to be tested.  I currently do not own any
+ *      peripheral supporting these extended mode, and cannot test them.
+ *      If DMA mode works well, decide if support for PIO FIFO modes should be
+ *      dropped.
+ *      Use the io{read,write} family functions when they become available in
+ *      the linux-mips.org tree.  Note: the MIPS specific functions readsb()
+ *      and writesb() are to be translated by ioread8_rep() and iowrite8_rep()
+ *      respectively.
+</snip>
+
+  Decision: Keep as is; anyone that wants to follow up on this will probably
+  understand that the reference is outdated anyway.
+
+
+Please comment on these clean-up patches on this administrative topic.
+
+Patch set applies cleanly on next-20210222.
+
+Thanks,
+
+Lukas
+
+
+Lukas Bulwahn (5):
+  MAINTAINERS: mark sections from Ralf Baechle orphan
+  MAINTAINERS: remove linux-mips.org references
+  arch: mips: update references to current linux-mips list
+  arch: mips: remove dead references
+  MIPS: SGI-IP27: fix spelling in Copyright
+
+ MAINTAINERS                     | 20 ++++++--------------
+ arch/mips/Kconfig               |  8 +-------
+ arch/mips/jazz/Kconfig          | 12 +++---------
+ arch/mips/kernel/r4k-bugs64.c   |  2 +-
+ arch/mips/lib/iomap-pci.c       |  2 +-
+ arch/mips/sgi-ip27/ip27-timer.c |  4 ++--
+ arch/mips/sgi-ip32/ip32-irq.c   |  2 +-
+ tools/include/nolibc/nolibc.h   |  3 +--
+ 8 files changed, 16 insertions(+), 37 deletions(-)
 
 -- 
-This email has been checked for viruses by Avast antivirus software.
-https://www.avast.com/antivirus
+2.17.1
 
