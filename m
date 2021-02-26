@@ -2,112 +2,105 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07E01325F07
-	for <lists+linux-hams@lfdr.de>; Fri, 26 Feb 2021 09:30:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45106326141
+	for <lists+linux-hams@lfdr.de>; Fri, 26 Feb 2021 11:30:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229990AbhBZIab (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 26 Feb 2021 03:30:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59136 "EHLO
+        id S230124AbhBZKaC (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 26 Feb 2021 05:30:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbhBZIaa (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 26 Feb 2021 03:30:30 -0500
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D255C061574;
-        Fri, 26 Feb 2021 00:29:45 -0800 (PST)
-Received: by mail-io1-xd29.google.com with SMTP id a7so8809010iok.12;
-        Fri, 26 Feb 2021 00:29:45 -0800 (PST)
+        with ESMTP id S230087AbhBZK3y (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 26 Feb 2021 05:29:54 -0500
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA709C061574
+        for <linux-hams@vger.kernel.org>; Fri, 26 Feb 2021 02:29:13 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id a17so10041588ljq.2
+        for <linux-hams@vger.kernel.org>; Fri, 26 Feb 2021 02:29:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=wv9SyvXPStH1HbSiyrd6dLJkIu8R0cmO6gcv4tLTSvQ=;
-        b=Rhl08QI0pfGUZYq6eTciDwuN89KLIIALSh8uKopiHPcUrfyNcHVdR0Y6PGJQ1Aw1Xp
-         vPXZjJhOIbKvkPRAco2v2VKNnyYBYI7anNnDxXs0xiSFo7fx91n4XiggVGMHNhhKvu4k
-         VOo44XIZnSglXqVUOvLckvmbXB7NqIerp5578rZZ7Kkq5DtCOVgLsBTzfYkva3pS5MmR
-         BAfHatL1uy5ftOMq0kGxA8XxXWQPdMPnpdScblfP9jVupdhUCn3EriJZ5//VUNid5wyo
-         f/ATH0swlnaPmd0JLN4HAMbgaAspgJBsV4EsG8vx1D8YainfyvDQL/PiOgyXGYZppUzS
-         m9qA==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=q4sVBYG6DsGJFWk7rYcWbwOTU45wlxxr3OroKSBCO1s=;
+        b=UtBcLdtA63jkKatJbl4JXOVlTL4KaFAuoLaYdn9zDYLxpjPIJgj/aqTDAGMfBC35hl
+         ehKAyG5zcyDQ74hCTt0kxuPPIU+On8/eqyUAZYglNHmEt4Uap+aLvZ2zXmBMKTWu9adI
+         YQ9yLSBa0ex0wkpAJNyBmOGHUfh4R0CCxQre77RfrqerpCH90pz9YkBymaAsl+mJL+ET
+         fUTJsQg3epmYVHCV70dc0Xk7NxT4leBsRFunH9KA1HQm+7LcEiFlj6J1qZnhAR9VfbST
+         EeoWNtQh8p1ZczATHu0IIKp1uFk4FOk9dYKAoeN/EAmZNR7qoF1zPdjOLnK30BKo64St
+         Pb0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=wv9SyvXPStH1HbSiyrd6dLJkIu8R0cmO6gcv4tLTSvQ=;
-        b=eB7w4SrEh/UrtC8zeHrlQCVjDDWFPyXAvn1IO1w4ABpiJk9vUEQXrt5WzCYYQ15iij
-         VPbaWpiB+Fo0eF2cBVXkkpIv756TpG2ufOSV/DZ55llt95nN2sPSOS4Rn4K/yagiPdE/
-         b6+a+sPAuqxtgEZOt5eA+8VncJFssTLrutXC3N9HGzm0yf2uzEan7OLdI2EuMOna8ZFO
-         T+VLBcWiM41u/d2xg+CFwUGTvIN/SVLgEH0i4IfYbDw2rkSRmeWzgCYXrcTKJZxt66Ln
-         p+ZTEuSvHVmzb9ZV3hADIfmAABObMB0G2GslzUYE5LclhZ5l/hr4zVTZfXlZQgpwSKkk
-         zT2A==
-X-Gm-Message-State: AOAM531uSRRNbprZ5yxFh0qKgEsdXrMmXHI8gXuiO2bb+jvwjWLlpr/I
-        7yOWLs36t3mOaoQ9MHHxr6TbpvDXBn6CEzOTuZXLu9BVCxA=
-X-Google-Smtp-Source: ABdhPJzPdTp9oMZ+w5xch1v6D5+MMN1OxBLOqz/HNnorcjnd11QqrnQ4bhDhT4DYAfQxcYgPBGykY+glXt4wVghUZ0A=
-X-Received: by 2002:a05:6602:2bd5:: with SMTP id s21mr1906817iov.189.1614328185042;
- Fri, 26 Feb 2021 00:29:45 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=q4sVBYG6DsGJFWk7rYcWbwOTU45wlxxr3OroKSBCO1s=;
+        b=hF1ZycJtgmCSMynQO5JuAzw8GEGTf/n/HVrXB6Ix9OkdMU3GiimTXa+PF2C7eepUZq
+         biTWvLbaqz/etSbsH/wijdnuao2ilxMxq2Lr0kzFqnXlwb98NgV6Ku4GTNN7fKgE0rOy
+         XRf14hmv2rHbw7mHXTrClkM1M0ySMh/O3qEFyge9fwIoWnCZ5RKuxpnrZD4PIsno07ff
+         6YSu2V+YQQPNPbivjpchcTiVK7gDpKlWiUDVnXbQZoQwuZ9T2yQtvUJC5xZErijjRObl
+         ML5WkFLTxg24E7iUzmcoYROmHrV+gbMF32OCZrOTkJpdf5orQGnfhAse8zd8EB3Z3U+S
+         MRaQ==
+X-Gm-Message-State: AOAM533h/V3WdISgilQOnke6bBQA+mFyJ8M27vs75qHj8DW1O8oLgXdf
+        I/l0Tnq1k89ocCxWEXXuIShOQRmB0ltQ8QnO04I=
+X-Google-Smtp-Source: ABdhPJxzAPqWXx+wO7qL4hyk36/kBI2dw4s9km19XWYKedyF3CrE4bmHaMi3i4DYE1MEcuYh4B/JoXikwPZlZOZ74lg=
+X-Received: by 2002:a05:651c:1355:: with SMTP id j21mr1260160ljb.165.1614335352323;
+ Fri, 26 Feb 2021 02:29:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20210222161905.1153-1-lukas.bulwahn@gmail.com>
- <20210222161905.1153-3-lukas.bulwahn@gmail.com> <CAAdtpL4egZYCGS+2K5FQSFYcPKomosuvvrunpDskkiif5Ma5Uw@mail.gmail.com>
-In-Reply-To: <CAAdtpL4egZYCGS+2K5FQSFYcPKomosuvvrunpDskkiif5Ma5Uw@mail.gmail.com>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Fri, 26 Feb 2021 09:29:34 +0100
-Message-ID: <CAKXUXMygO2caTv9D1dMv9dxJSgC8=CpcT3hYsNm_ko4HXdNmeg@mail.gmail.com>
-Subject: Re: [PATCH 2/5] MAINTAINERS: remove linux-mips.org references
-To:     =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        "Maciej W . Rozycki" <macro@orcam.me.uk>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>, Willy Tarreau <w@1wt.eu>,
-        linux-edac@vger.kernel.org, linux-hams@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>
+Received: by 2002:ab3:6bf5:0:0:0:0:0 with HTTP; Fri, 26 Feb 2021 02:29:12
+ -0800 (PST)
+Reply-To: www.worldbank.com1900086@gmail.com
+From:   Malcolm Fraser <malcolmfraser712@gmail.com>
+Date:   Fri, 26 Feb 2021 11:29:12 +0100
+Message-ID: <CALpo90rhvN-PK0RvAMRow1SJEERGmpy3RTkpiJgZde_wucRiDw@mail.gmail.com>
+Subject: Hei
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Tue, Feb 23, 2021 at 10:48 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
->
-> On Mon, Feb 22, 2021 at 5:22 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> w=
-rote:
-> >
-> > The domain lookup for linux-mips.org fails for quite some time now. Hen=
-ce,
-> > webpages, the patchwork instance and Ralf Baechle's email there is not
-> > reachable anymore.
-> >
-> > Remove all references of webpages from linux-mips.org in MAINTAINERS, a=
-nd
-> > refer to the kernel.org's linux-mips patchwork instance instead.
-> >
-> > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> > ---
-> >  MAINTAINERS | 5 +----
-> >  1 file changed, 1 insertion(+), 4 deletions(-)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index e949e561867d..703a50183301 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -4980,7 +4980,6 @@ DECSTATION PLATFORM SUPPORT
-> >  M:     "Maciej W. Rozycki" <macro@orcam.me.uk>
-> >  L:     linux-mips@vger.kernel.org
-> >  S:     Maintained
-> > -W:     http://www.linux-mips.org/wiki/DECstation
->
-> Why not use the web archive? The information is still valuable.
-> https://web.archive.org/web/20190704000315/https://www.linux-mips.org/wik=
-i/DECstation
->
+Hyv=C3=A4 voittaja, todellakin s=C3=A4hk=C3=B6postiosoitteesi on
+Western Union 161. sija
+juhlavuoden arvonta t=C3=A4n=C3=A4 vuonna. Voitotiedot ovat =3D LIPPUNUMERO=
+ =3D=3D=3D=3D
+357-01467446-224, SARJANUMERO =3D=3D=3D=3D ER=C3=84NRO, ESP / 07-3663.
 
-If that information is valuable, how about adding that into the kernel
-documentation page?
+Me, Western Unionin rahansiirto, viet=C3=A4mme 161. uutta vuotta
+2021 vuosip=C3=A4iv=C3=A4; k=C3=A4ynnistimme yli 16 000 000 000 USD (16).
+Miljoonia Yhdysvaltain dollareita)
+160 vuotta. Kaikki
+osallistujat valittiin =C3=A4=C3=A4nestysj=C3=A4rjestelm=C3=A4n kautta
+tietokone purettu
+25 000,00 yrityksen s=C3=A4hk=C3=B6postiosoite ja 30 000,00 henkil=C3=B6koh=
+tainen
+s=C3=A4hk=C3=B6postiosoite
+osoite yli 40 verkostosta Australiassa, Uudessa-Seelannissa, Pohjoisessa
+Amerikka, Etel=C3=A4-Amerikka Eurooppa, koko Aasia ja Afrikka osana EU: ta
+Kansainv=C3=A4linen kampanja toteutettu tasavallassa Lome-Togo.
 
-If linux-mips.org wiki is back, we will keep this link; if not, we
-should get a copy of that information into the documentation (where it
-can survive some time) or we simply drop it.
+Ilmoitamme virallisesti, ett=C3=A4 s=C3=A4hk=C3=B6postiosoitteesi on juuri =
+voittanut
+800 000,00 USD (kahdeksansataa tuhatta Yhdysvaltain dollaria)
+Sinulle
 
-Putting a web.archive.org link into MAINTAINERS sounds like a really
-bad idea to me.
+Sinun on toimitettava tietosi, jotta voimme l=C3=A4hett=C3=A4=C3=A4 ne
+ansaita rahasto sinulle. Saamme v=C3=A4litt=C3=B6m=C3=A4sti tietosi.
 
-Lukas
+Tarvittavat tiedot.
+
+Koko nimesi ----------
+T=C3=A4ydellinen osoitteesi ---------
+Katso ----------
+Puhelinnumerosi-----------
+Yksityinen s=C3=A4hk=C3=B6postiosoitteesi ......
+(Kopio passista) .......
+Pankkisi nimi ..............
+Tilisi numero ..........
+Ik=C3=A4si...............
+Ammattisi ...........
+
+L=C3=A4het=C3=A4 kaikki tiedot maksuhakemistoon,
+S=C3=A4hk=C3=B6postiosoite [www.worldbank.com1900086@gmail.com]
+
+Onnittelut
+Herra David R.Mustafa
+Arpajaisten koordinaattori
