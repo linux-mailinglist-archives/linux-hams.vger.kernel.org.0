@@ -2,105 +2,60 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45106326141
-	for <lists+linux-hams@lfdr.de>; Fri, 26 Feb 2021 11:30:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E31D7326F44
+	for <lists+linux-hams@lfdr.de>; Sat, 27 Feb 2021 23:36:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230124AbhBZKaC (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 26 Feb 2021 05:30:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56540 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230087AbhBZK3y (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 26 Feb 2021 05:29:54 -0500
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA709C061574
-        for <linux-hams@vger.kernel.org>; Fri, 26 Feb 2021 02:29:13 -0800 (PST)
-Received: by mail-lj1-x236.google.com with SMTP id a17so10041588ljq.2
-        for <linux-hams@vger.kernel.org>; Fri, 26 Feb 2021 02:29:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=q4sVBYG6DsGJFWk7rYcWbwOTU45wlxxr3OroKSBCO1s=;
-        b=UtBcLdtA63jkKatJbl4JXOVlTL4KaFAuoLaYdn9zDYLxpjPIJgj/aqTDAGMfBC35hl
-         ehKAyG5zcyDQ74hCTt0kxuPPIU+On8/eqyUAZYglNHmEt4Uap+aLvZ2zXmBMKTWu9adI
-         YQ9yLSBa0ex0wkpAJNyBmOGHUfh4R0CCxQre77RfrqerpCH90pz9YkBymaAsl+mJL+ET
-         fUTJsQg3epmYVHCV70dc0Xk7NxT4leBsRFunH9KA1HQm+7LcEiFlj6J1qZnhAR9VfbST
-         EeoWNtQh8p1ZczATHu0IIKp1uFk4FOk9dYKAoeN/EAmZNR7qoF1zPdjOLnK30BKo64St
-         Pb0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=q4sVBYG6DsGJFWk7rYcWbwOTU45wlxxr3OroKSBCO1s=;
-        b=hF1ZycJtgmCSMynQO5JuAzw8GEGTf/n/HVrXB6Ix9OkdMU3GiimTXa+PF2C7eepUZq
-         biTWvLbaqz/etSbsH/wijdnuao2ilxMxq2Lr0kzFqnXlwb98NgV6Ku4GTNN7fKgE0rOy
-         XRf14hmv2rHbw7mHXTrClkM1M0ySMh/O3qEFyge9fwIoWnCZ5RKuxpnrZD4PIsno07ff
-         6YSu2V+YQQPNPbivjpchcTiVK7gDpKlWiUDVnXbQZoQwuZ9T2yQtvUJC5xZErijjRObl
-         ML5WkFLTxg24E7iUzmcoYROmHrV+gbMF32OCZrOTkJpdf5orQGnfhAse8zd8EB3Z3U+S
-         MRaQ==
-X-Gm-Message-State: AOAM533h/V3WdISgilQOnke6bBQA+mFyJ8M27vs75qHj8DW1O8oLgXdf
-        I/l0Tnq1k89ocCxWEXXuIShOQRmB0ltQ8QnO04I=
-X-Google-Smtp-Source: ABdhPJxzAPqWXx+wO7qL4hyk36/kBI2dw4s9km19XWYKedyF3CrE4bmHaMi3i4DYE1MEcuYh4B/JoXikwPZlZOZ74lg=
-X-Received: by 2002:a05:651c:1355:: with SMTP id j21mr1260160ljb.165.1614335352323;
- Fri, 26 Feb 2021 02:29:12 -0800 (PST)
+        id S230148AbhB0WfB (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 27 Feb 2021 17:35:01 -0500
+Received: from mail.jvpinto.com ([65.49.11.60]:42077 "EHLO mail.JVPinto.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230001AbhB0We7 (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Sat, 27 Feb 2021 17:34:59 -0500
+Received: from RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) by
+ RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Sat, 27 Feb 2021 14:33:46 -0800
+Received: from User (52.231.198.195) by RW-EXC1.JVPinto.com (172.32.1.13) with
+ Microsoft SMTP Server id 15.0.1497.2 via Frontend Transport; Sat, 27 Feb 2021
+ 14:33:32 -0800
+Reply-To: <ms.reem@yandex.com>
+From:   "Ms. Reem" <johnpinto@jvpinto.com>
+Subject: Hello okay
+Date:   Sat, 27 Feb 2021 22:33:46 +0000
 MIME-Version: 1.0
-Received: by 2002:ab3:6bf5:0:0:0:0:0 with HTTP; Fri, 26 Feb 2021 02:29:12
- -0800 (PST)
-Reply-To: www.worldbank.com1900086@gmail.com
-From:   Malcolm Fraser <malcolmfraser712@gmail.com>
-Date:   Fri, 26 Feb 2021 11:29:12 +0100
-Message-ID: <CALpo90rhvN-PK0RvAMRow1SJEERGmpy3RTkpiJgZde_wucRiDw@mail.gmail.com>
-Subject: Hei
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <837a988e66554c5d95b18ae85648d3d7@RW-EXC1.JVPinto.com>
+To:     Undisclosed recipients:;
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hyv=C3=A4 voittaja, todellakin s=C3=A4hk=C3=B6postiosoitteesi on
-Western Union 161. sija
-juhlavuoden arvonta t=C3=A4n=C3=A4 vuonna. Voitotiedot ovat =3D LIPPUNUMERO=
- =3D=3D=3D=3D
-357-01467446-224, SARJANUMERO =3D=3D=3D=3D ER=C3=84NRO, ESP / 07-3663.
+Hello,
 
-Me, Western Unionin rahansiirto, viet=C3=A4mme 161. uutta vuotta
-2021 vuosip=C3=A4iv=C3=A4; k=C3=A4ynnistimme yli 16 000 000 000 USD (16).
-Miljoonia Yhdysvaltain dollareita)
-160 vuotta. Kaikki
-osallistujat valittiin =C3=A4=C3=A4nestysj=C3=A4rjestelm=C3=A4n kautta
-tietokone purettu
-25 000,00 yrityksen s=C3=A4hk=C3=B6postiosoite ja 30 000,00 henkil=C3=B6koh=
-tainen
-s=C3=A4hk=C3=B6postiosoite
-osoite yli 40 verkostosta Australiassa, Uudessa-Seelannissa, Pohjoisessa
-Amerikka, Etel=C3=A4-Amerikka Eurooppa, koko Aasia ja Afrikka osana EU: ta
-Kansainv=C3=A4linen kampanja toteutettu tasavallassa Lome-Togo.
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (3) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home in Cambodia on their behalf and
+for our "Mutual Benefits".
 
-Ilmoitamme virallisesti, ett=C3=A4 s=C3=A4hk=C3=B6postiosoitteesi on juuri =
-voittanut
-800 000,00 USD (kahdeksansataa tuhatta Yhdysvaltain dollaria)
-Sinulle
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Cambodian/Vietnam Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
 
-Sinun on toimitettava tietosi, jotta voimme l=C3=A4hett=C3=A4=C3=A4 ne
-ansaita rahasto sinulle. Saamme v=C3=A4litt=C3=B6m=C3=A4sti tietosi.
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+ms.reem@yandex.com
 
-Tarvittavat tiedot.
-
-Koko nimesi ----------
-T=C3=A4ydellinen osoitteesi ---------
-Katso ----------
-Puhelinnumerosi-----------
-Yksityinen s=C3=A4hk=C3=B6postiosoitteesi ......
-(Kopio passista) .......
-Pankkisi nimi ..............
-Tilisi numero ..........
-Ik=C3=A4si...............
-Ammattisi ...........
-
-L=C3=A4het=C3=A4 kaikki tiedot maksuhakemistoon,
-S=C3=A4hk=C3=B6postiosoite [www.worldbank.com1900086@gmail.com]
-
-Onnittelut
-Herra David R.Mustafa
-Arpajaisten koordinaattori
+Regards,
+Ms. Reem.
