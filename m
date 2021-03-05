@@ -2,91 +2,77 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31A4432E4AC
-	for <lists+linux-hams@lfdr.de>; Fri,  5 Mar 2021 10:22:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3805632ED1C
+	for <lists+linux-hams@lfdr.de>; Fri,  5 Mar 2021 15:29:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbhCEJWU (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 5 Mar 2021 04:22:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36206 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229578AbhCEJWN (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Fri, 5 Mar 2021 04:22:13 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C810164F73;
-        Fri,  5 Mar 2021 09:22:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614936133;
-        bh=9B2UwE4hVVh8VCkL2+pUISD+qk8AExeqBMVyuOMGs4c=;
-        h=Date:From:To:Cc:Subject:From;
-        b=s0sXa8ewwCQPCZWxkZ0kWgzQib82IDRQs8L/w3gQsTIuV/TGF0xE/TlAw3PutCPbX
-         S8PzgxFxsr9p1K/ILpFpywgxfH6abrGY217uRKlaw6N8gbvUkYM1BVKn8DlEUFuGVT
-         Zka6w9/B10NSt2qgDaCgErIoS811HqjRvEmnj+uZBTE40XyAVYGMykjs6mpvgynyd5
-         xOhj3BHbcw8jqqyL74QjxwbszhSEI6LCfVmRMrKuwABN/xPlUiKBG8qLcmEWGcAqzP
-         /f+8kSDvjwMm+4GMkftHOjkvTkLfrAQU27lgN/XGMDUSi7Xvb1z/uEOwiKNxjonetZ
-         xCWw21XnCV+Nw==
-Date:   Fri, 5 Mar 2021 03:22:10 -0600
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Ralf Baechle <ralf@linux-mips.org>,
+        id S230161AbhCEO3X (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 5 Mar 2021 09:29:23 -0500
+Received: from mail-lf1-f54.google.com ([209.85.167.54]:46706 "EHLO
+        mail-lf1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229723AbhCEO3I (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 5 Mar 2021 09:29:08 -0500
+Received: by mail-lf1-f54.google.com with SMTP id v5so3867749lft.13;
+        Fri, 05 Mar 2021 06:29:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5eGMjW0/0FS8wcIYA9qrwriQ7+t9gtpkbJxLpQkObag=;
+        b=YAdqN4T6q1MOyCXJfFgu0+MJoIveiMOFyg3NorUXJn51wMHoUjh2NecXuJtqwYgUfQ
+         g5GRHDVM3LtwcVZsY3vlBlMZlmIhFCL2A6QUrix6upKqSENi7elSpD8nO0Pq3FqFcpgG
+         9qKPSMTB5bs3lquEZnjq65CCFfKqnTXsuBvoA1c7F7Q6Tx//MzQGEwFx+hkSnwcaHL7Z
+         W0fDUdX8KF21sL9Zd1boenUfX/aGHkwmaAl4ApKZ3pHStFSiUoVd6aGBklrHA0NRPq1i
+         LOo/Ul1xR+76qYK+f78ZV4u4P3Sh2jJO0ODrSXwix3xMUuzMkfwioNaINXxTHkAy6dze
+         Ir2A==
+X-Gm-Message-State: AOAM530q5mcV7suYLuJh4m0M1Vsww8bJ8d5vOUNvOHtq6K9wTt1ymxMO
+        67cUmE2KdtM1W+IQ7KOia1w=
+X-Google-Smtp-Source: ABdhPJzeAIriOu+fmgUmq9fOPTAYqN45YFxQPaxFMOARDr2Wh/Br4w0m1/haldLk75HzbOBWAEywrQ==
+X-Received: by 2002:a05:6512:4c6:: with SMTP id w6mr5787673lfq.258.1614954546496;
+        Fri, 05 Mar 2021 06:29:06 -0800 (PST)
+Received: from localhost.. (broadband-188-32-236-56.ip.moscow.rt.ru. [188.32.236.56])
+        by smtp.googlemail.com with ESMTPSA id d4sm331040lfs.45.2021.03.05.06.29.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Mar 2021 06:29:05 -0800 (PST)
+From:   Denis Efremov <efremov@linux.com>
+To:     Andreas Koensgen <ajk@comnets.uni-bremen.de>
+Cc:     Denis Efremov <efremov@linux.com>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH RESEND][next] net: netrom: Fix fall-through warnings for Clang
-Message-ID: <20210305092210.GA139864@embeddedor>
+        Jakub Kicinski <kuba@kernel.org>, linux-hams@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] net/hamradio/6pack: remove redundant check in sp_encaps()
+Date:   Fri,  5 Mar 2021 19:26:22 +0300
+Message-Id: <20210305162622.67993-1-efremov@linux.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-In preparation to enable -Wimplicit-fallthrough for Clang, fix multiple
-warnings by explicitly adding multiple break statements instead of
-letting the code fall through to the next case.
+"len > sp->mtu" checked twice in a row in sp_encaps().
+Remove the second check.
 
-Link: https://github.com/KSPP/linux/issues/115
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Signed-off-by: Denis Efremov <efremov@linux.com>
 ---
- net/netrom/nr_route.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/net/hamradio/6pack.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/net/netrom/nr_route.c b/net/netrom/nr_route.c
-index 78da5eab252a..de9821b6a62a 100644
---- a/net/netrom/nr_route.c
-+++ b/net/netrom/nr_route.c
-@@ -266,6 +266,7 @@ static int __must_check nr_add_node(ax25_address *nr, const char *mnemonic,
- 		fallthrough;
- 	case 2:
- 		re_sort_routes(nr_node, 0, 1);
-+		break;
- 	case 1:
- 		break;
+diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
+index 71d6629e65c9..9f5b5614a150 100644
+--- a/drivers/net/hamradio/6pack.c
++++ b/drivers/net/hamradio/6pack.c
+@@ -171,11 +171,6 @@ static void sp_encaps(struct sixpack *sp, unsigned char *icp, int len)
+ 		goto out_drop;
  	}
-@@ -359,6 +360,7 @@ static int nr_del_node(ax25_address *callsign, ax25_address *neighbour, struct n
- 					fallthrough;
- 				case 1:
- 					nr_node->routes[1] = nr_node->routes[2];
-+					break;
- 				case 2:
- 					break;
- 				}
-@@ -482,6 +484,7 @@ static int nr_dec_obs(void)
- 					fallthrough;
- 				case 1:
- 					s->routes[1] = s->routes[2];
-+					break;
- 				case 2:
- 					break;
- 				}
-@@ -529,6 +532,7 @@ void nr_rt_device_down(struct net_device *dev)
- 							fallthrough;
- 						case 1:
- 							t->routes[1] = t->routes[2];
-+							break;
- 						case 2:
- 							break;
- 						}
+ 
+-	if (len > sp->mtu) {	/* sp->mtu = AX25_MTU = max. PACLEN = 256 */
+-		msg = "oversized transmit packet!";
+-		goto out_drop;
+-	}
+-
+ 	if (p[0] > 5) {
+ 		msg = "invalid KISS command";
+ 		goto out_drop;
 -- 
-2.27.0
+2.26.2
 
