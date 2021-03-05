@@ -2,85 +2,68 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F8FC32DD86
-	for <lists+linux-hams@lfdr.de>; Fri,  5 Mar 2021 00:00:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C76F132E312
+	for <lists+linux-hams@lfdr.de>; Fri,  5 Mar 2021 08:39:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231255AbhCDXAx (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 4 Mar 2021 18:00:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41310 "EHLO mail.kernel.org"
+        id S229465AbhCEHjo (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 5 Mar 2021 02:39:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36388 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229505AbhCDXAw (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Thu, 4 Mar 2021 18:00:52 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3CA3864FF1;
-        Thu,  4 Mar 2021 23:00:51 +0000 (UTC)
+        id S229446AbhCEHjo (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Fri, 5 Mar 2021 02:39:44 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AD95364F44;
+        Fri,  5 Mar 2021 07:39:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614898851;
-        bh=h8OtW+EVLYdr2UvVl3jhQH0r+BdVHRK2H9GoLb9XVJ0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JiOPNImtpG0s1B0GTWBZoQFPD6s9qgM8FZgjqqXGfqI0lIkHNXIPd69D8xeuYzIyM
-         jB073V0j7vYfY5e4btkLoQqYeIG1vIkDWuuNuOe6ZShQs8ewtlXBgra5CxGePBVNLu
-         0OrrHGBb9imAbIg+TYB5J6hIr9SuULXIwRErdHmmjxbGKjhg7Rs7jJlZ4J1mxToH2g
-         qj4MDOf6WPMszv/JugeogAg0KFDaeEfImmQb7+F1b0It21SG76JXklTe8Ob8VcDr7S
-         uScarCVOUO6eTE8+zvKbLZM+o6QQ3KNuZpgAp3vjOAD59vf34momzCp0KcEtlJR96o
-         xtk0O3KmlN2vg==
-Date:   Thu, 4 Mar 2021 17:00:49 -0600
+        s=k20201202; t=1614929984;
+        bh=oHCWpgfauurcAwVAR+BNJveAfh0IeEwBSn1ChD9wm2k=;
+        h=Date:From:To:Cc:Subject:From;
+        b=dDbc4Tjw6qHfF32EiUMWKcdAqqpKKN9yxFwNhNTUffyNhLUFe4Fgtf5tF2d7Q/1dL
+         oae9F5bD8Fxv/wQwkj/sSir0bzd355/D3d207SE6r6IqHQ7ZECIYiuTvlkvwKjCuKT
+         o74uEiKZPHXueprc8MXVLx0yIuBPfxQjJL1pvC1DPSSuKP9C5CzYKHszNTb8X6yqAx
+         jJC/RSzn3HQ3u8yxOqPEqeOfQh2ggqtTfaUhE0inkS2IE4cbxQYtCdKsRNWdCdelFQ
+         ZOYBACSn6j4c4JorVvkPHUDqqRyX/iw6wRQJWlQvIU04RBXOMwL450/PO4qDh7CAy8
+         +jtqUUh/1mSKA==
+Date:   Fri, 5 Mar 2021 01:39:40 -0600
 From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Ralf Baechle <ralf@linux-mips.org>,
+To:     Joerg Reuter <jreuter@yaina.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
 Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 112/141] net: rose: Fix fall-through warnings for Clang
-Message-ID: <20210304230049.GB106177@embeddedor>
-References: <cover.1605896059.git.gustavoars@kernel.org>
- <a1b09757cea712d628d1651477f459c8f4d65300.1605896060.git.gustavoars@kernel.org>
+        linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH][next] net: ax25: Fix fall-through warnings for Clang
+Message-ID: <20210305073940.GA122747@embeddedor>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a1b09757cea712d628d1651477f459c8f4d65300.1605896060.git.gustavoars@kernel.org>
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hi all,
+In preparation to enable -Wimplicit-fallthrough for Clang, fix a warning
+by explicitly adding a break statement instead of letting the code fall
+through to the next case.
 
-It's been more than 3 months; who can take this, please? :)
+Link: https://github.com/KSPP/linux/issues/115
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ net/ax25/af_ax25.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks
---
-Gustavo
+diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+index 269ee89d2c2b..2631efc6e359 100644
+--- a/net/ax25/af_ax25.c
++++ b/net/ax25/af_ax25.c
+@@ -850,6 +850,7 @@ static int ax25_create(struct net *net, struct socket *sock, int protocol,
+ 		case AX25_P_ROSE:
+ 			if (ax25_protocol_is_registered(AX25_P_ROSE))
+ 				return -ESOCKTNOSUPPORT;
++			break;
+ #endif
+ 		default:
+ 			break;
+-- 
+2.27.0
 
-On Fri, Nov 20, 2020 at 12:38:32PM -0600, Gustavo A. R. Silva wrote:
-> In preparation to enable -Wimplicit-fallthrough for Clang, fix multiple
-> warnings by explicitly adding multiple break statements instead of
-> letting the code fall through to the next case.
-> 
-> Link: https://github.com/KSPP/linux/issues/115
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> ---
->  net/rose/rose_route.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/net/rose/rose_route.c b/net/rose/rose_route.c
-> index 6e35703ff353..c0e04c261a15 100644
-> --- a/net/rose/rose_route.c
-> +++ b/net/rose/rose_route.c
-> @@ -347,6 +347,7 @@ static int rose_del_node(struct rose_route_struct *rose_route,
->  				case 1:
->  					rose_node->neighbour[1] =
->  						rose_node->neighbour[2];
-> +					break;
->  				case 2:
->  					break;
->  				}
-> @@ -508,6 +509,7 @@ void rose_rt_device_down(struct net_device *dev)
->  					fallthrough;
->  				case 1:
->  					t->neighbour[1] = t->neighbour[2];
-> +					break;
->  				case 2:
->  					break;
->  				}
-> -- 
-> 2.27.0
-> 
