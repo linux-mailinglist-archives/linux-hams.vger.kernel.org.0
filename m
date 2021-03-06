@@ -2,67 +2,58 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A1732F51C
-	for <lists+linux-hams@lfdr.de>; Fri,  5 Mar 2021 22:11:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E438432FD9E
+	for <lists+linux-hams@lfdr.de>; Sat,  6 Mar 2021 22:46:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229646AbhCEVKf (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 5 Mar 2021 16:10:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51474 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229592AbhCEVKJ (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Fri, 5 Mar 2021 16:10:09 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 62BCB650B1;
-        Fri,  5 Mar 2021 21:10:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614978609;
-        bh=MhaNOUG9C8mNaglH6NiBaYfSD1D026SBkCEvk86ZE4w=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=tO7X0rTMg0D2avoUDTt2mTUHPwJ9I9x1PGU/IRCBFsuO3M++XsR4PtXWLhuLpneWk
-         I5usBcsihTB2NckvsKqcfXzgdLKI2RON1wr6MYSPbRXKHpMzZXlOM2+T3xEX42/wFi
-         qpmQP4PeqNKyw6wGgC7khCit7CJChB8p5NwUSDwAxjDJMXSzefyhMZ3lSiQNevBSzu
-         Eii6Vt6ZGs/KfDuRECTeCamOxOdFAWW0AbQ+Kycxn4rDgSrf6ueeUjhi54M+DKaCIZ
-         SLNp7U3Zkzh1MVyU5VF9STWFLadmMj+3kCFlM3a39v4LMu591xtpZWMAPZEZtwqsyO
-         cYolyPDr50iIg==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 55C6A60A22;
-        Fri,  5 Mar 2021 21:10:09 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        id S229676AbhCFVp5 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 6 Mar 2021 16:45:57 -0500
+Received: from trinity.trinnet.net ([96.78.144.185]:1855 "EHLO
+        trinity3.trinnet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229642AbhCFVp5 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 6 Mar 2021 16:45:57 -0500
+Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
+        by trinity3.trinnet.net (TrinityOS Hardened/TrinityOS Hardened) with ESMTP id 126Ljuq1028950
+        for <linux-hams@vger.kernel.org>; Sat, 6 Mar 2021 13:45:57 -0800
+From:   David Ranch <linux-hams@trinnet.net>
+Subject: Linux AX.25 stack now toxic for connected packet connections with
+ Ubuntu 20.04 / 5.8.0-44-generic #50
+To:     Linux Hams <linux-hams@vger.kernel.org>
+Message-ID: <32262788-02bf-5a92-dff6-75b916390108@trinnet.net>
+Date:   Sat, 6 Mar 2021 13:45:56 -0800
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net/hamradio/6pack: remove redundant check in sp_encaps()
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <161497860934.24588.18272207864656241633.git-patchwork-notify@kernel.org>
-Date:   Fri, 05 Mar 2021 21:10:09 +0000
-References: <20210305162622.67993-1-efremov@linux.com>
-In-Reply-To: <20210305162622.67993-1-efremov@linux.com>
-To:     Denis Efremov <efremov@linux.com>
-Cc:     ajk@comnets.uni-bremen.de, davem@davemloft.net, kuba@kernel.org,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Sat, 06 Mar 2021 13:45:57 -0800 (GMT+8)
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
+Hello Everyone,
 
-This patch was applied to netdev/net.git (refs/heads/master):
+I wanted to check with the larger community to see if others are 
+experiencing system crashes when making connected AX.25 sessions. I have 
+confirmed that this is NOT an RFI thing and sending unconnected (UI) 
+transmissions (beacons) small or large is fine, and even initiating the 
+beginning of connected session to a non-existent remote station callsign 
+is OK with axcall, linpac, etc.  The issue is that once a valid AX.25 
+connection is established, I begin to receive data from the remote 
+station and then seemingly when my station is to send an ACK packet, the 
+machine locks hard.  No segmentation failure, no kernel panic, the 
+Gnome3 display stays up but the screen no longer updates , nothing in 
+the logs and even stops pinging from a different machine on the LAN.  
+The machine is 100% crashed and this is 100% reproducible.
 
-On Fri,  5 Mar 2021 19:26:22 +0300 you wrote:
-> "len > sp->mtu" checked twice in a row in sp_encaps().
-> Remove the second check.
-> 
-> Signed-off-by: Denis Efremov <efremov@linux.com>
-> ---
->  drivers/net/hamradio/6pack.c | 5 -----
->  1 file changed, 5 deletions(-)
+Is anyone else seeing this?
 
-Here is the summary with links:
-  - net/hamradio/6pack: remove redundant check in sp_encaps()
-    https://git.kernel.org/netdev/net/c/85554bcd123e
-
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+    $ uname -a
+    Linux hampacket3 *5.8.0-44-generic #50*~20.04.1-Ubuntu SMP Wed Feb 
+10 21:07:30 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 
 
+Any recommendations on how to get some sort of details out of my system 
+about this crash would be helpful.
+
+--David
+KI6ZHD
