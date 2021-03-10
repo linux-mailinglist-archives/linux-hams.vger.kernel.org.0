@@ -2,58 +2,71 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E438432FD9E
-	for <lists+linux-hams@lfdr.de>; Sat,  6 Mar 2021 22:46:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3A3633357A
+	for <lists+linux-hams@lfdr.de>; Wed, 10 Mar 2021 06:40:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229676AbhCFVp5 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 6 Mar 2021 16:45:57 -0500
-Received: from trinity.trinnet.net ([96.78.144.185]:1855 "EHLO
-        trinity3.trinnet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229642AbhCFVp5 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 6 Mar 2021 16:45:57 -0500
-Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
-        by trinity3.trinnet.net (TrinityOS Hardened/TrinityOS Hardened) with ESMTP id 126Ljuq1028950
-        for <linux-hams@vger.kernel.org>; Sat, 6 Mar 2021 13:45:57 -0800
-From:   David Ranch <linux-hams@trinnet.net>
-Subject: Linux AX.25 stack now toxic for connected packet connections with
- Ubuntu 20.04 / 5.8.0-44-generic #50
-To:     Linux Hams <linux-hams@vger.kernel.org>
-Message-ID: <32262788-02bf-5a92-dff6-75b916390108@trinnet.net>
-Date:   Sat, 6 Mar 2021 13:45:56 -0800
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        id S232176AbhCJFkQ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 10 Mar 2021 00:40:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33118 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229470AbhCJFjp (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Wed, 10 Mar 2021 00:39:45 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DA1A864F59;
+        Wed, 10 Mar 2021 05:39:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615354784;
+        bh=OSa/NWiOxT9hUBy3oJFQuT8JLZChm6Td8cUlrIATMfc=;
+        h=Date:From:To:Cc:Subject:From;
+        b=n1bGpmAFfRDZ7DSpW+rsiDie5b+sW0p4yQan1cFEHhG9CCiMNyhmr66lnypjtBvS+
+         WmvkmqB7X5gDmWGWQ3g/MKqjmACoWuCT4IV0/DdJO0GnBT/lBqVKmMWs6NiQ5SieIu
+         s5Cl7d6IGx0gllc8fOviZoCyjFnzebPUODE2mngET2vMAs8Z4Surm+XdIE9DHIWAFZ
+         aEqByUjJzIEGGh+IVPHgMzN3ulyxvPNedHExDNXo7IEpRo4OVOkBPHiO8hVIzop84P
+         RYXJZxcLrkUjn6vNkUu5MSeCq1TAPEZd7tIUOdY0A+MRf7MKLjVij31GN5Ro1PsPom
+         qnrQS5jzbSjfg==
+Date:   Tue, 9 Mar 2021 23:39:41 -0600
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Joerg Reuter <jreuter@yaina.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH RESEND][next] net: ax25: Fix fall-through warnings for Clang
+Message-ID: <20210310053941.GA285638@embeddedor>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Sat, 06 Mar 2021 13:45:57 -0800 (GMT+8)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello Everyone,
+In preparation to enable -Wimplicit-fallthrough for Clang, fix a warning
+by explicitly adding a break statement instead of letting the code fall
+through to the next case.
 
-I wanted to check with the larger community to see if others are 
-experiencing system crashes when making connected AX.25 sessions. I have 
-confirmed that this is NOT an RFI thing and sending unconnected (UI) 
-transmissions (beacons) small or large is fine, and even initiating the 
-beginning of connected session to a non-existent remote station callsign 
-is OK with axcall, linpac, etc.  The issue is that once a valid AX.25 
-connection is established, I begin to receive data from the remote 
-station and then seemingly when my station is to send an ACK packet, the 
-machine locks hard.  No segmentation failure, no kernel panic, the 
-Gnome3 display stays up but the screen no longer updates , nothing in 
-the logs and even stops pinging from a different machine on the LAN.  
-The machine is 100% crashed and this is 100% reproducible.
+Link: https://github.com/KSPP/linux/issues/115
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ Changes in RESEND:
+ - None. Resending now that net-next is open.
 
-Is anyone else seeing this?
+ net/ax25/af_ax25.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-    $ uname -a
-    Linux hampacket3 *5.8.0-44-generic #50*~20.04.1-Ubuntu SMP Wed Feb 
-10 21:07:30 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+index 269ee89d2c2b..2631efc6e359 100644
+--- a/net/ax25/af_ax25.c
++++ b/net/ax25/af_ax25.c
+@@ -850,6 +850,7 @@ static int ax25_create(struct net *net, struct socket *sock, int protocol,
+ 		case AX25_P_ROSE:
+ 			if (ax25_protocol_is_registered(AX25_P_ROSE))
+ 				return -ESOCKTNOSUPPORT;
++			break;
+ #endif
+ 		default:
+ 			break;
+-- 
+2.27.0
 
-
-Any recommendations on how to get some sort of details out of my system 
-about this crash would be helpful.
-
---David
-KI6ZHD
