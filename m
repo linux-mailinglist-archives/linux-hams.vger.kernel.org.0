@@ -2,39 +2,38 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3A3633357A
-	for <lists+linux-hams@lfdr.de>; Wed, 10 Mar 2021 06:40:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E648F333584
+	for <lists+linux-hams@lfdr.de>; Wed, 10 Mar 2021 06:44:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232176AbhCJFkQ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 10 Mar 2021 00:40:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33118 "EHLO mail.kernel.org"
+        id S229470AbhCJFoG (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 10 Mar 2021 00:44:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33548 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229470AbhCJFjp (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Wed, 10 Mar 2021 00:39:45 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DA1A864F59;
-        Wed, 10 Mar 2021 05:39:43 +0000 (UTC)
+        id S232312AbhCJFns (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Wed, 10 Mar 2021 00:43:48 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 57C2864F6D;
+        Wed, 10 Mar 2021 05:43:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615354784;
-        bh=OSa/NWiOxT9hUBy3oJFQuT8JLZChm6Td8cUlrIATMfc=;
+        s=k20201202; t=1615355027;
+        bh=yAg8R9FSz2qmBTMCcjwkVEKAsIfn2g5B+rrRdFb2blg=;
         h=Date:From:To:Cc:Subject:From;
-        b=n1bGpmAFfRDZ7DSpW+rsiDie5b+sW0p4yQan1cFEHhG9CCiMNyhmr66lnypjtBvS+
-         WmvkmqB7X5gDmWGWQ3g/MKqjmACoWuCT4IV0/DdJO0GnBT/lBqVKmMWs6NiQ5SieIu
-         s5Cl7d6IGx0gllc8fOviZoCyjFnzebPUODE2mngET2vMAs8Z4Surm+XdIE9DHIWAFZ
-         aEqByUjJzIEGGh+IVPHgMzN3ulyxvPNedHExDNXo7IEpRo4OVOkBPHiO8hVIzop84P
-         RYXJZxcLrkUjn6vNkUu5MSeCq1TAPEZd7tIUOdY0A+MRf7MKLjVij31GN5Ro1PsPom
-         qnrQS5jzbSjfg==
-Date:   Tue, 9 Mar 2021 23:39:41 -0600
+        b=d7z9DzWbSoLbs34tbH0j18sAEVTrIf7hyyQNvaPgW/zHDMVLMw2pthn/wbYY5WcQw
+         iu8JputDtusRXem/7v2Q3bvACPhAeu8apoGcEZdqXShOfqG/FCARmRMVhG00hYstbM
+         ybjOm9R2y+DbdunhJ/Usjsamu44uPSLeqKPAaYKjX1Pcu/T8GmQAD91g97rYhpbELO
+         pXj2oN6YjpPRRYJCDPJyiEurRcNPvZKx/BywWxYGc4TRKgfgti36yOUGGTF4JqoJGg
+         WGByqfHKFoQp91VVkpvrVmWL/PifteiQW8PKO7IoNUAIj3pgZ4pueVOEf/6+jsSXFE
+         TwLNjyZdMcY3A==
+Date:   Tue, 9 Mar 2021 23:43:45 -0600
 From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Joerg Reuter <jreuter@yaina.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
+To:     Ralf Baechle <ralf@linux-mips.org>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
 Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         linux-hardening@vger.kernel.org
-Subject: [PATCH RESEND][next] net: ax25: Fix fall-through warnings for Clang
-Message-ID: <20210310053941.GA285638@embeddedor>
+Subject: [PATCH RESEND][next] net: rose: Fix fall-through warnings for Clang
+Message-ID: <20210310054345.GA286021@embeddedor>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -42,9 +41,9 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-In preparation to enable -Wimplicit-fallthrough for Clang, fix a warning
-by explicitly adding a break statement instead of letting the code fall
-through to the next case.
+In preparation to enable -Wimplicit-fallthrough for Clang, fix multiple
+warnings by explicitly adding multiple break statements instead of
+letting the code fall through to the next case.
 
 Link: https://github.com/KSPP/linux/issues/115
 Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
@@ -52,21 +51,29 @@ Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
  Changes in RESEND:
  - None. Resending now that net-next is open.
 
- net/ax25/af_ax25.c | 1 +
- 1 file changed, 1 insertion(+)
+ net/rose/rose_route.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-index 269ee89d2c2b..2631efc6e359 100644
---- a/net/ax25/af_ax25.c
-+++ b/net/ax25/af_ax25.c
-@@ -850,6 +850,7 @@ static int ax25_create(struct net *net, struct socket *sock, int protocol,
- 		case AX25_P_ROSE:
- 			if (ax25_protocol_is_registered(AX25_P_ROSE))
- 				return -ESOCKTNOSUPPORT;
-+			break;
- #endif
- 		default:
- 			break;
+diff --git a/net/rose/rose_route.c b/net/rose/rose_route.c
+index 6e35703ff353..c0e04c261a15 100644
+--- a/net/rose/rose_route.c
++++ b/net/rose/rose_route.c
+@@ -347,6 +347,7 @@ static int rose_del_node(struct rose_route_struct *rose_route,
+ 				case 1:
+ 					rose_node->neighbour[1] =
+ 						rose_node->neighbour[2];
++					break;
+ 				case 2:
+ 					break;
+ 				}
+@@ -508,6 +509,7 @@ void rose_rt_device_down(struct net_device *dev)
+ 					fallthrough;
+ 				case 1:
+ 					t->neighbour[1] = t->neighbour[2];
++					break;
+ 				case 2:
+ 					break;
+ 				}
 -- 
 2.27.0
 
