@@ -2,112 +2,95 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E44E9339FE8
-	for <lists+linux-hams@lfdr.de>; Sat, 13 Mar 2021 19:36:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 620EB33C3A1
+	for <lists+linux-hams@lfdr.de>; Mon, 15 Mar 2021 18:10:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234296AbhCMSgQ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hams@lfdr.de>); Sat, 13 Mar 2021 13:36:16 -0500
-Received: from smtp.econet.co.zw ([77.246.51.158]:65277 "EHLO
-        ironportDMZ.econet.co.zw" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S234286AbhCMSf6 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>);
-        Sat, 13 Mar 2021 13:35:58 -0500
-X-Greylist: delayed 472 seconds by postgrey-1.27 at vger.kernel.org; Sat, 13 Mar 2021 13:35:46 EST
-IronPort-SDR: 2VH7uDjPUxuRF84kGIuoHHaISSCuqZi+ufUVCFmh+/0u/DCFCtj5VFDT1b4h9dNnVvA6flspH+
- 3h9rw6M4gXRTOO/x00E/RP0IaZ5bJ/VFJjak29BaaBMRsZ8SomhBLF6NshxP1CgwykLJQtbFhT
- f57yb5yFlreJnhCu99okX5fHlhFOs37BIGqeR55agFxRF7WOiDsNKvGtFuzjle44yqE/60PUcB
- eSRuIQK9gCbtZaBXI6W4OKIxrnCmM+n1gcMJCNZUjbl9kcbsSMLo+94gqXFyBTYwkpasFfSfmL
- xM0=
-IronPort-HdrOrdr: A9a23:z3onBKxoaNoCa6u/wVCbKrPwgr1zdoIgy1knxilNYDZSddGVkN
- 3roe8S0gX6hC1UdHYrn92BP6foewK+ybde544NMbC+GDT3oWfAFuFfxKbr3jGIIUPD38FH06
- MIScRDIfnRKXQ/ssrg+gm/FL8boeWv1Kyzn+/RwzNMYGhRGsddxjx0AAqaDUF6LTMubfFSKL
- Om6tNDt36cfx0sA/iTPXUZQ/PF4+TCiZOOW29/Ozcc9AKMgTm0gYSULzGk2H4lIkpy6IZn1V
- Lgmwz9opy5s/ehygLNvlWjiqh+qZ/EwttHCNfksLlwFhzcziKpYIhGfpHqhkFTnMifrG8wkN
- /WowoxVv4DiU/sQg==
-X-IronPort-AV: E=Sophos;i="5.81,245,1610402400"; 
-   d="scan'208";a="3444522"
-Received: from unknown (HELO WVALE-MB-SVR-05.econetzw.local) ([192.168.101.173])
-  by ironportLAN.econet.co.zw with ESMTP; 13 Mar 2021 20:27:52 +0200
-Received: from WVALE-CAS-SVR-9.econetzw.local (192.168.101.184) by
- WVALE-MB-SVR-05.econetzw.local (192.168.101.173) with Microsoft SMTP Server
- (TLS) id 15.0.1473.3; Sat, 13 Mar 2021 20:27:48 +0200
-Received: from User (165.231.148.189) by WVALE-CAS-SVR-9.econetzw.local
- (10.10.11.230) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
- Transport; Sat, 13 Mar 2021 20:27:59 +0200
-Reply-To: <r19772744@daum.net>
-From:   "Reem E. A" <chawora@econet.co.zw>
-Subject: Re:
-Date:   Sat, 13 Mar 2021 18:27:46 -0800
+        id S235544AbhCORJ6 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 15 Mar 2021 13:09:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58202 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235512AbhCORJw (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 15 Mar 2021 13:09:52 -0400
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com [IPv6:2607:f8b0:4864:20::944])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81507C0613D9
+        for <linux-hams@vger.kernel.org>; Mon, 15 Mar 2021 10:09:52 -0700 (PDT)
+Received: by mail-ua1-x944.google.com with SMTP id v11so4423394uao.0
+        for <linux-hams@vger.kernel.org>; Mon, 15 Mar 2021 10:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=7Vrbe4gpVhb7cfcmpNanXi5E+OCzidx3VGMrGNR2bC4=;
+        b=aXgMsfvJxS8rnPrkFXfXe2FXnX4z8Cqcu/QhnL5Qn1DjMCuOtoNVfGi4EBSS9Iknwn
+         vlNLqDk2YbQyiCk670OLjQr7loetNG1u4FZO8UCDQ2J04lVrlvZVYZ8kX/m2f/vpT8RG
+         ZS2Q72l+5VWjpF0FapEgmyk86Q2RyIYtBwW0g+Kv5gwmZmeSODXVZRu5TrncT2JBKVWl
+         0T4REScA9GLg4vUJnQBLz/6DT44uKbQMn8TCECFL0QnRbFsF40mm5TjkcPcIZSc0whXV
+         T2AgYFv8Od1V+OxvkOJjvUw7wQyrmJeMqbP2Cwhn97vz8cjryp78SHO5Uey9b3DA2nH3
+         +UTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=7Vrbe4gpVhb7cfcmpNanXi5E+OCzidx3VGMrGNR2bC4=;
+        b=rq/bnAK6GENSifhKuRZRTk3ULZUB7G2XQvwIe1Uu5fsQCHwuXtAB40ny7Mbs5LJ1nO
+         W9FNf74kV0rtriw8NJgAw4A/O/4QeleTs/Pu2hy7myljXiVEfmUvbgfU3ZDWQFc6youP
+         qjefJd2NeiOUvgcpFLtCa7h6sIhC2tEtGjyFkYS1RhWnogY5VwC2Fb7itz6HNN2EydUM
+         7l+cjQLu5jJasvgff5blH5qLejaD12bjb0m8C6CNJsXexml4doUB0WazY40hAOCps4R4
+         NJcP4+tr79RqDMdBtHIt4xDigFAVQbTmrdToey950NMqvxBimgi1eXZmJTX8F8wBc6qe
+         GY1Q==
+X-Gm-Message-State: AOAM532mQU/k2yIMEFG4tt3an9m1T/iWqflEynZYHF+qNzmt5N3Sl2wR
+        Kkesfzl0ooWuV76IySZOUsPvhCErVNYD79VMqW8=
+X-Google-Smtp-Source: ABdhPJz279ChG9se2R56+CgC4LM1QaXLH3vfcRaBnVrWnTQpeUm6AYsXRAqStDe2E32gf/IZJ47H7xYnUK1rrffxr7c=
+X-Received: by 2002:ab0:4129:: with SMTP id j38mr5247512uad.39.1615828191432;
+ Mon, 15 Mar 2021 10:09:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 8BIT
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <96f8ff6fe77b4507830ab5cf78a93340@WVALE-CAS-SVR-9.econetzw.local>
-To:     Undisclosed recipients:;
+Received: by 2002:ab0:2e8f:0:0:0:0:0 with HTTP; Mon, 15 Mar 2021 10:09:50
+ -0700 (PDT)
+Reply-To: ezbtg22@gmail.com
+From:   "Mrs.E.Glenn" <mrganuserge654@gmail.com>
+Date:   Mon, 15 Mar 2021 10:09:50 -0700
+Message-ID: <CAH16wSNYh7NNhzrypnhaAQBv8EfF3vGrQ=w1tsAkdJyEQZxf=A@mail.gmail.com>
+Subject: From Mrs.Glenn
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello,
+-- 
+Dear Beloved,
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (2) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home on their behalf and
-for our "Mutual Benefits".
+I am Mrs Elizabet Glenn from Israel. I am a missionary but right now
+in a hospital bed in Israel. I am 59 years and childless; my husband
+is dead. I was diagnosed with terminal cancer. And my doctor just
+predicted that I have but very limited time to live due to damages in
+my system and as a result of that I decided to dispose my 10.5 million
+US dollars to a God-fearing one for the continuation of charitable
+work. This is why I located you.
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Turkish Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+My guess about you may not be accurate because I came across your
+contact at the humanitarian calendar event of the year but I believe
+in God who divinely directed me to you for this solemn proposal of
+charitable work.
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-reem.alhashimi@yandex.com
+Therefore I wholeheartedly wish to bequeath my fortune to you as a
+God-fearing person for the continuation of charitable work anywhere
+around the world.
 
-Regards,
-Ms. Reem.
-This mail was sent through Econet Wireless, a Global telecoms leader.
+I shall be going in for a surgery operations soonest and desire this
+money to be transferred to you as I do not wish to leave this money in
+the bank because bankers might misuse it for their own interest after
+my death.
 
-DISCLAIMER
+As soon as I receive your quick reply assuring me that you will
+utilize the money as I instructed you for the benefit of the less
+privilege, I shall give you more details and also instruct my bank to
+release the money to you for the charity project. I hope you receive
+this mail in good health.
 
-The information in this message is confidential and is legally privileged. It is intended solely for the addressee. Access to this message by anyone else is unauthorized. If received in error please accept our apologies and notify the sender immediately. You must also delete the original message from your machine. If you are not the intended recipient, any use, disclosure, copying, distribution or action taken in reliance of it, is prohibited and may be unlawful. The information, attachments, opinions or advice contained in this email are not the views or opinions of Econet Wireless, its subsidiaries or affiliates. Econet Wireless therefore accepts no liability for claims, losses, or damages arising from the inaccuracy, incorrectness, or lack of integrity of such information.
-[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/AgileBanner.png]
-WORK ISN'T A PLACE
-IT'S WHAT WE DO
-________________________________
+Please contact me on this E-mail (ezbtg22@gmail.com) because I don t
+know what will be my situation in next minute,
 
+I am waiting for your reply.
 
-
-
-
-[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/telephone.png]
-
-
-
-
-[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/email.png]
-
-<mailto:>
-
-
-[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/location.png]
-
-
-
-
-[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/website.png]
-
-www.econet.co.zw<https://www.econet.co.zw>
-
-
-[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/inspired.jpg]
+Yours sincerely,
+Mrs Elizabet Glenn.
