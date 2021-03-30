@@ -2,21 +2,24 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DF1C34E1E3
-	for <lists+linux-hams@lfdr.de>; Tue, 30 Mar 2021 09:14:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A10934E899
+	for <lists+linux-hams@lfdr.de>; Tue, 30 Mar 2021 15:12:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231338AbhC3HNj (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 30 Mar 2021 03:13:39 -0400
-Received: from mail-m118208.qiye.163.com ([115.236.118.208]:38074 "EHLO
-        mail-m118208.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231131AbhC3HND (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 30 Mar 2021 03:13:03 -0400
-Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.251.74.232])
-        by mail-m118208.qiye.163.com (Hmail) with ESMTPA id B6735E02FA;
-        Tue, 30 Mar 2021 15:05:49 +0800 (CST)
-From:   Wang Qing <wangqing@vivo.com>
-To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+        id S232155AbhC3NLk (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 30 Mar 2021 09:11:40 -0400
+Received: from elvis.franken.de ([193.175.24.41]:37693 "EHLO elvis.franken.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231971AbhC3NLi (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Tue, 30 Mar 2021 09:11:38 -0400
+Received: from uucp (helo=alpha)
+        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+        id 1lRE9U-000488-00; Tue, 30 Mar 2021 15:11:24 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+        id 405B2C1DF5; Tue, 30 Mar 2021 15:07:40 +0200 (CEST)
+Date:   Tue, 30 Mar 2021 15:07:40 +0200
+From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To:     Wang Qing <wangqing@vivo.com>
+Cc:     Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
         "James E.J. Bottomley" <jejb@linux.ibm.com>,
         "Martin K. Petersen" <martin.petersen@oracle.com>,
         Luis de Bethencourt <luisbg@kernel.org>,
@@ -25,86 +28,40 @@ To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
         Richard Weinberger <richard@nod.at>,
         Ralf Baechle <ralf@linux-mips.org>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Wang Qing <wangqing@vivo.com>, linux-mips@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>, linux-mips@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
         linux-mtd@lists.infradead.org, linux-hams@vger.kernel.org,
-        netdev@vger.kernel.org, linux-decnet-user@lists.sourceforge.net
-Cc:     gregkh@linuxfoundation.org
-Subject: [PATCH 6/6] net/decnet: Delete obsolete TODO file
-Date:   Tue, 30 Mar 2021 15:02:49 +0800
-Message-Id: <1617087773-7183-7-git-send-email-wangqing@vivo.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1617087773-7183-1-git-send-email-wangqing@vivo.com>
+        netdev@vger.kernel.org, linux-decnet-user@lists.sourceforge.net,
+        gregkh@linuxfoundation.org
+Subject: Re: [PATCH 1/6] mips/sgi-ip27: Delete obsolete TODO file
+Message-ID: <20210330130740.GA11217@alpha.franken.de>
 References: <1617087773-7183-1-git-send-email-wangqing@vivo.com>
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZTk0fTkJNGE8eTExMVkpNSkxLQ0xCTktDTkhVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
-        FZT0tIVUpKS09ISFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PCI6CAw*Tz8UAjcXPh88TgE8
-        Ej0aCk5VSlVKTUpMS0NMQk5KSkxKVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
-        SU5KVUxPVUlISVlXWQgBWUFPS0xNNwY+
-X-HM-Tid: 0a7881f3eed02c17kusnb6735e02fa
+ <1617087773-7183-2-git-send-email-wangqing@vivo.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1617087773-7183-2-git-send-email-wangqing@vivo.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-The TODO file here has not been updated from 2005, and the function 
-development described in the file have been implemented or abandoned.
+On Tue, Mar 30, 2021 at 03:02:44PM +0800, Wang Qing wrote:
+> The TODO file here has not been updated for 15 years, and the function 
+> development described in the file have been implemented or abandoned.
+> 
+> Its existence will mislead developers seeking to view outdated information.
+> 
+> Signed-off-by: Wang Qing <wangqing@vivo.com>
+> ---
+>  arch/mips/sgi-ip27/TODO | 19 -------------------
+>  1 file changed, 19 deletions(-)
+>  delete mode 100644 arch/mips/sgi-ip27/TODO
 
-Its existence will mislead developers seeking to view outdated information.
+applied to mips-next.
 
-Signed-off-by: Wang Qing <wangqing@vivo.com>
----
- net/decnet/TODO | 40 ----------------------------------------
- 1 file changed, 40 deletions(-)
- delete mode 100644 net/decnet/TODO
+Thomas.
 
-diff --git a/net/decnet/TODO b/net/decnet/TODO
-deleted file mode 100644
-index 358e9eb..0000000
---- a/net/decnet/TODO
-+++ /dev/null
-@@ -1,40 +0,0 @@
--Steve's quick list of things that need finishing off:
--[they are in no particular order and range from the trivial to the long winded]
--
-- o Proper timeouts on each neighbour (in routing mode) rather than
--   just the 60 second On-Ethernet cache value.
--
-- o Support for X.25 linklayer
--
-- o Support for DDCMP link layer
--
-- o The DDCMP device itself
--
-- o PPP support (rfc1762)
--
-- o Lots of testing with real applications
--
-- o Verify errors etc. against POSIX 1003.1g (draft)
--
-- o Using send/recvmsg() to get at connect/disconnect data (POSIX 1003.1g)
--   [maybe this should be done at socket level... the control data in the
--    send/recvmsg() calls should simply be a vector of set/getsockopt()
--    calls]
--
-- o check MSG_CTRUNC is set where it should be.
--
-- o Find all the commonality between DECnet and IPv4 routing code and extract
--   it into a small library of routines. [probably a project for 2.7.xx]
--
-- o Add perfect socket hashing - an idea suggested by Paul Koning. Currently
--   we have a half-way house scheme which seems to work reasonably well, but
--   the full scheme is still worth implementing, its not not top of my list
--   right now.
--
-- o Add session control message flow control
--
-- o Add NSP message flow control
--
-- o DECnet sendpages() function
--
-- o AIO for DECnet
 -- 
-2.7.4
-
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
