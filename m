@@ -2,62 +2,81 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3D3F34BE00
-	for <lists+linux-hams@lfdr.de>; Sun, 28 Mar 2021 20:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4251634E1D0
+	for <lists+linux-hams@lfdr.de>; Tue, 30 Mar 2021 09:14:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231486AbhC1SHc (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 28 Mar 2021 14:07:32 -0400
-Received: from mail.hanoi.gov.vn ([113.160.32.33]:31610 "EHLO
-        mx01.hanoi.gov.vn" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbhC1SHR (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 28 Mar 2021 14:07:17 -0400
-X-Greylist: delayed 474 seconds by postgrey-1.27 at vger.kernel.org; Sun, 28 Mar 2021 14:07:01 EDT
-Received: from mx01.hanoi.gov.vn (localhost [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 30259EC3D8;
-        Mon, 29 Mar 2021 00:57:51 +0700 (+07)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hanoi.gov.vn;
-        s=default; t=1616954272;
-        bh=FuW10Z6fSdeNlf/0u/BQ1jcwkjYBw0uHUPQgn0LGo7I=; h=Date:From:To;
-        b=R9blPfqJCHUsZAyZxsyyryS61fl4krmBjYKWM6eGGwB8ZdbTBVPL1mmKOmZXMqNlA
-         7CEqA0MXgUAy+X4oK/wthh4vC9Xoov1Ce8tjf/qJvnL7KGsGNVg9ic0krGeHrdNzGM
-         5cIEKsz0emmHL/izbEfCtadst3HYllOJWdonlm5o=
-X-IMSS-DKIM-Authentication-Result: mx01.hanoi.gov.vn; sigcount=0
-Received: from mx01.hanoi.gov.vn (localhost [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 50FCBEC3DD;
-        Mon, 29 Mar 2021 00:57:49 +0700 (+07)
-Received: from mail.hanoi.gov.vn (mail.hanoi.gov.vn [10.1.1.25])
-        by mx01.hanoi.gov.vn (Postfix) with ESMTPS;
-        Mon, 29 Mar 2021 00:57:49 +0700 (+07)
-Received: from mail.hanoi.gov.vn (localhost [127.0.0.1])
-        by mail.hanoi.gov.vn (Postfix) with ESMTPS id 02AFC7F41B42;
-        Mon, 29 Mar 2021 00:57:44 +0700 (+07)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.hanoi.gov.vn (Postfix) with ESMTP id 08FE47F41B5D;
-        Mon, 29 Mar 2021 00:57:41 +0700 (+07)
-Received: from mail.hanoi.gov.vn ([127.0.0.1])
-        by localhost (mail.hanoi.gov.vn [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 1D3oZsOAVsx3; Mon, 29 Mar 2021 00:57:36 +0700 (+07)
-Received: from mail.hanoi.gov.vn (mail.hanoi.gov.vn [10.1.1.25])
-        by mail.hanoi.gov.vn (Postfix) with ESMTP id 478CE7F41B59;
-        Mon, 29 Mar 2021 00:57:33 +0700 (+07)
-Date:   Mon, 29 Mar 2021 00:57:33 +0700 (ICT)
-From:   Mackenzie Scott <ttptqd_thanhoai@hanoi.gov.vn>
-Reply-To: Mackenzie Scott <propack@propck.net>
-Message-ID: <354204758.25920932.1616954253215.JavaMail.zimbra@hanoi.gov.vn>
-Subject: Congratulations ($ 100,800,000.00)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.107.80.217]
-X-Mailer: Zimbra 8.8.15_GA_3894 (zclient/8.8.15_GA_3894)
-Thread-Index: ao/APhyKX+JH1nE2Rn/kAmnh2LEgkw==
-Thread-Topic: Congratulations ($ 100,800,000.00)
-To:     undisclosed-recipients:;
-X-TM-AS-GCONF: 00
+        id S231258AbhC3HNd (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 30 Mar 2021 03:13:33 -0400
+Received: from mail-m118208.qiye.163.com ([115.236.118.208]:37808 "EHLO
+        mail-m118208.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230248AbhC3HNA (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 30 Mar 2021 03:13:00 -0400
+Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.251.74.232])
+        by mail-m118208.qiye.163.com (Hmail) with ESMTPA id 1D894E0131;
+        Tue, 30 Mar 2021 15:03:36 +0800 (CST)
+From:   Wang Qing <wangqing@vivo.com>
+To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Luis de Bethencourt <luisbg@kernel.org>,
+        Salah Triki <salah.triki@gmail.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Wang Qing <wangqing@vivo.com>, linux-mips@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-hams@vger.kernel.org,
+        netdev@vger.kernel.org, linux-decnet-user@lists.sourceforge.net
+Cc:     gregkh@linuxfoundation.org
+Subject: [PATCH 0/6] Clean up obsolete TODO files
+Date:   Tue, 30 Mar 2021 15:02:43 +0800
+Message-Id: <1617087773-7183-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZH0sYSUJISR1PS0gYVkpNSkxLQ0xDSkxISk5VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        FZT0tIVUpKS0hKQ1VLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NAg6FTo5ST8SNDcJPjwVHT8f
+        MhRPCi1VSlVKTUpMS0NMQ0pMTUtMVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
+        SU5KVUxPVUlISVlXWQgBWUFISkNONwY+
+X-HM-Tid: 0a7881f1e60a2c17kusn1d894e0131
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
+It is mentioned in the official documents of the Linux Foundation and WIKI 
+that you can participate in its development according to the TODO files of 
+each module.
 
+But the TODO files here has not been updated for 15 years, and the function 
+development described in the file have been implemented or abandoned.
 
-Hello,i&#39;m Mackenzie Scott,Ex-wife of Amazon founder i&#39;m donating $4 billion to charities,individuals,universities across the Globe from my divorce funds,i&#39;m donating part of it to provide immediate support to people suffering economically during the COVID-19 pandemic,i have a donation worth $100,800,000.00 Dollars for you,you can contact me for more information if you&#39;re interested.
+Its existence will mislead developers seeking to view outdated information.
+
+Wang Qing (6):
+  mips/sgi-ip27: Delete obsolete TODO file
+  scsi/aacraid: Delete obsolete TODO file
+  fs/befs: Delete obsolete TODO file
+  fs/jffs2: Delete obsolete TODO file
+  net/ax25: Delete obsolete TODO file
+  net/decnet: Delete obsolete TODO file
+
+ arch/mips/sgi-ip27/TODO   | 19 -------------------
+ drivers/scsi/aacraid/TODO |  3 ---
+ fs/befs/TODO              | 14 --------------
+ fs/jffs2/TODO             | 37 -------------------------------------
+ net/ax25/TODO             | 20 --------------------
+ net/decnet/TODO           | 40 ----------------------------------------
+ 6 files changed, 133 deletions(-)
+ delete mode 100644 arch/mips/sgi-ip27/TODO
+ delete mode 100644 drivers/scsi/aacraid/TODO
+ delete mode 100644 fs/befs/TODO
+ delete mode 100644 fs/jffs2/TODO
+ delete mode 100644 net/ax25/TODO
+ delete mode 100644 net/decnet/TODO
+
+-- 
+2.7.4
+
