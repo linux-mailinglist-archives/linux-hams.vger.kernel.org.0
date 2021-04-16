@@ -2,27 +2,32 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A1B33602AF
-	for <lists+linux-hams@lfdr.de>; Thu, 15 Apr 2021 08:51:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DFB53628C5
+	for <lists+linux-hams@lfdr.de>; Fri, 16 Apr 2021 21:40:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230432AbhDOGwD convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hams@lfdr.de>); Thu, 15 Apr 2021 02:52:03 -0400
-Received: from vsrv57620.customer.xenway.de ([95.129.54.190]:46286 "EHLO
-        vsrv57620.customer.xenway.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230090AbhDOGwD (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>);
-        Thu, 15 Apr 2021 02:52:03 -0400
-X-Greylist: delayed 1236 seconds by postgrey-1.27 at vger.kernel.org; Thu, 15 Apr 2021 02:51:58 EDT
+        id S243956AbhDPTlF convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hams@lfdr.de>); Fri, 16 Apr 2021 15:41:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56782 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236021AbhDPTlE (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 16 Apr 2021 15:41:04 -0400
+X-Greylist: delayed 10585 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 16 Apr 2021 12:40:38 PDT
+Received: from server.anaxus.com.au (unknown [IPv6:2a01:4f8:10b:4585::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D017DC061756;
+        Fri, 16 Apr 2021 12:40:38 -0700 (PDT)
 Received: from [193.56.28.106] (unknown [193.56.28.106])
-        by vsrv57620.customer.xenway.de (Postfix) with ESMTPA id 613C83097B5;
-        Thu, 15 Apr 2021 08:23:44 +0200 (CEST)
-Date:   Wed, 14 Apr 2021 23:24:19 -0700
+        by server.anaxus.com.au (Postfix) with ESMTPA id 8C9BC6EA668E;
+        Sat, 17 Apr 2021 01:46:30 +1000 (AEST)
+Authentication-Results: server.anaxus.com.au;
+        spf=pass (sender IP is 193.56.28.106) smtp.mailfrom=cqukesq6@gmail.com smtp.helo=[193.56.28.106]
+Received-SPF: pass (server.anaxus.com.au: connection is authenticated)
+Date:   Fri, 16 Apr 2021 08:46:59 -0700
 Mime-version: 1.0
 Subject: Compliments
-From:   Christopher Quinlan QC <cqukesq@gmail.com>
+From:   Christopher Quinlan QC <cqukesq6@gmail.com>
 To:     Undisclosed-Recipients:;
-Message-Id: <20210414232419.UVUVQACXIIXYKI@gmail.com>
-Reply-To: cqukesq@gmail.com
+Message-Id: <20210416084659.LDAOMSGFVRINMN@gmail.com>
+Reply-To: cqukesq6@gmail.com
 Content-type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-transfer-encoding: 8BIT
 Precedence: bulk
