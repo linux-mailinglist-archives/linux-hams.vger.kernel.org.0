@@ -2,60 +2,70 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28DD236D52F
-	for <lists+linux-hams@lfdr.de>; Wed, 28 Apr 2021 11:58:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 592D536E0BF
+	for <lists+linux-hams@lfdr.de>; Wed, 28 Apr 2021 23:10:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238381AbhD1J7E (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 28 Apr 2021 05:59:04 -0400
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:41646 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238345AbhD1J7D (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>);
-        Wed, 28 Apr 2021 05:59:03 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0UX3IH4b_1619603887;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UX3IH4b_1619603887)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 28 Apr 2021 17:58:17 +0800
-From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To:     ralf@linux-mips.org
-Cc:     davem@davemloft.net, kuba@kernel.org, linux-hams@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Subject: [PATCH] net: netrom: nr_in: Remove redundant assignment to ns
-Date:   Wed, 28 Apr 2021 17:58:05 +0800
-Message-Id: <1619603885-115604-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        id S232168AbhD1VK4 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 28 Apr 2021 17:10:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45884 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229691AbhD1VKz (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Wed, 28 Apr 2021 17:10:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id E9FA96143A;
+        Wed, 28 Apr 2021 21:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619644210;
+        bh=nWu+4MC0p0h/TPcQl+GmrsrvoDFvQ6RJs8CvXhH5Iow=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=FHJ8ddSaCCfv9aYg5skWf5NEQWvEcs/jQuHd+7MEVVEAbO5szoddX31PlG4u7WoWD
+         WRBiltjRlTSaQrxvHnbX2NS4bGKf3vgBjL5k9GMAabGjgReKoXkbCA1I7VOVH13/TV
+         IErmYYFp5NImYE+OS8N2NsNLHpMl1naVxY90iXd4pqDsvMwm9pt/v7jepSbdOH+uSq
+         ubX4ouT9sdNJdU7acDzY5FrlxGK/j4bMsgAioh1RO/n1Ax+cS/b7qU45FJ9UpdLPOy
+         U1VqHCd5EIwUQTZjmSUXmcPFBDLm5fR08WPkI8WK4eZuPBteLSOWGer7IFVcoTaTWE
+         dsNTGkmCAfCXg==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id DAC3A60A3A;
+        Wed, 28 Apr 2021 21:10:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] net: netrom: nr_in: Remove redundant assignment to ns
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <161964420989.17892.17707045391606271909.git-patchwork-notify@kernel.org>
+Date:   Wed, 28 Apr 2021 21:10:09 +0000
+References: <1619603885-115604-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <1619603885-115604-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc:     ralf@linux-mips.org, davem@davemloft.net, kuba@kernel.org,
+        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Variable ns is set to 'skb->data[17]' but this value is never read as
-it is overwritten or not used later on, hence it is a redundant
-assignment and can be removed.
+Hello:
 
-Cleans up the following clang-analyzer warning:
+This patch was applied to netdev/net-next.git (refs/heads/master):
 
-net/netrom/nr_in.c:156:2: warning: Value stored to 'ns' is never read
-[clang-analyzer-deadcode.DeadStores].
+On Wed, 28 Apr 2021 17:58:05 +0800 you wrote:
+> Variable ns is set to 'skb->data[17]' but this value is never read as
+> it is overwritten or not used later on, hence it is a redundant
+> assignment and can be removed.
+> 
+> Cleans up the following clang-analyzer warning:
+> 
+> net/netrom/nr_in.c:156:2: warning: Value stored to 'ns' is never read
+> [clang-analyzer-deadcode.DeadStores].
+> 
+> [...]
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- net/netrom/nr_in.c | 1 -
- 1 file changed, 1 deletion(-)
+Here is the summary with links:
+  - net: netrom: nr_in: Remove redundant assignment to ns
+    https://git.kernel.org/netdev/net-next/c/15c0a64bfcbc
 
-diff --git a/net/netrom/nr_in.c b/net/netrom/nr_in.c
-index 69e5890..2f084b6 100644
---- a/net/netrom/nr_in.c
-+++ b/net/netrom/nr_in.c
-@@ -153,7 +153,6 @@ static int nr_state3_machine(struct sock *sk, struct sk_buff *skb, int frametype
- 	int queued = 0;
- 
- 	nr = skb->data[18];
--	ns = skb->data[17];
- 
- 	switch (frametype) {
- 	case NR_CONNREQ:
--- 
-1.8.3.1
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
