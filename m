@@ -2,65 +2,81 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7642E372CA5
-	for <lists+linux-hams@lfdr.de>; Tue,  4 May 2021 17:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 732BE376CA3
+	for <lists+linux-hams@lfdr.de>; Sat,  8 May 2021 00:24:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230150AbhEDPBq (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 4 May 2021 11:01:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37010 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231610AbhEDPBq (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 4 May 2021 11:01:46 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A12C061761
-        for <linux-hams@vger.kernel.org>; Tue,  4 May 2021 08:00:51 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id b25so13664912eju.5
-        for <linux-hams@vger.kernel.org>; Tue, 04 May 2021 08:00:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=mA+7flTfvFD+Y2LLEaQlR8RXQa0DdDmjTntjiGWz1oI=;
-        b=TZWmdMbtjew4xhiSW93zlbg/ydnJS2lHqww7kuN69n9omCbt1nqaQGPmuHWROB/ZA+
-         KU9w/f0hQGSxRQ2yQu5OaQjw9xUqxrwYre7xuiDx6S3mN06WB8LwkuKZWvDeyJkfMoOL
-         3Rlig8Pbe+2FVCExYZyGDr2cBcO0HLBSEy8PTqTC6qbPkga9XtOzW2ov1cqWIdZCzxkn
-         0NdjK93+1Dy/SPhEvhj5j+3/1GR4nmVMBD32Z1wSAd2EyXx8wWI8F8ORwa8mi7GhIDd6
-         2GY9xm+I5l9Y+4FDGiOJglfjEpSoOUuBC0515FMx3xxBmPgyLkyiyKfgs4JGASj/9NZp
-         pq6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=mA+7flTfvFD+Y2LLEaQlR8RXQa0DdDmjTntjiGWz1oI=;
-        b=twhgFSFRuIjkaGuW5ywmzQjldJbnUBFkjFhyztYHYe10OSRqZnqublu8He/+4EKQ82
-         UokTc80ojbDECNukcXJsuFc0OFac5mQ9cNyQTOEIU6X2pvhfqOJQNYhQkY4LE2GYtvg7
-         ExSnMy+mIYKdodVXRd5vZ/Y6YViDKq2Pm931FhKSLvVWZGTwx+g38guSRBmBSYk+USg2
-         jDKgy72dc9ZpcIKNyFLAraYYZ224oPpwW4S/zVKHciic0hmNIEqVIzUJCP3xyADWp36j
-         zDr82dPdyF1bkDXwo4kN+zP4p008CJcrr1QTQQRbUAUilMiPRgyOe+iDWLyUTaMh/71H
-         iBGg==
-X-Gm-Message-State: AOAM530j4Ms0+p871KbZksOWfYN0nBtVJiF/l6dQ1sNikU5BSbwPDMjm
-        AxLp0r3oE0XAhXx/W3hUpDm3D/uHui9CMw2YbnU=
-X-Google-Smtp-Source: ABdhPJxr37QY8f/Oi3o1c2rmwDEndoo5kGIc4tsTktR2qgWHDTD7CaVNyrC9kA0suzEHsEwZ/ufCfjVriBnfy5tSq2w=
-X-Received: by 2002:a17:906:63d2:: with SMTP id u18mr14945579ejk.186.1620140450060;
- Tue, 04 May 2021 08:00:50 -0700 (PDT)
+        id S230083AbhEGWZu (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 7 May 2021 18:25:50 -0400
+Received: from bosmailout03.eigbox.net ([66.96.186.3]:45669 "EHLO
+        bosmailout03.eigbox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229470AbhEGWZo (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 7 May 2021 18:25:44 -0400
+X-Greylist: delayed 1816 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 May 2021 18:25:34 EDT
+Received: from bosmailscan08.eigbox.net ([10.20.15.8])
+        by bosmailout03.eigbox.net with esmtp (Exim)
+        id 1lf8QM-0003Fa-7M; Fri, 07 May 2021 17:54:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=godsofu4.com; s=dkim; h=Sender:Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=aM9bUFGSTpfnep8zAVAJMnojqhcwpuHDFPgQnPqW4M4=; b=I+6Bb1DJY/YYTRas0wZTN+AC1D
+        vtIg40M7SDAM/b29+/wY3GjGjzug9/OzX2aPoevJgNlEKSTs0SrEPfP3WhSQM0PCLHlkQfkyX8QT9
+        UZ7TTwAz03WtyNGtE+DdqqC0pYUcPkHvqE4MDSKlo5Vm1z1vJqGpkJRtWe2MFWIr6++JBuHOfV7Fd
+        34Die1lJ1lpPfDh70Zq++IiTaMjdlcGGo7pbn4hVn1WweIC9h772TR5+6npXCISSeeyCgPsBbikdE
+        ZWIrJkpukBwvBgblKKCxDugovauKoCEDbS56mNadJP+sg7ztteNlHrnEQFJYYsCNrcdD1v8ilxnSi
+        f8nqykSw==;
+Received: from [10.115.3.32] (helo=bosimpout12)
+        by bosmailscan08.eigbox.net with esmtp (Exim)
+        id 1lf8QK-0002fP-Rn; Fri, 07 May 2021 17:54:16 -0400
+Received: from boswebmail06.eigbox.net ([10.20.16.6])
+        by bosimpout12 with 
+        id 1xuC2500D07qujN01xuFUj; Fri, 07 May 2021 17:54:16 -0400
+X-EN-SP-DIR: OUT
+X-EN-SP-SQ: 1
+Received: from [127.0.0.1] (helo=homestead)
+        by boswebmail06.eigbox.net with esmtp (Exim)
+        id 1lf8PX-0006IT-Ae; Fri, 07 May 2021 17:53:27 -0400
+Received: from [197.239.81.229]
+ by emailmg.homestead.com
+ with HTTP (HTTP/1.1 POST); Fri, 07 May 2021 17:53:27 -0400
 MIME-Version: 1.0
-Received: by 2002:a54:35d0:0:0:0:0:0 with HTTP; Tue, 4 May 2021 08:00:49 -0700 (PDT)
-Reply-To: lia2ahil2@gmail.com
-From:   lia ahil <jeanlamp6@gmail.com>
-Date:   Tue, 4 May 2021 17:00:49 +0200
-Message-ID: <CAJA2FWQ+bv0DMPRZrMPWRiT1Mmxr9ZNNsxpdCx9dLhUC5t1CGg@mail.gmail.com>
-Subject: Guten Abend,
+Date:   Fri, 07 May 2021 21:53:27 +0000
+From:   Mrs Suzara Maling Wan <fast65@godsofu4.com>
 To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: URGENT REPLY NEEDED
+Reply-To: suzara2017malingwan@gmail.com
+Mail-Reply-To: suzara2017malingwan@gmail.com
+Message-ID: <4c6a48748f6731dac9b66cce1916443b@godsofu4.com>
+X-Sender: fast65@godsofu4.com
+User-Agent: Roundcube Webmail/1.3.14
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-EN-AuthUser: fast65@godsofu4.com
+Sender:  Mrs Suzara Maling Wan <fast65@godsofu4.com>
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Guten Abend,
 
-Mein Name ist Frau Lia Ahil und ich schreibe Ihnen, um zu best=C3=A4tigen,
-ob Sie meine vorherige Mail erhalten haben.
 
-Hast du meine Nachricht erhalten?,
-Frau lia,
+My names are Mrs Suzara Maling Wan, I am a Nationality of the Republic
+of the Philippine presently base in West Africa B/F, dealing with
+exportation of Gold, I was diagnose of blood Causal decease, and my
+doctor have announce to me that I have few days to leave due to the
+condition of my sickness.
+
+I have a desire to build an orphanage home in your country of which i
+cannot execute the project myself due to my present health condition,
+I am willing to hand over the project under your care for you to help
+me fulfill my dreams and desire of building an orphanage home in your
+country.
+
+Reply in you are will to help so that I can direct you to my bank for
+the urgent transfer of the fund/money require for the project to your
+account as I have already made the fund/money available.
+
+With kind regards
+Mrs Suzara Maling Wan
