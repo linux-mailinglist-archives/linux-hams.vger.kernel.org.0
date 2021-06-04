@@ -2,69 +2,31 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6C55390C36
-	for <lists+linux-hams@lfdr.de>; Wed, 26 May 2021 00:30:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7983F39CC1D
+	for <lists+linux-hams@lfdr.de>; Sun,  6 Jun 2021 03:49:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232844AbhEYWbm (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 25 May 2021 18:31:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58284 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231657AbhEYWbl (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Tue, 25 May 2021 18:31:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 1EACE613FA;
-        Tue, 25 May 2021 22:30:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621981811;
-        bh=Hoat5UgNb2kQktQ6xl7cU6eQ2/61umKYl6Ml6lQvh4c=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=Y2AlBieAHqNtsRA4VGiQ1lvogO65iwgr9950OFqoI0hebh/GbS9q94yZWuB7k20HS
-         NI4gzlywVyO295CM87NfhTRJoVAziy+emsSgJMY4TYd92OfWouFDBzNg52HV7rlvZo
-         wHhFbruqotXlXZdr+nOp5dJ44fY+ryiRFuPQW1QkAYR+Xu5RnhbGrNQ1JcJwKTYBh7
-         TI6ImlxXCnmFmsJ0SiRR6A18rF5n5Y9WaHfBAim/xtzxqkP92COLqmT3hD+V0Bp7yE
-         Ut0jGc1qA1UUz9y0QB51jd1J6dY399Vp3KDBvUzZX+JJhcZvhMh4R1aDAioRvsa6fs
-         ++X60OHYji40g==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 190A460A39;
-        Tue, 25 May 2021 22:30:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net/hamradio/6pack: Fix inconsistent indenting
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <162198181109.18500.6883153906905606285.git-patchwork-notify@kernel.org>
-Date:   Tue, 25 May 2021 22:30:11 +0000
-References: <1621940145-70195-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <1621940145-70195-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc:     ajk@comnets.uni-bremen.de, davem@davemloft.net, kuba@kernel.org,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        id S230083AbhFFBu4 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 5 Jun 2021 21:50:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55876 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230022AbhFFBu4 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 5 Jun 2021 21:50:56 -0400
+X-Greylist: delayed 90201 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 05 Jun 2021 18:49:07 PDT
+Received: from speedtest.test.com (unknown [IPv6:2a02:2498:6d7b:7002:216:3eff:fe2f:86b0])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D5AE2C061766
+        for <linux-hams@vger.kernel.org>; Sat,  5 Jun 2021 18:49:07 -0700 (PDT)
+Received: from 127.0.0.1 (localhost [127.0.0.1])
+        by speedtest.test.com (Postfix) with SMTP id D011F2DF8B;
+        Sat,  5 Jun 2021 02:19:26 +0300 (EEST)
+From:   twcuh@mailforspam.com
+Reply-To: twcuh@mailforspam.com
+Subject: Zdravstvujte Vas interesujut klientskie bazy dannyh? Otvet DA prishlite na Email: twcuh@mailforspam.com
+Message-Id: <20210604231926.D011F2DF8B@speedtest.test.com>
+Date:   Sat,  5 Jun 2021 02:19:26 +0300 (EEST)
+To:     undisclosed-recipients:;
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net-next.git (refs/heads/master):
-
-On Tue, 25 May 2021 18:55:45 +0800 you wrote:
-> Eliminate the follow smatch warning:
-> 
-> drivers/net/hamradio/6pack.c:728 sixpack_ioctl() warn: inconsistent
-> indenting.
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> 
-> [...]
-
-Here is the summary with links:
-  - net/hamradio/6pack: Fix inconsistent indenting
-    https://git.kernel.org/netdev/net-next/c/687c87adc11a
-
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Zdravstvujte Vas interesujut klientskie bazy dannyh? Otvet DA prishlite na Email: twcuh@mailforspam.com
+ 
