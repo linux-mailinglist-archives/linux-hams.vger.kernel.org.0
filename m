@@ -2,128 +2,53 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C60F13B569F
-	for <lists+linux-hams@lfdr.de>; Mon, 28 Jun 2021 03:29:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5AF43B7259
+	for <lists+linux-hams@lfdr.de>; Tue, 29 Jun 2021 14:50:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231755AbhF1BbY (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 27 Jun 2021 21:31:24 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:37667 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231678AbhF1BbY (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>);
-        Sun, 27 Jun 2021 21:31:24 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.nyi.internal (Postfix) with ESMTP id CC16B58058B;
-        Sun, 27 Jun 2021 21:28:56 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sun, 27 Jun 2021 21:28:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-        subject:to:cc:references:from:message-id:date:mime-version
-        :in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=T
-        F6xgqJW9aa0I1y93nwwqu4DjE6A5nIJGCY4aXMnpwQ=; b=YGNi3DTZucJpPAtQa
-        zTb9SO+9sxW96s3gX3Zl1ppZRkMtjjTnxUeJVeTJ2JOY60qqo8top4oDQKmGzrbC
-        SvkTM5UhAuHcIvuPQIft1Gx2RTkwWst/xBrDrvXsZbXT7krAdIJz4k3vvl6qOWYP
-        CC4Ur3bzwA2LVj51u4OO/CLukSEFq7+vvsqYbzfl9PnqJ1H4/5bo5an2UI+ssdww
-        LOXQtaPCgPIcCEcklesbvxTi9miFgAL6DUVSG2lVX/LVb57T8UyR72J99wsDsC8d
-        elJvdHPdFyeJZGym7wUEP3CffuuUcbRFbtXDjK9MHB2/0iN/mpwIMdU28fEtSWq+
-        heWPA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=TF6xgqJW9aa0I1y93nwwqu4DjE6A5nIJGCY4aXMnp
-        wQ=; b=KkKxBqEH3LtQR9HDiC5ayysitWoP9I4E9HPg6LFUI06F06/hBO5T0Xayp
-        ZcduWXL3sqtW/oM8GmRM5x5yILpQAa/6U4+4kuYk/zw4kAEhCbSI99iisSQJF6iu
-        9nRmjNpUBFc67/dmo3lJ/cyuUtyhXXEnWEiKMG6WI+uMkrxIJ4+PdBD8AMjNNu/V
-        A3QLXgcE2KxuMI5QEQJ1DxQJFIPfdd9QSX0Dw7bs0h/6e8uApq6oKnZOKwxcDNv7
-        YdehWcuuypmHESkF+Wzot1/z2OJrNKGq61GfFp7M1UijbXs+pxTMUJNukfp4j5um
-        +AU5Qpalc3r/RoU193Og1ebclNUqg==
-X-ME-Sender: <xms:1iXZYM4FNyqwIjSXogqgkm0K8kBNQh6QONBLgYb7E0Kv7fmTe2YTNw>
-    <xme:1iXZYN6ogq5cskYUAvJdP28T_dR3lLWUnEeOJMPqlyy67jrMmu-cUppQiBaZ6RqNY
-    Ou6Lntb_3HCXGjpDB4>
-X-ME-Received: <xmr:1iXZYLeyYdmYIY_fxBXceAhK4QJGVRrL34YuTyZiHxzCbooHGsxC3mvZLsjF5CO9Q2OVFTSmbf2-3xHAipXdiw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeehfedggeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomheplfhirgig
-    uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
-    ggtffrrghtthgvrhhnpedtheeivdevtdevkeegueffheeugeduueffvddthfekgfejvdeg
-    veehhffhteefgfenucffohhmrghinheplhhinhhugidqmhhiphhsrdhorhhgpdgrrhgthh
-    hivhgvrdhorhhgpdhkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrd
-    gtohhm
-X-ME-Proxy: <xmx:1iXZYBLuwAz__wzaihERzN3vUemI0tn7wgSIgl1cIwE2U_1UIDV0Xg>
-    <xmx:1iXZYAJO5RTsd0CczAbZ7bg4ipIc8BqqbgGk3UNVdkmHSXbQ2Zx0dQ>
-    <xmx:1iXZYCyfdhARmW9JylRwKeNiPHNiZ0GNxvGzTxHW3guwCKyzzohjQA>
-    <xmx:2CXZYCA0OwvnPck6AhVR-kga8Tt5OgkJagBPaBP10HAAcJABuEmfGw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 27 Jun 2021 21:28:49 -0400 (EDT)
-Subject: Re: [PATCH v2 0/3] Remove dead linux-mips.org references
-To:     Joe Perches <joe@perches.com>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Kurt Martin <kmartin@wavecomp.com>
-Cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org, Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Willy Tarreau <w@1wt.eu>,
-        "Maciej W. Rozycki" <macro@linux-mips.org>,
-        linux-edac@vger.kernel.org, linux-hams@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210625110419.24503-1-lukas.bulwahn@gmail.com>
- <alpine.DEB.2.21.2106251722470.37803@angie.orcam.me.uk>
- <4c3900ab7d9493e3ce516d3f03ed1de17c1fcb10.camel@perches.com>
-From:   Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-ID: <3fd473be-011b-7cb2-8356-045e5265ea0a@flygoat.com>
-Date:   Mon, 28 Jun 2021 09:28:46 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S233789AbhF2MxC convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hams@lfdr.de>); Tue, 29 Jun 2021 08:53:02 -0400
+Received: from [218.75.92.58] ([218.75.92.58]:65147 "EHLO WIN-VTPUBHNS72V"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232755AbhF2Mw7 (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Tue, 29 Jun 2021 08:52:59 -0400
+Received: from [192.168.43.47] (Unknown [197.210.84.10])
+        by WIN-VTPUBHNS72V with ESMTPA
+        ; Thu, 24 Jun 2021 20:46:28 +0800
+Message-ID: <9A845A47-7571-4588-B7D6-EB33577619B5@WIN-VTPUBHNS72V>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-In-Reply-To: <4c3900ab7d9493e3ce516d3f03ed1de17c1fcb10.camel@perches.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: URGENT ATTENTION
+To:     Recipients <wjjt@wjjt.cn>
+From:   "Andres Auchincloss" <wjjt@wjjt.cn>
+Date:   Thu, 24 Jun 2021 14:45:50 +0200
+Reply-To: andresauchincloss926@gmail.com
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
+Hi,
 
-在 2021/6/27 上午7:45, Joe Perches 写道:
-> On Fri, 2021-06-25 at 17:49 +0200, Maciej W. Rozycki wrote:
->> [Adding Ralf and Kurt to the list of recipients.]
->>
->> On Fri, 25 Jun 2021, Lukas Bulwahn wrote:
->>
->>> The domain lookup for linux-mips.org fails for quite some time now. Hence,
->>> webpages, the patchwork instance and Ralf Baechle's email there is not
->>> reachable anymore.
->>   Well, mail forwarding has now been set up for my old LMO address, and so
->> I believe for Ralf's.  Any other resources remain unavailable.
->>
->>> In the discussion of that patch series, Kurt Martin promised to get
->>> linux-mips.org back online. Four months have now passed and the webpage is
->>> still not back online. So, I suggest to remove these dead references.
->>> Probably, we do not lose much if the linux-mips.org webpage never comes back.
->>   While most resources have been migrated I think the wiki was unique and
->> valuable.  Perhaps we could preserve read-only references to archive.org
->> dumps?  It's not clear to me what our policy is here though, if any.
-> Perhaps better to wholesale copy the content and keep it
-> around somewhere else like lore.kernel.org.
+I will like to use this opportunity to wish you a productive time in 2021 and also confide in you to finalize this transaction of mutual benefits. It may seem strange to you, but it is real. This is a transaction that has no risk at all, due process shall be followed and it shall be carried out under the ambit of the financial laws. Being the Chief Financial Officer, BP Plc. I want to trust and put in your care Eighteen Million British Pounds Sterling, The funds were acquired from an over-invoiced payment from a past contract executed in one of my departments.
 
-I made a request to kernel.org infrastructure team to create a wiki site 
-for linux-mips project
+I can't successfully achieve this transaction without presenting you as foreign contractor who will provide a bank account to receive the funds.
 
-to restore contents from old linux-mips.org back in April. I think that 
-would be another approach
-
-as I saw PA-RISC migrated their wiki site to kernel.org as well.
+Documentation for the claim of the funds will be legally processed and documented, so I will need your full cooperation on this matter for our mutual benefits. We will discuss details if you are interested to work with me to secure this funds. I will appreciate your prompt response in every bit of our communication. Stay Blessed and Stay Safe.
 
 
-Thanks.
+
+Best Regards
 
 
-- Jiaxun
 
 
->
->
+Tel: +1 (587) 770-0485
+Andres .B. Auchincloss
+Chief financial officerBP Petroleum p.l.c.
+
+
+
+
+                                  Copyright �? 1996-2021
+
