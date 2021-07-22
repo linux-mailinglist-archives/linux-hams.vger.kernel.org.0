@@ -2,173 +2,77 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4872C3CC99D
-	for <lists+linux-hams@lfdr.de>; Sun, 18 Jul 2021 16:40:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E4683D22D8
+	for <lists+linux-hams@lfdr.de>; Thu, 22 Jul 2021 13:40:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233693AbhGROnb (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 18 Jul 2021 10:43:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53646 "EHLO
+        id S231599AbhGVLAA (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 22 Jul 2021 07:00:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230307AbhGROnb (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 18 Jul 2021 10:43:31 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF895C061762;
-        Sun, 18 Jul 2021 07:40:31 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id cu14so9725821pjb.0;
-        Sun, 18 Jul 2021 07:40:31 -0700 (PDT)
+        with ESMTP id S231566AbhGVK77 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 22 Jul 2021 06:59:59 -0400
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26285C061575
+        for <linux-hams@vger.kernel.org>; Thu, 22 Jul 2021 04:40:35 -0700 (PDT)
+Received: by mail-qk1-x72d.google.com with SMTP id t185so5059840qkd.3
+        for <linux-hams@vger.kernel.org>; Thu, 22 Jul 2021 04:40:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5h/ouo57VgfmtTZNOxTlKh2p8kwjX4qlWDpeGeXNCSw=;
-        b=I9+3sBMGCL2qvqLsDeceKsdItH6nNFMc79nKsZ0pwFBLBwJD/DD3RL+oL1Ce9El/+s
-         qvU32SB4myxSHRnKqD6bafj8buTU5ezQtRy2Fyp+PeCsmguSpZCQLIrN/8qd99dnJ2K7
-         AOaYe2aWcd7wPsIAA5epz1Bh41TxllTtZJoz6aWYJlBqyz/Fx8mSdejrlGg0b4HoEhBT
-         MbJOEudVjEwZMNAjZ7l/6mjqP3GRnzriOdqLvbLR1+h/x4PpH79DtUtozA+S9sTJfhG1
-         0ojhriragwCFkMaa1nEsOsOC/cH8JIb4tuYoNDsXe9ojYVcVeGZTGVtqnawVWVPC98kj
-         sNaw==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=eQtJQ4P316qQMDpjVagXnI8D23ccDm1yazVuAnvOzVQ=;
+        b=PCNCWOqT2RhDYXowKJfftMUOGseJk5H6uQMgdYqE9V3ohsl2yujFSVTq3NEfyviVqP
+         xb5FKcZuui8nV/Y6wmHxEO7orDlDloLRHYnVtyG+UOfTFwQ+1nmZo693t4pjiY0H01Ek
+         5+sQeIpS4CNEF+JXUmsJqMWtUm1vnO4iFFuc36hC/FCOpp6Z4WqvW5bgeUuM9UZp0wJ0
+         GgRraHeLWDGIISEBI4h7kWQ1/5IdS0PPP73GnZvDkV0xHTCmHFJjJE63zOsYkdKXrsBx
+         apgBO6+Gu5EU0RHArhmVmX0ai94WQ28OXPYVmIxtGkToIyyVFayPx2wlkEf/pSED6YR9
+         yfZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5h/ouo57VgfmtTZNOxTlKh2p8kwjX4qlWDpeGeXNCSw=;
-        b=FNcC6Op1Dq0Jts2tx8aRYURS9aWjt5Qt+FPaXyg/vvPQCLvAd+0+iySMpJ3uSkAjld
-         aYvq5u/RO7PNbeN5DXDwcjVHf1pTFo59Ay4KylGFeW1q2dcedmIfUwm0DLx6j+yzNwRo
-         gg+hwAihPxEeqELsUAlWkU6wIQFxDf69NCjiZvEQAgUHp8Zf3WGq8jSy9ZqpKagKTllz
-         2xHmESgLUy3TDBc73pB+lB4KccNb4EOywDNhDTJ/TlVE+n9C5nHW7gMCiTaltLKZIvTL
-         3CJGGd0ruQcQZKnoemuSXQLJRi8TuSdjOwii7MClyolBKwVTohQePvDAHQxAIqOLfFi9
-         6I7g==
-X-Gm-Message-State: AOAM530Y3Pzq1p0Nf5CaLpdSYEpRv8kYVp70SjNdi+h88FaWeawqggIJ
-        xqrJ9l2BTJu0fr2GpH0thTQ=
-X-Google-Smtp-Source: ABdhPJxAC6fn/DP+PNyKXtUIZlqSaYt9k7413pykYoIs1F02KyvnCjQEDOYB4qFjkob/vbIs+8QZyg==
-X-Received: by 2002:a17:90b:3652:: with SMTP id nh18mr20777647pjb.127.1626619231296;
-        Sun, 18 Jul 2021 07:40:31 -0700 (PDT)
-Received: from localhost.localdomain (bb42-60-144-185.singnet.com.sg. [42.60.144.185])
-        by smtp.gmail.com with ESMTPSA id 144sm18740439pgg.4.2021.07.18.07.40.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jul 2021 07:40:30 -0700 (PDT)
-From:   Nguyen Dinh Phi <phind.uet@gmail.com>
-To:     ralf@linux-mips.org, davem@davemloft.net, kuba@kernel.org,
-        xiyou.wangcong@gmail.com
-Cc:     Nguyen Dinh Phi <phind.uet@gmail.com>, linux-hams@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        syzbot+10f1194569953b72f1ae@syzkaller.appspotmail.com
-Subject: [PATCH] netrom: Decrease sock refcount when sock timers expire
-Date:   Sun, 18 Jul 2021 22:40:13 +0800
-Message-Id: <20210718144013.753774-1-phind.uet@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=eQtJQ4P316qQMDpjVagXnI8D23ccDm1yazVuAnvOzVQ=;
+        b=JrmVsXpeADHDoU4oI7VyUzQlM4rVjzch72BAha9ytZQvqzOlzJK6J1YrW2VNWJI7BL
+         4XKGz5H3uOBdGqV9Weg6vi1se7R1HbuMiPpwIU0ya4KMUo9OTczbhh7v0hwoYxNpUjf4
+         uq7M7yXg/792aqvY9UHq+sMQM08eIrsJPFYywsqpLxsTcsOwZWaesUkE/N8z5SN30PHS
+         jTLw/jomapqUMewxCIfY7H71eRHne/kUKbkb472/lxJQ0DPdIUijqiB21nBQqPckvxE3
+         /y27IGjkuxSK7ypYbdSdcwx45qragXf6LCo5An/u/Zz6rXSuk9o52sDSRhHGzBL3dKX5
+         NcEQ==
+X-Gm-Message-State: AOAM533X9kWw4HIVQnJ7pB1J5lWYqLqhYR7/PDGZXlvswEr6Ll5Gwxd7
+        Ekajw1h5aSSF8UyqzAFULqP321nOYrdDS21OhPoaAfC7
+X-Google-Smtp-Source: ABdhPJy/vmr+eiqES1gALsFQaaABoC+I+92m5uL3kkIQM/qnoohfjYV5TSeUGkrC5+/cn2GHEf6jv7gtltW1Fp0Fa30=
+X-Received: by 2002:a05:620a:16cc:: with SMTP id a12mr35361909qkn.97.1626954034258;
+ Thu, 22 Jul 2021 04:40:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From:   Dave van der Locht <d.vanderlocht@gmail.com>
+Date:   Thu, 22 Jul 2021 13:40:23 +0200
+Message-ID: <CAH4uzPNH6GVX_H0eCrBUxPdgynRc9a7xLGde1_37dTCz3fgJOA@mail.gmail.com>
+Subject: SECURITY: Some type of NETROM frames contain random fragments of data
+ from memory
+To:     linux-hams@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Commit 63346650c1a9 ("netrom: switch to sock timer API") switched to use
-sock timer API. It replaces mod_timer() by sk_reset_timer(), and
-del_timer() by sk_stop_timer().
+Hi,
 
-Function sk_reset_timer() will increase the refcount of sock if it is
-called on an inactive timer, hence, in case the timer expires, we need to
-decrease the refcount ourselves in the handler, otherwise, the sock
-refcount will be unbalanced and the sock will never be freed.
+With Linux kernel 5.4 and up I've noticed some type of NETROM frames
+(conn, disc, etc.) contain random fragments of data from memory.
+I've seen all kinds of data fragments with security sensitive
+information in them depending on the software running.
 
-Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
-Reported-by: syzbot+10f1194569953b72f1ae@syzkaller.appspotmail.com
-Fixes: 63346650c1a9 ("netrom: switch to sock timer API")
----
- net/netrom/nr_timer.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+Those random data fragments seem to appear only in some NETROM frames,
+haven't noticed them in any other frame type.
 
-diff --git a/net/netrom/nr_timer.c b/net/netrom/nr_timer.c
-index 9115f8a7dd45..a8da88db7893 100644
---- a/net/netrom/nr_timer.c
-+++ b/net/netrom/nr_timer.c
-@@ -121,11 +121,9 @@ static void nr_heartbeat_expiry(struct timer_list *t)
- 		   is accepted() it isn't 'dead' so doesn't get removed. */
- 		if (sock_flag(sk, SOCK_DESTROY) ||
- 		    (sk->sk_state == TCP_LISTEN && sock_flag(sk, SOCK_DEAD))) {
--			sock_hold(sk);
- 			bh_unlock_sock(sk);
- 			nr_destroy_socket(sk);
--			sock_put(sk);
--			return;
-+			goto out;
- 		}
- 		break;
+Most, if not all, remote node software seems to ignore those fragments
+and it won't be noticed until you capture the AX.25 over UDP frames.
+You'll see the frames are larger than expected and contain random
+fragments of data from (shared?) memory.
 
-@@ -146,6 +144,8 @@ static void nr_heartbeat_expiry(struct timer_list *t)
+I've tested this with several 5.4 and 5.10 kernel versions
+distributions and they all seem to leak security sensitive information
+the same way into NETROM frames. Mostly logging data, but I've also
+seen MySQL data and other random fragments of data.
+I've also tested with kernel 4.19, which doesn't seem te be affected.
 
- 	nr_start_heartbeat(sk);
- 	bh_unlock_sock(sk);
-+out:
-+	sock_put(sk);
- }
-
- static void nr_t2timer_expiry(struct timer_list *t)
-@@ -159,6 +159,7 @@ static void nr_t2timer_expiry(struct timer_list *t)
- 		nr_enquiry_response(sk);
- 	}
- 	bh_unlock_sock(sk);
-+	sock_put(sk);
- }
-
- static void nr_t4timer_expiry(struct timer_list *t)
-@@ -169,6 +170,7 @@ static void nr_t4timer_expiry(struct timer_list *t)
- 	bh_lock_sock(sk);
- 	nr_sk(sk)->condition &= ~NR_COND_PEER_RX_BUSY;
- 	bh_unlock_sock(sk);
-+	sock_put(sk);
- }
-
- static void nr_idletimer_expiry(struct timer_list *t)
-@@ -197,6 +199,7 @@ static void nr_idletimer_expiry(struct timer_list *t)
- 		sock_set_flag(sk, SOCK_DEAD);
- 	}
- 	bh_unlock_sock(sk);
-+	sock_put(sk);
- }
-
- static void nr_t1timer_expiry(struct timer_list *t)
-@@ -209,8 +212,7 @@ static void nr_t1timer_expiry(struct timer_list *t)
- 	case NR_STATE_1:
- 		if (nr->n2count == nr->n2) {
- 			nr_disconnect(sk, ETIMEDOUT);
--			bh_unlock_sock(sk);
--			return;
-+			goto out;
- 		} else {
- 			nr->n2count++;
- 			nr_write_internal(sk, NR_CONNREQ);
-@@ -220,8 +222,7 @@ static void nr_t1timer_expiry(struct timer_list *t)
- 	case NR_STATE_2:
- 		if (nr->n2count == nr->n2) {
- 			nr_disconnect(sk, ETIMEDOUT);
--			bh_unlock_sock(sk);
--			return;
-+			goto out;
- 		} else {
- 			nr->n2count++;
- 			nr_write_internal(sk, NR_DISCREQ);
-@@ -231,8 +232,7 @@ static void nr_t1timer_expiry(struct timer_list *t)
- 	case NR_STATE_3:
- 		if (nr->n2count == nr->n2) {
- 			nr_disconnect(sk, ETIMEDOUT);
--			bh_unlock_sock(sk);
--			return;
-+			goto out;
- 		} else {
- 			nr->n2count++;
- 			nr_requeue_frames(sk);
-@@ -241,5 +241,7 @@ static void nr_t1timer_expiry(struct timer_list *t)
- 	}
-
- 	nr_start_t1timer(sk);
-+out:
- 	bh_unlock_sock(sk);
-+	sock_put(sk);
- }
---
-2.25.1
-
+Kind regards,
+Dave van der Locht
