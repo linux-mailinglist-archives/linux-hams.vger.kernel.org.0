@@ -2,44 +2,69 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA1843D2D37
-	for <lists+linux-hams@lfdr.de>; Thu, 22 Jul 2021 22:09:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4091E3D30A7
+	for <lists+linux-hams@lfdr.de>; Fri, 23 Jul 2021 02:11:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229969AbhGVT3C (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 22 Jul 2021 15:29:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40416 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230451AbhGVT3C (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 22 Jul 2021 15:29:02 -0400
-Received: from 68-252-206-104.staticrdns.eonix.net (unknown [IPv6:2607:ff28:b005:2a:ec52:75ff:fe50:d321])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8E586C06175F;
-        Thu, 22 Jul 2021 13:09:36 -0700 (PDT)
-Received: from User (localhost [IPv6:::1])
-        by 68-252-206-104.staticrdns.eonix.net (Postfix) with SMTP id D84C38F1F50;
-        Mon, 19 Jul 2021 22:13:39 -0400 (EDT)
-Reply-To: <mrs_hannah@rediffmail.com>
-From:   "Mrs. Hajia Hannah Ahmed" <info@247vidz.com>
-Subject: Re: I WANT TO INVESTMENT IN YOUR COUNTRY?
-Date:   Tue, 20 Jul 2021 05:13:12 -0700
+        id S232682AbhGVXbG (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 22 Jul 2021 19:31:06 -0400
+Received: from trinity.trinnet.net ([96.78.144.185]:3992 "EHLO
+        trinity3.trinnet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232550AbhGVXbF (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 22 Jul 2021 19:31:05 -0400
+X-Greylist: delayed 2932 seconds by postgrey-1.27 at vger.kernel.org; Thu, 22 Jul 2021 19:31:05 EDT
+Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
+        by trinity3.trinnet.net (TrinityOS Hardened/TrinityOS Hardened) with ESMTP id 16MNMm7G021163
+        for <linux-hams@vger.kernel.org>; Thu, 22 Jul 2021 15:22:48 -0800
+Subject: Re: Status of the stuck sockets bugs.
+To:     linux-hams@vger.kernel.org
+References: <CAH4uzPOm9-8kfRichHCz60+VbTO+Feiy-39WtH3=WioQ_w+QHQ@mail.gmail.com>
+ <CAH4uzPNOLbAvEW2XA=ReHn_ZnGM3rgRif9uTNxYB-eSpv9YD7A@mail.gmail.com>
+From:   David Ranch <linux-hams@trinnet.net>
+Message-ID: <b435d3b3-b632-de9f-2f14-5a94e718f7a8@trinnet.net>
+Date:   Thu, 22 Jul 2021 16:22:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
+In-Reply-To: <CAH4uzPNOLbAvEW2XA=ReHn_ZnGM3rgRif9uTNxYB-eSpv9YD7A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-Id: <20210720021340.D84C38F1F50@68-252-206-104.staticrdns.eonix.net>
-To:     unlisted-recipients:; (no To-header on input)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Thu, 22 Jul 2021 15:22:48 -0800 (GMT+8)
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Attn:
- 
-I am Mrs. Hajia Hannah Ahmed I am a Widow and member of the contract award committee and 14 project allocation manager, of the Department of Minerals and Natural Resources in Syria;
- 
-Due to the war in Syria, I am in search of an agent or company to assist me to invest my fund  (USD$35Million) and subsequent investment in properties in your country. You will be required to. If you decide to render your service to me in this regard, 30% of the total sum of USD$35M will be given to you for your service. 
- 
-Yours Faithfully,
-Mrs. Hajia Hannah Ahmed
+
+This issue is still present in all current Linux kernels.  I believe 
+Ralf Baechle (current AX.25 kernel module maintainer) has been aware of 
+this issue for some time.
+
+--David
+KI6ZHD
+
+
+On 07/22/2021 10:42 AM, Dave van der Locht wrote:
+> Is anybody able to tell me more / give answers to questions about this issue?
+>
+> Kind regards,
+> Dave van der Locht
+>
+> Op di 29 jun. 2021 om 19:32 schreef Dave van der Locht
+> <d.vanderlocht@gmail.com>:
+>> Hello,
+>>
+>> Is there any news about the well known bug regarding sockets getting
+>> stuck in LISTENING state?
+>>
+>> Some years ago (already) Marius Petrescu YO2LOJ wrote a patch for the
+>> ax25_subr.c file which seems to work very well and solves the issue.
+>> But it's really annoying having to patch the kernel with each update
+>> again.
+>>
+>> What about that patch, I've heard it was rejected several times for
+>> some reason? But can't find info regarding that.
+>> What can be done - or who is able - to get rid of this bug and get it
+>> fixed in the kernel?
+>>
+>> Kind regards,
+>> Dave van der Locht
+
