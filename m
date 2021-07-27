@@ -2,158 +2,94 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E8653D674A
-	for <lists+linux-hams@lfdr.de>; Mon, 26 Jul 2021 21:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10EC63D718F
+	for <lists+linux-hams@lfdr.de>; Tue, 27 Jul 2021 10:53:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232265AbhGZS1z (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 26 Jul 2021 14:27:55 -0400
-Received: from mslow1.mail.gandi.net ([217.70.178.240]:40841 "EHLO
-        mslow1.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231548AbhGZS1z (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 26 Jul 2021 14:27:55 -0400
-Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 82D09C6D29;
-        Mon, 26 Jul 2021 19:04:55 +0000 (UTC)
-Received: from h7.dl5rb.org.uk (p57907709.dip0.t-ipconnect.de [87.144.119.9])
-        (Authenticated sender: ralf@linux-mips.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 79C7BFF804;
-        Mon, 26 Jul 2021 19:04:33 +0000 (UTC)
-Received: from h7.dl5rb.org.uk (localhost [127.0.0.1])
-        by h7.dl5rb.org.uk (8.16.1/8.16.1) with ESMTPS id 16QJ4WAn836356
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Mon, 26 Jul 2021 21:04:32 +0200
-Received: (from ralf@localhost)
-        by h7.dl5rb.org.uk (8.16.1/8.16.1/Submit) id 16QJ4WEd836355;
-        Mon, 26 Jul 2021 21:04:32 +0200
-Message-Id: <e6060adc15ab772814303260f8591dbf730fcfc3.1627295848.git.ralf@linux-mips.org>
-In-Reply-To: <cover.1627295848.git.ralf@linux-mips.org>
-References: <cover.1627295848.git.ralf@linux-mips.org>
+        id S235979AbhG0IxJ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 27 Jul 2021 04:53:09 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:46287 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235885AbhG0IxJ (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 27 Jul 2021 04:53:09 -0400
+Received: (Authenticated sender: ralf@linux-mips.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 5C64F20014;
+        Tue, 27 Jul 2021 08:53:07 +0000 (UTC)
+Date:   Tue, 27 Jul 2021 10:53:05 +0200
 From:   Ralf Baechle <ralf@linux-mips.org>
-Date:   Sat, 13 Apr 2019 18:17:36 +0200
-Subject: [PATCH 3/6] NETROM: Add netrom_ntop implementation.
-To:     Stephen Hemminger <stephen@networkplumber.org>
-Cc:     netdev@vger.kernel.org, linux-hams@vger.kernel.org
-Lines:  118
+To:     linux-man@vger.kernel.org,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Alejandro Colomar <alx.manpages@gmail.com>
+Cc:     netdev@vger.kernel.org, linux-hams@vger.kernel.org,
+        Thomas Osterried <thomas@osterried.de>
+Subject: [PATCH] packet.7: Describe SOCK_PACKET netif name length issues and
+ workarounds.
+Message-ID: <YP/Jcc4AFIcvgXls@linux-mips.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-NETROM uses AX.25 addresses so this is a simple wrapper around ax25_ntop1.
+Describe the issues with SOCK_PACKET possibly truncating network interface
+names in results, solutions and possible workarounds.
+
+While the issue is know for a long time it appears to have never been
+documented properly and is has started to bite software antiques badly since
+the introduction of Predictable Network Interface Names.  So let's document
+it.
 
 Signed-off-by: Ralf Baechle <ralf@linux-mips.org>
 ---
- Makefile          |  3 +++
- include/utils.h   |  2 ++
- lib/ax25_ntop.c   | 22 +++++++++++++++-------
- lib/netrom_ntop.c | 23 +++++++++++++++++++++++
- 4 files changed, 43 insertions(+), 7 deletions(-)
- create mode 100644 lib/netrom_ntop.c
+ man7/packet.7 | 31 ++++++++++++++++++++++++++++++-
+ 1 file changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index 551f528b..df894d54 100644
---- a/Makefile
-+++ b/Makefile
-@@ -46,6 +46,9 @@ ADDLIB+=ax25_ntop.o
- #options for mpls
- ADDLIB+=mpls_ntop.o mpls_pton.o
- 
-+#options for NETROM
-+ADDLIB+=netrom_ntop.o
-+
- CC := gcc
- HOSTCC ?= $(CC)
- DEFINES += -D_GNU_SOURCE
-diff --git a/include/utils.h b/include/utils.h
-index 31c1e442..c685a392 100644
---- a/include/utils.h
-+++ b/include/utils.h
-@@ -214,6 +214,8 @@ const char *ax25_ntop(int af, const void *addr, char *str, socklen_t len);
- const char *mpls_ntop(int af, const void *addr, char *str, size_t len);
- int mpls_pton(int af, const char *src, void *addr, size_t alen);
- 
-+const char *netrom_ntop(int af, const void *addr, char *str, socklen_t len);
-+
- extern int __iproute2_hz_internal;
- int __get_hz(void);
- 
-diff --git a/lib/ax25_ntop.c b/lib/ax25_ntop.c
-index 48098581..cfd0e04b 100644
---- a/lib/ax25_ntop.c
-+++ b/lib/ax25_ntop.c
-@@ -6,13 +6,22 @@
- 
- #include "utils.h"
- 
-+const char *ax25_ntop1(const ax25_address *src, char *dst, socklen_t size);
-+
- /*
-  * AX.25 addresses are based on Amateur radio callsigns followed by an SSID
-- * like XXXXXX-SS where the callsign is up to 6 characters which are either
-- * letters or digits and the SSID is a decimal number in the range 0..15.
-+ * like XXXXXX-SS where the callsign consists of up to 6 ASCII characters
-+ * which are either letters or digits and the SSID is a decimal number in the
-+ * range 0..15.
-  * Amateur radio callsigns are assigned by a country's relevant authorities
-  * and are 3..6 characters though a few countries have assigned callsigns
-  * longer than that.  AX.25 is not able to handle such longer callsigns.
-+ * There are further restrictions on the format of valid callsigns by
-+ * applicable national and international law.  Linux doesn't need to care and
-+ * will happily accept anything that consists of 6 ASCII characters in the
-+ * range of A-Z and 0-9 for a callsign such as the default AX.25 MAC address
-+ * LINUX-1 and the default broadcast address QST-0.
-+ * The SSID is just a number and not encoded in ASCII digits.
-  *
-  * Being based on HDLC AX.25 encodes addresses by shifting them one bit left
-  * thus zeroing bit 0, the HDLC extension bit for all but the last bit of
-@@ -22,14 +31,13 @@
-  * Linux' internal representation of AX.25 addresses in Linux is very similar
-  * to this on the on-air or on-the-wire format.  The callsign is padded to
-  * 6 octets by adding spaces, followed by the SSID octet then all 7 octets
-- * are left-shifted by one byte.
-+ * are left-shifted by one bit.
-  *
-- * This for example turns "LINUX-1" where the callsign is LINUX and SSID is 1
-- * into 98:92:9c:aa:b0:40:02.
-+ * For example, for the address "LINUX-1" the callsign is LINUX and SSID is 1
-+ * the internal format is 98:92:9c:aa:b0:40:02.
-  */
- 
--static const char *ax25_ntop1(const ax25_address *src, char *dst,
--			      socklen_t size)
-+const char *ax25_ntop1(const ax25_address *src, char *dst, socklen_t size)
- {
- 	char c, *s;
- 	int n;
-diff --git a/lib/netrom_ntop.c b/lib/netrom_ntop.c
-new file mode 100644
-index 00000000..3dd6cb0b
---- /dev/null
-+++ b/lib/netrom_ntop.c
-@@ -0,0 +1,23 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#include <sys/socket.h>
-+#include <errno.h>
-+#include <linux/ax25.h>
-+
-+#include "utils.h"
-+
-+const char *ax25_ntop1(const ax25_address *src, char *dst, socklen_t size);
-+
-+const char *netrom_ntop(int af, const void *addr, char *buf, socklen_t buflen)
-+{
-+	switch (af) {
-+	case AF_NETROM:
-+		errno = 0;
-+		return ax25_ntop1((ax25_address *)addr, buf, buflen);
-+
-+	default:
-+		errno = EAFNOSUPPORT;
-+	}
-+
-+	return NULL;
-+}
--- 
-2.31.1
-
-
+diff --git a/man7/packet.7 b/man7/packet.7
+index 706efbb54..7697bbdeb 100644
+--- a/man7/packet.7
++++ b/man7/packet.7
+@@ -627,6 +627,34 @@ extension is an ugly hack and should be replaced by a control message.
+ There is currently no way to get the original destination address of
+ packets via
+ .BR SOCK_DGRAM .
++.PP
++The
++.I spkt_device
++field of
++.I sockaddr_pkt
++has a size of 14 bytes which is less than the constant
++.B IFNAMSIZ
++defined in
++.I <net/if.h>
++which is 16 bytes and describes the system limit for a network interface
++name.  This means the names of network devices longer than 14 bytes will be
++truncated to fit into
++.I spkt_device .
++All these lengths include the terminating null byte (\(aq\e0\(aq)).
++.PP
++Issues from this with old code typically show up with very long interface
++names used by the
++.B Predictable Network Interface Names
++feature enabled by default in many modern Linux distributions.
++.PP
++The preferred solution is to rewrite code to avoid
++.BR SOCK_PACKET .
++Possible user solutions are to disable
++.B Predictable Network Interface Names
++or to rename the interface to a name of at most 13 bytes, for example using
++the
++.BR IP (8)
++tool.
+ .\" .SH CREDITS
+ .\" This man page was written by Andi Kleen with help from Matthew Wilcox.
+ .\" AF_PACKET in Linux 2.2 was implemented
+@@ -637,7 +665,8 @@ packets via
+ .BR capabilities (7),
+ .BR ip (7),
+ .BR raw (7),
+-.BR socket (7)
++.BR socket (7),
++.BR ip (8),
+ .PP
+ RFC\ 894 for the standard IP Ethernet encapsulation.
+ RFC\ 1700 for the IEEE 802.3 IP encapsulation.
