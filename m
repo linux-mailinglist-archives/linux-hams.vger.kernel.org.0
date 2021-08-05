@@ -2,141 +2,61 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B88393DD25A
-	for <lists+linux-hams@lfdr.de>; Mon,  2 Aug 2021 10:52:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 336F03E124E
+	for <lists+linux-hams@lfdr.de>; Thu,  5 Aug 2021 12:10:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232957AbhHBIxF (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 2 Aug 2021 04:53:05 -0400
-Received: from relay.sw.ru ([185.231.240.75]:44462 "EHLO relay.sw.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233069AbhHBIw5 (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Mon, 2 Aug 2021 04:52:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=virtuozzo.com; s=relay; h=Content-Type:MIME-Version:Date:Message-ID:Subject
-        :From; bh=LZDj+Rl8XjJSfORqoOhYb7G114M/+nHSCpKbOxlgHdo=; b=aRJ+0Dcol/tJhRYVIto
-        q/4cZNxWQGbLBHbDNatys6W85da2cc8V2mQrvrcqS5n94fU8ZP9HKDclIX1a6rMHO3+KyiZIxX+No
-        Ct5JMGZI3ags0YKOE5z85LHngTWCh0E+mhRUZz2zkpugdhI1xZAF8uDXLuJB/bMfQ4+yXJfcu7c=;
-Received: from [10.93.0.56]
-        by relay.sw.ru with esmtp (Exim 4.94.2)
-        (envelope-from <vvs@virtuozzo.com>)
-        id 1mATgl-0060Oa-Jt; Mon, 02 Aug 2021 11:52:47 +0300
-From:   Vasily Averin <vvs@virtuozzo.com>
-Subject: [PATCH NET v3 6/7] ax25: use skb_expand_head
-To:     "David S. Miller" <davem@davemloft.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Eric Dumazet <eric.dumazet@gmail.com>
-Cc:     netdev@vger.kernel.org, Joerg Reuter <jreuter@yaina.de>,
-        Ralf Baechle <ralf@linux-mips.org>, linux-hams@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <15eba3b2-80e2-5547-8ad9-167d810ad7e3@virtuozzo.com>
- <cover.1627891754.git.vvs@virtuozzo.com>
-Message-ID: <1c156cb1-af0d-d110-7786-67e3290e9345@virtuozzo.com>
-Date:   Mon, 2 Aug 2021 11:52:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S239836AbhHEKKk (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 5 Aug 2021 06:10:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38984 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240478AbhHEKKh (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 5 Aug 2021 06:10:37 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E9B9C0617A4
+        for <linux-hams@vger.kernel.org>; Thu,  5 Aug 2021 03:10:17 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id y7so7566899eda.5
+        for <linux-hams@vger.kernel.org>; Thu, 05 Aug 2021 03:10:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=J67+rxbQxfS8kPDQ/50P30WNOuT2eFzd+bURjICaS/k=;
+        b=iS9YA7D4AkLyKrMVsoVYMawu0L36NuU4+ZSSyySlEHd80Db/SKmaXNHUYbn10iE1ak
+         iC2IvrlH8v1AbmVGIfByuGkfSJI0XOychxHlUayNB69sXT4UE/GxiJdUnwpUeLi55ukG
+         xxmbK315oyKozAfiGnXEqKK3PxzEgZV5MZYS8JrbDSFfNkjPPnwGCrlh5tDeKwhJwNKw
+         T5dIuH8sR8enUCr5iznpK0TZ2LjgjrjjYSvOKCwjpML2kXz9bFVQEOg044XfixvXje/K
+         h6N675zJB4VwjShIVvQTmJWjRDKft4Rcevz64ZRcI/rUzQ/43BUMnv9UMxVY4mSVx0dv
+         +ZPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=J67+rxbQxfS8kPDQ/50P30WNOuT2eFzd+bURjICaS/k=;
+        b=sOBq/WyqrI3hPTuE5cbA06jj9I6TAFjz99SrA0ENPxziaACztLMTL2j/KZnfDZ7Tk4
+         bO2QGrFuaFBl50i1YX97di3iUmI0gG2DECBMNecFRx3CnT5rSnPoS9TdHVLVFyPPcZcw
+         Zd9HlJLQQAiy+KS7JQo8zoGuyY6HZCIL+S+SpK4rQUb4DLhH0bUVzlyM5QQvGyrC4skQ
+         gmxxwzcc0QQMwZWlDDuCYfskZwnXNpgdN6avAWpRUsoafs29GAMRdV4+RO+o7uRCJBO8
+         KaW/SMkaJjqvBnEQT5tIgMyqZl+0N32g89jO7ve2KIS8w4VXMPxY7dzjWOT29mAEySyi
+         mDdw==
+X-Gm-Message-State: AOAM533wQNsheqkDr8ZBUsst/uY0myI71LBnNVjPDtob5k2HnFxlehTx
+        8n7VoVWNPOe6CpRdarRTHGrThZCTe5TOL6zqXhE=
+X-Google-Smtp-Source: ABdhPJz/RKmv260xIbuerDTPdwMwXLpAeKReSpRsKd2xVxrYh4CfQJfzAebDIdig2CS2Izsib4l5qV0PM0JZd046dok=
+X-Received: by 2002:a05:6402:40c7:: with SMTP id z7mr5373679edb.193.1628158216069;
+ Thu, 05 Aug 2021 03:10:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <cover.1627891754.git.vvs@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a05:6408:258c:b029:e3:fe5c:5c2d with HTTP; Thu, 5 Aug 2021
+ 03:10:15 -0700 (PDT)
+Reply-To: theresabangurah3333@yahoo.com
+From:   Theresa Bangurah <mariamabah77879@gmail.com>
+Date:   Thu, 5 Aug 2021 11:10:15 +0100
+Message-ID: <CAAi==jrP1LU0nh-DrLEYOsm5GW=VtCGzFW8zeRyVbCcv17qusA@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Use skb_expand_head() in ax25_transmit_buffer and ax25_rt_build_path.
-Unlike skb_realloc_headroom, new helper does not allocate a new skb if possible.
-
-Signed-off-by: Vasily Averin <vvs@virtuozzo.com>
----
- net/ax25/ax25_ip.c    |  4 +---
- net/ax25/ax25_out.c   | 13 +++----------
- net/ax25/ax25_route.c | 13 +++----------
- 3 files changed, 7 insertions(+), 23 deletions(-)
-
-diff --git a/net/ax25/ax25_ip.c b/net/ax25/ax25_ip.c
-index e4f63dd..3624977 100644
---- a/net/ax25/ax25_ip.c
-+++ b/net/ax25/ax25_ip.c
-@@ -193,10 +193,8 @@ netdev_tx_t ax25_ip_xmit(struct sk_buff *skb)
- 	skb_pull(skb, AX25_KISS_HEADER_LEN);
- 
- 	if (digipeat != NULL) {
--		if ((ourskb = ax25_rt_build_path(skb, src, dst, route->digipeat)) == NULL) {
--			kfree_skb(skb);
-+		if ((ourskb = ax25_rt_build_path(skb, src, dst, route->digipeat)) == NULL)
- 			goto put;
--		}
- 
- 		skb = ourskb;
- 	}
-diff --git a/net/ax25/ax25_out.c b/net/ax25/ax25_out.c
-index f53751b..22f2f66 100644
---- a/net/ax25/ax25_out.c
-+++ b/net/ax25/ax25_out.c
-@@ -325,7 +325,6 @@ void ax25_kick(ax25_cb *ax25)
- 
- void ax25_transmit_buffer(ax25_cb *ax25, struct sk_buff *skb, int type)
- {
--	struct sk_buff *skbn;
- 	unsigned char *ptr;
- 	int headroom;
- 
-@@ -336,18 +335,12 @@ void ax25_transmit_buffer(ax25_cb *ax25, struct sk_buff *skb, int type)
- 
- 	headroom = ax25_addr_size(ax25->digipeat);
- 
--	if (skb_headroom(skb) < headroom) {
--		if ((skbn = skb_realloc_headroom(skb, headroom)) == NULL) {
-+	if (unlikely(skb_headroom(skb) < headroom)) {
-+		skb = skb_expand_head(skb, headroom);
-+		if (!skb) {
- 			printk(KERN_CRIT "AX.25: ax25_transmit_buffer - out of memory\n");
--			kfree_skb(skb);
- 			return;
- 		}
--
--		if (skb->sk != NULL)
--			skb_set_owner_w(skbn, skb->sk);
--
--		consume_skb(skb);
--		skb = skbn;
- 	}
- 
- 	ptr = skb_push(skb, headroom);
-diff --git a/net/ax25/ax25_route.c b/net/ax25/ax25_route.c
-index b40e0bc..d0b2e09 100644
---- a/net/ax25/ax25_route.c
-+++ b/net/ax25/ax25_route.c
-@@ -441,24 +441,17 @@ int ax25_rt_autobind(ax25_cb *ax25, ax25_address *addr)
- struct sk_buff *ax25_rt_build_path(struct sk_buff *skb, ax25_address *src,
- 	ax25_address *dest, ax25_digi *digi)
- {
--	struct sk_buff *skbn;
- 	unsigned char *bp;
- 	int len;
- 
- 	len = digi->ndigi * AX25_ADDR_LEN;
- 
--	if (skb_headroom(skb) < len) {
--		if ((skbn = skb_realloc_headroom(skb, len)) == NULL) {
-+	if (unlikely(skb_headroom(skb) < len)) {
-+		skb = skb_expand_head(skb, len);
-+		if (!skb) {
- 			printk(KERN_CRIT "AX.25: ax25_dg_build_path - out of memory\n");
- 			return NULL;
- 		}
--
--		if (skb->sk != NULL)
--			skb_set_owner_w(skbn, skb->sk);
--
--		consume_skb(skb);
--
--		skb = skbn;
- 	}
- 
- 	bp = skb_push(skb, len);
 -- 
-1.8.3.1
-
+My name is Mrs.Theresa Bangurah,i am American citizen i have something
+important to tell you.Reply me immediately you get this message.God
+bless you.
