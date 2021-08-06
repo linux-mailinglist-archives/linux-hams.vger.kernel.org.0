@@ -2,142 +2,44 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA1F13E2484
-	for <lists+linux-hams@lfdr.de>; Fri,  6 Aug 2021 09:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55DBE3E285C
+	for <lists+linux-hams@lfdr.de>; Fri,  6 Aug 2021 12:14:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242734AbhHFHu5 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 6 Aug 2021 03:50:57 -0400
-Received: from relay.sw.ru ([185.231.240.75]:36402 "EHLO relay.sw.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243695AbhHFHuw (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Fri, 6 Aug 2021 03:50:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=virtuozzo.com; s=relay; h=Content-Type:MIME-Version:Date:Message-ID:Subject
-        :From; bh=LZDj+Rl8XjJSfORqoOhYb7G114M/+nHSCpKbOxlgHdo=; b=fnCoJ6+K93QLFsiysjg
-        21Wzcz3fg9eBdu/hQoDRDKRzI8zpGake0LmbpksT2oicPEFrA9O9aPj4BshIerYfT+nUWHYZ4qV6A
-        PQ9zJUp9HGbceSLjwaiXLFwgGI6otnY0S+/QG+vJACgdNp041SuYZWYm06KCjULZoOI5CNRa++k=;
-Received: from [10.93.0.56]
-        by relay.sw.ru with esmtp (Exim 4.94.2)
-        (envelope-from <vvs@virtuozzo.com>)
-        id 1mBucj-006agZ-8K; Fri, 06 Aug 2021 10:50:33 +0300
-From:   Vasily Averin <vvs@virtuozzo.com>
-Subject: [PATCH NET v4 6/7] ax25: use skb_expand_head
-To:     "David S. Miller" <davem@davemloft.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Eric Dumazet <eric.dumazet@gmail.com>
-Cc:     netdev@vger.kernel.org, Joerg Reuter <jreuter@yaina.de>,
-        Ralf Baechle <ralf@linux-mips.org>, linux-hams@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@openvz.org,
-        Julian Wiedmann <jwi@linux.ibm.com>
+        id S244955AbhHFKOi (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 6 Aug 2021 06:14:38 -0400
+Received: from shards.monkeyblade.net ([23.128.96.9]:43984 "EHLO
+        mail.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244883AbhHFKOe (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 6 Aug 2021 06:14:34 -0400
+Received: from localhost (unknown [149.11.102.75])
+        by mail.monkeyblade.net (Postfix) with ESMTPSA id 20E4F5021FF3D;
+        Fri,  6 Aug 2021 03:14:13 -0700 (PDT)
+Date:   Fri, 06 Aug 2021 11:14:12 +0100 (BST)
+Message-Id: <20210806.111412.1329682129695306949.davem@davemloft.net>
+To:     vvs@virtuozzo.com
+Cc:     yoshfuji@linux-ipv6.org, dsahern@kernel.org, kuba@kernel.org,
+        eric.dumazet@gmail.com, netdev@vger.kernel.org, jreuter@yaina.de,
+        ralf@linux-mips.org, linux-hams@vger.kernel.org, ast@kernel.org,
+        daniel@iogearbox.net, andrii@kernel.org, kafai@fb.com,
+        songliubraving@fb.com, yhs@fb.com, kpsingh@kernel.org,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@openvz.org, jwi@linux.ibm.com
+Subject: Re: [PATCH NET v4 0/7] skbuff: introduce skb_expand_head()
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <0d3366bb-e19c-dbd4-0ba5-a3e6aff55b4e@virtuozzo.com>
 References: <ccce7edb-54dd-e6bf-1e84-0ec320d8886c@linux.ibm.com>
- <cover.1628235065.git.vvs@virtuozzo.com>
-Message-ID: <9d01cf03-c4f1-23b0-ae2d-4191a35ebf38@virtuozzo.com>
-Date:   Fri, 6 Aug 2021 10:50:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1628235065.git.vvs@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        <0d3366bb-e19c-dbd4-0ba5-a3e6aff55b4e@virtuozzo.com>
+X-Mailer: Mew version 6.8 on Emacs 27.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.6.2 (mail.monkeyblade.net [0.0.0.0]); Fri, 06 Aug 2021 03:14:18 -0700 (PDT)
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Use skb_expand_head() in ax25_transmit_buffer and ax25_rt_build_path.
-Unlike skb_realloc_headroom, new helper does not allocate a new skb if possible.
 
-Signed-off-by: Vasily Averin <vvs@virtuozzo.com>
----
- net/ax25/ax25_ip.c    |  4 +---
- net/ax25/ax25_out.c   | 13 +++----------
- net/ax25/ax25_route.c | 13 +++----------
- 3 files changed, 7 insertions(+), 23 deletions(-)
 
-diff --git a/net/ax25/ax25_ip.c b/net/ax25/ax25_ip.c
-index e4f63dd..3624977 100644
---- a/net/ax25/ax25_ip.c
-+++ b/net/ax25/ax25_ip.c
-@@ -193,10 +193,8 @@ netdev_tx_t ax25_ip_xmit(struct sk_buff *skb)
- 	skb_pull(skb, AX25_KISS_HEADER_LEN);
- 
- 	if (digipeat != NULL) {
--		if ((ourskb = ax25_rt_build_path(skb, src, dst, route->digipeat)) == NULL) {
--			kfree_skb(skb);
-+		if ((ourskb = ax25_rt_build_path(skb, src, dst, route->digipeat)) == NULL)
- 			goto put;
--		}
- 
- 		skb = ourskb;
- 	}
-diff --git a/net/ax25/ax25_out.c b/net/ax25/ax25_out.c
-index f53751b..22f2f66 100644
---- a/net/ax25/ax25_out.c
-+++ b/net/ax25/ax25_out.c
-@@ -325,7 +325,6 @@ void ax25_kick(ax25_cb *ax25)
- 
- void ax25_transmit_buffer(ax25_cb *ax25, struct sk_buff *skb, int type)
- {
--	struct sk_buff *skbn;
- 	unsigned char *ptr;
- 	int headroom;
- 
-@@ -336,18 +335,12 @@ void ax25_transmit_buffer(ax25_cb *ax25, struct sk_buff *skb, int type)
- 
- 	headroom = ax25_addr_size(ax25->digipeat);
- 
--	if (skb_headroom(skb) < headroom) {
--		if ((skbn = skb_realloc_headroom(skb, headroom)) == NULL) {
-+	if (unlikely(skb_headroom(skb) < headroom)) {
-+		skb = skb_expand_head(skb, headroom);
-+		if (!skb) {
- 			printk(KERN_CRIT "AX.25: ax25_transmit_buffer - out of memory\n");
--			kfree_skb(skb);
- 			return;
- 		}
--
--		if (skb->sk != NULL)
--			skb_set_owner_w(skbn, skb->sk);
--
--		consume_skb(skb);
--		skb = skbn;
- 	}
- 
- 	ptr = skb_push(skb, headroom);
-diff --git a/net/ax25/ax25_route.c b/net/ax25/ax25_route.c
-index b40e0bc..d0b2e09 100644
---- a/net/ax25/ax25_route.c
-+++ b/net/ax25/ax25_route.c
-@@ -441,24 +441,17 @@ int ax25_rt_autobind(ax25_cb *ax25, ax25_address *addr)
- struct sk_buff *ax25_rt_build_path(struct sk_buff *skb, ax25_address *src,
- 	ax25_address *dest, ax25_digi *digi)
- {
--	struct sk_buff *skbn;
- 	unsigned char *bp;
- 	int len;
- 
- 	len = digi->ndigi * AX25_ADDR_LEN;
- 
--	if (skb_headroom(skb) < len) {
--		if ((skbn = skb_realloc_headroom(skb, len)) == NULL) {
-+	if (unlikely(skb_headroom(skb) < len)) {
-+		skb = skb_expand_head(skb, len);
-+		if (!skb) {
- 			printk(KERN_CRIT "AX.25: ax25_dg_build_path - out of memory\n");
- 			return NULL;
- 		}
--
--		if (skb->sk != NULL)
--			skb_set_owner_w(skbn, skb->sk);
--
--		consume_skb(skb);
--
--		skb = skbn;
- 	}
- 
- 	bp = skb_push(skb, len);
--- 
-1.8.3.1
+I already applied v3 to net-next, please send a relative fixup if you want to incorpoate the v4 changes too.
 
+Thank you.
