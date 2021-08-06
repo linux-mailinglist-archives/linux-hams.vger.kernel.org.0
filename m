@@ -2,61 +2,106 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 336F03E124E
-	for <lists+linux-hams@lfdr.de>; Thu,  5 Aug 2021 12:10:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B83D3E2472
+	for <lists+linux-hams@lfdr.de>; Fri,  6 Aug 2021 09:50:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239836AbhHEKKk (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 5 Aug 2021 06:10:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38984 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240478AbhHEKKh (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 5 Aug 2021 06:10:37 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E9B9C0617A4
-        for <linux-hams@vger.kernel.org>; Thu,  5 Aug 2021 03:10:17 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id y7so7566899eda.5
-        for <linux-hams@vger.kernel.org>; Thu, 05 Aug 2021 03:10:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=J67+rxbQxfS8kPDQ/50P30WNOuT2eFzd+bURjICaS/k=;
-        b=iS9YA7D4AkLyKrMVsoVYMawu0L36NuU4+ZSSyySlEHd80Db/SKmaXNHUYbn10iE1ak
-         iC2IvrlH8v1AbmVGIfByuGkfSJI0XOychxHlUayNB69sXT4UE/GxiJdUnwpUeLi55ukG
-         xxmbK315oyKozAfiGnXEqKK3PxzEgZV5MZYS8JrbDSFfNkjPPnwGCrlh5tDeKwhJwNKw
-         T5dIuH8sR8enUCr5iznpK0TZ2LjgjrjjYSvOKCwjpML2kXz9bFVQEOg044XfixvXje/K
-         h6N675zJB4VwjShIVvQTmJWjRDKft4Rcevz64ZRcI/rUzQ/43BUMnv9UMxVY4mSVx0dv
-         +ZPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=J67+rxbQxfS8kPDQ/50P30WNOuT2eFzd+bURjICaS/k=;
-        b=sOBq/WyqrI3hPTuE5cbA06jj9I6TAFjz99SrA0ENPxziaACztLMTL2j/KZnfDZ7Tk4
-         bO2QGrFuaFBl50i1YX97di3iUmI0gG2DECBMNecFRx3CnT5rSnPoS9TdHVLVFyPPcZcw
-         Zd9HlJLQQAiy+KS7JQo8zoGuyY6HZCIL+S+SpK4rQUb4DLhH0bUVzlyM5QQvGyrC4skQ
-         gmxxwzcc0QQMwZWlDDuCYfskZwnXNpgdN6avAWpRUsoafs29GAMRdV4+RO+o7uRCJBO8
-         KaW/SMkaJjqvBnEQT5tIgMyqZl+0N32g89jO7ve2KIS8w4VXMPxY7dzjWOT29mAEySyi
-         mDdw==
-X-Gm-Message-State: AOAM533wQNsheqkDr8ZBUsst/uY0myI71LBnNVjPDtob5k2HnFxlehTx
-        8n7VoVWNPOe6CpRdarRTHGrThZCTe5TOL6zqXhE=
-X-Google-Smtp-Source: ABdhPJz/RKmv260xIbuerDTPdwMwXLpAeKReSpRsKd2xVxrYh4CfQJfzAebDIdig2CS2Izsib4l5qV0PM0JZd046dok=
-X-Received: by 2002:a05:6402:40c7:: with SMTP id z7mr5373679edb.193.1628158216069;
- Thu, 05 Aug 2021 03:10:16 -0700 (PDT)
+        id S240955AbhHFHuN (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 6 Aug 2021 03:50:13 -0400
+Received: from relay.sw.ru ([185.231.240.75]:36230 "EHLO relay.sw.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239768AbhHFHuM (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Fri, 6 Aug 2021 03:50:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=virtuozzo.com; s=relay; h=Content-Type:MIME-Version:Date:Message-ID:Subject
+        :From; bh=1zrt4eD5My5s1TavWa+RtWePr0aKNve+a9G2rEups6w=; b=UntW2gkOIhY7AG/px1s
+        aDHUKObFYRILEDQo8XD1g/gTZUcQOBlIaPXulfzv1QkDSp5I3/p9wwr0jbXW+kcKiH2YDKNz+ItNm
+        dgnxgXQF4oDf/jof6q6FARXpZTkqCJXp6F3xhMVG4ky3vp91eKYvO/f3sSixUORCbsdhABiy0PY=;
+Received: from [10.93.0.56]
+        by relay.sw.ru with esmtp (Exim 4.94.2)
+        (envelope-from <vvs@virtuozzo.com>)
+        id 1mBuc1-006aeH-6y; Fri, 06 Aug 2021 10:49:49 +0300
+From:   Vasily Averin <vvs@virtuozzo.com>
+Subject: [PATCH NET v4 0/7] skbuff: introduce skb_expand_head()
+To:     "David S. Miller" <davem@davemloft.net>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Eric Dumazet <eric.dumazet@gmail.com>
+Cc:     netdev@vger.kernel.org, Joerg Reuter <jreuter@yaina.de>,
+        Ralf Baechle <ralf@linux-mips.org>, linux-hams@vger.kernel.org,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>, bpf@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@openvz.org,
+        Julian Wiedmann <jwi@linux.ibm.com>
+References: <ccce7edb-54dd-e6bf-1e84-0ec320d8886c@linux.ibm.com>
+Message-ID: <0d3366bb-e19c-dbd4-0ba5-a3e6aff55b4e@virtuozzo.com>
+Date:   Fri, 6 Aug 2021 10:49:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Received: by 2002:a05:6408:258c:b029:e3:fe5c:5c2d with HTTP; Thu, 5 Aug 2021
- 03:10:15 -0700 (PDT)
-Reply-To: theresabangurah3333@yahoo.com
-From:   Theresa Bangurah <mariamabah77879@gmail.com>
-Date:   Thu, 5 Aug 2021 11:10:15 +0100
-Message-ID: <CAAi==jrP1LU0nh-DrLEYOsm5GW=VtCGzFW8zeRyVbCcv17qusA@mail.gmail.com>
-Subject: Hello
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <ccce7edb-54dd-e6bf-1e84-0ec320d8886c@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
+currently if skb does not have enough headroom skb_realloc_headrom is called.
+It is not optimal because it creates new skb.
+
+this patch set introduces new helper skb_expand_head()
+Unlike skb_realloc_headroom, it does not allocate a new skb if possible; 
+copies skb->sk on new skb when as needed and frees original skb in case of failures.
+
+This helps to simplify ip[6]_finish_output2(), ip6_xmit() and few other
+functions in vrf, ax25 and bpf.
+
+There are few other cases where this helper can be used 
+but it requires an additional investigations. 
+
+v4 changes:
+ - fixed null pointer dereference in vrf patch reported by Julian Wiedmann
+
+v3 changes:
+ - ax25 compilation warning fixed
+ - v5.14-rc4 rebase
+ - now it does not depend on non-committed pathces
+
+v2 changes:
+ - helper's name was changed to skb_expand_head
+ - fixed few mistakes inside skb_expand_head():
+    skb_set_owner_w should set sk on nskb
+    kfree was replaced by kfree_skb()
+    improved warning message
+ - added minor refactoring in changed functions in vrf and bpf patches
+ - removed kfree_skb() in ax25_rt_build_path caller ax25_ip_xmit
+
+
+Vasily Averin (7):
+  skbuff: introduce skb_expand_head()
+  ipv6: use skb_expand_head in ip6_finish_output2
+  ipv6: use skb_expand_head in ip6_xmit
+  ipv4: use skb_expand_head in ip_finish_output2
+  vrf: use skb_expand_head in vrf_finish_output
+  ax25: use skb_expand_head
+  bpf: use skb_expand_head in bpf_out_neigh_v4/6
+
+ drivers/net/vrf.c      | 23 ++++++---------
+ include/linux/skbuff.h |  1 +
+ net/ax25/ax25_ip.c     |  4 +--
+ net/ax25/ax25_out.c    | 13 ++-------
+ net/ax25/ax25_route.c  | 13 ++-------
+ net/core/filter.c      | 27 ++++-------------
+ net/core/skbuff.c      | 42 +++++++++++++++++++++++++++
+ net/ipv4/ip_output.c   | 13 ++-------
+ net/ipv6/ip6_output.c  | 78 +++++++++++++++++---------------------------------
+ 9 files changed, 92 insertions(+), 122 deletions(-)
+
 -- 
-My name is Mrs.Theresa Bangurah,i am American citizen i have something
-important to tell you.Reply me immediately you get this message.God
-bless you.
+1.8.3.1
+
