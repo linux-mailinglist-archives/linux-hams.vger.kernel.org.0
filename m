@@ -2,26 +2,26 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CF713E2477
-	for <lists+linux-hams@lfdr.de>; Fri,  6 Aug 2021 09:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA1F13E2484
+	for <lists+linux-hams@lfdr.de>; Fri,  6 Aug 2021 09:51:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241645AbhHFHuS (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 6 Aug 2021 03:50:18 -0400
-Received: from relay.sw.ru ([185.231.240.75]:36248 "EHLO relay.sw.ru"
+        id S242734AbhHFHu5 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 6 Aug 2021 03:50:57 -0400
+Received: from relay.sw.ru ([185.231.240.75]:36402 "EHLO relay.sw.ru"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241314AbhHFHuR (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Fri, 6 Aug 2021 03:50:17 -0400
+        id S243695AbhHFHuw (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Fri, 6 Aug 2021 03:50:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=virtuozzo.com; s=relay; h=Content-Type:MIME-Version:Date:Message-ID:Subject
-        :From; bh=tAY88asZF2lnIac1kxZ5VSRxDa9BzKen9bRoCOT7Gjs=; b=zkseI4wOADbNhRt5alS
-        B5g3WeSKk7ur7OiZAxAnCamSftCNQdOHSRrOswlqkaL85/C2t8RPpxbDDzKKyuH9DIpm3V+nhRZ71
-        dv5NOeZcdq8+g5OXFdix4fxmA/TgQ46mszHfFfupoo8VyAKig5QsCDgJNrBSdNhe4l/J9F6hEKo=;
+        :From; bh=LZDj+Rl8XjJSfORqoOhYb7G114M/+nHSCpKbOxlgHdo=; b=fnCoJ6+K93QLFsiysjg
+        21Wzcz3fg9eBdu/hQoDRDKRzI8zpGake0LmbpksT2oicPEFrA9O9aPj4BshIerYfT+nUWHYZ4qV6A
+        PQ9zJUp9HGbceSLjwaiXLFwgGI6otnY0S+/QG+vJACgdNp041SuYZWYm06KCjULZoOI5CNRa++k=;
 Received: from [10.93.0.56]
         by relay.sw.ru with esmtp (Exim 4.94.2)
         (envelope-from <vvs@virtuozzo.com>)
-        id 1mBuc9-006aeP-QY; Fri, 06 Aug 2021 10:49:57 +0300
+        id 1mBucj-006agZ-8K; Fri, 06 Aug 2021 10:50:33 +0300
 From:   Vasily Averin <vvs@virtuozzo.com>
-Subject: [PATCH NET v4 1/7] skbuff: introduce skb_expand_head()
+Subject: [PATCH NET v4 6/7] ax25: use skb_expand_head
 To:     "David S. Miller" <davem@davemloft.net>,
         Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
         David Ahern <dsahern@kernel.org>,
@@ -29,18 +29,12 @@ To:     "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <eric.dumazet@gmail.com>
 Cc:     netdev@vger.kernel.org, Joerg Reuter <jreuter@yaina.de>,
         Ralf Baechle <ralf@linux-mips.org>, linux-hams@vger.kernel.org,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>, bpf@vger.kernel.org,
         linux-kernel@vger.kernel.org, kernel@openvz.org,
         Julian Wiedmann <jwi@linux.ibm.com>
 References: <ccce7edb-54dd-e6bf-1e84-0ec320d8886c@linux.ibm.com>
  <cover.1628235065.git.vvs@virtuozzo.com>
-Message-ID: <5290ec1e-72e5-06dc-4886-ffc5255a162a@virtuozzo.com>
-Date:   Fri, 6 Aug 2021 10:49:57 +0300
+Message-ID: <9d01cf03-c4f1-23b0-ae2d-4191a35ebf38@virtuozzo.com>
+Date:   Fri, 6 Aug 2021 10:50:32 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
@@ -52,84 +46,98 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Like skb_realloc_headroom(), new helper increases headroom of specified skb.
-Unlike skb_realloc_headroom(), it does not allocate a new skb if possible;
-copies skb->sk on new skb when as needed and frees original skb in case
-of failures.
-
-This helps to simplify ip[6]_finish_output2() and a few other similar cases.
+Use skb_expand_head() in ax25_transmit_buffer and ax25_rt_build_path.
+Unlike skb_realloc_headroom, new helper does not allocate a new skb if possible.
 
 Signed-off-by: Vasily Averin <vvs@virtuozzo.com>
 ---
- include/linux/skbuff.h |  1 +
- net/core/skbuff.c      | 42 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 43 insertions(+)
+ net/ax25/ax25_ip.c    |  4 +---
+ net/ax25/ax25_out.c   | 13 +++----------
+ net/ax25/ax25_route.c | 13 +++----------
+ 3 files changed, 7 insertions(+), 23 deletions(-)
 
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index b2db9cd..ec8a783 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -1179,6 +1179,7 @@ static inline struct sk_buff *__pskb_copy(struct sk_buff *skb, int headroom,
- int pskb_expand_head(struct sk_buff *skb, int nhead, int ntail, gfp_t gfp_mask);
- struct sk_buff *skb_realloc_headroom(struct sk_buff *skb,
- 				     unsigned int headroom);
-+struct sk_buff *skb_expand_head(struct sk_buff *skb, unsigned int headroom);
- struct sk_buff *skb_copy_expand(const struct sk_buff *skb, int newheadroom,
- 				int newtailroom, gfp_t priority);
- int __must_check skb_to_sgvec_nomark(struct sk_buff *skb, struct scatterlist *sg,
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index fc7942c..0c70b2b 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -1786,6 +1786,48 @@ struct sk_buff *skb_realloc_headroom(struct sk_buff *skb, unsigned int headroom)
- EXPORT_SYMBOL(skb_realloc_headroom);
+diff --git a/net/ax25/ax25_ip.c b/net/ax25/ax25_ip.c
+index e4f63dd..3624977 100644
+--- a/net/ax25/ax25_ip.c
++++ b/net/ax25/ax25_ip.c
+@@ -193,10 +193,8 @@ netdev_tx_t ax25_ip_xmit(struct sk_buff *skb)
+ 	skb_pull(skb, AX25_KISS_HEADER_LEN);
  
- /**
-+ *	skb_expand_head - reallocate header of &sk_buff
-+ *	@skb: buffer to reallocate
-+ *	@headroom: needed headroom
-+ *
-+ *	Unlike skb_realloc_headroom, this one does not allocate a new skb
-+ *	if possible; copies skb->sk to new skb as needed
-+ *	and frees original skb in case of failures.
-+ *
-+ *	It expect increased headroom and generates warning otherwise.
-+ */
-+
-+struct sk_buff *skb_expand_head(struct sk_buff *skb, unsigned int headroom)
-+{
-+	int delta = headroom - skb_headroom(skb);
-+
-+	if (WARN_ONCE(delta <= 0,
-+		      "%s is expecting an increase in the headroom", __func__))
-+		return skb;
-+
-+	/* pskb_expand_head() might crash, if skb is shared */
-+	if (skb_shared(skb)) {
-+		struct sk_buff *nskb = skb_clone(skb, GFP_ATOMIC);
-+
-+		if (likely(nskb)) {
-+			if (skb->sk)
-+				skb_set_owner_w(nskb, skb->sk);
-+			consume_skb(skb);
-+		} else {
-+			kfree_skb(skb);
-+		}
-+		skb = nskb;
-+	}
-+	if (skb &&
-+	    pskb_expand_head(skb, SKB_DATA_ALIGN(delta), 0, GFP_ATOMIC)) {
-+		kfree_skb(skb);
-+		skb = NULL;
-+	}
-+	return skb;
-+}
-+EXPORT_SYMBOL(skb_expand_head);
-+
-+/**
-  *	skb_copy_expand	-	copy and expand sk_buff
-  *	@skb: buffer to copy
-  *	@newheadroom: new free bytes at head
+ 	if (digipeat != NULL) {
+-		if ((ourskb = ax25_rt_build_path(skb, src, dst, route->digipeat)) == NULL) {
+-			kfree_skb(skb);
++		if ((ourskb = ax25_rt_build_path(skb, src, dst, route->digipeat)) == NULL)
+ 			goto put;
+-		}
+ 
+ 		skb = ourskb;
+ 	}
+diff --git a/net/ax25/ax25_out.c b/net/ax25/ax25_out.c
+index f53751b..22f2f66 100644
+--- a/net/ax25/ax25_out.c
++++ b/net/ax25/ax25_out.c
+@@ -325,7 +325,6 @@ void ax25_kick(ax25_cb *ax25)
+ 
+ void ax25_transmit_buffer(ax25_cb *ax25, struct sk_buff *skb, int type)
+ {
+-	struct sk_buff *skbn;
+ 	unsigned char *ptr;
+ 	int headroom;
+ 
+@@ -336,18 +335,12 @@ void ax25_transmit_buffer(ax25_cb *ax25, struct sk_buff *skb, int type)
+ 
+ 	headroom = ax25_addr_size(ax25->digipeat);
+ 
+-	if (skb_headroom(skb) < headroom) {
+-		if ((skbn = skb_realloc_headroom(skb, headroom)) == NULL) {
++	if (unlikely(skb_headroom(skb) < headroom)) {
++		skb = skb_expand_head(skb, headroom);
++		if (!skb) {
+ 			printk(KERN_CRIT "AX.25: ax25_transmit_buffer - out of memory\n");
+-			kfree_skb(skb);
+ 			return;
+ 		}
+-
+-		if (skb->sk != NULL)
+-			skb_set_owner_w(skbn, skb->sk);
+-
+-		consume_skb(skb);
+-		skb = skbn;
+ 	}
+ 
+ 	ptr = skb_push(skb, headroom);
+diff --git a/net/ax25/ax25_route.c b/net/ax25/ax25_route.c
+index b40e0bc..d0b2e09 100644
+--- a/net/ax25/ax25_route.c
++++ b/net/ax25/ax25_route.c
+@@ -441,24 +441,17 @@ int ax25_rt_autobind(ax25_cb *ax25, ax25_address *addr)
+ struct sk_buff *ax25_rt_build_path(struct sk_buff *skb, ax25_address *src,
+ 	ax25_address *dest, ax25_digi *digi)
+ {
+-	struct sk_buff *skbn;
+ 	unsigned char *bp;
+ 	int len;
+ 
+ 	len = digi->ndigi * AX25_ADDR_LEN;
+ 
+-	if (skb_headroom(skb) < len) {
+-		if ((skbn = skb_realloc_headroom(skb, len)) == NULL) {
++	if (unlikely(skb_headroom(skb) < len)) {
++		skb = skb_expand_head(skb, len);
++		if (!skb) {
+ 			printk(KERN_CRIT "AX.25: ax25_dg_build_path - out of memory\n");
+ 			return NULL;
+ 		}
+-
+-		if (skb->sk != NULL)
+-			skb_set_owner_w(skbn, skb->sk);
+-
+-		consume_skb(skb);
+-
+-		skb = skbn;
+ 	}
+ 
+ 	bp = skb_push(skb, len);
 -- 
 1.8.3.1
 
