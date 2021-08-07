@@ -2,70 +2,65 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5FC73E2C30
-	for <lists+linux-hams@lfdr.de>; Fri,  6 Aug 2021 16:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 237A83E3492
+	for <lists+linux-hams@lfdr.de>; Sat,  7 Aug 2021 12:09:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235427AbhHFOLL (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 6 Aug 2021 10:11:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54794 "EHLO
+        id S230090AbhHGKJO (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 7 Aug 2021 06:09:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236287AbhHFOKu (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 6 Aug 2021 10:10:50 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B10C06179E
-        for <linux-hams@vger.kernel.org>; Fri,  6 Aug 2021 07:10:32 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id z11so13188518edb.11
-        for <linux-hams@vger.kernel.org>; Fri, 06 Aug 2021 07:10:32 -0700 (PDT)
+        with ESMTP id S231783AbhHGKJI (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 7 Aug 2021 06:09:08 -0400
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0961C061799
+        for <linux-hams@vger.kernel.org>; Sat,  7 Aug 2021 03:08:32 -0700 (PDT)
+Received: by mail-qt1-x836.google.com with SMTP id d2so8473636qto.6
+        for <linux-hams@vger.kernel.org>; Sat, 07 Aug 2021 03:08:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
-        b=q3xyYt1HrVQnyL1KZndhIFKim0Z6RZXWCajZa6+jKaUt/xPBmWrU2b2TpwIqgxHoY3
-         6sUeXJPoUC3zz+xqx5Y/7bh16ON7BcCcP2liy5jl/yv+hyxVGmxIcBCDJXoapuOO0RIl
-         REN9Zv+ClhtVVEMybVDTEUTnyt+YraWqvgNO4CiPEvSNbjJp0ymaQzc4FwPALfOqM4La
-         f+KzIMXFoGuca5XlZdCXXnnqi+xUiOGsem/cV9JUjNFonSZWOzEGazowyEr2eG3dp5DR
-         pLBa7cN2FmOkeXw/dSFAaB7k29Eu0Yivashc8iQbXHlro4ZoI7aiyRP21+G8wGDlMmu6
-         HPDQ==
+        bh=aiYv+ghkj1wcr5KlnL1ML71lfnXzfmxAeT1E5sMi1Qw=;
+        b=S3l4T9e2tP5pVS7ZuYdu+1Y0qbKkJYnejhs8S6oYuW6LYwueyDMIGlxr2QviX908pZ
+         9SPZJLnYHgJvYg3PLTI5fWJK5TkMxVO2qBa2FrvvgMmkTyowY9FDC29BPjsdhbPhxQLa
+         tYnwYex5seRxFiLy8EoSSBUznJBTlHeb/Bz5niZL/Il13kvDN2O2xOxWpnGH2uLwHscT
+         DoTFOxHdTymP4E3acGtQxboa5XPRRUPIM6mlAfcr7/ekHDJNJv4uG6dy2JtyqWn88ow0
+         hsiNGB55/AYboSktIHGsl5ebXsVnqzSR6R9ebR+QIoCvocI54gGy0g8VDA3p78wJouiN
+         BLYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
-        b=A6TLze8E/xdhiZfSp+hDf3kx5uidRrQ8D9zO5eCwSCwoU+zW6HPYkUe1iD3QxTZ8U4
-         p36lG36dihFws9lFqYBgMp3bnTAMam7H+CpoiktYllaL117VGb+MDdT1GdCFDRQiCQwf
-         GfoXj0xWNsUnc6DWGZp6MB/XnYeced+m+0TGLEh1Y2c5O8c4lgr/tRnCvdkjjXbW3JnS
-         RZIW03ZEe309CAlfFAjkgnmdnKjveK9Y+/mkwc+1WY8fAw71adaKZtIorqNOtZzxCk3f
-         8VKwUzW0nuBuhdWT9RNrKbPoNRTLVepsh88f1aQmU+YRrvn8h13o0koF8t5VEUeDMPdP
-         b+Rg==
-X-Gm-Message-State: AOAM532ZH3TgsBee5cDEoCRy51GsH/wj+c5KBhIE1nWXDI6SOHy//ZL8
-        kwyVMNU/GXwsLe9sGE3pWQEOfdKcDrdZcgOOOw==
-X-Google-Smtp-Source: ABdhPJx229jhz+o+nQwdgIkoqR5HwLh3S4+JGHt0eG+5fB4X3WTmNmInTj1ZpuXDIVm9CYEhhFZzLyuZYbLrplGdX6A=
-X-Received: by 2002:a05:6402:3094:: with SMTP id de20mr13526197edb.272.1628259031175;
- Fri, 06 Aug 2021 07:10:31 -0700 (PDT)
+        bh=aiYv+ghkj1wcr5KlnL1ML71lfnXzfmxAeT1E5sMi1Qw=;
+        b=JU9VdlIM5AyvIClKcibSNTf1+XL57y8tJ/a5GXpMnaga0Ymb0WGv2aF81N8uIo7rHQ
+         YcAta7GndyPFh3IxoLQjXESrAKsjxP1+svU/kBzUuTSC7emdMBdmaxEUj1Yjt4MXPmv7
+         Ay96J14faBrTXw1Rerj0fKo1vBmkhTR3saHkB2kDMLZO5JRrSCWN8wvCuOnDiUFDgEip
+         bAbrB1jiU1sxKPn91LU4jWZrzC783y3e3ukBWmWyFMG3Eu/fZu+Go+8LPjo56X0yYiz2
+         uEt7v5hvqZXvJW5qMBu0Rqnxm2hztkuTOI+7ErY8NY5aUYVKJBUYH0nn2QbBtnhhn7yk
+         i/Lg==
+X-Gm-Message-State: AOAM531zbGgg8xEa4lroqDzxJXzK/WlQM9Lc5eVlJ6F4ccLYHH/CjPD8
+        C7b73GQuFY4+g2CABR9kiqZKnSbZknZxVOtTgas=
+X-Google-Smtp-Source: ABdhPJxgyuRRXsSMd0R6a3b0A3hI9pouiu6GtIO5W43J3txGTJtR81T+4t2OwT3S4z6DuFUIj52qGnoLd2PfTJY5Mrs=
+X-Received: by 2002:ac8:6611:: with SMTP id c17mr12282490qtp.392.1628330911954;
+ Sat, 07 Aug 2021 03:08:31 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a54:26cf:0:0:0:0:0 with HTTP; Fri, 6 Aug 2021 07:10:30 -0700 (PDT)
-Reply-To: mrmaxwellwatford@gmail.com
-From:   Maxwell Watford <orchowskiruthi@gmail.com>
-Date:   Fri, 6 Aug 2021 14:10:30 +0000
-Message-ID: <CA+q9Q6OJB6Z0+y=5_3MBDNGkAUG9rVxg7bZVma38uDOvJ+sOGw@mail.gmail.com>
-Subject: i need your reply
-To:     orchowskiruthi@gmail.com
+Received: by 2002:a05:622a:112:0:0:0:0 with HTTP; Sat, 7 Aug 2021 03:08:31
+ -0700 (PDT)
+Reply-To: ssaar0101@gmail.com
+From:   Medinat Sherrif <do348911@gmail.com>
+Date:   Sat, 7 Aug 2021 10:08:31 +0000
+Message-ID: <CA+WgU6p7R+UtP_5FzWNKmG6hkPWxb7Kfk5rN4WNbAMA9+mot=Q@mail.gmail.com>
+Subject: Good morning,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Greetings,
+Greetings from here.
 
-We are writing to you from Ecowas Finance Controller Office Lome Togo,
-because we have received a file from the Ministry of Finance Lome-
-Togo, concerning an Inherited Fund bearing your name on it, And after
-our verifications, we found out that the funds belong to you.
+My name is Medinat. M  Sherrif, I have something very confidential to
+discuss with you in my next mail. Reply to me with your private email
+address for confidential discussion.
 
-It has been awarded and I will like to guide you to claim the funds.
-Please contact me at my private email address
-(mrmaxwellwatford@gmail.com) for more information and directive
-
-I am looking forward to your urgent reply,
-Best regards
-Mr Maxwell Watford
+Best Regards.
+Medinat. M  Sherrif,
