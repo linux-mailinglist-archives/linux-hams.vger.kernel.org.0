@@ -2,65 +2,63 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 237A83E3492
-	for <lists+linux-hams@lfdr.de>; Sat,  7 Aug 2021 12:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24D4A3E5B49
+	for <lists+linux-hams@lfdr.de>; Tue, 10 Aug 2021 15:24:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230090AbhHGKJO (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 7 Aug 2021 06:09:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35948 "EHLO
+        id S241316AbhHJNYY (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 10 Aug 2021 09:24:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231783AbhHGKJI (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 7 Aug 2021 06:09:08 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0961C061799
-        for <linux-hams@vger.kernel.org>; Sat,  7 Aug 2021 03:08:32 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id d2so8473636qto.6
-        for <linux-hams@vger.kernel.org>; Sat, 07 Aug 2021 03:08:32 -0700 (PDT)
+        with ESMTP id S241346AbhHJNYV (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 10 Aug 2021 09:24:21 -0400
+Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5FCBC06179B
+        for <linux-hams@vger.kernel.org>; Tue, 10 Aug 2021 06:23:58 -0700 (PDT)
+Received: by mail-ua1-x935.google.com with SMTP id a4so5082452uae.6
+        for <linux-hams@vger.kernel.org>; Tue, 10 Aug 2021 06:23:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=aiYv+ghkj1wcr5KlnL1ML71lfnXzfmxAeT1E5sMi1Qw=;
-        b=S3l4T9e2tP5pVS7ZuYdu+1Y0qbKkJYnejhs8S6oYuW6LYwueyDMIGlxr2QviX908pZ
-         9SPZJLnYHgJvYg3PLTI5fWJK5TkMxVO2qBa2FrvvgMmkTyowY9FDC29BPjsdhbPhxQLa
-         tYnwYex5seRxFiLy8EoSSBUznJBTlHeb/Bz5niZL/Il13kvDN2O2xOxWpnGH2uLwHscT
-         DoTFOxHdTymP4E3acGtQxboa5XPRRUPIM6mlAfcr7/ekHDJNJv4uG6dy2JtyqWn88ow0
-         hsiNGB55/AYboSktIHGsl5ebXsVnqzSR6R9ebR+QIoCvocI54gGy0g8VDA3p78wJouiN
-         BLYA==
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
+        b=qJkL8fZ0S06Z0FQYNh/4MmhK7j+A3bS9xjmC8OhX22QJHec66aC0Yf4uxmFTWU4uq4
+         4zaEpRJNfTE5P16qMJLxRcIb0ytBzoINHrciZ16oueveU7FDwweNrhTU3c5UDo/z56b1
+         V6OdxuJ3tySYUYaZ04rAyM/uWtPYMenii8jy05cVXjVhDDgXkFHgaK2GOhpBsc52YFve
+         VL8iidod2m9w/QUkoClpuMrUGWkFzng1pEsZ+h9zY+IQVIYyQzRt6aNjeoljVsfoneAG
+         aU0zlSqRp6BET5jUs8EdKhkDPhg4/tsUe0YNuMP0A6vUsTut9Hk4K2nn2uiUPyEelDJr
+         VDiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=aiYv+ghkj1wcr5KlnL1ML71lfnXzfmxAeT1E5sMi1Qw=;
-        b=JU9VdlIM5AyvIClKcibSNTf1+XL57y8tJ/a5GXpMnaga0Ymb0WGv2aF81N8uIo7rHQ
-         YcAta7GndyPFh3IxoLQjXESrAKsjxP1+svU/kBzUuTSC7emdMBdmaxEUj1Yjt4MXPmv7
-         Ay96J14faBrTXw1Rerj0fKo1vBmkhTR3saHkB2kDMLZO5JRrSCWN8wvCuOnDiUFDgEip
-         bAbrB1jiU1sxKPn91LU4jWZrzC783y3e3ukBWmWyFMG3Eu/fZu+Go+8LPjo56X0yYiz2
-         uEt7v5hvqZXvJW5qMBu0Rqnxm2hztkuTOI+7ErY8NY5aUYVKJBUYH0nn2QbBtnhhn7yk
-         i/Lg==
-X-Gm-Message-State: AOAM531zbGgg8xEa4lroqDzxJXzK/WlQM9Lc5eVlJ6F4ccLYHH/CjPD8
-        C7b73GQuFY4+g2CABR9kiqZKnSbZknZxVOtTgas=
-X-Google-Smtp-Source: ABdhPJxgyuRRXsSMd0R6a3b0A3hI9pouiu6GtIO5W43J3txGTJtR81T+4t2OwT3S4z6DuFUIj52qGnoLd2PfTJY5Mrs=
-X-Received: by 2002:ac8:6611:: with SMTP id c17mr12282490qtp.392.1628330911954;
- Sat, 07 Aug 2021 03:08:31 -0700 (PDT)
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
+        b=pHsYoq4j3BvOSeo/bi4fSZFhqGFzqrWIMVOMm0E1fQ9yclYwuRPXh2DB9ZJ8afBlVB
+         G4QfjfQWgb2BLMjZHGtHX6ZiYMYHkS/A5SjKqBdr6l349pDAsPFX4+Hkvc0k3u87fgx0
+         TRlSGUScCh9EIBzO26xVoj38vf2d+11l57wchT9IVqxGKDJPGMfCVDq2ZlsCtXTNTNIc
+         D8TYuwu1TCjF9dfKdAsyf+lTVn1YIr22vW2VCjNTF7iDeAPj7fkNTQV0+si0IOg38UTw
+         xtrRSyuFT3DhrH6S5rKbKtWXujSNDs5SP0cgjGivI+ch/NG+HdnwtTR5fl9GP+BMhoTv
+         RdWg==
+X-Gm-Message-State: AOAM5316vLh3mOi6ECtjmsIHkueIcdvvFHZqXoIudhXWsVhPs9WvY8JE
+        18YNpNCSlV4BIAGLlIIbAw33PX16PrG1KeYMA6I=
+X-Google-Smtp-Source: ABdhPJzvLPSDVsAzGJ6P6qYZROOmnBdkR5scyeQ8xySEfopDOzsn96BkEsNJXYQk9ma1do3JY374g/deOX6n1CT3K3s=
+X-Received: by 2002:ab0:3b59:: with SMTP id o25mr9024839uaw.80.1628601838128;
+ Tue, 10 Aug 2021 06:23:58 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:622a:112:0:0:0:0 with HTTP; Sat, 7 Aug 2021 03:08:31
+Sender: immeublesourou@gmail.com
+Received: by 2002:ab0:3903:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 06:23:57
  -0700 (PDT)
-Reply-To: ssaar0101@gmail.com
-From:   Medinat Sherrif <do348911@gmail.com>
-Date:   Sat, 7 Aug 2021 10:08:31 +0000
-Message-ID: <CA+WgU6p7R+UtP_5FzWNKmG6hkPWxb7Kfk5rN4WNbAMA9+mot=Q@mail.gmail.com>
-Subject: Good morning,
+From:   John Kumor <owo219901@gmail.com>
+Date:   Wed, 11 Aug 2021 01:23:57 +1200
+X-Google-Sender-Auth: yS3UzgPnn68wNDbf-hnce3gLnn0
+Message-ID: <CAHdg_cT_K-3CiTtG_z=2JyS3OA_ir2VvAFdLZYYHbPxjicSz0w@mail.gmail.com>
+Subject: Urgent
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Greetings from here.
-
-My name is Medinat. M  Sherrif, I have something very confidential to
-discuss with you in my next mail. Reply to me with your private email
-address for confidential discussion.
-
-Best Regards.
-Medinat. M  Sherrif,
+My dear,
+Greetings! I trust that all is well with you and your family. Did you
+receive my previous email?
+Regards
+John Kumor.
