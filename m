@@ -2,63 +2,69 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24D4A3E5B49
-	for <lists+linux-hams@lfdr.de>; Tue, 10 Aug 2021 15:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AF213E7EC9
+	for <lists+linux-hams@lfdr.de>; Tue, 10 Aug 2021 19:35:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241316AbhHJNYY (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 10 Aug 2021 09:24:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48550 "EHLO
+        id S231921AbhHJRfR (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 10 Aug 2021 13:35:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241346AbhHJNYV (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 10 Aug 2021 09:24:21 -0400
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5FCBC06179B
-        for <linux-hams@vger.kernel.org>; Tue, 10 Aug 2021 06:23:58 -0700 (PDT)
-Received: by mail-ua1-x935.google.com with SMTP id a4so5082452uae.6
-        for <linux-hams@vger.kernel.org>; Tue, 10 Aug 2021 06:23:58 -0700 (PDT)
+        with ESMTP id S232977AbhHJRec (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 10 Aug 2021 13:34:32 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A69C0619C1
+        for <linux-hams@vger.kernel.org>; Tue, 10 Aug 2021 10:33:14 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id n7so5353531ljq.0
+        for <linux-hams@vger.kernel.org>; Tue, 10 Aug 2021 10:33:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
-        b=qJkL8fZ0S06Z0FQYNh/4MmhK7j+A3bS9xjmC8OhX22QJHec66aC0Yf4uxmFTWU4uq4
-         4zaEpRJNfTE5P16qMJLxRcIb0ytBzoINHrciZ16oueveU7FDwweNrhTU3c5UDo/z56b1
-         V6OdxuJ3tySYUYaZ04rAyM/uWtPYMenii8jy05cVXjVhDDgXkFHgaK2GOhpBsc52YFve
-         VL8iidod2m9w/QUkoClpuMrUGWkFzng1pEsZ+h9zY+IQVIYyQzRt6aNjeoljVsfoneAG
-         aU0zlSqRp6BET5jUs8EdKhkDPhg4/tsUe0YNuMP0A6vUsTut9Hk4K2nn2uiUPyEelDJr
-         VDiA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=y3BZ+wT7TMDVjM2/WQcyPOhYkG/NWjvDbJIsMqFI2RA=;
+        b=RsiBBdA9QKOcTCF5lGXKVsjmClQ3sMV8nYRHi5UzQ6RFRdaZ6t981j56diJ7q3WLiT
+         dSrogDmRt6kwHS+J+pcIdphvlu5Vk62bOJudqb0dzEOf5Tr6sAVMWTY2NbEn++ZnSdaf
+         F4yj6h4F7VBk6uVCXN4p2StSiBpSckLhr0NJoCtUTvVh+gCrpSdvA2dss+nT8Q4XWg+b
+         4x9fMuBGMminOSzPCK8njOsWexpWsfb2omBFXa3GLhHqzUauC1r8oyB3fDvFuiS7qNjT
+         fDqijYMWxjmP3EeBvtWaIUY7Z5YEma/9OhqmI5Ya7ZKqW/5hzlkm8xAdNsqyzESz/5Xj
+         5sZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
-        b=pHsYoq4j3BvOSeo/bi4fSZFhqGFzqrWIMVOMm0E1fQ9yclYwuRPXh2DB9ZJ8afBlVB
-         G4QfjfQWgb2BLMjZHGtHX6ZiYMYHkS/A5SjKqBdr6l349pDAsPFX4+Hkvc0k3u87fgx0
-         TRlSGUScCh9EIBzO26xVoj38vf2d+11l57wchT9IVqxGKDJPGMfCVDq2ZlsCtXTNTNIc
-         D8TYuwu1TCjF9dfKdAsyf+lTVn1YIr22vW2VCjNTF7iDeAPj7fkNTQV0+si0IOg38UTw
-         xtrRSyuFT3DhrH6S5rKbKtWXujSNDs5SP0cgjGivI+ch/NG+HdnwtTR5fl9GP+BMhoTv
-         RdWg==
-X-Gm-Message-State: AOAM5316vLh3mOi6ECtjmsIHkueIcdvvFHZqXoIudhXWsVhPs9WvY8JE
-        18YNpNCSlV4BIAGLlIIbAw33PX16PrG1KeYMA6I=
-X-Google-Smtp-Source: ABdhPJzvLPSDVsAzGJ6P6qYZROOmnBdkR5scyeQ8xySEfopDOzsn96BkEsNJXYQk9ma1do3JY374g/deOX6n1CT3K3s=
-X-Received: by 2002:ab0:3b59:: with SMTP id o25mr9024839uaw.80.1628601838128;
- Tue, 10 Aug 2021 06:23:58 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=y3BZ+wT7TMDVjM2/WQcyPOhYkG/NWjvDbJIsMqFI2RA=;
+        b=Ve5/tA2tCIrZDzB/00xDssxY2xwJpRiyu0CJt8h6SuWlXwFZpd4bm4/mCef0TsPE71
+         mjXJMoaEKlWRdhDcIjwR4UBHlDRHUYgI/i3/0IeTL4qrAlyif1yHrDjr+iCgjRwo6nmF
+         InB4oEnv3ozhmlbzJII7KgdPRpLT0JOYygCoDl4ebYJcDd9HE8xdqSEdv4sQv2YetF7H
+         bzABeOBRkIfA9f7UDBffaiEwhEjYeAQ/ItmNmIH+zcfpKJXEdQOaeDHa7DkRqa/9aOL7
+         u6ZY+v5amp6xLCrQehg2PLzRX7KgrNyoAQ8txJUEJ4w4cAbaZ/0nXLBpE4bziFs1EtiD
+         tVew==
+X-Gm-Message-State: AOAM530llZF/YMTiA9ZIJ5Kc/LIim3tkeyr+WwuLFDeSGFODi1E0KfY9
+        OfwjZtuO5bg7BxKmi2byI+awEWjnTBQ8Wh3Gxb8=
+X-Google-Smtp-Source: ABdhPJw+sC+pBQw0G+0ULVvin/r/jCVVb1V7XUqN67UCoWrnBzyIXnaSzK5br1SZrCupI/L0LIZWgMfi7vhpZK+Wcm0=
+X-Received: by 2002:a05:651c:32c:: with SMTP id b12mr1745558ljp.198.1628616792032;
+ Tue, 10 Aug 2021 10:33:12 -0700 (PDT)
 MIME-Version: 1.0
-Sender: immeublesourou@gmail.com
-Received: by 2002:ab0:3903:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 06:23:57
+Received: by 2002:ac2:5d2e:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 10:33:10
  -0700 (PDT)
-From:   John Kumor <owo219901@gmail.com>
-Date:   Wed, 11 Aug 2021 01:23:57 +1200
-X-Google-Sender-Auth: yS3UzgPnn68wNDbf-hnce3gLnn0
-Message-ID: <CAHdg_cT_K-3CiTtG_z=2JyS3OA_ir2VvAFdLZYYHbPxjicSz0w@mail.gmail.com>
-Subject: Urgent
+Reply-To: majidmuzaffar8@gmail.com
+From:   Majid Muzaffar <ing.abdullabin.rishid.me@gmail.com>
+Date:   Tue, 10 Aug 2021 20:33:10 +0300
+Message-ID: <CAFsu49XXzY7ugKhGzJm5OPKe2LG1R35c-Dkp83VgS3+u27y=sQ@mail.gmail.com>
+Subject: Proposal
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-My dear,
-Greetings! I trust that all is well with you and your family. Did you
-receive my previous email?
-Regards
-John Kumor.
+Salam alaikum,
+
+I am the investment officer of UAE based investment company who are
+ready to fund projects outside UAE, in the form of debt finance. We
+grant loan to both Corporate and private entities at a low interest
+rate of 3% ROI per annum. The terms are very flexible and interesting.
+Kindly revert back if you have projects that needs funding for further
+discussion and negotiation.
+
+Thanks
+
+investment officer
