@@ -2,60 +2,119 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1F173E913C
-	for <lists+linux-hams@lfdr.de>; Wed, 11 Aug 2021 14:32:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 960EA3EB48E
+	for <lists+linux-hams@lfdr.de>; Fri, 13 Aug 2021 13:29:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231186AbhHKMcS (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 11 Aug 2021 08:32:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56042 "EHLO
+        id S240328AbhHML33 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 13 Aug 2021 07:29:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229996AbhHKMcM (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 11 Aug 2021 08:32:12 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAECCC061A0A
-        for <linux-hams@vger.kernel.org>; Wed, 11 Aug 2021 05:30:02 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id w6so4242493oiv.11
-        for <linux-hams@vger.kernel.org>; Wed, 11 Aug 2021 05:30:02 -0700 (PDT)
+        with ESMTP id S240335AbhHML32 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 13 Aug 2021 07:29:28 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B11E3C0613A4;
+        Fri, 13 Aug 2021 04:28:59 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id a7so15149966ljq.11;
+        Fri, 13 Aug 2021 04:28:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=77BwqRII9XCweQU8IJul6unijI/BEL+vUJmVmCRLxH4=;
-        b=l4gMJVQR0kiw5jB7QjBwuNpfM6KgRmAnZ+U3/uWnaDOrOmeNXH1cBsuQp1/yvU/vbe
-         h7truI0tSaL01ahWzSqREXmT86UPLmMGQ2+FLEgN9spMzc4cuAIBO//Q+H5br/KBc0TV
-         kFrfyS3HAXSTLm9xum/FyUF/jALDjxDHHjAbGHdZk+wTj7O/Gvjxi495MUWK0LMLb61t
-         xWjyjzLQh6acP97vVSQvECAoNev4PY9q3zMqG/1nqsutkiyZpW2+ssMsVdYVIVzVs9ax
-         stDtdqMeOw7/9vXNfePZRksemawFwQjcQ1gGbjzrFwOEwtevs3PZsUTk25T8b2r2n2+I
-         0gBA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ACKfswNNvHRBBpNemW++qzxjOqdIX0HI3XRS7XVqFYw=;
+        b=oUkhvc5gv8BZBW5FLmApDisWxSrrMdPvdrSD3FPpvW3oNA4LTa+G3AkccS251UuOpJ
+         YCihrqpl0EFV/Md1ONntGnIJ8dyvKNUZr8yHd4VymjFQJbQj7lexQALWYDch+Tkge0xZ
+         RhotYnORed/zVVBO5E+LLej/tlMNtZteuNyTQ0EUbaAYva5rcLAougQjwDzoB682WinD
+         NR11eozp63Mkn8eQxqptaiHxoQlx02abVzc6kvQIAV7IcClT7ZC+j37rWvBqwOBx1Gei
+         fwecd4IyjLIUmxO4VH9ROi395Utmp93f3cJlAOtFsVSXwPQnEq1YWj5COxIQ/8Q5uU2e
+         HoXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=77BwqRII9XCweQU8IJul6unijI/BEL+vUJmVmCRLxH4=;
-        b=hAuYbrOMUpaiNW+QHXmbjkG21/YyYRt5sDFl5bKTJOsUit/mzK6SsYiRZ9Mvs88zMg
-         YV+wNPljZ6pVLUfmHvf0vGcJZmTMS1MqIpkqLHaq6n/Z2+OLM3H6+ErziCqwm8/mnOhD
-         7s/KEJfq/g8iNSEt8pp9tmxVXUdz+2zrNTrch+oK2aBnKcJsAReFdd2P3gOtjoeicwMu
-         YuHYDTjLnYXqLGzDiyIkB7NB3zlxeMqyDVbelRuDby0iy46w7IniNLdhKOpV4Vv3bPoK
-         FuU+4n443llswiQQ0xsitGZ5Q3nBvRbAbCeLlwSH7fRsgDr1LwIWwOgu5QyWlUEYkDgX
-         nPJA==
-X-Gm-Message-State: AOAM531k4CKYOPeHJkneAKmYQ5PSiTy3bzRmioTyOLc4xJ0jUAZqBAU5
-        boSZINOVC72jwpvtjfzgq5NBtvOS67BYiPvIdJo=
-X-Google-Smtp-Source: ABdhPJwW80yC3Jv4N7Ygd/oz/W2w0OMWMVUNvF3laMRZsfuxi/a2uJ5LPRrNJQDqCRwhEl9YwYATyhizs0DKY0HnRMk=
-X-Received: by 2002:a05:6808:1924:: with SMTP id bf36mr24189327oib.106.1628685002002;
- Wed, 11 Aug 2021 05:30:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ACKfswNNvHRBBpNemW++qzxjOqdIX0HI3XRS7XVqFYw=;
+        b=qWSvh72phNa+xcCkrY+D2CjEv5Qg0xCgiH+ToOgm50njcIpnNMDY4d35u1Y2bkt8DK
+         dSO1XwWnK8QJMPkowbnRbfg+IukSPh7XI8rcBhnttjxC/4bXReUsTpETQRu7UM4qjyVI
+         8Z20hCTnB+u27p4chDJop/mNPAV2QlmgZmPiQBJ1enUZn1YFu7/iRwHlgaN86sP7cQJ5
+         Hhdvw1gv9pl0acxQ29KITivHDALMwxodVlqdWrn8zLPEKHXClSod/E3lsQxBP/v4cXQ6
+         hD/mCflKUFpl2kpVbq6INXOn7cYifLWB/r9AmQwO36btzFZrjmGxxgn2FYQvUhywYFLy
+         kokQ==
+X-Gm-Message-State: AOAM532j9yQ6vC6s2tzv1NNPW7NSTekaVnnSvjFI+UKl5gddTt+bNw0V
+        eCiUzeI3fNNi02CXMgcoZ40=
+X-Google-Smtp-Source: ABdhPJxZcizFKCHScyg2ZDtVHg+jRD89Fo/wQcR8aM/5ZaKSYKHB+K8rGqUqjzLsoGXXWaBsoVg5uw==
+X-Received: by 2002:a2e:b60d:: with SMTP id r13mr1484935ljn.218.1628854138037;
+        Fri, 13 Aug 2021 04:28:58 -0700 (PDT)
+Received: from localhost.localdomain ([46.235.67.232])
+        by smtp.gmail.com with ESMTPSA id d24sm142979lfs.80.2021.08.13.04.28.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Aug 2021 04:28:57 -0700 (PDT)
+From:   Pavel Skripkin <paskripkin@gmail.com>
+To:     ajk@comnets.uni-bremen.de, davem@davemloft.net, kuba@kernel.org
+Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Pavel Skripkin <paskripkin@gmail.com>,
+        syzbot+fc8cd9a673d4577fb2e4@syzkaller.appspotmail.com
+Subject: [PATCH] net: 6pack: fix slab-out-of-bounds in decode_data
+Date:   Fri, 13 Aug 2021 14:28:55 +0300
+Message-Id: <20210813112855.11170-1-paskripkin@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Received: by 2002:a05:6830:23a5:0:0:0:0 with HTTP; Wed, 11 Aug 2021 05:30:01
- -0700 (PDT)
-Reply-To: rihabmanyang07@yahoo.com
-From:   Rihab Manyang <ndourandiogou1@gmail.com>
-Date:   Wed, 11 Aug 2021 13:30:01 +0100
-Message-ID: <CAP5_mB76a-FSZzks8OG9YWvLEFv62qfHQ6sTAFQrmH0xjgR9bw@mail.gmail.com>
-Subject: hi
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
+Syzbot reported slab-out-of bounds write in decode_data().
+The problem was in missing validation checks.
+
+Syzbot's reproducer generated malicious input, which caused
+decode_data() to be called a lot in sixpack_decode(). Since
+rx_count_cooked is only 400 bytes and noone reported before,
+that 400 bytes is not enough, let's just check if input is malicious
+and complain about buffer overrun.
+
+Fail log:
+==================================================================
+BUG: KASAN: slab-out-of-bounds in drivers/net/hamradio/6pack.c:843
+Write of size 1 at addr ffff888087c5544e by task kworker/u4:0/7
+
+CPU: 0 PID: 7 Comm: kworker/u4:0 Not tainted 5.6.0-rc3-syzkaller #0
+...
+Workqueue: events_unbound flush_to_ldisc
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x197/0x210 lib/dump_stack.c:118
+ print_address_description.constprop.0.cold+0xd4/0x30b mm/kasan/report.c:374
+ __kasan_report.cold+0x1b/0x32 mm/kasan/report.c:506
+ kasan_report+0x12/0x20 mm/kasan/common.c:641
+ __asan_report_store1_noabort+0x17/0x20 mm/kasan/generic_report.c:137
+ decode_data.part.0+0x23b/0x270 drivers/net/hamradio/6pack.c:843
+ decode_data drivers/net/hamradio/6pack.c:965 [inline]
+ sixpack_decode drivers/net/hamradio/6pack.c:968 [inline]
+
+Reported-and-tested-by: syzbot+fc8cd9a673d4577fb2e4@syzkaller.appspotmail.com
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+---
+ drivers/net/hamradio/6pack.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
+index fcf3af76b6d7..f4ffc2a80ab7 100644
+--- a/drivers/net/hamradio/6pack.c
++++ b/drivers/net/hamradio/6pack.c
+@@ -827,6 +827,12 @@ static void decode_data(struct sixpack *sp, unsigned char inbyte)
+ 		return;
+ 	}
+ 
++	if (sp->rx_count_cooked + 3 >= sizeof(sp->cooked_buf)) {
++		pr_err("6pack: cooked buffer overrun, data loss\n");
++		sp->rx_count = 0;
++		return;
++	}
++
+ 	buf = sp->raw_buf;
+ 	sp->cooked_buf[sp->rx_count_cooked++] =
+ 		buf[0] | ((buf[1] << 2) & 0xc0);
 -- 
-How are you?I am miss.Rihab Manyang i will like to be your friend
-please write me back on my email for more details, Thanks.
+2.32.0
+
