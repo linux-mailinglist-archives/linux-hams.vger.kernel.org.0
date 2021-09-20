@@ -2,111 +2,169 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B53A411730
-	for <lists+linux-hams@lfdr.de>; Mon, 20 Sep 2021 16:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C037412A55
+	for <lists+linux-hams@lfdr.de>; Tue, 21 Sep 2021 03:38:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237908AbhITOhn (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 20 Sep 2021 10:37:43 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:42139 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232884AbhITOhm (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 20 Sep 2021 10:37:42 -0400
-Received: from h7.dl5rb.org.uk (p5790756f.dip0.t-ipconnect.de [87.144.117.111])
-        (Authenticated sender: ralf@linux-mips.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 16C3924000D;
-        Mon, 20 Sep 2021 14:36:13 +0000 (UTC)
-Received: from h7.dl5rb.org.uk (localhost [127.0.0.1])
-        by h7.dl5rb.org.uk (8.16.1/8.16.1) with ESMTPS id 18KEaCoW1202523
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Mon, 20 Sep 2021 16:36:12 +0200
-Received: (from ralf@localhost)
-        by h7.dl5rb.org.uk (8.16.1/8.16.1/Submit) id 18KEa8AL1202520;
-        Mon, 20 Sep 2021 16:36:08 +0200
-Message-Id: <cover.1632059758.git.ralf@linux-mips.org>
-From:   Ralf Baechle <ralf@linux-mips.org>
-Date:   Sun, 19 Sep 2021 15:55:58 +0200
-Subject: [PATCH v2 0/6] iproute2: Add basic AX.25, NETROM and ROSE support.
-To:     Stephen Hemminger <stephen@networkplumber.org>
-Cc:     netdev@vger.kernel.org, linux-hams@vger.kernel.org
-Lines:  75
+        id S232879AbhIUBkT (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 20 Sep 2021 21:40:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58822 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231624AbhIUBiX (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 20 Sep 2021 21:38:23 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC0A8C0F26EF;
+        Mon, 20 Sep 2021 12:19:20 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id q26so32659859wrc.7;
+        Mon, 20 Sep 2021 12:19:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=zn6E5ZQEnhBIjrLqGG2ocBWfZkloXRG9O89ektDdbwo=;
+        b=YxbzXV0depQzsyfE8ap8QQxP+ftYOMD0mmb8wr17aRDOymorLXOpANYKCHtEwV8/hK
+         WJpoSCHhf+Seni9te2sTvK12otX6FGTvK6blNSkFYHnUxaB+CO9ViQ24O9RXGeEEaDYL
+         2/Cb6oG8fKht3BLsUYMQ7Yu606aLy+OTaWsO7TQLOw+4YTaWunWzNdWvL+rJBgQBi9dp
+         ghVhZVuwLrDdab0oFOfvK54qF6mEJ4bqvo/uDr8ubBH/S5mxvec2pbml+FEACgDVyYzm
+         Nihu01lQaf/LbH41FYYGuG3RFXZxCFUlczb/sumQvcIT1nR4jI2U5bDEcgvKeGi9LhXb
+         OxMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zn6E5ZQEnhBIjrLqGG2ocBWfZkloXRG9O89ektDdbwo=;
+        b=S7czhRJsnCcQony00Wr6lN6SWeRd+0PHg/Lt0IfF83fcenVMZfwpdhkjCIeTFfEpU6
+         ImOHq8nP9tphjR3KwuzHP0zZWFlTrIesE8u3N7P/QlNY7e2oMjCeFgtE0tNDCFeSRbN8
+         RNGAbYVgy3tDTYdr6SsaficY9gxz4DVbRvmQlxfUm9TKwkZJTvekaiaBE2c/qT0AaBvA
+         R+3ojtBWdMkuI4VKyZRUZnVc9rK34xKREV0BCL0/7LjcBlXYTCvuYFpI3n1Gub8vqqnW
+         RC0yoYL0yNJKfkt4/YzgbG4TQAzTBRq+PsmN0OWmgAFoQ+hWni9/tcJUZfS4bAeJrMUs
+         ngXw==
+X-Gm-Message-State: AOAM532TjvHW4oOXLUxAbgo6uZkRERIOVIePDe7pvMnOHe/L426Qu4uM
+        MnSqrPSlr+ZSGcb5Tyt0zFXeKZ1HWTU=
+X-Google-Smtp-Source: ABdhPJwpuJHnG6wEweu0AG1zY54nGYq1Lt4P+waYA/46JzJc04ww9oNMUDPQ43PSx2iIlxEcllEbMQ==
+X-Received: by 2002:a5d:4481:: with SMTP id j1mr7818486wrq.6.1632165559183;
+        Mon, 20 Sep 2021 12:19:19 -0700 (PDT)
+Received: from [10.8.0.102] ([195.53.121.100])
+        by smtp.gmail.com with ESMTPSA id v191sm377637wme.36.2021.09.20.12.19.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Sep 2021 12:19:18 -0700 (PDT)
+Subject: Re: [PATCH v2] packet.7: Describe SOCK_PACKET netif name length
+ issues and workarounds.
+To:     Ralf Baechle <ralf@linux-mips.org>
+Cc:     netdev@vger.kernel.org, linux-hams@vger.kernel.org,
+        Thomas Osterried <thomas@osterried.de>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-man@vger.kernel.org
+References: <YUNIz64en4QslhL6@linux-mips.org>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Message-ID: <4ab8a2b2-069f-9950-7e2c-ce2cc815dd01@gmail.com>
+Date:   Mon, 20 Sep 2021 21:19:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <YUNIz64en4QslhL6@linux-mips.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-net-tools contain support for these three protocol but are deprecated and
-no longer installed by default by many distributions.  Iproute2 otoh has
-no support at all and will dump the addresses of these protocols which
-actually are pretty human readable as hex numbers:
+Hi Ralf,
 
-# ip link show dev bpq0
-3: bpq0: <UP,LOWER_UP> mtu 256 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
-    link/ax25 88:98:60:a0:92:40:02 brd a2:a6:a8:40:40:40:00
-# ip link show dev nr0
-4: nr0: <NOARP,UP,LOWER_UP> mtu 236 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
-    link/netrom 88:98:60:a0:92:40:0a brd 00:00:00:00:00:00:00
-# ip link show dev rose0
-8: rose0: <NOARP,UP,LOWER_UP> mtu 249 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
-    link/rose 65:09:33:30:00 brd 00:00:00:00:00
+On 9/16/21 3:38 PM, Ralf Baechle wrote:
+> Describe the issues with SOCK_PACKET possibly truncating network interface
+> names in results, solutions and possible workarounds.
+> 
+> While the issue is known for a long time it appears to have never been
+> properly documented is has started to bite software antiques including
+> the AX.25 userland badly since the introduction of Predictable Network
+> Interface Names.  So let's document it.
+> 
+> Signed-off-by: Ralf Baechle <ralf@linux-mips.org>
 
-This series adds basic support for the three protocols to print addresses:
+Patch applied!
 
-# ip link show dev bpq0
-3: bpq0: <UP,LOWER_UP> mtu 256 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
-    link/ax25 DL0PI-1 brd QST-0
-# ip link show dev nr0
-4: nr0: <NOARP,UP,LOWER_UP> mtu 236 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
-    link/netrom DL0PI-5 brd *
-# ip link show dev rose0
-8: rose0: <NOARP,UP,LOWER_UP> mtu 249 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
-    link/rose 6509333000 brd 0000000000
+Thanks,
 
-Ralf Baechle (6):
-  AX.25: Add ax25_ntop implementation.
-  AX.25: Print decoded addresses rather than hex numbers.
-  NETROM: Add netrom_ntop implementation.
-  NETROM: Print decoded addresses rather than hex numbers.
-  ROSE: Add rose_ntop implementation.
-  ROSE: Print decoded addresses rather than hex numbers.
+Alex
 
-Changes in v2:
- - reset commit dates.  The commit dates were still pointing back to the
-   ages of King Tutankhamun though the code is more recent and has been
-   tested based on latest iproute2.
+> ---
+>   man7/packet.7 | 39 ++++++++++++++++++++++++++++++++++++---
+>   1 file changed, 36 insertions(+), 3 deletions(-)
+> 
+> Changes in v2: Correct issues raised by Alejandro Colomar in review of v1.
+> 
+> diff --git a/man7/packet.7 b/man7/packet.7
+> index 706efbb54..fa022bee8 100644
+> --- a/man7/packet.7
+> +++ b/man7/packet.7
+> @@ -616,10 +616,10 @@ is the device name as a null-terminated string, for example, eth0.
+>   .PP
+>   This structure is obsolete and should not be used in new code.
+>   .SH BUGS
+> +.SS LLC header handling
+>   The IEEE 802.2/803.3 LLC handling could be considered as a bug.
+>   .PP
+> -Socket filters are not documented.
+> -.PP
+> +.SS MSG_TRUNC issues
+>   The
+>   .B MSG_TRUNC
+>   .BR recvmsg (2)
+> @@ -627,6 +627,38 @@ extension is an ugly hack and should be replaced by a control message.
+>   There is currently no way to get the original destination address of
+>   packets via
+>   .BR SOCK_DGRAM .
+> +.PP
+> +.SS spkt_device device name truncation
+> +The
+> +.I spkt_device
+> +field of
+> +.I sockaddr_pkt
+> +has a size of 14 bytes which is less than the constant
+> +.B IFNAMSIZ
+> +defined in
+> +.I <net/if.h>
+> +which is 16 bytes and describes the system limit for a network interface name.
+> +This means the names of network devices longer than 14 bytes will be truncated
+> +to fit into
+> +.IR spkt_device .
+> +All these lengths include the terminating null byte (\(aq\e0\(aq)).
+> +.PP
+> +Issues from this with old code typically show up with very long interface
+> +names used by the
+> +.B Predictable Network Interface Names
+> +feature enabled by default in many modern Linux distributions.
+> +.PP
+> +The preferred solution is to rewrite code to avoid
+> +.BR SOCK_PACKET .
+> +Possible user solutions are to disable
+> +.B Predictable Network Interface Names
+> +or to rename the interface to a name of at most 13 bytes, for example using
+> +the
+> +.BR ip (8)
+> +tool.
+> +.PP
+> +.SS Documentation issues
+> +Socket filters are not documented.
+>   .\" .SH CREDITS
+>   .\" This man page was written by Andi Kleen with help from Matthew Wilcox.
+>   .\" AF_PACKET in Linux 2.2 was implemented
+> @@ -637,7 +669,8 @@ packets via
+>   .BR capabilities (7),
+>   .BR ip (7),
+>   .BR raw (7),
+> -.BR socket (7)
+> +.BR socket (7),
+> +.BR ip (8),
+>   .PP
+>   RFC\ 894 for the standard IP Ethernet encapsulation.
+>   RFC\ 1700 for the IEEE 802.3 IP encapsulation.
+> 
 
- Makefile          |  9 ++++++
- include/utils.h   |  6 ++++
- lib/ax25_ntop.c   | 82 +++++++++++++++++++++++++++++++++++++++++++++++
- lib/ll_addr.c     |  6 ++++
- lib/netrom_ntop.c | 23 +++++++++++++
- lib/rose_ntop.c   | 56 ++++++++++++++++++++++++++++++++
- 6 files changed, 182 insertions(+)
- create mode 100644 lib/ax25_ntop.c
- create mode 100644 lib/netrom_ntop.c
- create mode 100644 lib/rose_ntop.c
 
 -- 
-2.31.1
-
-
-Ralf Baechle (6):
-  AX.25: Add ax25_ntop implementation.
-  AX.25: Print decoded addresses rather than hex numbers.
-  NETROM: Add netrom_ntop implementation.
-  NETROM: Print decoded addresses rather than hex numbers.
-  ROSE: Add rose_ntop implementation.
-  ROSE: Print decoded addresses rather than hex numbers.
-
- Makefile          |  9 ++++++
- include/utils.h   |  6 ++++
- lib/ax25_ntop.c   | 82 +++++++++++++++++++++++++++++++++++++++++++++++
- lib/ll_addr.c     |  6 ++++
- lib/netrom_ntop.c | 23 +++++++++++++
- lib/rose_ntop.c   | 56 ++++++++++++++++++++++++++++++++
- 6 files changed, 182 insertions(+)
- create mode 100644 lib/ax25_ntop.c
- create mode 100644 lib/netrom_ntop.c
- create mode 100644 lib/rose_ntop.c
-
--- 
-2.31.1
-
+Alejandro Colomar
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
