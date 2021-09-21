@@ -2,169 +2,171 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C037412A55
-	for <lists+linux-hams@lfdr.de>; Tue, 21 Sep 2021 03:38:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2336F413A66
+	for <lists+linux-hams@lfdr.de>; Tue, 21 Sep 2021 20:56:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232879AbhIUBkT (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 20 Sep 2021 21:40:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58822 "EHLO
+        id S233803AbhIUS5j (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 21 Sep 2021 14:57:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231624AbhIUBiX (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 20 Sep 2021 21:38:23 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC0A8C0F26EF;
-        Mon, 20 Sep 2021 12:19:20 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id q26so32659859wrc.7;
-        Mon, 20 Sep 2021 12:19:20 -0700 (PDT)
+        with ESMTP id S229761AbhIUS5i (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 21 Sep 2021 14:57:38 -0400
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 387F1C061574
+        for <linux-hams@vger.kernel.org>; Tue, 21 Sep 2021 11:56:10 -0700 (PDT)
+Received: by mail-ot1-x32d.google.com with SMTP id n65-20020a9d2047000000b00547334367efso2790671ota.1
+        for <linux-hams@vger.kernel.org>; Tue, 21 Sep 2021 11:56:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zn6E5ZQEnhBIjrLqGG2ocBWfZkloXRG9O89ektDdbwo=;
-        b=YxbzXV0depQzsyfE8ap8QQxP+ftYOMD0mmb8wr17aRDOymorLXOpANYKCHtEwV8/hK
-         WJpoSCHhf+Seni9te2sTvK12otX6FGTvK6blNSkFYHnUxaB+CO9ViQ24O9RXGeEEaDYL
-         2/Cb6oG8fKht3BLsUYMQ7Yu606aLy+OTaWsO7TQLOw+4YTaWunWzNdWvL+rJBgQBi9dp
-         ghVhZVuwLrDdab0oFOfvK54qF6mEJ4bqvo/uDr8ubBH/S5mxvec2pbml+FEACgDVyYzm
-         Nihu01lQaf/LbH41FYYGuG3RFXZxCFUlczb/sumQvcIT1nR4jI2U5bDEcgvKeGi9LhXb
-         OxMQ==
+        d=habets.se; s=google;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=suK7qtQVX//DQGursJ7xjQdf3jIpf7FbYnt7ebLQCH4=;
+        b=Jm8OELwp3BjQ2RxWOOu4oZuhJeSWugIHtOW+kPdpDV9vNSNIOVswoR1ckobHWGaqLf
+         lOPQrWCThKuiTe5c/xL+LNIIi/+pJafHMe0xFhFgtKgZfaPWBVQ860XJ7hKFVUxefJjo
+         nEguonSaP3Xj/hyFaYV60WnF2F3n5G+ObCMP0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zn6E5ZQEnhBIjrLqGG2ocBWfZkloXRG9O89ektDdbwo=;
-        b=S7czhRJsnCcQony00Wr6lN6SWeRd+0PHg/Lt0IfF83fcenVMZfwpdhkjCIeTFfEpU6
-         ImOHq8nP9tphjR3KwuzHP0zZWFlTrIesE8u3N7P/QlNY7e2oMjCeFgtE0tNDCFeSRbN8
-         RNGAbYVgy3tDTYdr6SsaficY9gxz4DVbRvmQlxfUm9TKwkZJTvekaiaBE2c/qT0AaBvA
-         R+3ojtBWdMkuI4VKyZRUZnVc9rK34xKREV0BCL0/7LjcBlXYTCvuYFpI3n1Gub8vqqnW
-         RC0yoYL0yNJKfkt4/YzgbG4TQAzTBRq+PsmN0OWmgAFoQ+hWni9/tcJUZfS4bAeJrMUs
-         ngXw==
-X-Gm-Message-State: AOAM532TjvHW4oOXLUxAbgo6uZkRERIOVIePDe7pvMnOHe/L426Qu4uM
-        MnSqrPSlr+ZSGcb5Tyt0zFXeKZ1HWTU=
-X-Google-Smtp-Source: ABdhPJwpuJHnG6wEweu0AG1zY54nGYq1Lt4P+waYA/46JzJc04ww9oNMUDPQ43PSx2iIlxEcllEbMQ==
-X-Received: by 2002:a5d:4481:: with SMTP id j1mr7818486wrq.6.1632165559183;
-        Mon, 20 Sep 2021 12:19:19 -0700 (PDT)
-Received: from [10.8.0.102] ([195.53.121.100])
-        by smtp.gmail.com with ESMTPSA id v191sm377637wme.36.2021.09.20.12.19.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Sep 2021 12:19:18 -0700 (PDT)
-Subject: Re: [PATCH v2] packet.7: Describe SOCK_PACKET netif name length
- issues and workarounds.
-To:     Ralf Baechle <ralf@linux-mips.org>
-Cc:     netdev@vger.kernel.org, linux-hams@vger.kernel.org,
-        Thomas Osterried <thomas@osterried.de>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-References: <YUNIz64en4QslhL6@linux-mips.org>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <4ab8a2b2-069f-9950-7e2c-ce2cc815dd01@gmail.com>
-Date:   Mon, 20 Sep 2021 21:19:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=suK7qtQVX//DQGursJ7xjQdf3jIpf7FbYnt7ebLQCH4=;
+        b=0WhA9P6SQQaPPkgr8op2vEjUTP7sHioCincdYYl5a3geMFYZCTCySihsumLVg2+qIi
+         EbfB/wlIWl1Gc/V+XrEuow3ihbdqAMe53jhagD1MfVQChH691w50sxgTPsbVNVUL5oS6
+         FWUv3jmrsdkRUiDyXYnX/o0+fF/o/DwTnHOTOvxPM2pBQHFGjuyB2ey4y5ck0pv6tsjZ
+         vqqydaQ+SnPpRWxgSVQ2If9jKViaNS2tQtZojXzSv3Q94nrM9RD3wdKUjbOl275kMtO6
+         mUW1pLHef8Zs+aFQp99ozOEFGebZrpcUITSEbUZLyo4oUTSKPCZ5Cpk1Yd6XmO4or2s2
+         qX2g==
+X-Gm-Message-State: AOAM531UlW+a8DHs41FDinQftyPWhmksdHSbbdEO6mmBylFx+Ge01sOG
+        dSlFaO2Z4J2Gqu2wkbtwUSUMXJTw7Q8PZjJt1DIci8VZfhC1lg==
+X-Google-Smtp-Source: ABdhPJwm856IhmrLarvqsfkf6cAPkM11/KJQYzPgSOwSP5eB8NnlUe85X90RtjynwkvwCuxnwkF6hKyVeRkpikGpfyA=
+X-Received: by 2002:a9d:5a8e:: with SMTP id w14mr14233385oth.322.1632250569199;
+ Tue, 21 Sep 2021 11:56:09 -0700 (PDT)
+Received: from 195210475306 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 21 Sep 2021 11:56:08 -0700
 MIME-Version: 1.0
-In-Reply-To: <YUNIz64en4QslhL6@linux-mips.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From:   thomas@habets.se
+Date:   Tue, 21 Sep 2021 11:56:08 -0700
+Message-ID: <CA+kHd+e=XQ6m7YgMGMmK5FjkX=bYVEQ7n57GaY8j0qHtwzZPpg@mail.gmail.com>
+Subject: Unable to receive UI frames with DGRAM socket
+To:     linux-hams@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hi Ralf,
+Hi.
 
-On 9/16/21 3:38 PM, Ralf Baechle wrote:
-> Describe the issues with SOCK_PACKET possibly truncating network interface
-> names in results, solutions and possible workarounds.
-> 
-> While the issue is known for a long time it appears to have never been
-> properly documented is has started to bite software antiques including
-> the AX.25 userland badly since the introduction of Predictable Network
-> Interface Names.  So let's document it.
-> 
-> Signed-off-by: Ralf Baechle <ralf@linux-mips.org>
+I'm trying to send and receive UI frames with a DGRAM socket, but am
+not having any success. I've resorted to using bpftrace to find where
+the frames are dropped and the code looks very strange to me.
 
-Patch applied!
+After bind() to an address, netstat -nap shows:
 
-Thanks,
+Active AX.25 sockets
+Dest       Source     Device  State        Vr/Vs    Send-Q  Recv-Q
+*          M6VMB-1    ax0     LISTENING    000/000  0       0
 
-Alex
+That seems fine, but note the unspecified destination. That's on
+purpose, since I want to listen to any and all UI frames going to
+M6VMB-1.
 
-> ---
->   man7/packet.7 | 39 ++++++++++++++++++++++++++++++++++++---
->   1 file changed, 36 insertions(+), 3 deletions(-)
-> 
-> Changes in v2: Correct issues raised by Alejandro Colomar in review of v1.
-> 
-> diff --git a/man7/packet.7 b/man7/packet.7
-> index 706efbb54..fa022bee8 100644
-> --- a/man7/packet.7
-> +++ b/man7/packet.7
-> @@ -616,10 +616,10 @@ is the device name as a null-terminated string, for example, eth0.
->   .PP
->   This structure is obsolete and should not be used in new code.
->   .SH BUGS
-> +.SS LLC header handling
->   The IEEE 802.2/803.3 LLC handling could be considered as a bug.
->   .PP
-> -Socket filters are not documented.
-> -.PP
-> +.SS MSG_TRUNC issues
->   The
->   .B MSG_TRUNC
->   .BR recvmsg (2)
-> @@ -627,6 +627,38 @@ extension is an ugly hack and should be replaced by a control message.
->   There is currently no way to get the original destination address of
->   packets via
->   .BR SOCK_DGRAM .
-> +.PP
-> +.SS spkt_device device name truncation
-> +The
-> +.I spkt_device
-> +field of
-> +.I sockaddr_pkt
-> +has a size of 14 bytes which is less than the constant
-> +.B IFNAMSIZ
-> +defined in
-> +.I <net/if.h>
-> +which is 16 bytes and describes the system limit for a network interface name.
-> +This means the names of network devices longer than 14 bytes will be truncated
-> +to fit into
-> +.IR spkt_device .
-> +All these lengths include the terminating null byte (\(aq\e0\(aq)).
-> +.PP
-> +Issues from this with old code typically show up with very long interface
-> +names used by the
-> +.B Predictable Network Interface Names
-> +feature enabled by default in many modern Linux distributions.
-> +.PP
-> +The preferred solution is to rewrite code to avoid
-> +.BR SOCK_PACKET .
-> +Possible user solutions are to disable
-> +.B Predictable Network Interface Names
-> +or to rename the interface to a name of at most 13 bytes, for example using
-> +the
-> +.BR ip (8)
-> +tool.
-> +.PP
-> +.SS Documentation issues
-> +Socket filters are not documented.
->   .\" .SH CREDITS
->   .\" This man page was written by Andi Kleen with help from Matthew Wilcox.
->   .\" AF_PACKET in Linux 2.2 was implemented
-> @@ -637,7 +669,8 @@ packets via
->   .BR capabilities (7),
->   .BR ip (7),
->   .BR raw (7),
-> -.BR socket (7)
-> +.BR socket (7),
-> +.BR ip (8),
->   .PP
->   RFC\ 894 for the standard IP Ethernet encapsulation.
->   RFC\ 1700 for the IEEE 802.3 IP encapsulation.
-> 
+But it looks like UI frames will only work when both source and
+destination are an exact match.
+
+ax25_get_socket() checks both[1], and it's called from ax25_rcv[2].
+
+And that's where the packet is dropped. With my bpftrace[3] I see this
+(annotated. function name means kprobe, tilde-version means kretprobe):
+
+Attaching 11 probes...
+ax25_kiss_rcv()        # Packet received
+ax25cmp                # Is it our port address?
+~ax25cmp 0             # ... yes it is
+ax25_send_to_raw(,0xffff9d2078d37e00, f0)
+    Type (3 for UI): 3     # UI packet
+    Proto: f0              # AX25_P_TEXT
+ax25cmp                    # is this socket listening for this?
+~ax25cmp 0                 # ... yes, but it's not a raw socket,
+                           #     so never mind.
+~ax25_send_to_raw
+ax25_get_socket(l@,d`g,type=2)   # ok, time to find the right socket
+ax25cmp              # does this dst address match local?
+~ax25cmp 0           # .. yes it does!
+ax25cmp              # does the src match... "*" from netstat?
+~ax25cmp 1           # ... of course it doesn't, but why should it?
+~ax25_get_socket = (nil)    # found no socket listening :-(
+kfree_skb                   # throw packet on the floor
+~ax25_kiss_rcv              # give up
 
 
--- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+Is this a bug? Is it even possible to receive UI frames without a raw
+socket?
+
+As a workaround, is it possible to set the destination address for
+bind()ing? That'd make it point-to-point UI, so still not great.
+
+By the way, I also found it odd that socket addresses are compared
+before socket type. Surely it must be slightly more efficient to check
+socket type (SOCK_RAW or DGRAM) first, and only do the address
+comparisons after?
+
+The packet looks fine on the receive side in axlisten:
+
+radio6: fm 2E0VMB-3 to M6VMB-1 ctl UI^ pid=F0(Text) len 5 19:43:32.787076
+0000  hello
+
+[1] https://elixir.bootlin.com/linux/latest/source/net/ax25/af_ax25.c#L179
+[2] https://elixir.bootlin.com/linux/latest/source/net/ax25/ax25_in.c#L260
+[3] #!/bin/bpftrace
+
+#include <linux/skbuff.h>
+#include <uapi/linux/ax25.h>
+
+kprobe:ax25_kiss_rcv {@t[tid]=1; printf("ax25_kiss_rcv()\n");}
+kretprobe:ax25_kiss_rcv {delete(@t[tid]); printf("~ax25_kiss_rcv\n");}
+
+
+kprobe:ax25_send_to_raw /@t[tid]==1/ {
+  $skb = (struct sk_buff*)arg1;
+  printf("ax25_send_to_raw(,%p, %x)\n", $skb, arg2);
+  printf("    Type (3 for UI): %x\n", *$skb->data);
+  printf("    Proto: %x\n", arg2);
+}
+kretprobe:ax25_send_to_raw /@t[tid]==1/ {
+  printf("~ax25_send_to_raw\n");
+}
+
+kprobe:netif_rx /@t[tid]==1/ {  printf("netif_rx\n");}
+
+kprobe:ax25cmp /@t[tid]==1/ {  printf("ax25cmp\n");}
+kretprobe:ax25cmp /@t[tid]==1/ {
+  printf("~ax25cmp %d\n", retval);
+}
+
+
+kprobe:ax25_get_socket /@t[tid]==1/ {
+  $a = (ax25_address*)arg0;
+  $b = (ax25_address*)arg1;
+  printf("ax25_get_socket(%s,%s,type=%x)\n",
+        $a->ax25_call,
+        $b->ax25_call,
+        arg2);
+  @oride[tid] = 1;
+}
+kretprobe:ax25_get_socket /@t[tid]==1/ {
+  printf("~ax25_get_socket = %p\n", retval);
+  delete(@oride[tid]);
+}
+
+kretprobe:ax25_listen_mine /@t[tid]==1/ {  printf("~ax25_listen_mine
+%d\n", retval);}
+
+kprobe:kfree_skb /@t[tid]==1/ {  printf("kfree_skb\n");}
+
+
+--
+typedef struct me_s {
+  char name[]      = { "Thomas Habets" };
+  char email[]     = { "thomas@habets.se" };
+  char kernel[]    = { "Linux" };
+  char *pgpKey[]   = { "http://www.habets.pp.se/pubkey.txt" };
+  char pgp[] = { "9907 8698 8A24 F52F 1C2E  87F6 39A4 9EEA 460A 0169" };
+  char coolcmd[]   = { "echo '. ./_&. ./_'>_;. ./_" };
+} me_t;
