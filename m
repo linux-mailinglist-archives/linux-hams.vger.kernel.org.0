@@ -2,93 +2,99 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80037415275
-	for <lists+linux-hams@lfdr.de>; Wed, 22 Sep 2021 23:11:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C1E841568D
+	for <lists+linux-hams@lfdr.de>; Thu, 23 Sep 2021 05:40:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237965AbhIVVMn (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 22 Sep 2021 17:12:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37906 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237930AbhIVVMn (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 22 Sep 2021 17:12:43 -0400
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D71CAC061574
-        for <linux-hams@vger.kernel.org>; Wed, 22 Sep 2021 14:11:12 -0700 (PDT)
-Received: by mail-oi1-x232.google.com with SMTP id s69so6445807oie.13
-        for <linux-hams@vger.kernel.org>; Wed, 22 Sep 2021 14:11:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=habets.se; s=google;
-        h=in-reply-to:mime-version:references:from:date:message-id:subject:to
-         :cc;
-        bh=SsofWZwCaC6r+93dh4qQw8aqw3D2XxfRV4HuPhaVWaw=;
-        b=FhEuvwgDn94H3OWuH5fgzhgXMzEOdWpmBthqyjXJRszI+zLfRXjUx4FDFkOxr/Ra/l
-         73QvrzOW1h119gFyBK7WqprCJ9qSyIWe8NNNBcxhHYPPDPybibpaH7DwdCVgv9/74na5
-         0lLncXiiq0byTVThnTvxvcdZRMwyf/+0OLW0M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:in-reply-to:mime-version:references:from:date
-         :message-id:subject:to:cc;
-        bh=SsofWZwCaC6r+93dh4qQw8aqw3D2XxfRV4HuPhaVWaw=;
-        b=JQE4bpwDwLDdICrTWK4FnDHdBngtMqSvDgFNXn31ZHgIoFnCvTs+WS7oclG9NDpjbV
-         OoiqGU1WKnK+2WU/OHUEhxaMaxExa/M+Z2s6SqW01DWNVbtMiUePSOeul+JbPaIdqk/C
-         DyAm7WEnRSl+ZFVGaiIJOzgeoa3YIwp4GxjJehCx6dH7+2UGZEM/WRnnWifCR4hKae/w
-         weNMuYcqhMw1Ew9W3BsDR0ynUJT0v5TWfGoJfijex0c/+ZR7RGo8g7WnRfEg0bR+YIX+
-         KrqU92ZvP3zh64EgbWPv1axUd8BUjr8r3J8PaUWMEBCU2idWUCH0EVQ+d9oHw8G7e2Fj
-         PsVQ==
-X-Gm-Message-State: AOAM532DF0gGKfHZZ56ZEiGpeNvlKtg7/xjaaU3L3+KF9uX7BV3LpQ8Z
-        WNcrDwK+A/APQ4eZUfnXyEytkzt5NLpQaR2zLC8Sb4xyLmrLow==
-X-Google-Smtp-Source: ABdhPJxz7Gl28E2gQxDFEiKMIua9Y4cWaNSu5+XyaQjhn/Q/wPIqEhLXUw7rVAfWQjOyd3T2aDx5tyQMdZLY4OvWquY=
-X-Received: by 2002:a54:418a:: with SMTP id 10mr1010818oiy.13.1632345072166;
- Wed, 22 Sep 2021 14:11:12 -0700 (PDT)
-Received: from 195210475306 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 22 Sep 2021 14:11:11 -0700
-In-Reply-To: <e235ee10-5774-f690-0c5e-5dc575482936@trinnet.net>
+        id S239660AbhIWDmB (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 22 Sep 2021 23:42:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41558 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239437AbhIWDk6 (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Wed, 22 Sep 2021 23:40:58 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C4A5610A1;
+        Thu, 23 Sep 2021 03:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632368367;
+        bh=v+I8QNo3TKWMn6cbjdZKqsdAo0EcMoZ7bol0AcjFG0I=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=R8U2ZwY+TN18Kqb9A09OOOcR/bmuiXCvWAk+J1rHH/AEBjcsRZ4RXtEL8jBSblaRQ
+         r9rmwe1Zxk6u3CG8Zv4KFG4E5+bC4R9hs6yDiLQTH/PhpSJwscnlj2H7eM8eD0XUuB
+         7XeRSQWFQS4G4oK00cTHNadlX0nvOFNjxR3eRxBUH/DG9Y/vpduBQKWPRsm6nuPBD4
+         eimRI+W/6N01UY+izBLXBK6eZl8MCeofyoVPVpEHq5Pf4TKJr7B9ipYzGHj63FaB30
+         muAtX0pd5P279Nt1Rgu8vst5oLgxgBbZRoKxAZzr8OioICeICSWjZXBR/KMr9vl2vy
+         tmYJYsXiDgSNQ==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Sasha Levin <sashal@kernel.org>, ajk@comnets.uni-bremen.de,
+        davem@davemloft.net, kuba@kernel.org, linux-hams@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 18/19] net: 6pack: Fix tx timeout and slot time
+Date:   Wed, 22 Sep 2021 23:38:52 -0400
+Message-Id: <20210923033853.1421193-18-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210923033853.1421193-1-sashal@kernel.org>
+References: <20210923033853.1421193-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <CA+kHd+e=XQ6m7YgMGMmK5FjkX=bYVEQ7n57GaY8j0qHtwzZPpg@mail.gmail.com>
- <e235ee10-5774-f690-0c5e-5dc575482936@trinnet.net>
-From:   thomas@habets.se
-Date:   Wed, 22 Sep 2021 14:11:11 -0700
-Message-ID: <CA+kHd+cvbwz+T2rwnGG7JpcK33DAn25kk4FWUckVT3P9nY+2=A@mail.gmail.com>
-Subject: Re: Unable to receive UI frames with DGRAM socket
-To:     David Ranch <linux-hams@trinnet.net>
-Cc:     linux-hams@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Wed, 22 Sep 2021 16:32:41 +0100, David Ranch <linux-hams@trinnet.net> said:
-> I recommend to look at how ax25-apps's "listen" program works to get
-> some ideas.  It DOESN'T bind to the stack in the way you're proposing
-> and instead uses the SOCK_PACKET approach.
+From: Guenter Roeck <linux@roeck-us.net>
 
-Yeah, I tried to draw inspiration from others. But I'm failing to find
-anything that doesn't require root.
+[ Upstream commit 3c0d2a46c0141913dc6fd126c57d0615677d946e ]
 
-E.g. axlisten from ax25-apps does:
-  socket(AF_PACKET, SOCK_PACKET, htons(ETH_P_AX25))
-axlisten -a does:
-  socket(AF_PACKET, SOCK_PACKET, htons(ETH_P_ALL))
+tx timeout and slot time are currently specified in units of HZ.  On
+Alpha, HZ is defined as 1024.  When building alpha:allmodconfig, this
+results in the following error message.
 
-Both require root (or NET_ADMIN, or whatever capability).
+  drivers/net/hamradio/6pack.c: In function 'sixpack_open':
+  drivers/net/hamradio/6pack.c:71:41: error:
+  	unsigned conversion from 'int' to 'unsigned char'
+  	changes value from '256' to '0'
 
-But surely there should be a way to use SOCK_DGRAM, in any capacity at
-all?
-The code explicitly handles it here:
-https://elixir.bootlin.com/linux/latest/source/net/ax25/ax25_in.c#L260
+In the 6PACK protocol, tx timeout is specified in units of 10 ms and
+transmitted over the wire:
 
-While working on this I've actually already been doing experiments
-with SOCK_PACKET, and yes sure aside from needing root and requiring
-parsing the AX.25 header myself, it does work.
+    https://www.linux-ax25.org/wiki/6PACK
 
-But those are two major drawbacks.
+Defining a value dependent on HZ doesn't really make sense, and
+presumably comes from the (very historical) situation where HZ was
+originally 100.
 
---
-typedef struct me_s {
-  char name[]      = { "Thomas Habets" };
-  char email[]     = { "thomas@habets.se" };
-  char kernel[]    = { "Linux" };
-  char *pgpKey[]   = { "http://www.habets.pp.se/pubkey.txt" };
-  char pgp[] = { "9907 8698 8A24 F52F 1C2E  87F6 39A4 9EEA 460A 0169" };
-  char coolcmd[]   = { "echo '. ./_&. ./_'>_;. ./_" };
-} me_t;
+Note that the SIXP_SLOTTIME use explicitly is about 10ms granularity:
+
+        mod_timer(&sp->tx_t, jiffies + ((when + 1) * HZ) / 100);
+
+and the SIXP_TXDELAY walue is sent as a byte over the wire.
+
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/hamradio/6pack.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
+index da13683d52d1..bd0beb16d68a 100644
+--- a/drivers/net/hamradio/6pack.c
++++ b/drivers/net/hamradio/6pack.c
+@@ -68,9 +68,9 @@
+ #define SIXP_DAMA_OFF		0
+ 
+ /* default level 2 parameters */
+-#define SIXP_TXDELAY			(HZ/4)	/* in 1 s */
++#define SIXP_TXDELAY			25	/* 250 ms */
+ #define SIXP_PERSIST			50	/* in 256ths */
+-#define SIXP_SLOTTIME			(HZ/10)	/* in 1 s */
++#define SIXP_SLOTTIME			10	/* 100 ms */
+ #define SIXP_INIT_RESYNC_TIMEOUT	(3*HZ/2) /* in 1 s */
+ #define SIXP_RESYNC_TIMEOUT		5*HZ	/* in 1 s */
+ 
+-- 
+2.30.2
+
