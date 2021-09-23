@@ -2,27 +2,27 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C1E841568D
-	for <lists+linux-hams@lfdr.de>; Thu, 23 Sep 2021 05:40:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76CD24156BE
+	for <lists+linux-hams@lfdr.de>; Thu, 23 Sep 2021 05:42:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239660AbhIWDmB (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 22 Sep 2021 23:42:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41558 "EHLO mail.kernel.org"
+        id S239498AbhIWDnf (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 22 Sep 2021 23:43:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41350 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239437AbhIWDk6 (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Wed, 22 Sep 2021 23:40:58 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C4A5610A1;
-        Thu, 23 Sep 2021 03:39:26 +0000 (UTC)
+        id S239217AbhIWDl6 (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Wed, 22 Sep 2021 23:41:58 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C791F6127B;
+        Thu, 23 Sep 2021 03:39:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632368367;
-        bh=v+I8QNo3TKWMn6cbjdZKqsdAo0EcMoZ7bol0AcjFG0I=;
+        s=k20201202; t=1632368396;
+        bh=zCHqyRM/65Hegl52IheaNefuc3Is9JTlb17eflAq3fo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=R8U2ZwY+TN18Kqb9A09OOOcR/bmuiXCvWAk+J1rHH/AEBjcsRZ4RXtEL8jBSblaRQ
-         r9rmwe1Zxk6u3CG8Zv4KFG4E5+bC4R9hs6yDiLQTH/PhpSJwscnlj2H7eM8eD0XUuB
-         7XeRSQWFQS4G4oK00cTHNadlX0nvOFNjxR3eRxBUH/DG9Y/vpduBQKWPRsm6nuPBD4
-         eimRI+W/6N01UY+izBLXBK6eZl8MCeofyoVPVpEHq5Pf4TKJr7B9ipYzGHj63FaB30
-         muAtX0pd5P279Nt1Rgu8vst5oLgxgBbZRoKxAZzr8OioICeICSWjZXBR/KMr9vl2vy
-         tmYJYsXiDgSNQ==
+        b=u6WWM2NuC/FFdpokxOVdAK4NXvEOU52kfwpG8tcbYyV6lOHWpgfoZGHKXDXoHCUUp
+         QAJoHnkTfRzKgQqKSRJzos4Cd7pYs3Uent8sWzX5JQcZI9X6yjeS8nMh1ZqOIu7XzB
+         cX8ibK9PsEfNkfz+5XSi+LDAwFjF/ukd/WGw8pRZpNZsZcAyuspUdSPYUBh9f+AMTf
+         wyFeR/7VGpOtTqLMdUlaDsvkKuVTQgFXwm24tuFyb4RUmmRWoTsrq3gFLsE4JIp7IM
+         EIY/Ew0AB5Try51ahhMwbcQRiqUdZ99Ihu+gfQI5zdjtlF2aQd98204Qy3knmWtpVl
+         dqf1U0qfqT8MA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Guenter Roeck <linux@roeck-us.net>,
@@ -30,12 +30,12 @@ Cc:     Guenter Roeck <linux@roeck-us.net>,
         Sasha Levin <sashal@kernel.org>, ajk@comnets.uni-bremen.de,
         davem@davemloft.net, kuba@kernel.org, linux-hams@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 18/19] net: 6pack: Fix tx timeout and slot time
-Date:   Wed, 22 Sep 2021 23:38:52 -0400
-Message-Id: <20210923033853.1421193-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 14/15] net: 6pack: Fix tx timeout and slot time
+Date:   Wed, 22 Sep 2021 23:39:28 -0400
+Message-Id: <20210923033929.1421446-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210923033853.1421193-1-sashal@kernel.org>
-References: <20210923033853.1421193-1-sashal@kernel.org>
+In-Reply-To: <20210923033929.1421446-1-sashal@kernel.org>
+References: <20210923033929.1421446-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -80,7 +80,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
-index da13683d52d1..bd0beb16d68a 100644
+index 1001e9a2edd4..af776d7be780 100644
 --- a/drivers/net/hamradio/6pack.c
 +++ b/drivers/net/hamradio/6pack.c
 @@ -68,9 +68,9 @@
