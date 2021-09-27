@@ -2,96 +2,99 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 334BB4181A5
-	for <lists+linux-hams@lfdr.de>; Sat, 25 Sep 2021 13:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 102DB419640
+	for <lists+linux-hams@lfdr.de>; Mon, 27 Sep 2021 16:23:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243920AbhIYL3S (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 25 Sep 2021 07:29:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34628 "EHLO
+        id S234802AbhI0OZB (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 27 Sep 2021 10:25:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232363AbhIYL3R (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 25 Sep 2021 07:29:17 -0400
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5813BC061570
-        for <linux-hams@vger.kernel.org>; Sat, 25 Sep 2021 04:27:43 -0700 (PDT)
-Received: by mail-ot1-x336.google.com with SMTP id g62-20020a9d2dc4000000b0054752cfbc59so11186997otb.1
-        for <linux-hams@vger.kernel.org>; Sat, 25 Sep 2021 04:27:43 -0700 (PDT)
+        with ESMTP id S234815AbhI0OYn (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Sep 2021 10:24:43 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9993FC061773
+        for <linux-hams@vger.kernel.org>; Mon, 27 Sep 2021 07:23:04 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id rm6-20020a17090b3ec600b0019ece2bdd20so130336pjb.1
+        for <linux-hams@vger.kernel.org>; Mon, 27 Sep 2021 07:23:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=habets.se; s=google;
-        h=in-reply-to:mime-version:references:from:date:message-id:subject:to
-         :cc;
-        bh=jmpEd3ko5Fxc4oOmXsxe6TKORaItYCGxlPaH6VD9doY=;
-        b=W4LskNMN6KMF7JtY1hI8kmaeRuCi0KG8Ttx+oBMpVIfzLQSRKHh9t6mFzH0LIuqXil
-         7k858rkyuDCRzSKQRDgGTlRcVdTiXnq5Xla9Gl/jxOp9R9OyQrjt3LkKiuGo44r4JPz+
-         /jVsVXt2vJpAk9gX6O1KTo6x7eLVee0xQytCQ=
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=qUh54W0B1/celFz/Sm7fg0RIIFoq+17jwQ/Vr2Rkb20=;
+        b=OPI7iVicwj+Z1bNsM1YvUZi+QGt2yNylkxWdF/+ajsoI2xmNR5fcD5Dbs41N0P7HHI
+         oemkww2s8T8+t3QBzhEzHSlC0rRogoWWPWnc1O+fkwMO8uToHXiv/tXQ2faxQh3BftDE
+         kEMA0XQAKBWM582qJWbcAL7Sb3Krl/xZ/mf0CKiNpNtvBj0cl3U6b4kS/Pp8KgrW64uO
+         4WeKDIEU/mvlbu5iyEAUik+VMfcsJQaqgNu6J0QdERXaFv8veB0MQZbILJ83UEwKlXVo
+         pJ7kG7ILHIEpBzymEYGN90h+yH9HfglTWoN1xbh95pF8t1t1TEY+sCRlM0pl2Dt/rD7W
+         zrUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:in-reply-to:mime-version:references:from:date
-         :message-id:subject:to:cc;
-        bh=jmpEd3ko5Fxc4oOmXsxe6TKORaItYCGxlPaH6VD9doY=;
-        b=C4mDHGWSh851Vs+pUMHIoB0BxC5FMGoiSb7P3os1qxRMsEeksRLslzzdgoXDuuYmbj
-         ATy0InDdPv4bnZZc7Aeq6QbZzJz8JIINWi4i7fgFiGeMI3RwSv27s3FGsvTIXrL8jpWF
-         EWlL8sGd0+w3dRkSkDMS2IpHqC0XL9MbV8IPcP8DJ2qw2QhOdD/+Htysd/0jW913SByl
-         gCxMkd7oJwZKD1ZSuvxzTwujIYkb2epO/C4NhoPEttha9nk2QZOeSKKUTcFFHKqn14Ug
-         Dts6MrGjdn9d2OdQWCg1pgPNjmRY87Q9r9xx8zxx5Il2D3o99oC/En8l9oqCFtMlJMXE
-         f6vw==
-X-Gm-Message-State: AOAM531GsUhYvtI6aUxTHpMNOfC9oACUjgTqViYz/DmGi3CFEmkmH6Kx
-        mNI47u2Px0xgsMSKEdL9Ti2TYdoEcEAaOGjlAGy0dTpfzHiVxg==
-X-Google-Smtp-Source: ABdhPJwHXSnLaop4y8tdnQcIbUzEAqCWKwMobYWrYfAYFE/Sbn2EIbOr0F/V+NrmzQEXA16+fRquLMYTfMzdtMrMCY4=
-X-Received: by 2002:a9d:5a8e:: with SMTP id w14mr8319861oth.322.1632569262600;
- Sat, 25 Sep 2021 04:27:42 -0700 (PDT)
-Received: from 195210475306 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 25 Sep 2021 04:27:41 -0700
-In-Reply-To: <bd512f69-976b-129c-b54b-f6ad8230dc89@trinnet.net>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=qUh54W0B1/celFz/Sm7fg0RIIFoq+17jwQ/Vr2Rkb20=;
+        b=A1H0/nge9KoppIxaUzCw4+kNgxYlTo3KSoBLlrutE8j+JB+eCBhAA/suctEPX/Kg85
+         xon7MG0dVXwGx6ou33slWGRcQOtolveemhAsERgQwKfuWNvU67c8fJOIH7YoLgVNLs/g
+         EesAtbimqkvpJRI6Ti+5Oj5hGXEoW8rJ787hHtQ/oZF2Kozt2NoWTIJ+eFETFCo9R0kd
+         9INBtUs+eTsomZG7NJrrN5my/+txhNP26fztqbR3OUEeCnAnvz01W/J/ze9gmPSi+wLW
+         ltazFMedNGMqMKi3fKHFiovQvkTN9y65WAaMgSySYfh/whsu6vQflkdzFSK7qGugLJFs
+         AIJw==
+X-Gm-Message-State: AOAM532WqnOx1Renx6L5NNRpTgnTQKFPENz2b4ycjAwTqOnyXgz8l1BA
+        ZUoJc/5nqGtcjz1LtYpQ8p67MrFuKkr95Ul7peE=
+X-Google-Smtp-Source: ABdhPJzkuMqNQT1NW6nw/HQQwrrmuHE+tts4atEt0koUeFvMlou/2tj45EwQSaUIK/j1QbFJ9zlp0GzADUb/XL0OzAs=
+X-Received: by 2002:a17:90b:33c8:: with SMTP id lk8mr20193335pjb.241.1632752583655;
+ Mon, 27 Sep 2021 07:23:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <CA+kHd+e=XQ6m7YgMGMmK5FjkX=bYVEQ7n57GaY8j0qHtwzZPpg@mail.gmail.com>
- <e235ee10-5774-f690-0c5e-5dc575482936@trinnet.net> <CA+kHd+cvbwz+T2rwnGG7JpcK33DAn25kk4FWUckVT3P9nY+2=A@mail.gmail.com>
- <CA+kHd+fZgoTd=H7wCOqTh1HS3Co-cydpQW5jf48Sv3z=ZdpL2A@mail.gmail.com> <bd512f69-976b-129c-b54b-f6ad8230dc89@trinnet.net>
-From:   thomas@habets.se
-Date:   Sat, 25 Sep 2021 04:27:41 -0700
-Message-ID: <CA+kHd+cavMi-_vvAoJTvc2EDUH7nbMOQ9QqVkx0TOh+KJOOpjA@mail.gmail.com>
-Subject: Re: Unable to receive UI frames with DGRAM socket
-To:     David Ranch <linux-hams@trinnet.net>
-Cc:     linux-hams@vger.kernel.org
+Received: by 2002:a05:6a10:5d17:0:0:0:0 with HTTP; Mon, 27 Sep 2021 07:23:02
+ -0700 (PDT)
+Reply-To: wvictor@gmx.at
+From:   willson victor <willsonvic3@gmail.com>
+Date:   Mon, 27 Sep 2021 15:23:02 +0100
+Message-ID: <CAPvEOSjzzWXYVum61SMjri_UAVcVnDbf708SFE0zJZuMmwpU=A@mail.gmail.com>
+Subject: Greeting from Abidjan
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Fri, 24 Sep 2021 19:18:25 +0100, David Ranch <linux-hams@trinnet.net> said:
-> I would recommend to start a discussion with the Linux
-> AX.25 maintainer who would know better on a programmatic level:
+-- 
 
-Thanks, I'll do that.
 
-> Ps.  It dawned on me that there is another approach to give non-root yet
-> promiscuous AX.25 listening abilities in Linux:
->
->     ax25spyd:  https://salsa.debian.org/debian-hamradio-team/ax25spyd
+-- 
 
-Thanks. I had a look, and it seems that this is essentially a root
-daemon that multiplexes AX.25 access through an API.
+I am a bank AUDITIOR GENERAL by profession,I am interested in
+transferring the funds to your country through the help of our bank
+insider whom is to make it happen, so we can invest the money in a
+good business of your choice in your country under your technical and
+managerial partnership, should you be inclined to be involved in this
+project, I will appreciate a prompt response from you through  my
+Private Email, so that you can provide your banking details even
+without any money in the account so we can quickly realize this
+transaction together.
 
-Note that I don't actually want promiscuous AX.25 listening. I just
-want to bind() and then receive UI frames destined for that
-address. Just like UDP.
+The total amount involved is One hundred and sixty million US DOLLARS
+only [160,000.000.00 DOLLARS ] and we wish to transfer this money into
+a safe foreigners account abroad. But I don't know any foreigner; I am
+only contacting you as a foreigner because this money cannot be
+approved to a local person here, but to a foreigner who has
+information about the account, which I shall give to you upon your
+positive response. I am revealing this to you with believe in God that
+you will never let me down in this business.
 
-If I understand that correctly then really the applications no longer
-use AX.25 sockets, and I start wondering if it's even worth having
-support for them in the kernel, as opposed to just having a KISS
-multiplexer daemon plus a library.
+I guarantee you that this transaction will be executed under a
+legitimate arrangement that will protect you from any breach of the
+law. The bank official will destroy all documents of the transaction
+immediately you receive this money leaving no trace to any place. I
+will use my position and influence to obtain all legal approvals for
+onward transfer of this money to your account with appropriate
+clearance from the relevant ministries and foreign exchange
+departments, At the conclusion of this business, you will be given 30%
+of the total amount, 70% will be for us.
 
-I tried out ax25spyd and as expected I got:
+PLEASE, TREAT THIS PROPOSAL AS TOP SECRET.
 
-socket(AF_INET, SOCK_PACKET, 0x300 /* IPPROTO_??? */) = -1 EPERM
-(Operation not permitted)
+I look forward to hear from you. contact me through my email address
+( wvictor@gmx.at ).
 
---
-typedef struct me_s {
-  char name[]      = { "Thomas Habets" };
-  char email[]     = { "thomas@habets.se" };
-  char kernel[]    = { "Linux" };
-  char *pgpKey[]   = { "http://www.habets.pp.se/pubkey.txt" };
-  char pgp[] = { "9907 8698 8A24 F52F 1C2E  87F6 39A4 9EEA 460A 0169" };
-  char coolcmd[]   = { "echo '. ./_&. ./_'>_;. ./_" };
-} me_t;
+
+Yours sincerely,
+Willson victor .
