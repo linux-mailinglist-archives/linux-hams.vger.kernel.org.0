@@ -2,99 +2,93 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 102DB419640
-	for <lists+linux-hams@lfdr.de>; Mon, 27 Sep 2021 16:23:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28AFB41C7CE
+	for <lists+linux-hams@lfdr.de>; Wed, 29 Sep 2021 17:03:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234802AbhI0OZB (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 27 Sep 2021 10:25:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55854 "EHLO
+        id S1345008AbhI2PEj (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 29 Sep 2021 11:04:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234815AbhI0OYn (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Sep 2021 10:24:43 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9993FC061773
-        for <linux-hams@vger.kernel.org>; Mon, 27 Sep 2021 07:23:04 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id rm6-20020a17090b3ec600b0019ece2bdd20so130336pjb.1
-        for <linux-hams@vger.kernel.org>; Mon, 27 Sep 2021 07:23:04 -0700 (PDT)
+        with ESMTP id S1344989AbhI2PEi (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 29 Sep 2021 11:04:38 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E1ACC061769
+        for <linux-hams@vger.kernel.org>; Wed, 29 Sep 2021 08:02:57 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id l6so1715085plh.9
+        for <linux-hams@vger.kernel.org>; Wed, 29 Sep 2021 08:02:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=qUh54W0B1/celFz/Sm7fg0RIIFoq+17jwQ/Vr2Rkb20=;
-        b=OPI7iVicwj+Z1bNsM1YvUZi+QGt2yNylkxWdF/+ajsoI2xmNR5fcD5Dbs41N0P7HHI
-         oemkww2s8T8+t3QBzhEzHSlC0rRogoWWPWnc1O+fkwMO8uToHXiv/tXQ2faxQh3BftDE
-         kEMA0XQAKBWM582qJWbcAL7Sb3Krl/xZ/mf0CKiNpNtvBj0cl3U6b4kS/Pp8KgrW64uO
-         4WeKDIEU/mvlbu5iyEAUik+VMfcsJQaqgNu6J0QdERXaFv8veB0MQZbILJ83UEwKlXVo
-         pJ7kG7ILHIEpBzymEYGN90h+yH9HfglTWoN1xbh95pF8t1t1TEY+sCRlM0pl2Dt/rD7W
-         zrUw==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=dsdxzT5iGWx+lIyIOgmQsDnKiuxVvfsgCi38fv6uSAE=;
+        b=YvCyOdT0nFOWQEZc3bXo46W2q2Gkyvd7d2VuY2HOad6sW0pqggdHeowsqLdSduMw5z
+         rSRuZzLiXtWt2cJsUfyqnB9keKJss3s2hae75JSZb/+B7gsl6oIsnUyjkNFV31lSeRTG
+         jwmBmYp2I6Y+I3xH75M3bB5FOae6b3Vn25Sa+Jumuw43XKxCFSDB8ivLymV7PBNgoWIp
+         Rf+PQZ1wfQbMEYWdpk/SMmcJv+8NoO0kpI77ICXuVsKm+5DNGOk7ecQLmEv+yw7cRVQ9
+         zsB8ktR9/e0mAjRBiXdSjr3gKRo+XU1GPvWO/XdnGoY3sg0HOJZjSMk68V3eaW6BYg73
+         fmeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=qUh54W0B1/celFz/Sm7fg0RIIFoq+17jwQ/Vr2Rkb20=;
-        b=A1H0/nge9KoppIxaUzCw4+kNgxYlTo3KSoBLlrutE8j+JB+eCBhAA/suctEPX/Kg85
-         xon7MG0dVXwGx6ou33slWGRcQOtolveemhAsERgQwKfuWNvU67c8fJOIH7YoLgVNLs/g
-         EesAtbimqkvpJRI6Ti+5Oj5hGXEoW8rJ787hHtQ/oZF2Kozt2NoWTIJ+eFETFCo9R0kd
-         9INBtUs+eTsomZG7NJrrN5my/+txhNP26fztqbR3OUEeCnAnvz01W/J/ze9gmPSi+wLW
-         ltazFMedNGMqMKi3fKHFiovQvkTN9y65WAaMgSySYfh/whsu6vQflkdzFSK7qGugLJFs
-         AIJw==
-X-Gm-Message-State: AOAM532WqnOx1Renx6L5NNRpTgnTQKFPENz2b4ycjAwTqOnyXgz8l1BA
-        ZUoJc/5nqGtcjz1LtYpQ8p67MrFuKkr95Ul7peE=
-X-Google-Smtp-Source: ABdhPJzkuMqNQT1NW6nw/HQQwrrmuHE+tts4atEt0koUeFvMlou/2tj45EwQSaUIK/j1QbFJ9zlp0GzADUb/XL0OzAs=
-X-Received: by 2002:a17:90b:33c8:: with SMTP id lk8mr20193335pjb.241.1632752583655;
- Mon, 27 Sep 2021 07:23:03 -0700 (PDT)
+         :subject:to:content-transfer-encoding;
+        bh=dsdxzT5iGWx+lIyIOgmQsDnKiuxVvfsgCi38fv6uSAE=;
+        b=kPFNIsAPk3JE5L/cqI8kBM83qnQFLClIJmLFpWP7axc6xK9nmbubQPsPYHUCm5yz5e
+         rpj4KhoQQa0nYyOf6CnYwgvnBwaNjL4DuU0w0iC8kIX9Y2JCgxUgOAAA+8GIi53GPdOi
+         zDsNu0p2yfZ/8gM1P4AvjIPGm7pAD8QgrresRqqh0gcsrH1OOyLTO1LLFd659494ee3x
+         tWHo8quUsCCyc3MK9FE5zVzbdPbOOmJoRC/2B4/2q4jVG+js1TXld3doB6V9Jh1nT+On
+         6BmNml3JNroc8g/mNHJZFwuwrljOSA+/mmJqYlKyp19waL7IsR3hfsR18YfQEKhBqcf7
+         kMrg==
+X-Gm-Message-State: AOAM531LftyOjomrIqiTFULQRqtn3OGVtw2JBUlBkPdxT/OpZZx9V8+u
+        73vyHAGgDWhKCy/ELaA5qdxYXmGPDFVmPaU9ARE=
+X-Google-Smtp-Source: ABdhPJzjIAO2SATSdA34rZ7/S+8M0Exs5BIGQ5/Z9eiB4DbQMuDFxNnSCUnMq5ekx7s13Bo/9xMPDVy1K8EH3zkd+ks=
+X-Received: by 2002:a17:90a:4594:: with SMTP id v20mr433272pjg.156.1632927775249;
+ Wed, 29 Sep 2021 08:02:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:5d17:0:0:0:0 with HTTP; Mon, 27 Sep 2021 07:23:02
+Received: by 2002:a05:6a10:3203:0:0:0:0 with HTTP; Wed, 29 Sep 2021 08:02:54
  -0700 (PDT)
-Reply-To: wvictor@gmx.at
-From:   willson victor <willsonvic3@gmail.com>
-Date:   Mon, 27 Sep 2021 15:23:02 +0100
-Message-ID: <CAPvEOSjzzWXYVum61SMjri_UAVcVnDbf708SFE0zJZuMmwpU=A@mail.gmail.com>
-Subject: Greeting from Abidjan
+Reply-To: gaboritlaurent423@yahoo.com
+From:   Laurent Gaborit <regionalacsazoneafriqdirecteur@gmail.com>
+Date:   Wed, 29 Sep 2021 17:02:54 +0200
+Message-ID: <CANZzqXxUMBZkxY9a4SBVVD-j3H6mqhWKWvnXQmx+dUK=MdjjEg@mail.gmail.com>
+Subject: =?UTF-8?Q?Offre_de_cr=C3=A9dit?=
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
--- 
-
-
--- 
-
-I am a bank AUDITIOR GENERAL by profession,I am interested in
-transferring the funds to your country through the help of our bank
-insider whom is to make it happen, so we can invest the money in a
-good business of your choice in your country under your technical and
-managerial partnership, should you be inclined to be involved in this
-project, I will appreciate a prompt response from you through  my
-Private Email, so that you can provide your banking details even
-without any money in the account so we can quickly realize this
-transaction together.
-
-The total amount involved is One hundred and sixty million US DOLLARS
-only [160,000.000.00 DOLLARS ] and we wish to transfer this money into
-a safe foreigners account abroad. But I don't know any foreigner; I am
-only contacting you as a foreigner because this money cannot be
-approved to a local person here, but to a foreigner who has
-information about the account, which I shall give to you upon your
-positive response. I am revealing this to you with believe in God that
-you will never let me down in this business.
-
-I guarantee you that this transaction will be executed under a
-legitimate arrangement that will protect you from any breach of the
-law. The bank official will destroy all documents of the transaction
-immediately you receive this money leaving no trace to any place. I
-will use my position and influence to obtain all legal approvals for
-onward transfer of this money to your account with appropriate
-clearance from the relevant ministries and foreign exchange
-departments, At the conclusion of this business, you will be given 30%
-of the total amount, 70% will be for us.
-
-PLEASE, TREAT THIS PROPOSAL AS TOP SECRET.
-
-I look forward to hear from you. contact me through my email address
-( wvictor@gmx.at ).
-
-
-Yours sincerely,
-Willson victor .
+Salut,
+Vous avez besoin de pr=C3=AAts de tr=C3=A9sorerie entre particuliers pour v=
+ous
+aider =C3=A0 faire face =C3=A0 des difficult=C3=A9s financi=C3=A8res et sor=
+tir enfin de
+l'impasse bancaire provoqu=C3=A9e par le rejet de votre dossier de demande
+de pr=C3=AAt ?
+Je suis de nationalit=C3=A9 fran=C3=A7aise et je peux vous accorder un pr=
+=C3=AAt de 5
+000 euros =C3=A0 2 000 000 euros avec un taux d'int=C3=A9r=C3=AAt de 2% et =
+des
+conditions qui vous faciliteront la vie. Voici les domaines dans
+lesquels je peux vous aider
+Aider:
+* Financi=C3=A8rement
+* Pr=C3=AAts immobiliers
+* Pr=C3=AAt investissement
+* Pr=C3=AAt de voiture
+* Dette de consolidation
+* Ligne de credit
+* Deuxi=C3=A8me hypoth=C3=A8que
+* Rachat de cr=C3=A9dits
+* Pr=C3=AAts personnels
+Vous =C3=AAtes pi=C3=A9g=C3=A9, banni et non pr=C3=A9f=C3=A9r=C3=A9 des ban=
+ques, ou mieux encore,
+vous avez un projet et avez besoin de financement, de mauvais rapports
+de cr=C3=A9dit, d'argent pour payer des factures, d'argent pour investir
+dans des affaires.
+Donc, si vous avez besoin d'avances de fonds, n'h=C3=A9sitez pas =C3=A0 me
+contacter par e-mail : laurentgaborit747@yahoo.com pour plus
+d'informations sur mes bonnes conditions.
+NB : Ce n'est pas une personne s=C3=A9rieuse =C3=A0 s'abstenir
+Meilleurs v=C5=93ux ...
+Laurent GABORIT.
