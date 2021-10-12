@@ -2,67 +2,60 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE9DA42A8FC
-	for <lists+linux-hams@lfdr.de>; Tue, 12 Oct 2021 17:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BDCC42AA53
+	for <lists+linux-hams@lfdr.de>; Tue, 12 Oct 2021 19:10:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237591AbhJLQAx (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 12 Oct 2021 12:00:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47184 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237586AbhJLQAx (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Tue, 12 Oct 2021 12:00:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 07E82610D1;
-        Tue, 12 Oct 2021 15:58:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634054331;
-        bh=6tHcTSYirflEJc5fhpvAOLmYQzhXj44aomInZHnL7TA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JNNer5vNV+ZFYdlrg8Jv474etPsQcF7BzwXR/aAWa6gLI//MROwF9kRBrQurq8egV
-         jtnjdd+ell3cWTOea1MK6Ihf2MpClT3Rx3qGc/7YbdWXp3KfuYaC14rV6b4yI0ZGKB
-         GUpEo72BGUorLlPa/2DdlBzX0SH7wzWk1GDUqiZ9bjF35hFIbCZI72sPyiCZQz6NuP
-         UE8mkAGR+qpem50b1/CLyUuSNCrkYmWnEJ/1BweHQ+G4jCE3Vncq31KFZiKUQNFiS5
-         NCjSQ63nAdYsJkmHX8DCbffdC3me36l5TLDSlJpksELxOVAM0APnjEss6Jjfg7Se3f
-         87FUVdZp0Szig==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, ralf@linux-mips.org, jreuter@yaina.de,
-        yoshfuji@linux-ipv6.org, dsahern@kernel.org, jmaloy@redhat.com,
-        ying.xue@windriver.com, linux-hams@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net,
-        Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net-next 6/6] decnet: constify dev_addr passing
-Date:   Tue, 12 Oct 2021 08:58:40 -0700
-Message-Id: <20211012155840.4151590-7-kuba@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211012155840.4151590-1-kuba@kernel.org>
-References: <20211012155840.4151590-1-kuba@kernel.org>
+        id S231960AbhJLRMb (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 12 Oct 2021 13:12:31 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:38807 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229495AbhJLRMa (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 12 Oct 2021 13:12:30 -0400
+Received: (Authenticated sender: ralf@linux-mips.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 828931C0010;
+        Tue, 12 Oct 2021 17:10:25 +0000 (UTC)
+Date:   Tue, 12 Oct 2021 19:10:23 +0200
+From:   Ralf Baechle <ralf@linux-mips.org>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Thomas Osterried <thomas@osterried.de>,
+        linux-hams@vger.kernel.org
+Subject: Re: [PATCH] ax25: Fix use of copy_from_sockptr() in ax25_setsockopt()
+Message-ID: <YWXBfx77qrbFzLAf@linux-mips.org>
+References: <YVXkwzKZhPoD0Ods@linux-mips.org>
+ <20211012062309.GD17407@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211012062309.GD17407@lst.de>
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-In preparation for netdev->dev_addr being constant
-make all relevant arguments in decnet constant.
+On Tue, Oct 12, 2021 at 08:23:09AM +0200, Christoph Hellwig wrote:
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
- include/net/dn.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Thu, Sep 30, 2021 at 06:24:35PM +0200, Ralf Baechle wrote:
+> > The destination pointer passed to copy_from_sockptr() is an unsigned long *
+> > but the source in userspace is an unsigned int * resulting in an integer
+> > of the wrong size being copied from userspace.
+> > 
+> > This happens to work on 32 bit but breaks 64-bit where bytes 4..7 will not
+> > be initialized.  By luck it may work on little endian but on big endian
+> > where the userspace data is copied to the upper 32 bit of the destination
+> > it's most likely going to break.
+> > 
+> > A simple test case to demonstrate this setsockopt() issue is:
+> 
+> Looks good,
+> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-diff --git a/include/net/dn.h b/include/net/dn.h
-index 56ab0726c641..ba9655b0098a 100644
---- a/include/net/dn.h
-+++ b/include/net/dn.h
-@@ -166,7 +166,7 @@ struct dn_skb_cb {
- 	int iif;
- };
- 
--static inline __le16 dn_eth2dn(unsigned char *ethaddr)
-+static inline __le16 dn_eth2dn(const unsigned char *ethaddr)
- {
- 	return get_unaligned((__le16 *)(ethaddr + 4));
- }
--- 
-2.31.1
+Sadly the kernel test robot has raised a bunch of warnings in this patch.
+To fix those I'll pull a few fixes from another patch I was planning to
+send later and merge them into this patch and post the resulting patch
+as v2.
 
+Thanks for the review,
+
+  Ralf
