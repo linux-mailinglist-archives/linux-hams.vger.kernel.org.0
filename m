@@ -2,82 +2,98 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79F8942C80E
-	for <lists+linux-hams@lfdr.de>; Wed, 13 Oct 2021 19:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48E7642E66B
+	for <lists+linux-hams@lfdr.de>; Fri, 15 Oct 2021 04:18:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238258AbhJMRwx (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 13 Oct 2021 13:52:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57452 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238587AbhJMRwM (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Wed, 13 Oct 2021 13:52:12 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id EE6686101D;
-        Wed, 13 Oct 2021 17:50:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634147409;
-        bh=IZeFrVdWbAYBZzaGR0H8tYz4WAt3WC2Jbn/zCasSH5g=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=rSzoqi+gRU/0r3BFwFnC5HkSJZbR8JoJMf8iAf/NrqamgawRBYbay9q4lonMJ+koX
-         XIS4A4LHkSDuDF+m6smeuaP+WflUPzvWWfGVheEkN442erwXlKMK/qgZ6ZCB0oUAlU
-         E5YCtb8MfMz5BcSlUREzwlZYGx90wWL1/uyIT7vfCX8SYWKPkOHNkEJnWMuNVQtgtx
-         YZPkF7EeeEkbe0y43be4jNX8O1gyNmnDGNCn7SadVFQyW/767XOR+X+Y3H4PwvQYrw
-         JKTsh1q+D8F3xVE/KuMUgIEQ8N9tPp8UQVbngUczKwrplsTGiAV0Nnj7KUQ0OcPMgN
-         2lz+/dpwxiIgg==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id DC1A660A47;
-        Wed, 13 Oct 2021 17:50:08 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        id S234908AbhJOCUP (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 14 Oct 2021 22:20:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58870 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229845AbhJOCUO (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 14 Oct 2021 22:20:14 -0400
+Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 239CAC061570;
+        Thu, 14 Oct 2021 19:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=owFuaZjSZ/MF+xCJzBurVOco9kyMj18uY88bvFjGUts=; b=1QgVDrRZ7PulAjbVKXXXn+r7Us
+        6LTsMqlf5GCeXuTjgd5xjKcIDUUGs064lYevmLeYTidhE0n0rjrPkdzZQWNYb1vQP3ATn3nrzvEr+
+        KRbashVnyiIF1EzY4mqqxDdjzgLgABsBOT4tjGysUapXow+0BK1QEn/kTrbaH4H6k9ne8D+aPu6pk
+        Dl2UGn935IntZyW7vMD+fVDSFbgAFv5S+6OB9TWXntdaJ9LSkFmZzrLabmThmZ7JzkY41GMekKlit
+        D5f5hus19Fe1ICWLbop6CmrhC+5dYDB+72B5NIN4Cq5HgbUoZYeCcBqe2M3cpI0maus/WUcQM6FwR
+        drviqPkQ==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mbCnN-0052TG-1S; Fri, 15 Oct 2021 02:18:05 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     netdev@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-um@lists.infradead.org,
+        Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Thomas Sailer <t.sailer@alumni.ethz.ch>,
+        linux-hams@vger.kernel.org
+Subject: [PATCH net] hamradio: baycom_epp: fix build for UML
+Date:   Thu, 14 Oct 2021 19:18:04 -0700
+Message-Id: <20211015021804.17005-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next 0/6] net: constify dev_addr passing for protocols
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <163414740889.22760.934375186118967771.git-patchwork-notify@kernel.org>
-Date:   Wed, 13 Oct 2021 17:50:08 +0000
-References: <20211012155840.4151590-1-kuba@kernel.org>
-In-Reply-To: <20211012155840.4151590-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, ralf@linux-mips.org,
-        jreuter@yaina.de, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
-        jmaloy@redhat.com, ying.xue@windriver.com,
-        linux-hams@vger.kernel.org, tipc-discussion@lists.sourceforge.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
+On i386, the baycom_epp driver wants to inspect X86 CPU features (TSC)
+and then act on that data, but that info is not available when running
+on UML, so prevent that test and do the default action.
 
-This series was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+Prevents this build error on UML + i386:
 
-On Tue, 12 Oct 2021 08:58:34 -0700 you wrote:
-> Commit 406f42fa0d3c ("net-next: When a bond have a massive amount
-> of VLANs...") introduced a rbtree for faster Ethernet address look
-> up. To maintain netdev->dev_addr in this tree we need to make all
-> the writes to it got through appropriate helpers.
-> 
-> netdev->dev_addr will be made const to prevent direct writes.
-> This set sprinkles const across variables and arguments in protocol
-> code which are used to hold references to netdev->dev_addr.
-> 
-> [...]
+../drivers/net/hamradio/baycom_epp.c: In function ‘epp_bh’:
+../drivers/net/hamradio/baycom_epp.c:630:6: error: implicit declaration of function ‘boot_cpu_has’; did you mean ‘get_cpu_mask’? [-Werror=implicit-function-declaration]
+  if (boot_cpu_has(X86_FEATURE_TSC))   \
+      ^
+../drivers/net/hamradio/baycom_epp.c:658:2: note: in expansion of macro ‘GETTICK’
+  GETTICK(time1);
 
-Here is the summary with links:
-  - [net-next,1/6] ax25: constify dev_addr passing
-    https://git.kernel.org/netdev/net-next/c/c045ad2cc01e
-  - [net-next,2/6] rose: constify dev_addr passing
-    https://git.kernel.org/netdev/net-next/c/db95732446a8
-  - [net-next,3/6] llc/snap: constify dev_addr passing
-    https://git.kernel.org/netdev/net-next/c/2ef6db76bac0
-  - [net-next,4/6] ipv6: constify dev_addr passing
-    https://git.kernel.org/netdev/net-next/c/1a8a23d2da4f
-  - [net-next,5/6] tipc: constify dev_addr passing
-    https://git.kernel.org/netdev/net-next/c/6cf862807234
-  - [net-next,6/6] decnet: constify dev_addr passing
-    https://git.kernel.org/netdev/net-next/c/1bfcd1cc546e
+Fixes: 68f5d3f3b654 ("um: add PCI over virtio emulation driver")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-um@lists.infradead.org
+Cc: Jeff Dike <jdike@addtoit.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Thomas Sailer <t.sailer@alumni.ethz.ch>
+Cc: linux-hams@vger.kernel.org
+---
+ drivers/net/hamradio/baycom_epp.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+--- linux-next-20211013.orig/drivers/net/hamradio/baycom_epp.c
++++ linux-next-20211013/drivers/net/hamradio/baycom_epp.c
+@@ -623,16 +623,16 @@ static int receive(struct net_device *de
+ 
+ /* --------------------------------------------------------------------- */
+ 
+-#ifdef __i386__
++#if defined(__i386__) && !defined(CONFIG_UML)
+ #include <asm/msr.h>
+ #define GETTICK(x)						\
+ ({								\
+ 	if (boot_cpu_has(X86_FEATURE_TSC))			\
+ 		x = (unsigned int)rdtsc();			\
+ })
+-#else /* __i386__ */
++#else /* __i386__  && !CONFIG_UML */
+ #define GETTICK(x)
+-#endif /* __i386__ */
++#endif /* __i386__  && !CONFIG_UML */
+ 
+ static void epp_bh(struct work_struct *work)
+ {
