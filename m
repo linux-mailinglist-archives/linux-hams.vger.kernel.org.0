@@ -2,108 +2,55 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAB8443A279
-	for <lists+linux-hams@lfdr.de>; Mon, 25 Oct 2021 21:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0264C43B8D4
+	for <lists+linux-hams@lfdr.de>; Tue, 26 Oct 2021 19:59:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236259AbhJYTtY (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 25 Oct 2021 15:49:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37368 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237753AbhJYTp4 (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Mon, 25 Oct 2021 15:45:56 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 67A38611AE;
-        Mon, 25 Oct 2021 19:39:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1635190773;
-        bh=x78di4Y7cau7oQeUDkoo6UR9fiq7T4VUxl685vD7tkM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=I2GorxHfUzq1wPWvRMsH+a5EIrG29etv8trXzgAOPQAd8uI6GdgzvXuMHWwLagAog
-         WXVd/k/gUF6p8FaK8sVi9upnRiRf4E6AJ+AHbHMFALLNAXs9aKckgNi32BAxuaJEOb
-         tdjbDcEKCYuhm18LNqJcKYVfnOCq31j6C2bqj8P0=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        linux-um@lists.infradead.org, Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Thomas Sailer <t.sailer@alumni.ethz.ch>,
-        linux-hams@vger.kernel.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.14 038/169] hamradio: baycom_epp: fix build for UML
-Date:   Mon, 25 Oct 2021 21:13:39 +0200
-Message-Id: <20211025191022.696563287@linuxfoundation.org>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211025191017.756020307@linuxfoundation.org>
-References: <20211025191017.756020307@linuxfoundation.org>
-User-Agent: quilt/0.66
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        id S236602AbhJZSCA (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 26 Oct 2021 14:02:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48162 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233146AbhJZSCA (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 26 Oct 2021 14:02:00 -0400
+X-Greylist: delayed 367 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 26 Oct 2021 10:59:36 PDT
+Received: from n1uro.ampr.org (n1uro.ampr.org [IPv6:2001:470:8a1e::3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8299AC061745
+        for <linux-hams@vger.kernel.org>; Tue, 26 Oct 2021 10:59:36 -0700 (PDT)
+Received: from n1uro.ampr.org (n1uro [44.88.0.9])
+        by n1uro.ampr.org (Postfix) with ESMTP id 0E8082088E
+        for <linux-hams@vger.kernel.org>; Tue, 26 Oct 2021 13:53:17 -0400 (EDT)
+Received: from n1uro.ampr.org (n1uro.ampr.org [IPv6:2001:470:8a1e::3])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by n1uro.ampr.org (Postfix) with ESMTPSA id E2CEB205DA
+        for <linux-hams@vger.kernel.org>; Tue, 26 Oct 2021 13:53:16 -0400 (EDT)
+Message-ID: <1635270796.2318.2.camel@n1uro.com>
+Subject: NetRom stack bug
+From:   Brian <n1uro@n1uro.com>
+Reply-To: n1uro@n1uro.com
+To:     linux-hams@vger.kernel.org
+Date:   Tue, 26 Oct 2021 13:53:16 -0400
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-AV-Checked: ClamAV using ClamSMTP
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Greetings;
 
-[ Upstream commit 0a9bb11a5e298e72b675255a4bb2893513000584 ]
-
-On i386, the baycom_epp driver wants to inspect X86 CPU features (TSC)
-and then act on that data, but that info is not available when running
-on UML, so prevent that test and do the default action.
-
-Prevents this build error on UML + i386:
-
-../drivers/net/hamradio/baycom_epp.c: In function ‘epp_bh’:
-../drivers/net/hamradio/baycom_epp.c:630:6: error: implicit declaration of function ‘boot_cpu_has’; did you mean ‘get_cpu_mask’? [-Werror=implicit-function-declaration]
-  if (boot_cpu_has(X86_FEATURE_TSC))   \
-      ^
-../drivers/net/hamradio/baycom_epp.c:658:2: note: in expansion of macro ‘GETTICK’
-  GETTICK(time1);
-
-Fixes: 68f5d3f3b654 ("um: add PCI over virtio emulation driver")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-um@lists.infradead.org
-Cc: Jeff Dike <jdike@addtoit.com>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Thomas Sailer <t.sailer@alumni.ethz.ch>
-Cc: linux-hams@vger.kernel.org
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/hamradio/baycom_epp.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/net/hamradio/baycom_epp.c b/drivers/net/hamradio/baycom_epp.c
-index 4435a1195194..8ea8d50f81c4 100644
---- a/drivers/net/hamradio/baycom_epp.c
-+++ b/drivers/net/hamradio/baycom_epp.c
-@@ -623,16 +623,16 @@ static int receive(struct net_device *dev, int cnt)
- 
- /* --------------------------------------------------------------------- */
- 
--#ifdef __i386__
-+#if defined(__i386__) && !defined(CONFIG_UML)
- #include <asm/msr.h>
- #define GETTICK(x)						\
- ({								\
- 	if (boot_cpu_has(X86_FEATURE_TSC))			\
- 		x = (unsigned int)rdtsc();			\
- })
--#else /* __i386__ */
-+#else /* __i386__  && !CONFIG_UML */
- #define GETTICK(x)
--#endif /* __i386__ */
-+#endif /* __i386__  && !CONFIG_UML */
- 
- static void epp_bh(struct work_struct *work)
- {
+Is there any status report on the NetRom status bug getting fixed?
+Unfortunately many users feel this is a bug within URONode code and it
+is NOT. This is a bug where the kernel protocol stack is NOT closing
+unused sockets which could in theory make it vulnerable to compromise.
 -- 
-2.33.0
-
-
-
+I crashed into a dwarf at a traffic light. He said "I'm not
+happy." so I asked which one was he.
+-----
+73 de Brian N1URO
+Linux Partner Developer
+Decades long Linux SysAdmin, DNS Host, Email Host
+IPv6 Certified
+URONode, axMail-FAX, HTPPU Ham software developer
+Nutmeg VHF NTS Net - Net Manager
