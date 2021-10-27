@@ -2,89 +2,42 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D89843DF6E
-	for <lists+linux-hams@lfdr.de>; Thu, 28 Oct 2021 12:52:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24E7E440717
+	for <lists+linux-hams@lfdr.de>; Sat, 30 Oct 2021 05:34:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230347AbhJ1Ky5 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 28 Oct 2021 06:54:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37576 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230265AbhJ1Kyu (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 28 Oct 2021 06:54:50 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C460AC061767
-        for <linux-hams@vger.kernel.org>; Thu, 28 Oct 2021 03:52:22 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id u11so12691339lfs.1
-        for <linux-hams@vger.kernel.org>; Thu, 28 Oct 2021 03:52:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
-        b=MqgQiMnth4O6zLvpsYbAhVLW1BorpgoCleWwfkY0/i+i6OSDuXRZO1jIKzpTTrmehO
-         XtsLWdXiTcL+XCe4naFtf2tTUJnbwwmDpuUkpvRhLd+LEnuxY7nNr11hmTRUVX1WOHsO
-         bN0u1arCg4gm9LHdXRMZFcXOD22U5gDGuBOuhPo6qvWbt6nA2j/p/5IZ88XFHrEsiSW3
-         12hentYJMlWeUfa2lUQkLm+5/fvMSizrI7wGoF2taOa3dgGUV5HKZWb0yAAH7nAXVevJ
-         tDC/xbHNLzSn310XeD3Gkoobjl6MPBQzT5DSLzerNBdTKOdmyp3xvfvOyo80qVUTZIED
-         gaRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
-        b=OL9oTTc/yBia4vc3hdYpBj/2dN536eB9zo7EySvkOxBx9A6PE/p481SOWOfydwbpRN
-         DvQz/P4QfyMUf/L5UUlR+j/2kqYt8yk1u/qfmelPjxodP+HLM8advTl/uKr6+qZi507x
-         ljALb/fRIk84lw31Hl3ETf0oJkqr3b8R/mamMW5iGDRpJITNHePLgkMBYSJStuyQ2bSP
-         FqKlsEpvQX0DJSBx9SfQ6eeR6UdI/4o27xMw1NinOCVdbc14KNhIy2LkUpVbJUmodpHu
-         JRk4iPpazojA3DhuMUjcEbiSik4euVD2/nFEesBCIYoQdtvb3aSWiWqD0u8Fy7/wV+Kq
-         kvAQ==
-X-Gm-Message-State: AOAM532tuQ48CXGCqJch5eyWhwnbcxv9cglUM1cNiRGrv66r0ORcbfxq
-        2HsCuQeI651Q9jU3ifktI8aFjIPa3imxjjfMbTz40F1gyCNspoA3
-X-Google-Smtp-Source: ABdhPJw39EF9dJlXS9lAFrZ3adXxB8DVzXcygVzA3uRLiZxWlggxaB9ElCxkEB0P82xisoA6G442GD5iqMe2hCgLIt8=
-X-Received: by 2002:a2e:9a83:: with SMTP id p3mr3750290lji.145.1635418330269;
- Thu, 28 Oct 2021 03:52:10 -0700 (PDT)
+        id S231530AbhJ3Dgm convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hams@lfdr.de>); Fri, 29 Oct 2021 23:36:42 -0400
+Received: from 219-87-183-172.static.tfn.net.tw ([219.87.183.172]:37098 "EHLO
+        ms4.kntech.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229921AbhJ3Dgm (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 29 Oct 2021 23:36:42 -0400
+Received: from [103.27.239.15] ([103.27.239.15])
+        (authenticated bits=0)
+        by ms4.kntech.com.tw (8.13.8/8.13.8) with ESMTP id 19RF0GaZ015480
+        for <linux-hams@vger.kernel.org>; Wed, 27 Oct 2021 23:01:15 +0800
+Message-Id: <202110271501.19RF0GaZ015480@ms4.kntech.com.tw>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Received: by 2002:ab3:6f89:0:0:0:0:0 with HTTP; Thu, 28 Oct 2021 03:52:09
- -0700 (PDT)
-Reply-To: aabdulwalialhashmi@gmail.com
-From:   Abdulwali Alhashmi <husamalsayed.hs@gmail.com>
-Date:   Thu, 28 Oct 2021 03:52:09 -0700
-Message-ID: <CAF6yYCeS=rm8=_71-kMjVo4oaVK57w9X52R_yv1HDrBe7vh-sA@mail.gmail.com>
-Subject: PLEASE GET BACK TO ME IF I CAN I TRUST YOU
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Dear Friend,
+To:     linux-hams@vger.kernel.org
+From:   "Wahid Majrooh" <wnf@sendayan.com.my>
+Date:   Wed, 27 Oct 2021 22:01:33 +0700
+Reply-To: wfnngaf@gmail.com
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
--- 
-Greetings,
+Dear Friend,
 
-Firstly, I apologize for encroaching into your privacy in this manner
-as it may seem unethical though it is a matter of great importance.
+I am writing to you to make a proposal regarding Investing in your
+country. I am proposing to you a business development Investment in
+housing and health sector or any other sector you can recommend. My name
+is Wahid Majrooh. Former  acting Minister of Public Health of
+Afghanistan.
 
-I am Abdulwali Alhashmi, I work with Cayman National Bank (Cayman Islands).
 
-I am contacting you because my status would not permit me to do this
-alone as it is concerning our customer and an investment placed under
-our bank's management over 5 years ago.
+Sincerely
 
-I have a proposal I would love to discuss with you which will be very
-beneficial to both of us. It's regarding my late client who has a huge
-deposit with my bank.
-
-He is from your country and shares the same last name with you.
-
-I want to seek your consent to present you as the next of kin to my
-late client who died and left a huge deposit with my bank.
-
-I would respectfully request that you keep the contents of this mail
-confidential and respect the integrity of the information you come by
-as a result of this mail.
-
-Please kindly get back to me for more details if I can TRUST YOU.{
-aabdulwalialhashmi@gmail.com }
-
-Regards
-Abdulwali Alhashmi
-Treasury and Deposit Management,
-Cayman National Bank Cayman Islands
+Wahid
