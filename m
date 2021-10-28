@@ -2,85 +2,89 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E584943CA86
-	for <lists+linux-hams@lfdr.de>; Wed, 27 Oct 2021 15:23:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D89843DF6E
+	for <lists+linux-hams@lfdr.de>; Thu, 28 Oct 2021 12:52:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236352AbhJ0N0T (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 27 Oct 2021 09:26:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56866 "EHLO
+        id S230347AbhJ1Ky5 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 28 Oct 2021 06:54:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbhJ0N0S (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 27 Oct 2021 09:26:18 -0400
-Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47184C061570
-        for <linux-hams@vger.kernel.org>; Wed, 27 Oct 2021 06:23:53 -0700 (PDT)
-Received: by mail-ua1-x936.google.com with SMTP id s4so5014134uaq.0
-        for <linux-hams@vger.kernel.org>; Wed, 27 Oct 2021 06:23:53 -0700 (PDT)
+        with ESMTP id S230265AbhJ1Kyu (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 28 Oct 2021 06:54:50 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C460AC061767
+        for <linux-hams@vger.kernel.org>; Thu, 28 Oct 2021 03:52:22 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id u11so12691339lfs.1
+        for <linux-hams@vger.kernel.org>; Thu, 28 Oct 2021 03:52:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=habets.se; s=google;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=VldE9v/70E5InsJ+qt74k4bkvSq+51WUMJQK0Xbod5Q=;
-        b=gNwk1EDlkNgTo480GbbHlj+3zuKRxzCjNtHEURWOSMjpO+oTZZ0wIkWxho/iBt5Au0
-         gQxvwpC3cR9B2Qj2y2wy3uji5G9WxLy/DO5rKR73t48YliA3rpJC51z6s+Lym1XT2vz6
-         kENI7aAoRNQh6bqhRn7b8XDgng/yutsk6MBPU=
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
+        b=MqgQiMnth4O6zLvpsYbAhVLW1BorpgoCleWwfkY0/i+i6OSDuXRZO1jIKzpTTrmehO
+         XtsLWdXiTcL+XCe4naFtf2tTUJnbwwmDpuUkpvRhLd+LEnuxY7nNr11hmTRUVX1WOHsO
+         bN0u1arCg4gm9LHdXRMZFcXOD22U5gDGuBOuhPo6qvWbt6nA2j/p/5IZ88XFHrEsiSW3
+         12hentYJMlWeUfa2lUQkLm+5/fvMSizrI7wGoF2taOa3dgGUV5HKZWb0yAAH7nAXVevJ
+         tDC/xbHNLzSn310XeD3Gkoobjl6MPBQzT5DSLzerNBdTKOdmyp3xvfvOyo80qVUTZIED
+         gaRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=VldE9v/70E5InsJ+qt74k4bkvSq+51WUMJQK0Xbod5Q=;
-        b=C4wpEVf0u61gyeKjpETjehViXQBOwZKKsaENeuxc2wrD8mhdZn1zTeIfG2l68bCODA
-         ZaU2bqvDJYiCJJ8hhcuMrMqafgJHufeu5J/hsKC3SX0w+8M9NPaGDMwBdl7t0YpvLOQO
-         MScw841NXf2PIuS1A0oZ9Kqi1NrW4J8WDTbgkR2wvY58B1qphMeQNKf37U8WNswCDJyU
-         rKo1PIbqEmjufoc49yewT8jqb22rpBmWKhmw8zezKi/ZfLSpmkiDOlQXttgIS6+VbWqk
-         ebB4idzQjovU5PveBbA6XHGVjbwGfA6qvdgAfECGyAx8FKHfJ8NYCOq+2cvmtK+UFTdc
-         HIUQ==
-X-Gm-Message-State: AOAM531GlSaqbo6c2cIx+AAfpWvwsINXAYVpoB7IAXc2JlfSyzLDUyYl
-        jXUbnCm6MdELj4jVdnNDb3fvYRG/nASm4Hq7LGDIVI2smy8=
-X-Google-Smtp-Source: ABdhPJz40pynOHNpoji98IaYD6feC3r+LyDhz9ZYkEMq2n4trrkZYqgXwCn1Erd9u326XPrvj3ZlUUrSCe10QcsbgZE=
-X-Received: by 2002:a05:6102:cd2:: with SMTP id g18mr30391298vst.25.1635341031978;
- Wed, 27 Oct 2021 06:23:51 -0700 (PDT)
-Received: from 195210475306 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 27 Oct 2021 06:23:51 -0700
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
+        b=OL9oTTc/yBia4vc3hdYpBj/2dN536eB9zo7EySvkOxBx9A6PE/p481SOWOfydwbpRN
+         DvQz/P4QfyMUf/L5UUlR+j/2kqYt8yk1u/qfmelPjxodP+HLM8advTl/uKr6+qZi507x
+         ljALb/fRIk84lw31Hl3ETf0oJkqr3b8R/mamMW5iGDRpJITNHePLgkMBYSJStuyQ2bSP
+         FqKlsEpvQX0DJSBx9SfQ6eeR6UdI/4o27xMw1NinOCVdbc14KNhIy2LkUpVbJUmodpHu
+         JRk4iPpazojA3DhuMUjcEbiSik4euVD2/nFEesBCIYoQdtvb3aSWiWqD0u8Fy7/wV+Kq
+         kvAQ==
+X-Gm-Message-State: AOAM532tuQ48CXGCqJch5eyWhwnbcxv9cglUM1cNiRGrv66r0ORcbfxq
+        2HsCuQeI651Q9jU3ifktI8aFjIPa3imxjjfMbTz40F1gyCNspoA3
+X-Google-Smtp-Source: ABdhPJw39EF9dJlXS9lAFrZ3adXxB8DVzXcygVzA3uRLiZxWlggxaB9ElCxkEB0P82xisoA6G442GD5iqMe2hCgLIt8=
+X-Received: by 2002:a2e:9a83:: with SMTP id p3mr3750290lji.145.1635418330269;
+ Thu, 28 Oct 2021 03:52:10 -0700 (PDT)
 MIME-Version: 1.0
-From:   thomas@habets.se
-Date:   Wed, 27 Oct 2021 06:23:51 -0700
-Message-ID: <CA+kHd+eunGfNi+mufRe8e3=q+uRt+zz_MeREohORFXctTQv23Q@mail.gmail.com>
-Subject: Is there a spec for the AX.25 reserved bit being used for AX25_EXTSEQ?
-To:     linux-hams@vger.kernel.org
+Received: by 2002:ab3:6f89:0:0:0:0:0 with HTTP; Thu, 28 Oct 2021 03:52:09
+ -0700 (PDT)
+Reply-To: aabdulwalialhashmi@gmail.com
+From:   Abdulwali Alhashmi <husamalsayed.hs@gmail.com>
+Date:   Thu, 28 Oct 2021 03:52:09 -0700
+Message-ID: <CAF6yYCeS=rm8=_71-kMjVo4oaVK57w9X52R_yv1HDrBe7vh-sA@mail.gmail.com>
+Subject: PLEASE GET BACK TO ME IF I CAN I TRUST YOU
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hi.
+-- 
+Greetings,
 
-I noticed that when AX25_EXTSEQ is used, Linux clears one of the
-reserved bits in the destination address.
+Firstly, I apologize for encroaching into your privacy in this manner
+as it may seem unethical though it is a matter of great importance.
 
-In the AX.25 2.2 spec[1] these are just marked as reserved. Linux
-seems to use one to indicate extended sequence number.
+I am Abdulwali Alhashmi, I work with Cayman National Bank (Cayman Islands).
 
-This makes sense, since it allows decoding of I frames without first
-having seen the SABME frame. (SABME being the indicator that sequence
-numbers are 7 bits instead of 3, as opposed to SABM)
+I am contacting you because my status would not permit me to do this
+alone as it is concerning our customer and an investment placed under
+our bank's management over 5 years ago.
 
-Question: Is there a spec for this use of the (by spec 2.2) reserved bit?
+I have a proposal I would love to discuss with you which will be very
+beneficial to both of us. It's regarding my late client who has a huge
+deposit with my bank.
 
-The git repo doesn't have history far enough to comment on when this
-code was written, but it's been this way since Linux 1.3.14 introduced
-AX25_EXTSEQ back in June 1995. lkml.org doesn't even have archives
-that far back.
+He is from your country and shares the same last name with you.
 
-axlisten (from ax25-apps) uses the bit this way since git history
-start, "Import ax25-apps 0.0.1 from tarball" in 1999.
+I want to seek your consent to present you as the next of kin to my
+late client who died and left a huge deposit with my bank.
 
-[1] http://www.tapr.org/pdf/AX25.2.2.pdf
+I would respectfully request that you keep the contents of this mail
+confidential and respect the integrity of the information you come by
+as a result of this mail.
 
---
-typedef struct me_s {
-  char name[]      = { "Thomas Habets" };
-  char email[]     = { "thomas@habets.se" };
-  char kernel[]    = { "Linux" };
-  char *pgpKey[]   = { "http://www.habets.pp.se/pubkey.txt" };
-  char pgp[] = { "9907 8698 8A24 F52F 1C2E  87F6 39A4 9EEA 460A 0169" };
-  char coolcmd[]   = { "echo '. ./_&. ./_'>_;. ./_" };
-} me_t;
+Please kindly get back to me for more details if I can TRUST YOU.{
+aabdulwalialhashmi@gmail.com }
+
+Regards
+Abdulwali Alhashmi
+Treasury and Deposit Management,
+Cayman National Bank Cayman Islands
