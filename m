@@ -2,83 +2,61 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22762443F76
-	for <lists+linux-hams@lfdr.de>; Wed,  3 Nov 2021 10:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25956447B28
+	for <lists+linux-hams@lfdr.de>; Mon,  8 Nov 2021 08:31:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231338AbhKCJkW (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 3 Nov 2021 05:40:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47956 "EHLO
+        id S237762AbhKHHbO (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 8 Nov 2021 02:31:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231278AbhKCJkW (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 3 Nov 2021 05:40:22 -0400
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D28AC061714
-        for <linux-hams@vger.kernel.org>; Wed,  3 Nov 2021 02:37:45 -0700 (PDT)
-Received: by mail-il1-x133.google.com with SMTP id l19so1939072ilk.0
-        for <linux-hams@vger.kernel.org>; Wed, 03 Nov 2021 02:37:45 -0700 (PDT)
+        with ESMTP id S237822AbhKHHam (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 8 Nov 2021 02:30:42 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E1A0C06118B
+        for <linux-hams@vger.kernel.org>; Sun,  7 Nov 2021 23:27:34 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id b15so39288290edd.7
+        for <linux-hams@vger.kernel.org>; Sun, 07 Nov 2021 23:27:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=jLfcvZTy1cBouZO6QrI9vaaVat0R0Pbk2rQ5RPumBWg=;
-        b=Ow5XWYDOSarwotOByXbjpo2h/URcyzfGhL7Zki4GfT2w+oRlXeFUF5dy2frVOg7T4F
-         xvrHozJY329/S30MmmM8kqnb5lMJhp/PcABplE9/RKyRUCrv8ZDYhbrs2POLp8Rgl+SV
-         eKs83EWclqAnJDjGgNCDMoS+v4wdCftQRffe6ompyLS9YTIVn32nddgMgskV/FgeJywC
-         zdhZ87zfDwVG9D8rPEYcvCYhlFuQiKfR2CPvMD//8kTiiCluDS/TdfTUQDAgL6JPx3y+
-         GIRzNy3tRTfU0LkMg5C7iq4x7wRMvR9BRyi4w8YJCbwZrxAY0EvIo74D48j3/zq08JXY
-         K3hA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=gS+G2bXPLTc8QV9oSOsVFPfildfSifO+gabOlUjPn+8=;
+        b=lohGAXI96njXpZ5r6vgYlUkp2V68iRMzDV25uaLpmT1WmpX2h0YNNnPekuKOrJR7Hh
+         rCcmOUgGjsAkeHEvvQCkM6ux+TyqL0CqGbf0IPfL8V+eIKLF7r3X9QWFup/xVl2xV9qZ
+         NGc0LQ7JpvXhk+YTEHFaFd2QnuENE8mCWi0drmIQkANv1zf9DM6Bfjx/yF/A/b9RtJFU
+         CT2DuJeqJ7evq+rJKQgmUSCIg2GjkqvLZlnb0ekZ1/3u7apFf2k73Uqo2u8YZ8hKmOIw
+         ZGA3M8LZJFGSmW3P+nQyYMCLCtL13s+WCsnPOmCuuFd5xieMsN0vbLhindKIE3OfrP6U
+         BcYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=jLfcvZTy1cBouZO6QrI9vaaVat0R0Pbk2rQ5RPumBWg=;
-        b=bp7W/lTQGFU+IOjhci0vnJ7nl7gUiwcfmthNcHspjI6MDMWogWu7oOhWvAjaNWkcoH
-         2RXVASbArY2gRhdLMKR+ImYbfeNwfhB/F+dCMF6O9UIFr2yFFy9HHW/VRNHT57A5pvGc
-         rZBATZQwmlQEHEvQAIr1eDspMMAFNf/qhUDqfPzzDmSORSlQjg8g+2MS2oAhb2hjZ6PY
-         wJRWUuhl6xAhWlEJ3ZrifDMtgT3t6TUe44Z5pK/5vFs18kXLmTZHUR011GtfiJYu5pJ+
-         yP9segnyjsv9Yzq3tgXqLcAcIg6aqA9Denr6sD6zSVE5yaWJmI4DmTJJovYKOdPjALPw
-         bXIA==
-X-Gm-Message-State: AOAM532nqbpPWc10wSqOdW7XXIwa8kDGE/ahEEV37bm8mcFsAQUrk/Rw
-        mdwzvWnSr7M/qeHxA53ASRyBx7xLq9dl3uBBwNs=
-X-Google-Smtp-Source: ABdhPJzcufT04+azoybR7/nr9lTc9j4B5ePlihSJ6niA5xgjH06UcQdoegmnqb97qqydWvIvNYSLqHYEIhNnQDweUfI=
-X-Received: by 2002:a05:6e02:2149:: with SMTP id d9mr16613757ilv.221.1635932264908;
- Wed, 03 Nov 2021 02:37:44 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=gS+G2bXPLTc8QV9oSOsVFPfildfSifO+gabOlUjPn+8=;
+        b=Xmkvx8LH41eDv5hgic+/gmokdZjUOKzGDxklNz0EPiGD4tcjaKCVsi04jx0r5FRqBS
+         q3OsNOywY+ayT6v3ZTJ0oNQO76EcBM1sMeyVvrvkqYHbd0HesO7FE6jLgI+ihQJd48OU
+         s5NdA8nJet4o8O6LI/fnZI1ZlpTO2CDRPXY9PQs5PvoIHn0z8mbP9sC6dy6eoAS+tvnf
+         ND0M6Z+gGX4okGM/ZC7NeaExf1viI2SryxRlNNlBV+JMnUtAoHPYNoKw2qiCHiHihWA2
+         IYUC2p1RFxxTgm8NEh2uMJ9eI+NhvbY9X9QphKX2ovkkRrux5q9nuZoVXCxynuwQpUPM
+         v1mQ==
+X-Gm-Message-State: AOAM531pgF2T1+O9q8cvHf8EGBXwnHGWMZXKgHlZgdmIgu5XWHBLFQyv
+        loiGYDwM0wRA15wZBxgietHF7HGcNPpQZm597/EKBDJ44AY=
+X-Google-Smtp-Source: ABdhPJwiROS9SRRNMvDLES4YHo6uT5d60ZUwIiFmBNAm9OxEfLgMU9cee9PqVQWim0XNVifN/Rk5vWcyMQ7rvBndYNE=
+X-Received: by 2002:a05:6402:557:: with SMTP id i23mr66769092edx.176.1636356441798;
+ Sun, 07 Nov 2021 23:27:21 -0800 (PST)
 MIME-Version: 1.0
-Reply-To: mrmahammedmamoud@gmail.com
-Sender: justicewisdom941@gmail.com
-Received: by 2002:a02:2acb:0:0:0:0:0 with HTTP; Wed, 3 Nov 2021 02:37:44 -0700 (PDT)
-From:   =?UTF-8?Q?Mr_Mahammed=C2=A0Mamoud?= <mr.mahammedmamoud0@gmail.com>
-Date:   Wed, 3 Nov 2021 02:37:44 -0700
-X-Google-Sender-Auth: zrKNqDOVbG4kmBuG0FVCR7axXmI
-Message-ID: <CAGJJtJmoniOs-NzadweE1NqB__6rY0n7oSt2LdNmJzfuNra96w@mail.gmail.com>
-Subject: Guten Tag,
+Received: by 2002:a50:2501:0:0:0:0:0 with HTTP; Sun, 7 Nov 2021 23:27:21 -0800 (PST)
+Reply-To: mariaschaefler@gmx.com
+From:   Maria Schaefler <ziskoraa@gmail.com>
+Date:   Mon, 8 Nov 2021 07:27:21 +0000
+Message-ID: <CAJh0FjiFL7uihMBL6ckYO8FJ6tnzM+tBivU2c60yDbG14LZLeA@mail.gmail.com>
+Subject: MY HEART CHOOSE YOU.
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Guten Tag,
-
-Ich bin Herr Mahammed Mamoud, Account Manager bei einer Investmentbank
-hier in Burkina Faso. In meiner Firma wurde ein Wechselkonto von einem
-langj=C3=A4hrigen Kunden unserer Bank er=C3=B6ffnet. Ich habe die M=C3=B6gl=
-ichkeit,
-den Restfonds (15,8 Millionen US-Dollar) f=C3=BCnfzehn Millionen
-achthunderttausend US-Dollar zu =C3=BCberweisen.
-
-Ich m=C3=B6chte dieses Geld investieren und Sie unserer Bank f=C3=BCr diese=
-s
-Gesch=C3=A4ft vorstellen, und dies wird im Rahmen einer legitimen
-Vereinbarung durchgef=C3=BChrt, die uns vor jeglichen Gesetzesverst=C3=B6=
-=C3=9Fen
-sch=C3=BCtzt. Wir teilen den Fonds zu 40% f=C3=BCr Sie, 50% f=C3=BCr mich u=
-nd 10% f=C3=BCr
-die Gr=C3=BCndung einer Stiftung f=C3=BCr die armen Kinder in Ihrem Land. W=
-enn
-Sie wirklich an meinem Vorschlag interessiert sind, werden Ihnen
-weitere Details der Geld=C3=BCberweisung mitgeteilt.
-
-Dein,
-Herr Mahammed Mamoud.
+Given my current state of health, I have decided to donate what I
+inherited from my late husband to you to help the poor and needy. I am
+Mrs Maria Schaefler,a 57years old dying woman. I was diagnosed for
+cancer about 2 years ago and I have few months to live according to
+medical experts. Email me for my directives
