@@ -2,46 +2,113 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07E1F44F810
-	for <lists+linux-hams@lfdr.de>; Sun, 14 Nov 2021 14:24:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1616D452801
+	for <lists+linux-hams@lfdr.de>; Tue, 16 Nov 2021 03:49:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236153AbhKNN1a (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 14 Nov 2021 08:27:30 -0500
-Received: from mail.zju.edu.cn ([61.164.42.155]:5768 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236073AbhKNN1Y (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Sun, 14 Nov 2021 08:27:24 -0500
-Received: by ajax-webmail-mail-app3 (Coremail) ; Sun, 14 Nov 2021 21:24:12
- +0800 (GMT+08:00)
-X-Originating-IP: [10.192.20.230]
-Date:   Sun, 14 Nov 2021 21:24:12 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   "Lin Ma" <linma@zju.edu.cn>
-To:     syzbot <syzbot+b6cb97f812986fb71e8f@syzkaller.appspotmail.com>
-Cc:     ajk@comnets.uni-bremen.de, davem@davemloft.net, kuba@kernel.org,
-        linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] KASAN: use-after-free Read in sixpack_close
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2021 www.mailtech.cn zju.edu.cn
-In-Reply-To: <000000000000c23f1405d0bf86d6@google.com>
-References: <000000000000c23f1405d0bf86d6@google.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+        id S241489AbhKPCwW (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 15 Nov 2021 21:52:22 -0500
+Received: from mail-io1-f71.google.com ([209.85.166.71]:49709 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1355971AbhKPCuU (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 15 Nov 2021 21:50:20 -0500
+Received: by mail-io1-f71.google.com with SMTP id k19-20020a5d8b13000000b005e970e1ee16so9578762ion.16
+        for <linux-hams@vger.kernel.org>; Mon, 15 Nov 2021 18:47:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=DHz4tYl7fmFr21ztJVimAN7NjI6wBKI+gvZVUU1J4Fc=;
+        b=iUk0mBvsDNF8VYS1RhnYDSVOov+1VrNpeBSzSQ2tIi1yXTMHAmg5x8lyQI0earDICU
+         g2JE8Y8sACzClebVUxT7yY6zdI0K0q3OBPMAX24+SOtFG32GwtdVxTB85HV29Px69Qyl
+         SIbqwffXh+5/WidZoajihjA4phzz9qR1ASAWo4C2/iEXoLl4EcHLCPIE6Iv7A2UpCu69
+         Wf1xUO8e6vIztnB7c+lqlzTtdPbkiXJO7aPy/OajO+hVf73BZc17D+2VqR0HEOum9OZ1
+         elgbNYVTSvIZ/JJNHnF01jpGqm62XH41LMoxAdXH7uwsZY1fCnRzjI/jidOXWru/jTTb
+         WRxg==
+X-Gm-Message-State: AOAM531Wh+uMzAuqFL9xqXz32a0Q4qn1i9oQM/ui1is9YBjwT1nj+SuU
+        S4WWiwu6mJk6/25JF0QNvFS10tkWHMLyfxzbb3pA3M+gZMEu
+X-Google-Smtp-Source: ABdhPJwn76R14uPMgDJvWEqy3Z5Fo+P1OY81YVX4+dP+6QBLaeYoXkp8z60PC2jcROikO4vB1PfWeK8W+2pDkagPj43ABNnD/SGw
 MIME-Version: 1.0
-Message-ID: <2cbb6ca9.18d301.17d1e9ea1d8.Coremail.linma@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cC_KCgBXV2z9DZFhOWgbCA--.18531W
-X-CM-SenderInfo: qtrwiiyqvtljo62m3hxhgxhubq/1tbiAwUCElNG3ElR6gAqsH
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWUCw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
+X-Received: by 2002:a92:c5cc:: with SMTP id s12mr2351600ilt.239.1637030842559;
+ Mon, 15 Nov 2021 18:47:22 -0800 (PST)
+Date:   Mon, 15 Nov 2021 18:47:22 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000db71f005d0def148@google.com>
+Subject: [syzbot] INFO: trying to register non-static key in nr_release
+From:   syzbot <syzbot+877d38583024775941be@syzkaller.appspotmail.com>
+To:     davem@davemloft.net, kuba@kernel.org, linux-hams@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        ralf@linux-mips.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-I3N5eiBmaXg6IGhhbXJhZGlvOiByZW1vdmUgbmVlZHNfZnJlZV9uZXRkZXYgdG8gYXZvaWQgVUFG
-CgpsaW5rOiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9u
-ZXRkZXYvbmV0LmdpdC9jb21taXQvP2lkPTgxYjFkNTQ4ZDAwYgoKQmVzdCBSZWdhcmRzCkxpbg==
+Hello,
 
+syzbot found the following issue on:
+
+HEAD commit:    ca2ef2d9f2aa Merge tag 'kcsan.2021.11.11a' of git://git.ke..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15860f8ab00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=dcce4e862d74e466
+dashboard link: https://syzkaller.appspot.com/bug?extid=877d38583024775941be
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+877d38583024775941be@syzkaller.appspotmail.com
+
+INFO: trying to register non-static key.
+The code is fine but needs lockdep annotation, or maybe
+you didn't initialize this object before use?
+turning off the locking correctness validator.
+CPU: 1 PID: 6116 Comm: syz-executor.0 Not tainted 5.15.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+ assign_lock_key kernel/locking/lockdep.c:951 [inline]
+ register_lock_class+0xf79/0x10c0 kernel/locking/lockdep.c:1263
+ __lock_acquire+0x105/0x54a0 kernel/locking/lockdep.c:4906
+ lock_acquire kernel/locking/lockdep.c:5637 [inline]
+ lock_acquire+0x1ab/0x510 kernel/locking/lockdep.c:5602
+ __raw_write_lock_bh include/linux/rwlock_api_smp.h:201 [inline]
+ _raw_write_lock_bh+0x2f/0x40 kernel/locking/spinlock.c:324
+ sock_orphan include/net/sock.h:1968 [inline]
+ nr_release+0xc2/0x450 net/netrom/af_netrom.c:521
+ __sock_release+0xcd/0x280 net/socket.c:649
+ sock_close+0x18/0x20 net/socket.c:1314
+ __fput+0x286/0x9f0 fs/file_table.c:280
+ task_work_run+0xdd/0x1a0 kernel/task_work.c:164
+ exit_task_work include/linux/task_work.h:32 [inline]
+ do_exit+0xc14/0x2b40 kernel/exit.c:832
+ do_group_exit+0x125/0x310 kernel/exit.c:929
+ get_signal+0x47d/0x2220 kernel/signal.c:2830
+ arch_do_signal_or_restart+0x2a9/0x1c40 arch/x86/kernel/signal.c:868
+ handle_signal_work kernel/entry/common.c:148 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:172 [inline]
+ exit_to_user_mode_prepare+0x17d/0x290 kernel/entry/common.c:207
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:289 [inline]
+ syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:300
+ do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7f53b3d53ae9
+Code: Unable to access opcode bytes at RIP 0x7f53b3d53abf.
+RSP: 002b:00007f53b1287218 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
+RAX: fffffffffffffe00 RBX: 00007f53b3e670e8 RCX: 00007f53b3d53ae9
+RDX: 0000000000000000 RSI: 0000000000000080 RDI: 00007f53b3e670e8
+RBP: 00007f53b3e670e0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f53b3e670ec
+R13: 00007fff58d6162f R14: 00007f53b1287300 R15: 0000000000022000
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
