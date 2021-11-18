@@ -2,39 +2,39 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1616D452801
-	for <lists+linux-hams@lfdr.de>; Tue, 16 Nov 2021 03:49:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C4F7455928
+	for <lists+linux-hams@lfdr.de>; Thu, 18 Nov 2021 11:37:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241489AbhKPCwW (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 15 Nov 2021 21:52:22 -0500
-Received: from mail-io1-f71.google.com ([209.85.166.71]:49709 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355971AbhKPCuU (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 15 Nov 2021 21:50:20 -0500
-Received: by mail-io1-f71.google.com with SMTP id k19-20020a5d8b13000000b005e970e1ee16so9578762ion.16
-        for <linux-hams@vger.kernel.org>; Mon, 15 Nov 2021 18:47:22 -0800 (PST)
+        id S245408AbhKRKkd (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 18 Nov 2021 05:40:33 -0500
+Received: from mail-il1-f198.google.com ([209.85.166.198]:43885 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245703AbhKRKj0 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 18 Nov 2021 05:39:26 -0500
+Received: by mail-il1-f198.google.com with SMTP id i3-20020a056e021d0300b0028fb2a985f2so3756845ila.10
+        for <linux-hams@vger.kernel.org>; Thu, 18 Nov 2021 02:36:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=DHz4tYl7fmFr21ztJVimAN7NjI6wBKI+gvZVUU1J4Fc=;
-        b=iUk0mBvsDNF8VYS1RhnYDSVOov+1VrNpeBSzSQ2tIi1yXTMHAmg5x8lyQI0earDICU
-         g2JE8Y8sACzClebVUxT7yY6zdI0K0q3OBPMAX24+SOtFG32GwtdVxTB85HV29Px69Qyl
-         SIbqwffXh+5/WidZoajihjA4phzz9qR1ASAWo4C2/iEXoLl4EcHLCPIE6Iv7A2UpCu69
-         Wf1xUO8e6vIztnB7c+lqlzTtdPbkiXJO7aPy/OajO+hVf73BZc17D+2VqR0HEOum9OZ1
-         elgbNYVTSvIZ/JJNHnF01jpGqm62XH41LMoxAdXH7uwsZY1fCnRzjI/jidOXWru/jTTb
-         WRxg==
-X-Gm-Message-State: AOAM531Wh+uMzAuqFL9xqXz32a0Q4qn1i9oQM/ui1is9YBjwT1nj+SuU
-        S4WWiwu6mJk6/25JF0QNvFS10tkWHMLyfxzbb3pA3M+gZMEu
-X-Google-Smtp-Source: ABdhPJwn76R14uPMgDJvWEqy3Z5Fo+P1OY81YVX4+dP+6QBLaeYoXkp8z60PC2jcROikO4vB1PfWeK8W+2pDkagPj43ABNnD/SGw
+        bh=S+hZjFERYaau081nQLDIk+XVoTNXbx6u415PGYVVeHs=;
+        b=HAUNWmGDp3T6hMw23CLtLaakYMixg5p8A5kw+HdQiJeje4JQLKEeLuKf8Njbo/fAEN
+         BeyrysUnDSttayKkSKAdl1im4wVb61t76hehcu51RpDFFNxcdut5KPCzXXRNp8tKzzCs
+         GjqhqgdYzf0OFYqOanakFXGC3MOCtwMvYDV6+VUBIl3aQRL6sYcjHOtPjdnV6Av6LkDK
+         RKapjLS3YSkOdwiQoLdNnnnx8LuASAtBCJHfo40GmJ/0qyXW1jME4zlx46F0PvYyz8to
+         inpnZLIf+QMfzl49vo6WiSIsMHa3cfs45QoRTIBAraAnIJFXa+SAi6xC2dLL9wxxu/AS
+         yWfA==
+X-Gm-Message-State: AOAM531O784cPI15aoLxi/dJscRpEtNnQgRIFAIFuXaKaOAV3Crq5Ahl
+        G3YYl3YlsPpXsu1upt+H+nzIFCq4gT2FLSe1fLUF+Ct+yBnw
+X-Google-Smtp-Source: ABdhPJyeDLvfzOSKR4ho0K/xNgaGX2Onqw53w4ffa4yw9VbumzBRC2NcioErWsXXdKfcYf9JQv3JgPL8Oh9ss91iksxBTF8hb1E7
 MIME-Version: 1.0
-X-Received: by 2002:a92:c5cc:: with SMTP id s12mr2351600ilt.239.1637030842559;
- Mon, 15 Nov 2021 18:47:22 -0800 (PST)
-Date:   Mon, 15 Nov 2021 18:47:22 -0800
+X-Received: by 2002:a05:6e02:1749:: with SMTP id y9mr15060210ill.232.1637231786114;
+ Thu, 18 Nov 2021 02:36:26 -0800 (PST)
+Date:   Thu, 18 Nov 2021 02:36:26 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000db71f005d0def148@google.com>
-Subject: [syzbot] INFO: trying to register non-static key in nr_release
-From:   syzbot <syzbot+877d38583024775941be@syzkaller.appspotmail.com>
+Message-ID: <00000000000006c24a05d10dbb7f@google.com>
+Subject: [syzbot] WARNING: refcount bug in nr_release (3)
+From:   syzbot <syzbot+342c8cfbf3eb29cb36e8@syzkaller.appspotmail.com>
 To:     davem@davemloft.net, kuba@kernel.org, linux-hams@vger.kernel.org,
         linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
         ralf@linux-mips.org, syzkaller-bugs@googlegroups.com
@@ -47,37 +47,42 @@ Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    ca2ef2d9f2aa Merge tag 'kcsan.2021.11.11a' of git://git.ke..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15860f8ab00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=dcce4e862d74e466
-dashboard link: https://syzkaller.appspot.com/bug?extid=877d38583024775941be
+HEAD commit:    f2e19fd15bd7 Add linux-next specific files for 20211112
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=14de0821b00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ba9c83199208e103
+dashboard link: https://syzkaller.appspot.com/bug?extid=342c8cfbf3eb29cb36e8
 compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
 Unfortunately, I don't have any reproducer for this issue yet.
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+877d38583024775941be@syzkaller.appspotmail.com
+Reported-by: syzbot+342c8cfbf3eb29cb36e8@syzkaller.appspotmail.com
 
-INFO: trying to register non-static key.
-The code is fine but needs lockdep annotation, or maybe
-you didn't initialize this object before use?
-turning off the locking correctness validator.
-CPU: 1 PID: 6116 Comm: syz-executor.0 Not tainted 5.15.0-syzkaller #0
+------------[ cut here ]------------
+refcount_t: addition on 0; use-after-free.
+WARNING: CPU: 0 PID: 13624 at lib/refcount.c:25 refcount_warn_saturate+0x169/0x1e0 lib/refcount.c:25
+Modules linked in:
+CPU: 0 PID: 13624 Comm: syz-executor.4 Not tainted 5.15.0-next-20211112-syzkaller #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:refcount_warn_saturate+0x169/0x1e0 lib/refcount.c:25
+Code: 09 31 ff 89 de e8 27 70 a0 fd 84 db 0f 85 36 ff ff ff e8 3a 6c a0 fd 48 c7 c7 a0 5f 04 8a c6 05 0e 1e a5 09 01 e8 de 4d 34 05 <0f> 0b e9 17 ff ff ff e8 1b 6c a0 fd 0f b6 1d f3 1d a5 09 31 ff 89
+RSP: 0018:ffffc9000282fa70 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: ffff88802c4fd7c0 RSI: ffffffff815f5c98 RDI: fffff52000505f40
+RBP: 0000000000000002 R08: 0000000000000000 R09: 0000000000000000
+R10: ffffffff815efa3e R11: 0000000000000000 R12: ffff88803cd1c200
+R13: ffff88803c3d7080 R14: ffff88803cd1c218 R15: ffff888011a4a620
+FS:  0000000000000000(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffdbaf50df8 CR3: 0000000022a02000 CR4: 00000000003526f0
 Call Trace:
  <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- assign_lock_key kernel/locking/lockdep.c:951 [inline]
- register_lock_class+0xf79/0x10c0 kernel/locking/lockdep.c:1263
- __lock_acquire+0x105/0x54a0 kernel/locking/lockdep.c:4906
- lock_acquire kernel/locking/lockdep.c:5637 [inline]
- lock_acquire+0x1ab/0x510 kernel/locking/lockdep.c:5602
- __raw_write_lock_bh include/linux/rwlock_api_smp.h:201 [inline]
- _raw_write_lock_bh+0x2f/0x40 kernel/locking/spinlock.c:324
- sock_orphan include/net/sock.h:1968 [inline]
- nr_release+0xc2/0x450 net/netrom/af_netrom.c:521
+ __refcount_add include/linux/refcount.h:199 [inline]
+ __refcount_inc include/linux/refcount.h:250 [inline]
+ refcount_inc include/linux/refcount.h:267 [inline]
+ sock_hold include/net/sock.h:708 [inline]
+ nr_release+0x3d1/0x450 net/netrom/af_netrom.c:520
  __sock_release+0xcd/0x280 net/socket.c:649
  sock_close+0x18/0x20 net/socket.c:1314
  __fput+0x286/0x9f0 fs/file_table.c:280
@@ -94,14 +99,14 @@ Call Trace:
  syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:300
  do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
  entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7f53b3d53ae9
-Code: Unable to access opcode bytes at RIP 0x7f53b3d53abf.
-RSP: 002b:00007f53b1287218 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
-RAX: fffffffffffffe00 RBX: 00007f53b3e670e8 RCX: 00007f53b3d53ae9
-RDX: 0000000000000000 RSI: 0000000000000080 RDI: 00007f53b3e670e8
-RBP: 00007f53b3e670e0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f53b3e670ec
-R13: 00007fff58d6162f R14: 00007f53b1287300 R15: 0000000000022000
+RIP: 0033:0x7f8de835cae9
+Code: Unable to access opcode bytes at RIP 0x7f8de835cabf.
+RSP: 002b:00007f8de58d2218 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
+RAX: fffffffffffffe00 RBX: 00007f8de846ff68 RCX: 00007f8de835cae9
+RDX: 0000000000000000 RSI: 0000000000000080 RDI: 00007f8de846ff68
+RBP: 00007f8de846ff60 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f8de846ff6c
+R13: 00007ffc7f8041ff R14: 00007f8de58d2300 R15: 0000000000022000
  </TASK>
 
 
