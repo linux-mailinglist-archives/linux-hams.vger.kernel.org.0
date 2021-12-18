@@ -2,100 +2,81 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 53C8547832B
-	for <lists+linux-hams@lfdr.de>; Fri, 17 Dec 2021 03:30:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD14D479AC0
+	for <lists+linux-hams@lfdr.de>; Sat, 18 Dec 2021 13:40:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231512AbhLQCaB (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 16 Dec 2021 21:30:01 -0500
-Received: from mail.zju.edu.cn ([61.164.42.155]:52902 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229471AbhLQCaB (ORCPT <rfc822;linux-hams@vger.kernel.org>);
-        Thu, 16 Dec 2021 21:30:01 -0500
-Received: from localhost.localdomain (unknown [222.205.0.213])
-        by mail-app2 (Coremail) with SMTP id by_KCgCn9VEf9rthM8pgAA--.20951S4;
-        Fri, 17 Dec 2021 10:29:52 +0800 (CST)
-From:   Lin Ma <linma@zju.edu.cn>
-To:     linux-hams@vger.kernel.org
-Cc:     jreuter@yaina.de, ralf@linux-mips.org, davem@davemloft.net,
-        kuba@kernel.org, netdev@vger.kernel.org, nagi@zju.edu.cn,
-        Lin Ma <linma@zju.edu.cn>
-Subject: [PATCH v0] ax25: NPD bug when detaching AX25 device
-Date:   Fri, 17 Dec 2021 10:29:41 +0800
-Message-Id: <20211217022941.27901-1-linma@zju.edu.cn>
-X-Mailer: git-send-email 2.33.1
+        id S231882AbhLRMkL (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 18 Dec 2021 07:40:11 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:34048 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231875AbhLRMkL (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 18 Dec 2021 07:40:11 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id ECBA660B72;
+        Sat, 18 Dec 2021 12:40:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4872EC36AE8;
+        Sat, 18 Dec 2021 12:40:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639831210;
+        bh=FFGB3RVCB4aGnm21eSkJPuLKnXWaHQmdFoXWAE6bFbY=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=MbCre2X9znaR5kVnA1IqQx5PI1if92J3Cs5WBC6MPztINXd/dUPHSp5iYZckgMGTC
+         0RkzsNpBw5os7Y/NoKZ1C4H7s3PyiGiPeXmlDFFPdkCQSQ20NrxvNLT0BaTpwFtaSk
+         68FHDrNrHiTW2qp7BxnhrrULXAHwAS5MDcmAhwH2LZCKg3vjIcRK4aV8Y5kyGEzPNF
+         XhAYN6rDuWeSlzh+fdrnyma8YgKntbvF1zTfS3kvhq5makB3/WWPm1g3YUHRcb0LEP
+         onFgLBW+OP9vTTdEQCriufLgNPbWsFqKvQwScoZp28Hh/rxkyxpLYNG4LiQ+71qrzl
+         6Hhcfe8xTYTUg==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 2CEE660A3A;
+        Sat, 18 Dec 2021 12:40:10 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: by_KCgCn9VEf9rthM8pgAA--.20951S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cr4kuFW7ZFy7Cr4rZr4fKrg_yoW8Gw4UpF
-        W5K3WrAFWDGF4UAanrG3s7XF1UZ3yDG3yDGr1UZFZay3srJrn5J395t3yUXryrKrZ3Ja1U
-        Z3W2gw1UAr4Du3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUv01xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW0oVCq3wA2z4x0Y4vEx4A2
-        jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
-        x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWU
-        GwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
-        8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_Gr1l42xK82IYc2Ij64vIr41l
-        42xK82IY6x8ErcxFaVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-        8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
-        ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-        0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-        Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
-        pwZ7UUUUU==
-X-CM-SenderInfo: qtrwiiyqvtljo62m3hxhgxhubq/
+Subject: Re: [PATCH v0] ax25: NPD bug when detaching AX25 device
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <163983121017.1461.2630742040562872080.git-patchwork-notify@kernel.org>
+Date:   Sat, 18 Dec 2021 12:40:10 +0000
+References: <20211217022941.27901-1-linma@zju.edu.cn>
+In-Reply-To: <20211217022941.27901-1-linma@zju.edu.cn>
+To:     Lin Ma <linma@zju.edu.cn>
+Cc:     linux-hams@vger.kernel.org, jreuter@yaina.de, ralf@linux-mips.org,
+        davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
+        nagi@zju.edu.cn
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-The existing cleanup routine implementation is not well synchronized
-with the syscall routine. When a device is detaching, below race could
-occur.
+Hello:
 
-static int ax25_sendmsg(...) {
-  ...
-  lock_sock()
-  ax25 = sk_to_ax25(sk);
-  if (ax25->ax25_dev == NULL) // CHECK
-  ...
-  ax25_queue_xmit(skb, ax25->ax25_dev->dev); // USE
-  ...
-}
+This patch was applied to netdev/net.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-static void ax25_kill_by_device(...) {
-  ...
-  if (s->ax25_dev == ax25_dev) {
-    s->ax25_dev = NULL;
-    ...
-}
+On Fri, 17 Dec 2021 10:29:41 +0800 you wrote:
+> The existing cleanup routine implementation is not well synchronized
+> with the syscall routine. When a device is detaching, below race could
+> occur.
+> 
+> static int ax25_sendmsg(...) {
+>   ...
+>   lock_sock()
+>   ax25 = sk_to_ax25(sk);
+>   if (ax25->ax25_dev == NULL) // CHECK
+>   ...
+>   ax25_queue_xmit(skb, ax25->ax25_dev->dev); // USE
+>   ...
+> }
+> 
+> [...]
 
-Other syscall functions like ax25_getsockopt, ax25_getname,
-ax25_info_show also suffer from similar races. To fix them, this patch
-introduce lock_sock() into ax25_kill_by_device in order to guarantee
-that the nullify action in cleanup routine cannot proceed when another
-socket request is pending.
+Here is the summary with links:
+  - [v0] ax25: NPD bug when detaching AX25 device
+    https://git.kernel.org/netdev/net/c/1ade48d0c27d
 
-Signed-off-by: Hanjie Wu <nagi@zju.edu.cn>
-Signed-off-by: Lin Ma <linma@zju.edu.cn>
----
- net/ax25/af_ax25.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-index 2f34bbdde0e8..cfca99e295b8 100644
---- a/net/ax25/af_ax25.c
-+++ b/net/ax25/af_ax25.c
-@@ -85,8 +85,10 @@ static void ax25_kill_by_device(struct net_device *dev)
- again:
- 	ax25_for_each(s, &ax25_list) {
- 		if (s->ax25_dev == ax25_dev) {
--			s->ax25_dev = NULL;
- 			spin_unlock_bh(&ax25_list_lock);
-+			lock_sock(s->sk);
-+			s->ax25_dev = NULL;
-+			release_sock(s->sk);
- 			ax25_disconnect(s, ENETUNREACH);
- 			spin_lock_bh(&ax25_list_lock);
- 
+You are awesome, thank you!
 -- 
-2.33.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
