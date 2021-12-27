@@ -2,44 +2,42 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 719EE480436
-	for <lists+linux-hams@lfdr.de>; Mon, 27 Dec 2021 20:08:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08D87480439
+	for <lists+linux-hams@lfdr.de>; Mon, 27 Dec 2021 20:08:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232824AbhL0THy (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 27 Dec 2021 14:07:54 -0500
-Received: from sin.source.kernel.org ([145.40.73.55]:49718 "EHLO
+        id S233722AbhL0TH7 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 27 Dec 2021 14:07:59 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:49770 "EHLO
         sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233232AbhL0TGz (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Dec 2021 14:06:55 -0500
+        with ESMTP id S233272AbhL0THA (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Dec 2021 14:07:00 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 6A19BCE114B;
-        Mon, 27 Dec 2021 19:06:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCCC6C36AEE;
-        Mon, 27 Dec 2021 19:06:49 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 2F4D9CE1150;
+        Mon, 27 Dec 2021 19:06:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7149DC36AEA;
+        Mon, 27 Dec 2021 19:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1640632010;
+        s=k20201202; t=1640632016;
         bh=055HlUvUQ2TxKb4Z4cpIUxi7M++pUMXyhB1W32PSMEI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=i5aDzhN2vpuie1Sq8m1Ky624ZP2lRHIZXJdrUIvRL+CnlN2IjTGmhYcvo0jV5ec56
-         lajKuZ2i8IpZdPs9HIG27TNQ2hPUZuRlwjHM8onUmQBl6vDUtvNlvYAlW/w50+7Dce
-         Homz+eSFRYv+SKUMVQuAMhmeP6bpFmj7Mqr6Rq/8hAXoljAFNPlnydggKImSS51vc8
-         sUGNbAiTgj1KwJ1BPRYRhOJDkqC1bfJgjK6gcymQb1NAJR9OlGjygR7C2mfvK92QPg
-         rcFnWSFWvaRuAND4DRoT5is/4Y9RT7qYqfjutyIcAwzRfzMO8qX13B+hM8MCbkeNNn
-         +RWg2Dx5TtgIg==
+        h=From:To:Cc:Subject:Date:From;
+        b=k3jfpFaILbD9AsX5fG/Et+VaFTQnwI4SeHGxKaacFk2SU6Sm95b//7P1GAw22wyyv
+         Ueuv8IUzUkd5q0Qhkm6EgKK5craMA9L02jr6Enp6t9ksArojoN08Zl2ArcT/rG1b/h
+         qnsTtABe2+3Em4eAYTbXRZfNoSW4L6Fo2yETtRNbR2R18QS5Yb/E4vzD8Hnw1Nnu4V
+         pBiFj0M9ZIfIdig03YtjTzfuaI0TxcAYPizbTTks65Q3W6aschOU7ijTlXTdjGTuTR
+         T8HJy+KJRpOuYMb9C7PYo0mQT/NkLMNj9J3Py/fxgEmM44YgQCMNeLFNVsXCIXC/Rm
+         3Nuees14JkYWQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Lin Ma <linma@zju.edu.cn>, Hanjie Wu <nagi@zju.edu.cn>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, jreuter@yaina.de,
         kuba@kernel.org, linux-hams@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 2/4] ax25: NPD bug when detaching AX25 device
-Date:   Mon, 27 Dec 2021 14:06:44 -0500
-Message-Id: <20211227190647.1043514-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 1/3] ax25: NPD bug when detaching AX25 device
+Date:   Mon, 27 Dec 2021 14:06:51 -0500
+Message-Id: <20211227190653.1043578-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211227190647.1043514-1-sashal@kernel.org>
-References: <20211227190647.1043514-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
