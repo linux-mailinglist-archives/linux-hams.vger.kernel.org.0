@@ -2,44 +2,44 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2B174803B1
-	for <lists+linux-hams@lfdr.de>; Mon, 27 Dec 2021 20:05:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 136094803D8
+	for <lists+linux-hams@lfdr.de>; Mon, 27 Dec 2021 20:06:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232082AbhL0TEt (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 27 Dec 2021 14:04:49 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:41298 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231987AbhL0TE2 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Dec 2021 14:04:28 -0500
+        id S232599AbhL0TF4 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 27 Dec 2021 14:05:56 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:40856 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232412AbhL0TFa (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Dec 2021 14:05:30 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 29118B8113A;
-        Mon, 27 Dec 2021 19:04:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE79DC36AE7;
-        Mon, 27 Dec 2021 19:04:24 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2B76961165;
+        Mon, 27 Dec 2021 19:05:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71252C36AEB;
+        Mon, 27 Dec 2021 19:05:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1640631865;
-        bh=roB+SCMH2AgvaUDqtoiGsZMBVDgqtp2YNKHpbTuGR4U=;
+        s=k20201202; t=1640631928;
+        bh=CYdVvjbGInE4qRWQvLHHwpzbDV8VcCFQYPmgCsxNk7I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cfogjNiAl/3ubd1pSyv9Yx+vYbaIuyi9bxc3Po61NtJU5DySESL4AW2AajrEn17/G
-         DRPU3Jlxs/OcJogdtKC+YBsYQfhp/VoeoUqEMrD4I+JB3QAt4Jai+VHhGw8mm6A2I3
-         Qb50gflT4BTDa1s7cpNICyHQB6D+dq6QzV+rgfDb4OoAY0xvARsCp+fxCeQfMip+fd
-         TYCbTsB13Dan3lnp49z9C6G2caGSrT5JP6A39QfhQf3DC4gNeabScWqt97Pjyvgey5
-         H0PXEkmY92KfiWpHdKMyQBcHBPZDiI6YMQlS7CH9qF+rXg7F5b9f6sspAG/grqzo6V
-         Db4/qXMNYzM3A==
+        b=BW21oPJM2SQphuTtXsfekNHrMXC7wctNUGlAax5g4/Ut0g6uVt0kn3nlsegAhweLi
+         FYAFT4zgl7vQyatRlRnXkUAMqFieDoReroY7L3sH0FDyT30b2cShgJMas0DXoy/ua8
+         UeLL1/FMekQAtokJ5+6ZSjo4h5juJEc97/uS8tWpTdwztSvFq7uwwrGg4yDDqAVYzU
+         cKiKjRNRjeA5lesN4rKrVnCvdp4ccF9Tv6WoiFd7FdPuXoaG1z5aoFIxooAnpCj3yT
+         AwHIqIk+AsB7GY7ZQO3goA+USZXu8LK/Ko74ftQ8UfnnP5WXWhUIdcT3EQaVJLaRg3
+         EYBA6UxxzRJjw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Lin Ma <linma@zju.edu.cn>, Hanjie Wu <nagi@zju.edu.cn>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, jreuter@yaina.de,
         kuba@kernel.org, linux-hams@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 17/26] ax25: NPD bug when detaching AX25 device
-Date:   Mon, 27 Dec 2021 14:03:18 -0500
-Message-Id: <20211227190327.1042326-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 10/14] ax25: NPD bug when detaching AX25 device
+Date:   Mon, 27 Dec 2021 14:04:48 -0500
+Message-Id: <20211227190452.1042714-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211227190327.1042326-1-sashal@kernel.org>
-References: <20211227190327.1042326-1-sashal@kernel.org>
+In-Reply-To: <20211227190452.1042714-1-sashal@kernel.org>
+References: <20211227190452.1042714-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -88,7 +88,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-index 2631efc6e359f..aa7785687e757 100644
+index 269ee89d2c2be..22278807b3f36 100644
 --- a/net/ax25/af_ax25.c
 +++ b/net/ax25/af_ax25.c
 @@ -85,8 +85,10 @@ static void ax25_kill_by_device(struct net_device *dev)
