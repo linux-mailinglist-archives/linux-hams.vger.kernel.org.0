@@ -2,69 +2,74 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77E5A483F14
-	for <lists+linux-hams@lfdr.de>; Tue,  4 Jan 2022 10:21:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 320F64841B7
+	for <lists+linux-hams@lfdr.de>; Tue,  4 Jan 2022 13:40:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229463AbiADJVd (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 4 Jan 2022 04:21:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39752 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbiADJVd (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 4 Jan 2022 04:21:33 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53FC6C061784;
-        Tue,  4 Jan 2022 01:21:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=/EGiF3exvN0CmzCzzHj2LPHV2IaoCNuj0zydEgdxAKE=; b=Pt15MAngYfgJqqKX4nxiaLuLfe
-        QKoioIJ57OZVAbpbRmhHVEwZLKRRbl0YSRQenum4jJg9v9GFSZMkGq/Y4YCpF9vBsXDZ0+/rAxNro
-        5rw7jTN1M/7Hhfhuj855xCp5nkhUJ23hBnVGWw7tQYhfXuVC/eIT6k4m+1QO7sz+P/N93rDXwoWDA
-        CC6wtP9nX0oi61HzMBjubVvAv4r4Tmb2UDWSo+ATNn7CFB8nlJ32uw77vR2m76uKlQp3lA23nCwUV
-        0uPnk61gPWH40ZIsSNp1TRj4vUgPDRvpKmyKuCMfDdZB/sz/MLIqVlot+gnCxVsD7qN5szaxGTD/5
-        r3M9jzZQ==;
-Received: from [2001:4bb8:184:3f95:15c:3e66:a12b:4469] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n4g0X-00Axq0-5r; Tue, 04 Jan 2022 09:21:29 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     ralf@linux-mips.org, davem@davemloft.net, kuba@kernel.org
-Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH] netrom: fix copying in user data in nr_setsockopt
-Date:   Tue,  4 Jan 2022 10:21:26 +0100
-Message-Id: <20220104092126.172508-1-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
+        id S233050AbiADMkM (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 4 Jan 2022 07:40:12 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:38046 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231872AbiADMkL (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 4 Jan 2022 07:40:11 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 441F16138B;
+        Tue,  4 Jan 2022 12:40:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A4F60C36AEF;
+        Tue,  4 Jan 2022 12:40:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641300010;
+        bh=E1qmSjqC/aHssBJwzDrvVpd10JpyZ01jMBr+08BO3Sc=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=HbvAfqFJERRXpyJN1K+xs9iXFkWM0Ob+nCmCNFmc/3apPzPcyHCfEC+ooTUtjOji3
+         /OVp6GQmVH/niyzfUfUAM+hitBwvgLGOh+lprX5H2Nz0oRbFlAGmiz+ouKhgVerwta
+         BTGSj0k+gCNYKtzFdSHWZ1X5uuvgP3P6lmDnQQg8vbaXq4kgeTz3yWDrmVtle3CRpA
+         f9AjujCbjG/Td8X9UZ6KZYOGpgXXlo0LP9utVYONMenpktZv6G6+4CTB3//j+aege8
+         vIAxlaNhbd9nTNx+z9incKWiQYuQ0VCGDaapu1mW8S33u49K+2vPn5PtF16fLXIFmu
+         eNbt3w8wYCWsw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8E808F79400;
+        Tue,  4 Jan 2022 12:40:10 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Subject: Re: [PATCH] netrom: fix copying in user data in nr_setsockopt
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <164130001057.24992.16411426784038058921.git-patchwork-notify@kernel.org>
+Date:   Tue, 04 Jan 2022 12:40:10 +0000
+References: <20220104092126.172508-1-hch@lst.de>
+In-Reply-To: <20220104092126.172508-1-hch@lst.de>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     ralf@linux-mips.org, davem@davemloft.net, kuba@kernel.org,
+        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        dan.carpenter@oracle.com
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-This code used to copy in an unsigned long worth of data before
-the sockptr_t conversion, so restore that.
+Hello:
 
-Fixes: a7b75c5a8c41 ("net: pass a sockptr_t into ->setsockopt")
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- net/netrom/af_netrom.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch was applied to netdev/net.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-diff --git a/net/netrom/af_netrom.c b/net/netrom/af_netrom.c
-index 775064cdd0ee4..f1ba7dd3d253d 100644
---- a/net/netrom/af_netrom.c
-+++ b/net/netrom/af_netrom.c
-@@ -306,7 +306,7 @@ static int nr_setsockopt(struct socket *sock, int level, int optname,
- 	if (optlen < sizeof(unsigned int))
- 		return -EINVAL;
- 
--	if (copy_from_sockptr(&opt, optval, sizeof(unsigned int)))
-+	if (copy_from_sockptr(&opt, optval, sizeof(unsigned long)))
- 		return -EFAULT;
- 
- 	switch (optname) {
+On Tue,  4 Jan 2022 10:21:26 +0100 you wrote:
+> This code used to copy in an unsigned long worth of data before
+> the sockptr_t conversion, so restore that.
+> 
+> Fixes: a7b75c5a8c41 ("net: pass a sockptr_t into ->setsockopt")
+> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> 
+> [...]
+
+Here is the summary with links:
+  - netrom: fix copying in user data in nr_setsockopt
+    https://git.kernel.org/netdev/net/c/3087a6f36ee0
+
+You are awesome, thank you!
 -- 
-2.30.2
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
