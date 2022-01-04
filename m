@@ -2,74 +2,92 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 320F64841B7
-	for <lists+linux-hams@lfdr.de>; Tue,  4 Jan 2022 13:40:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A6AB4844EC
+	for <lists+linux-hams@lfdr.de>; Tue,  4 Jan 2022 16:44:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233050AbiADMkM (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 4 Jan 2022 07:40:12 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:38046 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231872AbiADMkL (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 4 Jan 2022 07:40:11 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 441F16138B;
-        Tue,  4 Jan 2022 12:40:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A4F60C36AEF;
-        Tue,  4 Jan 2022 12:40:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641300010;
-        bh=E1qmSjqC/aHssBJwzDrvVpd10JpyZ01jMBr+08BO3Sc=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=HbvAfqFJERRXpyJN1K+xs9iXFkWM0Ob+nCmCNFmc/3apPzPcyHCfEC+ooTUtjOji3
-         /OVp6GQmVH/niyzfUfUAM+hitBwvgLGOh+lprX5H2Nz0oRbFlAGmiz+ouKhgVerwta
-         BTGSj0k+gCNYKtzFdSHWZ1X5uuvgP3P6lmDnQQg8vbaXq4kgeTz3yWDrmVtle3CRpA
-         f9AjujCbjG/Td8X9UZ6KZYOGpgXXlo0LP9utVYONMenpktZv6G6+4CTB3//j+aege8
-         vIAxlaNhbd9nTNx+z9incKWiQYuQ0VCGDaapu1mW8S33u49K+2vPn5PtF16fLXIFmu
-         eNbt3w8wYCWsw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8E808F79400;
-        Tue,  4 Jan 2022 12:40:10 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        id S233780AbiADPn7 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 4 Jan 2022 10:43:59 -0500
+Received: from mga02.intel.com ([134.134.136.20]:10197 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232505AbiADPn6 (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Tue, 4 Jan 2022 10:43:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641311038; x=1672847038;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=22y9EjrBRaMVy/mz9REdCI0A1LxLuq5BPOq8HpG1+gg=;
+  b=UnovQSwallIVIqbAQyjb9NCARDilaA1Ue7nDtEe8kXT723v2h7NU6tzj
+   LD6SUjbvz3nozkJw8+lesaECkScGnd3tq1MXNUhS6ph/dAAdDj9SGhGDW
+   t9O1lZy5P95H2zSPB49Cg2C+Q5W4gojbfFrRI+7YvtubgVf3LL17XC36p
+   iRNu6nngL5TFQCIXF/T+2ah1UzGqBz3z9U3LSSr/hy1MHXgIHwiXKsXYk
+   5KYL4R3+5otT7W3IRllPUq6NF+Cxf78guqRC8FDxs0dMLx8dPHYp6PXL/
+   QGseiTvWtgDcIgNUhUWJTKsqAffWp71R3vWF4Ng/dugEYwryWUUfNtkUd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10216"; a="229559359"
+X-IronPort-AV: E=Sophos;i="5.88,261,1635231600"; 
+   d="scan'208";a="229559359"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2022 07:43:58 -0800
+X-IronPort-AV: E=Sophos;i="5.88,261,1635231600"; 
+   d="scan'208";a="688600650"
+Received: from smile.fi.intel.com ([10.237.72.61])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2022 07:43:52 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1n4lxK-006GMj-Qz;
+        Tue, 04 Jan 2022 17:42:34 +0200
+Date:   Tue, 4 Jan 2022 17:42:34 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Jakub Kicinski <kuba@kernel.org>, mingo@kernel.org
+Cc:     Florian Fainelli <f.fainelli@gmail.com>, ast@kernel.org,
+        daniel@iogearbox.net, bpf@vger.kernel.org, netdev@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-can@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-hams@vger.kernel.org, ath11k@lists.infradead.org,
+        linux-wireless@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, bridge@lists.linux-foundation.org,
+        linux-decnet-user@lists.sourceforge.net,
+        linux-s390@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH bpf-next v2] net: don't include filter.h from net/sock.h
+Message-ID: <YdRq6vKceOqscaKK@smile.fi.intel.com>
+References: <20211229004913.513372-1-kuba@kernel.org>
+ <5a82690c-7dc0-81de-4dd6-06e26e4b9b92@gmail.com>
+ <20211229092012.635e9f2b@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] netrom: fix copying in user data in nr_setsockopt
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164130001057.24992.16411426784038058921.git-patchwork-notify@kernel.org>
-Date:   Tue, 04 Jan 2022 12:40:10 +0000
-References: <20220104092126.172508-1-hch@lst.de>
-In-Reply-To: <20220104092126.172508-1-hch@lst.de>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     ralf@linux-mips.org, davem@davemloft.net, kuba@kernel.org,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        dan.carpenter@oracle.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211229092012.635e9f2b@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net.git (master)
-by David S. Miller <davem@davemloft.net>:
-
-On Tue,  4 Jan 2022 10:21:26 +0100 you wrote:
-> This code used to copy in an unsigned long worth of data before
-> the sockptr_t conversion, so restore that.
+On Wed, Dec 29, 2021 at 09:20:12AM -0800, Jakub Kicinski wrote:
+> On Tue, 28 Dec 2021 17:33:39 -0800 Florian Fainelli wrote:
+> > It would be nice if we used the number of files rebuilt because of a 
+> > header file change as another metric that the kernel is evaluated with 
+> > from release to release (or even on a commit by commit basis). Food for 
+> > thought.
 > 
-> Fixes: a7b75c5a8c41 ("net: pass a sockptr_t into ->setsockopt")
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Maybe Andy has some thoughts, he has been working on dropping
+> unnecessary includes of kernel.h, it seems.
+
+With this [1] announcement I believe Ingo is the best to tell you if this is a
+right direction.
+
+> It'd be cool to plug something that'd warn us about significant
+> increases in dependencies into the patchwork build bot.
 > 
-> [...]
+> I have one more small series which un-includes uapi/bpf.h from
+> netdevice.h at which point I hope we'll be largely in the clear 
+> from build bot performance perspective.
 
-Here is the summary with links:
-  - netrom: fix copying in user data in nr_setsockopt
-    https://git.kernel.org/netdev/net/c/3087a6f36ee0
+[1]: https://lore.kernel.org/lkml/YdIfz+LMewetSaEB@gmail.com/T/#u
 
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+With Best Regards,
+Andy Shevchenko
 
 
