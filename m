@@ -2,77 +2,96 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24BC94878C7
-	for <lists+linux-hams@lfdr.de>; Fri,  7 Jan 2022 15:20:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20E104881EC
+	for <lists+linux-hams@lfdr.de>; Sat,  8 Jan 2022 07:53:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347644AbiAGOUN (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 7 Jan 2022 09:20:13 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:34032 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347640AbiAGOUN (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 7 Jan 2022 09:20:13 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CC217B82633;
-        Fri,  7 Jan 2022 14:20:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6F298C36AE0;
-        Fri,  7 Jan 2022 14:20:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641565210;
-        bh=8ArphtMs5lHlkG3KGagptlon8x0XX0zifyrk+uhpTVI=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=GoFSHisj/ZHjeUEdZ6l+HgWeaayeO7lOVRbmRqTi+t14HkH+jp7DFX+RVX0k0shGv
-         Xfm9+rWbuQWdHD8GyhXG2V/bkZCRDuF3aDR4aO/mpkdVehpiwHSuUuNL3VYEnGgvJ4
-         n9mHraUyMIvfaqWGRZo1c3Sa00OutwRka40PtZUaj/hGvXseDtYq2Vs6tUDb06+X2K
-         x5LnJ3TM+OlrYTQ3LbNBNtVf4w8zW/jhhXPDE3/IIdv7/bTSAHdbuSoRLXERaswpjz
-         C36LF3utcjSORC55O7CpwBYARi8i4NKwNJwVnoKOSrEPmmM9N/ASjhePmbolYVkqtS
-         RtN4MRM7jX0rg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4F7CBF7940A;
-        Fri,  7 Jan 2022 14:20:10 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        id S230459AbiAHGx5 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 8 Jan 2022 01:53:57 -0500
+Received: from trinity.trinnet.net ([96.78.144.185]:2996 "EHLO
+        trinity3.trinnet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230410AbiAHGx4 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 8 Jan 2022 01:53:56 -0500
+X-Greylist: delayed 2103 seconds by postgrey-1.27 at vger.kernel.org; Sat, 08 Jan 2022 01:53:56 EST
+Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
+        by trinity3.trinnet.net (TrinityOS Hardened/TrinityOS Hardened) with ESMTP id 2086IrHW028015
+        for <linux-hams@vger.kernel.org>; Fri, 7 Jan 2022 22:18:53 -0800
+From:   David Ranch <linux-hams@trinnet.net>
+Subject: Brian Rogers N1URO - Silent Key
+To:     Linux Hams <linux-hams@vger.kernel.org>
+Message-ID: <5a1d6415-fe2f-5820-4cf2-637739e346c6@trinnet.net>
+Date:   Fri, 7 Jan 2022 22:19:03 -0800
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] ax25: uninitialized variable in ax25_setsockopt()
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164156521031.21832.2063678868639107574.git-patchwork-notify@kernel.org>
-Date:   Fri, 07 Jan 2022 14:20:10 +0000
-References: <20220107071312.GB22086@kili>
-In-Reply-To: <20220107071312.GB22086@kili>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     jreuter@yaina.de, hch@lst.de, ralf@linux-mips.org,
-        stefan@datenfreihafen.org, matthieu.baerts@tessares.net,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Fri, 07 Jan 2022 22:18:53 -0800 (GMT+8)
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
 
-This patch was applied to netdev/net.git (master)
-by David S. Miller <davem@davemloft.net>:
+I saw this very sad news today on the AMPR list but didn't see it here 
+so I thought I would forward it on.  I do hope that the UroNode and his 
+larger body of his Linux work can be continued but I don't know if Brian 
+had any specific plans, wishes, etc.
 
-On Fri, 7 Jan 2022 10:13:12 +0300 you wrote:
-> The "opt" variable is unsigned long but we only copy 4 bytes from
-> the user so the lower 4 bytes are uninitialized.
-> 
-> I have changed the integer overflow checks from ULONG to UINT as well.
-> This is a slight API change but I don't expect it to break anything.
-> 
-> Fixes: a7b75c5a8c41 ("net: pass a sockptr_t into ->setsockopt")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> 
-> [...]
+RIP Brian.  Thank you for all your work and support to the packet community!
 
-Here is the summary with links:
-  - [net] ax25: uninitialized variable in ax25_setsockopt()
-    https://git.kernel.org/netdev/net/c/9371937092d5
+--David
+KI6ZHD
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
 
+
+-------- Forwarded Message --------
+Subject: 	[44net] Brian Rogers N1URO - Silent Key
+Date: 	Fri, 7 Jan 2022 17:26:03 -0500
+From: 	Brian Webster via 44Net <44net@mailman.ampr.org>
+Reply-To: 	44Net general discussion <44net@mailman.ampr.org>
+To: 	AMPRNet working group <44net@mailman.ampr.org>
+CC: 	Brian Webster <radiowebst@yahoo.com>
+
+
+
+It is with great sadness that I pass along the news that Brian Rogers N1URO
+is now a silent key. He passed on Tuesday evening January 4th, 2022.
+  
+
+Brian was the author of the URONode packet radio software and past president
+of the Eastnet Amateur Radio Network (https://www.eastnetpacket.org/). He
+was an avid packet user and contributor to various software packages, not
+just his own. He was also the AmprNet coordinator for the states of MA, NH,
+VT, PA, MD, DE, CT, RI and ME.
+
+  
+Professionally his was an IT consultant and ran his company Network
+Continuum Connecticut (https://www.nc-ct.net/).
+
+
+He was a mentor to many who wanted to operate packet nodes or set up an
+apmr.org station. He had a broad knowledge of many other node operating
+systems, keeping nodes of all types running at his QTH. He was a wealth of
+detailed knowledge and will be missed immensely.
+  
+
+Funeral arrangements are;
+
+Friday Jan 14th
+
+5 to 7 pm with a small service at 7 pm
+
+Ahern Funeral Home
+111 Main Street
+Unionville, Ct
+
+https://www.ahernfuneralhome.com/
+
+  
+
+Brian Webster N2KGC - President EastNet Amateur Radio Network
+
+_________________________________________
+44Net mailing list
+44Net@mailman.ampr.org
+https://mailman.ampr.org/mailman/listinfo/44net
 
