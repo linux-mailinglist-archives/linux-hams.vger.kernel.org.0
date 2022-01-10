@@ -2,92 +2,139 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6504C48887F
-	for <lists+linux-hams@lfdr.de>; Sun,  9 Jan 2022 10:36:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ACBA48997E
+	for <lists+linux-hams@lfdr.de>; Mon, 10 Jan 2022 14:12:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbiAIJgJ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 9 Jan 2022 04:36:09 -0500
-Received: from ham.blackspace.at ([78.46.20.155]:46142 "EHLO
-        mail.blackspace.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbiAIJgI (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 9 Jan 2022 04:36:08 -0500
-Received: from [192.168.43.232] (84-20-185-171.static.highway.a1.net [84.20.185.171])
-        by mail.blackspace.at (Postfix) with ESMTPSA id CD3FA1F7208D
-        for <linux-hams@vger.kernel.org>; Sun,  9 Jan 2022 10:36:06 +0100 (CET)
-Message-ID: <babe9616-7d0f-616a-104f-2d09d0df05ab@blackspace.at>
-Date:   Sun, 9 Jan 2022 10:36:05 +0100
+        id S230431AbiAJNMA (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 10 Jan 2022 08:12:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44372 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231438AbiAJNLr (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 10 Jan 2022 08:11:47 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E59A5C03400D
+        for <linux-hams@vger.kernel.org>; Mon, 10 Jan 2022 05:11:46 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id t28so19916356wrb.4
+        for <linux-hams@vger.kernel.org>; Mon, 10 Jan 2022 05:11:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=STst/NZz7XpLuhkw/fjT1YooCLQUEgoChj9j28RAYfs=;
+        b=Bgie3w5lZXcUpEJsNUNnYT9D80sz6831OKMgWSWMpAMR4c04HQM1hwHkoZ1AqHgJ5M
+         pQJfhFBsNTGc+jfMsWTuSDXhNBe5XPwJ8/UQZKbYcWTDQ68Eu4MBBVsHf0V3Baa+27Pp
+         IUJW/950IUGNsTto2NnsTW49/Cy4Vf+KfgzDT0+KZ2gcb/QkEKg3LEIj8qPJpiII0Qbk
+         buE3CbPl0T8T6omQLXT3KYJBxN98pPIrfxDam1Qs0diPFN43pWVugWbd8LU8WaIGviK3
+         O/t/NLMKhR03EdE8rMi5c8T5epCw09Yzc4YmAU5QrO9ZaREbayNwAtpm1SWYSR1IiBuY
+         5w9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=STst/NZz7XpLuhkw/fjT1YooCLQUEgoChj9j28RAYfs=;
+        b=wTKNJwGMtLNWSzygo5VjFh2+6XufjZIwrg4aSpUr1W/DhIPyDaPTbOTjum4LzgOtse
+         N9mw4hDnOtDqa/28XV2sUST5/GkrQBhBJtN0/EHwCLOTn5oBP6vD2w8/shIVUjrbKvTp
+         nasoJDxP+uEBb77MY6aoyez9nSbDkmI4UcGN9gOJMNny8X7nGy6hWdE/Q4KRwitkoEJO
+         6VFfqwuPX6hhofMuB7422bCqjUTHXRo8q+LcLU/crcL8Q8t0EE6bjjnhJd9AaERKArYn
+         UwLRgS/zicKed49cyzCCx75IXrqNEjrXF5dSLznoosrP3PlaETrMn9l8PbRJ/5BXOY6u
+         jTVw==
+X-Gm-Message-State: AOAM531NIH88Z32zcLz4ziy7P+mpgDrmE3vsEVm2jZrgu0ccbc1ULCXD
+        5DuOhPCGwT8Y+jxIzRk5j9Qhc7qQCGojsQTYnuzwtSBtZ6c=
+X-Google-Smtp-Source: ABdhPJyUuzfRq9+VAp3YIslVsNF7E8r6u+SDvjtiaFw6sfTA9uOxrmlrl9JDay/jDh10uqplhgk07a+YHTpM3Ge0znw=
+X-Received: by 2002:ac2:4c51:: with SMTP id o17mr60639917lfk.558.1641820293776;
+ Mon, 10 Jan 2022 05:11:33 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: Brian Rogers N1URO - Silent Key
-Content-Language: en-US
-To:     Linux Hams <linux-hams@vger.kernel.org>
-References: <5a1d6415-fe2f-5820-4cf2-637739e346c6@trinnet.net>
-From:   Roland Schwarz <roland.schwarz@blackspace.at>
-In-Reply-To: <5a1d6415-fe2f-5820-4cf2-637739e346c6@trinnet.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------MPxrA1gMf8sC1BiIPhiMgffc"
+Received: by 2002:a05:6504:15d1:0:0:0:0 with HTTP; Mon, 10 Jan 2022 05:11:32
+ -0800 (PST)
+Reply-To: gtbank107@yahoo.com
+From:   Barr Robert Richter <westernunion.benin982@gmail.com>
+Date:   Mon, 10 Jan 2022 14:11:32 +0100
+Message-ID: <CAP=nHBK9zHzp_=-EVswWQiLxEoc+HV4oqddgtnEqf-9qYab_4Q@mail.gmail.com>
+Subject: Contact GT Bank-Benin to receive your transfer amount of $18.5m US Dollars.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------MPxrA1gMf8sC1BiIPhiMgffc
-Content-Type: multipart/mixed; boundary="------------ZqNuCtEem36YldztgxyR9nue";
- protected-headers="v1"
-From: Roland Schwarz <roland.schwarz@blackspace.at>
-To: Linux Hams <linux-hams@vger.kernel.org>
-Message-ID: <babe9616-7d0f-616a-104f-2d09d0df05ab@blackspace.at>
-Subject: Re: Brian Rogers N1URO - Silent Key
-References: <5a1d6415-fe2f-5820-4cf2-637739e346c6@trinnet.net>
-In-Reply-To: <5a1d6415-fe2f-5820-4cf2-637739e346c6@trinnet.net>
+Attn,Dear
+I need you to know that the fear of the LORD is
+the beginning of wisdom, and knowledge of the Holy One is
+understanding. As power of God Most High. And This is the confidence
+we have in approaching God, that if we ask anything according to his
+will, he hears us. I will make you know that Slow and steady wins the race.
+It is your turn to receive your overdue compensation funds total
+amount $18.5Milion  USD.
+I actualized that you will receive your transfer today without any more delay
+No More fee OK, Believe me , I am your Attorney standing here on your favor.
+I just concluded conversation with the Gt Bank Director, Mrs Mary Gate
+And She told me that your transfer is ready today
 
---------------ZqNuCtEem36YldztgxyR9nue
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+So the Bank Asked you to contact them immediately by re-confirming
+your Bank details asap.
+Because this is the Only thing holding this transfer
+If you did not trust me and Mrs Mary Gate,Who Else will you Trust?
+For we are the ones trying to protect your funds here
+and make sure that your funds is secure.
+So Promisingly, I am here to assure you, that Grate Miracle is coming on
+your way, and this funds total amount of $18.500,000 is your
+compensation, entitlement inheritance overdue funds on your name.
+Which you cannot let anything delay you from receiving your funds now,
 
-DQoNCk9uIDA4LjAxLjIyIGF0IDA3OjE5IHdyb3RlIERhdmlkIFJhbmNoOg0KPiBSSVAgQnJp
-YW4uwqAgVGhhbmsgeW91IGZvciBhbGwgeW91ciB3b3JrIGFuZCBzdXBwb3J0IHRvIHRoZSBw
-YWNrZXQgDQo+IGNvbW11bml0eSENCg0KSSBmdWxseSBhZ3JlZSB3aXRoIHlvdS4gU2FkbHkg
-aXQgd2FzIG9ubHkgeWVzdGVyZGF5IHRoYXQgSSBsYXVuY2hlZCBteSANCnZlcnkgZmlyc3Qg
-VVJPTm9kZSBiYXNlZCBub2RlIGhlcmUgaW4gVmllbm5hLCBFdXJvcGUuIEkgd2lsbCBncmVh
-dGx5IA0KbWlzcyBCcmlhbidzIHByZWNpc2UgYWR2aWNlIGFuZCBmcmllbmRseSBtYW5uZXIu
-IEhlIHdhcyB2ZXJ5IHBhdGllbnQgYW5kIA0KYWx3YXlzIGhhZCBhbiBvcGVuIGVhciBmb3Ig
-YmVnaW5uZXJzLg0KDQpDb2luY2lkZW50YWxseSwgd2l0aG91dCB5ZXQgaGF2aW5nIGhlYXJk
-IG9mIEJyaWFuJ3MgcGFzc2luZywgSSB3YXMgDQp0YWxraW5nIHRvZGF5IGluIG91ciByZWd1
-bGFyIGJyb2FkY2FzdCBvbiB0aGUgbG9jYWwgcmVwZWF0ZXIgYWJvdXQgYml0IA0Kcm90IGFu
-ZCBob3cgaXQgYWZmZWN0cyBwYWNrZXQgcmFkaW8uIEkgc2luY2VyZWx5IGhvcGUgdGhhdCBC
-cmlhbidzIA0KdW5pcXVlIGFuZCBncmVhdCBjb250cmlidXRpb25zIHRvIHRoZSBjb21tdW5p
-dHkgd2lsbCByZW1haW4gb24gdGhlIG5ldCANCmZvciB0aG9zZSBoZXJlIGZvciBhIGxvbmcg
-dGltZSB0byBjb21lIQ0KDQpCcmlhbiB5b3UgbGVhdmUgYSB2b2lkIHRoYXQgd2lsbCBiZSB2
-ZXJ5IGhhcmQgdG8gZmlsbCEgUklQDQoNClJvbGFuZCwgb2UxcnNhDQoNCi0tIA0KX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQogICBfICBfICB8IFJvbGFu
-ZCBTY2h3YXJ6DQogIHxfKShfICB8DQogIHwgXF9fKSB8IG1haWx0bzpyb2xhbmQuc2Nod2Fy
-ekBibGFja3NwYWNlLmF0DQpfX19fX19fX3wgaHR0cDovL3d3dy5ibGFja3NwYWNlLmF0DQo=
+Finally i advised you to try your possible best and contact Gt Bank Benin
+once you get this message to receive your transfer $18.5 USD today.
+I know that a journey of thousand miles begins with a single step.
+Always put your best foot forward
+Try as hard as you can, God give you best.
+take my advice and follow the due process of your payment, the
+transfer will be released to
+you smoothly without any hitches or hindrance.
 
+Contact DR.MRS MARY GATE, Director Gt bank-Benin to receive your
+transfer amount of $18.5m US Dollars
+It was deposited and registered to your name this morning.
+Contact the Bank now to know when they will transfer to your
+country today
 
---------------ZqNuCtEem36YldztgxyR9nue--
+Email id: gtbank107@yahoo.com
+Tel/mobile, +229 99069872
+Contact person, Mrs Mary Gate,Director Gt bank-Benin.
+Among the blind the one-eyed man is king
 
---------------MPxrA1gMf8sC1BiIPhiMgffc
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+As you sow, so you shall reap, i want you to receive your funds
+Best things in life are free
+Send to her your Bank Details as i listed here.
 
------BEGIN PGP SIGNATURE-----
+Your account name-------------
+Your Bank Name----------------
+Account Number----------
+your Bank address----------
+Country-----------
+Your private phone number---------
+Routing Numbers-------------
+Swift Code-----------
 
-wsF5BAABCAAjFiEELmDUtkkUQD99pU+KklFj+hFsiUgFAmHarIUFAwAAAAAACgkQklFj+hFsiUhU
-iRAAmcR6J0cV3pMJas3n2GA2qoobWlVWBoa+wSmexkx1vL5lLHYPpFgG6uKbRRgc0qFIyR2fZVpA
-kOxTu4UBFJ4cMxTYKYtKtPI9vR3u/Mr+waU7TufviglmkW6wg4PU05jTa8GE0rlqc/DYZvcXe68l
-HNlPd/bptWPBN6ajKlZiTekFzyAW8y+Xtxoyb9qVlXk6qPgV3ByQAilKTDHVqDRvUisEWSaNFDJ5
-B/631RVs26fLejFdRnPsq1XHGBG3lYrMsaXDV2mqElwBvCjv9DK9t5Rr57dRU6kV6BOM4dmRgkkW
-vEKB8itqCvT+6+UHq2K31ahiFakFazO7y1nXZwieVFzFYlV2eR2BvrsPvx4V3p7QQsQsZtYSr5LH
-w/SdsWjCctz4b2QQjFP2R2ax281pTRLIk1uI8pORrYWXnXOnfxhMf6kC8CI6sBgtpcQFWMY4O8m1
-gTIN15t5VDE93FkasPdHG9t5Ubi0jZIzIIwPLh09JlpwnvXSZjSEIoHBTDneyf471P6GQxZwGODX
-uYWIL248dXU7tTQoGPQmGqcVupQz9QkuOumlVc01EzpVxK8a2g6nnpdlkm6IOPyZ60Z5J23O+Q85
-DikvI8QFyJR2aVmb7gd8nOJjiii+pTlT/fs44fp44sVJIYG4ebljZh4MUwO3IN6n8ZCAi6z21tN7
-3Wo=
-=/2mt
------END PGP SIGNATURE-----
+Note, Your funds is %100 Percent ready for
+transfer.
+Everything you do remember that Good things come to those who wait.
+I have done this work for you with my personally effort, Honesty is
+the best policy.
+now your transfer is currently deposited with paying bank this morning.
+It is by the grace of God that I received Christ, having known the truth.
+I had no choice than to do what is lawful and justice in the
+sight of God for eternal life and in the sight of man for witness of
+God & His Mercies and glory upon my life.
 
---------------MPxrA1gMf8sC1BiIPhiMgffc--
+send this needed bank details to the bank today, so that you receive
+your transfer today as
+it is available for your confirmation today.
+Please do your best as a serious person and send the fee urgent, Note
+that this transfer of $18.500.000 M USD is a Gift from God to Bless
+you.
+
+If you did not contact the bank urgent, finally the Bank will release
+your transfer of $18.500.000M USD to  Mr. David Bollen as your
+representative.
+So not allow another to claim your Money.
+Thanks For your Understanding.
+
+Barr Robert Richter, UN Attorney At Law Court-Benin
