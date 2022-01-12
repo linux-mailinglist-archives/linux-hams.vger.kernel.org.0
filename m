@@ -2,106 +2,131 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D66648B909
-	for <lists+linux-hams@lfdr.de>; Tue, 11 Jan 2022 21:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6836048BCF8
+	for <lists+linux-hams@lfdr.de>; Wed, 12 Jan 2022 03:14:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236134AbiAKU47 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 11 Jan 2022 15:56:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35592 "EHLO
+        id S1346703AbiALCOA (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 11 Jan 2022 21:14:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236399AbiAKU45 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 11 Jan 2022 15:56:57 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 507E6C06173F;
-        Tue, 11 Jan 2022 12:56:57 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id k18so448765wrg.11;
-        Tue, 11 Jan 2022 12:56:57 -0800 (PST)
+        with ESMTP id S236375AbiALCN7 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 11 Jan 2022 21:13:59 -0500
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8798FC06173F;
+        Tue, 11 Jan 2022 18:13:59 -0800 (PST)
+Received: by mail-pj1-x1041.google.com with SMTP id ie23-20020a17090b401700b001b38a5318easo2073573pjb.2;
+        Tue, 11 Jan 2022 18:13:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=I//pyM+0NfxLPjUaJ8ZXZZdYGI++moJMA1nJi8tZH+o=;
-        b=Ok/PDzMkTw6P44/G4KrU3iGJ/ZsVyhMol3icu9sBF2ttwdbfdMZszVGko3SE50eScw
-         uw8uvKOiyHRTuPhOhos5LW/3H+wW3rwkhPMvMBc9TdBiqtBsThFQGX3KATp6p3qWD79B
-         HMhXLpT1Osld5SYKApulNPuAY+RjqoI0shSxK2n8jbWomm5EnI1nUcoAd2vj0RN1io8o
-         4OLUCju+PGbH6ic1a2pCIBTKqiCTtRMl50SzkPhjdOUKMiq5rmaSHvN2/0z6Lwag/7Ll
-         voDWK3bEeS+Z6igwrXf5jpppxPKaGldGTsTw33DqTZC4uTJ6CDg9e9trczDFsOL7tSdB
-         txmg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=UBRSCwl1h80JfOWUyCNKWUY0/nYFol6Uy1tcq62PMUg=;
+        b=W/ypUrhWNGGj6kS1x25nDafTlERA5Dr+GytZo6BWkb5HhZ/h5wrxitFrLjuPtUodFy
+         sX4y6LipH4UYN0XujN1baAvtbuOwqnBcjgkMFZ0H25O9EL1UOasbRs7C1+QlWWgGpJA0
+         ykYOZv40w9sCOqHnrc8UshSJ9XK0qYCBHWrs+KuH7W5J3DITS6cxIZwRm1rvvGfK6IVO
+         xTM9pkoMncJ1d9tVvrAzBFAKqn0KkJqhllpuwBAPs8rcvy+Cbbfy1rHeMaYxwOpqXLPp
+         4K6J98r2Nml4FwFpmXyQLQO59vPv/ueGlspyDS54KcUYFf14OSVAUdncUXrIyXl+ER1q
+         kBFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=I//pyM+0NfxLPjUaJ8ZXZZdYGI++moJMA1nJi8tZH+o=;
-        b=X3WRcLFgqBYY4OQ0BRPumj4ycw+nt/edr4sPEWJCFVwfw54utoV7jHwkOwlhuXvlQe
-         OpKioSb+QAeTNf9ZVwMhblN1PMjRzANeYeLLEF1p/n1+i7ILGDUimEg+crg26F6YnCO2
-         q9jmgOmZ2vsmNYQxVHuKGvL/BFYv6/hlav7sR8sXC7hhJsikLzE5wiiKyE3+2jbMY3XN
-         /AYXsV6NwZsFvq7JiWiglBHiaYEKe/h0yZl7tAWQlxADzTA4UsTSrtXPN9c+oQJtbFbE
-         IiRzNLLJE+xYcCmqmB6JOft6sqiDa4HBYqJBnYp4BaVHRW3S1DHZ44f9wgye9B+fAUxk
-         H+Vg==
-X-Gm-Message-State: AOAM532wv6cb6T5hBBDv0EHrJ8OzjvSA4FZXMiVjTLVuDx+b/eYI8yp7
-        3kWGeBmkfB5WqTvbawFIkqU=
-X-Google-Smtp-Source: ABdhPJxxb1qosTjfS/y2jzeRxVQ+Ua9yI/MiwUJ/4dxtGKEClOpwQ+qltJCgazwxXUsOKsEi/wEuiQ==
-X-Received: by 2002:a5d:60c7:: with SMTP id x7mr5202136wrt.456.1641934615972;
-        Tue, 11 Jan 2022 12:56:55 -0800 (PST)
-Received: from [10.0.0.5] ([37.165.158.36])
-        by smtp.gmail.com with ESMTPSA id c8sm3236172wmq.34.2022.01.11.12.56.53
+        bh=UBRSCwl1h80JfOWUyCNKWUY0/nYFol6Uy1tcq62PMUg=;
+        b=x7wWyBAZQmp4f2ITSDGuDtMJNUT/KxuUH4O46vmHxk9yK6wv6YU9fEpLoeAF5RS7l0
+         0F/Bo1Deus/PTuXUC7th9DhSjtvs01nqQL06lK/d+MFA8Xd16RTe1Htop2+UwdKozWki
+         JxWG9BXL9lGwurFiwa4//9mAK3ehdoVBK58CeMVE4g57jRY8zCNeaMhHCUSr4c7kZkRN
+         NODAGnH/1I+y7NKm8DgZvTxoVzqK6nMWLOs+2x9CVqbBABHQAIp5TAbrGiZ5qlvvqPzr
+         WciOUQbsyG2nkAkMCpyua2CGEj7BR9V0t2Sqru3wrythI2F8YiAu99RAtweV8oC1+ur5
+         MTMQ==
+X-Gm-Message-State: AOAM5304zL0ygLW2i53B9sUphPvuvdHjRrGNOHZ5AM0XfavEGW5iZfsn
+        oG3HnyZ6eiiZpPmhAwxKW8nPxMSU4hzcAg==
+X-Google-Smtp-Source: ABdhPJwcEUecB1z2jtYuD1HUeCMO8y23p3vLqbACbVgfAsy4DKieYQ8c603nk4GF65JxmZXnPe5M/A==
+X-Received: by 2002:a17:90a:7e81:: with SMTP id j1mr6318043pjl.14.1641953638984;
+        Tue, 11 Jan 2022 18:13:58 -0800 (PST)
+Received: from [0.0.0.0] ([20.187.112.107])
+        by smtp.gmail.com with ESMTPSA id hk13sm4064773pjb.35.2022.01.11.18.13.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jan 2022 12:56:55 -0800 (PST)
-Message-ID: <f35292c0-621f-3f07-87ed-2533bfd1496e@gmail.com>
-Date:   Tue, 11 Jan 2022 12:56:52 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
+        Tue, 11 Jan 2022 18:13:58 -0800 (PST)
 Subject: Re: [PATCH net] ax25: use after free in ax25_connect
-Content-Language: en-US
-To:     Hangyu Hua <hbh25y@gmail.com>, jreuter@yaina.de,
+To:     Eric Dumazet <eric.dumazet@gmail.com>, jreuter@yaina.de,
         ralf@linux-mips.org, davem@davemloft.net, kuba@kernel.org
 Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20220111042048.43532-1-hbh25y@gmail.com>
-From:   Eric Dumazet <eric.dumazet@gmail.com>
-In-Reply-To: <20220111042048.43532-1-hbh25y@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <f35292c0-621f-3f07-87ed-2533bfd1496e@gmail.com>
+From:   Hangyu Hua <hbh25y@gmail.com>
+Message-ID: <f48850cb-8e26-afa0-576c-691bb4be5587@gmail.com>
+Date:   Wed, 12 Jan 2022 10:13:53 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <f35292c0-621f-3f07-87ed-2533bfd1496e@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
+I try to use ax25_release to trigger this bug like this:
+ax25_release                 ax25_connect
+lock_sock(sk);
+-----------------------------sk = sock->sk;
+-----------------------------ax25 = sk_to_ax25(sk);
+ax25_destroy_socket(ax25);
+release_sock(sk);
+-----------------------------lock_sock(sk);
+-----------------------------use ax25 again
 
-On 1/10/22 20:20, Hangyu Hua wrote:
-> sk_to_ax25(sk) needs to be called after lock_sock(sk) to avoid UAF
-> caused by a race condition.
+But i failed beacause their have large speed difference. And i
+don't have a physical device to test other function in ax25.
+Anyway, i still think there will have a function to trigger this
+race condition like ax25_destroy_timer. Beacause Any ohter
+functions in ax25_proto_ops like ax25_bind protect ax25_sock by 
+lock_sock(sk).
 
-Can you describe what race condition you have found exactly ?
-
-sk pointer can not change.
+Thanks.
 
 
-> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
-> ---
->   net/ax25/af_ax25.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-> index cfca99e295b8..c5d62420a2a8 100644
-> --- a/net/ax25/af_ax25.c
-> +++ b/net/ax25/af_ax25.c
-> @@ -1127,7 +1127,7 @@ static int __must_check ax25_connect(struct socket *sock,
->   	struct sockaddr *uaddr, int addr_len, int flags)
->   {
->   	struct sock *sk = sock->sk;
-> -	ax25_cb *ax25 = sk_to_ax25(sk), *ax25t;
-> +	ax25_cb *ax25, *ax25t;
->   	struct full_sockaddr_ax25 *fsa = (struct full_sockaddr_ax25 *)uaddr;
->   	ax25_digi *digi = NULL;
->   	int ct = 0, err = 0;
-> @@ -1155,6 +1155,8 @@ static int __must_check ax25_connect(struct socket *sock,
->   
->   	lock_sock(sk);
->   
-> +	ax25 = sk_to_ax25(sk);
-> +
->   	/* deal with restarts */
->   	if (sock->state == SS_CONNECTING) {
->   		switch (sk->sk_state) {
+
+
+On 2022/1/12 上午4:56, Eric Dumazet wrote:
+> 
+> On 1/10/22 20:20, Hangyu Hua wrote:
+>> sk_to_ax25(sk) needs to be called after lock_sock(sk) to avoid UAF
+>> caused by a race condition.
+> 
+> Can you describe what race condition you have found exactly ?
+> 
+> sk pointer can not change.
+> 
+> 
+>> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+>> ---
+>>   net/ax25/af_ax25.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+>> index cfca99e295b8..c5d62420a2a8 100644
+>> --- a/net/ax25/af_ax25.c
+>> +++ b/net/ax25/af_ax25.c
+>> @@ -1127,7 +1127,7 @@ static int __must_check ax25_connect(struct 
+>> socket *sock,
+>>       struct sockaddr *uaddr, int addr_len, int flags)
+>>   {
+>>       struct sock *sk = sock->sk;
+>> -    ax25_cb *ax25 = sk_to_ax25(sk), *ax25t;
+>> +    ax25_cb *ax25, *ax25t;
+>>       struct full_sockaddr_ax25 *fsa = (struct full_sockaddr_ax25 
+>> *)uaddr;
+>>       ax25_digi *digi = NULL;
+>>       int ct = 0, err = 0;
+>> @@ -1155,6 +1155,8 @@ static int __must_check ax25_connect(struct 
+>> socket *sock,
+>>       lock_sock(sk);
+>> +    ax25 = sk_to_ax25(sk);
+>> +
+>>       /* deal with restarts */
+>>       if (sock->state == SS_CONNECTING) {
+>>           switch (sk->sk_state) {
