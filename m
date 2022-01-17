@@ -2,24 +2,26 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EF12490853
-	for <lists+linux-hams@lfdr.de>; Mon, 17 Jan 2022 13:10:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AEE9490825
+	for <lists+linux-hams@lfdr.de>; Mon, 17 Jan 2022 13:06:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236742AbiAQMJl (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 17 Jan 2022 07:09:41 -0500
-Received: from einhorn.in-berlin.de ([192.109.42.8]:45663 "EHLO
+        id S239523AbiAQMFU (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 17 Jan 2022 07:05:20 -0500
+Received: from einhorn.in-berlin.de ([192.109.42.8]:49163 "EHLO
         einhorn-mail-out.in-berlin.de" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230132AbiAQMJk (ORCPT
+        by vger.kernel.org with ESMTP id S239479AbiAQMFT (ORCPT
         <rfc822;linux-hams@vger.kernel.org>);
-        Mon, 17 Jan 2022 07:09:40 -0500
+        Mon, 17 Jan 2022 07:05:19 -0500
+X-Greylist: delayed 590 seconds by postgrey-1.27 at vger.kernel.org; Mon, 17 Jan 2022 07:05:19 EST
 X-Envelope-From: thomas@x-berg.in-berlin.de
 Received: from x-berg.in-berlin.de (x-change.in-berlin.de [217.197.86.40])
-        by einhorn.in-berlin.de  with ESMTPS id 20HBtQJD026276
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Mon, 17 Jan 2022 12:55:26 +0100
+        by einhorn.in-berlin.de  with ESMTPS id 20HC5HVM031438
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+        for <linux-hams@vger.kernel.org>; Mon, 17 Jan 2022 13:05:17 +0100
 Received: from thomas by x-berg.in-berlin.de with local (Exim 4.92)
         (envelope-from <thomas@x-berg.in-berlin.de>)
-        id 1n9Qbe-0004Mw-CZ; Mon, 17 Jan 2022 12:55:26 +0100
+        id 1n9QlB-0004Pl-Kf
+        for linux-hams@vger.kernel.org; Mon, 17 Jan 2022 13:05:17 +0100
 Date:   Mon, 17 Jan 2022 12:55:26 +0100
 From:   Thomas Osterried <thomas@osterried.de>
 To:     Roland Schwarz <roland.schwarz@blackspace.at>
@@ -32,7 +34,6 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <74ced8bf-f742-b2d2-b2bb-3eff2b168cd8@blackspace.at>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Sender: Thomas Osterried <thomas@x-berg.in-berlin.de>
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
