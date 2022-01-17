@@ -2,79 +2,96 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E51748FE09
-	for <lists+linux-hams@lfdr.de>; Sun, 16 Jan 2022 17:54:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0189448FFF7
+	for <lists+linux-hams@lfdr.de>; Mon, 17 Jan 2022 02:35:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232557AbiAPQy4 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 16 Jan 2022 11:54:56 -0500
-Received: from ham.blackspace.at ([78.46.20.155]:37894 "EHLO
-        mail.blackspace.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232347AbiAPQyz (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 16 Jan 2022 11:54:55 -0500
-Received: from [192.168.43.232] (84-20-185-171.static.highway.a1.net [84.20.185.171])
-        by mail.blackspace.at (Postfix) with ESMTPSA id 61D511F72050
-        for <linux-hams@vger.kernel.org>; Sun, 16 Jan 2022 17:54:54 +0100 (CET)
-Message-ID: <bdf30a4d-4ffa-9228-8cfd-74c52f8bdb40@blackspace.at>
-Date:   Sun, 16 Jan 2022 17:54:53 +0100
+        id S236729AbiAQBfV (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sun, 16 Jan 2022 20:35:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60902 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233906AbiAQBfV (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sun, 16 Jan 2022 20:35:21 -0500
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FB41C061574;
+        Sun, 16 Jan 2022 17:35:21 -0800 (PST)
+Received: by mail-pl1-x642.google.com with SMTP id v2so4586743ply.11;
+        Sun, 16 Jan 2022 17:35:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=yRoTtwlAnLRR60MEEBnO0WsRacU0q0bQ1keqyNzRUO4=;
+        b=meug70q8IUVJ+mG/Y4HyFLhoGiteTRliwby8YcKSPF9495mq1JrDtObgvrT8kH8f6u
+         9cR1Zqcve5CYkZ8MLnTBWYWaAjZTaGBMn4Xuv3RSas+db2pa3yHNFDv973rbr7QAI6H9
+         ClkoPL4Ds2bQdxH6IGteb7WxeY/t2njF1JByb98MtZcbYIWhBhpBhTOb2D/lV0V8lTbq
+         00A1jBdZ1I3D/DI7oWGfTl7YzicgD5hZ2KBEFpC3sqxfE3uB6ql3b0WKef9v/fNkyg9R
+         xN1NUFFNDkhoady+D6Xm7oQUmv3xposCGQWTrolj/T7P7lqm9Qik82D3vUf9Uxa/sH3z
+         Zp1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=yRoTtwlAnLRR60MEEBnO0WsRacU0q0bQ1keqyNzRUO4=;
+        b=WZTXYhFDfoSqc1OF3AWM692acpi1yqtPDtImE9jAwrVDLb6S7rFJd1ifqWSbqhSO4B
+         oVfU+RaGwniAryxzPJpwLEi4a5xKzU3172sCzNKWoc/INOewZ76bgJPlaSjU+ANb/L0o
+         /DfWWUtgUyetyjpUjlXjsBLEIZHBDa2W/ArESz+rmPOrX3lOn9QpiXQ+l3er2G9G1lq7
+         9s7lmrCuqUs32Ut+itYC4f9gKSh7odhoEipt1DVt5fZ8d7YQqUuvIZYqMuyz9v2GN2Si
+         q4lNAQXmgQBdhUeWLrzUr+IqmU6yD/GIW5rx7kLajzyfHOUDE/G4rcAOKd/SHTii74hZ
+         TdjQ==
+X-Gm-Message-State: AOAM532bjrsSCtpPC3Cn5O6gysGAEcn3vMCw5sH3lv4sxJZkhgcGRshY
+        doE5PqJtBNrjIjI7GJ1Knl+7QQLt0exR7wK/
+X-Google-Smtp-Source: ABdhPJybUDORmXN4RznS1NWXnTU92u+5CquSRy34zQ2o1SKpZwKtkJrcv0ifJF1arVs9pvG91uTt2A==
+X-Received: by 2002:a17:902:f24a:b0:14a:bc6c:c327 with SMTP id j10-20020a170902f24a00b0014abc6cc327mr2449527plc.24.1642383320757;
+        Sun, 16 Jan 2022 17:35:20 -0800 (PST)
+Received: from [0.0.0.0] ([209.97.166.32])
+        by smtp.gmail.com with ESMTPSA id rm11sm784643pjb.54.2022.01.16.17.35.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 16 Jan 2022 17:35:20 -0800 (PST)
+Subject: Re: [PATCH net] ax25: use after free in ax25_connect
+To:     Eric Dumazet <eric.dumazet@gmail.com>, jreuter@yaina.de,
+        ralf@linux-mips.org, davem@davemloft.net, kuba@kernel.org
+Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220111042048.43532-1-hbh25y@gmail.com>
+ <f35292c0-621f-3f07-87ed-2533bfd1496e@gmail.com>
+ <f48850cb-8e26-afa0-576c-691bb4be5587@gmail.com>
+ <571c72e8-2111-6aa0-1bd7-e0af7fc50539@gmail.com>
+ <80007b3e-eba8-1fbe-302d-4398830843dd@gmail.com>
+ <ff65d70b-b6e1-3b35-8bd0-92f6f022cd5d@gmail.com>
+ <8fc4701f-c151-0545-c047-a5df90575d69@gmail.com>
+From:   Hangyu Hua <hbh25y@gmail.com>
+Message-ID: <aa1abfd4-e76b-f708-e2de-8018298ff07b@gmail.com>
+Date:   Mon, 17 Jan 2022 09:35:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-To:     linux-hams@vger.kernel.org
+In-Reply-To: <8fc4701f-c151-0545-c047-a5df90575d69@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-From:   Roland Schwarz <roland.schwarz@blackspace.at>
-Subject: SIOCGIFCONF and AF_AX25
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Ggiu8KaUYXyp3MSkrmJpAX0H"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Ggiu8KaUYXyp3MSkrmJpAX0H
-Content-Type: multipart/mixed; boundary="------------yRLhKDrGChYFYh7Phnk3h00U";
- protected-headers="v1"
-From: Roland Schwarz <roland.schwarz@blackspace.at>
-To: linux-hams@vger.kernel.org
-Message-ID: <bdf30a4d-4ffa-9228-8cfd-74c52f8bdb40@blackspace.at>
-Subject: SIOCGIFCONF and AF_AX25
+I get it.
 
---------------yRLhKDrGChYFYh7Phnk3h00U
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thanks.
 
-VXNpbmcgaW9jdGwgU0lPQ0dJRkNPTkYgb25lIHdhcyBhYmxlIHRvIGxpc3QgYWxsIGludGVy
-ZmFjZXMsIGluY2x1ZGluZyANCkFGX0FYMjUuDQoNClRoaXMgc2VlbXMgdG8gYmUgbm90IGJl
-IHRoZSBjYXNlIGFueSBtb3JlLiBJIGRpc2NvdmVyZWQgaXQgYnkgdHJ5aW5nIHRvIA0KZmlu
-ZCBvdXQgd2h5IE4xVVJPcyBheGRpZ2kgc3RvcHBlZCB3b3JraW5nLg0KDQpJcyB0aGlzIGEg
-YnVnLCBvciBpcyB0aGVyZSBzb21lIG90aGVyIG1lYW5zIGhvdyB0aGUgaW50ZXJmYWNlcyBj
-YW4gYmUgDQplbnVtZXJhdGVkPw0KDQo3MyByb2xhbmQsIG9lMXJzYQ0KDQotLSANCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KICAgXyAgXyAgfCBSb2xh
-bmQgU2Nod2Fyeg0KICB8XykoXyAgfA0KICB8IFxfXykgfCBtYWlsdG86cm9sYW5kLnNjaHdh
-cnpAYmxhY2tzcGFjZS5hdA0KX19fX19fX198IGh0dHA6Ly93d3cuYmxhY2tzcGFjZS5hdA0K
-
-
---------------yRLhKDrGChYFYh7Phnk3h00U--
-
---------------Ggiu8KaUYXyp3MSkrmJpAX0H
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEELmDUtkkUQD99pU+KklFj+hFsiUgFAmHkTd0FAwAAAAAACgkQklFj+hFsiUiX
-lw/7BWqj/FXLTRHM9LahgWqKDMAbklkNn84/o5TZYXip8EVbDDDSy4rOWIu98ZFgHR3hYF95fLWB
-Uj1apHCMLj/PYrAbHdqGT3g293ayFgl7DelqXGiVca47oOrnL+uCoWFM+LyFsO+WgFJH5gvYV7au
-sxp3EL1N7vCS50u7YvA1J3TDt+qjoDV11IqQZb8HR8JaMH4qgDMXW09rcYY7M3je3WcbBi7M02h7
-bQw5GxPlTEy0r5Bri5iwQCveY2SKbEXKaKfPJkX6gEXbwKwSiQXplUYg3mRhr/0SXfOPnGLuHXZC
-unWzmbaUCQJkfP7Oh+uLao2nqgjoNmEGpyRaPGDWLYbCH39ym2hZGKil51JgXPKPuLXGpDd0TBGC
-38am6FecgMz6FWfADIme/G2jBZSjfyoFbQm/Zf504cID98qCnln/lZe1CFVGYlctOEwHHTyRwWjh
-I1v2YthHFdyympiyy9ynuv8ghWh3/GZ7ml5birUqJ4xJVtl4qRhcYzKzm1Axsak6SyO0qGyNgj3W
-Pb2eU7RO1BagfbWxzeiRRxrChjAKcZ+UbGmVbrLhVGRf1IMMYyeWQBkseunTIrVcxLGSEHNlSkeR
-LePcsmC5E/xOAUftbeCe6RaIPyLZ7ylCzjVcpMgrByypIRBu/T6UjWjQAijOK9SHuN9nBxhnm087
-53c=
-=A016
------END PGP SIGNATURE-----
-
---------------Ggiu8KaUYXyp3MSkrmJpAX0H--
+On 2022/1/14 下午11:19, Eric Dumazet wrote:
+> 
+> On 1/13/22 22:54, Hangyu Hua wrote:
+>> Any suggestions for this patch ? Guys.
+>>
+>> I think putting sk_to_ax25 after lock_sock(sk) here will avoid any 
+>> possilbe race conditions like other functions in ax25_proto_ops. CTING) {
+>>
+> 
+> As explained, your patch is not needed.
+> 
+> You failed to describe how a race was possible.
+> 
+> Just moving code around wont help.
+> 
+> How about providing a stack trace or some syzbot repro ?
+> 
