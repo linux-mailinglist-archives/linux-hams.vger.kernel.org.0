@@ -2,89 +2,56 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2813A4977B0
-	for <lists+linux-hams@lfdr.de>; Mon, 24 Jan 2022 04:30:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6C7F498FB6
+	for <lists+linux-hams@lfdr.de>; Mon, 24 Jan 2022 20:56:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241051AbiAXDad (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 23 Jan 2022 22:30:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56108 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241038AbiAXDad (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 23 Jan 2022 22:30:33 -0500
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F025C06173B;
-        Sun, 23 Jan 2022 19:30:32 -0800 (PST)
-Received: by mail-pj1-x1043.google.com with SMTP id d5so12651565pjk.5;
-        Sun, 23 Jan 2022 19:30:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RX6Av1jIiyqXvZYjcpZEeGLsyORkpiw+PH/GcVKGsHk=;
-        b=TVighjXmld8xjrLsacTJCmUi8xhvnHU+SU2zVkR93VRMOoaA5A+oScrkxaodwFq50j
-         78/84wVestiPhMtV2WWr3chJ1UgTcgLk21X1vCXpcT9tjr6Isqd3Aq88uLTDu4l6QeTO
-         p2FqyiqbFX6Vqh88Hxkswi+eXed7BvZ5NmtHAMAXow3ydduW6bWMnZBn6EExFHWi9tpK
-         CQpBl3KoSRE93i6HsJw1reE+KifNt06FM+UG0NVK6AXRBikPLAJt6SQSMExulX9fcCVv
-         cHvmrh8L3NxdjvkxG7HfsSoA81UzF1MR9ckRBb27O8nll8mJvC2UkOUIDXYYA+mNcIQe
-         16EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RX6Av1jIiyqXvZYjcpZEeGLsyORkpiw+PH/GcVKGsHk=;
-        b=MUzGXrhvvj6i1YKDjDZYkqWeB5hKrqGfyEBN2QpZiaWWbu7Q3oNLzUmGMKGQkhUkAM
-         /Ho18jAuwfkW74TOjYzFnOM9fZdu71sMzR4+VCv2oZJWYXI9bc56/qIP41m/FqqJ+6VV
-         Xa19xsIMSs5GY9j97XzrhVyeKENxjU0qHHNEJOqc0ew+xu6BWNDlYqSimQ5YY5CWSGqs
-         fmegjVUC964dljPxPv0k87gHmJIHInnYAKhY38hcESqzkQGQvqv6zD3CaMb6C+dfpmmw
-         fOhyFsFmSsyvw7RnT0MtS6D0wxDZvUA2Ng4OzejpaV7W4FTQsEcw+9C34qmVcXrCEnU/
-         wpWQ==
-X-Gm-Message-State: AOAM533pkZiBnIUkSoMKNweN9aB6ferfAllNMv+Eql8BjvnYPWHyQrGB
-        tXfPz8rRmeIZBKS+DQFNXIc=
-X-Google-Smtp-Source: ABdhPJxrBHaemBkBFmBL3KV9+t104TL5EBzibAlxur7Q5S263lmO2RJah0zWLOE2BsDv4OW4o3DJSQ==
-X-Received: by 2002:a17:90b:3a85:: with SMTP id om5mr56077pjb.150.1642995032168;
-        Sun, 23 Jan 2022 19:30:32 -0800 (PST)
-Received: from slim.das-security.cn ([103.84.139.53])
-        by smtp.gmail.com with ESMTPSA id g5sm11178639pjj.36.2022.01.23.19.30.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jan 2022 19:30:31 -0800 (PST)
-From:   Hangyu Hua <hbh25y@gmail.com>
-To:     jpr@f6fbb.org, davem@davemloft.net, kuba@kernel.org,
-        wang6495@umn.edu
-Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hangyu Hua <hbh25y@gmail.com>
-Subject: [PATCH] yam: fix a memory leak in yam_siocdevprivate()
-Date:   Mon, 24 Jan 2022 11:29:54 +0800
-Message-Id: <20220124032954.18283-1-hbh25y@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S1347714AbiAXTyS convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hams@lfdr.de>); Mon, 24 Jan 2022 14:54:18 -0500
+Received: from [103.153.79.64] ([103.153.79.64]:61013 "EHLO [103.153.79.64]"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1357037AbiAXTsN (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Mon, 24 Jan 2022 14:48:13 -0500
+Reply-To: Nasser Rashid <nasserrashid.uae@gmail.com>
+From:   Nasser Rashid <anice.fronteracapitalgroup@gmail.com>
+To:     linux-hams@vger.kernel.org
+Subject: EXPO 2020 BUSINESS PROPOSAL
+Date:   24 Jan 2022 11:48:14 -0800
+Message-ID: <20220124114814.2FEAAAF3F530F30D@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-ym needs to be free when ym->cmd != SIOCYAMSMCS.
+Greetings!
 
-Fixes: 0781168e23a2 ("yam: fix a missing-check bug")
-Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
----
- drivers/net/hamradio/yam.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+I'm Nasser Rashid, a business financial specialist and investment 
+expert. consultant experienced in financial funding services. I 
+have a
 
-diff --git a/drivers/net/hamradio/yam.c b/drivers/net/hamradio/yam.c
-index 6376b8485976..980f2be32f05 100644
---- a/drivers/net/hamradio/yam.c
-+++ b/drivers/net/hamradio/yam.c
-@@ -950,9 +950,7 @@ static int yam_siocdevprivate(struct net_device *dev, struct ifreq *ifr, void __
- 		ym = memdup_user(data, sizeof(struct yamdrv_ioctl_mcs));
- 		if (IS_ERR(ym))
- 			return PTR_ERR(ym);
--		if (ym->cmd != SIOCYAMSMCS)
--			return -EINVAL;
--		if (ym->bitrate > YAM_MAXBITRATE) {
-+		if (ym->cmd != SIOCYAMSMCS || ym->bitrate > YAM_MAXBITRATE) {
- 			kfree(ym);
- 			return -EINVAL;
- 		}
--- 
-2.25.1
+I have a serious business investment opportunity to discuss with 
+you. Century Financial Dubai is the home of discerning investors.
+We
 
+We offer independent financial advice and assist our clients in 
+making sound investment decisions from a variety of investment 
+options.
+
+Opportunities are available.
+
+Our company is structured to provide personalized services to As 
+a result, capital security and adequate funding are ensured.
+
+returns on investment. Our investors are ready to provide funding 
+for your business expansion, such as debt and equity.
+
+financing. If you require funding, we would be able to partner 
+with you. We look forward to your response.
+
+Thank you and stay safe,
+
+Nasser Rashid, CFA,
+
+Century Financial
