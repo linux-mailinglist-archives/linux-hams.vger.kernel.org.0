@@ -2,76 +2,121 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB32A49B940
-	for <lists+linux-hams@lfdr.de>; Tue, 25 Jan 2022 17:52:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09D5C49BB0B
+	for <lists+linux-hams@lfdr.de>; Tue, 25 Jan 2022 19:14:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1585983AbiAYQu7 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 25 Jan 2022 11:50:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41718 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1586331AbiAYQsy (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 25 Jan 2022 11:48:54 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CCEBC061786;
-        Tue, 25 Jan 2022 08:46:15 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DD01160B43;
-        Tue, 25 Jan 2022 16:46:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 38BDAC340E9;
-        Tue, 25 Jan 2022 16:46:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643129174;
-        bh=lWUX+M/m5LBPUZVAosLkpl2CMXtqXfCRE6ggsbUarCk=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=Go7wfveBOvEByjFtpvgQX0vWqUpDDAnLWtFVaPVb2A9O95uDe8asBb5ENTb27yJB/
-         s7Yn5JL5i4vRnyzpLMRlsWeSi3dtZ/wq1KMshaK23UBHogsKXt2pvCyVhJsb2dhZdV
-         3J090yq/zTkmJ3uAZWJdnmU+ZhRs2XmHprSYcBixxl89eahUpEgepjGamjad+kkwMi
-         9y4FrbCd+MN4GdI1XpIN27vXcJIzsONUaum8ypGhMs0hoX4itnDPZuaGfMb6DQRSWI
-         /CrRl3d/HFD7pm0e9vWYSXcvGf/BQ8YcOMQ9G28ru5Odv+5rX1u8GjP2SHkrPM9wHS
-         p0vtjoEXW/iqw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1C48BF6079C;
-        Tue, 25 Jan 2022 16:46:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        id S229379AbiAYSOj (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 25 Jan 2022 13:14:39 -0500
+Received: from trinity.trinnet.net ([96.78.144.185]:1097 "EHLO
+        trinity3.trinnet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229437AbiAYSOj (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 25 Jan 2022 13:14:39 -0500
+Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
+        by trinity3.trinnet.net (TrinityOS Hardened/TrinityOS Hardened) with ESMTP id 20PIEUYH016768;
+        Tue, 25 Jan 2022 10:14:30 -0800
+Subject: Re: [AX25] ipv6 incompatible with AX.25
+To:     f6bvp@free.fr, linux-hams@vger.kernel.org
+References: <4B2CD772.1030106@upmc.fr> <4B2D1025.1020106@gmail.com>
+ <4B2E6729.1090102@free.fr> <4B507FAA.8010007@free.fr>
+ <20100115203654.GA3084@del.dom.local> <4DFA6A59.2000709@free.fr>
+ <581f0c8e-f4fb-523d-df6e-7a973b506c34@sorbonne-universite.fr>
+Cc:     List for the LINUX version of FBB <xfbb@f6fbb.org>, fpac@f6fbb.org,
+        F3KT <f3kt@free.fr>
+From:   David Ranch <linux-hams@trinnet.net>
+Message-ID: <2394eae7-dada-f43e-40b9-fae929212913@trinnet.net>
+Date:   Tue, 25 Jan 2022 10:14:30 -0800
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] yam: fix a memory leak in yam_siocdevprivate()
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164312917410.15904.16284523460013653550.git-patchwork-notify@kernel.org>
-Date:   Tue, 25 Jan 2022 16:46:14 +0000
-References: <20220124032954.18283-1-hbh25y@gmail.com>
-In-Reply-To: <20220124032954.18283-1-hbh25y@gmail.com>
-To:     Hangyu Hua <hbh25y@gmail.com>
-Cc:     jpr@f6fbb.org, davem@davemloft.net, kuba@kernel.org,
-        wang6495@umn.edu, linux-hams@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <581f0c8e-f4fb-523d-df6e-7a973b506c34@sorbonne-universite.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Tue, 25 Jan 2022 10:14:30 -0800 (GMT+8)
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
 
-This patch was applied to netdev/net.git (master)
-by David S. Miller <davem@davemloft.net>:
+Hey Bernard,
 
-On Mon, 24 Jan 2022 11:29:54 +0800 you wrote:
-> ym needs to be free when ym->cmd != SIOCYAMSMCS.
-> 
-> Fixes: 0781168e23a2 ("yam: fix a missing-check bug")
-> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
-> ---
->  drivers/net/hamradio/yam.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+When you saw the lines:
 
-Here is the summary with links:
-  - yam: fix a memory leak in yam_siocdevprivate()
-    https://git.kernel.org/netdev/net/c/29eb31542787
+--
+Jan 25 12:16:31 f6bvp-Ubuntu kernel: [ 6942.400016] IPv6:
+ADDRCONF(NETDEV_CHANGE): ax0: link becomes ready
+--
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+was the AX25 interface not up and usable for classic packet regardless 
+of it's IPv6 state?  Generally speaking, I had been been disabling IPv6 
+for the longest time but I've been leaving it enabled as all of us need 
+to start embracing IPv6.  Anyway, on my Ubuntu 20.04 machine, I have 
+IPv6 enabled with AX25 interfaces present though I only have a link 
+local address on my primary Ethernet interface (no IPv6 on ax0).  It 
+should be noted I do NOT use AXIPv4 and it wouldn't surprised me if 
+AXIPv6 doesn't work. There are a lot of tools in modern Linuxes that 
+don't even support all aspects of AX25, NETROM, ROSE, etc. in modern 
+tools like "ip", etc.  Many of us have to resort to installing legacy 
+tools like ifconfig and route to get the job done.
+
+--
+$ ip addr
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN 
+group default qlen 1000
+     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+     inet 127.0.0.1/8 scope host lo
+        valid_lft forever preferred_lft forever
+     inet6 ::1/128 scope host
+        valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state 
+UP group default qlen 1000
+     link/ether xx:xx:xx:xx:xx:xx brd ff:ff:ff:ff:ff:ff
+     altname enp0s31f6
+     inet 192.168.0.25/24 brd 192.168.0.255 scope global dynamic 
+noprefixroute eth0
+        valid_lft 66471sec preferred_lft 66471sec
+     inet6 fe80::xxxx:xxxx:xxxx:xxxx/64 scope link
+        valid_lft forever preferred_lft forever
+3: wlan0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue 
+state DOWN group default qlen 1000
+     link/ether xx:xx:xx:xx:xx:xx brd ff:ff:ff:ff:ff:ff
+     altname wlp4s0
+4: virbr0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue 
+state DOWN group default qlen 1000
+     link/ether xx:xx:xx:xx:xx:xx brd ff:ff:ff:ff:ff:ff
+     inet 192.168.122.1/24 brd 192.168.122.255 scope global virbr0
+        valid_lft forever preferred_lft forever
+5: virbr0-nic: <BROADCAST,MULTICAST> mtu 1500 qdisc fq_codel master 
+virbr0 state DOWN group default qlen 1000
+     link/ether xx:xx:xx:xx:xx:xx brd ff:ff:ff:ff:ff:ff
+11: ax0: <BROADCAST,UP,LOWER_UP> mtu 255 qdisc fq_codel state UNKNOWN 
+group default qlen 10
+     link/ax25 xx:xx:xx:xx:xx:xx:xx brd a2:a6:a8:40:40:40:00
+     inet 44.128.0.1/24 scope global ax0
+        valid_lft forever preferred_lft forever
+--
 
 
+> I hope this will help and I have a question. Shall this line be 
+> uncommented in sysctl.conf ?
+>
+> # Uncomment the next line to enable packet forwarding for IPv4
+> #net.ipv4.ip_forward=1
+
+I question if you really want this on as this should only be enabled if 
+you what your LInux device to be a router (aka.. forwarding packets 
+between one interface and another).  This is NOT used if remote stations 
+just want to reach your machine via IP.  Fyi, this kernel /proc command 
+alone isn't enough to get routing working.  You also need to setup 
+forwarding policies using tools like iptables (legacy) or nftables 
+(newest way).
+
+
+> I actually have the following in my ax25start script :
+>
+> ax25start:echo 1 > /proc/sys/net/ipv4/ip_forward
+
+Same point as above.
+
+--David
+KI6ZHD
