@@ -2,93 +2,76 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6414649B371
-	for <lists+linux-hams@lfdr.de>; Tue, 25 Jan 2022 13:01:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB32A49B940
+	for <lists+linux-hams@lfdr.de>; Tue, 25 Jan 2022 17:52:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348972AbiAYMA0 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 25 Jan 2022 07:00:26 -0500
-Received: from shiva-su2.sorbonne-universite.fr ([134.157.0.153]:60310 "EHLO
-        shiva-su2.sorbonne-universite.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1385561AbiAYLzZ (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>);
-        Tue, 25 Jan 2022 06:55:25 -0500
-X-Greylist: delayed 531 seconds by postgrey-1.27 at vger.kernel.org; Tue, 25 Jan 2022 06:55:25 EST
-Received: from nirriti.ent.upmc.fr (nirriti.dsi.upmc.fr [134.157.0.215])
-        by shiva-su2.sorbonne-universite.fr (Postfix) with ESMTP id 122B8560EC63;
-        Tue, 25 Jan 2022 12:46:26 +0100 (CET)
-Received: from [44.168.19.21] (lfbn-idf1-1-460-252.w86-242.abo.wanadoo.fr [86.242.166.252])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1585983AbiAYQu7 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 25 Jan 2022 11:50:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41718 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1586331AbiAYQsy (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 25 Jan 2022 11:48:54 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CCEBC061786;
+        Tue, 25 Jan 2022 08:46:15 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: pidoux)
-        by nirriti.ent.upmc.fr (Postfix) with ESMTPSA id DF04B12E4BCB1;
-        Tue, 25 Jan 2022 12:46:25 +0100 (CET)
-Message-ID: <581f0c8e-f4fb-523d-df6e-7a973b506c34@sorbonne-universite.fr>
-Date:   Tue, 25 Jan 2022 12:46:25 +0100
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DD01160B43;
+        Tue, 25 Jan 2022 16:46:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 38BDAC340E9;
+        Tue, 25 Jan 2022 16:46:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643129174;
+        bh=lWUX+M/m5LBPUZVAosLkpl2CMXtqXfCRE6ggsbUarCk=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=Go7wfveBOvEByjFtpvgQX0vWqUpDDAnLWtFVaPVb2A9O95uDe8asBb5ENTb27yJB/
+         s7Yn5JL5i4vRnyzpLMRlsWeSi3dtZ/wq1KMshaK23UBHogsKXt2pvCyVhJsb2dhZdV
+         3J090yq/zTkmJ3uAZWJdnmU+ZhRs2XmHprSYcBixxl89eahUpEgepjGamjad+kkwMi
+         9y4FrbCd+MN4GdI1XpIN27vXcJIzsONUaum8ypGhMs0hoX4itnDPZuaGfMb6DQRSWI
+         /CrRl3d/HFD7pm0e9vWYSXcvGf/BQ8YcOMQ9G28ru5Odv+5rX1u8GjP2SHkrPM9wHS
+         p0vtjoEXW/iqw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1C48BF6079C;
+        Tue, 25 Jan 2022 16:46:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: [AX25] ipv6 incompatible with AX.25
-Content-Language: fr
-From:   Bernard Pidoux <bernard.pidoux@sorbonne-universite.fr>
-To:     linux-hams@vger.kernel.org
-Cc:     List for the LINUX version of FBB <xfbb@f6fbb.org>, fpac@f6fbb.org,
-        F3KT <f3kt@free.fr>, F6BVP <f6bvp@free.fr>
-References: <4B2CD772.1030106@upmc.fr> <4B2D1025.1020106@gmail.com>
- <4B2E6729.1090102@free.fr> <4B507FAA.8010007@free.fr>
- <20100115203654.GA3084@del.dom.local> <4DFA6A59.2000709@free.fr>
-Organization: Dimension Parabole
-Reply-To: f6bvp@free.fr
-In-Reply-To: <4DFA6A59.2000709@free.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] yam: fix a memory leak in yam_siocdevprivate()
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <164312917410.15904.16284523460013653550.git-patchwork-notify@kernel.org>
+Date:   Tue, 25 Jan 2022 16:46:14 +0000
+References: <20220124032954.18283-1-hbh25y@gmail.com>
+In-Reply-To: <20220124032954.18283-1-hbh25y@gmail.com>
+To:     Hangyu Hua <hbh25y@gmail.com>
+Cc:     jpr@f6fbb.org, davem@davemloft.net, kuba@kernel.org,
+        wang6495@umn.edu, linux-hams@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hi,
+Hello:
 
-Recently installing a new node for kernel rose module debugging (...) I 
-experienced a few connexion troubles.
+This patch was applied to netdev/net.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-Some are already known AX.25 bug and rose bug that I wanted to 
-investigate taking advantage of kernel Ubuntu 5.4.151 source 
-availability that can be patched and module recompiled.
+On Mon, 24 Jan 2022 11:29:54 +0800 you wrote:
+> ym needs to be free when ym->cmd != SIOCYAMSMCS.
+> 
+> Fixes: 0781168e23a2 ("yam: fix a missing-check bug")
+> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+> ---
+>  drivers/net/hamradio/yam.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 
-Here is a new feature interfering with AX.25 connexions as displayed in 
-/var/log/syslog :
+Here is the summary with links:
+  - yam: fix a memory leak in yam_siocdevprivate()
+    https://git.kernel.org/netdev/net/c/29eb31542787
 
-Jan 25 12:16:31 f6bvp-Ubuntu kernel: [ 6942.400016] IPv6: 
-ADDRCONF(NETDEV_CHANGE): ax0: link becomes ready
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-After some investigations I added the following four lines in 
-/etc/sysctl.conf and rebooted :
-
-# Disable ipv6
-net.ipv6.conf.all.disable_ipv6=1
-net.ipv6.conf.default.disable_ipv6=1
-net.ipv6.conf.lo.disable_ipv6=1
-
-Then no more ipv6 are shown by ifconfig and AX25 connexions via LAN are 
-now ok !
-
-enp5s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-         inet 44.168.19.21  netmask 255.255.255.240  broadcast 44.168.19.31
-         ether 00:23:54:8d:41:e9  txqueuelen 1000  (Ethernet)
-         RX packets 44907  bytes 60439240 (60.4 MB)
-         RX errors 0  dropped 53  overruns 0  frame 0
-         TX packets 16668  bytes 2115347 (2.1 MB)
-         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
-Looking at my ROSE/FPAC nodes I found that I could perform the same 
-changes on my RaspBerry Pis nodes for better results.
-
-I hope this will help and I have a question. Shall this line be 
-uncommented in sysctl.conf ?
-
-# Uncomment the next line to enable packet forwarding for IPv4
-#net.ipv4.ip_forward=1
-
-I actually have the following in my ax25start script :
-
-ax25start:echo 1 > /proc/sys/net/ipv4/ip_forward
 
