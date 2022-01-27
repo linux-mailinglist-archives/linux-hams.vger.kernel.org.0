@@ -2,203 +2,83 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66B3A49E6CC
-	for <lists+linux-hams@lfdr.de>; Thu, 27 Jan 2022 16:58:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 243C849ED18
+	for <lists+linux-hams@lfdr.de>; Thu, 27 Jan 2022 22:10:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234019AbiA0P6t (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 27 Jan 2022 10:58:49 -0500
-Received: from trinity.trinnet.net ([96.78.144.185]:1185 "EHLO
-        trinity3.trinnet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231296AbiA0P6t (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 27 Jan 2022 10:58:49 -0500
-Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
-        by trinity3.trinnet.net (TrinityOS Hardened/TrinityOS Hardened) with ESMTP id 20RFweo8016690;
-        Thu, 27 Jan 2022 07:58:40 -0800
-From:   David Ranch <linux-hams@trinnet.net>
-Subject: Re: [PATCH net-next 06/15] net: ax25: remove route refcount
-To:     Thomas Osterried <thomas@osterried.de>,
-        Jakub Kicinski <kuba@kernel.org>
-References: <20220126191109.2822706-1-kuba@kernel.org>
- <20220126191109.2822706-7-kuba@kernel.org>
- <20220127091858.GF18529@x-berg.in-berlin.de>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, ralf@linux-mips.org,
-        linux-hams@vger.kernel.org
-Message-ID: <f6749b58-ab8a-094c-5e07-c5a7ca5200c9@trinnet.net>
-Date:   Thu, 27 Jan 2022 07:58:40 -0800
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        id S1344189AbiA0VKu (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 27 Jan 2022 16:10:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59236 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233070AbiA0VKt (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 27 Jan 2022 16:10:49 -0500
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66F53C06173B
+        for <linux-hams@vger.kernel.org>; Thu, 27 Jan 2022 13:10:49 -0800 (PST)
+Received: by mail-qt1-x835.google.com with SMTP id y17so3564297qtx.9
+        for <linux-hams@vger.kernel.org>; Thu, 27 Jan 2022 13:10:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=wXM0hly6tyNlZq07rMipvtfpnu3wRqtV0B2JSV05g3E=;
+        b=m0D8ivz9PDCDCKh/arptMpR3/ao+LhFd+WDbL0Ndw6mZAYZf1UgxGLzVj40s+AmZjb
+         DuEwjd7NT9LFwA9OjKx7vr7puLYpS6zkJNbh+1BfuQgx4db+dU06Jgc7C75K093Hwjn/
+         9mCc5rYI5j3y1VvMx9vpxL5dad+OafMT9QhIQgFRN9dvv+QgByQ7o1yzKGSP02L54Znm
+         q7FBXWGkelfiR3xpWnnkdKDqg2UlG70uCnsM1s4SP7cRlEb+IJNQAjeVKHpZy42mZonq
+         RnHAdJAaDrxUHvlQWr6CsD5rnkBvpJUkcJOYzRgUFr/Bb7DCHALpPY9Ux9K4Rjywr0lt
+         YgYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=wXM0hly6tyNlZq07rMipvtfpnu3wRqtV0B2JSV05g3E=;
+        b=5rLGywkZfjekB24fTQUqO+bayvNk3IN/oJrcWD73QfSFyhsUyXDEiPP2Ol9ScwuDtQ
+         +NNLXUr7MWtbpOuGZzHbyV7wQk1q5BdDFNeBM49hi1ytEbcNIIZKb+RbrQZtVfNVJauV
+         9aSreMwvBYfpXqzLEXVX6aCG4ITCUCmlIr2Unhhle7CJRiB7flsLA19+Vm6LYD0h63WB
+         uth/779aRvYJV7qTIj5YbodK/b4SvwSDVBwXYa2AG+lalDmn2b670RvatbsaXWLJxM2m
+         Wv1uYlTbi3PC+ijfAa9cZRw8AjF4LK0JGtX+3B0oI6uxmjG7EatpRqFmO4PEHUs2/aHg
+         jYhQ==
+X-Gm-Message-State: AOAM531dnN4QUSYZnM9MakC/VKERhqKC0Kn7IbpjjJRJ4/utTsxNoj+t
+        qqcf3VwAMhB3g1G7rksNhtY56g6+qFzqn3Edpt0=
+X-Google-Smtp-Source: ABdhPJxjfwa8g49rNfb5xQ4Dtq316EM5E6QepnaR+uvM+BcTaI+qmB/caHz8VslukXXXqzp0798ys0wp0mZ+YQ4gMH8=
+X-Received: by 2002:ac8:4e48:: with SMTP id e8mr4202203qtw.64.1643317847801;
+ Thu, 27 Jan 2022 13:10:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220127091858.GF18529@x-berg.in-berlin.de>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Thu, 27 Jan 2022 07:58:40 -0800 (GMT+8)
+Received: by 2002:a05:6214:e4b:0:0:0:0 with HTTP; Thu, 27 Jan 2022 13:10:46
+ -0800 (PST)
+Reply-To: eanna00111@gmail.com
+From:   Mrs Anna Edward <mussaaliooooo7@gmail.com>
+Date:   Thu, 27 Jan 2022 13:10:46 -0800
+Message-ID: <CAFbf-n2dj0f-EXo2OhZA4D_6QXVYoysuMB5_+AOQv9Sb_nGe0w@mail.gmail.com>
+Subject: Urgent Reply
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
+Greeting to you,
+Please forgive me for stressing you with my predicaments and I sorry
+to approach you through this media because it serves the fastest means
+of communication. I came across your E-mail from my personal search
+and I decided to contact you believing you will be honest to fulfill
+my final wish before I die.
 
-Curious, has this change been tested with an actual testbed to confirm 
-it doesn't break anything?  We *have* to stop allowing good intentioned 
-but naive developers from submitting patches when they've never tested 
-the resulting change.
+I am Mrs Anna Edward, 63 years, from USA, I am childless and I am
+suffering from a pro-long critical cancer, my doctors confirmed I may
+not live beyond two months from now as my ill health has defiled all
+forms of medical treatment. Since my days are numbered, I have decided
+willingly to fulfill my long-time promise to donate you the sum
+($5.000.000.00) million dollars I inherited from my late husband Mr.
+Edward Herbart, foreign bank account over years. I need a very honest
+person who can assist in transfer of this money to his or her account
+and use the funds for charity work of God while you use 50% for
+yourself. I want you to know there is no risk involved; it is 100%
+hitch free & safe.
 
---David
-KI6ZHD
+If you are interested in assisting in getting this fund into your
+account for a charity project to fulfill my promise before I die
+please let me know immediately.
 
-
-On 01/27/2022 01:18 AM, Thomas Osterried wrote:
-> Hello,
->
->   think it's absolutely correct to state
->    "Nothing takes the refcount since v4.9."
-> because in ax25_rt_add(),
->    refcount_set(&ax25_rt->refcount, 1);
-> is used (for every new ax25_rt entry).
->
-> But nothing does an increment.
-> There's one function in include/net/ax25.h ,
->    ax25_hold_route() which would refcount_inc(&ax25_rt->refcount)
-> but it's not called from anywhere.
->
-> => It's value is always 1, and the deleting function ax25_put_route() decrements it again before freeing.
->     I also see no sense in this (anymore).
->
->
-> Every struct ax25_route_list operation is assured with either
->    write_lock_bh(&ax25_route_lock);
->    write_unlock_bh(&ax25_route_lock);
-> or
->    the struct ax25_route returned from functions is assured by calling read_lock(&ax25_route_lock).
->
-> -> No refcount is needed.
->
->
-> => It's good to tidy up stuff that's needed anymore.
->
-> But keep in mind:
-> The code has strong similarities with include/net/x25.h and x25/x25_route.c ,
-> especially in the parts of ax25_hold_route() and ax25_rt_add().
-> This will get lost.
->
->
-> But there a things a bot does not know: human readable senteces.
-> ax25_get_route() is introduced with:
->
->    /*
->     *      Find AX.25 route
->     *
->     *      Only routes with a reference count of zero can be destroyed.
->     *      Must be called with ax25_route_lock read locked.
->     */
->
-> The first sentence informs: ax25_rt entries may be freed during the ax25_route_list operation.
-> It mentiones reference count (which will exist anymore).
-> The conclusion of the first sentence is "Must be called with ax25_route_lock read locked.". This is still true and assured.
-> I don't think it has to explain why the read lock is necessary (it's obvious, that routes could be deleted or added to the list). ->
->
->    /*
->     *      Find AX.25 route
->     *
->     *      Must be called with ax25_route_lock read locked.
->     */
->
-> should be enough.
->
-> ff-topic:
-> =========
->
-> About read_lock)(): Inconsistent use.
-> It's
->    directly called,
-> and by
->    ax25_route_lock_use(), which calls read_lock():
->    {
->            read_lock(&ax25_route_lock);
->    }
->
-> This makes the code harder to read.
-> There's also a function ax25_rt_seq_stop() that calls read_unlock() instead of calling ax25_route_lock_unuse(), which does the same.
->
->
-> vy 73,
-> 	- Thomas  dl9sau
->
-> On Wed, Jan 26, 2022 at 11:11:00AM -0800, Jakub Kicinski wrote:
->> Nothing takes the refcount since v4.9.
->>
->> Signed-off-by: Jakub Kicinski<kuba@kernel.org>
->> ---
->> CC:ralf@linux-mips.org
->> CC:linux-hams@vger.kernel.org
->> ---
->>   include/net/ax25.h    | 12 ------------
->>   net/ax25/ax25_route.c |  5 ++---
->>   2 files changed, 2 insertions(+), 15 deletions(-)
->>
->> diff --git a/include/net/ax25.h b/include/net/ax25.h
->> index 526e49589197..cb628c5d7c5b 100644
->> --- a/include/net/ax25.h
->> +++ b/include/net/ax25.h
->> @@ -187,18 +187,12 @@ typedef struct {
->>   
->>   typedef struct ax25_route {
->>   	struct ax25_route	*next;
->> -	refcount_t		refcount;
->>   	ax25_address		callsign;
->>   	struct net_device	*dev;
->>   	ax25_digi		*digipeat;
->>   	char			ip_mode;
->>   } ax25_route;
->>   
->> -static inline void ax25_hold_route(ax25_route *ax25_rt)
->> -{
->> -	refcount_inc(&ax25_rt->refcount);
->> -}
->> -
->>   void __ax25_put_route(ax25_route *ax25_rt);
->>   
->>   extern rwlock_t ax25_route_lock;
->> @@ -213,12 +207,6 @@ static inline void ax25_route_lock_unuse(void)
->>   	read_unlock(&ax25_route_lock);
->>   }
->>   
->> -static inline void ax25_put_route(ax25_route *ax25_rt)
->> -{
->> -	if (refcount_dec_and_test(&ax25_rt->refcount))
->> -		__ax25_put_route(ax25_rt);
->> -}
->> -
->>   typedef struct {
->>   	char			slave;			/* slave_mode?   */
->>   	struct timer_list	slave_timer;		/* timeout timer */
->> diff --git a/net/ax25/ax25_route.c b/net/ax25/ax25_route.c
->> index d0b2e094bd55..be97dc6a53cb 100644
->> --- a/net/ax25/ax25_route.c
->> +++ b/net/ax25/ax25_route.c
->> @@ -111,7 +111,6 @@ static int __must_check ax25_rt_add(struct ax25_routes_struct *route)
->>   		return -ENOMEM;
->>   	}
->>   
->> -	refcount_set(&ax25_rt->refcount, 1);
->>   	ax25_rt->callsign     = route->dest_addr;
->>   	ax25_rt->dev          = ax25_dev->dev;
->>   	ax25_rt->digipeat     = NULL;
->> @@ -160,12 +159,12 @@ static int ax25_rt_del(struct ax25_routes_struct *route)
->>   		    ax25cmp(&route->dest_addr, &s->callsign) == 0) {
->>   			if (ax25_route_list == s) {
->>   				ax25_route_list = s->next;
->> -				ax25_put_route(s);
->> +				__ax25_put_route(s);
->>   			} else {
->>   				for (t = ax25_route_list; t != NULL; t = t->next) {
->>   					if (t->next == s) {
->>   						t->next = s->next;
->> -						ax25_put_route(s);
->> +						__ax25_put_route(s);
->>   						break;
->>   					}
->>   				}
->> -- 
->> 2.34.1
->>
-
+I will appreciate your utmost confidentiality as I wait for your reply.
+Best Regards,
+Mrs Anna Edward
