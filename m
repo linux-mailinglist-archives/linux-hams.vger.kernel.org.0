@@ -2,79 +2,66 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B373C49FC70
-	for <lists+linux-hams@lfdr.de>; Fri, 28 Jan 2022 16:10:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C33F4A33E8
+	for <lists+linux-hams@lfdr.de>; Sun, 30 Jan 2022 05:28:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232320AbiA1PKO (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 28 Jan 2022 10:10:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52554 "EHLO
+        id S1354218AbiA3E2o (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 29 Jan 2022 23:28:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236989AbiA1PKO (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 28 Jan 2022 10:10:14 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F8D8C061714;
-        Fri, 28 Jan 2022 07:10:14 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D82A5B82615;
-        Fri, 28 Jan 2022 15:10:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 935D2C340E7;
-        Fri, 28 Jan 2022 15:10:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643382611;
-        bh=upUbrLfCOw1Vh49+BWsrSMrdEFkeqSF7qD5m4/nErbE=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=f40k58h+NqKXYK97fudU+SvGvOU2UCg79e7tCoGp4zuokN3COhljw/VHXZX/AGjh+
-         L8pLlaRxIhwoFD/IqZLwh6spSXii6r77FrvEqUa9qslSPr6gpti/qZXBI2dFvgzd7Z
-         7Os/M0rr1U/uoUNHg5UosNCGfErfemp6rdBN5svTbdRud/6GzDa7wuDkNKIHlHRSBm
-         aw8CnEGJ5D0mgghBzcY8R8NZRmelVkvHq+5NdY3Rj+LAyQN0qOSbaLhaGZ/sqlEGc2
-         WgTi6Ha2WYCDPL5HxK+jVRSc4a9aGaDrH2lzKmSEWbJyCrbKN1iKcOiSMY83Wf3g6t
-         lL+y4oOyyTHpQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7B08BF60799;
-        Fri, 28 Jan 2022 15:10:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S1354223AbiA3E2a (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 29 Jan 2022 23:28:30 -0500
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67179C06177A
+        for <linux-hams@vger.kernel.org>; Sat, 29 Jan 2022 20:28:25 -0800 (PST)
+Received: by mail-yb1-xb2c.google.com with SMTP id k31so30520845ybj.4
+        for <linux-hams@vger.kernel.org>; Sat, 29 Jan 2022 20:28:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=B5teSI3NqSzeGu7ngV/22RiyR60khzQ8THYZDZ9DX3Q=;
+        b=QI2firgHOSt+2ZiRAEUqBnRqfCndbuygIyUz1kdYlPzS6AXkdk+mfMubksdM+6U8hJ
+         A4UbXdfo0bhasYFmsw5ceBBj4ub2bgaEqkI+Cp5foQd/M11l9HiEax3hX9+hB29fNDF1
+         4XtAbOKK0Jrn48roHo8mUNvKaz7FG0Csy4DWdnw8Q+/oXs7GbWFZBjN+ifwhy6Rfe8k0
+         Pzhs5uXUX+5v6iQyGpPCJWV84GisQUz+5cfOraMc3PalgV6vYI9t2Z4JMkhIMshepKV2
+         BM+Zj3o1QTUTRt1Kxwo+5vz+cvvR7n44irHUjPq0LbDCW52O0lwQK7qPtMHxw7vn0Id9
+         5U2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=B5teSI3NqSzeGu7ngV/22RiyR60khzQ8THYZDZ9DX3Q=;
+        b=F1Xcw4zsP72WosbUlIsHGtltsztirzM/rGqsQ0nxzs7PKxQSlDDUsrJVxJ74a/OztG
+         vBUB6+eZu9k8lHz2YfgwCK5ZRpUeBNgSBmUeBNyR5mxCso6N0tc5IdAfqy8nq/sCbPbG
+         hoX63WMk8tuJ8OSq6QlQYZ9vHlGwhaj4DGvMVykGhUPVPPbwo5wGMxL/9A2o/gfgV1QG
+         fy8Upi1f12ixW8EtqFy38GJkrlqU1q+0joANqNa8KxbbeHRvGfABfmt2lN55Z8THp8Tk
+         MaXI9I3VqwnsAUV5oluHpSPyt7HKisAvQ1/Z0uLDN0GnFGs7+q1zYko6mguycuf9wb1M
+         mJug==
+X-Gm-Message-State: AOAM532lrTT2fy9GAH1ub+z38eAfiKHu5q6bcNlSg438htBJ7Hd3ucnZ
+        jbM/JKKLQCPH5a2W6aoDygA7UbJOHiDDKJ3AfAnYMWbQAWk=
+X-Google-Smtp-Source: ABdhPJz3bgso8viJFkNwiW8XigzdjL6JZBPDE3NfxKOCgEqvWjdU/qagorQKM5joSRLXylFmq9/zlHP85rUYuZ5fTGQ=
+X-Received: by 2002:a25:6d45:: with SMTP id i66mr23246397ybc.352.1643516893721;
+ Sat, 29 Jan 2022 20:28:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/2] ax25: fix NPD and UAF bugs when detaching ax25 device
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164338261149.2420.16351407833253880236.git-patchwork-notify@kernel.org>
-Date:   Fri, 28 Jan 2022 15:10:11 +0000
-References: <cover.1643343397.git.duoming@zju.edu.cn>
-In-Reply-To: <cover.1643343397.git.duoming@zju.edu.cn>
-To:     Duoming Zhou <duoming@zju.edu.cn>
-Cc:     linux-hams@vger.kernel.org, jreuter@yaina.de, ralf@linux-mips.org,
-        davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+Received: by 2002:a05:7010:2312:b0:201:cd76:102e with HTTP; Sat, 29 Jan 2022
+ 20:28:13 -0800 (PST)
+Reply-To: mrs.bill.chantalone01@gmail.com
+From:   "Mrs.Bill.Chantal" <grassroot309@gmail.com>
+Date:   Sun, 30 Jan 2022 05:28:13 +0100
+Message-ID: <CAO3iUMDzg_ZovNWXtuQhU6sDXk7LsNwvNc2pOb7zvX7pPCdMAw@mail.gmail.com>
+Subject: Hello....
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
+You have been compensated with the sum of 9.5 million dollars in this
+united nation the payment will be issue into atm visa  card and send
+to you from the santander bank we need your address and your
+Whatsapp number  + 1 6465853907  this my email.ID
+( mrs.bill.chantal.roland@gmail.com )  contact  me
 
-This series was applied to netdev/net.git (master)
-by David S. Miller <davem@davemloft.net>:
+Thanks my
 
-On Fri, 28 Jan 2022 12:47:14 +0800 you wrote:
-> There are NPD and UAF bugs when detaching ax25 device, we
-> use lock and refcount to mitigate these bugs.
-> 
-> Duoming Zhou (2):
->   ax25: improve the incomplete fix to avoid UAF and NPD bugs
->   ax25: add refcount in ax25_dev to avoid UAF bugs
-> 
-> [...]
-
-Here is the summary with links:
-  - [1/2] ax25: improve the incomplete fix to avoid UAF and NPD bugs
-    https://git.kernel.org/netdev/net/c/4e0f718daf97
-  - [2/2] ax25: add refcount in ax25_dev to avoid UAF bugs
-    https://git.kernel.org/netdev/net/c/d01ffb9eee4a
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+mrs bill chantal
