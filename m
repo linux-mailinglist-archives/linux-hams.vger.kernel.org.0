@@ -2,90 +2,58 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17AD74A5195
-	for <lists+linux-hams@lfdr.de>; Mon, 31 Jan 2022 22:38:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F77F4A5748
+	for <lists+linux-hams@lfdr.de>; Tue,  1 Feb 2022 07:34:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381143AbiAaVi3 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 31 Jan 2022 16:38:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51538 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381144AbiAaViK (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 31 Jan 2022 16:38:10 -0500
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10B24C061748
-        for <linux-hams@vger.kernel.org>; Mon, 31 Jan 2022 13:38:10 -0800 (PST)
-Received: by mail-oi1-x241.google.com with SMTP id m10so4373109oie.2
-        for <linux-hams@vger.kernel.org>; Mon, 31 Jan 2022 13:38:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=RcCyF58LaRxi/j1nHAT0ApLeXmQ9s66f3iMVqhPacvY=;
-        b=dEuqzCa7Zlz6s4mRGbRbRWXXanD59qsT+xmKk7tBbCVL8shmNgt9pnuL3r3GZQALql
-         Y63DqHUGCnZO0yzAtzp7ZNS2CuC8pMKUMaMtNqE3s9gB45FDt9/C7CdeYDqwmv7HZJbj
-         h6fZit5aG7dGp8FvXKTscfcGshyIKAGZl/Y4NFvWe+GDkg5MDDBzPsbgzyvzZ7B1mfX4
-         ltlQ0tRJrdsWlCdvxMPpvS+PhwNDM1Zp7MYHnfnHzWMTP4bbhrhxbQSB0Xw9LPR0gSp/
-         L2Vas/DZH4ZiZyplfhihUfOHaOD2GjtH1tg3ZI6lVgxDcwRnl8d4U3qCI5tj+07J/ZXk
-         SzvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=RcCyF58LaRxi/j1nHAT0ApLeXmQ9s66f3iMVqhPacvY=;
-        b=nBgEqQD1C9sr7sW6XxLPBHQUldOrVn86mJqEgSfV5HMj+QrgQXXekeCX8T7SLLejTX
-         0rOn3FDiYUdmCNKRJYIvxkP6R7cnrPXZfTy40kCOsSv4P3cCMwybXlL7qeePEnS8stTa
-         KXqaCyfOvjHe6lDu1s6v52mvssdc/ALTxNX+vUriVuZNEOub6WUVj0WgqkpkHt6+erMt
-         rYRPci/Xfg1WBtfbLZ247e5VjrCtztzOj96QUx2jLLF5mP9uPg+cjc7ZDqKm+mQApKtu
-         P/FGsk/9UBQYG/Fy4PRI/RZmOf1p51zRWnLSmR4vOkVkMcLOmyU+on255P4DXPuYpx1l
-         9tzg==
-X-Gm-Message-State: AOAM531Mx0lyKLDRqaeVWVbmn+BeRwqFOf3vNcCP6k4W3bdARqo5jPww
-        7vJ9zTfwhee3bourMG1oQJfog8LMTLTegv8pZHY=
-X-Google-Smtp-Source: ABdhPJzjG4nHBnpm1YeRsvfpKVsM6nmNJIeFJaztEJrNHMe+iyJctx1iGavTAT23A2IhS4j6LtYbunRiUquAn1xj08o=
-X-Received: by 2002:a54:4490:: with SMTP id v16mr14818764oiv.157.1643665089421;
- Mon, 31 Jan 2022 13:38:09 -0800 (PST)
+        id S234326AbiBAGef (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 1 Feb 2022 01:34:35 -0500
+Received: from mail.zju.edu.cn ([61.164.42.155]:5170 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234377AbiBAGe3 (ORCPT <rfc822;linux-hams@vger.kernel.org>);
+        Tue, 1 Feb 2022 01:34:29 -0500
+X-Greylist: delayed 467 seconds by postgrey-1.27 at vger.kernel.org; Tue, 01 Feb 2022 01:34:27 EST
+Received: by ajax-webmail-mail-app3 (Coremail) ; Tue, 1 Feb 2022 14:26:23
+ +0800 (GMT+08:00)
+X-Originating-IP: [10.190.67.66]
+Date:   Tue, 1 Feb 2022 14:26:23 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   =?UTF-8?B?5ZGo5aSa5piO?= <22021233@zju.edu.cn>
+To:     "Dan Carpenter" <dan.carpenter@oracle.com>
+Cc:     linux-hams@vger.kernel.org, jreuter@yaina.de, ralf@linux-mips.org,
+        davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH 2/2] ax25: add refcount in ax25_dev to avoid UAF
+ bugs
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
+In-Reply-To: <20220131173729.GN1951@kadam>
+References: <cover.1643343397.git.duoming@zju.edu.cn>
+ <855641b37699b6ff501c4bae8370d26f59da9c81.1643343397.git.duoming@zju.edu.cn>
+ <20220131173729.GN1951@kadam>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Received: by 2002:a4a:c30d:0:0:0:0:0 with HTTP; Mon, 31 Jan 2022 13:38:09
- -0800 (PST)
-Reply-To: westerunion909@gmail.com
-From:   "Antonia Lloyd." <anthonylloydatmxxx04@gmail.com>
-Date:   Mon, 31 Jan 2022 13:38:09 -0800
-Message-ID: <CAExPwBBpihjV-rv_-+hYqb1WD3wpSWx81B_Q3ES15U3TXSPsyw@mail.gmail.com>
-Subject: Dear Email ID Owner.(USD$4000 IMF COMPENSATION FUND TO PICK UP TODAY).
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <70763230.8debd.17eb3f680eb.Coremail.22021233@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cC_KCgCHODyP0vhhKmSDDA--.6799W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgEIAVZdtYB1zAABsM
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW7Jw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Dear Email ID Owner.
-
-The IMF is compensating all the email address that was funds as one of
-the ward win Victims and your email address and your name is among the
-listed one of approved to pay the sum of $3.6 million U.S Dollars. We
-have concluded to effect your own payment through Western Union Money
-Transfer for easy pick-up of those funds in good condition,$4000 twice
-daily,till the $3.6 million is completely transferred to you.We now
-need your information where we will be sending the funds,such
-as;Receiver name(Your full Name)address and phone number.Contact
-Western Union agent with this Email: ( westerunion995@gmail.com  ) for
-your payment fund.
-
-Ms.Maria Zatto
-E-mail:westerunion995@gmail.com
-Telephone: +229 682 97 169
-
-Contact Ms.Maria,immediately you get this mail through western union
-email address above to enable her speed-up.your payment and release
-the $4000 dollars MTCN today for you to pick up the payment OK.
-
-You are expected to provide us with the details as prescribed below to
-enable safe and easy release of your funds today.
-
-(1)Your Full name:
-(2)Your Phone number:
-(3)Your Country:
-(4)Your Age:
-
-Thank you,
-Dr.Antonia Lloyd.
-Contact Dir.Western Union Money Transfer,
-Cotonou-Benin Republic.
+VGhhbmsgeW91IHZlcnkgbXVjaCBmb3IgeW91ciB0aW1lIGFuZCBwb2ludGluZyBvdXQgcHJvYmxl
+bXMgaW4gbXkgcGF0Y2guCgpUaGUgZGVjcmVtZW50IG9mIGF4MjVfYmluZCgpIGlzIGluIGF4MjVf
+a2lsbF9ieV9kZXZpY2UoKS4gSWYgd2UgZG9uJ3QKY2FsbCBheDI1X2JpbmQoKSBiZWZvcmUgYXgy
+NV9raWxsX2J5X2RldmljZSgpLCB0aGUgYXgyNV9saXN0IHdpbGwgYmUKZW1wdHkgYW5kIGF4MjVf
+ZGV2X3B1dCgpIGluIGF4MjVfa2lsbF9ieV9kZXZpY2UoKSB3aWxsIG5vdCBleGVjdXRlLgoKPiBA
+QCAtOTEsNiArOTEsNyBAQCBzdGF0aWMgdm9pZCBheDI1X2tpbGxfYnlfZGV2aWNlKHN0cnVjdCBu
+ZXRfZGV2aWNlICpkZXYpCj4gIAkJCXNwaW5fdW5sb2NrX2JoKCZheDI1X2xpc3RfbG9jayk7Cj4g
+IAkJCWxvY2tfc29jayhzayk7Cj4gIAkJCXMtPmF4MjVfZGV2ID0gTlVMTDsKPiArCQkJYXgyNV9k
+ZXZfcHV0KGF4MjVfZGV2KTsKPiAgCQkJcmVsZWFzZV9zb2NrKHNrKTsKPiAgCQkJYXgyNV9kaXNj
+b25uZWN0KHMsIEVORVRVTlJFQUNIKTsKPiAgCQkJc3Bpbl9sb2NrX2JoKCZheDI1X2xpc3RfbG9j
+ayk7CgpJIHdpbGwgc2VuZCB0aGUgaW1wcm92ZWQgcGF0Y2ggYXMgc29vbiBhcyBwb3NzaWJsZS4K
+CgpCZXN0IHdpc2hlcywKRHVvbWluZyBaaG91Cg==
