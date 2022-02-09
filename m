@@ -2,47 +2,47 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 440494AFAC9
-	for <lists+linux-hams@lfdr.de>; Wed,  9 Feb 2022 19:40:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C83774AFB4E
+	for <lists+linux-hams@lfdr.de>; Wed,  9 Feb 2022 19:44:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240203AbiBISkB (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 9 Feb 2022 13:40:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55818 "EHLO
+        id S240509AbiBISn7 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 9 Feb 2022 13:43:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240066AbiBISjm (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 9 Feb 2022 13:39:42 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECF1BC03E94A;
-        Wed,  9 Feb 2022 10:39:11 -0800 (PST)
+        with ESMTP id S240412AbiBISnq (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 9 Feb 2022 13:43:46 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9578C050CC8;
+        Wed,  9 Feb 2022 10:42:22 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8A8E060C81;
-        Wed,  9 Feb 2022 18:39:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0736CC340E9;
-        Wed,  9 Feb 2022 18:39:09 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8B473612BC;
+        Wed,  9 Feb 2022 18:42:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C937C340F0;
+        Wed,  9 Feb 2022 18:42:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644431951;
-        bh=AmJ88brCUlZqtikAlLHcWYvv3MfLZ/dBUHwKlvKvL8o=;
+        s=k20201202; t=1644432142;
+        bh=aTGTPT/7hWx4tc2XHp3CRc8jZVh4W6036HHeZlprClc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Qj9I/vq+STJTvEXCBRN4FawlvKjqgQASlfpH8C8+M3lt7Ys7HzdhHgi/a6Pl5Lqp0
-         zrXqa0c+7Cmod/YDkl6Sgd9qX2Pm5AzytAdil8y0XaJg6vizx+DxteQ8TSdD1B/yHd
-         4YVeVg8ZRldTxkE+puTl6xMxBr5NsOr6GybVWE9ZtUdjlMQvsIZlaFXMclfskWegJM
-         kKAXBThTVqLnc17YZJ7P0ESJKV9xKRgv85FUEXW5LLVEWFdt85E9wDV0ZUcNomS+It
-         bIIgjY4OST4jvqDZpFRgMNlDF585iFrZAXz4uBClcrIvuXI/3PyB2yOgRLsP9SZPCO
-         x16I1U5r1UnzQ==
+        b=c0ZaGAz4GAiqCdqrgJJs+Yf+BChq11bVRIBqLJWSURAG1Dvwt7WsEwYHb7otTbbS5
+         jlX5qw6v0Xsb37as9pPASzYmhTISlpMhetjrgu1DrZantd9unpOyuCKp9wTL6OQ38+
+         9a8vR1Lre9QXoaT24AGygXI7F5Oia/Og9yacUgShLdibo4ex8im/vufhh9NNOIAoGN
+         5MOxHn4iDYnTMd+jeScjQwF5fF1QgOXkKvqKI3r+4LqQLHT63ChbQgDZn9ivyUMJat
+         puJmJI8uKTOj/DVnJXDXwyfEz+gYkYn80wJqk5DPnBCkfoSG54iGHI+jtrf3SdGAwm
+         vvTiXyA8mXqMA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Duoming Zhou <duoming@zju.edu.cn>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, jreuter@yaina.de,
         kuba@kernel.org, linux-hams@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 15/36] ax25: improve the incomplete fix to avoid UAF and NPD bugs
-Date:   Wed,  9 Feb 2022 13:37:38 -0500
-Message-Id: <20220209183759.47134-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 13/27] ax25: improve the incomplete fix to avoid UAF and NPD bugs
+Date:   Wed,  9 Feb 2022 13:40:49 -0500
+Message-Id: <20220209184103.47635-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220209183759.47134-1-sashal@kernel.org>
-References: <20220209183759.47134-1-sashal@kernel.org>
+In-Reply-To: <20220209184103.47635-1-sashal@kernel.org>
+References: <20220209184103.47635-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -109,7 +109,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-index 7473e0cc6d469..ea3431ac46a14 100644
+index 5e84dce5ff7ae..23bd26057a828 100644
 --- a/net/ax25/af_ax25.c
 +++ b/net/ax25/af_ax25.c
 @@ -77,6 +77,7 @@ static void ax25_kill_by_device(struct net_device *dev)
