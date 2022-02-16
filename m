@@ -1,144 +1,118 @@
 Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47CF24AFBFB
-	for <lists+linux-hams@lfdr.de>; Wed,  9 Feb 2022 19:52:08 +0100 (CET)
+Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id E0AED4B7DC7
+	for <lists+linux-hams@lfdr.de>; Wed, 16 Feb 2022 03:51:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241115AbiBISwC (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 9 Feb 2022 13:52:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43772 "EHLO
+        id S1343770AbiBPCgU (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 15 Feb 2022 21:36:20 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241241AbiBISuz (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 9 Feb 2022 13:50:55 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA2FCC003663;
-        Wed,  9 Feb 2022 10:46:30 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 78AA3B821BD;
-        Wed,  9 Feb 2022 18:46:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 333D4C340EF;
-        Wed,  9 Feb 2022 18:46:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644432388;
-        bh=/hVOJlsFWLKRbsZ0LCXQz1BHsIWJgYUIFS3HbLPfFkY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CFxpYPxhRXeqtH0r3P4DDmFWn2HD+UpHlbPKBkFV0snn5CZ/O/wUtATLrsz1q0tZ+
-         uxI5kzT+6bNqtcloKIq0Ki+p1dglPLCt5c5qzgH/3fKBMizXEkHlYYLCt4HGsGBG0u
-         IT2EZxRPlDEtFnWvzk9i+LQIBIlr+LKK6yxsqYhuVKvnc7iBcMRRx8zExqWq8x1wmX
-         McBox1+zA9TOah1fUqJXyo4e7SAV5XM+OjWYV5ujgfEdJwT7NmfIJIS9t9QqIK6oMp
-         b/g0vwspVc63n+W9NR/dykpNrwqx2hjJ5mL5GqbUQUktehPIUXgrbbfaLTt9eRGnKz
-         FN3XQiDy6ZzTQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Duoming Zhou <duoming@zju.edu.cn>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, jreuter@yaina.de,
-        kuba@kernel.org, linux-hams@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 5/7] ax25: improve the incomplete fix to avoid UAF and NPD bugs
-Date:   Wed,  9 Feb 2022 13:45:48 -0500
-Message-Id: <20220209184550.48481-5-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220209184550.48481-1-sashal@kernel.org>
-References: <20220209184550.48481-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S244735AbiBPCgT (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 15 Feb 2022 21:36:19 -0500
+Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 79255F5412;
+        Tue, 15 Feb 2022 18:36:07 -0800 (PST)
+Received: from ubuntu.localdomain (unknown [10.15.192.164])
+        by mail-app2 (Coremail) with SMTP id by_KCgAX_nAGYwxi0LrrAQ--.36391S2;
+        Wed, 16 Feb 2022 10:35:55 +0800 (CST)
+From:   Duoming Zhou <duoming@zju.edu.cn>
+To:     linux-hams@vger.kernel.org
+Cc:     ajk@comnets.uni-bremen.de, davem@davemloft.net, kuba@kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH] drivers: hamradio: 6pack: fix UAF bug caused by mod_timer()
+Date:   Wed, 16 Feb 2022 10:35:49 +0800
+Message-Id: <20220216023549.50223-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: by_KCgAX_nAGYwxi0LrrAQ--.36391S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kr45Zr1rJr1DtrWxCFy3Jwb_yoW8try3pr
+        Z8Jryftw4ktrW5tw4kAFs5Wrn5uFs5J3yxCrsag3sIvFnxJr1YgFyqvryUXFW2kFZ5Aa47
+        AF4rZr9xAF15C3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkF1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW0oVCq3wA2z4x0Y4vEx4A2
+        jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
+        x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWU
+        GwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
+        8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
+        6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGw
+        C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48J
+        MIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
+        IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
+        87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgwNAVZdtYEE3QAes6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-From: Duoming Zhou <duoming@zju.edu.cn>
+Although del_timer_sync() in sixpack_close() waits for the timer handler
+to finish its execution and then releases the timer, the mod_timer()
+in sp_xmit_on_air() could be called by userspace syscall such as
+ax25_sendmsg(), ax25_connect() and ax25_ioctl() and wakes up the timer
+again. If the timer uses sp_xmit_on_air() to write data on pty work queue
+that already released by unregister_netdev(), the UAF bug will happen.
 
-[ Upstream commit 4e0f718daf97d47cf7dec122da1be970f145c809 ]
+One of the possible race conditions is shown below:
 
-The previous commit 1ade48d0c27d ("ax25: NPD bug when detaching
-AX25 device") introduce lock_sock() into ax25_kill_by_device to
-prevent NPD bug. But the concurrency NPD or UAF bug will occur,
-when lock_sock() or release_sock() dereferences the ax25_cb->sock.
+      (USE)                     |      (FREE)
+ax25_sendmsg()                  |
+  ax25_queue_xmit()             |
+    ...                         |
+    sp_encaps()                 |  sixpack_close()
+      sp_xmit_on_air()          |    del_timer_sync(&sp->tx_t)
+        mod_timer(&sp->tx_t,..) |    ...
+        (wait a while)          |    unregister_netdev(sp->dev)) //FREE
+      sp_xmit_on_air()          |    ...
+        pty_write()             |
+          queue_work_on() //USE |
 
-The NULL pointer dereference bug can be shown as below:
+The corresponding fail log is shown below:
+===============================================================
+BUG: KASAN: use-after-free in __run_timers.part.0+0x170/0x470
+Write of size 8 at addr ffff88800a652ab8 by task swapper/2/0
+...
+Call Trace:
+  ...
+  queue_work_on+0x3f/0x50
+  pty_write+0xcd/0xe0pty_write+0xcd/0xe0
+  sp_xmit_on_air+0xb2/0x1f0
+  call_timer_fn+0x28/0x150
+  __run_timers.part.0+0x3c2/0x470
+  run_timer_softirq+0x3b/0x80
+  __do_softirq+0xf1/0x380
+  ...
 
-ax25_kill_by_device()        | ax25_release()
-                             |   ax25_destroy_socket()
-                             |     ax25_cb_del()
-  ...                        |     ...
-                             |     ax25->sk=NULL;
-  lock_sock(s->sk); //(1)    |
-  s->ax25_dev = NULL;        |     ...
-  release_sock(s->sk); //(2) |
-  ...                        |
-
-The root cause is that the sock is set to null before dereference
-site (1) or (2). Therefore, this patch extracts the ax25_cb->sock
-in advance, and uses ax25_list_lock to protect it, which can synchronize
-with ax25_cb_del() and ensure the value of sock is not null before
-dereference sites.
-
-The concurrency UAF bug can be shown as below:
-
-ax25_kill_by_device()        | ax25_release()
-                             |   ax25_destroy_socket()
-  ...                        |   ...
-                             |   sock_put(sk); //FREE
-  lock_sock(s->sk); //(1)    |
-  s->ax25_dev = NULL;        |   ...
-  release_sock(s->sk); //(2) |
-  ...                        |
-
-The root cause is that the sock is released before dereference
-site (1) or (2). Therefore, this patch uses sock_hold() to increase
-the refcount of sock and uses ax25_list_lock to protect it, which
-can synchronize with ax25_cb_del() in ax25_destroy_socket() and
-ensure the sock wil not be released before dereference sites.
+This patch add condition check in sp_xmit_on_air(). If the
+registration status of net_device is not equal to NETREG_REGISTERED,
+the sp_xmit_on_air() will not write data to pty work queue and
+return instead.
 
 Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- net/ax25/af_ax25.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/net/hamradio/6pack.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-index f4c8567e91b38..c4ef1be59cb19 100644
---- a/net/ax25/af_ax25.c
-+++ b/net/ax25/af_ax25.c
-@@ -80,6 +80,7 @@ static void ax25_kill_by_device(struct net_device *dev)
- {
- 	ax25_dev *ax25_dev;
- 	ax25_cb *s;
-+	struct sock *sk;
- 
- 	if ((ax25_dev = ax25_dev_ax25dev(dev)) == NULL)
- 		return;
-@@ -88,13 +89,15 @@ static void ax25_kill_by_device(struct net_device *dev)
- again:
- 	ax25_for_each(s, &ax25_list) {
- 		if (s->ax25_dev == ax25_dev) {
-+			sk = s->sk;
-+			sock_hold(sk);
- 			spin_unlock_bh(&ax25_list_lock);
--			lock_sock(s->sk);
-+			lock_sock(sk);
- 			s->ax25_dev = NULL;
--			release_sock(s->sk);
-+			release_sock(sk);
- 			ax25_disconnect(s, ENETUNREACH);
- 			spin_lock_bh(&ax25_list_lock);
+diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
+index b1fc153125d..7ee25e06915 100644
+--- a/drivers/net/hamradio/6pack.c
++++ b/drivers/net/hamradio/6pack.c
+@@ -141,7 +141,8 @@ static void sp_xmit_on_air(struct timer_list *t)
+ 	struct sixpack *sp = from_timer(sp, t, tx_t);
+ 	int actual, when = sp->slottime;
+ 	static unsigned char random;
 -
-+			sock_put(sk);
- 			/* The entry could have been deleted from the
- 			 * list meanwhile and thus the next pointer is
- 			 * no longer valid.  Play it safe and restart
++	if (sp->dev->reg_state !=  NETREG_REGISTERED)
++		return;
+ 	random = random * 17 + 41;
+ 
+ 	if (((sp->status1 & SIXP_DCD_MASK) == 0) && (random < sp->persistence)) {
 -- 
-2.34.1
+2.17.1
 
