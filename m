@@ -2,47 +2,47 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7FC54B8CFF
-	for <lists+linux-hams@lfdr.de>; Wed, 16 Feb 2022 16:56:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DC3D4B959B
+	for <lists+linux-hams@lfdr.de>; Thu, 17 Feb 2022 02:43:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233316AbiBPP5D (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 16 Feb 2022 10:57:03 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55226 "EHLO
+        id S231203AbiBQBng (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 16 Feb 2022 20:43:36 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234100AbiBPP5D (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 16 Feb 2022 10:57:03 -0500
-Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 632C11A1323;
-        Wed, 16 Feb 2022 07:56:44 -0800 (PST)
+        with ESMTP id S230501AbiBQBng (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 16 Feb 2022 20:43:36 -0500
+Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A126D214884;
+        Wed, 16 Feb 2022 17:43:21 -0800 (PST)
 Received: from ubuntu.localdomain (unknown [10.15.192.164])
-        by mail-app3 (Coremail) with SMTP id cC_KCgAHz_CsHg1iQGxcDQ--.13121S2;
-        Wed, 16 Feb 2022 23:56:34 +0800 (CST)
+        by mail-app3 (Coremail) with SMTP id cC_KCgCnj_IqqA1iK4ViDQ--.6490S2;
+        Thu, 17 Feb 2022 09:43:09 +0800 (CST)
 From:   Duoming Zhou <duoming@zju.edu.cn>
 To:     linux-hams@vger.kernel.org
 Cc:     kuba@kernel.org, ajk@comnets.uni-bremen.de, davem@davemloft.net,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH V2] drivers: hamradio: 6pack: fix UAF bug caused by mod_timer()
-Date:   Wed, 16 Feb 2022 23:56:04 +0800
-Message-Id: <20220216155604.92827-1-duoming@zju.edu.cn>
+        linma@zju.edu.cn, Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH V3] drivers: hamradio: 6pack: fix UAF bug caused by mod_timer()
+Date:   Thu, 17 Feb 2022 09:43:03 +0800
+Message-Id: <20220217014303.102986-1-duoming@zju.edu.cn>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgAHz_CsHg1iQGxcDQ--.13121S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGw4rZw1fuw1xGFy3GryrCrg_yoW5GryrpF
-        Z8GryfJw48trZ8JrsrJa1kWr95uFsYyay8Crs3u3sI9FsxZr1j9F1UKFWvvF4UCrs3Aay7
-        AF1rJry7AF15A3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: cC_KCgCnj_IqqA1iK4ViDQ--.6490S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxWr1rCFWrGF4xuFyktr4fZrb_yoW5XrWUpF
+        Z8Kryftw48trZxGr4DXa1kWr95Za1kAay0krsak3sIvFs3Zr1j9F1jka4kZF4UCrZ3Aay7
+        ZF1rXry7AF15A3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
         9KBjDU0xBIdaVrnRJUUUkI1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
         w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-        IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
-        Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
-        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
-        aVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
-        4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxG
-        rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
-        CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
-        z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgIDAVZdtYL+yAAFsN
+        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
+        Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
+        6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+        vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v
+        1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vI
+        r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+        1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+        x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgQDAVZdtYL++gAGs6
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
@@ -52,13 +52,15 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Although del_timer_sync() in sixpack_close() won't return if
-there is an active timer, we could use mod_timer() in
-sp_xmit_on_air() to wake up timer again by calling userspace
-syscall such as ax25_sendmsg(), ax25_connect() and ax25_ioctl().
-If sp_xmit_on_air() registered as a callback function in
-timer_setup() calls pty_write() to use tty resources that
-already released by tty_release(), the UAF bug will happen.
+When a 6pack device is detaching, the sixpack_close() will act to cleanup
+necessary resources. Although del_timer_sync() in sixpack_close()
+won't return if there is an active timer, one could use mod_timer() in
+sp_xmit_on_air() to wake up timer again by calling userspace syscall such
+as ax25_sendmsg(), ax25_connect() and ax25_ioctl().
+
+This unexpected waked handler, sp_xmit_on_air(), realizes nothing about
+the undergoing cleanup and may still call pty_write() to use driver layer
+resources that have already been released.
 
 One of the possible race conditions is shown below:
 
@@ -102,11 +104,11 @@ running routines after executing unregister_netdev(). Therefore, we could
 not arouse timer from userspace again.
 
 Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+Reviewed-by: Lin Ma <linma@zju.edu.cn>
 ---
-Changes in V2:
+Changes in V3:
   - Make the commit message more clearer.
-  - Modify the patch code.
----
+
  drivers/net/hamradio/6pack.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
