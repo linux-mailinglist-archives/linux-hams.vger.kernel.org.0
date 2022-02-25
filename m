@@ -2,72 +2,108 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11E7E4BCF87
-	for <lists+linux-hams@lfdr.de>; Sun, 20 Feb 2022 16:44:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A2914C3EBF
+	for <lists+linux-hams@lfdr.de>; Fri, 25 Feb 2022 08:10:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244157AbiBTPin (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 20 Feb 2022 10:38:43 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42116 "EHLO
+        id S232279AbiBYHK2 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 25 Feb 2022 02:10:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239878AbiBTPil (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 20 Feb 2022 10:38:41 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3691840A06
-        for <linux-hams@vger.kernel.org>; Sun, 20 Feb 2022 07:38:17 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id u18so24478601edt.6
-        for <linux-hams@vger.kernel.org>; Sun, 20 Feb 2022 07:38:17 -0800 (PST)
+        with ESMTP id S233702AbiBYHK1 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 25 Feb 2022 02:10:27 -0500
+Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96B551E016C
+        for <linux-hams@vger.kernel.org>; Thu, 24 Feb 2022 23:09:55 -0800 (PST)
+Received: by mail-yb1-xb44.google.com with SMTP id w63so4105201ybe.10
+        for <linux-hams@vger.kernel.org>; Thu, 24 Feb 2022 23:09:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=ymEpgIXl54yuSlZg88NLeYK1RJf0YDtYgXWD/9J1GQ0=;
-        b=degv64KeFtdi2zbjsMqCg99XUBwRsWWRsat8pVSE1dsJMyLEQebzW+u8gL6CBfEQQn
-         TR573CG7WA+9vnEdvbzyisLdqVfd2L7tW255YjXAv70Nz6z7oKmPah1XlxlqBd5nDgXH
-         ePUhHpcz6Nz3MIgpiiVSbZwwadbd4mnHSGmsNzIMifS2uWsr5SlJ5m2rsNUPByoI5zhb
-         SR83azGcCTW//SbmgQ0y+vLGSla0uKvjbMIVO2C3U/MToeM9d3wUPHwP8BDBVACmWkyb
-         mbrrj1iz1ehyoQ1IJSYmVaPjfehHwDHBxgq0J/uzM167cyMcPy58BK3LuVjr98uUFJPh
-         U0VQ==
+        bh=Y7X8uyaFI8LljuLAxhyM48+yTSBDN9zANH/IhPwl+SQ=;
+        b=YxomcVhOZ/D49FW5qhwHTKoVVib0raMx5yC3Cya4g5ngOi0w1jl8BZoM4/clKni9Pb
+         yqoJGrMCYLdk/a/fBmkEj5mgtBGwevKi6DWOOV0i0q7qvExwaF9CzGOrqPOYG/1lG9zD
+         ZwlOgzI2BA+6PahiABm3nQLGehJn3VM6QwcvY/6neMPcrXkzQ9Tl7TGKGYzlEQJljtlD
+         zbhL1ayhMorW5QmGKTl51KHBUSHxXl8QHxXV/adaBlMgVTOPldniBdDjFZpOD9Clltms
+         ZjeouqtAZnm9o9GLdHn3NNZg9HBE79mH3Hh0s/2fuDMGHH/3d5dX93GnySGwNtbU1hfT
+         FGfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=ymEpgIXl54yuSlZg88NLeYK1RJf0YDtYgXWD/9J1GQ0=;
-        b=fEiPuOYhtDsXJ4IjNLKs0vgz/h5QvYnR36/C7pqHceqqXKQ84/QOgHJLEt0TEFrhg2
-         Okt2VtkFx+q2V6qmQlPN4gdrtnVNmnG4tFs6viFylWRhwCcJfTcKucW3WW7W/7sl7HDf
-         g1volGeIofdAOXq3gHMHI1xEwDXBvLWcpp+6XA3LP+awtX9PloOmb/0DZyf7utNYiB/g
-         6ZjtiSVtJ0EsFYRojSVUeNM7JUr1dIbtYp0PNJhlRT9VIY2r7tuhnPKyr9Us1oVV8PLD
-         iDM88ahM/j41acM45kakMJZMjqBUovx2lSFgchrk1kK5zS+aKcVSleyJgp5rIVnGW0u0
-         czdg==
-X-Gm-Message-State: AOAM5301v9s+DHiDKdQf1Rva+L71UCP29P4duaD9xNihiF/fQeoNsUd3
-        RxxVoKbg/UV5+1JBTDaMYd+4tsEJaowhUtJfmOE=
-X-Google-Smtp-Source: ABdhPJz0AN7o9No0fhs6xZEm8hzyX6WOZhNi8B3U8PCYdBi3itNU8MBgMEdAbbMqhnsTf7H9NACa5LH5MJlqKIgsin0=
-X-Received: by 2002:aa7:ce92:0:b0:40f:b89c:18fe with SMTP id
- y18-20020aa7ce92000000b0040fb89c18femr17517323edv.67.1645371495858; Sun, 20
- Feb 2022 07:38:15 -0800 (PST)
+        bh=Y7X8uyaFI8LljuLAxhyM48+yTSBDN9zANH/IhPwl+SQ=;
+        b=wzb1OrF4fAl4xtWzoW2x6ufd/SlF9k63NimCi9G8tC1m4zF//OeRtGcrMECdosfF+E
+         celfSBDD4hOQEQY1feZa3TdCPGF3iCqcNZSCng+J/XriNrCqo4Z8TuapO3S7OxRL4HmN
+         +V1C+xpIvF4cpE5Rdpi7pkkEI/7g8q6bBPWsaAyhOIcMrGT/ig2GnqKr8mfXD1khMti7
+         zqv6YqlgEeJi+i2v5pAatNEkbYPO3RBS7grt0YULJ3gOIoPFEB7bhPC+QUglOupeos3b
+         yA90g1hbOGVezxynj70N0MxlhlLVQBWIosLsJTWVEbTsqFPu2AoOsNnK3JPx8LnM2eHt
+         q+WQ==
+X-Gm-Message-State: AOAM530rJOWUxLNetIyiYOZ0W93Z7hbJpEwmWDjhHijkwSPtPaJKDAqF
+        HDtfB2Bn52tn90MPKp/a/MWFWQoWt9UbK+BONvE=
+X-Google-Smtp-Source: ABdhPJzqP1eVeGmxq/Knm0kECMjsxmNWnoVdI9YWwZX0WuM0dRU/22lNt/XNJwSwuYOkYZicPx9TtPhvmt88a1BmNmE=
+X-Received: by 2002:a25:8149:0:b0:623:bc3c:be06 with SMTP id
+ j9-20020a258149000000b00623bc3cbe06mr6240911ybm.223.1645772994878; Thu, 24
+ Feb 2022 23:09:54 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a54:38c1:0:0:0:0:0 with HTTP; Sun, 20 Feb 2022 07:38:15
+Received: by 2002:a81:a389:0:0:0:0:0 with HTTP; Thu, 24 Feb 2022 23:09:54
  -0800 (PST)
-Reply-To: fatibaro01@yahoo.com
-From:   Fatimah Baro <imanosose@gmail.com>
-Date:   Sun, 20 Feb 2022 16:38:15 +0100
-Message-ID: <CAFEyOE7M=ZUrSROmPGAE3yrv-g10xHU=UARo1h+trJF7vepfMA@mail.gmail.com>
-Subject: Business invitation
-To:     imanosose <imanosose@gmail.com>
+Reply-To: markwillima00@gmail.com
+From:   Mark <nnannacolins@gmail.com>
+Date:   Thu, 24 Feb 2022 23:09:54 -0800
+Message-ID: <CAJAQTionfYc5m6BnPT_TCmsEnQvktMLHod+ArwPjJ_2yQ_V0RQ@mail.gmail.com>
+Subject: Re: Greetings!
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=2.8 required=5.0 tests=ADVANCE_FEE_3_NEW,BAYES_50,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: **
+X-Spam-Status: Yes, score=5.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b44 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [nnannacolins[at]gmail.com]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [markwillima00[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.5 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Greetings from Burkina Faso,
-Please pardon me if my request offend your person; I need you to stand
-as my foreign partner for investment in your country. Please reply
-immediately if you are interested, so that I can give you more
-information.
-Fatimah Baro
+Hello,
+
+The HSBC Bank is a financial institution in United Kingdom. We
+promotes long-term,sustainable and broad-based economic growth in
+developing and emerging countries by providing financial support like
+loans and investment to large, small and
+medium-sized companies (SMEs) as well as fast-growing enterprises
+which in turn helps to create secure and permanent jobs and reduce
+poverty.
+
+If you need fund to promotes your business, project(Project Funding),
+Loan, planning, budgeting and expansion of your business(s) , do not
+hesitate to indicate your interest as we are here to serve you better
+by granting your request.
+
+Thank you
+Mr:Mark
