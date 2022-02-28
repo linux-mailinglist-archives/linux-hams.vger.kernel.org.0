@@ -2,54 +2,52 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4D334C6E34
-	for <lists+linux-hams@lfdr.de>; Mon, 28 Feb 2022 14:31:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D32674C7849
+	for <lists+linux-hams@lfdr.de>; Mon, 28 Feb 2022 19:46:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234974AbiB1Nbm (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 28 Feb 2022 08:31:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60770 "EHLO
+        id S233419AbiB1Srb (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 28 Feb 2022 13:47:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236102AbiB1Nbk (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 28 Feb 2022 08:31:40 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5504832EE5;
-        Mon, 28 Feb 2022 05:31:02 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0D641B81188;
-        Mon, 28 Feb 2022 13:31:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9A91CC340F8;
-        Mon, 28 Feb 2022 13:30:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646055059;
-        bh=055+r7Bv0YKZLvW2yw6sPT6DWnJzO/MTP8OxhUtCSac=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=E584kEgauBkAa3o8F4en2NVEZC4Hk4ZoqFTLbuItRh27GHeySF6/923XzN5UXuP/b
-         INGgWhp8e7E/rsaATEq16lh9k+h13PIKyBXqSc+bu7X+lvYKOCxTWeAHGp/feK67T4
-         d+BxSZxZAUyAyrKhQxmpkmsR0bTTAvSZQuDjKJ92G+xiCEi4Q1cDjIFGcyzt6qiB5W
-         c9s1eCSLXs3P6pdURXzwE1GahI581Ep7y/Ebsck+gBY9ubuRA/e3K9R3XzaDCtFzjd
-         iUGokDX6+uvEMMtMuTfJ9UnNnl5QVN3Hzpf9QDzB5O20XDnFG4leONFkwYxb85bwKh
-         cK3OFRLKoeQDg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 81852F0383A;
-        Mon, 28 Feb 2022 13:30:59 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S232060AbiB1Sr2 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 28 Feb 2022 13:47:28 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C82F921D
+        for <linux-hams@vger.kernel.org>; Mon, 28 Feb 2022 10:46:48 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id d17so11860371pfl.0
+        for <linux-hams@vger.kernel.org>; Mon, 28 Feb 2022 10:46:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bogomips.com; s=google;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=QEvhm6SqwOZbJ1C68hIJNq3B6gugT4X8lGqjwEO/UC8=;
+        b=VtgRwj+XSbnnRPf6lygQwCYiY8kQ/JWCvYJX9N5KJwnthXdruiUYN41SSWpMYmkXxk
+         vAa4bijLgWj4ZsGCEXE4u6HCA8wYodWDL8KBtgRGQxMB3PVEKUy7650YRGUAIDkdt8BZ
+         sZRVYcRnZf6AoNWKzT3folpntI0UhNhDMl3k4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=QEvhm6SqwOZbJ1C68hIJNq3B6gugT4X8lGqjwEO/UC8=;
+        b=4YvhuUDU1Pi+tYAyHMx+lhR1OGPhQiLB7fPnuIDo1sEotb6m/0CqU8xz7mfvmlGDWy
+         w5ZqCGuFRVDROheJBi2UM3Ph9mAo4GFvl4BE9+B9ehb+/hCzyc9hRmJvPBbyeC3PrGoq
+         Y2uh27iAAkPJIJXHTWX0+bgU1VEe4aXls6u0n+A/gzIsXo+olhonQNhvtI+8iOpTzpiA
+         FMPCvAQU1AfdJHJe9Dra/0KeUCgq6iJBcQelCZEznMkkqyhDe8u9Kv3A1FRBusMYj7IW
+         5T9umYuHpC27TyDJe6CsIzRremuY+NrZlY2FUj3KE1hGHeUI5Db/oRPX4SZQ5ANcxoGQ
+         KmBg==
+X-Gm-Message-State: AOAM530SglDCW1m1x4WXmaus7LIIwVxnTl/6U5PaE/Q6hbTDnK7KsyQY
+        Jdsy75xx0wYGSefja8hQ5mgkocKT2Rrmhtm1naZc1sGbIGvfqQ==
+X-Google-Smtp-Source: ABdhPJzVI00DP2zn//h4kNisf7G9J8Juc5+OZ+LKywx0xjDVHqidivlD9K4fRn40PI6k87tQFJtSdOv/SM3EBsIQYuM=
+X-Received: by 2002:a63:a509:0:b0:36c:6a53:7cd with SMTP id
+ n9-20020a63a509000000b0036c6a5307cdmr18480475pgf.403.1646074008154; Mon, 28
+ Feb 2022 10:46:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net: hamradio: use time_is_after_jiffies() instead of open
- coding it
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164605505952.13902.7199174306567919754.git-patchwork-notify@kernel.org>
-Date:   Mon, 28 Feb 2022 13:30:59 +0000
-References: <1646018012-61129-1-git-send-email-wangqing@vivo.com>
-In-Reply-To: <1646018012-61129-1-git-send-email-wangqing@vivo.com>
-To:     Qing Wang <wangqing@vivo.com>
-Cc:     jreuter@yaina.de, davem@davemloft.net, kuba@kernel.org,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+From:   John Paul Morrison <jmorrison@bogomips.com>
+Date:   Mon, 28 Feb 2022 10:46:38 -0800
+Message-ID: <CAO-kYtEhzohMYgk=K_jt0hQ+bdrmReUVBkAzMYTKJeAK9vcenQ@mail.gmail.com>
+Subject: [PATCH] libax25 hamradio: higher baud rate support
+To:     linux-hams@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -58,28 +56,55 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
+The kissattach program rejects valid baud rates in /etc/ax25/axports
+so I updated libax25
 
-This patch was applied to netdev/net-next.git (master)
-by David S. Miller <davem@davemloft.net>:
+I tested on x86_64 and armv7l (Raspberry Pi)  up to 1.5 Mbps
 
-On Sun, 27 Feb 2022 19:13:31 -0800 you wrote:
-> From: Wang Qing <wangqing@vivo.com>
-> 
-> Use the helper function time_is_{before,after}_jiffies() to improve
-> code readability.
-> 
-> Signed-off-by: Wang Qing <wangqing@vivo.com>
-> 
-> [...]
-
-Here is the summary with links:
-  - net: hamradio: use time_is_after_jiffies() instead of open coding it
-    https://git.kernel.org/netdev/net-next/c/61c4fb9c4d09
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+VE7JPM
 
 
+Signed-off-by: John Paul Morrison <jmorrison@bogomips.com>
+---
+
+diff --git a/ttyutils.c b/ttyutils.c
+index a374103..981d630 100644
+--- a/ttyutils.c
++++ b/ttyutils.c
+@@ -32,6 +32,36 @@ static struct speed_struct {
+ #endif
+ #ifdef  B460800
+  {460800, B460800},
++#endif
++#ifdef  B500000
++ {500000, B500000},
++#endif
++#ifdef  B921600
++ {921600, B921600},
++#endif
++#ifdef  B1000000
++ {1000000, B1000000},
++#endif
++#ifdef  B1152000
++ {1152000, B1152000},
++#endif
++#ifdef  B1500000
++ {1500000, B1500000},
++#endif
++#ifdef  B2000000
++ {2000000, B2000000},
++#endif
++#ifdef  B2500000
++ {2500000, B2500000},
++#endif
++#ifdef  B3000000
++ {3000000, B3000000},
++#endif
++#ifdef  B3500000
++ {1000000, B3500000},
++#endif
++#ifdef  B4000000
++ {4000000, B4000000},
+ #endif
+  {-1, B0}
+ };
