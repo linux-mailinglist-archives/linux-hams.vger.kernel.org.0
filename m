@@ -2,54 +2,39 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42E404CACBF
-	for <lists+linux-hams@lfdr.de>; Wed,  2 Mar 2022 19:00:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47FCD4CB015
+	for <lists+linux-hams@lfdr.de>; Wed,  2 Mar 2022 21:41:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244347AbiCBSBC (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 2 Mar 2022 13:01:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59114 "EHLO
+        id S239388AbiCBUlx (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 2 Mar 2022 15:41:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244343AbiCBSA7 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 2 Mar 2022 13:00:59 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD8F6CA736;
-        Wed,  2 Mar 2022 10:00:12 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 095FE60ACC;
-        Wed,  2 Mar 2022 18:00:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5B089C36AE9;
-        Wed,  2 Mar 2022 18:00:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646244011;
-        bh=v/COIc+X+EM2q8D/TuV93XKDdU5ewdBka72ch/RrZP4=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=S4PLV395wr0JXJoyENgV2quWokBxSRSK9PNrpotPqwzpBAp14YIFBBJI6DvXl+9o6
-         HBIT/bEuTg1PyaCGjuzXYDgGhIc0GtrQHBX/TOMq3ZFmkHE50e9bhiFi5mQQvKrWqn
-         l4KgQN4PF7bNs/SWuz4QINPIcC8pGvG4wiWAjF4MueVWzFp7gDR+A7pQOHJXJ1Mvnr
-         FnulFn1+QUzXBPf+wGthpLkz2PzI6h9I3aC8yTEZHO50B22rjuS0PhkjH5kTyZ6gH3
-         GWsy+VLckeUwWHpNVykN2aIFTJBglml/4vdudb0rzK8+EGhvgda9+Uagm5puPB7+Hk
-         s+L7AX+Pte5gg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 45E49E6D44B;
-        Wed,  2 Mar 2022 18:00:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S236431AbiCBUlw (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 2 Mar 2022 15:41:52 -0500
+X-Greylist: delayed 3219 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 02 Mar 2022 12:41:04 PST
+Received: from trinity3.trinnet.net (trinity.trinnet.net [96.78.144.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B480FDA846
+        for <linux-hams@vger.kernel.org>; Wed,  2 Mar 2022 12:41:04 -0800 (PST)
+Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
+        by trinity3.trinnet.net (TrinityOS Hardened/TrinityOS Hardened) with ESMTP id 222JlHgE023081;
+        Wed, 2 Mar 2022 11:47:17 -0800
+Subject: Re: Wireshark ax25 dissector
+To:     Richard Stearn <richard@rns-stearn.co.uk>,
+        Linux Hams <linux-hams@vger.kernel.org>
+References: <20220301173317.AF98C28A6C6@yagi.h-net.msu.edu>
+ <621F8677.3000008@rns-stearn.co.uk>
+From:   David Ranch <dranch@trinnet.net>
+Message-ID: <ad99bc17-9a89-9524-b7d8-81a4582e0380@trinnet.net>
+Date:   Wed, 2 Mar 2022 11:47:17 -0800
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net: hamradio: fix compliation error
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164624401128.29389.5358685462275620570.git-patchwork-notify@kernel.org>
-Date:   Wed, 02 Mar 2022 18:00:11 +0000
-References: <1646203277-83159-1-git-send-email-wangqing@vivo.com>
-In-Reply-To: <1646203277-83159-1-git-send-email-wangqing@vivo.com>
-To:     Qing Wang <wangqing@vivo.com>
-Cc:     jreuter@yaina.de, davem@davemloft.net, kuba@kernel.org,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+In-Reply-To: <621F8677.3000008@rns-stearn.co.uk>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Wed, 02 Mar 2022 11:47:17 -0800 (GMT+8)
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        NICE_REPLY_A,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,28 +42,41 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
 
-This patch was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+Hello Richard,
 
-On Tue,  1 Mar 2022 22:41:14 -0800 you wrote:
-> From: Wang Qing <wangqing@vivo.com>
-> 
-> add missing ")" which caused by previous commit.
-> 
-> Link: https://lore.kernel.org/all/1646018012-61129-1-git-send-email-wangqing@vivo.com/
-> Signed-off-by: Wang Qing <wangqing@vivo.com>
-> 
-> [...]
+Ah... I think I understand now and this more of an AX-IP filter and not 
+a standard AX.25 callsign filter.  I guess the more appropriate filter 
+name should be "ax25.srcmac"?
 
-Here is the summary with links:
-  - net: hamradio: fix compliation error
-    https://git.kernel.org/netdev/net-next/c/a577223a97df
+--David
+KI6ZHD
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
 
+On 03/02/2022 07:00 AM, Richard Stearn wrote:
+> Dennis Boone wrote:
+>
+>> I'm having trouble getting Wireshark's ax25 dissector to process
+>> callsign filters properly.  I can't get _anything_ to match. I've tried
+>> expressions like:
+>
+> The ax25 dissector never had the ability to filter on a callsign in 
+> the form <CALL>-<SSID> it has always used the builtin filter primitives.
+>
+> See "man wireshark-filter"
+>
+> So to filter on KB8ZQZ you would use:
+>
+>     ax25.src[0:6] == 97:85:71:B5:A3:B5
+>
+> to filter on the source address or
+>
+>     ax25.dst[0:6] == 97:85:71:B5:A3:B5
+>
+> You can find the hexadecimal in the AX.25 line in brackets after the
+> callsign.
+>
+> So it is not a bug per se.  More of the point at which I had to abandon
+> development due to ill health.
+>
 
