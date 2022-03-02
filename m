@@ -2,170 +2,140 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6C484CAF0D
-	for <lists+linux-hams@lfdr.de>; Wed,  2 Mar 2022 20:51:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3142B4CAF70
+	for <lists+linux-hams@lfdr.de>; Wed,  2 Mar 2022 21:09:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235127AbiCBTwG (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 2 Mar 2022 14:52:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37696 "EHLO
+        id S229651AbiCBUJo (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 2 Mar 2022 15:09:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231847AbiCBTwG (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 2 Mar 2022 14:52:06 -0500
-Received: from trinity3.trinnet.net (trinity.trinnet.net [96.78.144.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7467BD95CF
-        for <linux-hams@vger.kernel.org>; Wed,  2 Mar 2022 11:51:22 -0800 (PST)
-Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
-        by trinity3.trinnet.net (TrinityOS Hardened/TrinityOS Hardened) with ESMTP id 222JpEjv023096;
-        Wed, 2 Mar 2022 11:51:15 -0800
-Subject: Re: [PATCH] libax25 hamradio: higher baud rate support
-To:     John Paul Morrison <jmorrison@bogomips.com>,
-        Thomas Osterried <thomas@osterried.de>
-References: <CAO-kYtEhzohMYgk=K_jt0hQ+bdrmReUVBkAzMYTKJeAK9vcenQ@mail.gmail.com>
- <440dc67d-55a2-64c0-bbdf-68b17b404fc5@trinnet.net>
- <71048B17-B84D-4801-AD45-593EED882778@osterried.de>
- <CAO-kYtHdNA+EVCV-aFJn48602LXH_C9dWn46tXur56KBps7R6Q@mail.gmail.com>
-Cc:     linux-hams@vger.kernel.org
-From:   David Ranch <linux-hams@trinnet.net>
-Message-ID: <46227873-e869-ca2f-9d52-2dc7c9bff614@trinnet.net>
-Date:   Wed, 2 Mar 2022 11:51:14 -0800
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        with ESMTP id S229603AbiCBUJn (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 2 Mar 2022 15:09:43 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1EC426DB
+        for <linux-hams@vger.kernel.org>; Wed,  2 Mar 2022 12:08:56 -0800 (PST)
+Received: from rns-stearn.co.uk ([51.148.159.8]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.163]) with ESMTPSA (Nemesis) id
+ 1MAtoX-1nVqqk3A8f-00BMgl for <linux-hams@vger.kernel.org>; Wed, 02 Mar 2022
+ 21:03:51 +0100
+Received: from [192.168.32.6] (IDENT:1000@ux5.g1sog [192.168.32.6])
+        by ux4.g1sog (8.15.2/8.15.2) with ESMTP id 222K3lHP006749;
+        Wed, 2 Mar 2022 20:03:48 GMT
+Message-ID: <621FCDA3.9030908@rns-stearn.co.uk>
+Date:   Wed, 02 Mar 2022 20:03:47 +0000
+From:   Richard Stearn <richard@rns-stearn.co.uk>
+Organization: Someday
+User-Agent: Thunderbird 2.0.0.18 (X11/20081105)
 MIME-Version: 1.0
-In-Reply-To: <CAO-kYtHdNA+EVCV-aFJn48602LXH_C9dWn46tXur56KBps7R6Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+To:     Linux Hams <linux-hams@vger.kernel.org>
+Subject: Re: Wireshark ax25 dissector
+References: <20220301173317.AF98C28A6C6@yagi.h-net.msu.edu> <621F8677.3000008@rns-stearn.co.uk> <ad99bc17-9a89-9524-b7d8-81a4582e0380@trinnet.net>
+In-Reply-To: <ad99bc17-9a89-9524-b7d8-81a4582e0380@trinnet.net>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Wed, 02 Mar 2022 11:51:15 -0800 (GMT+8)
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
-        NICE_REPLY_A,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+X-Provags-ID: V03:K1:P7DBuRRhxTQykMoc4eAwOVARZni6ZHtwDbRO17SDywcLvaYTJP2
+ 67K0szJHbGtLytml8WjejLwrp27X7T+FYL7iptJsHVHAQZ+QVN+OditoMykJAZTbTOH/CI5
+ 9ivtilegVdFwXsL7cV+XG0Zgh0fQG6/vK+/S3Tmx1YiXIbbRW0tGBrJH1MNszZQnUjjZEec
+ suo0ZX1jU4GUADkgMDsjw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tfhelTQKn3Q=:tYiC/ith9ZzmbaBbqewTm9
+ NyazUd6YJnCDC0kauRmcomoBkFBnsQYdGsd8N/k44wl9NaPi+o7thlaw28Zm8mvnLJyXy/Whg
+ x7zsUxS3gYvJhw5lv3heL5JgtMGGkYbqksu+XqVJRGvwqyi/Hqh6p3A9b0EzQhCRCU1qF78Dn
+ iIHQ0EO1KEFAl0dCD+fmq5DFjQK+l9q6ATY6g9H6Wg13Qgig+wGVdOG4ERMAgfwDzoKp3MaO0
+ kbDzQcRS1g1VyVgybhCl3gk3Ijt6lhbpdEevve2tXKj7LHdGbGaJFc0X8xBlgVCDqRKS+/IA9
+ 7jZpABcJE2xJQ1i9ynYXm8wPOzTS0z0rP5rQ2IzlCtFE2ISVOqqpEcPsQhzqdO80JpoPDHdv4
+ wgk/xx9/JNzsqnTgiBH3QIQo4Wez8XD3luQsRc37PxJv9Uwgv40xOfgNZrjllaSI7cEGTTMV0
+ MOoryUdHCl3sXs8cYP+dxybn/I18kqj9lRgNGfEx97d57pjigSSKCXuJsMsY9LxTU9MnL3Cbr
+ XUnNgriKtxDE4KayHz/h7cM87P6mHjX+GA6NWICDdXQ0DTNFlnMwG4Knmj0QnazT4pbfJeO+p
+ YL3kLBk1CNYyCMKXWV3Ae7jP3ucwixhCUbEJIqgeAkVUmh5vP/mODsrz4EzRtt7xaxxwl8BwI
+ GA/1mcew28aP/ghQnJodfLu40MTY28vdl8mK5qURWMCiuaF/UK/gdaHn0sVkoeLX7RJijAGV1
+ I3LOsBLCy5JeKABr
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
+David Ranch wrote:
+> 
+> Hello Richard,
+> 
+> Ah... I think I understand now and this more of an AX-IP filter and not 
+> a standard AX.25 callsign filter.  I guess the more appropriate filter 
+> name should be "ax25.srcmac"?
 
-Hello Jon,
+It is applying the filter to the ax25.src fields but the callsign parser that 
+should convert an ax25 callsign to the bit pattern for comparison is incomplete
+so only a hexadecimal comparison field can be used.
 
-Regarding your performance issue, there is one or more known AXIP bugs 
-in the kernel today that either drops packets or creates duplicate 
-packets.  Search the email archives here on this list to see those 
-discussions but I don't believe there are any workarounds or patches 
-available at this time.
+in epan/ftypes/ftype-bytes.c the following function in incomplete:
 
---David
-KI6ZHD
+static gboolean
+ax25_from_unparsed(fvalue_t *fv, const char *s, gboolean allow_partial_value, 
+LogFunc logfunc)
+{
+         /*
+          * Don't log a message if this fails; we'll try looking it
+          * up as another way if it does, and if that fails,
+          * we'll log a message.
+          */
+         if (bytes_from_unparsed(fv, s, TRUE, NULL)) {
+                 if (fv->value.bytes->len > FT_AX25_ADDR_LEN) {
+                         logfunc("\"%s\" contains too many bytes to be a valid 
+AX.25 address.",
+                             s);
+                         return FALSE;
+                 }
+                 else if (fv->value.bytes->len < FT_AX25_ADDR_LEN && 
+!allow_partial_value) {
+                         logfunc("\"%s\" contains too few bytes to be a valid 
+AX.25 address.",
+                             s);
+                         return FALSE;
+                 }
+
+                 return TRUE;
+         }
+
+         /*
+          * XXX - what needs to be done here is something such as:
+          *
+          * Look for a "-" in the string.
+          *
+          * If we find it, make sure that there are 1-6 alphanumeric
+          * ASCII characters before it, and that there are 2 decimal
+          * digits after it, from 00 to 15; if we don't find it, make
+          * sure that there are 1-6 alphanumeric ASCII characters
+          * in the string.
+          *
+          * If so, make the first 6 octets of the address the ASCII
+          * characters, with lower-case letters mapped to upper-case
+          * letters, shifted left by 1 bit, padded to 6 octets with
+          * spaces, also shifted left by 1 bit, and, if we found a
+          * "-", convert what's after it to a number and make the 7th
+          * octet the number, shifted left by 1 bit, otherwise make the
+          * 7th octet zero.
+          *
+          * We should also change all the comparison functions for
+          * AX.25 addresses check the upper 7 bits of all but the last
+          * octet of the address, ignoring the "end of address" bit,
+          * and compare only the 4 bits above the low-order bit for
+          * the last octet, ignoring the "end of address" bit and
+          * various reserved bits and bits used for other purposes.
+          *
+          * See section 3.12 "Address-Field Encoding" of the AX.25
+          * spec and
+          *
+          * 
+http://www.itu.int/ITU-R/terrestrial/docs/fixedmobile/fxm-art19-sec3.pdf
+          */
+         logfunc("\"%s\" is not a valid AX.25 address.", s);
+         return FALSE;
+}
 
 
-On 03/02/2022 08:42 AM, John Paul Morrison wrote:
-> Thanks Thomas
->
-> B4000000 is currently the highest in termbits.h and __MAX_BAUD defined
-> in termios-baud.h so should be enough for now.
->
-> Linux can handle non standard bit rates so it would be better to warn
-> instead of fail - I could work on a patch if you think it's a good
-> idea.
->
-> Right now I'm testing some USB RS485 adapters - I have four computers
-> "networked" over a single twisted pair RS485 bus.
-> I have some MAX485 boards for Arduino that I'll try connecting to an
-> MCU at some point.
->
-> The USB adapters are CH341 based and quite inexpensive to play with.
-> RS485 just needs a single pair and some ICs can combine it with low
-> voltage DC power.
->
-> ping/ssh is alright but iperf3 bogs down even at 1.5 Mbps. Even when
-> ping is 100% success rate, you can see the ax0 interface errors
-> increase - I think mainly because RS485 is half duplex and I don't
-> think KISS handles buffering and CSMA/CD.  Errors went down when I
-> terminated each end of the bus with a few resistors.
-> If I have time I'll see if I can get a soft "TNC" for RS485 working.
->
->
-> John Paul
-> VE7JPM
->
->
-> On Wed, Mar 2, 2022 at 1:26 AM Thomas Osterried <thomas@osterried.de> wrote:
->>
->> Hello,
->>
->> I see no problems with this feature request.
->>
->> What is the use case? - attach two computers with AX-25 over usb-serial?
->>
->> The last change of the speed rates here is long time ago (I hardly remember), where >350kBit PR equipment was developed.
->> Nowadays, most people connect two computers via ethernet - so they have the best of two worlds, IP, and do AX.25 with bpether.
->>
->> I'll add the patch. But please be a bit pations. Like to look for the speed rate definition (if 4000000 is enough ;)))
->>
->> vy 73,
->>   - Thomas  dl9sau
->>
->>> Am 01.03.2022 um 16:54 schrieb David Ranch <linux-hams@trinnet.net>:
->>>
->>>
->>> Maybe there is no harm in allowing such speeds to be configured but what kiss-capable AX.25 serial devices can support such serial speeds?  Maybe just back to back serial port connected Linux computers?
->>>
->>> --David
->>> KI6ZHD
->>>
->>>
->>> On 02/28/2022 10:46 AM, John Paul Morrison wrote:
->>>> The kissattach program rejects valid baud rates in /etc/ax25/axports
->>>> so I updated libax25
->>>>
->>>> I tested on x86_64 and armv7l (Raspberry Pi)  up to 1.5 Mbps
->>>>
->>>> VE7JPM
->>>>
->>>>
->>>> Signed-off-by: John Paul Morrison<jmorrison@bogomips.com>
->>>> ---
->>>>
->>>> diff --git a/ttyutils.c b/ttyutils.c
->>>> index a374103..981d630 100644
->>>> --- a/ttyutils.c
->>>> +++ b/ttyutils.c
->>>> @@ -32,6 +32,36 @@ static struct speed_struct {
->>>>  #endif
->>>>  #ifdef  B460800
->>>>   {460800, B460800},
->>>> +#endif
->>>> +#ifdef  B500000
->>>> + {500000, B500000},
->>>> +#endif
->>>> +#ifdef  B921600
->>>> + {921600, B921600},
->>>> +#endif
->>>> +#ifdef  B1000000
->>>> + {1000000, B1000000},
->>>> +#endif
->>>> +#ifdef  B1152000
->>>> + {1152000, B1152000},
->>>> +#endif
->>>> +#ifdef  B1500000
->>>> + {1500000, B1500000},
->>>> +#endif
->>>> +#ifdef  B2000000
->>>> + {2000000, B2000000},
->>>> +#endif
->>>> +#ifdef  B2500000
->>>> + {2500000, B2500000},
->>>> +#endif
->>>> +#ifdef  B3000000
->>>> + {3000000, B3000000},
->>>> +#endif
->>>> +#ifdef  B3500000
->>>> + {1000000, B3500000},
->>>> +#endif
->>>> +#ifdef  B4000000
->>>> + {4000000, B4000000},
->>>>  #endif
->>>>   {-1, B0}
->>>>  };
->>>
->>>
->>
+-- 
+Regards
+	Richard
