@@ -2,36 +2,37 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BAEC74CEBE2
-	for <lists+linux-hams@lfdr.de>; Sun,  6 Mar 2022 15:23:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 924F04CEC6E
+	for <lists+linux-hams@lfdr.de>; Sun,  6 Mar 2022 18:14:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231873AbiCFOYM (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 6 Mar 2022 09:24:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42866 "EHLO
+        id S231196AbiCFRPp (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sun, 6 Mar 2022 12:15:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbiCFOYL (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 6 Mar 2022 09:24:11 -0500
-X-Greylist: delayed 302 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 06 Mar 2022 06:23:18 PST
-Received: from mail.blackspace.at (ham.blackspace.at [78.46.20.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D18AF49C99
-        for <linux-hams@vger.kernel.org>; Sun,  6 Mar 2022 06:23:18 -0800 (PST)
-Received: from [192.168.43.232] (84-20-185-171.static.highway.a1.net [84.20.185.171])
-        by mail.blackspace.at (Postfix) with ESMTPSA id 86E2D1F72050
-        for <linux-hams@vger.kernel.org>; Sun,  6 Mar 2022 15:18:15 +0100 (CET)
-Message-ID: <e037cff4-87fa-ce95-438d-66be0754c6b2@blackspace.at>
-Date:   Sun, 6 Mar 2022 15:18:14 +0100
+        with ESMTP id S229445AbiCFRPo (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sun, 6 Mar 2022 12:15:44 -0500
+Received: from trinity3.trinnet.net (trinity.trinnet.net [96.78.144.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8A0CE53B7A
+        for <linux-hams@vger.kernel.org>; Sun,  6 Mar 2022 09:14:52 -0800 (PST)
+Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
+        by trinity3.trinnet.net (TrinityOS Hardened/TrinityOS Hardened) with ESMTP id 226HEmbr020991;
+        Sun, 6 Mar 2022 09:14:48 -0800
+Subject: Re: Kernel freeze on killall kissattach
+To:     Roland Schwarz <roland.schwarz@blackspace.at>,
+        linux-hams@vger.kernel.org
+References: <e037cff4-87fa-ce95-438d-66be0754c6b2@blackspace.at>
+From:   David Ranch <linux-hams@trinnet.net>
+Message-ID: <ca12cec2-3301-2926-f04a-cf8103af72e8@trinnet.net>
+Date:   Sun, 6 Mar 2022 09:14:48 -0800
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-US
-From:   Roland Schwarz <roland.schwarz@blackspace.at>
-To:     linux-hams@vger.kernel.org
-Subject: Kernel freeze on killall kissattach
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------x3QazEQYJmm5xqj5GHTRpUCv"
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
+In-Reply-To: <e037cff4-87fa-ce95-438d-66be0754c6b2@blackspace.at>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Sun, 06 Mar 2022 09:14:48 -0800 (GMT+8)
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_05,KHOP_HELO_FCRDNS,
+        NICE_REPLY_A,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -39,68 +40,78 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------x3QazEQYJmm5xqj5GHTRpUCv
-Content-Type: multipart/mixed; boundary="------------H0kwL4I6S8TAVjHbZ77qfYzz";
- protected-headers="v1"
-From: Roland Schwarz <roland.schwarz@blackspace.at>
-To: linux-hams@vger.kernel.org
-Message-ID: <e037cff4-87fa-ce95-438d-66be0754c6b2@blackspace.at>
-Subject: Kernel freeze on killall kissattach
 
---------------H0kwL4I6S8TAVjHbZ77qfYzz
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Hello Roland,
 
-RGVhciBBbGwsDQoNCnBsZWFzZSBjb3JyZWN0IG1lIGlmIEkgYW0gd3JvbmcsIGJ1dCBhcyBJ
-IHVuZGVyc3RhbmQgaXQgc2hvdWxkIG5vdCBiZSANCnBvc3NpYmxlIHRvIHRyaWdnZXIgYSBr
-ZXJuZWwgZnJlZXplIGJ5IGp1c3Qga2lsbGluZyB1c2VyIHNwYWNlIHByb2Nlc3Nlcy4NCg0K
-V2hpbGUgdHJ5aW5nIHRvIHVuZGVyc3RhbmQgYSBjZXJ0YWluIGJlaGF2aW9yIG9mIHRoZSBh
-eDI1IGRyaXZlciBJIGNhbWUgDQp1cCB3aXRoIGEgc21hbGwgdGVzdCBjYXNlIHdoaWNoIEkg
-cmFuIGluIGEgdmlydHVhbCBtYWNoaW5lIChLVk0pOg0KDQpGaXJzdCBJIHRyaWVkIHdpdGgg
-YSBrZXJuZWwgZnJvbSBMaW51cyB0cmVlOg0KDQp1bmFtZSAtcg0KNS4xNy4wLXJjNisNCg0K
-Y2F0IC9ldGMvYXgyNS9heHBvcnRzDQpheDAgICAgIE9FMVJTQS0wICAgICAgICAxMTUyMDAg
-IDI1NSAgICAgNyAgICAgICBUZXN0IEENCmF4MSAgICAgT0UxUlNBLTEgICAgICAgIDExNTIw
-MCAgMjU1ICAgICA3ICAgICAgIFRlc3QgQg0KDQpzdWRvIGtpc3NhdHRhY2ggL2Rldi9wdG14
-IGF4MA0KQVguMjUgcG9ydCBheDAgYm91bmQgdG8gZGV2aWNlIGF4MA0KQXdhaXRpbmcgY2xp
-ZW50IGNvbm5lY3RzIG9uDQovZGV2L3B0cy8xDQoNCnN1ZG8ga2lzc2F0dGFjaCAvZGV2L3B0
-cy8xIGF4MQ0KQVguMjUgcG9ydCBheDEgYm91bmQgdG8gZGV2aWNlIGF4MQ0KDQpheGNhbGwg
-YXgxIE9FMVJTQS0wDQoNCk5vdyBpbiBhIHNlY29uZCB0ZXJtaW5hbDoNCnN1ZG8ga2lsbGFs
-bCBraXNzYXR0YWNoDQoNCkZpcnN0IHRlcm1pbmFsOg0KR1c0UFRTIEFYLjI1IENvbm5lY3Qg
-djEuMTENClRyeWluZy4uLg0KKioqIENvbm5lY3RlZCB0byBPRTFSU0EtMA0KKioqIENsZWFy
-ZWQNCg0KPT0+IEJ1dDogS2VybmVsIGZyZWV6ZXMNCg0KSSBjYW4gc2VlIHRoaXMgYmVoYXZp
-b3VyIGFsc28gaW4gdGhlIGRlYmlhbiBrZXJuZWw6DQoNCnVuYW1lIC1yDQo1LjEwLjAtMTEt
-YW1kNjQNCg0KVGhpcyBrZXJuZWwgYWxzbyBmcmVlemVzLiBJIHN1c3BlY3QgdGhpcyB0byBi
-ZSBhIGJ1ZyBiZWNhdXNlIGlmIEkgdHJ5IHRvIA0KcmVib290IHRoZSBtYWNoaW5lIGluc3Rl
-YWQgb2YgdGhlIGtpbGxhbGwgY29tbWFuZCB0aGUgbWFjaGluZSBkb2VzIG5vdCANCnNodXQg
-b2ZmIGFuZCByZWJvb3Qgd2hpY2ggaXMgYSBwcm9ibGVtIHdpdGggYSByZW1vdGVseSBpbnN0
-YWxsZWQgc3lzdGVtLg0KDQpBbnkgaWRlYXM/DQoNCjczIGRlIFJvbGFuZCBvZTFyc2ENCg0K
-LS0gDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCiAgIF8g
-IF8gIHwgUm9sYW5kIFNjaHdhcnoNCiAgfF8pKF8gIHwNCiAgfCBcX18pIHwgbWFpbHRvOnJv
-bGFuZC5zY2h3YXJ6QGJsYWNrc3BhY2UuYXQNCl9fX19fX19ffCBodHRwOi8vd3d3LmJsYWNr
-c3BhY2UuYXQNCg==
+You're correct, a Linux machine should never crash.  Would it be 
+possible for you to take a screen capture of the CONSOLE screen of the 
+machine you kill kissattach on?  To get to this view (depending on your 
+Linux distribution), you would hit the control-alt-F1 key or say 
+control-alt-F3 on say Ubuntu 20.04 to see a text only login console 
+(VTY).  At that point, remotely log into the machine running kissattach 
+via SSH and then kill the kissattach process.
 
---------------H0kwL4I6S8TAVjHbZ77qfYzz--
+After you can observe the kernel panic screen in the text CLI view, you 
+will need to enable kernel panic debugging.  One example of this for 
+u20.04 is here:
 
---------------x3QazEQYJmm5xqj5GHTRpUCv
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+    https://ubuntu.com/server/docs/kernel-crash-dump
 
------BEGIN PGP SIGNATURE-----
+--David
+KI6ZHD
 
-wsF5BAABCAAjFiEELmDUtkkUQD99pU+KklFj+hFsiUgFAmIkwqYFAwAAAAAACgkQklFj+hFsiUgi
-xxAAqQK+EpoLCi7LN9B6g0cersCbluY8WZ6N7HqHav/hlrmw1SlRvcPwAxW0/Nu+WBe0XJ3yuGHC
-518Zq8PRy1lDne+P8OxP7WmUFEptO/npEV6oleyH8clXbf2FE3WVeNTayecCElSS6q/LPThuZVFO
-0iYzqZ2VefIoOSQ2icGOXdFi7JB+TKm4pRCQG3wOnj0G694QDVegfRmJk9GNjn8dHnlwfIVdeWGi
-6mSsZenICtlR9VcGCOAdtrIf/hGl2Eg5O4D8sLyxiyN3woKlbBIOIW7T/eH3cpVAzBZ7oXErn/ha
-IkvcBCNcs0S2gSdZP5NV0J5zcnobTs9BLH2l8b46DN+sFTDA5/FjkoK3MggxFzIKAZC9YR/wtoPL
-fFMmgHQxxEzjM3vaIk2Yx8qaa8WWZAJs/Nzf6vuai+Taoi7B+V+rhjLp9SZKfu9pFVaWR4t+6pgN
-Zt/R4gqtxH6SephkQ80ckZBCqxsgKO5GidJ1mh5BHJC9TQ4WJw8IzZO2T2Gosqp2V8vL70sT31fl
-IReHrHMDxoo+qumM5ZK+01Wk0FfjCQUCUKis26aGQlVEXhwHMTcxzphleXUFHx8zlHulm6bnQulX
-bPldAH+pxyAgfwSGiumk55/kQC8CtlFpbkcu4EFc96EVBCqnXcxr5+dzuidIsTJCE1UHcC7EG1Xz
-W7s=
-=+8Kb
------END PGP SIGNATURE-----
 
---------------x3QazEQYJmm5xqj5GHTRpUCv--
+On 03/06/2022 06:18 AM, Roland Schwarz wrote:
+> Dear All,
+>
+> please correct me if I am wrong, but as I understand it should not be 
+> possible to trigger a kernel freeze by just killing user space processes.
+>
+> While trying to understand a certain behavior of the ax25 driver I 
+> came up with a small test case which I ran in a virtual machine (KVM):
+>
+> First I tried with a kernel from Linus tree:
+>
+> uname -r
+> 5.17.0-rc6+
+>
+> cat /etc/ax25/axports
+> ax0     OE1RSA-0        115200  255     7       Test A
+> ax1     OE1RSA-1        115200  255     7       Test B
+>
+> sudo kissattach /dev/ptmx ax0
+> AX.25 port ax0 bound to device ax0
+> Awaiting client connects on
+> /dev/pts/1
+>
+> sudo kissattach /dev/pts/1 ax1
+> AX.25 port ax1 bound to device ax1
+>
+> axcall ax1 OE1RSA-0
+>
+> Now in a second terminal:
+> sudo killall kissattach
+>
+> First terminal:
+> GW4PTS AX.25 Connect v1.11
+> Trying...
+> *** Connected to OE1RSA-0
+> *** Cleared
+>
+> ==> But: Kernel freezes
+>
+> I can see this behaviour also in the debian kernel:
+>
+> uname -r
+> 5.10.0-11-amd64
+>
+> This kernel also freezes. I suspect this to be a bug because if I try 
+> to reboot the machine instead of the killall command the machine does 
+> not shut off and reboot which is a problem with a remotely installed 
+> system.
+>
+> Any ideas?
+>
+> 73 de Roland oe1rsa
+>
+
