@@ -2,36 +2,36 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A42EA4D316E
-	for <lists+linux-hams@lfdr.de>; Wed,  9 Mar 2022 16:06:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5795C4D3D58
+	for <lists+linux-hams@lfdr.de>; Thu, 10 Mar 2022 00:00:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233651AbiCIPHd (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 9 Mar 2022 10:07:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53222 "EHLO
+        id S230021AbiCIXBj (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 9 Mar 2022 18:01:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231591AbiCIPHd (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 9 Mar 2022 10:07:33 -0500
-Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EC28A17E35D;
-        Wed,  9 Mar 2022 07:06:29 -0800 (PST)
+        with ESMTP id S229940AbiCIXBj (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 9 Mar 2022 18:01:39 -0500
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B691AC7920;
+        Wed,  9 Mar 2022 15:00:35 -0800 (PST)
 Received: from ubuntu.localdomain (unknown [10.15.192.164])
-        by mail-app2 (Coremail) with SMTP id by_KCgCXn3thwihiy+U3AA--.54686S2;
-        Wed, 09 Mar 2022 23:06:12 +0800 (CST)
+        by mail-app2 (Coremail) with SMTP id by_KCgDXTnqGMSlinS07AA--.50493S2;
+        Thu, 10 Mar 2022 07:00:26 +0800 (CST)
 From:   Duoming Zhou <duoming@zju.edu.cn>
 To:     linux-hams@vger.kernel.org
 Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
         jreuter@yaina.de, kuba@kernel.org, davem@davemloft.net,
         ralf@linux-mips.org, thomas@osterried.de,
         Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH] ax25: Fix memory leaks caused by ax25_cb_del()
-Date:   Wed,  9 Mar 2022 23:06:08 +0800
-Message-Id: <20220309150608.112090-1-duoming@zju.edu.cn>
+Subject: [PATCH V2] ax25: Fix refcount leaks caused by ax25_cb_del()
+Date:   Thu, 10 Mar 2022 07:00:20 +0800
+Message-Id: <20220309230020.125785-1-duoming@zju.edu.cn>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: by_KCgCXn3thwihiy+U3AA--.54686S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGFWktrW3ZrW8CryrGryrXrb_yoWrWr4DpF
-        W8uay5ArZrtr1ruF48Gr97WF18A34DK39xGFy5ZFyIka47Jwn5JrWft3yUJFy3JrZ5JF48
-        X347Ww48Zr4DuFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUka1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+X-CM-TRANSID: by_KCgDXTnqGMSlinS07AA--.50493S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGw1UZr4xZrWkKF1UCw1fCrg_yoWrWFWDpF
+        W0kay5ArZrtr1ruF48Gr97WF18A34q939xGFy5Za4Ika43Jwn5JrWrt3yUJFy3JrZ5JF48
+        X347Ww4xZr4DuFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkI1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
         w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
         IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
         z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
@@ -42,8 +42,8 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxGFWktrW3ZrW8CryrGryrXrb_yoWrWr4DpF
         18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vI
         r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
         1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
-        x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgMDAVZdtYkSWQAHs4
+        x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgMDAVZdtYkSWQAJs2
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
@@ -57,8 +57,8 @@ The previous commit d01ffb9eee4a ("ax25: add refcount in ax25_dev to
 avoid UAF bugs") and commit feef318c855a ("ax25: fix UAF bugs of
 net_device caused by rebinding operation") increase the refcounts of
 ax25_dev and net_device in ax25_bind() and decrease the matching refcounts
-in ax25_kill_by_device() in order to prevent UAF bugs. But there are memory
-leaks.
+in ax25_kill_by_device() in order to prevent UAF bugs. But there are
+reference count leaks.
 
 If we use ax25_bind() to increase the refcounts of ax25_dev and
 net_device, then, use ax25_cb_del() invoked by ax25_destroy_socket()
@@ -66,16 +66,19 @@ to delete ax25_cb in hlist before calling ax25_kill_by_device(), the
 decrements of refcounts in ax25_kill_by_device() will not be executed,
 because ax25_cb is deleted from the hlist.
 
-This patch adds two flags in ax25_dev in order to prevent memory leaks.
-If we bind successfully, then, use ax25_cb_del() to delete ax25_cb,
-the two "test_bit" condition checks in ax25_kill_by_device() could
-pass and the refcounts could be decreased properly.
+This patch adds two flags in ax25_dev in order to prevent reference
+count leaks. If we bind successfully, then, use ax25_cb_del() to
+delete ax25_cb, the two "test_bit" condition checks in ax25_kill_by_device()
+could pass and the refcounts could be decreased properly.
 
 Fixes: d01ffb9eee4a ("ax25: add refcount in ax25_dev to avoid UAF bugs")
 Fixes: feef318c855a ("ax25: fix UAF bugs of net_device caused by rebinding operation")
 Reported-by: Thomas Osterried <thomas@osterried.de>
 Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 ---
+Changes in V2:
+  - Change memory leak to refcount leak.
+
  include/net/ax25.h  |  7 +++++--
  net/ax25/af_ax25.c  | 10 ++++++----
  net/ax25/ax25_dev.c |  3 ++-
