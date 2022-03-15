@@ -2,48 +2,49 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 486184D9222
-	for <lists+linux-hams@lfdr.de>; Tue, 15 Mar 2022 02:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B7844D9256
+	for <lists+linux-hams@lfdr.de>; Tue, 15 Mar 2022 02:54:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238864AbiCOBQR (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 14 Mar 2022 21:16:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39764 "EHLO
+        id S237116AbiCOBza (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 14 Mar 2022 21:55:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238261AbiCOBQR (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 14 Mar 2022 21:16:17 -0400
+        with ESMTP id S232835AbiCOBza (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 14 Mar 2022 21:55:30 -0400
 Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CCEDB2C102;
-        Mon, 14 Mar 2022 18:15:03 -0700 (PDT)
-Received: by ajax-webmail-mail-app4 (Coremail) ; Tue, 15 Mar 2022 09:14:46
- +0800 (GMT+08:00)
-X-Originating-IP: [10.190.64.209]
-Date:   Tue, 15 Mar 2022 09:14:46 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   =?UTF-8?B?5ZGo5aSa5piO?= <duoming@zju.edu.cn>
-To:     "Dan Carpenter" <dan.carpenter@oracle.com>
-Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, jreuter@yaina.de, kuba@kernel.org,
-        davem@davemloft.net, ralf@linux-mips.org, thomas@osterried.de
-Subject: Re: Re: Re: [PATCH V3] ax25: Fix refcount leaks caused by
- ax25_cb_del()
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <20220314110256.GL3293@kadam>
-References: <20220311014624.51117-1-duoming@zju.edu.cn>
- <20220311105344.GI3293@kadam>
- <4364e68e.77f.17f81875881.Coremail.duoming@zju.edu.cn>
- <20220314110256.GL3293@kadam>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
-MIME-Version: 1.0
-Message-ID: <5bf6c167.1ed9.17f8b244e74.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cS_KCgCHTrCG6C9itk0NAA--.1042W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAg4KAVZdtYrGSAABs8
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9D60955B3;
+        Mon, 14 Mar 2022 18:54:17 -0700 (PDT)
+Received: from ubuntu.localdomain (unknown [10.15.192.164])
+        by mail-app2 (Coremail) with SMTP id by_KCgCHbwK98S9iU9IPAA--.718S2;
+        Tue, 15 Mar 2022 09:54:09 +0800 (CST)
+From:   Duoming Zhou <duoming@zju.edu.cn>
+To:     linux-hams@vger.kernel.org
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kuba@kernel.org, davem@davemloft.net, ralf@linux-mips.org,
+        jreuter@yaina.de, dan.carpenter@oracle.com, thomas@osterried.de,
+        Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH net V4 1/2] ax25: Fix refcount leaks caused by ax25_cb_del()
+Date:   Tue, 15 Mar 2022 09:54:03 +0800
+Message-Id: <20220315015403.79201-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: by_KCgCHbwK98S9iU9IPAA--.718S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGw1Uur4DKw15Cw18JF43Jrb_yoW5CF1DpF
+        WUtF4rJrZ7tFs5Crs8W34xWF1rZr4j9393Gr1Yva4Ik3s8Jas5J34xtryUtrW3JFZ8JF48
+        Xw17W3WfAF1kuF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvm1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWl84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+        Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IY
+        c2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r
+        4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
+        67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+        x0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
+        z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
+        UI43ZEXa7VUbXdbUUUUUU==
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgwKAVZdtYrI6AAAsR
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
@@ -53,95 +54,98 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-SGVsbG8sCgpPbiBNb24sIDE0IE1hciAyMDIyIDE0OjAyOjU2ICswMzAwLCBEYW4gQ2FycGVuIHdy
-b3RlOgoKPiA+ID4gQnV0IGV2ZW4gaGVyZSwgbXkgaW5zdGluY3QgaXMgdGhhdCBpZiB0aGUgcmVm
-Y291bnRpbmcgaXMgd2VyZSBkb25lIGluCj4gPiA+IHRoZSBjb3JyZWN0IHBsYWNlIHdlIHdvdWxk
-IG5vdCBuZWVkIGFueSBhZGRpdGlvbmFsIHZhcmlhYmxlcy4gIElzIHRoZXJlCj4gPiA+IG5vIHNp
-bXBsZXIgc29sdXRpb24/CgpJIHRoaW5rIHRoZXJlIGlzIGEgc2ltcGxlciBzb2x1dGlvbiBpbnN0
-ZWFkIG9mIHVzaW5nIGFueSBhZGRpdGlvbmFsIHZhcmlhYmxlcywKd2hpY2ggaXMgc2hvd24gYmVs
-b3c6CgpkaWZmIC0tZ2l0IGEvbmV0L2F4MjUvYWZfYXgyNS5jIGIvbmV0L2F4MjUvYWZfYXgyNS5j
-CmluZGV4IDZiZDA5NzE4MDc3Li4wODg2MTA5NDIxYSAxMDA2NDQKLS0tIGEvbmV0L2F4MjUvYWZf
-YXgyNS5jCisrKyBiL25ldC9heDI1L2FmX2F4MjUuYwpAQCAtOTgsOCArOTgsMTAgQEAgc3RhdGlj
-IHZvaWQgYXgyNV9raWxsX2J5X2RldmljZShzdHJ1Y3QgbmV0X2RldmljZSAqZGV2KQogCQkJc3Bp
-bl91bmxvY2tfYmgoJmF4MjVfbGlzdF9sb2NrKTsKIAkJCWxvY2tfc29jayhzayk7CiAJCQlzLT5h
-eDI1X2RldiA9IE5VTEw7Ci0JCQlkZXZfcHV0X3RyYWNrKGF4MjVfZGV2LT5kZXYsICZheDI1X2Rl
-di0+ZGV2X3RyYWNrZXIpOwotCQkJYXgyNV9kZXZfcHV0KGF4MjVfZGV2KTsKKwkJCWlmIChzay0+
-c2tfd3EpIHsKKwkJCQlkZXZfcHV0X3RyYWNrKGF4MjVfZGV2LT5kZXYsICZheDI1X2Rldi0+ZGV2
-X3RyYWNrZXIpOworCQkJCWF4MjVfZGV2X3B1dChheDI1X2Rldik7CisJCQl9CiAJCQlheDI1X2Rp
-c2Nvbm5lY3QocywgRU5FVFVOUkVBQ0gpOwogCQkJcmVsZWFzZV9zb2NrKHNrKTsKIAkJCXNwaW5f
-bG9ja19iaCgmYXgyNV9saXN0X2xvY2spOwpAQCAtOTc5LDE0ICs5ODEsMjAgQEAgc3RhdGljIGlu
-dCBheDI1X3JlbGVhc2Uoc3RydWN0IHNvY2tldCAqc29jaykKIHsKIAlzdHJ1Y3Qgc29jayAqc2sg
-PSBzb2NrLT5zazsKIAlheDI1X2NiICpheDI1OworCWF4MjVfZGV2ICpheDI1X2RldjsKIAogCWlm
-IChzayA9PSBOVUxMKQogCQlyZXR1cm4gMDsKIAogCXNvY2tfaG9sZChzayk7Ci0Jc29ja19vcnBo
-YW4oc2spOwogCWxvY2tfc29jayhzayk7CisJc29ja19vcnBoYW4oc2spOwogCWF4MjUgPSBza190
-b19heDI1KHNrKTsKKwlheDI1X2RldiA9IGF4MjUtPmF4MjVfZGV2OworCWlmIChheDI1X2Rldikg
-eworCQlkZXZfcHV0X3RyYWNrKGF4MjVfZGV2LT5kZXYsICZheDI1X2Rldi0+ZGV2X3RyYWNrZXIp
-OworCQlheDI1X2Rldl9wdXQoYXgyNV9kZXYpOworCX0KIAogCWlmIChzay0+c2tfdHlwZSA9PSBT
-T0NLX1NFUVBBQ0tFVCkgewogCQlzd2l0Y2ggKGF4MjUtPnN0YXRlKSB7Cgp3ZSBhZGQgZGVjcmVt
-ZW50cyBvZiByZWZjb3VudHMgaW4gYXgyNV9yZWxlYXNlKCksIGFuZCB1c2UgbG9ja19zb2NrKCkg
-dG8gZG8gc3luY2hyb25pemF0aW9uLiAKSWYgcmVmY291bnRzIGRlY3JlYXNlIGluIGF4MjVfcmVs
-ZWFzZSgpLCB0aGUgZGVjcmVtZW50cyBvZiByZWZjb3VudHMgaW4gYXgyNV9raWxsX2J5X2Rldmlj
-ZSgpIAp3aWxsIG5vdCBiZSBleGVjdXRlZCBhbmQgdmljZSB2ZXJzYS4gCgoxLiBJZiB3ZSBkZWNy
-ZWFzZSB0aGUgcmVmY291bnRzIGluIGF4MjVfcmVsZWFzZSgpLCB0aGUgZGVjcmVtZW50cyBvZiBy
-ZWZjb3VudHMgaW4gCmF4MjVfa2lsbF9ieV9kZXZpY2UoKSB3aWxsIG5vdCBleGVjdXRlLiBCZWNh
-dXNlIHdlIHNldCBOVUxMIHRvIHNrLT5za193cSBpbiBzb2NrX29ycGhhbigpCmFuZCB3ZSBjaGVj
-ayB3aGV0aGVyIHNrLT5za193cSBpcyBOVUxMIGluIGF4MjVfa2lsbF9ieV9kZXZpY2UoKS4gT25s
-eSBwb3NpdGlvbnMgKDMpIGFuZCAoNCkKY291bGQgZXhlY3V0ZS4KCiAgICAgKFRocmVhZCAxKSAg
-ICAgICAgICAgICAgICAgICAgICB8ICAgICAgCmF4MjVfYmluZCgpICAgICAgICAgICAgICAgICAg
-ICAgICAgICB8CiAuLi4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8CiBheDI1X2Fk
-ZHJfYXgyNWRldigpICAgICAgICAgICAgICAgICB8CiAgYXgyNV9kZXZfaG9sZCgpICAgLy8oMSkg
-ICAgICAgICAgICB8CiAgLi4uICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8CiBkZXZf
-aG9sZF90cmFjaygpICAgLy8oMikgICAgICAgICAgICB8ICAgICAoVGhyZWFkIDIpCiAuLi4gICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IGF4MjVfcmVsZWFzZSgpCiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAuLi4KICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHwgICBsb2NrX3NvY2soc2spCiAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICB8ICAgc29ja19vcnBoYW4oc2spCiAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICB8ICAgICBzay0+c2tfd3EgID0gTlVMTCAvL3NldCBOVUxMCiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgLi4uCiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICB8ICAgaWYgKGF4MjVfZGV2KSB7CiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICB8ICAgIGRldl9wdXRfdHJhY2soKSAvLygzKQogICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgfCAgICBheDI1X2Rldl9wdXQoKSAvLyg0KQogICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgfAogICAgICh0aHJlYWQgMykgICAgICAgICAgICAg
-ICAgICAgICAgfApheDI1X2tpbGxfYnlfZGV2aWNlKCkgICAgICAgICAgICAgICAgfAogLi4uICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAogbG9ja19zb2NrKHNrKSAgICAgICAgICAg
-ICAgICAgICAgICAgfAogcy0+YXgyNV9kZXYgPSBOVUxMICAgICAgICAgICAgICAgICAgfAogaWYg
-KHNrLT5za193cSkgeyAvL2NoZWNrICAgICAgICAgICAgfAogIGRldl9wdXRfdHJhY2soKSAvLyg1
-KSAgICAgICAgICAgICAgfAogIGF4MjVfZGV2X3B1dCgpIC8vKDYpICAgICAgICAgICAgICAgfAoK
-CjIuIElmIHdlIGRlY3JlYXNlIHJlZmNvdW50cyBpbiBheDI1X2tpbGxfYnlfZGV2aWNlKCksIHRo
-ZSBkZWNyZW1lbnRzIG9mIHJlZmNvdW50cyAKaW4gYXgyNV9yZWxlYXNlKCkgd2lsbCBub3QgZXhl
-Y3V0ZS4gQmVjYXVzZSB3ZSBzZXQgTlVMTCB0byBzLT5heDI1X2RldiBpbiBheDI1X2tpbGxfYnlf
-ZGV2aWNlKCkKYW5kIHdlIGNoZWNrIHdoZXRoZXIgYXgyNV9kZXYgaXMgTlVMTCBpbiBheDI1X3Jl
-bGVhc2UoKS4gT25seSBwb3NpdGlvbnMgKDMpIGFuZCAoNCkKY291bGQgZXhlY3V0ZS4KCiAgICAg
-KFRocmVhZCAxKSAgICAgICAgICAgICAgICAgICAgICB8IApheDI1X2JpbmQoKSAgICAgICAgICAg
-ICAgICAgICAgICAgICAgfAogLi4uICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAog
-YXgyNV9hZGRyX2F4MjVkZXYoKSAgICAgICAgICAgICAgICAgfAogIGF4MjVfZGV2X2hvbGQoKSAg
-IC8vKDEpICAgICAgICAgICAgfAogIC4uLiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-fAogZGV2X2hvbGRfdHJhY2soKSAgIC8vKDIpICAgICAgICAgICAgfCAgICAgIChUaHJlYWQgMikK
-IC4uLiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgYXgyNV9raWxsX2J5X2Rldmlj
-ZSgpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAuLi4KICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICBsb2NrX3NvY2soc2spCiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgcy0+YXgyNV9kZXYgPSBOVUxMIC8vc2V0IE5V
-TEwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICBpZiAoc2stPnNrX3dx
-KSB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgIGRldl9wdXRfdHJh
-Y2soKSAvLygzKQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICBheDI1
-X2Rldl9wdXQoKSAvLyg0KQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAg
-ICAuLi4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKICAgICAodGhyZWFk
-IDMpICAgICAgICAgICAgICAgICAgICAgIHwKYXgyNV9yZWxlYXNlKCkgICAgICAgICAgICAgICAg
-ICAgICAgIHwKIC4uLiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKIGxvY2tfc29j
-ayhzayk7ICAgICAgICAgICAgICAgICAgICAgIHwKIHNvY2tfb3JwaGFuKHNrKTsgICAgICAgICAg
-ICAgICAgICAgIHwKIC4uLiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKIGlmIChh
-eDI1X2RldikgeyAvL2NoZWNrICAgICAgICAgICAgIHwKICBkZXZfcHV0X3RyYWNrKCkgLy8oNSkg
-ICAgICAgICAgICAgIHwKICBheDI1X2Rldl9wdXQoKSAvLyg2KSAgICAgICAgICAgICAgIHwKCj4g
-PiBJIHNlbnQgIltQQVRDSCBuZXQgVjIgMS8yXSBheDI1OiBGaXggcmVmY291bnQgbGVha3MgY2F1
-c2VkIGJ5IGF4MjVfY2JfZGVsKCkiCj4gPiBvbiBPbiBGcmksIE1hciAxMSwgMjAyMi4gQ291bGQg
-dGhpcyBwYXRjaCBzb2x2ZSB5b3VyIHF1ZXN0aW9uPwo+IAo+IEkgaGFkIGEgYnVuY2ggb2YgcXVl
-c3Rpb25zLi4uICBZb3UganVzdCBpZ25vcmVkIHRoZW0sIGFuZCBzZW50IGEgcGF0Y2gKPiBjYWxs
-ZWQgdjIgaW5zdGVhZCBvZiB2NCBzbyBJIHdhcyBwdXp6bGVkIGFuZCBjb25mdXNlZC4gSSBndWVz
-cyB0aGUKPiBhbnN3ZXIgaXMgbm8sIGNvdWxkIHlvdSBwbGVhc2UgYW5zd2VyIHRoZSBxdWVzdGlv
-bnM/CgpJIGhvcGUgbXkgYW5zd2VyIGNvdWxkIHNvbHZlIHlvdXIgcXVlc3Rpb25zLiBJZiB5b3Ug
-c3RpbGwgaGF2ZSBhbnkgcXVlc3Rpb25zCndlbGNvbWUgdG8gc2VuZCBlbWFpbCB0byBtZS4gSSB3
-aWxsIHNlbmQgIltQQVRDSCBuZXQgVjQgMS8yXSBheDI1OiBGaXgKcmVmY291bnQgbGVha3MgY2F1
-c2VkIGJ5IGF4MjVfY2JfZGVsKCkiIGFzIHNvb24gYXMgcG9zc2libGUuIAoKV2hhdGBzIG1vcmUs
-IEkgZm91bmQgTlBEIGJ1Z3MgaW4gYXgyNSB0aW1lcnMsIEkgd2lsbCBzZW5kCiJbUEFUQ0ggbmV0
-IFY0IDIvMl0gYXgyNTogRml4IE5VTEwgcG9pbnRlciBkZXJlZmVyZW5jZXMgaW4gYXgyNSB0aW1l
-cnMiIHRvZ2V0aGVyLgoKQmVzdCB3aXNoZXMsCkR1b21pbmcgWmhvdQ==
+The previous commit d01ffb9eee4a ("ax25: add refcount in ax25_dev to
+avoid UAF bugs") and commit feef318c855a ("ax25: fix UAF bugs of
+net_device caused by rebinding operation") increase the refcounts of
+ax25_dev and net_device in ax25_bind() and decrease the matching refcounts
+in ax25_kill_by_device() in order to prevent UAF bugs, but there are
+reference count leaks.
+
+The root cause of refcount leaks is shown below:
+
+     (Thread 1)                      |      (Thread 2)
+ax25_bind()                          |
+ ...                                 |
+ ax25_addr_ax25dev()                 |
+  ax25_dev_hold()   //(1)            |
+  ...                                |
+ dev_hold_track()   //(2)            |
+ ...                                 | ax25_destroy_socket()
+                                     |  ax25_cb_del()
+                                     |   ...
+                                     |   hlist_del_init() //(3)
+                                     |
+                                     |
+     (Thread 3)                      |
+ax25_kill_by_device()                |
+ ...                                 |
+ ax25_for_each(s, &ax25_list) {      |
+  if (s->ax25_dev == ax25_dev) //(4) |
+   ...                               |
+
+Firstly, we use ax25_bind() to increase the refcount of ax25_dev in
+position (1) and increase the refcount of net_device in position (2).
+Then, we use ax25_cb_del() invoked by ax25_destroy_socket() to delete
+ax25_cb in hlist in position (3) before calling ax25_kill_by_device().
+Finally, the decrements of refcounts in ax25_kill_by_device() will not
+be executed, because no s->ax25_dev equals to ax25_dev in position (4).
+
+This patch adds decrements of refcounts in ax25_release() and use
+lock_sock() to do synchronization. If refcounts decrease in ax25_release(),
+the decrements of refcounts in ax25_kill_by_device() will not be
+executed and vice versa.
+
+Fixes: d01ffb9eee4a ("ax25: add refcount in ax25_dev to avoid UAF bugs")
+Fixes: 87563a043cef ("ax25: fix reference count leaks of ax25_dev")
+Fixes: feef318c855a ("ax25: fix UAF bugs of net_device caused by rebinding operation")
+Reported-by: Thomas Osterried <thomas@osterried.de>
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+---
+Changes in V4:
+  - Add decrements of refcounts in ax25_release() instead of using any additional variables.
+
+ net/ax25/af_ax25.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+index 6bd09718077..0886109421a 100644
+--- a/net/ax25/af_ax25.c
++++ b/net/ax25/af_ax25.c
+@@ -98,8 +98,10 @@ static void ax25_kill_by_device(struct net_device *dev)
+ 			spin_unlock_bh(&ax25_list_lock);
+ 			lock_sock(sk);
+ 			s->ax25_dev = NULL;
+-			dev_put_track(ax25_dev->dev, &ax25_dev->dev_tracker);
+-			ax25_dev_put(ax25_dev);
++			if (sk->sk_wq) {
++				dev_put_track(ax25_dev->dev, &ax25_dev->dev_tracker);
++				ax25_dev_put(ax25_dev);
++			}
+ 			ax25_disconnect(s, ENETUNREACH);
+ 			release_sock(sk);
+ 			spin_lock_bh(&ax25_list_lock);
+@@ -979,14 +981,20 @@ static int ax25_release(struct socket *sock)
+ {
+ 	struct sock *sk = sock->sk;
+ 	ax25_cb *ax25;
++	ax25_dev *ax25_dev;
+ 
+ 	if (sk == NULL)
+ 		return 0;
+ 
+ 	sock_hold(sk);
+-	sock_orphan(sk);
+ 	lock_sock(sk);
++	sock_orphan(sk);
+ 	ax25 = sk_to_ax25(sk);
++	ax25_dev = ax25->ax25_dev;
++	if (ax25_dev) {
++		dev_put_track(ax25_dev->dev, &ax25_dev->dev_tracker);
++		ax25_dev_put(ax25_dev);
++	}
+ 
+ 	if (sk->sk_type == SOCK_SEQPACKET) {
+ 		switch (ax25->state) {
+-- 
+2.17.1
+
