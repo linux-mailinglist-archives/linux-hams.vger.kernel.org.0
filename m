@@ -2,41 +2,46 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B58D34DA624
-	for <lists+linux-hams@lfdr.de>; Wed, 16 Mar 2022 00:15:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BA464DA94F
+	for <lists+linux-hams@lfdr.de>; Wed, 16 Mar 2022 05:33:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348841AbiCOXQn convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hams@lfdr.de>); Tue, 15 Mar 2022 19:16:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57430 "EHLO
+        id S1353540AbiCPEej (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 16 Mar 2022 00:34:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236985AbiCOXQn (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 15 Mar 2022 19:16:43 -0400
-Received: from yagi.h-net.msu.edu (yagi.h-net.msu.edu [35.9.18.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 63D6646644
-        for <linux-hams@vger.kernel.org>; Tue, 15 Mar 2022 16:15:30 -0700 (PDT)
-Received: from yagi.h-net.org (unknown [127.0.0.1])
-        by yagi.h-net.msu.edu (Postfix) with ESMTP id BC71728C098
-        for <linux-hams@vger.kernel.org>; Tue, 15 Mar 2022 19:15:29 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at example.com
-Received: from yagi.h-net.msu.edu ([127.0.0.1])
-        by yagi.h-net.org (yagi.h-net.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id vx3-eaMh_67p for <linux-hams@vger.kernel.org>;
-        Tue, 15 Mar 2022 19:15:29 -0400 (EDT)
-Received: from yagi.h-net.org (localhost [127.0.0.1])
-        by yagi.h-net.msu.edu (Postfix) with ESMTP
-        for <linux-hams@vger.kernel.org>; Tue, 15 Mar 2022 19:15:29 -0400 (EDT)
-References: <13d4710d-03cc-66e2-e6a4-f7da4b00ca92@trinnet.net> <20220315213245.3304328BA6B@yagi.h-net.msu.edu>
-To:     linux-hams@vger.kernel.org
-From:   Dennis Boone <drb@msu.edu>
-Subject: Re: Loss of connection state?
-In-reply-to: (Your message of Tue, 15 Mar 2022 15:35:27 -0700.)
-             <13d4710d-03cc-66e2-e6a4-f7da4b00ca92@trinnet.net>
+        with ESMTP id S1353518AbiCPEee (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 16 Mar 2022 00:34:34 -0400
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E67D6D8A;
+        Tue, 15 Mar 2022 21:33:00 -0700 (PDT)
+Received: by ajax-webmail-mail-app3 (Coremail) ; Wed, 16 Mar 2022 12:32:49
+ +0800 (GMT+08:00)
+X-Originating-IP: [10.190.65.173]
+Date:   Wed, 16 Mar 2022 12:32:49 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   =?UTF-8?B?5ZGo5aSa5piO?= <duoming@zju.edu.cn>
+To:     "Eric Dumazet" <eric.dumazet@gmail.com>
+Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kuba@kernel.org, davem@davemloft.net,
+        ralf@linux-mips.org, jreuter@yaina.de
+Subject: Re: Re: [PATCH net V4 2/2] ax25: Fix NULL pointer dereferences in
+ ax25 timers
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
+In-Reply-To: <c6052f5c-c1c4-18a0-a04f-e48f366200e4@gmail.com>
+References: <20220315015654.79941-1-duoming@zju.edu.cn>
+ <c6052f5c-c1c4-18a0-a04f-e48f366200e4@gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <65056.1647386129.1@yagi.h-net.org>
-Content-Transfer-Encoding: 8BIT
-Date:   Tue, 15 Mar 2022 19:15:29 -0400
-Message-Id: <20220315231529.BC71728C098@yagi.h-net.msu.edu>
+Message-ID: <e552387.5e93.17f90fff974.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cC_KCgC3CXZxaDFih3MNAA--.2763W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgULAVZdtYslngAAsD
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
@@ -46,67 +51,127 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-David,
-
- > I bet this link is more marginal that you might be expecting and I've
- > seen many examples of this.  Best I can tell is the remote TNC cannot
- > decode your packets and you're getting into a retry spiral. Is it
- > correct to assume you're using a Nino TNC on your side?  Is it
- > operating in KISS mode or it's new IL2P mode?  Do you know what kinda
- > of TNC is on the remote side?
-
-Mine _is_ a Nino TNC, they only do kiss, and it's in 1200 baud AX.25
-mode, not IL2P and not GMSK.
-
-I believe the other end is a DR-135 with the EJ-41U add-in TNC.
-
- > As I understand it, the RRv1 should be ACKing the two previous data
- > frames for I00 and I01 but it seems that KB8ZQZ isn't decoding that
- > "RRv1" ACK and it's asking for for a retry at 01:48.29 and then
- > 2:08.77.  It seems your station is hearing the NAK but it's not
- > re-sending the ACK.  It's also strange the remote station isn't
- > re-sending the I00 and I01 frames.  What are your TNC's T1/T2/T3
- > timers and window size set to?  Try this script:
-
-I think the RR1v ("ready to receive 1", response, doesn't have the p/f
-bit set) only acks the I00^ I sent.
-
-Not sure I understand how the frame could come through the TNC, up the
-USB channel, and into the kernel to the point where axlisten can see it,
-and it could be failing to decode.
-
-The question arises when I receive his:
-
-    nino: fm W8TCC to KB8ZQZ ctl RR1+ 21:02:20.726051 
-
-At this point, since I've already sent I01, and he's still clearly
-waiting for it, why don't I resend it?
-
-Also, the RR1v arrives at 01:38.125616, and I wait a suspiciously
-familiar 10 seconds (T1/FRACK?) before sending the sending the RR0+ at
-01:48.296217.  But if T1 expired, shouldn't I be re-sending the I01
-frame?
-
-I _had_ been interpreting most of the rest of the RRx frames as idle
-polls, but I can see where that may have been erroneous and they could
-be getting lost.  I don't _think_ that explains why I don't resend I01
-after I get RR1 from him.
-
- > http://www.trinityos.com/HAM/CentosDigitalModes/usr/local/sbin/axdispparms.sh
-
-AX.25 Device Parameters
-Parameters for device ax0
-Default AX.25 mode             : Standard (Modulo 7)
-AX.25 Backoff Mode             : Linear
-AX.25 Connection Mode          : All
-Standard Window Size           : 2
-Extended Window Size           : 32
-Maximum Packet Length          : 256 bytes
-Maximum Retry Count            : 10
-Default IP Mode                : Datagram
-T1 Timeout (Frack)             : 10.0 seconds
-T2 Timeout (Resp)              : 3.0 seconds
-T3 Timeout (Check)             : 5 minutes
-Idle Timeout (Disc)            : None
-
-De
+SGVsbG8sCgpPbiBNb24sIDE0IE1hciAyMDIyIDIwOjAzOjAwIC0wNzAwLCBFcmljIER1bWF6ZXQg
+d3JvdGU6Cj4gPiBUaGVyZSBhcmUgcmFjZSBjb25kaXRpb25zIHRoYXQgbWF5IGxlYWQgdG8gbnVs
+bCBwb2ludGVyIGRlcmVmZXJlbmNlcyBpbgo+ID4gYXgyNV9oZWFydGJlYXRfZXhwaXJ5KCksIGF4
+MjVfdDF0aW1lcl9leHBpcnkoKSwgYXgyNV90MnRpbWVyX2V4cGlyeSgpLAo+ID4gYXgyNV90M3Rp
+bWVyX2V4cGlyeSgpIGFuZCBheDI1X2lkbGV0aW1lcl9leHBpcnkoKSwgd2hlbiB3ZSB1c2UKPiA+
+IGF4MjVfa2lsbF9ieV9kZXZpY2UoKSB0byBkZXRhY2ggdGhlIGF4MjUgZGV2aWNlLgo+ID4KPiA+
+IE9uZSBvZiB0aGUgcmFjZSBjb25kaXRpb25zIHRoYXQgY2F1c2UgbnVsbCBwb2ludGVyIGRlcmVm
+ZXJlbmNlcyBjYW4gYmUKPiA+IHNob3duIGFzIGJlbG93Ogo+ID4KPiA+ICAgICAgICAoVGhyZWFk
+IDEpICAgICAgICAgICAgICAgICAgICB8ICAgICAgKFRocmVhZCAyKQo+ID4gYXgyNV9jb25uZWN0
+KCkgICAgICAgICAgICAgICAgICAgICAgIHwKPiA+ICAgYXgyNV9zdGRfZXN0YWJsaXNoX2RhdGFf
+bGluaygpICAgICB8Cj4gPiAgICBheDI1X3N0YXJ0X3QxdGltZXIoKSAgICAgICAgICAgICAgfAo+
+ID4gICAgIG1vZF90aW1lcigmYXgyNS0+dDF0aW1lciwuLikgICAgIHwKPiA+ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICB8IGF4MjVfa2lsbF9ieV9kZXZpY2UoKQo+ID4gICAg
+ICh3YWl0IGEgdGltZSkgICAgICAgICAgICAgICAgICAgIHwgIC4uLgo+ID4gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgIHMtPmF4MjVfZGV2ID0gTlVMTDsgLy8oMSkKPiA+
+ICAgICBheDI1X3QxdGltZXJfZXhwaXJ5KCkgICAgICAgICAgICB8Cj4gPiAgICAgIGF4MjUtPmF4
+MjVfZGV2LT52YWx1ZXNbLi5dIC8vKDIpfCAgLi4uCj4gPiAgICAgICAuLi4gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgfAo+ID4KPiA+IFdlIHNldCBudWxsIHRvIGF4MjVfY2ItPmF4MjVfZGV2
+IGluIHBvc2l0aW9uICgxKSBhbmQgZGVyZWZlcmVuY2UKPiA+IHRoZSBudWxsIHBvaW50ZXIgaW4g
+cG9zaXRpb24gKDIpLgo+ID4KPiA+IFRoZSBjb3JyZXNwb25kaW5nIGZhaWwgbG9nIGlzIHNob3du
+IGJlbG93Ogo+ID4gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09Cj4gPiBCVUc6IGtlcm5lbCBOVUxMIHBvaW50ZXIgZGVyZWZlcmVu
+Y2UsIGFkZHJlc3M6IDAwMDAwMDAwMDAwMDAwNTAKPiA+IENQVTogMSBQSUQ6IDAgQ29tbTogc3dh
+cHBlci8xIE5vdCB0YWludGVkIDUuMTcuMC1yYzYtMDA3OTQtZzQ1NjkwYjdkMAo+ID4gUklQOiAw
+MDEwOmF4MjVfdDF0aW1lcl9leHBpcnkrMHgxMi8weDQwCj4gPiAuLi4KPiA+IENhbGwgVHJhY2U6
+Cj4gPiAgIGNhbGxfdGltZXJfZm4rMHgyMS8weDEyMAo+ID4gICBfX3J1bl90aW1lcnMucGFydC4w
+KzB4MWNhLzB4MjUwCj4gPiAgIHJ1bl90aW1lcl9zb2Z0aXJxKzB4MmMvMHg2MAo+ID4gICBfX2Rv
+X3NvZnRpcnErMHhlZi8weDJmMwo+ID4gICBpcnFfZXhpdF9yY3UrMHhiNi8weDEwMAo+ID4gICBz
+eXN2ZWNfYXBpY190aW1lcl9pbnRlcnJ1cHQrMHhhMi8weGQwCj4gPiAuLi4KPiA+Cj4gPiBUaGlz
+IHBhdGNoIHVzZXMgYXgyNV9kaXNjb25uZWN0KCkgdG8gZGVsZXRlIHRpbWVycyBiZWZvcmUgd2Ug
+c2V0IG51bGwgdG8KPiA+IGF4MjVfY2ItPmF4MjVfZGV2IGluIGF4MjVfa2lsbF9ieV9kZXZpY2Uo
+KS5UaGUgZnVuY3Rpb24gYXgyNV9kaXNjb25uZWN0KCkKPiA+IHdpbGwgbm90IHJldHVybiB1bnRp
+bCBhbGwgdGltZXJzIGFyZSBzdG9wcGVkLCBiZWNhdXNlIHdlIGhhdmUgY2hhbmdlZAo+ID4gZGVs
+X3RpbWVyKCkgdG8gZGVsX3RpbWVyX3N5bmMoKS4gV2hhdGBzIG1vcmUsIHdlIGFkZCBjb25kaXRp
+b24gY2hlY2sgaW4KPiA+IGF4MjVfZGVzdHJveV9zb2NrZXQoKSwgYmVjYXVzZSBheDI1X3N0b3Bf
+aGVhcnRiZWF0KCkgd2lsbCBub3QgcmV0dXJuLAo+ID4gaWYgdGhlcmUgaXMgc3RpbGwgaGVhcnRi
+ZWF0Lgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IER1b21pbmcgWmhvdSA8ZHVvbWluZ0B6anUuZWR1
+LmNuPgo+IAo+IE1pc3NpbmcgRkl4ZXM6IHRhZyA/Cj4gCj4gCj4gPiAtLS0KPiA+IENoYW5nZXMg
+aW4gVjQ6Cj4gPiAgICAtIEJhc2VkIG9uIFtQQVRDSCBuZXQgVjQgMS8yXSBheDI1OiBGaXggcmVm
+Y291bnQgbGVha3MgY2F1c2VkIGJ5IGF4MjVfY2JfZGVsKCkuCj4gPgo+ID4gICBuZXQvYXgyNS9h
+Zl9heDI1LmMgICAgfCAgNyArKysrLS0tCj4gPiAgIG5ldC9heDI1L2F4MjVfdGltZXIuYyB8IDEw
+ICsrKysrLS0tLS0KPiA+ICAgMiBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDggZGVs
+ZXRpb25zKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL25ldC9heDI1L2FmX2F4MjUuYyBiL25ldC9h
+eDI1L2FmX2F4MjUuYwo+ID4gaW5kZXggMDg4NjEwOTQyMWEuLmRjNjE2MWE3NWExIDEwMDY0NAo+
+ID4gLS0tIGEvbmV0L2F4MjUvYWZfYXgyNS5jCj4gPiArKysgYi9uZXQvYXgyNS9hZl9heDI1LmMK
+PiA+IEBAIC04OSwyMCArODksMjAgQEAgc3RhdGljIHZvaWQgYXgyNV9raWxsX2J5X2RldmljZShz
+dHJ1Y3QgbmV0X2RldmljZSAqZGV2KQo+ID4gICAJCQlzayA9IHMtPnNrOwo+ID4gICAJCQlpZiAo
+IXNrKSB7Cj4gPiAgIAkJCQlzcGluX3VubG9ja19iaCgmYXgyNV9saXN0X2xvY2spOwo+ID4gLQkJ
+CQlzLT5heDI1X2RldiA9IE5VTEw7Cj4gPiAgIAkJCQlheDI1X2Rpc2Nvbm5lY3QocywgRU5FVFVO
+UkVBQ0gpOwo+ID4gKwkJCQlzLT5heDI1X2RldiA9IE5VTEw7Cj4gPiAgIAkJCQlzcGluX2xvY2tf
+YmgoJmF4MjVfbGlzdF9sb2NrKTsKPiA+ICAgCQkJCWdvdG8gYWdhaW47Cj4gPiAgIAkJCX0KPiA+
+ICAgCQkJc29ja19ob2xkKHNrKTsKPiA+ICAgCQkJc3Bpbl91bmxvY2tfYmgoJmF4MjVfbGlzdF9s
+b2NrKTsKPiA+ICAgCQkJbG9ja19zb2NrKHNrKTsKPiA+ICsJCQlheDI1X2Rpc2Nvbm5lY3Qocywg
+RU5FVFVOUkVBQ0gpOwo+ID4gICAJCQlzLT5heDI1X2RldiA9IE5VTEw7Cj4gPiAgIAkJCWlmIChz
+ay0+c2tfd3EpIHsKPiA+ICAgCQkJCWRldl9wdXRfdHJhY2soYXgyNV9kZXYtPmRldiwgJmF4MjVf
+ZGV2LT5kZXZfdHJhY2tlcik7Cj4gPiAgIAkJCQlheDI1X2Rldl9wdXQoYXgyNV9kZXYpOwo+ID4g
+ICAJCQl9Cj4gPiAtCQkJYXgyNV9kaXNjb25uZWN0KHMsIEVORVRVTlJFQUNIKTsKPiA+ICAgCQkJ
+cmVsZWFzZV9zb2NrKHNrKTsKPiA+ICAgCQkJc3Bpbl9sb2NrX2JoKCZheDI1X2xpc3RfbG9jayk7
+Cj4gPiAgIAkJCXNvY2tfcHV0KHNrKTsKPiA+IEBAIC0zMDcsNyArMzA3LDggQEAgdm9pZCBheDI1
+X2Rlc3Ryb3lfc29ja2V0KGF4MjVfY2IgKmF4MjUpCj4gPiAgIAo+ID4gICAJYXgyNV9jYl9kZWwo
+YXgyNSk7Cj4gPiAgIAo+ID4gLQlheDI1X3N0b3BfaGVhcnRiZWF0KGF4MjUpOwo+ID4gKwlpZiAo
+IWF4MjUtPnNrIHx8ICFzb2NrX2ZsYWcoYXgyNS0+c2ssIFNPQ0tfREVTVFJPWSkpCj4gPiArCQlh
+eDI1X3N0b3BfaGVhcnRiZWF0KGF4MjUpOwo+ID4gICAJYXgyNV9zdG9wX3QxdGltZXIoYXgyNSk7
+Cj4gPiAgIAlheDI1X3N0b3BfdDJ0aW1lcihheDI1KTsKPiA+ICAgCWF4MjVfc3RvcF90M3RpbWVy
+KGF4MjUpOwo+ID4gZGlmZiAtLWdpdCBhL25ldC9heDI1L2F4MjVfdGltZXIuYyBiL25ldC9heDI1
+L2F4MjVfdGltZXIuYwo+ID4gaW5kZXggODU4NjVlYmZkZmEuLjk5YWYzZDFhZWVjIDEwMDY0NAo+
+ID4gLS0tIGEvbmV0L2F4MjUvYXgyNV90aW1lci5jCj4gPiArKysgYi9uZXQvYXgyNS9heDI1X3Rp
+bWVyLmMKPiA+IEBAIC03OCwyNyArNzgsMjcgQEAgdm9pZCBheDI1X3N0YXJ0X2lkbGV0aW1lcihh
+eDI1X2NiICpheDI1KQo+ID4gICAKPiA+ICAgdm9pZCBheDI1X3N0b3BfaGVhcnRiZWF0KGF4MjVf
+Y2IgKmF4MjUpCj4gPiAgIHsKPiA+IC0JZGVsX3RpbWVyKCZheDI1LT50aW1lcik7Cj4gPiArCWRl
+bF90aW1lcl9zeW5jKCZheDI1LT50aW1lcik7Cj4gPiAgIH0KPiA+ICAgCj4gPiAgIHZvaWQgYXgy
+NV9zdG9wX3QxdGltZXIoYXgyNV9jYiAqYXgyNSkKPiA+ICAgewo+ID4gLQlkZWxfdGltZXIoJmF4
+MjUtPnQxdGltZXIpOwo+ID4gKwlkZWxfdGltZXJfc3luYygmYXgyNS0+dDF0aW1lcik7Cj4gPiAg
+IH0KPiA+ICAgCj4gPiAgIHZvaWQgYXgyNV9zdG9wX3QydGltZXIoYXgyNV9jYiAqYXgyNSkKPiA+
+ICAgewo+ID4gLQlkZWxfdGltZXIoJmF4MjUtPnQydGltZXIpOwo+ID4gKwlkZWxfdGltZXJfc3lu
+YygmYXgyNS0+dDJ0aW1lcik7Cj4gPiAgIH0KPiA+ICAgCj4gPiAgIHZvaWQgYXgyNV9zdG9wX3Qz
+dGltZXIoYXgyNV9jYiAqYXgyNSkKPiA+ICAgewo+ID4gLQlkZWxfdGltZXIoJmF4MjUtPnQzdGlt
+ZXIpOwo+ID4gKwlkZWxfdGltZXJfc3luYygmYXgyNS0+dDN0aW1lcik7Cj4gPiAgIH0KPiA+ICAg
+Cj4gPiAgIHZvaWQgYXgyNV9zdG9wX2lkbGV0aW1lcihheDI1X2NiICpheDI1KQo+ID4gICB7Cj4g
+PiAtCWRlbF90aW1lcigmYXgyNS0+aWRsZXRpbWVyKTsKPiA+ICsJZGVsX3RpbWVyX3N5bmMoJmF4
+MjUtPmlkbGV0aW1lcik7Cj4gPiAgIH0KPiA+ICAgCj4gPiAgIGludCBheDI1X3QxdGltZXJfcnVu
+bmluZyhheDI1X2NiICpheDI1KQo+IAo+IAo+IAo+IEFyZSB5b3Ugc3VyZSBjYWxsaW5nIGRlbF90
+aW1lX3N5bmMoKSB3b250IGRlYWRsb2NrID8KPiAKPiAKPiBJZiB0aGUgdGltZXIgaGFuZGxlcnMg
+bmVlZCBhIGxvY2sgb3duZWQgYnkgdGhlIHRocmVhZCBjYWxsaW5nIAo+IGRlbF90aW1lcl9zeW5j
+KCksCj4gCj4gdGhlbiB0aGlzIHdpbGwgYmxvY2sgZm9yZXZlci4KCkluIG90aGVyIHRvIGxvd2Vy
+IHRoZSBpbXBhY3QgdG8gb3RoZXIgZnVuY3Rpb25zLCBJIGNvbWUgdXAgd2l0aCB0aGUgZm9sbG93
+aW5nCnBhdGNoLgoKSWYgYXgyNV9kaXNjb25uZWN0KCkgaXMgY2FsbGVkIGJ5IGF4MjVfa2lsbF9i
+eV9kZXZpY2UoKSBvciBheDI1LT5heDI1X2RldgppcyBOVUxMLCB0aGUgcmVhc29uIGluIGF4MjVf
+ZGlzY29ubmVjdCgpIHdpbGwgYmUgZXF1YWwgdG8gRU5FVFVOUkVBQ0guClRoaXMgcGF0Y2ggYWRk
+cyBjaGVjayBhbmQgdXNlcyBkZWxfdGltZXJfc3luYygpIHRvIGRlbGV0ZSB0aW1lcnMgaW4KYXgy
+NV9kaXNjb25uZWN0KCksIGl0IHdpbGwgd2FpdCBhbGwgdGltZXJzIHRvIHN0b3AgYmVmb3JlIHdl
+IHNldCBudWxsCnRvIGF4MjVfY2ItPmF4MjVfZGV2IGluIGF4MjVfa2lsbF9ieV9kZXZpY2UoKS4K
+CmRpZmYgLS1naXQgYS9uZXQvYXgyNS9hZl9heDI1LmMgYi9uZXQvYXgyNS9hZl9heDI1LmMKaW5k
+ZXggY2Y4ODQ3Y2ZjNjYuLjk5MmI2ZTVkODVkIDEwMDY0NAotLS0gYS9uZXQvYXgyNS9hZl9heDI1
+LmMKKysrIGIvbmV0L2F4MjUvYWZfYXgyNS5jCkBAIC04OSwyMCArODksMjAgQEAgc3RhdGljIHZv
+aWQgYXgyNV9raWxsX2J5X2RldmljZShzdHJ1Y3QgbmV0X2RldmljZSAqZGV2KQogCQkJc2sgPSBz
+LT5zazsKIAkJCWlmICghc2spIHsKIAkJCQlzcGluX3VubG9ja19iaCgmYXgyNV9saXN0X2xvY2sp
+OwotCQkJCXMtPmF4MjVfZGV2ID0gTlVMTDsKIAkJCQlheDI1X2Rpc2Nvbm5lY3QocywgRU5FVFVO
+UkVBQ0gpOworCQkJCXMtPmF4MjVfZGV2ID0gTlVMTDsKIAkJCQlzcGluX2xvY2tfYmgoJmF4MjVf
+bGlzdF9sb2NrKTsKIAkJCQlnb3RvIGFnYWluOwogCQkJfQogCQkJc29ja19ob2xkKHNrKTsKIAkJ
+CXNwaW5fdW5sb2NrX2JoKCZheDI1X2xpc3RfbG9jayk7CiAJCQlsb2NrX3NvY2soc2spOworCQkJ
+YXgyNV9kaXNjb25uZWN0KHMsIEVORVRVTlJFQUNIKTsKIAkJCXMtPmF4MjVfZGV2ID0gTlVMTDsK
+IAkJCWlmIChzay0+c2tfc29ja2V0KSB7CiAJCQkJZGV2X3B1dF90cmFjayhheDI1X2Rldi0+ZGV2
+LCAmYXgyNV9kZXYtPmRldl90cmFja2VyKTsKIAkJCQlheDI1X2Rldl9wdXQoYXgyNV9kZXYpOwog
+CQkJfQotCQkJYXgyNV9kaXNjb25uZWN0KHMsIEVORVRVTlJFQUNIKTsKIAkJCXJlbGVhc2Vfc29j
+ayhzayk7CiAJCQlzcGluX2xvY2tfYmgoJmF4MjVfbGlzdF9sb2NrKTsKIAkJCXNvY2tfcHV0KHNr
+KTsKZGlmZiAtLWdpdCBhL25ldC9heDI1L2F4MjVfc3Vici5jIGIvbmV0L2F4MjUvYXgyNV9zdWJy
+LmMKaW5kZXggMTVhYjgxMmM0ZmUuLjNhNDc2ZTRmNmNkIDEwMDY0NAotLS0gYS9uZXQvYXgyNS9h
+eDI1X3N1YnIuYworKysgYi9uZXQvYXgyNS9heDI1X3N1YnIuYwpAQCAtMjYxLDEyICsyNjEsMjAg
+QEAgdm9pZCBheDI1X2Rpc2Nvbm5lY3QoYXgyNV9jYiAqYXgyNSwgaW50IHJlYXNvbikKIHsKIAlh
+eDI1X2NsZWFyX3F1ZXVlcyhheDI1KTsKIAotCWlmICghYXgyNS0+c2sgfHwgIXNvY2tfZmxhZyhh
+eDI1LT5zaywgU09DS19ERVNUUk9ZKSkKLQkJYXgyNV9zdG9wX2hlYXJ0YmVhdChheDI1KTsKLQlh
+eDI1X3N0b3BfdDF0aW1lcihheDI1KTsKLQlheDI1X3N0b3BfdDJ0aW1lcihheDI1KTsKLQlheDI1
+X3N0b3BfdDN0aW1lcihheDI1KTsKLQlheDI1X3N0b3BfaWRsZXRpbWVyKGF4MjUpOworCWlmIChy
+ZWFzb24gPT0gRU5FVFVOUkVBQ0gpIHsKKwkJZGVsX3RpbWVyX3N5bmMoJmF4MjUtPnRpbWVyKTsK
+KwkJZGVsX3RpbWVyX3N5bmMoJmF4MjUtPnQxdGltZXIpOworCQlkZWxfdGltZXJfc3luYygmYXgy
+NS0+dDJ0aW1lcik7CisJCWRlbF90aW1lcl9zeW5jKCZheDI1LT50M3RpbWVyKTsKKwkJZGVsX3Rp
+bWVyX3N5bmMoJmF4MjUtPmlkbGV0aW1lcik7CisJfSBlbHNlIHsKKwkJaWYgKCFheDI1LT5zayB8
+fCAhc29ja19mbGFnKGF4MjUtPnNrLCBTT0NLX0RFU1RST1kpKQorCQkJYXgyNV9zdG9wX2hlYXJ0
+YmVhdChheDI1KTsKKwkJYXgyNV9zdG9wX3QxdGltZXIoYXgyNSk7CisJCWF4MjVfc3RvcF90MnRp
+bWVyKGF4MjUpOworCQlheDI1X3N0b3BfdDN0aW1lcihheDI1KTsKKwkJYXgyNV9zdG9wX2lkbGV0
+aW1lcihheDI1KTsKKwl9CiAKIAlheDI1LT5zdGF0ZSA9IEFYMjVfU1RBVEVfMDsKIAotLSAKMi4x
+Ny4xCgpEbyB5b3UgdGhpbmsgdGhpcyBwYXRjaCBpcyBvaz8KCkJlc3Qgd2lzaGVzLApEdW9taW5n
+IFpob3U=
