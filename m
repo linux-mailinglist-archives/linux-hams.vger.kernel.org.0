@@ -2,37 +2,53 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A0914DBA49
-	for <lists+linux-hams@lfdr.de>; Wed, 16 Mar 2022 22:46:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E4174DBCFB
+	for <lists+linux-hams@lfdr.de>; Thu, 17 Mar 2022 03:30:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355851AbiCPVsI (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 16 Mar 2022 17:48:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55180 "EHLO
+        id S1352995AbiCQCb3 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 16 Mar 2022 22:31:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240574AbiCPVru (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 16 Mar 2022 17:47:50 -0400
-Received: from trinity3.trinnet.net (trinity.trinnet.net [96.78.144.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5E5A8299
-        for <linux-hams@vger.kernel.org>; Wed, 16 Mar 2022 14:46:35 -0700 (PDT)
-Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
-        by trinity3.trinnet.net (TrinityOS hardened/TrinityOS Hardened) with ESMTP id 22GLkXdh024854;
-        Wed, 16 Mar 2022 13:46:33 -0800
-Subject: Re: Loss of connection state?
-To:     Dennis Boone <drb@msu.edu>, linux-hams@vger.kernel.org
-References: <13d4710d-03cc-66e2-e6a4-f7da4b00ca92@trinnet.net>
- <20220315213245.3304328BA6B@yagi.h-net.msu.edu>
- <20220316164321.467262902D1@yagi.h-net.msu.edu>
-From:   David Ranch <linux-hams@trinnet.net>
-Message-ID: <015a5074-6ff2-914f-9205-a53faa63d6e3@trinnet.net>
-Date:   Wed, 16 Mar 2022 14:46:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        with ESMTP id S243581AbiCQCb2 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 16 Mar 2022 22:31:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B2891F617;
+        Wed, 16 Mar 2022 19:30:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DB56E61358;
+        Thu, 17 Mar 2022 02:30:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 31DB9C340F0;
+        Thu, 17 Mar 2022 02:30:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647484211;
+        bh=aBBtB1WlenW0nX+sTuBbNSZBr6ooYgdbxwcBf+8Je9M=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=H72f5hcWiBTXVS8NAYJzRj78tRlgoJeyLhy1+Eq97pBRA3y1vcY7Y+/jRUvDRUd8E
+         67jlHUm8i2p0hCmZKxqGfFP8jJHGT0Ky/HVQ/DKBYaS4EXvwoxBiseSaB7X/6HF30N
+         ER05sOGankmyLxH4As/TT7L59atdFcfHRhvpoiGrjL3JRSVEWTupGUMaaBwVOZ+TeB
+         DuKbM/FWmhZd7g1oTq2ZQiaik1njkMbUvv4KQUAopr7Wi9ac87vjYeUVA93jrDDRdF
+         Uab5tYvpQyUVX/ytOV5Szlgryd3aUeDWnEMomaN/CfIkZiK2eX4hPiKkPCR0mKey3q
+         ApgictnfDYBRw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1592CE6D3DD;
+        Thu, 17 Mar 2022 02:30:11 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20220316164321.467262902D1@yagi.h-net.msu.edu>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Wed, 16 Mar 2022 13:46:33 -0800 (GMT+8)
-X-Spam-Status: No, score=-0.0 required=5.0 tests=BAYES_20,NICE_REPLY_A,
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] hamradio: Fix wrong assignment of 'bbc->cfg.loopback'
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <164748421108.27087.13961135961342141281.git-patchwork-notify@kernel.org>
+Date:   Thu, 17 Mar 2022 02:30:11 +0000
+References: <20220315074851.6456-1-tangmeng@uniontech.com>
+In-Reply-To: <20220315074851.6456-1-tangmeng@uniontech.com>
+To:     Meng Tang <tangmeng@uniontech.com>
+Cc:     t.sailer@alumni.ethz.ch, davem@davemloft.net, kuba@kernel.org,
+        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -41,36 +57,29 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
+Hello:
 
-Hello Dennis,
+This patch was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-I don't know if you and the remote party would be willing to try but if 
-you are, try using a software TNC like Direwolf or UZ7HO's soundmodem 
-(under Wine).  Those multi-platform TNCs run circles around most 
-hardware TNCs when it comes to weak signal decodes. They both also 
-support FX.25 which you can enable to add FEC to the communications to 
-improve the reliability.
+On Tue, 15 Mar 2022 15:48:51 +0800 you wrote:
+> In file hamradio/baycom_epp.c, the baycom_setmode interface, there
+> is a problem with improper use of strstr.
+> 
+> Suppose that when modestr="noloopback", both conditions which are
+> 'strstr(modestr,"noloopback")' and 'strstr(modestr,"loopback")'
+> will be true(not NULL), this lead the bc->cfg.loopback variable
+> will be first assigned to 0, and then reassigned to 1.
+> 
+> [...]
 
---David
-KI6ZHD
+Here is the summary with links:
+  - hamradio: Fix wrong assignment of 'bbc->cfg.loopback'
+    https://git.kernel.org/netdev/net-next/c/a8df216630fe
 
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-
->   > I _had_ been interpreting most of the rest of the RRx frames as idle
->   > polls, but I can see where that may have been erroneous and they
->   > could be getting lost.  I don't _think_ that explains why I don't
->   > resend I01 after I get RR1 from him.
->
-> David,
->
-> I went back and reviewed the spec.  Comparing the timing of the
-> conversation with his expected timer settings my known ones, I've
-> concluded that what I thought were T3 timeouts (channel keepalives) were
-> probably in fact FRACK timeouts, and that therefore as you suggested,
-> more packets were getting lost than I originally thought.
->
-> This link is a little marginal, and it varies by time of day, but it
-> isn't usually _this_ bad.
->
-> De
 
