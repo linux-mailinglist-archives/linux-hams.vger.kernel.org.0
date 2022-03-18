@@ -2,84 +2,69 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E4174DBCFB
-	for <lists+linux-hams@lfdr.de>; Thu, 17 Mar 2022 03:30:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F7CD4DD21D
+	for <lists+linux-hams@lfdr.de>; Fri, 18 Mar 2022 01:54:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352995AbiCQCb3 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 16 Mar 2022 22:31:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43162 "EHLO
+        id S231270AbiCRAzq (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 17 Mar 2022 20:55:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243581AbiCQCb2 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 16 Mar 2022 22:31:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B2891F617;
-        Wed, 16 Mar 2022 19:30:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DB56E61358;
-        Thu, 17 Mar 2022 02:30:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 31DB9C340F0;
-        Thu, 17 Mar 2022 02:30:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647484211;
-        bh=aBBtB1WlenW0nX+sTuBbNSZBr6ooYgdbxwcBf+8Je9M=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=H72f5hcWiBTXVS8NAYJzRj78tRlgoJeyLhy1+Eq97pBRA3y1vcY7Y+/jRUvDRUd8E
-         67jlHUm8i2p0hCmZKxqGfFP8jJHGT0Ky/HVQ/DKBYaS4EXvwoxBiseSaB7X/6HF30N
-         ER05sOGankmyLxH4As/TT7L59atdFcfHRhvpoiGrjL3JRSVEWTupGUMaaBwVOZ+TeB
-         DuKbM/FWmhZd7g1oTq2ZQiaik1njkMbUvv4KQUAopr7Wi9ac87vjYeUVA93jrDDRdF
-         Uab5tYvpQyUVX/ytOV5Szlgryd3aUeDWnEMomaN/CfIkZiK2eX4hPiKkPCR0mKey3q
-         ApgictnfDYBRw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1592CE6D3DD;
-        Thu, 17 Mar 2022 02:30:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] hamradio: Fix wrong assignment of 'bbc->cfg.loopback'
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164748421108.27087.13961135961342141281.git-patchwork-notify@kernel.org>
-Date:   Thu, 17 Mar 2022 02:30:11 +0000
-References: <20220315074851.6456-1-tangmeng@uniontech.com>
-In-Reply-To: <20220315074851.6456-1-tangmeng@uniontech.com>
-To:     Meng Tang <tangmeng@uniontech.com>
-Cc:     t.sailer@alumni.ethz.ch, davem@davemloft.net, kuba@kernel.org,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S231266AbiCRAzp (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 17 Mar 2022 20:55:45 -0400
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8CE46186147;
+        Thu, 17 Mar 2022 17:54:24 -0700 (PDT)
+Received: from ubuntu.localdomain (unknown [10.15.192.164])
+        by mail-app3 (Coremail) with SMTP id cC_KCgCn+ckw2DNijhwFAA--.6684S2;
+        Fri, 18 Mar 2022 08:54:11 +0800 (CST)
+From:   Duoming Zhou <duoming@zju.edu.cn>
+To:     linux-hams@vger.kernel.org
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kuba@kernel.org, davem@davemloft.net, ralf@linux-mips.org,
+        jreuter@yaina.de, eric.dumazet@gmail.com, dan.carpenter@oracle.com,
+        Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH V5 0/2] Fix refcount leak and NPD bugs in ax25
+Date:   Fri, 18 Mar 2022 08:54:03 +0800
+Message-Id: <cover.1647563511.git.duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cC_KCgCn+ckw2DNijhwFAA--.6684S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+        VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY-7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+        6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+        n2kIc2xKxwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I
+        0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWU
+        GVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI
+        0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0
+        rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r
+        4UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgAMAVZdtYwINgABsC
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
+The first patch fixes refcount leak in ax25 that could cause 
+ax25-ex-connected-session-now-listening-state-bug.
 
-This patch was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+The second patch fixes NPD bugs in ax25 timers.
 
-On Tue, 15 Mar 2022 15:48:51 +0800 you wrote:
-> In file hamradio/baycom_epp.c, the baycom_setmode interface, there
-> is a problem with improper use of strstr.
-> 
-> Suppose that when modestr="noloopback", both conditions which are
-> 'strstr(modestr,"noloopback")' and 'strstr(modestr,"loopback")'
-> will be true(not NULL), this lead the bc->cfg.loopback variable
-> will be first assigned to 0, and then reassigned to 1.
-> 
-> [...]
+Duoming Zhou (2):
+  ax25: Fix refcount leaks caused by ax25_cb_del()
+  ax25: Fix NULL pointer dereferences in ax25 timers
 
-Here is the summary with links:
-  - hamradio: Fix wrong assignment of 'bbc->cfg.loopback'
-    https://git.kernel.org/netdev/net-next/c/a8df216630fe
+ net/ax25/af_ax25.c   | 18 +++++++++++++-----
+ net/ax25/ax25_subr.c | 20 ++++++++++++++------
+ 2 files changed, 27 insertions(+), 11 deletions(-)
 
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.17.1
 
