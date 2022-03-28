@@ -2,61 +2,72 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C58594E8B38
-	for <lists+linux-hams@lfdr.de>; Mon, 28 Mar 2022 02:25:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C676D4E8C91
+	for <lists+linux-hams@lfdr.de>; Mon, 28 Mar 2022 05:22:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236817AbiC1A0u (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 27 Mar 2022 20:26:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52768 "EHLO
+        id S237784AbiC1DYV (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sun, 27 Mar 2022 23:24:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230373AbiC1A0t (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 27 Mar 2022 20:26:49 -0400
-Received: from yagi.h-net.msu.edu (yagi.h-net.msu.edu [35.9.18.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B805F22B17
-        for <linux-hams@vger.kernel.org>; Sun, 27 Mar 2022 17:25:09 -0700 (PDT)
-Received: from yagi.h-net.org (unknown [127.0.0.1])
-        by yagi.h-net.msu.edu (Postfix) with ESMTP id 6C25E12EB5
-        for <linux-hams@vger.kernel.org>; Sun, 27 Mar 2022 20:25:08 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at example.com
-Received: from yagi.h-net.msu.edu ([127.0.0.1])
-        by yagi.h-net.org (yagi.h-net.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id sE4rlI_PwCfZ for <linux-hams@vger.kernel.org>;
-        Sun, 27 Mar 2022 20:25:07 -0400 (EDT)
-Received: from yagi.h-net.org (localhost [127.0.0.1])
-        by yagi.h-net.msu.edu (Postfix) with ESMTP
-        for <linux-hams@vger.kernel.org>; Sun, 27 Mar 2022 20:25:07 -0400 (EDT)
-References: <CAO6P2QRhPXpOw6EYkeFv+QsGGZfTce98uTgTd-oYQ7L0sE5TbA@mail.gmail.com> 
-To:     linux-hams@vger.kernel.org
-From:   Dennis Boone <drb@msu.edu>
+        with ESMTP id S237793AbiC1DYV (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sun, 27 Mar 2022 23:24:21 -0400
+Received: from trinity3.trinnet.net (trinity.trinnet.net [96.78.144.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 26E6650B3C
+        for <linux-hams@vger.kernel.org>; Sun, 27 Mar 2022 20:22:41 -0700 (PDT)
+Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
+        by trinity3.trinnet.net (TrinityOS hardened/TrinityOS Hardened) with ESMTP id 22S3Md7m022715;
+        Sun, 27 Mar 2022 19:22:39 -0800
 Subject: Re: AX.25 Linux Packet Forwarding
-In-reply-to: (Your message of Sun, 27 Mar 2022 20:18:11 -0400.)
-             <CAO6P2QRhPXpOw6EYkeFv+QsGGZfTce98uTgTd-oYQ7L0sE5TbA@mail.gmail.com>
+To:     Dennis Boone <drb@msu.edu>, linux-hams@vger.kernel.org
+References: <CAO6P2QRhPXpOw6EYkeFv+QsGGZfTce98uTgTd-oYQ7L0sE5TbA@mail.gmail.com>
+ <20220328002508.6C25E12EB5@yagi.h-net.msu.edu>
+From:   David Ranch <linux-hams@trinnet.net>
+Message-ID: <819ca310-b43b-547d-7fae-3ec0a2487b9a@trinnet.net>
+Date:   Sun, 27 Mar 2022 20:22:39 -0700
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <41904.1648427106.1@yagi.h-net.org>
-Date:   Sun, 27 Mar 2022 20:25:06 -0400
-Message-Id: <20220328002508.6C25E12EB5@yagi.h-net.msu.edu>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220328002508.6C25E12EB5@yagi.h-net.msu.edu>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Sun, 27 Mar 2022 19:22:39 -0800 (GMT+8)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
- > I'd like to set up my Linux box attached to my base station to
- > forward AX.25 traffic on-frequency as a relay.
 
- > HT: "K3XEC-1" (Kenwood)
- > Base Station: "MYRELAY" (Yaesu)
- > Remote Station: "MYBBS"
+Hello Paul,
 
-The linux stack doesn't digipeat on its own.  There are a couple of
-variants of a digi program that will add the needful.  One such is:
+What are you using for a TNC?  If you're using Direwolf, it has a 
+built-in digipeating function as well.
 
-https://github.com/iddq/axdigi2018
+Ps.  net.ipv4.ip_forward is for TCP/IPv4 traffic and has nothing to do 
+with AX.25 forwarding.
 
-All of them seem to be updates of Craig Small's original axdigi tool.
 
-De
+--David
+KI6ZHD
+
+
+On 03/27/2022 05:25 PM, Dennis Boone wrote:
+>   > I'd like to set up my Linux box attached to my base station to
+>   > forward AX.25 traffic on-frequency as a relay.
+>
+>   > HT: "K3XEC-1" (Kenwood)
+>   > Base Station: "MYRELAY" (Yaesu)
+>   > Remote Station: "MYBBS"
+>
+> The linux stack doesn't digipeat on its own.  There are a couple of
+> variants of a digi program that will add the needful.  One such is:
+>
+> https://github.com/iddq/axdigi2018
+>
+> All of them seem to be updates of Craig Small's original axdigi tool.
+>
+> De
+
