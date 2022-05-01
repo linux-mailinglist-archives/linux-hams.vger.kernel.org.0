@@ -2,37 +2,31 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7565B514C80
-	for <lists+linux-hams@lfdr.de>; Fri, 29 Apr 2022 16:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C14D65168C7
+	for <lists+linux-hams@lfdr.de>; Mon,  2 May 2022 00:48:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376996AbiD2ORT (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 29 Apr 2022 10:17:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48462 "EHLO
+        id S1350617AbiEAWvr (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sun, 1 May 2022 18:51:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377177AbiD2ORG (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 29 Apr 2022 10:17:06 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56DCA7FF73
-        for <linux-hams@vger.kernel.org>; Fri, 29 Apr 2022 07:13:41 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1nkRN3-0001gg-GR; Fri, 29 Apr 2022 16:13:21 +0200
-Received: from pengutronix.de (2a03-f580-87bc-d400-725c-f539-4e8e-4648.ip6.dokom21.de [IPv6:2a03:f580:87bc:d400:725c:f539:4e8e:4648])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id D56B571000;
-        Fri, 29 Apr 2022 14:13:18 +0000 (UTC)
-Date:   Fri, 29 Apr 2022 16:13:18 +0200
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
+        with ESMTP id S234297AbiEAWvp (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sun, 1 May 2022 18:51:45 -0400
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [IPv6:2001:4190:8020::34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AF6FB4349C;
+        Sun,  1 May 2022 15:48:10 -0700 (PDT)
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+        id B5CF392009E; Mon,  2 May 2022 00:48:09 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by angie.orcam.me.uk (Postfix) with ESMTP id A6C2392009D;
+        Sun,  1 May 2022 23:48:09 +0100 (BST)
+Date:   Sun, 1 May 2022 23:48:09 +0100 (BST)
+From:   "Maciej W. Rozycki" <macro@orcam.me.uk>
 To:     Niklas Schnelle <schnelle@linux.ibm.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
+cc:     Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+        linux-pci@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
+        Arnd Bergmann <arnd@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
@@ -47,20 +41,14 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         <intel-wired-lan@lists.osuosl.org>,
         "open list:AX.25 NETWORK LAYER" <linux-hams@vger.kernel.org>
 Subject: Re: [RFC v2 21/39] net: add HAS_IOPORT dependencies
-Message-ID: <20220429141318.qonhkqar2nwyub7d@pengutronix.de>
-References: <20220429135108.2781579-1-schnelle@linux.ibm.com>
- <20220429135108.2781579-36-schnelle@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="lqcj2mbryc4mt5il"
-Content-Disposition: inline
 In-Reply-To: <20220429135108.2781579-36-schnelle@linux.ibm.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-hams@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+Message-ID: <alpine.DEB.2.21.2205012324130.9383@angie.orcam.me.uk>
+References: <20220429135108.2781579-1-schnelle@linux.ibm.com> <20220429135108.2781579-36-schnelle@linux.ibm.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,52 +56,51 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
+On Fri, 29 Apr 2022, Niklas Schnelle wrote:
 
---lqcj2mbryc4mt5il
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 29.04.2022 15:50:33, Niklas Schnelle wrote:
-> In a future patch HAS_IOPORT=3Dn will result in inb()/outb() and friends
+> In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
 > not being declared. We thus need to add HAS_IOPORT as dependency for
 > those drivers using them. It also turns out that with HAS_IOPORT handled
 > explicitly HAMRADIO does not need the !S390 dependency and successfully
 > builds the bpqether driver.
->=20
-> Acked-by: Marc Kleine-Budde <mkl@pengutronix.de>
-> Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
-> ---
->  drivers/net/can/cc770/Kconfig      | 1 +
->  drivers/net/can/sja1000/Kconfig    | 1 +
+[...]
+> diff --git a/drivers/net/fddi/Kconfig b/drivers/net/fddi/Kconfig
+> index 846bf41c2717..fa3f1e0fe143 100644
+> --- a/drivers/net/fddi/Kconfig
+> +++ b/drivers/net/fddi/Kconfig
+> @@ -29,7 +29,7 @@ config DEFZA
+>  
+>  config DEFXX
+>  	tristate "Digital DEFTA/DEFEA/DEFPA adapter support"
+> -	depends on FDDI && (PCI || EISA || TC)
+> +	depends on FDDI && (PCI || EISA || TC) && HAS_IOPORT
+>  	help
+>  	  This is support for the DIGITAL series of TURBOchannel (DEFTA),
+>  	  EISA (DEFEA) and PCI (DEFPA) controllers which can connect you
 
-For drivers/net/can:
+ NAK, this has to be sorted out differently (and I think we discussed it 
+before).
 
-Acked-by: Marc Kleine-Budde <mkl@pengutronix.de>
+ The driver works just fine with MMIO where available, so if `inb'/`outb' 
+do get removed, then only parts that rely on port I/O need to be disabled.  
+In fact there's already such provision there in drivers/net/fddi/defxx.c 
+for TURBOchannel systems (CONFIG_TC), which have no port I/O space either:
 
-regards,
-Marc
+#if defined(CONFIG_EISA) || defined(CONFIG_PCI)
+#define dfx_use_mmio bp->mmio
+#else
+#define dfx_use_mmio true
+#endif
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+so I guess it's just the conditional that will have to be changed to:
 
---lqcj2mbryc4mt5il
-Content-Type: application/pgp-signature; name="signature.asc"
+#ifdef CONFIG_HAS_IOPORT
 
------BEGIN PGP SIGNATURE-----
+replacing the current explicit bus dependency list.  The compiler will 
+then optimise away all the port I/O stuff (though I suspect dummy function 
+declarations may be required for `inb'/`outb', etc.).
 
-iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmJr8nsACgkQrX5LkNig
-010rRQf+I21I3qExctz2dzFcblEyXWU6OZwWbigahGhoVi7VXxh/udlftKM5SSh+
-Cbv6NDOt9GxEP3/0Y4muCTq4Xg9jQenFXBGXRT89GaRIDiiAT11MOJ/e6YCiAtBq
-yHx8f04ddLmYcRFLdgZS5GvWd8/5Ji6XKBdPf3hE5KgYjEhrGNEGWFQgne10eP2c
-WqxPPa+kql2KQ2lDKUY6QcNpdhcug0PxAGJL9gnatBMVQGlwotjP/kpeKK7/7LVX
-11FA2bCHvNSpqljEGADPjl73qQsnsY9TgauxzytBOgrmDginWo2AmeJ0Pu8KbP5k
-bcb5RRiJNIkv36dBdpipE0wixsnf5A==
-=iK8a
------END PGP SIGNATURE-----
+ I can verify a suitable change with a TURBOchannel configuration once the 
+MIPS part has been sorted.
 
---lqcj2mbryc4mt5il--
+  Maciej
