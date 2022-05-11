@@ -2,86 +2,104 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD431520A2A
-	for <lists+linux-hams@lfdr.de>; Tue, 10 May 2022 02:30:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C974522B21
+	for <lists+linux-hams@lfdr.de>; Wed, 11 May 2022 06:39:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233650AbiEJAeM (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 9 May 2022 20:34:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49154 "EHLO
+        id S237438AbiEKEjZ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 11 May 2022 00:39:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233638AbiEJAeM (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 9 May 2022 20:34:12 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0771A2A0A6F;
-        Mon,  9 May 2022 17:30:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BBC78B819FF;
-        Tue, 10 May 2022 00:30:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7AFCAC385D3;
-        Tue, 10 May 2022 00:30:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652142614;
-        bh=VKqlSpMwsrf8kmGASDW+ONiJ1G6G8fKLEvEmo94TDJU=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=tDdv3+rwe99pTbx81NayFxAV9v/36UDmSr2muzVCGswqWPl04YsvEPWc6VpN5+3H/
-         HpGa2rHfalgrZorUC+57W7UFX9PpW+cg6gECqR3gCiJvSJsFaUDoZ99ZrSCAMeOC3D
-         crcYd4AiErK+MQKvzga8SZqW91x2FskDm+osnS1I+VUgt7YSEgG224FeW9QM3D80HA
-         58zRuUxcV+Vk/LWJ6q6LT/vZn1orLUE8jqFCEjXnUdYZN0udwAbco9bPgzbK6Bq/Un
-         px0zq6ijB8n4rTuNt3KJ3jk8jzpxs4qDLaJQKOkc634EscON33g7RmZIrKPJO2Ci5l
-         UghSn82CTMqMQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 63591F0392B;
-        Tue, 10 May 2022 00:30:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S236784AbiEKEjX (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 11 May 2022 00:39:23 -0400
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5240814B65A
+        for <linux-hams@vger.kernel.org>; Tue, 10 May 2022 21:39:22 -0700 (PDT)
+Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-ed9ac77cbbso1510378fac.1
+        for <linux-hams@vger.kernel.org>; Tue, 10 May 2022 21:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
+        b=nrkBIDyCffFbQz5WNhQU88q5l+bx8m1CoLNL/nRcxBFZRgp3B2RwRJzpJi69hjmFPQ
+         Eotn36CVTQor8sTwq84btYhQQ+OsypTpYdHIfGkC/Ekjg8a9U0HkQq0T/gbcQg5/if4Y
+         i1yzcJYhTRMm8ny1NIiOYUNRazrfloxlCC/1XVxW2+TG0ItQpx2/G3cXjgMuOALgO1Rc
+         auxKHXwS3ghK6vFFIfR8essc70JXfRi2oIpi3YT/VLqISCMTaVWCOI/Xf0rWfpfTmlnw
+         XgqCFC8jOuHD5AjsEtox3h0b9tzcHlVM0fA1RrJyDFubK9aS707t1BYf/K43qSc4slo4
+         wrQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
+        b=OB/rhBFU+YtAtN2sTUsnQS004mKXwUwFm1ZDjgg6CZX2iSBehCgAnrUxSTKVqdu/eh
+         +BpAw3/qNrmDgAnc6MbTh5WszvvLi1JyZfWohC7wtbKBai//CwEpcFmcVtHldWNepefw
+         nX5/0v/qJMTHCseGXIoQrXkF/e5DT2rh4svcOXyKzfUY5yt8F7ovaViK2o41dX8Cma54
+         11hPmXERk6Goj3od9bpZcdgZU/yJSrIjBI0JI7lTjy2Ln23f8Kub9o+57ibYm4CK0Nyg
+         tWdaiQPlxtUVkuYhJo475qn/pnZ68xEV3MT6W5TuJe2rcCm9dMC21gWtuVsLU3fEZfrj
+         6wvA==
+X-Gm-Message-State: AOAM5301LFOPi9NZKGHMf19KI4Rn/7kV2raRkuSSjwIiens7jcXzqGqB
+        Pv83oJZE4Z4PSa1koUHmcWOyie1Df86zcO2ntalOu2ni30nh0w==
+X-Google-Smtp-Source: ABdhPJwbKHmbnZDflMHBZCcp2YbZAAZvFdPcM4owWeuPIkoxodmwIZJ+Xpgi08ylB1RFXLrw63SQRxJzumbwJKMTxhs=
+X-Received: by 2002:a17:90b:1007:b0:1dc:9862:68af with SMTP id
+ gm7-20020a17090b100700b001dc986268afmr3261389pjb.205.1652243951499; Tue, 10
+ May 2022 21:39:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] [NET] ROSE: Remove unused code and clean up some inconsistent
- indenting
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165214261440.23610.14293636513999790192.git-patchwork-notify@kernel.org>
-Date:   Tue, 10 May 2022 00:30:14 +0000
-References: <20220507034207.18651-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20220507034207.18651-1-jiapeng.chong@linux.alibaba.com>
-To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc:     ralf@linux-mips.org, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, linux-hams@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        abaci@linux.alibaba.com
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a05:6a10:319:0:0:0:0 with HTTP; Tue, 10 May 2022 21:39:10
+ -0700 (PDT)
+From:   Private Mail <privatemail1961@gmail.com>
+Date:   Tue, 10 May 2022 21:39:10 -0700
+Message-ID: <CANjAOAiiVcSrSv31FjThCVmeppS54UVvGVj3SRSvMfxOB+T8DA@mail.gmail.com>
+Subject: Have you had this? It is for your Benefit
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.3 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
+        BAYES_50,DEAR_BENEFICIARY,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
+        DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,
+        LOTS_OF_MONEY,MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
+Our Ref: BG/WA0151/2022
 
-This patch was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+Dear Beneficiary
 
-On Sat,  7 May 2022 11:42:07 +0800 you wrote:
-> Eliminate the follow smatch warning:
-> 
-> net/rose/rose_route.c:1136 rose_node_show() warn: inconsistent
-> indenting.
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> 
-> [...]
+Subject: An Estate of US$15.8 Million
 
-Here is the summary with links:
-  - [NET] ROSE: Remove unused code and clean up some inconsistent indenting
-    https://git.kernel.org/netdev/net-next/c/eef0dc7e517e
+Blount and Griffin Genealogical Investigators specializes in probate
+research to locate missing heirs and beneficiaries to estates in the
+United Kingdom and Europe.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+We can also help you find wills, obtain copies of certificates, help
+you to administer an estate, as well as calculating how an estate,
+intestacy or trust should be distributed.
 
+You may be entitled to a large pay out for an inheritance in Europe
+worth US$15.8 million. We have discovered an estate belonging to the
+late Depositor has remained unclaimed since he died in 2011 and we
+have strong reasons to believe you are the closest living relative to
+the deceased we can find.
 
+You may unknowingly be the heir of this person who died without
+leaving a will (intestate). We will conduct a probate research to
+prove your entitlement, and can submit a claim on your behalf all at
+no risk to yourselves.
+
+Our service fee of 10% will be paid to us after you have received the estate.
+
+The estate transfer process should take just a matter of days as we
+have the mechanism and expertise to get this done very quickly. This
+message may come to you as a shock, however we hope to work with you
+to transfer the estate to you as quickly as possible.
+
+Feel free to email our senior case worker Mr. Malcolm Casey on email:
+malcolmcasey68@yahoo.com for further discussions.
+
+With warm regards,
+
+Mr. Blount W. Gort, CEO.
+Blount and Griffin Associates Inc
