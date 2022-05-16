@@ -2,65 +2,101 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CBEC5258FC
-	for <lists+linux-hams@lfdr.de>; Fri, 13 May 2022 02:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84269527D91
+	for <lists+linux-hams@lfdr.de>; Mon, 16 May 2022 08:27:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230454AbiEMAfg (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 12 May 2022 20:35:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43820 "EHLO
+        id S239728AbiEPG1g (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 16 May 2022 02:27:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229723AbiEMAff (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 12 May 2022 20:35:35 -0400
-X-Greylist: delayed 531 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 May 2022 17:35:33 PDT
-Received: from sh11457.ispgateway.de (sh11457.ispgateway.de [IPv6:2a00:1158:5:36f::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E37C27735B
-        for <linux-hams@vger.kernel.org>; Thu, 12 May 2022 17:35:33 -0700 (PDT)
-Received: from sh11457.ispgateway.de (php73.df_default [IPv6:fd00:dead:beef::11])
-        by sh11457.ispgateway.de (Postfix) with ESMTPS id 15B931A0C24
-        for <linux-hams@vger.kernel.org>; Fri, 13 May 2022 02:26:39 +0200 (CEST)
-Received: (from 664032@localhost)
-        by sh11457.ispgateway.de (8.15.2/8.15.2/Submit) id 24D0Qds5007044;
-        Fri, 13 May 2022 02:26:39 +0200
-X-Authentication-Warning: sh11457.ispgateway.de: 664032 set sender to nicolas@venturini.at using -f
-To:     linux-hams@vger.kernel.org
-Subject: =?us-ascii?Q?Ihre_Bestellung_bei_Gino_Venturini_ist_eingegan?=  =?us-ascii?Q?gen?=
-X-PHP-Originating-Script: 664032:PHPMailer.php
-Date:   Fri, 13 May 2022 00:26:39 +0000
-From:   Gino Venturini <office@venturini.at>
-Reply-To: office@venturini.at
-Message-ID: <QbcyYlu98b6YV6wUkfrddjyx68Ce26gFkQDT14HC6I@venturini.at>
-X-Mailer: PHPMailer 6.1.6 (https://github.com/PHPMailer/PHPMailer)
+        with ESMTP id S235673AbiEPG12 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 16 May 2022 02:27:28 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE27E2611C;
+        Sun, 15 May 2022 23:27:25 -0700 (PDT)
+Received: from kwepemi500015.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4L1q614v33zgY7h;
+        Mon, 16 May 2022 14:26:49 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by kwepemi500015.china.huawei.com
+ (7.221.188.92) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 16 May
+ 2022 14:27:22 +0800
+From:   Lu Wei <luwei32@huawei.com>
+To:     <jreuter@yaina.de>, <ralf@linux-mips.org>, <davem@davemloft.net>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <linux-hams@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH net-next] ax25: merge repeat codes in ax25_dev_device_down()
+Date:   Mon, 16 May 2022 14:28:04 +0800
+Message-ID: <20220516062804.254742-1-luwei32@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=3.0 required=5.0 tests=BAYES_95,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_DBL_ABUSE_REDIR autolearn=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemi500015.china.huawei.com (7.221.188.92)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Werter Kunde,
+Merge repeat codes to reduce the duplication.
 
-Ihre Bestellung ist bei uns eingegangen und in Bearbeitung, wir bitten Sie aufgrund der hohen Anfragen um etwas Geduld.
+Signed-off-by: Lu Wei <luwei32@huawei.com>
+---
+ net/ax25/ax25_dev.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-Aufgrund der hohen Nachfrage kommt es generell zu Verzögerungen in Produktion und Bestellabwicklung – die Lieferzeit für unsere handgefertigten Schutzmasken beträgt bis zu 3 Wochen. 
-
-Zusammenfassung Ihrer Daten:
-
-Ihr Name: 😘 Tina is interested in your profile! Click here: http://bit.do/fUefL 😘 geuzu7
-E-Mail: linux-hams@vger.kernel.org
-
-Anzahl Schutzmasken: 50
-Interesse an einem Maßhemd: [interesse-hemd]
-
-Zustelladresse:
-k5my03
-o6yuqg, yvq3ee
-
-Anmerkungen und Wünsche:
-hffsvf
+diff --git a/net/ax25/ax25_dev.c b/net/ax25/ax25_dev.c
+index d2a244e1c260..b80fccbac62a 100644
+--- a/net/ax25/ax25_dev.c
++++ b/net/ax25/ax25_dev.c
+@@ -115,23 +115,13 @@ void ax25_dev_device_down(struct net_device *dev)
+ 
+ 	if ((s = ax25_dev_list) == ax25_dev) {
+ 		ax25_dev_list = s->next;
+-		spin_unlock_bh(&ax25_dev_lock);
+-		ax25_dev_put(ax25_dev);
+-		dev->ax25_ptr = NULL;
+-		dev_put_track(dev, &ax25_dev->dev_tracker);
+-		ax25_dev_put(ax25_dev);
+-		return;
++		goto unlock_put;
+ 	}
+ 
+ 	while (s != NULL && s->next != NULL) {
+ 		if (s->next == ax25_dev) {
+ 			s->next = ax25_dev->next;
+-			spin_unlock_bh(&ax25_dev_lock);
+-			ax25_dev_put(ax25_dev);
+-			dev->ax25_ptr = NULL;
+-			dev_put_track(dev, &ax25_dev->dev_tracker);
+-			ax25_dev_put(ax25_dev);
+-			return;
++			goto unlock_put;
+ 		}
+ 
+ 		s = s->next;
+@@ -139,6 +129,14 @@ void ax25_dev_device_down(struct net_device *dev)
+ 	spin_unlock_bh(&ax25_dev_lock);
+ 	dev->ax25_ptr = NULL;
+ 	ax25_dev_put(ax25_dev);
++	return;
++
++unlock_put:
++	spin_unlock_bh(&ax25_dev_lock);
++	ax25_dev_put(ax25_dev);
++	dev->ax25_ptr = NULL;
++	dev_put_track(dev, &ax25_dev->dev_tracker);
++	ax25_dev_put(ax25_dev);
+ }
+ 
+ int ax25_fwd_ioctl(unsigned int cmd, struct ax25_fwd_struct *fwd)
+-- 
+2.17.1
 
