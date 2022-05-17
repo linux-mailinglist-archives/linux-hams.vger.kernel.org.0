@@ -2,44 +2,46 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE31652A8FD
-	for <lists+linux-hams@lfdr.de>; Tue, 17 May 2022 19:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5011952AE3E
+	for <lists+linux-hams@lfdr.de>; Wed, 18 May 2022 00:39:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351367AbiEQRI4 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 17 May 2022 13:08:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57722 "EHLO
+        id S231320AbiEQWjT (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 17 May 2022 18:39:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351365AbiEQRIi (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 17 May 2022 13:08:38 -0400
-X-Greylist: delayed 2401 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 17 May 2022 10:08:36 PDT
-Received: from mail.neweas.com (mail.neweas.com [162.19.155.127])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F097347AD8
-        for <linux-hams@vger.kernel.org>; Tue, 17 May 2022 10:08:34 -0700 (PDT)
-Received: by mail.neweas.com (Postfix, from userid 1002)
-        id 8856722C6A; Tue, 17 May 2022 15:51:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=neweas.com; s=mail;
-        t=1652802699; bh=qQhd+6rcOH+OhrNQ6A9OWLCE/79cwvyTtb6LUe1aYuU=;
-        h=Date:From:To:Subject:From;
-        b=t9Kyug9rA/AK5+nvOMfUFaipo5+ZmgN/6tqonju1+FtQgBKcgmdNV+TsuLA6nV+ph
-         1946QIiv9QRxT54cOawXbhqj5UHhttPPZlUHH5FnAvoGNPjwr9c5x35/VvEyqtz7I4
-         /Twyf8inBSuVMciK6q70zhUkBD/G71bItHU+i5bFqstMBbvbyVhdw9WJS5WjRiTbRz
-         M9YaBULdURem9uyszmfmv/GcrxLIFCnEcUkBefELK8eG/DpIV2liESGsO151oovs0C
-         zzvadnbFHrI0tI7f+OxlOGYbuebFt4x5SX4EUJjFLHYfDDlNHNvwLH5+2tRbx3n6OU
-         GhBNVJjZiNpfQ==
-Received: by mail.neweas.com for <linux-hams@vger.kernel.org>; Tue, 17 May 2022 15:50:50 GMT
-Message-ID: <20220517141500-0.1.f.10yt.0.3wdaofqkgr@neweas.com>
-Date:   Tue, 17 May 2022 15:50:50 GMT
-From:   "Luca Gauthier" <luca.gauthier@neweas.com>
-To:     <linux-hams@vger.kernel.org>
-Subject: New collaboration
-X-Mailer: mail.neweas.com
+        with ESMTP id S231219AbiEQWjT (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 17 May 2022 18:39:19 -0400
+Received: from einhorn-mail-out.in-berlin.de (einhorn.in-berlin.de [192.109.42.8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9327443EC9
+        for <linux-hams@vger.kernel.org>; Tue, 17 May 2022 15:39:17 -0700 (PDT)
+X-Envelope-From: thomas@x-berg.in-berlin.de
+Received: from x-berg.in-berlin.de (x-change.in-berlin.de [217.197.86.40])
+        by einhorn.in-berlin.de  with ESMTPS id 24HMcbtL364300
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Wed, 18 May 2022 00:38:37 +0200
+Received: from thomas by x-berg.in-berlin.de with local (Exim 4.94.2)
+        (envelope-from <thomas@x-berg.in-berlin.de>)
+        id 1nr5pt-0007Y6-GD; Wed, 18 May 2022 00:38:37 +0200
+Date:   Wed, 18 May 2022 00:38:37 +0200
+From:   Thomas Osterried <thomas@osterried.de>
+To:     Lu Wei <luwei32@huawei.com>
+Cc:     jreuter@yaina.de, ralf@linux-mips.org, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] ax25: merge repeat codes in
+ ax25_dev_device_down()
+Message-ID: <YoQj7eND7/2KSBFs@x-berg.in-berlin.de>
+References: <20220516062804.254742-1-luwei32@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220516062804.254742-1-luwei32@huawei.com>
+Sender: Thomas Osterried <thomas@x-berg.in-berlin.de>
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -48,24 +50,182 @@ X-Mailing-List: linux-hams@vger.kernel.org
 
 Hello,
 
-are you looking for more business clients?
+three comments.
 
-We would like to start working with you as a partner in acquiring or exch=
-anging leads, which directly translates into mutual benefits in the form =
-of an increased client portfolio.
 
-We work in the sector of internet marketing and as one of the first in Eu=
-rope SEO Agencies we=E2=80=99ve introduced the SEO 360 service which allo=
-ws your clients to gain the access to original SEO consultations.
+1. We need time for questions and discussions
 
-By choosing to work with us you receive support in achieving your busines=
-s goals, and help in handling Digital Marketing for your clients.
+In the past, we had several problems with patches that went upstream which
+obviously not have been tested.
+We have several requests by our community at linux-hams, that we need
+to have a chance to read a patch proposal, and have time to test it,
+before things become worse.
 
-We support over 237 partner companies. We have one of the biggest executi=
-ve departments in Europe at our disposal, we=E2=80=99ve prepared over 200=
-0 campaigns in Europe and 200 in the USA and Canada.
 
-Are you interested in the details of our partnership programme?
+2. Due to some patches that went in the current torwalds-tree, ax25 became
+unusable in a production environment (!).
 
-Yours sincerely,
-Luca Gauthier
+I'll come to this in another mail, with description and proposal for a fix.
+We are currently testing it and like to send it on linux-hams with request
+to comment and test.
+
+
+3. About this patch for ax25_dev_device_down() which reached netdev-next:
+
+Looks good regarding the changes.
+
+But when looking at it, it raises a question due to an older patch, that introduced
+dev_put_track().
+It's just a question of comprehension:
+  If the position of the device that has to be removed is
+    - at the head of the device list: do dev_put_track()
+    - in the the device list or at the end: dev_put_track()
+    - not in the device list: do _not_ dev_put_track().
+      Why? - Not obviously clear. I think, because an interface could exist,
+      but is set to down and thus is not part of the list (-> then you can't see
+      it as /proc/sys/net/ax25/<name>).
+
+
+-> Personally, I'd consider
+
+- this better readable:
+
+	int found = 0;
+
+	if (ax25_dev_list == ax25_dev) {
+		ax25_dev_list = s->next;
+		found = 1;
+	} else {
+		for (s = ax25_dev_list; s != NULL && s->next != NULL; s = s->next) {
+			if (s->next == ax25_dev) {
+				s->next = s->next->next;
+				found = 1;
+				break;
+			}
+		}
+	}
+
+	spin_unlock_bh(&ax25_dev_lock);
+	ax25_dev_put(ax25_dev);
+	dev->ax25_ptr = NULL;
+	if (found)
+		dev_put_track(dev, &ax25_dev->dev_tracker);
+	ax25_dev_put(ax25_dev);
+
+
+- ..or with goto:
+
+	int found = 1;
+
+	if (ax25_dev_list == ax25_dev) {
+		ax25_dev_list = s->next;
+		goto out;
+	}
+	for (s = ax25_dev_list; s != NULL && s->next != NULL; s = s->next) {
+		if (s->next == ax25_dev) {
+			s->next = s->next->next;
+			goto out;
+		}
+	}
+	found = 0;
+
+out:
+	spin_unlock_bh(&ax25_dev_lock);
+	ax25_dev_put(ax25_dev);
+	dev->ax25_ptr = NULL;
+	if (found)
+		dev_put_track(dev, &ax25_dev->dev_tracker);
+	ax25_dev_put(ax25_dev);
+
+
+
+- ..than this:
+
+	if ((s = ax25_dev_list) == ax25_dev) {
+		ax25_dev_list = s->next;
+		goto unlock_put;
+	}
+
+	while (s != NULL && s->next != NULL) {
+		if (s->next == ax25_dev) {
+			s->next = ax25_dev->next;
+			goto unlock_put;
+		}
+
+		s = s->next;
+	}
+	spin_unlock_bh(&ax25_dev_lock);
+	dev->ax25_ptr = NULL;
+	ax25_dev_put(ax25_dev);
+	return;
+
+unlock_put:
+	spin_unlock_bh(&ax25_dev_lock);
+	ax25_dev_put(ax25_dev);
+	dev->ax25_ptr = NULL;
+	dev_put_track(dev, &ax25_dev->dev_tracker);
+	ax25_dev_put(ax25_dev);
+
+
+
+vy 73,
+	- Thomas  dl9sau
+
+
+On Mon, May 16, 2022 at 02:28:04PM +0800, Lu Wei wrote:
+> Merge repeat codes to reduce the duplication.
+> 
+> Signed-off-by: Lu Wei <luwei32@huawei.com>
+> ---
+>  net/ax25/ax25_dev.c | 22 ++++++++++------------
+>  1 file changed, 10 insertions(+), 12 deletions(-)
+> 
+> diff --git a/net/ax25/ax25_dev.c b/net/ax25/ax25_dev.c
+> index d2a244e1c260..b80fccbac62a 100644
+> --- a/net/ax25/ax25_dev.c
+> +++ b/net/ax25/ax25_dev.c
+> @@ -115,23 +115,13 @@ void ax25_dev_device_down(struct net_device *dev)
+>  
+>  	if ((s = ax25_dev_list) == ax25_dev) {
+>  		ax25_dev_list = s->next;
+> -		spin_unlock_bh(&ax25_dev_lock);
+> -		ax25_dev_put(ax25_dev);
+> -		dev->ax25_ptr = NULL;
+> -		dev_put_track(dev, &ax25_dev->dev_tracker);
+> -		ax25_dev_put(ax25_dev);
+> -		return;
+> +		goto unlock_put;
+>  	}
+>  
+>  	while (s != NULL && s->next != NULL) {
+>  		if (s->next == ax25_dev) {
+>  			s->next = ax25_dev->next;
+> -			spin_unlock_bh(&ax25_dev_lock);
+> -			ax25_dev_put(ax25_dev);
+> -			dev->ax25_ptr = NULL;
+> -			dev_put_track(dev, &ax25_dev->dev_tracker);
+> -			ax25_dev_put(ax25_dev);
+> -			return;
+> +			goto unlock_put;
+>  		}
+>  
+>  		s = s->next;
+> @@ -139,6 +129,14 @@ void ax25_dev_device_down(struct net_device *dev)
+>  	spin_unlock_bh(&ax25_dev_lock);
+>  	dev->ax25_ptr = NULL;
+>  	ax25_dev_put(ax25_dev);
+> +	return;
+> +
+> +unlock_put:
+> +	spin_unlock_bh(&ax25_dev_lock);
+> +	ax25_dev_put(ax25_dev);
+> +	dev->ax25_ptr = NULL;
+> +	dev_put_track(dev, &ax25_dev->dev_tracker);
+> +	ax25_dev_put(ax25_dev);
+>  }
+>  
+>  int ax25_fwd_ioctl(unsigned int cmd, struct ax25_fwd_struct *fwd)
+> -- 
+> 2.17.1
+> 
+> 
