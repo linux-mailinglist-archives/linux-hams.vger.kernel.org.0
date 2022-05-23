@@ -2,110 +2,222 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32AC3530275
-	for <lists+linux-hams@lfdr.de>; Sun, 22 May 2022 12:38:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1F0A5308FA
+	for <lists+linux-hams@lfdr.de>; Mon, 23 May 2022 07:47:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243934AbiEVKiU (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 22 May 2022 06:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35376 "EHLO
+        id S229679AbiEWFrN convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hams@lfdr.de>); Mon, 23 May 2022 01:47:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231797AbiEVKiU (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 22 May 2022 06:38:20 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE3F6167DC
-        for <linux-hams@vger.kernel.org>; Sun, 22 May 2022 03:38:18 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id wh22so23113817ejb.7
-        for <linux-hams@vger.kernel.org>; Sun, 22 May 2022 03:38:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=oBm2nuGS95Z6zqgokrsEOA3WmX/ZZ65CGDJ3szR6ErU=;
-        b=EaaIKAVrmqkNcMShkRxxtZKR+Z566b0ZtIBv+U7PwP2XjBWLX+v/Ddc86jnTN3fDcN
-         zzfpYJ8ZsafVntuvh1Gl7z3cuBUse8T/G7f36EBX3DaNxBR5tOFIV2kiS/ySY2KcAZun
-         fJ8QGRB7+0thKyeb7cWuQ8JOCk64vgjQRrFJW7Qqwx8HlH1wsmwy81YZT6MYXyhz744D
-         J4D5q2A9Qe6kH50PDoXMmz2UziYm9ysqhvnb2CezfGxbSFWOH1Mw32jaksCGwfcXW4lk
-         L8q6It3GQt1uY3zPHyEp0Itw3y4TD9xE3eb76L1wKYC0n7muowk/kubDjPTwopvDSfj/
-         PKsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=oBm2nuGS95Z6zqgokrsEOA3WmX/ZZ65CGDJ3szR6ErU=;
-        b=jZqpXAQR7OiSbLg468QFE8zFkVCvzZMGtsk9Pycq2eeBR/hIWMC9DVC6L5Xw4oCELE
-         KCKzcQGWFctyLcpWYBdfzcpH7fgY6PPkNovlhfaGl5hPTA7cdo14XbOi3crcgrEgd1Ae
-         9md4IZbB2Ip52V+2+bD1hdSX7ZxQWAVBtdUItV35UIQMAq92XglJmGxNsXUEUGKEotJG
-         vUk7wJyfOkZzTk5kE78cKmBzB2NpksONYYAQBWc08PKzzkQ4CD/TgbMxViC0zlvIUu8t
-         FvdLyPX5I51MSXJFq5anAPrIqUlHNbB7n3wRmawrEgeiw0tkFPfuib4T3ULBqIPGoaVI
-         eakA==
-X-Gm-Message-State: AOAM5333kPtXqa69ouXOQaNE2VsVRPusVeyUm2rjiTNoz7P6QHW6wggz
-        8rqc4+Ph61hFFtwncB94kI0eLTWz0tLf8FVyH48=
-X-Google-Smtp-Source: ABdhPJyYlxMcbCOb2TCV6NBvPhttMKxW1/9Gk/y2l5Dzrkebh7svf8GEdOApKN4yAfjENFm2MSzbthHe7a4saNvvnbk=
-X-Received: by 2002:a17:907:2daa:b0:6fe:b449:6a8f with SMTP id
- gt42-20020a1709072daa00b006feb4496a8fmr8294026ejc.318.1653215897086; Sun, 22
- May 2022 03:38:17 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a17:907:9626:b0:6fe:9ae9:4fa5 with HTTP; Sun, 22 May 2022
- 03:38:16 -0700 (PDT)
-Reply-To: infoilluminattemple@gmail.com
-From:   Kelvin Wood <abubakargaladimamafara@gmail.com>
-Date:   Sun, 22 May 2022 11:38:16 +0100
-Message-ID: <CAFyWfQh6nd83974feYwtVaRDf_p_Lf-kJftqf-_wfWzOpk0Jcw@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:62d listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [abubakargaladimamafara[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  3.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  1.7 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  1.1 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
+        with ESMTP id S229659AbiEWFrM (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 23 May 2022 01:47:12 -0400
+Received: from einhorn-mail-out.in-berlin.de (einhorn.in-berlin.de [192.109.42.8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07CA727B3F
+        for <linux-hams@vger.kernel.org>; Sun, 22 May 2022 22:47:09 -0700 (PDT)
+X-Envelope-From: thomas@osterried.de
+Received: from x-berg.in-berlin.de (x-change.in-berlin.de [217.197.86.40])
+        by einhorn.in-berlin.de  with ESMTPS id 24N5kx3k3579142
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Mon, 23 May 2022 07:46:59 +0200
+Received: from x-berg.in-berlin.de ([217.197.86.42] helo=smtpclient.apple)
+        by x-berg.in-berlin.de with esmtpa (Exim 4.94.2)
+        (envelope-from <thomas@osterried.de>)
+        id 1nt0uA-0006Ar-EF; Mon, 23 May 2022 07:46:58 +0200
+From:   Thomas Osterried <thomas@osterried.de>
+Content-Type: text/plain;
+        charset=us-ascii
+Content-Transfer-Encoding: 8BIT
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
+Date:   Mon, 23 May 2022 07:46:57 +0200
+Subject: Regression in "ax25: Fix UAF bugs in ax25 timers", patch 
+        82e31755e55fbcea6a9dfaae5fe4860ade17cbc0
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Paolo Abeni <pabeni@redhat.com>
+To:     linux-hams@vger.kernel.org, Duoming Zhou <duoming@zju.edu.cn>
+Message-Id: <283773C4-71DA-4631-B7B3-19497DA9D77A@osterried.de>
+X-Mailer: Apple Mail (2.3696.80.82.1.1)
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
--- 
-JOIN THE ILLUMINATI BROTHERHOOD TODAY AND HAVE ALL YOUR DESIRES IN
-LIFE. "NO HUMAN SACRIFICE,
-OCCULT FESTIVAL IS HERE AGAIN!
-Join the Illuminate Brotherhood online today for Riches, Fame, Power
-and Success. Every new member(s) receive undeniable rewards of $450000
-U.S dollars immediately after initiation to fit the class and status
-of the club members. New member(s) also receives $15,500 U.S dollars
-monthly salary. Note that the higher you go in the society, the better
-your life becomes. Join us today and become rich and famous. Contact
-us with the email or the cell phone number displayed below if you are
-18 years and above. Make good use of this great opportunity and have
-all your desires in life. NOTE: THERE IS NO HUMAN SACRIFICE. You can
-send us the following information as we prepare you for your
-initiation.
 
-Email Address: infoilluminattemple@gmail.com
-WhatSapp Number: +380 66 369 2971
+Regression due to patch 82e31755e55fbcea6a9dfaae5fe4860ade17cbc0 "ax25: Fix UAF bugs in ax25 timers",
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/net/ax25/af_ax25.c?id=82e31755e55fbcea6a9dfaae5fe4860ade17cbc0
+and discussion about necessarity of
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/net/ax25/ax25_subr.c?id=fc6d01ff9ef03b66d4a3a23b46fc3c3d8cf92009
+(because it addresses the same problem).
+
+
+Due to patch 82e31755e55fbcea6a9dfaae5fe4860ade17cbc, any ax25 session is cleaned up anymore on disconnect.
+-> netstat --ax25 shows the ex-connected session it in state "LISTEN". Makes ax25 unusable in a production environment.
+=> Regression.
+
+
+This is my proposal for a fix.
+I'd appreciate you test and give feedback.
+
+For more details, see below.
+
+$ diff -Naur af_ax25.c.orig af_ax25.c.dl9sau  
+--- af_ax25.c.orig      2022-05-04 12:16:35.229499063 +0200
++++ af_ax25.c.dl9sau    2022-05-23 06:48:06.268171116 +0200
+@@ -86,11 +86,18 @@
+ again:
+        ax25_for_each(s, &ax25_list) {
+                if (s->ax25_dev == ax25_dev) {
++                       // Stop timers. Really needed? ax25_disconnect(), that we call with arg ENETUNREACH will also stop the timers.
++                       del_timer_sync(&s->timer);
++                       del_timer_sync(&s->t1timer);
++                       del_timer_sync(&s->t2timer);
++                       del_timer_sync(&s->t3timer);
++                       del_timer_sync(&s->idletimer);
+                        sk = s->sk;
+                        if (!sk) {
+                                spin_unlock_bh(&ax25_list_lock);
+                                ax25_disconnect(s, ENETUNREACH);
+                                s->ax25_dev = NULL;
++                               ax25_cb_del(s);
+                                spin_lock_bh(&ax25_list_lock);
+                                goto again;
+                        }
+@@ -104,6 +111,7 @@
+                                ax25_dev_put(ax25_dev);
+                        }
+                        release_sock(sk);
++                       ax25_cb_del(s);
+                        spin_lock_bh(&ax25_list_lock);
+                        sock_put(sk);
+                        /* The entry could have been deleted from the
+@@ -995,9 +1003,11 @@
+        if (sk->sk_type == SOCK_SEQPACKET) {
+                switch (ax25->state) {
+                case AX25_STATE_0:
+-                       release_sock(sk);
+-                       ax25_disconnect(ax25, 0);
+-                       lock_sock(sk);
++                       if (!sock_flag(ax25->sk, SOCK_DEAD)) {
++                               release_sock(sk);
++                               ax25_disconnect(ax25, 0);
++                               lock_sock(sk);
++                       }
+                        ax25_destroy_socket(ax25);
+                        break;
+ 
+@@ -1052,12 +1062,8 @@
+                sk->sk_state_change(sk);
+                ax25_destroy_socket(ax25);
+        }
++
+        if (ax25_dev) {
+-               del_timer_sync(&ax25->timer);
+-               del_timer_sync(&ax25->t1timer);
+-               del_timer_sync(&ax25->t2timer);
+-               del_timer_sync(&ax25->t3timer);
+-               del_timer_sync(&ax25->idletimer);
+                dev_put_track(ax25_dev->dev, &ax25_dev->dev_tracker);
+                ax25_dev_put(ax25_dev);
+        }
+
+Argumentation:
+
+Author Duoming Zhou <duoming@zju.edu.cn> described his patch 82e31755e55fbcea6a9dfaae5fe4860ade17cbc0 , that lead to the regession, with:
+
+===
+ax25: Fix UAF bugs in ax25 timers
+There are race conditions that may lead to UAF bugs in
+ax25_heartbeat_expiry(), ax25_t1timer_expiry(), ax25_t2timer_expiry(),
+ax25_t3timer_expiry() and ax25_idletimer_expiry(), when we call
+ax25_release() to deallocate ax25_dev.
+
+One of the UAF bugs caused by ax25_release() is shown below:
+
+      (Thread 1)                    |      (Thread 2)
+ax25_dev_device_up() //(1)          |
+...                                 | ax25_kill_by_device()
+ax25_bind()          //(2)          |
+ax25_connect()                      | ...
+ ax25_std_establish_data_link()     |
+  ax25_start_t1timer()              | ax25_dev_device_down() //(3)
+   mod_timer(&ax25->t1timer,..)     |
+                                    | ax25_release()
+   (wait a time)                    |  ...
+                                    |  ax25_dev_put(ax25_dev) //(4)FREE
+   ax25_t1timer_expiry()            |
+    ax25->ax25_dev->values[..] //USE|  ...
+     ...                            |
+
+We increase dev in position (1) and (2), and
+decrease the refcount of ax25_dev in position (3) and (4).
+The ax25_dev will be freed in position (4) and be used in
+ax25_t1timer_expiry().
+===
+
+
+Imho, Duoming has overseen when he fixed the ifconfig device down issue, that ax25_release() is called every time a userspace program closes his socket.
+(.release        = ax25_release)
+
+Timers are for good, not for bad. ax25 timers are important for correct behavior of the AX25_STATE machine. And the "heartbeat" timer is used internally for correct session cleanup.
+I.e., if user closes his AX25-sessioon, kernel should send DISC upon either UA or DM are received, or until t1 expiry. The session and it's state needs still to be known for some time on normal session close. The only case where the session sate not needed anymore if you set ifcoonfig iface down.
+
+
+Duoming's approach lead to
+if (ax25_dev) {  // existence of ax25_dev: normal situation for a regularly closed ax25 session
+              del_timer_sync(&ax25->timer);   // this is the "heartbeat" timer
+              del_timer_sync(&ax25->t1timer); // .. and these are the others
+              del_timer_sync(&ax25->t2timer);
+              del_timer_sync(&ax25->t3timer);
+              del_timer_sync(&ax25->idletimer);
+
+
+The assurance that timers are stopped should to go to ax25_kill_by_device() [this is for the situation, that the SysOp sets ifconfig ax25iface down], from where ax25_release() is called. See my patch suggestion.
+
+I argue, that the stopping of the timer in ax25_kill_by_device() is not really necessary, because it calls
+ax25_disconnect(s, ENETUNREACH);
+and ax25_disconnect() does:
+        if (reason == ENETUNREACH) {
+                del_timer_sync(&ax25->timer);
+                del_timer_sync(&ax25->t1timer);
+                del_timer_sync(&ax25->t2timer);
+                del_timer_sync(&ax25->t3timer);
+                del_timer_sync(&ax25->idletimer);
+
+-> Our timers get stopped anyway.
+
+But on the other hand, Duoming had the "BUG: KASAN: use-after-free in ax25_t1timer_expiry+0x1c/0x60" issue, that inspired him for his patch..
+
+But on another hand. the reason == ENETUNREACH check in ax5_disconnect is quite new: It came by Duoming's "ax25: Fix NULL pointer dereferences in ax25 timers" patch to ax25_subr.c, ten days before (commit ID fc6d01ff). If ax25_disconnect() deletes the timers correctly, it may not be needed as an insurance for ax25_kill_by_device().
+Both of Duoming's patches try to solve the same problem.
+It should be investigated if the del_timer_sync()-assurance has to be at so many different points: we stop them, and call a function that also stops them. If this is really needed, than the problem we try to resolve with this lays somewhere else.
+
+
+ax25_destroy_socket() is called on heartbeat expiry if AX25_STATE is 0. In the case we stop the timers in ax25_kill_by_device(), ax25_destroy_socket() is not called.
+ax25_cb_del() is normaly done by ax25_destroy_socket(). 
+
+If we don't call ax25_cb_del() directly, the situation is this, for a current incoming connection in state ESTABLISHED and after ifdown bpq0:
+DL9AU-3    DL9SAU-1   ???     LISTENING    000/000  0       0
+-> No timer cleans this up.
+
+If I'd try to call ax25_destroy_socket() instead of ax25_cb_del(), this would cause a refcount-underflow OOPS due to the dev_put_track-stuff.
+
+ax25_destroy_socket() would do ax25_cb_del(), and also stop timers. But it also may start timers again (ax25_start_heartbeat(sax25), or by timer_setup(&ax25->dtimer, ax25_destroy_timer, 0) ) -- which is not in our interest in this the case the device is set to down.
+
+That's why assure ax25_cb_del() in my approach.
+
+
+In the ax25_disconnect() del_timer_sync in "reason == ENETUNREACH", I suggest to revert. This was also introduced to solve the ax25_kill_by_device() problem.
+The need for enforced stopping the timers I only see in the special case when a device is set to down.
+
+
+Cc goes to David Miller and Paolo Abeni, because they committed the both patches I discussed above.
+
+
+vy 73,
+	- Thomas  dl9sau
+
+
+
