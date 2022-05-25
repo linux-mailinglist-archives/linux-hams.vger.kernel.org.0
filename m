@@ -2,262 +2,231 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3345A533324
-	for <lists+linux-hams@lfdr.de>; Tue, 24 May 2022 23:53:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8D6453355E
+	for <lists+linux-hams@lfdr.de>; Wed, 25 May 2022 04:34:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241866AbiEXVxR convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hams@lfdr.de>); Tue, 24 May 2022 17:53:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44348 "EHLO
+        id S239998AbiEYCel (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 24 May 2022 22:34:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241204AbiEXVxR (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 24 May 2022 17:53:17 -0400
-Received: from einhorn-mail-out.in-berlin.de (einhorn.in-berlin.de [192.109.42.8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 491807092B
-        for <linux-hams@vger.kernel.org>; Tue, 24 May 2022 14:53:15 -0700 (PDT)
-X-Envelope-From: thomas@osterried.de
-Received: from x-berg.in-berlin.de (x-change.in-berlin.de [217.197.86.40])
-        by einhorn.in-berlin.de  with ESMTPS id 24OLr0H5537581
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Tue, 24 May 2022 23:53:00 +0200
-Received: from x-berg.in-berlin.de ([217.197.86.42] helo=smtpclient.apple)
-        by x-berg.in-berlin.de with esmtpa (Exim 4.94.2)
-        (envelope-from <thomas@osterried.de>)
-        id 1ntcSZ-0001gi-Ol; Tue, 24 May 2022 23:52:59 +0200
-Subject: Re: Regression in "ax25: Fix UAF bugs in ax25 timers", patch
- 82e31755e55fbcea6a9dfaae5fe4860ade17cbc0
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Content-Type: text/plain;
-        charset=us-ascii
-From:   Thomas Osterried <thomas@osterried.de>
-X-Priority: 3
-In-Reply-To: <56fec66b.2f2d0.180f5ae1971.Coremail.duoming@zju.edu.cn>
-Date:   Tue, 24 May 2022 23:52:58 +0200
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        with ESMTP id S235106AbiEYCel (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 24 May 2022 22:34:41 -0400
+Received: from zg8tmtyylji0my4xnjqunzqa.icoremail.net (zg8tmtyylji0my4xnjqunzqa.icoremail.net [162.243.164.74])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id A99D759B96
+        for <linux-hams@vger.kernel.org>; Tue, 24 May 2022 19:34:37 -0700 (PDT)
+Received: by ajax-webmail-mail-app3 (Coremail) ; Wed, 25 May 2022 10:34:20
+ +0800 (GMT+08:00)
+X-Originating-IP: [124.236.130.193]
+Date:   Wed, 25 May 2022 10:34:20 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   duoming@zju.edu.cn
+To:     "Thomas Osterried" <thomas@osterried.de>
+Cc:     "Dan Carpenter" <dan.carpenter@oracle.com>,
         linux-hams@vger.kernel.org,
         "David S. Miller" <davem@davemloft.net>,
-        Paolo Abeni <pabeni@redhat.com>
-Content-Transfer-Encoding: 8BIT
-Message-Id: <FF735FC8-5566-4E32-ACD4-7F9BC278B53F@osterried.de>
+        "Paolo Abeni" <pabeni@redhat.com>
+Subject: Re: Regression in "ax25: Fix UAF bugs in ax25 timers", patch
+ 82e31755e55fbcea6a9dfaae5fe4860ade17cbc0
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
+In-Reply-To: <FF735FC8-5566-4E32-ACD4-7F9BC278B53F@osterried.de>
 References: <283773C4-71DA-4631-B7B3-19497DA9D77A@osterried.de>
  <20220523135214.GE4009@kadam>
  <B0C9F5C5-898E-4682-8B32-9802E1605A9E@osterried.de>
  <56fec66b.2f2d0.180f5ae1971.Coremail.duoming@zju.edu.cn>
-To:     duoming@zju.edu.cn
-X-Mailer: Apple Mail (2.3696.80.82.1.1)
+ <FF735FC8-5566-4E32-ACD4-7F9BC278B53F@osterried.de>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Message-ID: <19ff1cc8.2f102.180f910a87a.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cC_KCgDHa7islY1iZTzSAA--.18071W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgUBAVZdtZ3COgABsd
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWDJw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-
-
-> Am 24.05.2022 um 12:47 schrieb duoming@zju.edu.cn:
-> 
-> Hello,
-> 
-> On Tue, 24 May 2022 11:25:28 +0200 Thomas wrote:
-> 
->>> I tried to apply your patch but the format is wrong...  :/
->> 
->> I thought it would help us to discuss the problem on the mailinglist
->> at the code fragment.
->> But I also asked for testing, and then you need a working patch
->> Was my fault. Sorry for that.
->> 
->> 
->> diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
->> index 363d47f94532..498e92fb43b7 100644
->> --- a/net/ax25/af_ax25.c
->> +++ b/net/ax25/af_ax25.c
->> @@ -86,11 +86,17 @@ static void ax25_kill_by_device(struct net_device *dev)
->> again:
->>        ax25_for_each(s, &ax25_list) {
->>                if (s->ax25_dev == ax25_dev) {
->> +                       del_timer_sync(&s->timer);
->> +                       del_timer_sync(&s->t1timer);
->> +                       del_timer_sync(&s->t2timer);
->> +                       del_timer_sync(&s->t3timer);
->> +                       del_timer_sync(&s->idletimer);
-> 
-> These del_timer_sync() functions are unnecessary, Because when the device is detaching, 
-> the reason parameter of ax25_disconnect() equals to ENETUNREACH, the del_timer_sync()
-> in ax25_disconnect() will execute.
-
-On the other hand, we have the ENETUNREACH case only in exact this scenario:
-device goes down -> ax25_kill_by_device -> ax25_disconnect().
-
-That's why argued it's better here to stop the timers.
-
-> 
->>                        sk = s->sk;
->>                        if (!sk) {
->>                                spin_unlock_bh(&ax25_list_lock);
->>                                ax25_disconnect(s, ENETUNREACH);
->>                                s->ax25_dev = NULL;
->> +                               ax25_cb_del(s);
->>                                spin_lock_bh(&ax25_list_lock);
->>                                goto again;
->>                        }
->> @@ -104,6 +110,7 @@ static void ax25_kill_by_device(struct net_device *dev)
->>                                ax25_dev_put(ax25_dev);
->>                        }
->>                        release_sock(sk);
->> +                       ax25_cb_del(s);
->>                        spin_lock_bh(&ax25_list_lock);
->>                        sock_put(sk);
->>                        /* The entry could have been deleted from the
->> @@ -1052,12 +1059,8 @@ static int ax25_release(struct socket *sock)
->>                sk->sk_state_change(sk);
->>                ax25_destroy_socket(ax25);
->>        }
->> +
->>        if (ax25_dev) {
->> -               del_timer_sync(&ax25->timer);
->> -               del_timer_sync(&ax25->t1timer);
->> -               del_timer_sync(&ax25->t2timer);
->> -               del_timer_sync(&ax25->t3timer);
->> -               del_timer_sync(&ax25->idletimer);
->>                dev_put_track(ax25_dev->dev, &ax25_dev->dev_tracker);
->>                ax25_dev_put(ax25_dev);
->>        }
-> 
-> I think these del_timer_sync() functions could not be removed, otherwise the UAF bugs caused by
-> timer handler could not be mitigated.
-
-I disagree. See below:
-
-> 
-> 
->      (Thread 1)                       |      (Thread 2)
-> ax25_dev_device_up() //(1)             |
-> ...                                    | ax25_kill_by_device()
-> ax25_bind()          //(2)             |
-> ax25_connect()                         | ...
-> ax25_std_establish_data_link()        |
->  ax25_start_t1timer()                 | ax25_dev_device_down() //(3)
->   mod_timer(&ax25->t1timer,..)        |
->                                       | ax25_release()
->   (wait a time)                       |  ...
->                                       |  ax25_dev_put(ax25_dev) //(4)FREE
->   ax25_t1timer_expiry()               |
->    ax25->ax25_dev->values[..] //(5)USE|  ...
->     ...                               |
-> 
-> The ax25_dev is deallocated in position (4) and use in position (5).
-
-I see the problem.
-
-
-ax25_release() is the wrong place.
-ax25_release() is called on normal socket close() from userspace
-(i.E. termination of "call" session to a remote host).
-The (running) timers are needed for a normal session cleanup (ending DISC); 
-that's the sense of these timers.
-You see this in the
-  case AX25_STATE_3:
-  case AX25_STATE_4:
-conditions, where t1 is started.
-=> The ax25_dev != NULL condition is normal for a normal session close condition.
-
-
-If we like to delete the timers here because we are in ax25_release due to the
-ax25_kill_by_device/ax25_dev_device_down event, do we have another option to see who
-called us, and for being able to handle the case correctly?
-
-
-Or better - I already asked this question:
-ax25_kill_by_device calls ax25_disconnect(ENETUNREACH), and in
-ax25_disconnect() the timers are stopped.
-That was introduced by one of your patches.
-After this, ax25_release() is called.
-Since ax25_disconnect() already stopped the timers, there's no need to stop them
-again. ->
-  If ax25_release() is called by userspace socket_close(), timers are not stoped,
-  and session shutdown with timers runs properly.
-
-
-Furthermore:
-directly after ax25_disconnect() which you call in ax25_kill_by_device(), 
-struct ax25_cb *s s->ax25_dev is set to NULL.
--> If ax25_release() is called for the ax25_cb, the del_timer_assurances in
-ax25_release() won't work anyway, because they are in the "if (ax25_dev) { ..." part.
-
-
-
-This would lead to the following patch:
-
-diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-index 363d47f94532..07693eb13185 100644
---- a/net/ax25/af_ax25.c
-+++ b/net/ax25/af_ax25.c
-@@ -1052,12 +1052,8 @@ static int ax25_release(struct socket *sock)
-                sk->sk_state_change(sk);
-                ax25_destroy_socket(ax25);
-        }
-+
-        if (ax25_dev) {
--               del_timer_sync(&ax25->timer);
--               del_timer_sync(&ax25->t1timer);
--               del_timer_sync(&ax25->t2timer);
--               del_timer_sync(&ax25->t3timer);
--               del_timer_sync(&ax25->idletimer);
-                dev_put_track(ax25_dev->dev, &ax25_dev->dev_tracker);
-                ax25_dev_put(ax25_dev);
-        }
-
-
-ax25_subr.c: unchanged
-
-
-
-> 
->      (Thread 1)                    |      (Thread 2)
-> ax25_connect()                      |
-> ax25_std_establish_data_link()     |
->  ax25_start_t1timer()              |
->   mod_timer(&ax25->t1timer,..)     |
->                                    | ax25_kill_by_device()
->   (wait a time)                    |  ...
->                                    |  s->ax25_dev = NULL; //(1)
->   ax25_t1timer_expiry()            |
->    ax25->ax25_dev->values[..] //(2)|  ...
->     ...                            |
-> 
-> We set null to ax25_cb->ax25_dev in position (1) and dereference
-> the null pointer in position (2).
-
-Well, perhaps one solution is to check in ax25_xxx_timer_expiry() if ax25->ax25_dev is not NULL.
-
-> 
->> In my diff from yesterday, I also had a part around "case AX25_STATE_0:").
->> This fixes another problem.
->> I removed it from my patch above: it has to discussed later as separate topic.
->> 
->> 
->> Btw, Douming, you introduced del_timer_sync().
->> ax25_stop_heartbeat(), ax25_stop_t1timer(), ax25_stop_t2timer(), ax25_stop_t3timer(),
->> ax25_stop_idletimer() from ax25_timer.c use del_timer().
->> 
->> Why do you use del_timer_sync() directly?
->> And if del_timer_sync() is needed, is it only needed in a special case,
->> or isn't it cleaner to change the ax25_stop_xxx() timer functions?
-> 
-> We could not change del_timer() in ax25_stop_xxx() to del_timer_sync(). Because
-> the ax25_stop_xxx() is called by many functions such as ax25_ds_state1_machine(),
-> ax25_ctl_ioctl(), ax25_release() and so on. If we block and wait for timer handler
-> to finish in these functions, the system will hang in some cases.
-> 
-> Only the reason parameter of ax25_disconnect() equals to ENETUNREACH which means
-> the device is detaching or the ax25 socket has been destroyed should we use
-> del_timer_sync() to wait the timer handler to finish. 
-> 
-> Best regards,
-> Duoming Zhou
-
-vy 73,
-	- Thomas  dl9sau
+CkhlbGxvLAoKT24gVHVlLCAyNCBNYXkgMjAyMiAyMzo1Mjo1OCArMDIwMCBUaG9tYXMgd3JvdGU6
+Cgo+ID4+PiBJIHRyaWVkIHRvIGFwcGx5IHlvdXIgcGF0Y2ggYnV0IHRoZSBmb3JtYXQgaXMgd3Jv
+bmcuLi4gIDovCj4gPj4gCj4gPj4gSSB0aG91Z2h0IGl0IHdvdWxkIGhlbHAgdXMgdG8gZGlzY3Vz
+cyB0aGUgcHJvYmxlbSBvbiB0aGUgbWFpbGluZ2xpc3QKPiA+PiBhdCB0aGUgY29kZSBmcmFnbWVu
+dC4KPiA+PiBCdXQgSSBhbHNvIGFza2VkIGZvciB0ZXN0aW5nLCBhbmQgdGhlbiB5b3UgbmVlZCBh
+IHdvcmtpbmcgcGF0Y2gKPiA+PiBXYXMgbXkgZmF1bHQuIFNvcnJ5IGZvciB0aGF0Lgo+ID4+IAo+
+ID4+IAo+ID4+IGRpZmYgLS1naXQgYS9uZXQvYXgyNS9hZl9heDI1LmMgYi9uZXQvYXgyNS9hZl9h
+eDI1LmMKPiA+PiBpbmRleCAzNjNkNDdmOTQ1MzIuLjQ5OGU5MmZiNDNiNyAxMDA2NDQKPiA+PiAt
+LS0gYS9uZXQvYXgyNS9hZl9heDI1LmMKPiA+PiArKysgYi9uZXQvYXgyNS9hZl9heDI1LmMKPiA+
+PiBAQCAtODYsMTEgKzg2LDE3IEBAIHN0YXRpYyB2b2lkIGF4MjVfa2lsbF9ieV9kZXZpY2Uoc3Ry
+dWN0IG5ldF9kZXZpY2UgKmRldikKPiA+PiBhZ2FpbjoKPiA+PiAgICAgICAgYXgyNV9mb3JfZWFj
+aChzLCAmYXgyNV9saXN0KSB7Cj4gPj4gICAgICAgICAgICAgICAgaWYgKHMtPmF4MjVfZGV2ID09
+IGF4MjVfZGV2KSB7Cj4gPj4gKyAgICAgICAgICAgICAgICAgICAgICAgZGVsX3RpbWVyX3N5bmMo
+JnMtPnRpbWVyKTsKPiA+PiArICAgICAgICAgICAgICAgICAgICAgICBkZWxfdGltZXJfc3luYygm
+cy0+dDF0aW1lcik7Cj4gPj4gKyAgICAgICAgICAgICAgICAgICAgICAgZGVsX3RpbWVyX3N5bmMo
+JnMtPnQydGltZXIpOwo+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgIGRlbF90aW1lcl9zeW5j
+KCZzLT50M3RpbWVyKTsKPiA+PiArICAgICAgICAgICAgICAgICAgICAgICBkZWxfdGltZXJfc3lu
+Yygmcy0+aWRsZXRpbWVyKTsKPiA+IAo+ID4gVGhlc2UgZGVsX3RpbWVyX3N5bmMoKSBmdW5jdGlv
+bnMgYXJlIHVubmVjZXNzYXJ5LCBCZWNhdXNlIHdoZW4gdGhlIGRldmljZSBpcyBkZXRhY2hpbmcs
+IAo+ID4gdGhlIHJlYXNvbiBwYXJhbWV0ZXIgb2YgYXgyNV9kaXNjb25uZWN0KCkgZXF1YWxzIHRv
+IEVORVRVTlJFQUNILCB0aGUgZGVsX3RpbWVyX3N5bmMoKQo+ID4gaW4gYXgyNV9kaXNjb25uZWN0
+KCkgd2lsbCBleGVjdXRlLgo+IAo+IE9uIHRoZSBvdGhlciBoYW5kLCB3ZSBoYXZlIHRoZSBFTkVU
+VU5SRUFDSCBjYXNlIG9ubHkgaW4gZXhhY3QgdGhpcyBzY2VuYXJpbzoKPiBkZXZpY2UgZ29lcyBk
+b3duIC0+IGF4MjVfa2lsbF9ieV9kZXZpY2UgLT4gYXgyNV9kaXNjb25uZWN0KCkuCj4gCj4gVGhh
+dCdzIHdoeSBhcmd1ZWQgaXQncyBiZXR0ZXIgaGVyZSB0byBzdG9wIHRoZSB0aW1lcnMuCgpJIHRo
+aW5rIHlvdSBtaXNzIG9uZSBzaXR1YXRpb246CklmIHdlIGRvbid0IGNhbGwgYXgyNV9iaW5kKCkg
+YmVmb3JlIGF4MjVfa2lsbF9ieV9kZXZpY2UoKSwgdGhlcmUgaXMgbm8gcy0+YXgyNV9kZXYKZXF1
+YWxzIHRvIGF4MjVfZGV2IHdoZW4gYXgyNV9raWxsX2J5X2RldmljZSgpIGlzIGV4ZWN1dGluZyBh
+bmQgdGhlIGRlbF90aW1lcl9zeW5jKCkKd2lsbCBub3QgZXhlY3V0ZS4KCnN0YXRpYyB2b2lkIGF4
+MjVfa2lsbF9ieV9kZXZpY2Uoc3RydWN0IG5ldF9kZXZpY2UgKmRldikKewouLi4KCWF4MjVfZm9y
+X2VhY2gocywgJmF4MjVfbGlzdCkgewoJCWlmIChzLT5heDI1X2RldiA9PSBheDI1X2RldikgeyAv
+L25vIHMtPmF4MjVfZGV2IGVxdWFscyB0byBheDI1X2RldgorICAgICAgICAgICAgICAgICAgICAg
+ICBkZWxfdGltZXJfc3luYygmcy0+dGltZXIpOyAgLy93aWxsIG5vdCBleGVjdXRlIGFuZCB0aGUg
+c2FtZSBiZWxvdworICAgICAgICAgICAgICAgICAgICAgICBkZWxfdGltZXJfc3luYygmcy0+dDF0
+aW1lcik7IAorICAgICAgICAgICAgICAgICAgICAgICBkZWxfdGltZXJfc3luYygmcy0+dDJ0aW1l
+cik7CisgICAgICAgICAgICAgICAgICAgICAgIGRlbF90aW1lcl9zeW5jKCZzLT50M3RpbWVyKTsK
+KyAgICAgICAgICAgICAgICAgICAgICAgZGVsX3RpbWVyX3N5bmMoJnMtPmlkbGV0aW1lcik7CgpF
+dmVuIGlmIGF4MjVfa2lsbF9ieV9kZXZpY2UoKSBoYXMgYmVlbiBleGVjdXRlZCwgdGhlIHRpbWVy
+cyBjb3VsZCBub3QgYmUgc3RvcHBlZCBhcyB3ZWxsLiAKQXMgYSByZXN1bHQsIHRoZSBmb2xsb3dp
+bmcgVUFGIGJ1ZyB3aWxsIGhhcHBlbjoKCiAgICAgIChUaHJlYWQgMSkgICAgICAgICAgICAgICAg
+ICAgICAgIHwgICAgICAoVGhyZWFkIDIpCmF4MjVfZGV2X2RldmljZV91cCgpICAgICAgICAgICAg
+ICAgICAgIHwKLi4uICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCBheDI1X2tp
+bGxfYnlfZGV2aWNlKCkKYXgyNV9iaW5kKCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAph
+eDI1X2Nvbm5lY3QoKSAgICAgICAgICAgICAgICAgICAgICAgICB8IC4uLgogYXgyNV9zdGRfZXN0
+YWJsaXNoX2RhdGFfbGluaygpICAgICAgICB8CiAgYXgyNV9zdGFydF90MXRpbWVyKCkgICAgICAg
+ICAgICAgICAgIHwgYXgyNV9kZXZfZGV2aWNlX2Rvd24oKQogICBtb2RfdGltZXIoJmF4MjUtPnQx
+dGltZXIsLi4pICAgICAgICB8CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHwgYXgyNV9yZWxlYXNlKCkKICAgKHdhaXQgYSB0aW1lKSAgICAgICAgICAgICAgICAgICAgICAg
+fCAgLi4uCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIGF4MjVfZGV2
+X3B1dChheDI1X2RldikgLy9GUkVFCiAgIGF4MjVfdDF0aW1lcl9leHBpcnkoKSAgICAgICAgICAg
+ICAgIHwKICAgIGF4MjUtPmF4MjVfZGV2LT52YWx1ZXNbLi5dIC8vVVNFICAgfCAgLi4uCiAgICAg
+Li4uICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKCllvdXIgbmV3IHBhdGNoIGNvdWxk
+IG5vdCBtaXRpZ2F0ZSB0aGlzIHByb2JsZW0uCgo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAg
+c2sgPSBzLT5zazsKPiA+PiAgICAgICAgICAgICAgICAgICAgICAgIGlmICghc2spIHsKPiA+PiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3Bpbl91bmxvY2tfYmgoJmF4MjVfbGlzdF9s
+b2NrKTsKPiA+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYXgyNV9kaXNjb25uZWN0
+KHMsIEVORVRVTlJFQUNIKTsKPiA+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcy0+
+YXgyNV9kZXYgPSBOVUxMOwo+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYXgy
+NV9jYl9kZWwocyk7Cj4gPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNwaW5fbG9j
+a19iaCgmYXgyNV9saXN0X2xvY2spOwo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBnb3RvIGFnYWluOwo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgfQo+ID4+IEBAIC0xMDQs
+NiArMTEwLDcgQEAgc3RhdGljIHZvaWQgYXgyNV9raWxsX2J5X2RldmljZShzdHJ1Y3QgbmV0X2Rl
+dmljZSAqZGV2KQo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBheDI1X2Rldl9w
+dXQoYXgyNV9kZXYpOwo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgfQo+ID4+ICAgICAgICAg
+ICAgICAgICAgICAgICAgcmVsZWFzZV9zb2NrKHNrKTsKPiA+PiArICAgICAgICAgICAgICAgICAg
+ICAgICBheDI1X2NiX2RlbChzKTsKPiA+PiAgICAgICAgICAgICAgICAgICAgICAgIHNwaW5fbG9j
+a19iaCgmYXgyNV9saXN0X2xvY2spOwo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgc29ja19w
+dXQoc2spOwo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgLyogVGhlIGVudHJ5IGNvdWxkIGhh
+dmUgYmVlbiBkZWxldGVkIGZyb20gdGhlCj4gPj4gQEAgLTEwNTIsMTIgKzEwNTksOCBAQCBzdGF0
+aWMgaW50IGF4MjVfcmVsZWFzZShzdHJ1Y3Qgc29ja2V0ICpzb2NrKQo+ID4+ICAgICAgICAgICAg
+ICAgIHNrLT5za19zdGF0ZV9jaGFuZ2Uoc2spOwo+ID4+ICAgICAgICAgICAgICAgIGF4MjVfZGVz
+dHJveV9zb2NrZXQoYXgyNSk7Cj4gPj4gICAgICAgIH0KPiA+PiArCj4gPj4gICAgICAgIGlmIChh
+eDI1X2Rldikgewo+ID4+IC0gICAgICAgICAgICAgICBkZWxfdGltZXJfc3luYygmYXgyNS0+dGlt
+ZXIpOwo+ID4+IC0gICAgICAgICAgICAgICBkZWxfdGltZXJfc3luYygmYXgyNS0+dDF0aW1lcik7
+Cj4gPj4gLSAgICAgICAgICAgICAgIGRlbF90aW1lcl9zeW5jKCZheDI1LT50MnRpbWVyKTsKPiA+
+PiAtICAgICAgICAgICAgICAgZGVsX3RpbWVyX3N5bmMoJmF4MjUtPnQzdGltZXIpOwo+ID4+IC0g
+ICAgICAgICAgICAgICBkZWxfdGltZXJfc3luYygmYXgyNS0+aWRsZXRpbWVyKTsKPiA+PiAgICAg
+ICAgICAgICAgICBkZXZfcHV0X3RyYWNrKGF4MjVfZGV2LT5kZXYsICZheDI1X2Rldi0+ZGV2X3Ry
+YWNrZXIpOwo+ID4+ICAgICAgICAgICAgICAgIGF4MjVfZGV2X3B1dChheDI1X2Rldik7Cj4gPj4g
+ICAgICAgIH0KPiA+IAo+ID4gSSB0aGluayB0aGVzZSBkZWxfdGltZXJfc3luYygpIGZ1bmN0aW9u
+cyBjb3VsZCBub3QgYmUgcmVtb3ZlZCwgb3RoZXJ3aXNlIHRoZSBVQUYgYnVncyBjYXVzZWQgYnkK
+PiA+IHRpbWVyIGhhbmRsZXIgY291bGQgbm90IGJlIG1pdGlnYXRlZC4KPiAKPiBJIGRpc2FncmVl
+LiBTZWUgYmVsb3c6Cj4gCj4gPiAKPiA+IAo+ID4gICAgICAoVGhyZWFkIDEpICAgICAgICAgICAg
+ICAgICAgICAgICB8ICAgICAgKFRocmVhZCAyKQo+ID4gYXgyNV9kZXZfZGV2aWNlX3VwKCkgLy8o
+MSkgICAgICAgICAgICAgfAo+ID4gLi4uICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgfCBheDI1X2tpbGxfYnlfZGV2aWNlKCkKPiA+IGF4MjVfYmluZCgpICAgICAgICAgIC8vKDIp
+ICAgICAgICAgICAgIHwKPiA+IGF4MjVfY29ubmVjdCgpICAgICAgICAgICAgICAgICAgICAgICAg
+IHwgLi4uCj4gPiBheDI1X3N0ZF9lc3RhYmxpc2hfZGF0YV9saW5rKCkgICAgICAgIHwKPiA+ICBh
+eDI1X3N0YXJ0X3QxdGltZXIoKSAgICAgICAgICAgICAgICAgfCBheDI1X2Rldl9kZXZpY2VfZG93
+bigpIC8vKDMpCj4gPiAgIG1vZF90aW1lcigmYXgyNS0+dDF0aW1lciwuLikgICAgICAgIHwKPiA+
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCBheDI1X3JlbGVhc2UoKQo+
+ID4gICAod2FpdCBhIHRpbWUpICAgICAgICAgICAgICAgICAgICAgICB8ICAuLi4KPiA+ICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgYXgyNV9kZXZfcHV0KGF4MjVfZGV2
+KSAvLyg0KUZSRUUKPiA+ICAgYXgyNV90MXRpbWVyX2V4cGlyeSgpICAgICAgICAgICAgICAgfAo+
+ID4gICAgYXgyNS0+YXgyNV9kZXYtPnZhbHVlc1suLl0gLy8oNSlVU0V8ICAuLi4KPiA+ICAgICAu
+Li4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAo+ID4gCj4gPiBUaGUgYXgyNV9kZXYg
+aXMgZGVhbGxvY2F0ZWQgaW4gcG9zaXRpb24gKDQpIGFuZCB1c2UgaW4gcG9zaXRpb24gKDUpLgo+
+IAo+IEkgc2VlIHRoZSBwcm9ibGVtLgo+IAo+IAo+IGF4MjVfcmVsZWFzZSgpIGlzIHRoZSB3cm9u
+ZyBwbGFjZS4KPiBheDI1X3JlbGVhc2UoKSBpcyBjYWxsZWQgb24gbm9ybWFsIHNvY2tldCBjbG9z
+ZSgpIGZyb20gdXNlcnNwYWNlCj4gKGkuRS4gdGVybWluYXRpb24gb2YgImNhbGwiIHNlc3Npb24g
+dG8gYSByZW1vdGUgaG9zdCkuCj4gVGhlIChydW5uaW5nKSB0aW1lcnMgYXJlIG5lZWRlZCBmb3Ig
+YSBub3JtYWwgc2Vzc2lvbiBjbGVhbnVwIChlbmRpbmcgRElTQyk7IAo+IHRoYXQncyB0aGUgc2Vu
+c2Ugb2YgdGhlc2UgdGltZXJzLgo+IFlvdSBzZWUgdGhpcyBpbiB0aGUKPiAgIGNhc2UgQVgyNV9T
+VEFURV8zOgo+ICAgY2FzZSBBWDI1X1NUQVRFXzQ6Cj4gY29uZGl0aW9ucywgd2hlcmUgdDEgaXMg
+c3RhcnRlZC4KPiA9PiBUaGUgYXgyNV9kZXYgIT0gTlVMTCBjb25kaXRpb24gaXMgbm9ybWFsIGZv
+ciBhIG5vcm1hbCBzZXNzaW9uIGNsb3NlIGNvbmRpdGlvbi4KPiAKPiAKPiBJZiB3ZSBsaWtlIHRv
+IGRlbGV0ZSB0aGUgdGltZXJzIGhlcmUgYmVjYXVzZSB3ZSBhcmUgaW4gYXgyNV9yZWxlYXNlIGR1
+ZSB0byB0aGUKPiBheDI1X2tpbGxfYnlfZGV2aWNlL2F4MjVfZGV2X2RldmljZV9kb3duIGV2ZW50
+LCBkbyB3ZSBoYXZlIGFub3RoZXIgb3B0aW9uIHRvIHNlZSB3aG8KPiBjYWxsZWQgdXMsIGFuZCBm
+b3IgYmVpbmcgYWJsZSB0byBoYW5kbGUgdGhlIGNhc2UgY29ycmVjdGx5Pwo+IAo+IAo+IE9yIGJl
+dHRlciAtIEkgYWxyZWFkeSBhc2tlZCB0aGlzIHF1ZXN0aW9uOgo+IGF4MjVfa2lsbF9ieV9kZXZp
+Y2UgY2FsbHMgYXgyNV9kaXNjb25uZWN0KEVORVRVTlJFQUNIKSwgYW5kIGluCj4gYXgyNV9kaXNj
+b25uZWN0KCkgdGhlIHRpbWVycyBhcmUgc3RvcHBlZC4KPiBUaGF0IHdhcyBpbnRyb2R1Y2VkIGJ5
+IG9uZSBvZiB5b3VyIHBhdGNoZXMuCj4gQWZ0ZXIgdGhpcywgYXgyNV9yZWxlYXNlKCkgaXMgY2Fs
+bGVkLgo+IFNpbmNlIGF4MjVfZGlzY29ubmVjdCgpIGFscmVhZHkgc3RvcHBlZCB0aGUgdGltZXJz
+LCB0aGVyZSdzIG5vIG5lZWQgdG8gc3RvcCB0aGVtCj4gYWdhaW4uIC0+CgpJZiB3ZSBkb24ndCBj
+YWxsIGF4MjVfYmluZCgpIGJlZm9yZSBheDI1X2tpbGxfYnlfZGV2aWNlKCksIHRoZXJlIGlzIG5v
+IHMtPmF4MjVfZGV2CmVxdWFscyB0byBheDI1X2RldiB3aGVuIGF4MjVfa2lsbF9ieV9kZXZpY2Ug
+aXMgZXhlY3V0aW5nIGFuZCB0aGUgYXgyNV9kaXNjb25uZWN0KCkKd2lsbCBub3QgZXhlY3V0ZS4g
+RXZlbiBpZiBheDI1X2tpbGxfYnlfZGV2aWNlKCkgaGFzIGJlZW4gZXhlY3V0ZWQsIHRoZSB0aW1l
+cnMgY291bGQKbm90IGJlIHN0b3BwZWQgYXMgd2VsbC4gU28gd2UgbmVlZCB0byBzdG9wIHRoZW0g
+YWdhaW4gaW4gYXgyNV9yZWxlYXNlKCkuIAoKPiAgIElmIGF4MjVfcmVsZWFzZSgpIGlzIGNhbGxl
+ZCBieSB1c2Vyc3BhY2Ugc29ja2V0X2Nsb3NlKCksIHRpbWVycyBhcmUgbm90IHN0b3BlZCwKPiAg
+IGFuZCBzZXNzaW9uIHNodXRkb3duIHdpdGggdGltZXJzIHJ1bnMgcHJvcGVybHkuCgpJIHRoaW5r
+IGFkZGluZyBhIGNoZWNrIGluIGF4MjVfcmVsZWFzZSgpIHdoaWNoIGlzIHVzZWQgdG8ganVkZ2Ug
+d2hldGhlciBheDI1X2tpbGxfYnlfZGV2aWNlKCkKaGFzIGJlZW4gZXhlY3V0ZWQgYmVmb3JlIGF4
+MjVfcmVsZWFzZSgpIGlzIGJldHRlci4gVGhlIGRldGFpbCBpcyBzaG93biBiZWxvdzoKCmRpZmYg
+LS1naXQgYS9pbmNsdWRlL25ldC9heDI1LmggYi9pbmNsdWRlL25ldC9heDI1LmgKaW5kZXggMGY5
+NzkwYzQ1NWIuLmE0MjdhMDU2NzJlIDEwMDY0NAotLS0gYS9pbmNsdWRlL25ldC9heDI1LmgKKysr
+IGIvaW5jbHVkZS9uZXQvYXgyNS5oCkBAIC0yMjgsNiArMjI4LDcgQEAgdHlwZWRlZiBzdHJ1Y3Qg
+YXgyNV9kZXYgewogICAgICAgIGF4MjVfZGFtYV9pbmZvICAgICAgICAgIGRhbWE7CiAjZW5kaWYK
+ICAgICAgICByZWZjb3VudF90ICAgICAgICAgICAgICByZWZjb3VudDsKKyAgICAgICBib29sIGRl
+dmljZV91cDsKIH0gYXgyNV9kZXY7CgogdHlwZWRlZiBzdHJ1Y3QgYXgyNV9jYiB7CmRpZmYgLS1n
+aXQgYS9uZXQvYXgyNS9hZl9heDI1LmMgYi9uZXQvYXgyNS9hZl9heDI1LmMKaW5kZXggMzYzZDQ3
+Zjk0NTMuLjQ3Y2U2YjYzMGNjIDEwMDY0NAotLS0gYS9uZXQvYXgyNS9hZl9heDI1LmMKKysrIGIv
+bmV0L2F4MjUvYWZfYXgyNS5jCkBAIC04MSw2ICs4MSw3IEBAIHN0YXRpYyB2b2lkIGF4MjVfa2ls
+bF9ieV9kZXZpY2Uoc3RydWN0IG5ldF9kZXZpY2UgKmRldikKCiAgICAgICAgaWYgKChheDI1X2Rl
+diA9IGF4MjVfZGV2X2F4MjVkZXYoZGV2KSkgPT0gTlVMTCkKICAgICAgICAgICAgICAgIHJldHVy
+bjsKKyAgICAgICBheDI1X2Rldi0+ZGV2aWNlX3VwID0gZmFsc2U7CgogICAgICAgIHNwaW5fbG9j
+a19iaCgmYXgyNV9saXN0X2xvY2spOwogYWdhaW46CkBAIC0xMDUzLDExICsxMDU0LDEzIEBAIHN0
+YXRpYyBpbnQgYXgyNV9yZWxlYXNlKHN0cnVjdCBzb2NrZXQgKnNvY2spCiAgICAgICAgICAgICAg
+ICBheDI1X2Rlc3Ryb3lfc29ja2V0KGF4MjUpOwogICAgICAgIH0KICAgICAgICBpZiAoYXgyNV9k
+ZXYpIHsKLSAgICAgICAgICAgICAgIGRlbF90aW1lcl9zeW5jKCZheDI1LT50aW1lcik7Ci0gICAg
+ICAgICAgICAgICBkZWxfdGltZXJfc3luYygmYXgyNS0+dDF0aW1lcik7Ci0gICAgICAgICAgICAg
+ICBkZWxfdGltZXJfc3luYygmYXgyNS0+dDJ0aW1lcik7Ci0gICAgICAgICAgICAgICBkZWxfdGlt
+ZXJfc3luYygmYXgyNS0+dDN0aW1lcik7Ci0gICAgICAgICAgICAgICBkZWxfdGltZXJfc3luYygm
+YXgyNS0+aWRsZXRpbWVyKTsKKyAgICAgICAgICAgICAgIGlmICghYXgyNV9kZXYtPmRldmljZV91
+cCkgeworICAgICAgICAgICAgICAgICAgICAgICBkZWxfdGltZXJfc3luYygmYXgyNS0+dGltZXIp
+OworICAgICAgICAgICAgICAgICAgICAgICBkZWxfdGltZXJfc3luYygmYXgyNS0+dDF0aW1lcik7
+CisgICAgICAgICAgICAgICAgICAgICAgIGRlbF90aW1lcl9zeW5jKCZheDI1LT50MnRpbWVyKTsK
+KyAgICAgICAgICAgICAgICAgICAgICAgZGVsX3RpbWVyX3N5bmMoJmF4MjUtPnQzdGltZXIpOwor
+ICAgICAgICAgICAgICAgICAgICAgICBkZWxfdGltZXJfc3luYygmYXgyNS0+aWRsZXRpbWVyKTsK
+KyAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIGRldl9wdXRfdHJhY2soYXgyNV9kZXYt
+PmRldiwgJmF4MjVfZGV2LT5kZXZfdHJhY2tlcik7CiAgICAgICAgICAgICAgICBheDI1X2Rldl9w
+dXQoYXgyNV9kZXYpOwogICAgICAgIH0KZGlmZiAtLWdpdCBhL25ldC9heDI1L2F4MjVfZGV2LmMg
+Yi9uZXQvYXgyNS9heDI1X2Rldi5jCmluZGV4IGQyYTI0NGUxYzI2Li41NDUxYmUxNWUwNyAxMDA2
+NDQKLS0tIGEvbmV0L2F4MjUvYXgyNV9kZXYuYworKysgYi9uZXQvYXgyNS9heDI1X2Rldi5jCkBA
+IC02Miw2ICs2Miw3IEBAIHZvaWQgYXgyNV9kZXZfZGV2aWNlX3VwKHN0cnVjdCBuZXRfZGV2aWNl
+ICpkZXYpCiAgICAgICAgYXgyNV9kZXYtPmRldiAgICAgPSBkZXY7CiAgICAgICAgZGV2X2hvbGRf
+dHJhY2soZGV2LCAmYXgyNV9kZXYtPmRldl90cmFja2VyLCBHRlBfQVRPTUlDKTsKICAgICAgICBh
+eDI1X2Rldi0+Zm9yd2FyZCA9IE5VTEw7CisgICAgICAgYXgyNV9kZXYtPmRldmljZV91cCA9IHRy
+dWU7CgogICAgICAgIGF4MjVfZGV2LT52YWx1ZXNbQVgyNV9WQUxVRVNfSVBERUZNT0RFXSA9IEFY
+MjVfREVGX0lQREVGTU9ERTsKICAgICAgICBheDI1X2Rldi0+dmFsdWVzW0FYMjVfVkFMVUVTX0FY
+REVGTU9ERV0gPSBBWDI1X0RFRl9BWERFRk1PREU7Cgo+IEZ1cnRoZXJtb3JlOgo+IGRpcmVjdGx5
+IGFmdGVyIGF4MjVfZGlzY29ubmVjdCgpIHdoaWNoIHlvdSBjYWxsIGluIGF4MjVfa2lsbF9ieV9k
+ZXZpY2UoKSwgCj4gc3RydWN0IGF4MjVfY2IgKnMgcy0+YXgyNV9kZXYgaXMgc2V0IHRvIE5VTEwu
+Cj4gLT4gSWYgYXgyNV9yZWxlYXNlKCkgaXMgY2FsbGVkIGZvciB0aGUgYXgyNV9jYiwgdGhlIGRl
+bF90aW1lcl9hc3N1cmFuY2VzIGluCj4gYXgyNV9yZWxlYXNlKCkgd29uJ3Qgd29yayBhbnl3YXks
+IGJlY2F1c2UgdGhleSBhcmUgaW4gdGhlICJpZiAoYXgyNV9kZXYpIHsgLi4uIiBwYXJ0LgoKV2Ug
+b25seSBuZWVkIHRvIHN0b3AgdGltZXJzIG9uY2UuIElmIHRoZSB0aW1lcnMgY291bGQgYmUgc3Rv
+cHBlZCBpbiBheDI1X2tpbGxfYnlfZGV2aWNlKCksCnRoZXJlIGlzIG5vIG5lZWQgdG8gc3RvcCB0
+aGVtIGluIGF4MjVfcmVsZWFzZSgpLiBJbiBvdGhlciB3b3JkcywgaWYgdGhlIHRpbWVycyBjb3Vs
+ZCBub3QKYmUgc3RvcHBlZCBpbiBheDI1X2tpbGxfYnlfZGV2aWNlKCksIHdlIG5lZWQgdG8gc3Rv
+cCB0aGVtIGluIGF4MjVfcmVsZWFzZSgpLgoKQmVzdCByZWdhcmRzLApEdW9taW5nIFpob3UKCg==
 
