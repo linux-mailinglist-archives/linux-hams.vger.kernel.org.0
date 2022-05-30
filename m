@@ -2,173 +2,132 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 998B1536D5D
-	for <lists+linux-hams@lfdr.de>; Sat, 28 May 2022 16:55:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7160537A54
+	for <lists+linux-hams@lfdr.de>; Mon, 30 May 2022 14:04:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236670AbiE1Ozv (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 28 May 2022 10:55:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39160 "EHLO
+        id S231445AbiE3MEl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hams@lfdr.de>); Mon, 30 May 2022 08:04:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233875AbiE1Ozu (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 28 May 2022 10:55:50 -0400
-Received: from zg8tmtyylji0my4xnjqunzqa.icoremail.net (zg8tmtyylji0my4xnjqunzqa.icoremail.net [162.243.164.74])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 561C8B3B;
-        Sat, 28 May 2022 07:55:46 -0700 (PDT)
-Received: from ubuntu.localdomain (unknown [106.117.80.109])
-        by mail-app4 (Coremail) with SMTP id cS_KCgCnfyLZN5JiJ630AA--.34921S2;
-        Sat, 28 May 2022 22:55:28 +0800 (CST)
-From:   Duoming Zhou <duoming@zju.edu.cn>
+        with ESMTP id S231219AbiE3MEl (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 30 May 2022 08:04:41 -0400
+Received: from einhorn-mail-out.in-berlin.de (einhorn.in-berlin.de [192.109.42.8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41D3651E71
+        for <linux-hams@vger.kernel.org>; Mon, 30 May 2022 05:04:35 -0700 (PDT)
+X-Envelope-From: thomas@osterried.de
+Received: from x-berg.in-berlin.de (x-change.in-berlin.de [217.197.86.40])
+        by einhorn.in-berlin.de  with ESMTPS id 24UC4Yai902342
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+        for <linux-hams@vger.kernel.org>; Mon, 30 May 2022 14:04:34 +0200
+Received: from x-berg.in-berlin.de ([217.197.86.42] helo=smtpclient.apple)
+        by x-berg.in-berlin.de with esmtpa (Exim 4.94.2)
+        (envelope-from <thomas@osterried.de>)
+        id 1nve8P-0000Zr-Is; Mon, 30 May 2022 14:04:33 +0200
+From:   Thomas Osterried <thomas@osterried.de>
+Content-Type: text/plain;
+        charset=us-ascii
+Content-Transfer-Encoding: 8BIT
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
+Date:   Mon, 30 May 2022 14:04:32 +0200
+Subject: eax25 Poblems: setsockopt() before bind(), and
+ setsockopt(AX25_EXTSEQ) after connect()
+Message-Id: <964A54A9-109B-47CF-A474-B7EAF87EE2D8@osterried.de>
 To:     linux-hams@vger.kernel.org
-Cc:     jreuter@yaina.de, ralf@linux-mips.org, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        thomas@osterried.de, Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH net v3] ax25: Fix ax25 session cleanup problem in ax25_release
-Date:   Sat, 28 May 2022 22:55:20 +0800
-Message-Id: <20220528145520.130715-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cS_KCgCnfyLZN5JiJ630AA--.34921S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAF4xtw13WF4DXr1kCryDWrg_yoWrXFyDpF
-        Wqgay3trZrXF48AF48WrZ7XF18uw4Yq3yDKF1UuFZakw1rJas8JFyktFyjqFW3JFZxAF1k
-        Z34UWrn8Ar4kuFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-        JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-        Y2ka0xkIwI1lc2xSY4AK67AK6ry5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
-        1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
-        b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
-        vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
-        cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
-        nxnUUI43ZEXa7VUbkR65UUUUU==
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgEEAVZdtZ7x4QAFsz
+X-Mailer: Apple Mail (2.3696.80.82.1.1)
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-The timers of ax25 are used for correct session cleanup.
-If we use ax25_release() to close ax25 sessions and
-ax25_dev is not null, the del_timer_sync() functions in
-ax25_release() will execute. As a result, the sessions
-could not be cleaned up correctly, because the timers
-have stopped.
+Hello,
 
-This patch adds a device_up flag in ax25_dev in order to
-judge whether the device is up. If there are sessions to
-be cleaned up, the del_timer_sync() in ax25_release() will
-not execute. What's more, we add ax25_cb_del() in
-ax25_kill_by_device(), because the timers have been stopped
-and there are no functions that could delete ax25_cb if we
-do not call ax25_release(). Finally, we reorder the position
-of ax25_list_lock in ax25_cb_del() in order to synchronize
-among different functions that call ax25_cb_del().
+Roland was testing EAX25 (AX25_EMODULUS).
+Interface default mode was AX25_MODULUS.
+He used call(1) with option -m e.
 
-Fixes: 82e31755e55f ("ax25: Fix UAF bugs in ax25 timers")
-Reported-and-tested-by: Thomas Osterried <thomas@osterried.de>
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
----
-Changes in v3:
-  - Mitigate race conditions through lock.
+But SABM+ instead of SABME+ was sent.
 
- include/net/ax25.h  |  1 +
- net/ax25/af_ax25.c  | 19 ++++++++++++-------
- net/ax25/ax25_dev.c |  1 +
- 3 files changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/include/net/ax25.h b/include/net/ax25.h
-index 0f9790c455b..a427a05672e 100644
---- a/include/net/ax25.h
-+++ b/include/net/ax25.h
-@@ -228,6 +228,7 @@ typedef struct ax25_dev {
- 	ax25_dama_info		dama;
- #endif
- 	refcount_t		refcount;
-+	bool device_up;
- } ax25_dev;
+Cause:
+call used first setsockopt(), then bind().
+
+Flow:
+  userspace socket() ->
+  kernel:
+    ax25_create()
+     -> ax25_create_cb()
+       -> ax25_fillin_cb(ax25, NULL)   // defaults for ax25_cb
+
+  user calls bind() -> ax25_bind()
+  There:
+        if (ax25_dev) {
+                ax25_fillin_cb(ax25, ax25_dev); // overwrites ax25_cb with device defaults
+
+  because if ax25_dev != 0:
+  ax25_fillin_cb calls ax25_fillin_cb_from_dev(ax25, ax25_dev);
+
+  This overwrites (wich device defaults) all 10 variables which may have changed with
+  setsockopt() (after socket() and before bind()).
+
+
+As far as I know, a programmer may expect he could call setsockopt() before and / or after bind().
+
+
+Solution:
+
+
+a) It think would be quite ugly to set for every variable a bool "xxx_was_changed__do_not_touch", 
+   for preventing ax25_fillin_cb_from_dev() to overwrite changed variables.
+
+b) printk a notice, that a program should use setsockopt() after bind()
+
+
+Any comments? What do you prefer?
+
+
+Btw, I already corrected the userspace call program in ax25-apps.
+
+
+
+
+Another fix I addeds:
+
+setsockopt() is allowed to be called after connect().
+But as soon the SABM+ is sent, we are not allowed to change the modulus.
+[SABME+ would have indicated a AX25_EMODULUS session, due to protocol spec]
+If we'd allow this, remote site acknowledges with UA an (from his view)
+AX25_MODULUS session, but we are in mode AX25_EMODULUS.
+-> setsockopt(AX25_EXTSEQ) for not-unconnected sessions is now rejected.
+
+
+
+
+
+diff -Naurp net/ax25/a/af_ax25.c net/ax25/b/af_ax25.c
+--- a/af_ax25.c 2022-05-30 12:26:10.564918877 +0200
++++ b/af_ax25.c 2022-05-30 13:21:16.957386836 +0200
+@@ -573,6 +573,8 @@ static int ax25_setsockopt(struct socket
+        lock_sock(sk);
+        ax25 = sk_to_ax25(sk);
  
- typedef struct ax25_cb {
-diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-index 363d47f9453..a5b2cd6ce37 100644
---- a/net/ax25/af_ax25.c
-+++ b/net/ax25/af_ax25.c
-@@ -62,12 +62,12 @@ static void ax25_free_sock(struct sock *sk)
-  */
- static void ax25_cb_del(ax25_cb *ax25)
- {
-+	spin_lock_bh(&ax25_list_lock);
- 	if (!hlist_unhashed(&ax25->ax25_node)) {
--		spin_lock_bh(&ax25_list_lock);
- 		hlist_del_init(&ax25->ax25_node);
--		spin_unlock_bh(&ax25_list_lock);
- 		ax25_cb_put(ax25);
- 	}
-+	spin_unlock_bh(&ax25_list_lock);
- }
++        if (!ax25->ax25_dev && optname != SO_BINDTODEVICE)
++               printk(KERN_NOTICE "ax25_setsockopt(): %s: your socket options may be overwritten by device defaults later when you bind(). Use setsockopt() after bind()\n", current->comm);
+        switch (optname) {
+        case AX25_WINDOW:
+                if (ax25->modulus == AX25_MODULUS) {
+@@ -639,6 +641,11 @@ static int ax25_setsockopt(struct socket
+                break;
  
- /*
-@@ -81,6 +81,7 @@ static void ax25_kill_by_device(struct net_device *dev)
- 
- 	if ((ax25_dev = ax25_dev_ax25dev(dev)) == NULL)
- 		return;
-+	ax25_dev->device_up = false;
- 
- 	spin_lock_bh(&ax25_list_lock);
- again:
-@@ -91,6 +92,7 @@ static void ax25_kill_by_device(struct net_device *dev)
- 				spin_unlock_bh(&ax25_list_lock);
- 				ax25_disconnect(s, ENETUNREACH);
- 				s->ax25_dev = NULL;
-+				ax25_cb_del(s);
- 				spin_lock_bh(&ax25_list_lock);
- 				goto again;
- 			}
-@@ -103,6 +105,7 @@ static void ax25_kill_by_device(struct net_device *dev)
- 				dev_put_track(ax25_dev->dev, &ax25_dev->dev_tracker);
- 				ax25_dev_put(ax25_dev);
- 			}
-+			ax25_cb_del(s);
- 			release_sock(sk);
- 			spin_lock_bh(&ax25_list_lock);
- 			sock_put(sk);
-@@ -1053,11 +1056,13 @@ static int ax25_release(struct socket *sock)
- 		ax25_destroy_socket(ax25);
- 	}
- 	if (ax25_dev) {
--		del_timer_sync(&ax25->timer);
--		del_timer_sync(&ax25->t1timer);
--		del_timer_sync(&ax25->t2timer);
--		del_timer_sync(&ax25->t3timer);
--		del_timer_sync(&ax25->idletimer);
-+		if (!ax25_dev->device_up) {
-+			del_timer_sync(&ax25->timer);
-+			del_timer_sync(&ax25->t1timer);
-+			del_timer_sync(&ax25->t2timer);
-+			del_timer_sync(&ax25->t3timer);
-+			del_timer_sync(&ax25->idletimer);
-+		}
- 		dev_put_track(ax25_dev->dev, &ax25_dev->dev_tracker);
- 		ax25_dev_put(ax25_dev);
- 	}
-diff --git a/net/ax25/ax25_dev.c b/net/ax25/ax25_dev.c
-index d2a244e1c26..5451be15e07 100644
---- a/net/ax25/ax25_dev.c
-+++ b/net/ax25/ax25_dev.c
-@@ -62,6 +62,7 @@ void ax25_dev_device_up(struct net_device *dev)
- 	ax25_dev->dev     = dev;
- 	dev_hold_track(dev, &ax25_dev->dev_tracker, GFP_ATOMIC);
- 	ax25_dev->forward = NULL;
-+	ax25_dev->device_up = true;
- 
- 	ax25_dev->values[AX25_VALUES_IPDEFMODE] = AX25_DEF_IPDEFMODE;
- 	ax25_dev->values[AX25_VALUES_AXDEFMODE] = AX25_DEF_AXDEFMODE;
--- 
-2.17.1
+        case AX25_EXTSEQ:
++               if (sk->sk_type == SOCK_SEQPACKET &&
++                  (sock->state != SS_UNCONNECTED)) {
++                       res = -EISCONN;
++                       break;
++                }
+                ax25->modulus = opt ? AX25_EMODULUS : AX25_MODULUS;
+                break;
 
