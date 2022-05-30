@@ -2,52 +2,52 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB6C6538503
-	for <lists+linux-hams@lfdr.de>; Mon, 30 May 2022 17:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DF88538572
+	for <lists+linux-hams@lfdr.de>; Mon, 30 May 2022 17:53:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237267AbiE3Pf5 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 30 May 2022 11:35:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42232 "EHLO
+        id S238958AbiE3PwI (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 30 May 2022 11:52:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242709AbiE3PfW (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 30 May 2022 11:35:22 -0400
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 90983996B7;
-        Mon, 30 May 2022 07:41:40 -0700 (PDT)
+        with ESMTP id S240576AbiE3Pv5 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 30 May 2022 11:51:57 -0400
+Received: from azure-sdnproxy-2.icoremail.net (azure-sdnproxy.icoremail.net [52.175.55.52])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 938EB50003
+        for <linux-hams@vger.kernel.org>; Mon, 30 May 2022 08:22:50 -0700 (PDT)
 Received: from ubuntu.localdomain (unknown [106.117.80.109])
-        by mail-app2 (Coremail) with SMTP id by_KCgDHeAh415Rir1sMAQ--.3918S2;
-        Mon, 30 May 2022 22:41:08 +0800 (CST)
+        by mail-app2 (Coremail) with SMTP id by_KCgCXnwsV4ZRiwJkMAQ--.5265S2;
+        Mon, 30 May 2022 23:22:05 +0800 (CST)
 From:   Duoming Zhou <duoming@zju.edu.cn>
 To:     linux-hams@vger.kernel.org
 Cc:     jreuter@yaina.de, ralf@linux-mips.org, davem@davemloft.net,
         edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
         thomas@osterried.de, Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH v4] ax25: Fix ax25 session cleanup problems
-Date:   Mon, 30 May 2022 22:40:56 +0800
-Message-Id: <20220530144056.100002-1-duoming@zju.edu.cn>
+Subject: [PATCH net v5] ax25: Fix ax25 session cleanup problems
+Date:   Mon, 30 May 2022 23:21:58 +0800
+Message-Id: <20220530152158.108619-1-duoming@zju.edu.cn>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: by_KCgDHeAh415Rir1sMAQ--.3918S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtF45ZFWxZry7XFWfXry7KFg_yoWxGw47pF
-        W7Ka1fJrZrXr4rCw4rWFWkWF18uw4qq3yUGr1UuFnakw13G3s8JF1ktFWjqFW3GFWfJF1D
-        Z34UWan8Ar4kuFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: by_KCgCXnwsV4ZRiwJkMAQ--.5265S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxtF45ZFWxZry7XFWfAw1DZFb_yoWxWF4UpF
+        W7Ka1fJrWDXr4rCw4ruFWkWF18Zw4qq3yUGr1UuFnakw13Gr98JFyktFyjqFW3GFWfJF1D
+        Z34UWan8Ar4kuaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
         9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
         rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
         1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
         JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
         CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
         W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-        Y2ka0xkIwI1lc2xSY4AK67AK6ry5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+        Y2ka0xkIwI1lc2xSY4AK67AK6ryrMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
         1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
         b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
         vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
         cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
-        nxnUUI43ZEXa7VUbkR65UUUUU==
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAg4GAVZdtZ9W2gAIsu
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        nxnUUI43ZEXa7VUbOB_UUUUUU==
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgkGAVZdtZ9ZQQABs0
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -86,8 +86,8 @@ The incoming ax25 sessions which ax25->sk is null will close
 heartbeat timer, because the check "if(!ax25->sk || ..)" is
 satisfied. As a result, the session could not be cleaned up properly.
 
-In order to solve this problem, this patch changes "||" to "&&"
-in ax25_disconnect().
+In order to solve this problem, this patch changes the improper
+check to "if(ax25->sk && ..)" in ax25_disconnect().
 
 What`s more, the ax25_disconnect() may be called twice, which is
 not necessary. For example, ax25_kill_by_device() calls
@@ -103,9 +103,12 @@ Fixes: 8a367e74c012 ("ax25: Fix segfault after sock connection timeout")
 Reported-and-tested-by: Thomas Osterried <thomas@osterried.de>
 Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 ---
-Changes in v4:
+Changes since v1:
+  - Add ax25_cb_del() in ax25_kill_by_device().
+  - Mitigate race conditions through lock.
   - Fix session cleanup problem in ax25_disconnect().
   - Fix ax25_disconnect() may be called twice problem.
+  - Change check in ax25_disconnect() to "if(ax25->sk && ..)".
 
  include/net/ax25.h   |  1 +
  net/ax25/af_ax25.c   | 27 +++++++++++++++++----------
@@ -215,7 +218,7 @@ index d2a244e1c26..5451be15e07 100644
  	ax25_dev->values[AX25_VALUES_IPDEFMODE] = AX25_DEF_IPDEFMODE;
  	ax25_dev->values[AX25_VALUES_AXDEFMODE] = AX25_DEF_AXDEFMODE;
 diff --git a/net/ax25/ax25_subr.c b/net/ax25/ax25_subr.c
-index 3a476e4f6cd..227c2b09c52 100644
+index 3a476e4f6cd..9ff98f46dc6 100644
 --- a/net/ax25/ax25_subr.c
 +++ b/net/ax25/ax25_subr.c
 @@ -268,7 +268,7 @@ void ax25_disconnect(ax25_cb *ax25, int reason)
@@ -223,7 +226,7 @@ index 3a476e4f6cd..227c2b09c52 100644
  		del_timer_sync(&ax25->idletimer);
  	} else {
 -		if (!ax25->sk || !sock_flag(ax25->sk, SOCK_DESTROY))
-+		if (!ax25->sk && !sock_flag(ax25->sk, SOCK_DESTROY))
++		if (ax25->sk && !sock_flag(ax25->sk, SOCK_DESTROY))
  			ax25_stop_heartbeat(ax25);
  		ax25_stop_t1timer(ax25);
  		ax25_stop_t2timer(ax25);
