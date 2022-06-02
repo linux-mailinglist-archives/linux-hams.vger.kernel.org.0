@@ -2,69 +2,87 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 989B253ADD8
-	for <lists+linux-hams@lfdr.de>; Wed,  1 Jun 2022 22:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 288C953B5A1
+	for <lists+linux-hams@lfdr.de>; Thu,  2 Jun 2022 11:02:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229862AbiFAUpw (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 1 Jun 2022 16:45:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43852 "EHLO
+        id S232696AbiFBJAR (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 2 Jun 2022 05:00:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbiFAUpV (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 1 Jun 2022 16:45:21 -0400
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE8561C4F20
-        for <linux-hams@vger.kernel.org>; Wed,  1 Jun 2022 13:32:08 -0700 (PDT)
-Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-f3381207a5so4266432fac.4
-        for <linux-hams@vger.kernel.org>; Wed, 01 Jun 2022 13:32:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:in-reply-to:references:from:date:message-id
-         :subject:to;
-        bh=Gk4nfCem3ECRa7Gml0J0mN/3RZoOAdfGaQAqyHPKtiI=;
-        b=DxxMd4k8tG1Z+DI+JxuL9225Cp+S+uInl/poXMcuMZiTQV1c8XJNPCuJB0EN9Fm1lJ
-         tjqO15tZbiRtkiZc869kqZb+gTGwGsofr4Ks/EzA24HoqZkeukApCRLbeWaJgYbzN6Uj
-         DJcyUaN0vgzLiaJiK8SKJwd17XWuJUN7X4OrSO+zy2q+txFdEpb8ifoCAb/ECnGeqxQV
-         22+OgKU21rrXICCeKXN25GVJHEIOuX810V30PW3f8Y111fShlwSlQkBARV9N87g0aoLJ
-         wQNCoaF08Ng768jLDvSBCHYHS21HkQkWfLc+tM30B/O2SgLendb0dLrFE3BY6UlGqUm0
-         gBYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:in-reply-to:references
-         :from:date:message-id:subject:to;
-        bh=Gk4nfCem3ECRa7Gml0J0mN/3RZoOAdfGaQAqyHPKtiI=;
-        b=BSPBrCaCPem/PGFVhkw7lP2byXIfIIVZRAIjgMfaX7scwH8jXazaOjk+UwwpRuTRbl
-         yYVkrXLBr3uI3vi/CjHI4ONfnBdySlzo5liXbfYSkxVgZl4/Nw0eOW3G++qzfdaHKdEh
-         DnNlnbT5j4/of1SWLpqzHUhojM29mdLzlh82kofaHZNjK7Ml4bEophVXemA1wHbIGTXU
-         8jO/1A8TjkYmCnbxoRKlpaiDDEXMV1IuAEgnHZ5fnh07fOoI3sFXsiyHrdVfKwuH68hH
-         Y7T/7VCDw0Ga3fyhcUehl8K4ekZPa1H74/L23+Nt8JwMkPf8sW+LWKyHNznF23GIuVsD
-         5vHw==
-X-Gm-Message-State: AOAM531iVquVifvWYHWKZ022n+/7XW7N6pUTAsltAMyS6y1LMqelQQHC
-        /XczUVdircgu3ZUYHz8Q5mezVMynmbD4YUd1AtbizPDxUaQ=
-X-Google-Smtp-Source: ABdhPJxRHJ7PowqzwP8FVf7Pao2siL9+mp8F+vsKwg9Hvlld1uXwEH8+vzJyu5zLQk9d57eu+g6BtXkHW1P4ce0P3TA=
-X-Received: by 2002:a05:6870:4619:b0:f1:e78d:fd54 with SMTP id
- z25-20020a056870461900b000f1e78dfd54mr18175523oao.195.1654111088174; Wed, 01
- Jun 2022 12:18:08 -0700 (PDT)
+        with ESMTP id S232705AbiFBJAR (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 2 Jun 2022 05:00:17 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99C452004CB;
+        Thu,  2 Jun 2022 02:00:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4950FB81F01;
+        Thu,  2 Jun 2022 09:00:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 13410C36AE7;
+        Thu,  2 Jun 2022 09:00:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654160413;
+        bh=6NQyQsEyYucHVOkZbLnJ7urn0m0WnyT2Zt9bDJz9iLk=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=R2753QVItjwhML4hrwNDUHP17Wgs1oqlCqs953uQQjJew6LjcgqHcHsWNPIAn2K/q
+         UJ6DnNkLJgj+rcnaVng5AxtMFIEIp39U6aHPmfGnBVG+WvKcR0jxABzIMg07ON3NjM
+         Xwm9isntYdxK9sUHgF4aL/9sNgVZH8LkWDBV9dMyojn1WlopJGGgple9tFvkqsgwK8
+         bAHb7GI1nPq/CgtYDu2ERfEyrICsTOOc4iO9z7bOCLCUPJfHpo6F0yNZ+TX4k9ZGJ2
+         afRBwHO0xma2WtRMrfsOn5XR3UIXy5oOr4Lv20nyp9HXEtit7dY2S5GuPII5eadUkR
+         5UgBC5c+w7dRw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id EB61AF03950;
+        Thu,  2 Jun 2022 09:00:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Received: by 2002:a05:6358:3601:b0:a3:2139:251d with HTTP; Wed, 1 Jun 2022
- 12:18:07 -0700 (PDT)
-Reply-To: johnwinery@online.ee
-In-Reply-To: <CAFqHCSSUC0MpbjYK8d-GCxOG4b6Qbk2uH3+xQDZte6cPBsxLGA@mail.gmail.com>
-References: <CAFqHCSSUC0MpbjYK8d-GCxOG4b6Qbk2uH3+xQDZte6cPBsxLGA@mail.gmail.com>
-From:   johnwinery <alicejohnson8974@gmail.com>
-Date:   Wed, 1 Jun 2022 12:18:07 -0700
-Message-ID: <CAFqHCSTLW5uHwBqcyU-qn7_jF2jtwt2-CjgdN8-B9nAn9yi+vg@mail.gmail.com>
-Subject: Re:
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v5] ax25: Fix ax25 session cleanup problems
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <165416041295.6334.1196583658510604194.git-patchwork-notify@kernel.org>
+Date:   Thu, 02 Jun 2022 09:00:12 +0000
+References: <20220530152158.108619-1-duoming@zju.edu.cn>
+In-Reply-To: <20220530152158.108619-1-duoming@zju.edu.cn>
+To:     Duoming Zhou <duoming@zju.edu.cn>
+Cc:     linux-hams@vger.kernel.org, jreuter@yaina.de, ralf@linux-mips.org,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, thomas@osterried.de
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Greeting ,I had written an earlier mail to you but without response
+Hello:
+
+This patch was applied to netdev/net.git (master)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Mon, 30 May 2022 23:21:58 +0800 you wrote:
+> There are session cleanup problems in ax25_release() and
+> ax25_disconnect(). If we setup a session and then disconnect,
+> the disconnected session is still in "LISTENING" state that
+> is shown below.
+> 
+> Active AX.25 sockets
+> Dest       Source     Device  State        Vr/Vs    Send-Q  Recv-Q
+> DL9SAU-4   DL9SAU-3   ???     LISTENING    000/000  0       0
+> DL9SAU-3   DL9SAU-4   ???     LISTENING    000/000  0       0
+> 
+> [...]
+
+Here is the summary with links:
+  - [net,v5] ax25: Fix ax25 session cleanup problems
+    https://git.kernel.org/netdev/net/c/7d8a3a477b3e
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
