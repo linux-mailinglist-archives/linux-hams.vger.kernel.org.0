@@ -2,171 +2,128 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECD3C53ED05
-	for <lists+linux-hams@lfdr.de>; Mon,  6 Jun 2022 19:32:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 530C853ED15
+	for <lists+linux-hams@lfdr.de>; Mon,  6 Jun 2022 19:40:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229687AbiFFRcI (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 6 Jun 2022 13:32:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43032 "EHLO
+        id S229753AbiFFRkn (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 6 Jun 2022 13:40:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229658AbiFFRcF (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 6 Jun 2022 13:32:05 -0400
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C65A61A45F3
-        for <linux-hams@vger.kernel.org>; Mon,  6 Jun 2022 10:32:02 -0700 (PDT)
-Received: by mail-yb1-xb2c.google.com with SMTP id l204so26884317ybf.10
-        for <linux-hams@vger.kernel.org>; Mon, 06 Jun 2022 10:32:02 -0700 (PDT)
+        with ESMTP id S229515AbiFFRkl (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 6 Jun 2022 13:40:41 -0400
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6DB429E4EB
+        for <linux-hams@vger.kernel.org>; Mon,  6 Jun 2022 10:40:38 -0700 (PDT)
+Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-e656032735so20064325fac.0
+        for <linux-hams@vger.kernel.org>; Mon, 06 Jun 2022 10:40:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=h4C9WpLUh/VIc8qz9wWANgWf77RNe31qiFw7MR8/RHI=;
-        b=apHOPXnRIiSdZ45R4m8vufwr+NeG8y1pzCQXi+GrC852y1Xl9f9LsfqG9me1qaLzoh
-         8+ABu67BD5sTDqxowSSwbPqKxcasK8w2GAsOqdSP0hLndoa0EtCa2+BwsK2gFolE4pHK
-         MyQA5SJMyqdvkrg6txryVjkZMms3+fW2PzqSTz7GiB2iJhkpr/BfDOR+nBYFU0BI/U35
-         Kvzf3ek1xq8H44vc7oevhKT4Zc3yt1djSQEpcGAcQljoe/1v37kRRBZRf+k3acRGyM9L
-         YYr+/T8gGjQ1wsfAe7i6SArugJMmB9kO930+XrArPjwuVhqfo33/MTTBi20KocaK+jXW
-         cGHQ==
+        d=mtu.edu; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DtyyUcod6yH34VWx/gOEMfrYC3WTarSagW2RLB8d30k=;
+        b=ib70jNGgk10w5WIrphmuEnyzmUa7hIwQAM5XAXTZVCho1WRGnDJ11O1LyhiurdX+h7
+         uCY8liPjgJaoaH4ysb20pPxj1xJwYswpJjnGmufGsLTR+K2U5p1B6ztjcgt8R48OO0j3
+         rNyk+pJy12WY+D6GVS7hghy6OAhO3i1ufPuLNsu4pIe3/2zOJvRs7aHBL1zakgNmY5Ki
+         I/kGciTVE+d6UmXJjafUpt+hDcruUbgMQ+mJ9VmLWXx5y9GiX0FF62oz3qUwxX/wYd/G
+         g5DcZzyOgDjtoq3YN+u64pyWxgfXrAVx7AutWhCIeS1HWoSHd/0aWUB4d70WHIrFpHFJ
+         rrug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h4C9WpLUh/VIc8qz9wWANgWf77RNe31qiFw7MR8/RHI=;
-        b=zZD5+bwXuLrva0wq+2OjAIpAbB3t2NEYNjLQ+7ZVFBDSZGsKHcbyZoYOsvIuHWnrwP
-         QAUc368GJtA1ZpuDjizBHHJyky0gppZeX8EcuiYNPq5EoH9U6ZyXgNtrE3TxudK63pxI
-         j5qNIgdBxsFC7Nn1GhVqRgCPCfBdutKW2CKu+2LTYBddy115xCS4vt14gI+4rg6Uj26Z
-         OdtDuMZlI4ackjvnv+GqRcYD+BV3UVEn3/lLjwSMIWo90BETr6skonpr3Wml2VgTLO1j
-         33wBn2ritiYLdL/+sUn6vqUlTXQT3Mb8DSSYzRKeL+4kZ7OXoJorGW7LHjRB8p3OncLe
-         zboQ==
-X-Gm-Message-State: AOAM532sL68ueSgxEFvOZEXZkEG6xSxvwWKD1i4EBcjm+bOv2spBpFK/
-        gXk5ap8UczVBEOtA/AiEqcxSf8lCnCBwLHVkPtBsjA==
-X-Google-Smtp-Source: ABdhPJyln0XAhu0MGDOEEGvLmEPTQLb7ZpwI8GRDAEKgqr2CoPH8Y2XkVwUILvdNSg4aRKRJjQka6uK5s4Q9xgA9oVI=
-X-Received: by 2002:a05:6902:c9:b0:641:1998:9764 with SMTP id
- i9-20020a05690200c900b0064119989764mr25712824ybs.427.1654536721612; Mon, 06
- Jun 2022 10:32:01 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DtyyUcod6yH34VWx/gOEMfrYC3WTarSagW2RLB8d30k=;
+        b=YB3PeBnPSoPm+XtKn1a42d+5SQ+Upf/hu0Zpifac0bKoqCS8GVsu+VRyPMv6UkPUvc
+         LYCpzol2SzMK36cZoGzKcKzrG3jgG+A+ULt0IPYUIsJiDRludZvSzx2c4hCsgrLCP9zo
+         TKfs81a3zH+ID7gWNoBDtBpre+z77n5gBvHBDpd/OD5nD6n1FTLEvAF4cMUiFuV54ENc
+         ChOiimknGEAYz0GS2pNU/lMLwaLdQqn3VUw0RkOUU6ge0GhmZhyEtDocYfQInIJWo+Zj
+         J9saVjF/QHc/+ZIX4KRXxWYzDlxwRI7ofA1n4iLmzu330WU8Wbl3mSo8Wq2Juy/puO2V
+         UTeg==
+X-Gm-Message-State: AOAM530MORhEy09dE1BigRqdZan/GfYDXcYpT3FD3F6mGTllikE9NNR0
+        Gv3Ms2ObBZaD9uXkau+gPpmBLDzphJGLS0Dn
+X-Google-Smtp-Source: ABdhPJzqBwG7fXQJmZ4D/NDo4ngw2oj0m1XoCUHBrzqfrbG1JebDWY8bqt+RyGZ2xq0lr7NzJJ6uZg==
+X-Received: by 2002:a05:6870:ea9d:b0:f2:aaf3:410c with SMTP id s29-20020a056870ea9d00b000f2aaf3410cmr14232194oap.205.1654537238050;
+        Mon, 06 Jun 2022 10:40:38 -0700 (PDT)
+Received: from localhost.localdomain ([2600:380:a667:2f5:c8d:cd64:49e4:d05d])
+        by smtp.gmail.com with ESMTPSA id g4-20020a056870d20400b000f1bc45ba21sm7252401oac.14.2022.06.06.10.40.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jun 2022 10:40:37 -0700 (PDT)
+From:   Peter Lafreniere <pjlafren@mtu.edu>
+To:     linux-hams@vger.kernel.org
+Cc:     Peter Lafreniere <pjlafren@mtu.edu>,
+        kernel test robot <lkp@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH v2] ax25: use GFP_KERNEL in ax25_dev_device_up()
+Date:   Mon,  6 Jun 2022 13:40:12 -0400
+Message-Id: <20220606174012.10262-1-pjlafren@mtu.edu>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220606162138.81505-1-duoming@zju.edu.cn>
-In-Reply-To: <20220606162138.81505-1-duoming@zju.edu.cn>
-From:   Eric Dumazet <edumazet@google.com>
-Date:   Mon, 6 Jun 2022 10:31:49 -0700
-Message-ID: <CANn89i+HbdWS4JU0odCbRApuCTGFAt9_NSUoCSFo-b4-z0uWCQ@mail.gmail.com>
-Subject: Re: [PATCH net-next] ax25: Fix deadlock caused by skb_recv_datagram
- in ax25_recvmsg
-To:     Duoming Zhou <duoming@zju.edu.cn>
-Cc:     LKML <linux-kernel@vger.kernel.org>, jreuter@yaina.de,
-        Ralf Baechle <ralf@linux-mips.org>,
-        David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        netdev <netdev@vger.kernel.org>, linux-hams@vger.kernel.org,
-        thomas@osterried.de
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Mon, Jun 6, 2022 at 9:21 AM Duoming Zhou <duoming@zju.edu.cn> wrote:
->
-> The skb_recv_datagram() in ax25_recvmsg() will hold lock_sock
-> and block until it receives a packet from the remote. If the client
-> doesn`t connect to server and calls read() directly, it will not
-> receive any packets forever. As a result, the deadlock will happen.
->
-> The fail log caused by deadlock is shown below:
->
-> [  861.122612] INFO: task ax25_deadlock:148 blocked for more than 737 seconds.
-> [  861.124543] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> [  861.127764] Call Trace:
-> [  861.129688]  <TASK>
-> [  861.130743]  __schedule+0x2f9/0xb20
-> [  861.131526]  schedule+0x49/0xb0
-> [  861.131640]  __lock_sock+0x92/0x100
-> [  861.131640]  ? destroy_sched_domains_rcu+0x20/0x20
-> [  861.131640]  lock_sock_nested+0x6e/0x70
-> [  861.131640]  ax25_sendmsg+0x46/0x420
-> [  861.134383]  ? ax25_recvmsg+0x1e0/0x1e0
-> [  861.135658]  sock_sendmsg+0x59/0x60
-> [  861.136791]  __sys_sendto+0xe9/0x150
-> [  861.137212]  ? __schedule+0x301/0xb20
-> [  861.137710]  ? __do_softirq+0x4a2/0x4fd
-> [  861.139153]  __x64_sys_sendto+0x20/0x30
-> [  861.140330]  do_syscall_64+0x3b/0x90
-> [  861.140731]  entry_SYSCALL_64_after_hwframe+0x46/0xb0
-> [  861.141249] RIP: 0033:0x7fdf05ee4f64
-> [  861.141249] RSP: 002b:00007ffe95772fc0 EFLAGS: 00000246 ORIG_RAX: 000000000000002c
-> [  861.141249] RAX: ffffffffffffffda RBX: 0000565303a013f0 RCX: 00007fdf05ee4f64
-> [  861.141249] RDX: 0000000000000005 RSI: 0000565303a01678 RDI: 0000000000000005
-> [  861.141249] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> [  861.141249] R10: 0000000000000000 R11: 0000000000000246 R12: 0000565303a00cf0
-> [  861.141249] R13: 00007ffe957730e0 R14: 0000000000000000 R15: 0000000000000000
->
-> This patch moves the skb_recv_datagram() before lock_sock() in order
-> that other functions that need lock_sock could be executed.
->
+ax25_dev_device_up() is only called during device setup, which is
+done in user context. In addition, ax25_dev_device_up()
+unconditionally calls ax25_register_dev_sysctl(), which already
+allocates with GFP_KERNEL.
 
+Since it is allowed to sleep in this function, here we change
+ax25_dev_device_up() to use GFP_KERNEL to reduce unnecessary
+out-of-memory errors.
 
-Why is this targeting net-next tree ?
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Peter Lafreniere <pjlafren@mtu.edu>
+---
+v1 -> v2:
+ - Renamed patch from "ax25: use GFP_KERNEL over GFP_ATOMIC where possible"
+   (Is that okay?)
+ - Removed invalid changes to ax25_rt_add()
 
-1) A fix should target net tree
-2) It should include a Fixes: tag
+This isn't related to the patch itself, but thanks are owed to everyone
+who had to handle my mistakes in submitting this patch the first time.
+First the posting during the merge window, which I know better to do,
+then me making the stupidest error of missing a lock directly next to the
+relevant code.
 
-Also:
-- this patch bypasses tests in ax25_recvmsg()
-- This might break applications depending on blocking read() operations.
+I'm sorry for taking up your time, especially with these small and
+insignificant patches. That said, I hope to be able to work with everyone
+in this community in the future.
 
-I feel a real fix is going to be slightly more difficult than that.
+Thank you all for your time,
+Peter L.
 
-Thank you
+ net/ax25/ax25_dev.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> Reported-by: Thomas Habets <thomas@@habets.se>
-> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-> ---
->  net/ax25/af_ax25.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
->
-> diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-> index 95393bb2760..02cd6087512 100644
-> --- a/net/ax25/af_ax25.c
-> +++ b/net/ax25/af_ax25.c
-> @@ -1665,6 +1665,11 @@ static int ax25_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
->         int copied;
->         int err = 0;
->
-> +       /* Now we can treat all alike */
-> +       skb = skb_recv_datagram(sk, flags, &err);
-> +       if (!skb)
-> +               goto done;
-> +
->         lock_sock(sk);
->         /*
->          *      This works for seqpacket too. The receiver has ordered the
-> @@ -1675,11 +1680,6 @@ static int ax25_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
->                 goto out;
->         }
->
-> -       /* Now we can treat all alike */
-> -       skb = skb_recv_datagram(sk, flags, &err);
-> -       if (skb == NULL)
-> -               goto out;
-> -
->         if (!sk_to_ax25(sk)->pidincl)
->                 skb_pull(skb, 1);               /* Remove PID */
->
-> @@ -1725,6 +1725,7 @@ static int ax25_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
->  out:
->         release_sock(sk);
->
-> +done:
->         return err;
->  }
->
-> --
-> 2.17.1
->
+diff --git a/net/ax25/ax25_dev.c b/net/ax25/ax25_dev.c
+index 95a76d571c44..af5892ee0066 100644
+--- a/net/ax25/ax25_dev.c
++++ b/net/ax25/ax25_dev.c
+@@ -52,7 +52,7 @@ void ax25_dev_device_up(struct net_device *dev)
+ {
+ 	ax25_dev *ax25_dev;
+ 
+-	if ((ax25_dev = kzalloc(sizeof(*ax25_dev), GFP_ATOMIC)) == NULL) {
++	if ((ax25_dev = kzalloc(sizeof(*ax25_dev), GFP_KERNEL)) == NULL) {
+ 		printk(KERN_ERR "AX.25: ax25_dev_device_up - out of memory\n");
+ 		return;
+ 	}
+@@ -60,7 +60,7 @@ void ax25_dev_device_up(struct net_device *dev)
+ 	refcount_set(&ax25_dev->refcount, 1);
+ 	dev->ax25_ptr     = ax25_dev;
+ 	ax25_dev->dev     = dev;
+-	dev_hold_track(dev, &ax25_dev->dev_tracker, GFP_ATOMIC);
++	dev_hold_track(dev, &ax25_dev->dev_tracker, GFP_KERNEL);
+ 	ax25_dev->forward = NULL;
+ 	ax25_dev->device_up = true;
+ 
+-- 
+2.36.1
+
