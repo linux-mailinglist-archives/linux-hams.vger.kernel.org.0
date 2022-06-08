@@ -2,116 +2,144 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31EC4542614
-	for <lists+linux-hams@lfdr.de>; Wed,  8 Jun 2022 08:55:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0BEE542532
+	for <lists+linux-hams@lfdr.de>; Wed,  8 Jun 2022 08:54:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229629AbiFHD42 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 7 Jun 2022 23:56:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47458 "EHLO
+        id S232207AbiFHE5e (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 8 Jun 2022 00:57:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235270AbiFHDzO (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 7 Jun 2022 23:55:14 -0400
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 9C5A223A021;
-        Tue,  7 Jun 2022 18:03:14 -0700 (PDT)
-Received: by ajax-webmail-mail-app3 (Coremail) ; Wed, 8 Jun 2022 09:02:10
- +0800 (GMT+08:00)
-X-Originating-IP: [106.117.78.144]
-Date:   Wed, 8 Jun 2022 09:02:10 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   duoming@zju.edu.cn
-To:     "Eric Dumazet" <edumazet@google.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, jreuter@yaina.de,
-        "Ralf Baechle" <ralf@linux-mips.org>,
-        "David Miller" <davem@davemloft.net>,
-        "Jakub Kicinski" <kuba@kernel.org>,
-        "Paolo Abeni" <pabeni@redhat.com>, netdev <netdev@vger.kernel.org>,
-        linux-hams@vger.kernel.org, thomas@osterried.de
-Subject: Re: [PATCH v2] net: ax25: Fix deadlock caused by skb_recv_datagram
- in ax25_recvmsg
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <CANn89iJoOvG=KrouTpe+bgAVf=mYtxE1D3m542UF96XwxKEVsQ@mail.gmail.com>
-References: <20220607142337.78458-1-duoming@zju.edu.cn>
- <CANn89iJoOvG=KrouTpe+bgAVf=mYtxE1D3m542UF96XwxKEVsQ@mail.gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
-MIME-Version: 1.0
-Message-ID: <3c463bfd.58476.18140d5501a.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cC_KCgDHa7gS9Z9itGG0AQ--.38641W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgsPAVZdtaGKPwAAst
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S232446AbiFHE5Y (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 8 Jun 2022 00:57:24 -0400
+Received: from azure-sdnproxy-2.icoremail.net (azure-sdnproxy.icoremail.net [52.175.55.52])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 490BC279C23;
+        Tue,  7 Jun 2022 18:30:29 -0700 (PDT)
+Received: from ubuntu.localdomain (unknown [106.117.78.144])
+        by mail-app3 (Coremail) with SMTP id cC_KCgDX36N1+59ibce0AQ--.23205S2;
+        Wed, 08 Jun 2022 09:29:46 +0800 (CST)
+From:   Duoming Zhou <duoming@zju.edu.cn>
+To:     linux-kernel@vger.kernel.org
+Cc:     jreuter@yaina.de, ralf@linux-mips.org, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        netdev@vger.kernel.org, linux-hams@vger.kernel.org,
+        thomas@osterried.de, Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH v3] net: ax25: Fix deadlock caused by skb_recv_datagram in ax25_recvmsg
+Date:   Wed,  8 Jun 2022 09:29:23 +0800
+Message-Id: <20220608012923.17505-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cC_KCgDX36N1+59ibce0AQ--.23205S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZw43ZFyfAF1kWFy3KFW3Jrb_yoW5uF43pF
+        yUKFyxWr48Jry2qr47JFyDXr1xAFsFyayUXryxW3yxZFnxG3WrAryrtr4jy3yjgrZ8A347
+        tFn0ga1xKFn3WaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
+        JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+        n2kIc2xKxwCY02Avz4vE14v_KwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
+        W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
+        1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
+        IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
+        x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
+        DU0xZFpf9x0JUHpB-UUUUU=
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAggPAVZdtaGLfQAFso
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-SGVsbG8sCgpPbiBUdWUsIDcgSnVuIDIwMjIgMTA6MDY6MjcgLTA3MDAgRXJpYyBEdW1hemV0IHdy
-b3RlOgoKPiBPbiBUdWUsIEp1biA3LCAyMDIyIGF0IDc6MjQgQU0gRHVvbWluZyBaaG91IDxkdW9t
-aW5nQHpqdS5lZHUuY24+IHdyb3RlOgo+ID4KPiA+IFRoZSBza2JfcmVjdl9kYXRhZ3JhbSgpIGlu
-IGF4MjVfcmVjdm1zZygpIHdpbGwgaG9sZCBsb2NrX3NvY2sKPiA+IGFuZCBibG9jayB1bnRpbCBp
-dCByZWNlaXZlcyBhIHBhY2tldCBmcm9tIHRoZSByZW1vdGUuIElmIHRoZSBjbGllbnQKPiA+IGRv
-ZXNuYHQgY29ubmVjdCB0byBzZXJ2ZXIgYW5kIGNhbGxzIHJlYWQoKSBkaXJlY3RseSwgaXQgd2ls
-bCBub3QKPiA+IHJlY2VpdmUgYW55IHBhY2tldHMgZm9yZXZlci4gQXMgYSByZXN1bHQsIHRoZSBk
-ZWFkbG9jayB3aWxsIGhhcHBlbi4KPiA+Cj4gPiBUaGUgZmFpbCBsb2cgY2F1c2VkIGJ5IGRlYWRs
-b2NrIGlzIHNob3duIGJlbG93Ogo+ID4KPiA+IFsgIDM2OS42MDY5NzNdIElORk86IHRhc2sgYXgy
-NV9kZWFkbG9jazoxNTcgYmxvY2tlZCBmb3IgbW9yZSB0aGFuIDI0NSBzZWNvbmRzLgo+ID4gWyAg
-MzY5LjYwODkxOV0gImVjaG8gMCA+IC9wcm9jL3N5cy9rZXJuZWwvaHVuZ190YXNrX3RpbWVvdXRf
-c2VjcyIgZGlzYWJsZXMgdGhpcyBtZXNzYWdlLgo+ID4gWyAgMzY5LjYxMzA1OF0gQ2FsbCBUcmFj
-ZToKPiA+IFsgIDM2OS42MTMzMTVdICA8VEFTSz4KPiA+IFsgIDM2OS42MTQwNzJdICBfX3NjaGVk
-dWxlKzB4MmY5LzB4YjIwCj4gPiBbICAzNjkuNjE1MDI5XSAgc2NoZWR1bGUrMHg0OS8weGIwCj4g
-PiBbICAzNjkuNjE1NzM0XSAgX19sb2NrX3NvY2srMHg5Mi8weDEwMAo+ID4gWyAgMzY5LjYxNjc2
-M10gID8gZGVzdHJveV9zY2hlZF9kb21haW5zX3JjdSsweDIwLzB4MjAKPiA+IFsgIDM2OS42MTc5
-NDFdICBsb2NrX3NvY2tfbmVzdGVkKzB4NmUvMHg3MAo+ID4gWyAgMzY5LjYxODgwOV0gIGF4MjVf
-YmluZCsweGFhLzB4MjEwCj4gPiBbICAzNjkuNjE5NzM2XSAgX19zeXNfYmluZCsweGNhLzB4ZjAK
-PiA+IFsgIDM2OS42MjAwMzldICA/IGRvX2Z1dGV4KzB4YWUvMHgxYjAKPiA+IFsgIDM2OS42MjAz
-ODddICA/IF9feDY0X3N5c19mdXRleCsweDdjLzB4MWMwCj4gPiBbICAzNjkuNjIwNjAxXSAgPyBm
-cHJlZ3NfYXNzZXJ0X3N0YXRlX2NvbnNpc3RlbnQrMHgxOS8weDQwCj4gPiBbICAzNjkuNjIwNjEz
-XSAgX194NjRfc3lzX2JpbmQrMHgxMS8weDIwCj4gPiBbICAzNjkuNjIxNzkxXSAgZG9fc3lzY2Fs
-bF82NCsweDNiLzB4OTAKPiA+IFsgIDM2OS42MjI0MjNdICBlbnRyeV9TWVNDQUxMXzY0X2FmdGVy
-X2h3ZnJhbWUrMHg0Ni8weGIwCj4gPiBbICAzNjkuNjIzMzE5XSBSSVA6IDAwMzM6MHg3ZjQzYzhh
-YThhZjcKPiA+IFsgIDM2OS42MjQzMDFdIFJTUDogMDAyYjowMDAwN2Y0M2M4MTk3ZWY4IEVGTEFH
-UzogMDAwMDAyNDYgT1JJR19SQVg6IDAwMDAwMDAwMDAwMDAwMzEKPiA+IFsgIDM2OS42MjU3NTZd
-IFJBWDogZmZmZmZmZmZmZmZmZmZkYSBSQlg6IDAwMDAwMDAwMDAwMDAwMDAgUkNYOiAwMDAwN2Y0
-M2M4YWE4YWY3Cj4gPiBbICAzNjkuNjI2NzI0XSBSRFg6IDAwMDAwMDAwMDAwMDAwMTAgUlNJOiAw
-MDAwNTU3NjhlMjAyMWQwIFJESTogMDAwMDAwMDAwMDAwMDAwNQo+ID4gWyAgMzY5LjYyODU2OV0g
-UkJQOiAwMDAwN2Y0M2M4MTk3ZjAwIFIwODogMDAwMDAwMDAwMDAwMDAxMSBSMDk6IDAwMDA3ZjQz
-YzgxOTg3MDAKPiA+IFsgIDM2OS42MzAyMDhdIFIxMDogMDAwMDAwMDAwMDAwMDAwMCBSMTE6IDAw
-MDAwMDAwMDAwMDAyNDYgUjEyOiAwMDAwN2ZmZjg0NWU2YWZlCj4gPiBbICAzNjkuNjMyMjQwXSBS
-MTM6IDAwMDA3ZmZmODQ1ZTZhZmYgUjE0OiAwMDAwN2Y0M2M4MTk3ZmMwIFIxNTogMDAwMDdmNDNj
-ODE5ODcwMAo+ID4KPiA+IFRoaXMgcGF0Y2ggbW92ZXMgdGhlIHNrYl9yZWN2X2RhdGFncmFtKCkg
-YmVmb3JlIGxvY2tfc29jaygpIGluIG9yZGVyCj4gPiB0aGF0IG90aGVyIGZ1bmN0aW9ucyB0aGF0
-IG5lZWQgbG9ja19zb2NrIGNvdWxkIGJlIGV4ZWN1dGVkLgo+ID4KPiA+IFN1Z2dlc3RlZC1ieTog
-VGhvbWFzIE9zdGVycmllZCA8dGhvbWFzQG9zdGVycmllZC5kZT4KPiA+IFNpZ25lZC1vZmYtYnk6
-IER1b21pbmcgWmhvdSA8ZHVvbWluZ0B6anUuZWR1LmNuPgo+ID4gUmVwb3J0ZWQtYnk6IFRob21h
-cyBIYWJldHMgPHRob21hc0BAaGFiZXRzLnNlPgo+ID4gLS0tCj4gPiBDaGFuZ2VzIGluIHYyOgo+
-ID4gICAtIE1ha2UgY29tbWl0IG1lc3NhZ2VzIGNsZWFyZXIuCj4gPgo+ID4gIG5ldC9heDI1L2Fm
-X2F4MjUuYyB8IDExICsrKysrKy0tLS0tCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9u
-cygrKSwgNSBkZWxldGlvbnMoLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvbmV0L2F4MjUvYWZfYXgy
-NS5jIGIvbmV0L2F4MjUvYWZfYXgyNS5jCj4gPiBpbmRleCA5NTM5M2JiMjc2MC4uMDJjZDYwODc1
-MTIgMTAwNjQ0Cj4gPiAtLS0gYS9uZXQvYXgyNS9hZl9heDI1LmMKPiA+ICsrKyBiL25ldC9heDI1
-L2FmX2F4MjUuYwo+ID4gQEAgLTE2NjUsNiArMTY2NSwxMSBAQCBzdGF0aWMgaW50IGF4MjVfcmVj
-dm1zZyhzdHJ1Y3Qgc29ja2V0ICpzb2NrLCBzdHJ1Y3QgbXNnaGRyICptc2csIHNpemVfdCBzaXpl
-LAo+ID4gICAgICAgICBpbnQgY29waWVkOwo+ID4gICAgICAgICBpbnQgZXJyID0gMDsKPiA+Cj4g
-PiArICAgICAgIC8qIE5vdyB3ZSBjYW4gdHJlYXQgYWxsIGFsaWtlICovCj4gPiArICAgICAgIHNr
-YiA9IHNrYl9yZWN2X2RhdGFncmFtKHNrLCBmbGFncywgJmVycik7Cj4gPiArICAgICAgIGlmICgh
-c2tiKQo+ID4gKyAgICAgICAgICAgICAgIGdvdG8gZG9uZTsKPiA+ICsKPiAKPiBTbyBhdCB0aGlz
-IHBvaW50IHdlIGhhdmUgc2tiPXNvbWV0aGluZy4gVGhpcyBtZWFucyB0aGF0IHRoZSBmb2xsb3dp
-bmcKPiBicmFuY2ggd2lsbCBsZWFrIGl0Lgo+IAo+IGlmIChzay0+c2tfdHlwZSA9PSBTT0NLX1NF
-UVBBQ0tFVCAmJiBzay0+c2tfc3RhdGUgIT0gVENQX0VTVEFCTElTSEVEKSB7Cj4gICAgIGVyciA9
-ICAtRU5PVENPTk47Cj4gICAgIGdvdG8gb3V0OyAgICAvLyBza2Igd2lsbCBiZSBsZWFrZWQKPiB9
-Cj4gCgpUaGFuayB5b3VyIGZvciBwb2ludGluZyBvdXQgdGhlIHByb2JsZW0hCkkgd2lsbCBhZGQg
-c2tiX2ZyZWVfZGF0YWdyYW0oKSBiZWZvcmUgZ290byBvdXQgaW4gb3JkZXIgdG8gbWl0aWdhdGUg
-dGhlIG1lbW9yeSBsZWFrLgoKICAgICAgICBpZiAoc2stPnNrX3R5cGUgPT0gU09DS19TRVFQQUNL
-RVQgJiYgc2stPnNrX3N0YXRlICE9IFRDUF9FU1RBQkxJU0hFRCkgewogICAgICAgICAgICAgICAg
-ZXJyID0gIC1FTk9UQ09OTjsKKyAgICAgICAgICAgICAgIHNrYl9mcmVlX2RhdGFncmFtKHNrLCBz
-a2IpOwogICAgICAgICAgICAgICAgZ290byBvdXQ7CiAgICAgICAgfQoKQmVzdCByZWdhcmRzLApE
-dW9taW5nIFpob3UKCg==
+The skb_recv_datagram() in ax25_recvmsg() will hold lock_sock
+and block until it receives a packet from the remote. If the client
+doesn`t connect to server and calls read() directly, it will not
+receive any packets forever. As a result, the deadlock will happen.
+
+The fail log caused by deadlock is shown below:
+
+[  369.606973] INFO: task ax25_deadlock:157 blocked for more than 245 seconds.
+[  369.608919] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+[  369.613058] Call Trace:
+[  369.613315]  <TASK>
+[  369.614072]  __schedule+0x2f9/0xb20
+[  369.615029]  schedule+0x49/0xb0
+[  369.615734]  __lock_sock+0x92/0x100
+[  369.616763]  ? destroy_sched_domains_rcu+0x20/0x20
+[  369.617941]  lock_sock_nested+0x6e/0x70
+[  369.618809]  ax25_bind+0xaa/0x210
+[  369.619736]  __sys_bind+0xca/0xf0
+[  369.620039]  ? do_futex+0xae/0x1b0
+[  369.620387]  ? __x64_sys_futex+0x7c/0x1c0
+[  369.620601]  ? fpregs_assert_state_consistent+0x19/0x40
+[  369.620613]  __x64_sys_bind+0x11/0x20
+[  369.621791]  do_syscall_64+0x3b/0x90
+[  369.622423]  entry_SYSCALL_64_after_hwframe+0x46/0xb0
+[  369.623319] RIP: 0033:0x7f43c8aa8af7
+[  369.624301] RSP: 002b:00007f43c8197ef8 EFLAGS: 00000246 ORIG_RAX: 0000000000000031
+[  369.625756] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f43c8aa8af7
+[  369.626724] RDX: 0000000000000010 RSI: 000055768e2021d0 RDI: 0000000000000005
+[  369.628569] RBP: 00007f43c8197f00 R08: 0000000000000011 R09: 00007f43c8198700
+[  369.630208] R10: 0000000000000000 R11: 0000000000000246 R12: 00007fff845e6afe
+[  369.632240] R13: 00007fff845e6aff R14: 00007f43c8197fc0 R15: 00007f43c8198700
+
+This patch moves the skb_recv_datagram() before lock_sock() in order that
+other functions that need lock_sock could be executed. What`s more, we
+add skb_free_datagram() before goto out in order to mitigate memory leak.
+
+Suggested-by: Thomas Osterried <thomas@osterried.de>
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+Reported-by: Thomas Habets <thomas@@habets.se>
+---
+Changes in v3:
+  - Add skb_free_datagram() before goto out in order to mitigate memory leak.
+
+ net/ax25/af_ax25.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+index 95393bb2760..62aa5993093 100644
+--- a/net/ax25/af_ax25.c
++++ b/net/ax25/af_ax25.c
+@@ -1665,6 +1665,11 @@ static int ax25_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
+ 	int copied;
+ 	int err = 0;
+ 
++	/* Now we can treat all alike */
++	skb = skb_recv_datagram(sk, flags, &err);
++	if (!skb)
++		goto done;
++
+ 	lock_sock(sk);
+ 	/*
+ 	 * 	This works for seqpacket too. The receiver has ordered the
+@@ -1672,14 +1677,10 @@ static int ax25_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
+ 	 */
+ 	if (sk->sk_type == SOCK_SEQPACKET && sk->sk_state != TCP_ESTABLISHED) {
+ 		err =  -ENOTCONN;
++		skb_free_datagram(sk, skb);
+ 		goto out;
+ 	}
+ 
+-	/* Now we can treat all alike */
+-	skb = skb_recv_datagram(sk, flags, &err);
+-	if (skb == NULL)
+-		goto out;
+-
+ 	if (!sk_to_ax25(sk)->pidincl)
+ 		skb_pull(skb, 1);		/* Remove PID */
+ 
+@@ -1725,6 +1726,7 @@ static int ax25_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
+ out:
+ 	release_sock(sk);
+ 
++done:
+ 	return err;
+ }
+ 
+-- 
+2.17.1
+
