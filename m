@@ -2,138 +2,198 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FE95544D53
-	for <lists+linux-hams@lfdr.de>; Thu,  9 Jun 2022 15:18:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CC6D544DC1
+	for <lists+linux-hams@lfdr.de>; Thu,  9 Jun 2022 15:33:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343732AbiFINSI (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 9 Jun 2022 09:18:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46928 "EHLO
+        id S1343847AbiFINdS (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 9 Jun 2022 09:33:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343690AbiFINSE (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 9 Jun 2022 09:18:04 -0400
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id A0D0D3CBE2B
-        for <linux-hams@vger.kernel.org>; Thu,  9 Jun 2022 06:18:02 -0700 (PDT)
-Received: by ajax-webmail-mail-app3 (Coremail) ; Thu, 9 Jun 2022 21:17:27
- +0800 (GMT+08:00)
-X-Originating-IP: [106.117.78.144]
-Date:   Thu, 9 Jun 2022 21:17:27 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   duoming@zju.edu.cn
-To:     "Paolo Abeni" <pabeni@redhat.com>
+        with ESMTP id S239487AbiFINdR (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 9 Jun 2022 09:33:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0AE8C2ACB
+        for <linux-hams@vger.kernel.org>; Thu,  9 Jun 2022 06:33:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1654781594;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=H7eSqOGTybG9EtKoOIjU4Yprkieq4QzoxbYpNEitBhc=;
+        b=G0s+h1CTIn6kNFE6Wr+kiOF8rKUnS2MeNKcX5d21WSQGraIE55oIcn2vSeX6qwrI5y7IxZ
+        b6wKekHrGJaVf4arHMtLJMHCUYfEbYR+/WFgvNCcL1NkO2rrgb6SPvwMbGi15rQZytGBwR
+        Rgwps8dG0TEFsC6YDJfvSJdLD9ip5Wc=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-612-WvMZkebCNwu4B3pGMn1elg-1; Thu, 09 Jun 2022 09:33:13 -0400
+X-MC-Unique: WvMZkebCNwu4B3pGMn1elg-1
+Received: by mail-qv1-f72.google.com with SMTP id fw9-20020a056214238900b0043522aa5b81so14987533qvb.21
+        for <linux-hams@vger.kernel.org>; Thu, 09 Jun 2022 06:33:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=H7eSqOGTybG9EtKoOIjU4Yprkieq4QzoxbYpNEitBhc=;
+        b=Bc0sEjb67Do/yg0Gz2ALlUmem/LZ/8Dx0gBxPWo32lsoaZWoFrDskZA/C6ZuA/bzKT
+         anTVji4t1WWD5Y230K1asloVJOXS5TeJ3Opqhsj0hxrpl2hm2u8ZCOwOAj6JIGN2/1w9
+         cPIkS7fb7EGfrzEyVtxmnEl/yXybsWpwsg+stTYbSYvBxKIqlrVsRN30w8bs4lxXx+aa
+         E2BnpKyaZzBoqS1YOS8dZH6tjhXIhfQKDpwMSolb8fLAVxA3o+H8iSOQF4GWhVy+ePNM
+         +4PRM28gTYcTkXpwnXkBhwUfkE2KjwvdmpVeFTG2GG+crTpRfzDsiwArRA2Y4D3PSBJC
+         M+uQ==
+X-Gm-Message-State: AOAM532MPUHPGuMRSPQVj4db+m0htqEgJBa+RnlrhgkoQ14TzuCHxnL1
+        mtwFkZ5SoxwEvM+pu0hSOhHNe3CcJfGcRfhSN2LFY96YrMeVf6JrnrYKgdP+fVKF1uDhaH+WId9
+        NADiXFPP82chaTIaPmjt16Q==
+X-Received: by 2002:a05:622a:50b:b0:2f3:e227:628a with SMTP id l11-20020a05622a050b00b002f3e227628amr30652673qtx.533.1654781592583;
+        Thu, 09 Jun 2022 06:33:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJytTKcTFaK2lX1ZkHRQjnPUGtGghjPzfCznnjWmX0xo6brMn0kWP7lorj9/JkZtk75Y7zGHOQ==
+X-Received: by 2002:a05:622a:50b:b0:2f3:e227:628a with SMTP id l11-20020a05622a050b00b002f3e227628amr30652593qtx.533.1654781591771;
+        Thu, 09 Jun 2022 06:33:11 -0700 (PDT)
+Received: from gerbillo.redhat.com ([146.241.113.202])
+        by smtp.gmail.com with ESMTPSA id z19-20020ac87f93000000b002f936bae288sm17833782qtj.87.2022.06.09.06.33.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jun 2022 06:33:11 -0700 (PDT)
+Message-ID: <548f2a708c106fbc8784b1c4c7740643749a3952.camel@redhat.com>
+Subject: Re: [PATCH v3] net: ax25: Fix deadlock caused by skb_recv_datagram
+ in ax25_recvmsg
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     duoming@zju.edu.cn
 Cc:     linux-kernel@vger.kernel.org, jreuter@yaina.de,
         ralf@linux-mips.org, davem@davemloft.net, edumazet@google.com,
         kuba@kernel.org, netdev@vger.kernel.org,
         linux-hams@vger.kernel.org, thomas@osterried.de
-Subject: Re: [PATCH v3] net: ax25: Fix deadlock caused by skb_recv_datagram
- in ax25_recvmsg
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <22175690a4e89a78abcb8244dfd0bdd0005267a5.camel@redhat.com>
+Date:   Thu, 09 Jun 2022 15:33:02 +0200
+In-Reply-To: <4ccdba76.5ee33.181489cd6e4.Coremail.duoming@zju.edu.cn>
 References: <20220608012923.17505-1-duoming@zju.edu.cn>
- <22175690a4e89a78abcb8244dfd0bdd0005267a5.camel@redhat.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+         <22175690a4e89a78abcb8244dfd0bdd0005267a5.camel@redhat.com>
+         <4ccdba76.5ee33.181489cd6e4.Coremail.duoming@zju.edu.cn>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Message-ID: <4ccdba76.5ee33.181489cd6e4.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cC_KCgAHbtjn8qFiI3DWAQ--.44508W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgIQAVZdtaIJ7gABsr
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-SGVsbG8sCgpPbiBUaHUsIDA5IEp1biAyMDIyIDEwOjQxOjAyICswMjAwIFBhb2xvIHdyb3RlOgoK
-PiBPbiBXZWQsIDIwMjItMDYtMDggYXQgMDk6MjkgKzA4MDAsIER1b21pbmcgWmhvdSB3cm90ZToK
-PiA+IFRoZSBza2JfcmVjdl9kYXRhZ3JhbSgpIGluIGF4MjVfcmVjdm1zZygpIHdpbGwgaG9sZCBs
-b2NrX3NvY2sKPiA+IGFuZCBibG9jayB1bnRpbCBpdCByZWNlaXZlcyBhIHBhY2tldCBmcm9tIHRo
-ZSByZW1vdGUuIElmIHRoZSBjbGllbnQKPiA+IGRvZXNuYHQgY29ubmVjdCB0byBzZXJ2ZXIgYW5k
-IGNhbGxzIHJlYWQoKSBkaXJlY3RseSwgaXQgd2lsbCBub3QKPiA+IHJlY2VpdmUgYW55IHBhY2tl
-dHMgZm9yZXZlci4gQXMgYSByZXN1bHQsIHRoZSBkZWFkbG9jayB3aWxsIGhhcHBlbi4KPiA+IAo+
-ID4gVGhlIGZhaWwgbG9nIGNhdXNlZCBieSBkZWFkbG9jayBpcyBzaG93biBiZWxvdzoKPiA+IAo+
-ID4gWyAgMzY5LjYwNjk3M10gSU5GTzogdGFzayBheDI1X2RlYWRsb2NrOjE1NyBibG9ja2VkIGZv
-ciBtb3JlIHRoYW4gMjQ1IHNlY29uZHMuCj4gPiBbICAzNjkuNjA4OTE5XSAiZWNobyAwID4gL3By
-b2Mvc3lzL2tlcm5lbC9odW5nX3Rhc2tfdGltZW91dF9zZWNzIiBkaXNhYmxlcyB0aGlzIG1lc3Nh
-Z2UuCj4gPiBbICAzNjkuNjEzMDU4XSBDYWxsIFRyYWNlOgo+ID4gWyAgMzY5LjYxMzMxNV0gIDxU
-QVNLPgo+ID4gWyAgMzY5LjYxNDA3Ml0gIF9fc2NoZWR1bGUrMHgyZjkvMHhiMjAKPiA+IFsgIDM2
-OS42MTUwMjldICBzY2hlZHVsZSsweDQ5LzB4YjAKPiA+IFsgIDM2OS42MTU3MzRdICBfX2xvY2tf
-c29jaysweDkyLzB4MTAwCj4gPiBbICAzNjkuNjE2NzYzXSAgPyBkZXN0cm95X3NjaGVkX2RvbWFp
-bnNfcmN1KzB4MjAvMHgyMAo+ID4gWyAgMzY5LjYxNzk0MV0gIGxvY2tfc29ja19uZXN0ZWQrMHg2
-ZS8weDcwCj4gPiBbICAzNjkuNjE4ODA5XSAgYXgyNV9iaW5kKzB4YWEvMHgyMTAKPiA+IFsgIDM2
-OS42MTk3MzZdICBfX3N5c19iaW5kKzB4Y2EvMHhmMAo+ID4gWyAgMzY5LjYyMDAzOV0gID8gZG9f
-ZnV0ZXgrMHhhZS8weDFiMAo+ID4gWyAgMzY5LjYyMDM4N10gID8gX194NjRfc3lzX2Z1dGV4KzB4
-N2MvMHgxYzAKPiA+IFsgIDM2OS42MjA2MDFdICA/IGZwcmVnc19hc3NlcnRfc3RhdGVfY29uc2lz
-dGVudCsweDE5LzB4NDAKPiA+IFsgIDM2OS42MjA2MTNdICBfX3g2NF9zeXNfYmluZCsweDExLzB4
-MjAKPiA+IFsgIDM2OS42MjE3OTFdICBkb19zeXNjYWxsXzY0KzB4M2IvMHg5MAo+ID4gWyAgMzY5
-LjYyMjQyM10gIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ2LzB4YjAKPiA+IFsg
-IDM2OS42MjMzMTldIFJJUDogMDAzMzoweDdmNDNjOGFhOGFmNwo+ID4gWyAgMzY5LjYyNDMwMV0g
-UlNQOiAwMDJiOjAwMDA3ZjQzYzgxOTdlZjggRUZMQUdTOiAwMDAwMDI0NiBPUklHX1JBWDogMDAw
-MDAwMDAwMDAwMDAzMQo+ID4gWyAgMzY5LjYyNTc1Nl0gUkFYOiBmZmZmZmZmZmZmZmZmZmRhIFJC
-WDogMDAwMDAwMDAwMDAwMDAwMCBSQ1g6IDAwMDA3ZjQzYzhhYThhZjcKPiA+IFsgIDM2OS42MjY3
-MjRdIFJEWDogMDAwMDAwMDAwMDAwMDAxMCBSU0k6IDAwMDA1NTc2OGUyMDIxZDAgUkRJOiAwMDAw
-MDAwMDAwMDAwMDA1Cj4gPiBbICAzNjkuNjI4NTY5XSBSQlA6IDAwMDA3ZjQzYzgxOTdmMDAgUjA4
-OiAwMDAwMDAwMDAwMDAwMDExIFIwOTogMDAwMDdmNDNjODE5ODcwMAo+ID4gWyAgMzY5LjYzMDIw
-OF0gUjEwOiAwMDAwMDAwMDAwMDAwMDAwIFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6IDAwMDA3
-ZmZmODQ1ZTZhZmUKPiA+IFsgIDM2OS42MzIyNDBdIFIxMzogMDAwMDdmZmY4NDVlNmFmZiBSMTQ6
-IDAwMDA3ZjQzYzgxOTdmYzAgUjE1OiAwMDAwN2Y0M2M4MTk4NzAwCj4gPiAKPiA+IFRoaXMgcGF0
-Y2ggbW92ZXMgdGhlIHNrYl9yZWN2X2RhdGFncmFtKCkgYmVmb3JlIGxvY2tfc29jaygpIGluIG9y
-ZGVyIHRoYXQKPiA+IG90aGVyIGZ1bmN0aW9ucyB0aGF0IG5lZWQgbG9ja19zb2NrIGNvdWxkIGJl
-IGV4ZWN1dGVkLiBXaGF0YHMgbW9yZSwgd2UKPiA+IGFkZCBza2JfZnJlZV9kYXRhZ3JhbSgpIGJl
-Zm9yZSBnb3RvIG91dCBpbiBvcmRlciB0byBtaXRpZ2F0ZSBtZW1vcnkgbGVhay4KPiA+IAo+ID4g
-U3VnZ2VzdGVkLWJ5OiBUaG9tYXMgT3N0ZXJyaWVkIDx0aG9tYXNAb3N0ZXJyaWVkLmRlPgo+ID4g
-U2lnbmVkLW9mZi1ieTogRHVvbWluZyBaaG91IDxkdW9taW5nQHpqdS5lZHUuY24+Cj4gPiBSZXBv
-cnRlZC1ieTogVGhvbWFzIEhhYmV0cyA8dGhvbWFzQEBoYWJldHMuc2U+Cj4gPiAtLS0KPiA+IENo
-YW5nZXMgaW4gdjM6Cj4gPiAgIC0gQWRkIHNrYl9mcmVlX2RhdGFncmFtKCkgYmVmb3JlIGdvdG8g
-b3V0IGluIG9yZGVyIHRvIG1pdGlnYXRlIG1lbW9yeSBsZWFrLgo+ID4gCj4gPiAgbmV0L2F4MjUv
-YWZfYXgyNS5jIHwgMTIgKysrKysrKy0tLS0tCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0
-aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL25ldC9heDI1L2Fm
-X2F4MjUuYyBiL25ldC9heDI1L2FmX2F4MjUuYwo+ID4gaW5kZXggOTUzOTNiYjI3NjAuLjYyYWE1
-OTkzMDkzIDEwMDY0NAo+ID4gLS0tIGEvbmV0L2F4MjUvYWZfYXgyNS5jCj4gPiArKysgYi9uZXQv
-YXgyNS9hZl9heDI1LmMKPiA+IEBAIC0xNjY1LDYgKzE2NjUsMTEgQEAgc3RhdGljIGludCBheDI1
-X3JlY3Ztc2coc3RydWN0IHNvY2tldCAqc29jaywgc3RydWN0IG1zZ2hkciAqbXNnLCBzaXplX3Qg
-c2l6ZSwKPiA+ICAJaW50IGNvcGllZDsKPiA+ICAJaW50IGVyciA9IDA7Cj4gPiAgCj4gPiArCS8q
-IE5vdyB3ZSBjYW4gdHJlYXQgYWxsIGFsaWtlICovCj4gPiArCXNrYiA9IHNrYl9yZWN2X2RhdGFn
-cmFtKHNrLCBmbGFncywgJmVycik7Cj4gPiArCWlmICghc2tiKQo+ID4gKwkJZ290byBkb25lOwo+
-ID4gKwo+IAo+IE5vdGUgdGhhdCB0aGlzIGNhdXNlcyBhIGJlaGF2aW9yIGNoYW5nZTogYmVmb3Jl
-IHRoaXMgcGF0Y2gsIGNhbGxpbmcKPiByZWN2bXNnKCkgb24gdW5jb25uZWN0ZWQgc2VxcGFja2V0
-IHNvY2tldHMgcmV0dXJuZWQgaW1tZWRpYXRlbGx5IHdpdGgKPiBhbiBlcnJvciAoZHVlIHRvIHRo
-ZSB0aGUgY2hlY2sgYmVsb3cpLCBub3cgaXQgYmxvY2tzLiAKPiAKPiBUaGUgY2hhbmdlIG1heSBj
-b25mdXNlICg9PSBicmVhaykgdXNlci1zcGFjZSBhcHBsaWNhdGlvbnMuIEkgdGhpbmsgaXQKPiB3
-b3VsZCBiZSBiZXR0ZXIgcmVwbGFjaW5nIHNrYl9yZWN2X2RhdGFncmFtIHdpdGggYW4gb3Blbi1j
-b2RlZCB2YXJpYW50Cj4gb2YgaXQgcmVsZWFzaW5nIHRoZSBzb2NrZXQgbG9jayBiZWZvcmUgdGhl
-Cj4gX19za2Jfd2FpdF9mb3JfbW9yZV9wYWNrZXRzKCkgY2FsbCBhbmQgcmUtYWNxdWlyaW5nIGl0
-IGFmdGVyIHN1Y2ggY2FsbC4KPiBTb21ld2hhdCBhbGlrZSBfX3VuaXhfZGdyYW1fcmVjdm1zZygp
-LgoKVGhhbmsgeW91IGZvciB5b3VyIHRpbWUgYW5kIHN1Z2dlc3Rpb25zIQpJIHRoaW5rIHRoZSBm
-b2xsb3dpbmcgbWV0aG9kIG1heSBzb2x2ZSB0aGUgcHJvYmxlbS4KCmRpZmYgLS1naXQgYS9uZXQv
-YXgyNS9hZl9heDI1LmMgYi9uZXQvYXgyNS9hZl9heDI1LmMKaW5kZXggOTUzOTNiYjI3NjAuLjUx
-YjQ0MWM4MzdjIDEwMDY0NAotLS0gYS9uZXQvYXgyNS9hZl9heDI1LmMKKysrIGIvbmV0L2F4MjUv
-YWZfYXgyNS5jCkBAIC0xNjc1LDggKzE2NzUsMTAgQEAgc3RhdGljIGludCBheDI1X3JlY3Ztc2co
-c3RydWN0IHNvY2tldCAqc29jaywgc3RydWN0IG1zZ2hkciAqbXNnLCBzaXplX3Qgc2l6ZSwKICAg
-ICAgICAgICAgICAgIGdvdG8gb3V0OwogICAgICAgIH0KCisgICAgICAgcmVsZWFzZV9zb2NrKHNr
-KTsKICAgICAgICAvKiBOb3cgd2UgY2FuIHRyZWF0IGFsbCBhbGlrZSAqLwogICAgICAgIHNrYiA9
-IHNrYl9yZWN2X2RhdGFncmFtKHNrLCBmbGFncywgJmVycik7CisgICAgICAgbG9ja19zb2NrKHNr
-KTsKICAgICAgICBpZiAoc2tiID09IE5VTEwpCiAgICAgICAgICAgICAgICBnb3RvIG91dDsKClRo
-ZSBza2JfcmVjdl9kYXRhZ3JhbSgpIGlzIGZyZWUgb2YgcmFjZSBjb25kaXRpb25zIGFuZCBjb3Vs
-ZCBiZSByZS1lbnRyYW50LgpTbyBjYWxsaW5nIHNrYl9yZWN2X2RhdGFncmFtKCkgd2l0aG91dCB0
-aGUgcHJvdGVjdGlvbiBvZiBsb2NrX3NvY2soKSBpcyBvay4KCldoYXQncyBtb3JlLCByZWxlYXNp
-bmcgdGhlIGxvY2tfc29jaygpIGJlZm9yZSBza2JfcmVjdl9kYXRhZ3JhbSgpIHdpbGwgbm90CmNh
-dXNlIFVBRiBidWdzLiBCZWNhdXNlIHRoZSBzb2NrIHdpbGwgbm90IGJlIGRlYWxsb2NhdGVkIHVu
-bGVzcyB3ZSBjYWxsCmF4MjVfcmVsZWFzZSgpLCBidXQgYXgyNV9yZWxlYXNlKCkgYW5kIGF4MjVf
-cmVjdm1zZygpIGNvdWxkIG5vdCBydW4gaW4gcGFyYWxsZWwuCgpBbHRob3VnaCB0aGUgInNrLT5z
-a19zdGF0ZSIgbWF5IGJlIGNoYW5nZWQgZHVlIHRvIHRoZSByZWxlYXNlIG9mIGxvY2tfc29jaygp
-LAppdCB3aWxsIG5vdCBpbmZsdWVuY2UgdGhlIGZvbGxvd2luZyBvcGVyYXRpb25zIGluIGF4MjVf
-cmVjdm1zZygpLgoKPiBJbiBhbnkgY2FzZSB0aGlzIGxhY2tzIGEgJ0ZpeGVzJyBwb2ludGluZyB0
-byB0aGUgY29tbWl0IGludHJvZHVjaW5nIHRoZQo+IGlzc3VlIGFkZHJlc3NlZCBoZXJlLgoKVGhl
-IGNvbW1pdCB0aGF0IG5lZWQgdG8gYmUgZml4ZWQgaXMgYmVsb3c6CkZpeGVzOiA0MGQwYTkyM2Y1
-NWEgKCJJbXBsZW1lbnQgbG9ja2luZyBvZiBpbnRlcm5hbCBkYXRhIGZvciBORVQvUk9NIGFuZCBS
-T1NFLiAiKQppbiBsaW51eC0yLjYuMTItcmMyLgoKQmVzdCByZWdhcmRzLApEdW9taW5nIFpob3U=
+On Thu, 2022-06-09 at 21:17 +0800, duoming@zju.edu.cn wrote:
+> Hello,
+> 
+> On Thu, 09 Jun 2022 10:41:02 +0200 Paolo wrote:
+> 
+> > On Wed, 2022-06-08 at 09:29 +0800, Duoming Zhou wrote:
+> > > The skb_recv_datagram() in ax25_recvmsg() will hold lock_sock
+> > > and block until it receives a packet from the remote. If the client
+> > > doesn`t connect to server and calls read() directly, it will not
+> > > receive any packets forever. As a result, the deadlock will happen.
+> > > 
+> > > The fail log caused by deadlock is shown below:
+> > > 
+> > > [  369.606973] INFO: task ax25_deadlock:157 blocked for more than 245 seconds.
+> > > [  369.608919] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> > > [  369.613058] Call Trace:
+> > > [  369.613315]  <TASK>
+> > > [  369.614072]  __schedule+0x2f9/0xb20
+> > > [  369.615029]  schedule+0x49/0xb0
+> > > [  369.615734]  __lock_sock+0x92/0x100
+> > > [  369.616763]  ? destroy_sched_domains_rcu+0x20/0x20
+> > > [  369.617941]  lock_sock_nested+0x6e/0x70
+> > > [  369.618809]  ax25_bind+0xaa/0x210
+> > > [  369.619736]  __sys_bind+0xca/0xf0
+> > > [  369.620039]  ? do_futex+0xae/0x1b0
+> > > [  369.620387]  ? __x64_sys_futex+0x7c/0x1c0
+> > > [  369.620601]  ? fpregs_assert_state_consistent+0x19/0x40
+> > > [  369.620613]  __x64_sys_bind+0x11/0x20
+> > > [  369.621791]  do_syscall_64+0x3b/0x90
+> > > [  369.622423]  entry_SYSCALL_64_after_hwframe+0x46/0xb0
+> > > [  369.623319] RIP: 0033:0x7f43c8aa8af7
+> > > [  369.624301] RSP: 002b:00007f43c8197ef8 EFLAGS: 00000246 ORIG_RAX: 0000000000000031
+> > > [  369.625756] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f43c8aa8af7
+> > > [  369.626724] RDX: 0000000000000010 RSI: 000055768e2021d0 RDI: 0000000000000005
+> > > [  369.628569] RBP: 00007f43c8197f00 R08: 0000000000000011 R09: 00007f43c8198700
+> > > [  369.630208] R10: 0000000000000000 R11: 0000000000000246 R12: 00007fff845e6afe
+> > > [  369.632240] R13: 00007fff845e6aff R14: 00007f43c8197fc0 R15: 00007f43c8198700
+> > > 
+> > > This patch moves the skb_recv_datagram() before lock_sock() in order that
+> > > other functions that need lock_sock could be executed. What`s more, we
+> > > add skb_free_datagram() before goto out in order to mitigate memory leak.
+> > > 
+> > > Suggested-by: Thomas Osterried <thomas@osterried.de>
+> > > Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+> > > Reported-by: Thomas Habets <thomas@@habets.se>
+> > > ---
+> > > Changes in v3:
+> > >   - Add skb_free_datagram() before goto out in order to mitigate memory leak.
+> > > 
+> > >  net/ax25/af_ax25.c | 12 +++++++-----
+> > >  1 file changed, 7 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+> > > index 95393bb2760..62aa5993093 100644
+> > > --- a/net/ax25/af_ax25.c
+> > > +++ b/net/ax25/af_ax25.c
+> > > @@ -1665,6 +1665,11 @@ static int ax25_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
+> > >  	int copied;
+> > >  	int err = 0;
+> > >  
+> > > +	/* Now we can treat all alike */
+> > > +	skb = skb_recv_datagram(sk, flags, &err);
+> > > +	if (!skb)
+> > > +		goto done;
+> > > +
+> > 
+> > Note that this causes a behavior change: before this patch, calling
+> > recvmsg() on unconnected seqpacket sockets returned immediatelly with
+> > an error (due to the the check below), now it blocks. 
+> > 
+> > The change may confuse (== break) user-space applications. I think it
+> > would be better replacing skb_recv_datagram with an open-coded variant
+> > of it releasing the socket lock before the
+> > __skb_wait_for_more_packets() call and re-acquiring it after such call.
+> > Somewhat alike __unix_dgram_recvmsg().
+> 
+> Thank you for your time and suggestions!
+> I think the following method may solve the problem.
+> 
+> diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+> index 95393bb2760..51b441c837c 100644
+> --- a/net/ax25/af_ax25.c
+> +++ b/net/ax25/af_ax25.c
+> @@ -1675,8 +1675,10 @@ static int ax25_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
+>                 goto out;
+>         }
+> 
+> +       release_sock(sk);
+>         /* Now we can treat all alike */
+>         skb = skb_recv_datagram(sk, flags, &err);
+> +       lock_sock(sk);
+>         if (skb == NULL)
+>                 goto out;
+> 
+> The skb_recv_datagram() is free of race conditions and could be re-entrant.
+> So calling skb_recv_datagram() without the protection of lock_sock() is ok.
+> 
+> What's more, releasing the lock_sock() before skb_recv_datagram() will not
+> cause UAF bugs. Because the sock will not be deallocated unless we call
+> ax25_release(), but ax25_release() and ax25_recvmsg() could not run in parallel.
+> 
+> Although the "sk->sk_state" may be changed due to the release of lock_sock(),
+> it will not influence the following operations in ax25_recvmsg().
+
+One of the downside of the above is that recvmsg() will unconditionally
+acquire and release the socket lock twice which can have non
+trivial/nasty side effects on process scheduling.
+
+With the suggested change the socket lock will be released only when
+recvmsg will block and that should produce nicer overal behavior.
+
+Cheers,
+
+Paolo
 
