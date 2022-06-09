@@ -2,127 +2,158 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CDBA5442AF
-	for <lists+linux-hams@lfdr.de>; Thu,  9 Jun 2022 06:40:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 219EB544655
+	for <lists+linux-hams@lfdr.de>; Thu,  9 Jun 2022 10:48:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235722AbiFIEkX (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 9 Jun 2022 00:40:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54228 "EHLO
+        id S231867AbiFIIoR (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 9 Jun 2022 04:44:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbiFIEkW (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 9 Jun 2022 00:40:22 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A7F519A707
-        for <linux-hams@vger.kernel.org>; Wed,  8 Jun 2022 21:40:19 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id x62so29590951ede.10
-        for <linux-hams@vger.kernel.org>; Wed, 08 Jun 2022 21:40:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=FGwLN6puZ2hD8UNyN4LTRFh855zcMnLstF1aT3B7ECg=;
-        b=vckwlfQRJJgVJD2IArXfO8ivPnho4P23qQegmr2OKAnSRJamakuH15QFoEH5y7pl8c
-         blM2Fz+NfuJjbvKPf3YJicVjEKs6XYI41DUM4AZgeS3Crl/NvLymV8vPXl3+3feBBdPi
-         Dh0y7CoHm2DXxYSBVfPuDJzyW39BDxEZ/QuF4RLdurWL9JHlbx7L1xLb/bVnpI996DX6
-         yO5r7IDiAbSEFtqx1gGfbH/pdBIO7Lx4Kmpu6yBbLPH2Xv3WD5I6wXQc3jwWOfFIHvmV
-         QyLuvDk8LkAHIqxKHe6UXt7lUONKMkrvnhW8VbmWPjsnDA6dl9FSJ7xMAqrzP8NJ9BgI
-         GnPw==
+        with ESMTP id S242434AbiFIInA (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 9 Jun 2022 04:43:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8F07BB34
+        for <linux-hams@vger.kernel.org>; Thu,  9 Jun 2022 01:41:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1654764068;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=J6hc+0uRrIyBBUIt2+YgJFXzhqP3fUJnP5Yt67N6e6M=;
+        b=S2tn9DEdXSFudwdQvDVNI/R+fMiFDJTmt79ucUK5x/d7RXlyDYw3EJAIIY1ZQMnulWjrTG
+        1s85Oy4yL72ghEimJhlvRe+JUwWrECBA2eYnex0BakONUpoI4m3170R7IQMVDHg5fofjIc
+        4OFOZF175qI4axO9MlN1gclXMvYk/AQ=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-31-Vk4foAfwN3-6fCw1uEyZqA-1; Thu, 09 Jun 2022 04:41:07 -0400
+X-MC-Unique: Vk4foAfwN3-6fCw1uEyZqA-1
+Received: by mail-qv1-f71.google.com with SMTP id jo22-20020a056214501600b004646309a886so14608729qvb.2
+        for <linux-hams@vger.kernel.org>; Thu, 09 Jun 2022 01:41:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=FGwLN6puZ2hD8UNyN4LTRFh855zcMnLstF1aT3B7ECg=;
-        b=zCLNPpB+kYV8QWiV7/2W1WFNnkpA65V3cwuVhT2KjNPLeoV9vqK+E9DLXESbWoaM6D
-         p9T5P61JTSRXJGhpKtZIanfwyhDlQp8nqs64do3vysr1suC3eqYVZyVsEOHqgQAdePxL
-         5PDbbX5OPc2PWMwkxSkSTfjFIoyFR6k2fVQCxGfAI6IXajfIHZV7kojvlvc6Zw+AV7QF
-         FpswMhPH0jiVtX9OLPyRswB6+aUG18RtOgyMUR/QUcIHBKm/5GyGKjPNbAnAg4N/+Tc3
-         eWrdxVVyl5EIcGvet+Qlrt0gPSmMdfriK4oZQ3aixfQ7vIRgIOoLLJSOzEaZgZVwBCUe
-         yARw==
-X-Gm-Message-State: AOAM530aktIMGO62nUIxTQeoR2oR5gGbIlIFicfWbtVzW8l0Yrk4WpPH
-        xP4UAFfCrNsZ0X7gfiZ5pRmwYQ==
-X-Google-Smtp-Source: ABdhPJwkl5Dwf+IBNyE9I/uIGnca3Y413YdqXpI0R0HFLSWuB7sCtSbudO+fNiixBToO1SPOJsk2Ag==
-X-Received: by 2002:a50:9f88:0:b0:42d:f7d2:1b7b with SMTP id c8-20020a509f88000000b0042df7d21b7bmr43486428edf.139.1654749617527;
-        Wed, 08 Jun 2022 21:40:17 -0700 (PDT)
-Received: from localhost (mail.chocen-mesto.cz. [85.163.43.2])
-        by smtp.gmail.com with ESMTPSA id t2-20020a056402524200b004333e3e3199sm465008edd.63.2022.06.08.21.40.16
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=J6hc+0uRrIyBBUIt2+YgJFXzhqP3fUJnP5Yt67N6e6M=;
+        b=6eqjC7DJS1UICuONJjYmR4OO1eiOZkDgOXR0yhMiBL2W2vBPqan5Uzvhh7trv0iOYn
+         6mEfcoeMFxeT6qzP7iWZwStwL6W3SwE5AlTeJJyQBYF7/GYTj5lThdmVkw7DpyUktaEF
+         N7SxhfLC6pRzok1/9PLj7fB/QYO0CvaapFoitpJvmcvjgha2oOf7x5EkPZpCf3fQQIy5
+         b24U739a1fecqaRMjjKn6OrhFO7iNF5ih7OhRceRc12paw6jwvwb+vxfRXtT4IwgFUPY
+         ScuMHc4/ycFcxNUbOP4is678GzRiSv4W7PqbW2AfA+K7zQghbNrJp/iXOzQOzB7a/D9k
+         TVwA==
+X-Gm-Message-State: AOAM530MVzHdEtgQ+hZ2f4eGBQRfhc1WOS500sEooRsjoIQTExL87Tft
+        H7tmr+19aZSd0m5g3weWGRyUeywGdSxlfsoYUc3wJcULX6VkTGwp1Yu/tB7mvBCl1ytk0Z0RZqn
+        ygqZMONd82WZbe45TZfD5xA==
+X-Received: by 2002:a05:622a:1a21:b0:2f1:f29e:40a with SMTP id f33-20020a05622a1a2100b002f1f29e040amr29940296qtb.235.1654764067094;
+        Thu, 09 Jun 2022 01:41:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFbSDIRjUzi5na5uVNt0lbiM9L3H/7eIiZKHIhwyuet4AUBQGYalT4HlYt8flSM9MKu4kpRg==
+X-Received: by 2002:a05:622a:1a21:b0:2f1:f29e:40a with SMTP id f33-20020a05622a1a2100b002f1f29e040amr29940281qtb.235.1654764066804;
+        Thu, 09 Jun 2022 01:41:06 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-113-202.dyn.eolo.it. [146.241.113.202])
+        by smtp.gmail.com with ESMTPSA id m16-20020a05620a291000b006a6bb044740sm10557147qkp.66.2022.06.09.01.41.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jun 2022 21:40:17 -0700 (PDT)
-Date:   Thu, 9 Jun 2022 06:40:15 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, dsahern@kernel.org,
-        steffen.klassert@secunet.com, jreuter@yaina.de,
-        razor@blackwall.org, kgraul@linux.ibm.com, ivecera@redhat.com,
-        jmaloy@redhat.com, ying.xue@windriver.com, lucien.xin@gmail.com,
-        arnd@arndb.de, yajun.deng@linux.dev, atenart@kernel.org,
-        richardsonnick@google.com, hkallweit1@gmail.com,
-        linux-hams@vger.kernel.org, dev@openvswitch.org,
-        linux-s390@vger.kernel.org, tipc-discussion@lists.sourceforge.net
-Subject: Re: [PATCH net-next] net: rename reference+tracking helpers
-Message-ID: <YqF5rzIiLCJgW5Gd@nanopsycho>
-References: <20220608043955.919359-1-kuba@kernel.org>
- <YqBdY0NzK9XJG7HC@nanopsycho>
- <20220608075827.2af7a35f@kernel.org>
+        Thu, 09 Jun 2022 01:41:06 -0700 (PDT)
+Message-ID: <22175690a4e89a78abcb8244dfd0bdd0005267a5.camel@redhat.com>
+Subject: Re: [PATCH v3] net: ax25: Fix deadlock caused by skb_recv_datagram
+ in ax25_recvmsg
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Duoming Zhou <duoming@zju.edu.cn>, linux-kernel@vger.kernel.org
+Cc:     jreuter@yaina.de, ralf@linux-mips.org, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, netdev@vger.kernel.org,
+        linux-hams@vger.kernel.org, thomas@osterried.de
+Date:   Thu, 09 Jun 2022 10:41:02 +0200
+In-Reply-To: <20220608012923.17505-1-duoming@zju.edu.cn>
+References: <20220608012923.17505-1-duoming@zju.edu.cn>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220608075827.2af7a35f@kernel.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Wed, Jun 08, 2022 at 04:58:27PM CEST, kuba@kernel.org wrote:
->On Wed, 8 Jun 2022 10:27:15 +0200 Jiri Pirko wrote:
->> Wed, Jun 08, 2022 at 06:39:55AM CEST, kuba@kernel.org wrote:
->> >Netdev reference helpers have a dev_ prefix for historic
->> >reasons. Renaming the old helpers would be too much churn  
->> 
->> Hmm, I think it would be great to eventually rename the rest too in
->> order to maintain unique prefix for netdev things. Why do you think the
->> "churn" would be an issue?
->
->Felt like we're better of moving everyone to the new tracking helpers
->than doing just a pure rename. But I'm not opposed to a pure rename.
->
->> >diff --git a/drivers/net/macsec.c b/drivers/net/macsec.c
->> >index 817577e713d7..815738c0e067 100644
->> >--- a/drivers/net/macsec.c
->> >+++ b/drivers/net/macsec.c
->> >@@ -3462,7 +3462,7 @@ static int macsec_dev_init(struct net_device *dev)
->> > 		memcpy(dev->broadcast, real_dev->broadcast, dev->addr_len);
->> > 
->> > 	/* Get macsec's reference to real_dev */
->> >-	dev_hold_track(real_dev, &macsec->dev_tracker, GFP_KERNEL);
->> >+	netdev_hold(real_dev, &macsec->dev_tracker, GFP_KERNEL);  
->> 
->> So we later decide to rename dev_hold() to obey the netdev_*() naming
->> scheme, we would have collision.
->
->dev_hold() should not be used in new code, we should use tracking
->everywhere. Given that we can name the old helpers __netdev_hold().
->
->> Also, seems to me odd to have:
->> OLDPREFIX_x()
->> and
->> NEWPREFIX_x()
->> to be different functions.
->> 
->> For the sake of not making naming mess, could we rather have:
->> netdev_hold_track()
->> or
->> netdev_hold_tr() if the prior is too long
->> ?
->
->See above, one day non-track version should be removed.
->IMO to encourage use of the track-capable API we could keep their names
->short and call the legacy functions __netdev_hold() as I mentioned or
->maybe netdev_hold_notrack().
+On Wed, 2022-06-08 at 09:29 +0800, Duoming Zhou wrote:
+> The skb_recv_datagram() in ax25_recvmsg() will hold lock_sock
+> and block until it receives a packet from the remote. If the client
+> doesn`t connect to server and calls read() directly, it will not
+> receive any packets forever. As a result, the deadlock will happen.
+> 
+> The fail log caused by deadlock is shown below:
+> 
+> [  369.606973] INFO: task ax25_deadlock:157 blocked for more than 245 seconds.
+> [  369.608919] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> [  369.613058] Call Trace:
+> [  369.613315]  <TASK>
+> [  369.614072]  __schedule+0x2f9/0xb20
+> [  369.615029]  schedule+0x49/0xb0
+> [  369.615734]  __lock_sock+0x92/0x100
+> [  369.616763]  ? destroy_sched_domains_rcu+0x20/0x20
+> [  369.617941]  lock_sock_nested+0x6e/0x70
+> [  369.618809]  ax25_bind+0xaa/0x210
+> [  369.619736]  __sys_bind+0xca/0xf0
+> [  369.620039]  ? do_futex+0xae/0x1b0
+> [  369.620387]  ? __x64_sys_futex+0x7c/0x1c0
+> [  369.620601]  ? fpregs_assert_state_consistent+0x19/0x40
+> [  369.620613]  __x64_sys_bind+0x11/0x20
+> [  369.621791]  do_syscall_64+0x3b/0x90
+> [  369.622423]  entry_SYSCALL_64_after_hwframe+0x46/0xb0
+> [  369.623319] RIP: 0033:0x7f43c8aa8af7
+> [  369.624301] RSP: 002b:00007f43c8197ef8 EFLAGS: 00000246 ORIG_RAX: 0000000000000031
+> [  369.625756] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f43c8aa8af7
+> [  369.626724] RDX: 0000000000000010 RSI: 000055768e2021d0 RDI: 0000000000000005
+> [  369.628569] RBP: 00007f43c8197f00 R08: 0000000000000011 R09: 00007f43c8198700
+> [  369.630208] R10: 0000000000000000 R11: 0000000000000246 R12: 00007fff845e6afe
+> [  369.632240] R13: 00007fff845e6aff R14: 00007f43c8197fc0 R15: 00007f43c8198700
+> 
+> This patch moves the skb_recv_datagram() before lock_sock() in order that
+> other functions that need lock_sock could be executed. What`s more, we
+> add skb_free_datagram() before goto out in order to mitigate memory leak.
+> 
+> Suggested-by: Thomas Osterried <thomas@osterried.de>
+> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+> Reported-by: Thomas Habets <thomas@@habets.se>
+> ---
+> Changes in v3:
+>   - Add skb_free_datagram() before goto out in order to mitigate memory leak.
+> 
+>  net/ax25/af_ax25.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+> index 95393bb2760..62aa5993093 100644
+> --- a/net/ax25/af_ax25.c
+> +++ b/net/ax25/af_ax25.c
+> @@ -1665,6 +1665,11 @@ static int ax25_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
+>  	int copied;
+>  	int err = 0;
+>  
+> +	/* Now we can treat all alike */
+> +	skb = skb_recv_datagram(sk, flags, &err);
+> +	if (!skb)
+> +		goto done;
+> +
 
-Okay, that makes sense.
+Note that this causes a behavior change: before this patch, calling
+recvmsg() on unconnected seqpacket sockets returned immediatelly with
+an error (due to the the check below), now it blocks. 
+
+The change may confuse (== break) user-space applications. I think it
+would be better replacing skb_recv_datagram with an open-coded variant
+of it releasing the socket lock before the
+__skb_wait_for_more_packets() call and re-acquiring it after such call.
+Somewhat alike __unix_dgram_recvmsg().
+
+In any case this lacks a 'Fixes' pointing to the commit introducing the
+issue addressed here.
+
+Thanks,
+
+Paolo
 
