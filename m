@@ -2,51 +2,61 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BBA35451A4
-	for <lists+linux-hams@lfdr.de>; Thu,  9 Jun 2022 18:12:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE26C545BC1
+	for <lists+linux-hams@lfdr.de>; Fri, 10 Jun 2022 07:40:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344506AbiFIQLp (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 9 Jun 2022 12:11:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39944 "EHLO
+        id S244869AbiFJFkY (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 10 Jun 2022 01:40:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344716AbiFIQLm (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 9 Jun 2022 12:11:42 -0400
-Received: from azure-sdnproxy-3.icoremail.net (azure-sdnproxy.icoremail.net [20.232.28.96])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 6CD48BDA1D;
-        Thu,  9 Jun 2022 09:11:35 -0700 (PDT)
-Received: by ajax-webmail-mail-app4 (Coremail) ; Fri, 10 Jun 2022 00:10:48
- +0800 (GMT+08:00)
-X-Originating-IP: [106.117.78.144]
-Date:   Fri, 10 Jun 2022 00:10:48 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   duoming@zju.edu.cn
-To:     "Paolo Abeni" <pabeni@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, jreuter@yaina.de,
-        ralf@linux-mips.org, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, netdev@vger.kernel.org,
-        linux-hams@vger.kernel.org, thomas@osterried.de
-Subject: Re: [PATCH v3] net: ax25: Fix deadlock caused by skb_recv_datagram
- in ax25_recvmsg
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <548f2a708c106fbc8784b1c4c7740643749a3952.camel@redhat.com>
-References: <20220608012923.17505-1-duoming@zju.edu.cn>
- <22175690a4e89a78abcb8244dfd0bdd0005267a5.camel@redhat.com>
- <4ccdba76.5ee33.181489cd6e4.Coremail.duoming@zju.edu.cn>
- <548f2a708c106fbc8784b1c4c7740643749a3952.camel@redhat.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S243357AbiFJFkW (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 10 Jun 2022 01:40:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A63349256;
+        Thu,  9 Jun 2022 22:40:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2259661E6D;
+        Fri, 10 Jun 2022 05:40:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 65838C3411C;
+        Fri, 10 Jun 2022 05:40:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654839616;
+        bh=piL3ZUsVXKLpnDEjDM8fV8VxAK87PAtjngdGcTceFhY=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=bZlgtvihg6Vva7Kcpfx4fg9/usXpMClwd3MBNr+K2bi2LwFBFb5/wrYpE+o7N87GF
+         T1TaIW+pKzzeRD3sxEhbrfRUIXam5v1vdqzUIgLyv+LQX1XPtMuncB47k3Z6Jc7gZa
+         pRU8fbeMk7mxFKPkHUJbfr+hzd5WNI+O33NtHY9M+btwu7612BWtjKvvuq74tT5FGe
+         olAyOzF33iMacLoGp9NE9GwoKdG8rjE6Pr1inP5X8Djsd7jfFyMr7JrJf/2BtZMx7C
+         QrKzFFnqDCQq+LkM3Dp6pe/QtVNa9OIw1esqaEWeShyzWgcllt/Mh9Ps9DCHy//J0B
+         F1PY32q+dUGBw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 481E5E73803;
+        Fri, 10 Jun 2022 05:40:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Message-ID: <379f4146.5e94f.181493b8c18.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cS_KCgC3PiGIG6Ji1SSMAQ--.38090W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgUQAVZdtaIQ6gAQsg
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] net: rename reference+tracking helpers
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <165483961628.13976.4015696054691394649.git-patchwork-notify@kernel.org>
+Date:   Fri, 10 Jun 2022 05:40:16 +0000
+References: <20220608043955.919359-1-kuba@kernel.org>
+In-Reply-To: <20220608043955.919359-1-kuba@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, dsahern@kernel.org,
+        steffen.klassert@secunet.com, jreuter@yaina.de,
+        razor@blackwall.org, jiri@resnulli.us, kgraul@linux.ibm.com,
+        ivecera@redhat.com, jmaloy@redhat.com, ying.xue@windriver.com,
+        lucien.xin@gmail.com, arnd@arndb.de, yajun.deng@linux.dev,
+        atenart@kernel.org, richardsonnick@google.com,
+        hkallweit1@gmail.com, linux-hams@vger.kernel.org,
+        dev@openvswitch.org, linux-s390@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,132 +64,31 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-SGVsbG8sCgpPbiBUaHUsIDA5IEp1biAyMDIyIDE1OjMzOjAyICswMjAwIFBhb2xvIHdyb3RlOgoK
-PiA+ID4gPiBUaGUgc2tiX3JlY3ZfZGF0YWdyYW0oKSBpbiBheDI1X3JlY3Ztc2coKSB3aWxsIGhv
-bGQgbG9ja19zb2NrCj4gPiA+ID4gYW5kIGJsb2NrIHVudGlsIGl0IHJlY2VpdmVzIGEgcGFja2V0
-IGZyb20gdGhlIHJlbW90ZS4gSWYgdGhlIGNsaWVudAo+ID4gPiA+IGRvZXNuYHQgY29ubmVjdCB0
-byBzZXJ2ZXIgYW5kIGNhbGxzIHJlYWQoKSBkaXJlY3RseSwgaXQgd2lsbCBub3QKPiA+ID4gPiBy
-ZWNlaXZlIGFueSBwYWNrZXRzIGZvcmV2ZXIuIEFzIGEgcmVzdWx0LCB0aGUgZGVhZGxvY2sgd2ls
-bCBoYXBwZW4uCj4gPiA+ID4gCj4gPiA+ID4gVGhlIGZhaWwgbG9nIGNhdXNlZCBieSBkZWFkbG9j
-ayBpcyBzaG93biBiZWxvdzoKPiA+ID4gPiAKPiA+ID4gPiBbICAzNjkuNjA2OTczXSBJTkZPOiB0
-YXNrIGF4MjVfZGVhZGxvY2s6MTU3IGJsb2NrZWQgZm9yIG1vcmUgdGhhbiAyNDUgc2Vjb25kcy4K
-PiA+ID4gPiBbICAzNjkuNjA4OTE5XSAiZWNobyAwID4gL3Byb2Mvc3lzL2tlcm5lbC9odW5nX3Rh
-c2tfdGltZW91dF9zZWNzIiBkaXNhYmxlcyB0aGlzIG1lc3NhZ2UuCj4gPiA+ID4gWyAgMzY5LjYx
-MzA1OF0gQ2FsbCBUcmFjZToKPiA+ID4gPiBbICAzNjkuNjEzMzE1XSAgPFRBU0s+Cj4gPiA+ID4g
-WyAgMzY5LjYxNDA3Ml0gIF9fc2NoZWR1bGUrMHgyZjkvMHhiMjAKPiA+ID4gPiBbICAzNjkuNjE1
-MDI5XSAgc2NoZWR1bGUrMHg0OS8weGIwCj4gPiA+ID4gWyAgMzY5LjYxNTczNF0gIF9fbG9ja19z
-b2NrKzB4OTIvMHgxMDAKPiA+ID4gPiBbICAzNjkuNjE2NzYzXSAgPyBkZXN0cm95X3NjaGVkX2Rv
-bWFpbnNfcmN1KzB4MjAvMHgyMAo+ID4gPiA+IFsgIDM2OS42MTc5NDFdICBsb2NrX3NvY2tfbmVz
-dGVkKzB4NmUvMHg3MAo+ID4gPiA+IFsgIDM2OS42MTg4MDldICBheDI1X2JpbmQrMHhhYS8weDIx
-MAo+ID4gPiA+IFsgIDM2OS42MTk3MzZdICBfX3N5c19iaW5kKzB4Y2EvMHhmMAo+ID4gPiA+IFsg
-IDM2OS42MjAwMzldICA/IGRvX2Z1dGV4KzB4YWUvMHgxYjAKPiA+ID4gPiBbICAzNjkuNjIwMzg3
-XSAgPyBfX3g2NF9zeXNfZnV0ZXgrMHg3Yy8weDFjMAo+ID4gPiA+IFsgIDM2OS42MjA2MDFdICA/
-IGZwcmVnc19hc3NlcnRfc3RhdGVfY29uc2lzdGVudCsweDE5LzB4NDAKPiA+ID4gPiBbICAzNjku
-NjIwNjEzXSAgX194NjRfc3lzX2JpbmQrMHgxMS8weDIwCj4gPiA+ID4gWyAgMzY5LjYyMTc5MV0g
-IGRvX3N5c2NhbGxfNjQrMHgzYi8weDkwCj4gPiA+ID4gWyAgMzY5LjYyMjQyM10gIGVudHJ5X1NZ
-U0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ2LzB4YjAKPiA+ID4gPiBbICAzNjkuNjIzMzE5XSBS
-SVA6IDAwMzM6MHg3ZjQzYzhhYThhZjcKPiA+ID4gPiBbICAzNjkuNjI0MzAxXSBSU1A6IDAwMmI6
-MDAwMDdmNDNjODE5N2VmOCBFRkxBR1M6IDAwMDAwMjQ2IE9SSUdfUkFYOiAwMDAwMDAwMDAwMDAw
-MDMxCj4gPiA+ID4gWyAgMzY5LjYyNTc1Nl0gUkFYOiBmZmZmZmZmZmZmZmZmZmRhIFJCWDogMDAw
-MDAwMDAwMDAwMDAwMCBSQ1g6IDAwMDA3ZjQzYzhhYThhZjcKPiA+ID4gPiBbICAzNjkuNjI2NzI0
-XSBSRFg6IDAwMDAwMDAwMDAwMDAwMTAgUlNJOiAwMDAwNTU3NjhlMjAyMWQwIFJESTogMDAwMDAw
-MDAwMDAwMDAwNQo+ID4gPiA+IFsgIDM2OS42Mjg1NjldIFJCUDogMDAwMDdmNDNjODE5N2YwMCBS
-MDg6IDAwMDAwMDAwMDAwMDAwMTEgUjA5OiAwMDAwN2Y0M2M4MTk4NzAwCj4gPiA+ID4gWyAgMzY5
-LjYzMDIwOF0gUjEwOiAwMDAwMDAwMDAwMDAwMDAwIFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6
-IDAwMDA3ZmZmODQ1ZTZhZmUKPiA+ID4gPiBbICAzNjkuNjMyMjQwXSBSMTM6IDAwMDA3ZmZmODQ1
-ZTZhZmYgUjE0OiAwMDAwN2Y0M2M4MTk3ZmMwIFIxNTogMDAwMDdmNDNjODE5ODcwMAo+ID4gPiA+
-IAo+ID4gPiA+IFRoaXMgcGF0Y2ggbW92ZXMgdGhlIHNrYl9yZWN2X2RhdGFncmFtKCkgYmVmb3Jl
-IGxvY2tfc29jaygpIGluIG9yZGVyIHRoYXQKPiA+ID4gPiBvdGhlciBmdW5jdGlvbnMgdGhhdCBu
-ZWVkIGxvY2tfc29jayBjb3VsZCBiZSBleGVjdXRlZC4gV2hhdGBzIG1vcmUsIHdlCj4gPiA+ID4g
-YWRkIHNrYl9mcmVlX2RhdGFncmFtKCkgYmVmb3JlIGdvdG8gb3V0IGluIG9yZGVyIHRvIG1pdGln
-YXRlIG1lbW9yeSBsZWFrLgo+ID4gPiA+IAo+ID4gPiA+IFN1Z2dlc3RlZC1ieTogVGhvbWFzIE9z
-dGVycmllZCA8dGhvbWFzQG9zdGVycmllZC5kZT4KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBEdW9t
-aW5nIFpob3UgPGR1b21pbmdAemp1LmVkdS5jbj4KPiA+ID4gPiBSZXBvcnRlZC1ieTogVGhvbWFz
-IEhhYmV0cyA8dGhvbWFzQEBoYWJldHMuc2U+Cj4gPiA+ID4gLS0tCj4gPiA+ID4gQ2hhbmdlcyBp
-biB2MzoKPiA+ID4gPiAgIC0gQWRkIHNrYl9mcmVlX2RhdGFncmFtKCkgYmVmb3JlIGdvdG8gb3V0
-IGluIG9yZGVyIHRvIG1pdGlnYXRlIG1lbW9yeSBsZWFrLgo+ID4gPiA+IAo+ID4gPiA+ICBuZXQv
-YXgyNS9hZl9heDI1LmMgfCAxMiArKysrKysrLS0tLS0KPiA+ID4gPiAgMSBmaWxlIGNoYW5nZWQs
-IDcgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKPiA+ID4gPiAKPiA+ID4gPiBkaWZmIC0t
-Z2l0IGEvbmV0L2F4MjUvYWZfYXgyNS5jIGIvbmV0L2F4MjUvYWZfYXgyNS5jCj4gPiA+ID4gaW5k
-ZXggOTUzOTNiYjI3NjAuLjYyYWE1OTkzMDkzIDEwMDY0NAo+ID4gPiA+IC0tLSBhL25ldC9heDI1
-L2FmX2F4MjUuYwo+ID4gPiA+ICsrKyBiL25ldC9heDI1L2FmX2F4MjUuYwo+ID4gPiA+IEBAIC0x
-NjY1LDYgKzE2NjUsMTEgQEAgc3RhdGljIGludCBheDI1X3JlY3Ztc2coc3RydWN0IHNvY2tldCAq
-c29jaywgc3RydWN0IG1zZ2hkciAqbXNnLCBzaXplX3Qgc2l6ZSwKPiA+ID4gPiAgCWludCBjb3Bp
-ZWQ7Cj4gPiA+ID4gIAlpbnQgZXJyID0gMDsKPiA+ID4gPiAgCj4gPiA+ID4gKwkvKiBOb3cgd2Ug
-Y2FuIHRyZWF0IGFsbCBhbGlrZSAqLwo+ID4gPiA+ICsJc2tiID0gc2tiX3JlY3ZfZGF0YWdyYW0o
-c2ssIGZsYWdzLCAmZXJyKTsKPiA+ID4gPiArCWlmICghc2tiKQo+ID4gPiA+ICsJCWdvdG8gZG9u
-ZTsKPiA+ID4gPiArCj4gPiA+IAo+ID4gPiBOb3RlIHRoYXQgdGhpcyBjYXVzZXMgYSBiZWhhdmlv
-ciBjaGFuZ2U6IGJlZm9yZSB0aGlzIHBhdGNoLCBjYWxsaW5nCj4gPiA+IHJlY3Ztc2coKSBvbiB1
-bmNvbm5lY3RlZCBzZXFwYWNrZXQgc29ja2V0cyByZXR1cm5lZCBpbW1lZGlhdGVsbHkgd2l0aAo+
-ID4gPiBhbiBlcnJvciAoZHVlIHRvIHRoZSB0aGUgY2hlY2sgYmVsb3cpLCBub3cgaXQgYmxvY2tz
-LiAKPiA+ID4gCj4gPiA+IFRoZSBjaGFuZ2UgbWF5IGNvbmZ1c2UgKD09IGJyZWFrKSB1c2VyLXNw
-YWNlIGFwcGxpY2F0aW9ucy4gSSB0aGluayBpdAo+ID4gPiB3b3VsZCBiZSBiZXR0ZXIgcmVwbGFj
-aW5nIHNrYl9yZWN2X2RhdGFncmFtIHdpdGggYW4gb3Blbi1jb2RlZCB2YXJpYW50Cj4gPiA+IG9m
-IGl0IHJlbGVhc2luZyB0aGUgc29ja2V0IGxvY2sgYmVmb3JlIHRoZQo+ID4gPiBfX3NrYl93YWl0
-X2Zvcl9tb3JlX3BhY2tldHMoKSBjYWxsIGFuZCByZS1hY3F1aXJpbmcgaXQgYWZ0ZXIgc3VjaCBj
-YWxsLgo+ID4gPiBTb21ld2hhdCBhbGlrZSBfX3VuaXhfZGdyYW1fcmVjdm1zZygpLgo+ID4gCj4g
-PiBUaGFuayB5b3UgZm9yIHlvdXIgdGltZSBhbmQgc3VnZ2VzdGlvbnMhCj4gPiBJIHRoaW5rIHRo
-ZSBmb2xsb3dpbmcgbWV0aG9kIG1heSBzb2x2ZSB0aGUgcHJvYmxlbS4KPiA+IAo+ID4gZGlmZiAt
-LWdpdCBhL25ldC9heDI1L2FmX2F4MjUuYyBiL25ldC9heDI1L2FmX2F4MjUuYwo+ID4gaW5kZXgg
-OTUzOTNiYjI3NjAuLjUxYjQ0MWM4MzdjIDEwMDY0NAo+ID4gLS0tIGEvbmV0L2F4MjUvYWZfYXgy
-NS5jCj4gPiArKysgYi9uZXQvYXgyNS9hZl9heDI1LmMKPiA+IEBAIC0xNjc1LDggKzE2NzUsMTAg
-QEAgc3RhdGljIGludCBheDI1X3JlY3Ztc2coc3RydWN0IHNvY2tldCAqc29jaywgc3RydWN0IG1z
-Z2hkciAqbXNnLCBzaXplX3Qgc2l6ZSwKPiA+ICAgICAgICAgICAgICAgICBnb3RvIG91dDsKPiA+
-ICAgICAgICAgfQo+ID4gCj4gPiArICAgICAgIHJlbGVhc2Vfc29jayhzayk7Cj4gPiAgICAgICAg
-IC8qIE5vdyB3ZSBjYW4gdHJlYXQgYWxsIGFsaWtlICovCj4gPiAgICAgICAgIHNrYiA9IHNrYl9y
-ZWN2X2RhdGFncmFtKHNrLCBmbGFncywgJmVycik7Cj4gPiArICAgICAgIGxvY2tfc29jayhzayk7
-Cj4gPiAgICAgICAgIGlmIChza2IgPT0gTlVMTCkKPiA+ICAgICAgICAgICAgICAgICBnb3RvIG91
-dDsKPiA+IAo+ID4gVGhlIHNrYl9yZWN2X2RhdGFncmFtKCkgaXMgZnJlZSBvZiByYWNlIGNvbmRp
-dGlvbnMgYW5kIGNvdWxkIGJlIHJlLWVudHJhbnQuCj4gPiBTbyBjYWxsaW5nIHNrYl9yZWN2X2Rh
-dGFncmFtKCkgd2l0aG91dCB0aGUgcHJvdGVjdGlvbiBvZiBsb2NrX3NvY2soKSBpcyBvay4KPiA+
-IAo+ID4gV2hhdCdzIG1vcmUsIHJlbGVhc2luZyB0aGUgbG9ja19zb2NrKCkgYmVmb3JlIHNrYl9y
-ZWN2X2RhdGFncmFtKCkgd2lsbCBub3QKPiA+IGNhdXNlIFVBRiBidWdzLiBCZWNhdXNlIHRoZSBz
-b2NrIHdpbGwgbm90IGJlIGRlYWxsb2NhdGVkIHVubGVzcyB3ZSBjYWxsCj4gPiBheDI1X3JlbGVh
-c2UoKSwgYnV0IGF4MjVfcmVsZWFzZSgpIGFuZCBheDI1X3JlY3Ztc2coKSBjb3VsZCBub3QgcnVu
-IGluIHBhcmFsbGVsLgo+ID4gCj4gPiBBbHRob3VnaCB0aGUgInNrLT5za19zdGF0ZSIgbWF5IGJl
-IGNoYW5nZWQgZHVlIHRvIHRoZSByZWxlYXNlIG9mIGxvY2tfc29jaygpLAo+ID4gaXQgd2lsbCBu
-b3QgaW5mbHVlbmNlIHRoZSBmb2xsb3dpbmcgb3BlcmF0aW9ucyBpbiBheDI1X3JlY3Ztc2coKS4K
-PiAKPiBPbmUgb2YgdGhlIGRvd25zaWRlIG9mIHRoZSBhYm92ZSBpcyB0aGF0IHJlY3Ztc2coKSB3
-aWxsIHVuY29uZGl0aW9uYWxseQo+IGFjcXVpcmUgYW5kIHJlbGVhc2UgdGhlIHNvY2tldCBsb2Nr
-IHR3aWNlIHdoaWNoIGNhbiBoYXZlIG5vbgo+IHRyaXZpYWwvbmFzdHkgc2lkZSBlZmZlY3RzIG9u
-IHByb2Nlc3Mgc2NoZWR1bGluZy4KPiAKPiBXaXRoIHRoZSBzdWdnZXN0ZWQgY2hhbmdlIHRoZSBz
-b2NrZXQgbG9jayB3aWxsIGJlIHJlbGVhc2VkIG9ubHkgd2hlbgo+IHJlY3Ztc2cgd2lsbCBibG9j
-ayBhbmQgdGhhdCBzaG91bGQgcHJvZHVjZSBuaWNlciBvdmVyYWwgYmVoYXZpb3IuCgpJIHRlc3Qg
-dGhlIGZvbGxvd2luZyBtZXRob2QsIGl0IHJ1bnMgd2VsbC4KCmRpZmYgLS1naXQgYS9uZXQvYXgy
-NS9hZl9heDI1LmMgYi9uZXQvYXgyNS9hZl9heDI1LmMKaW5kZXggOTUzOTNiYjI3NjAuLjI4ODhh
-ZWU5MWE1IDEwMDY0NAotLS0gYS9uZXQvYXgyNS9hZl9heDI1LmMKKysrIGIvbmV0L2F4MjUvYWZf
-YXgyNS5jCkBAIC0xNjYxLDkgKzE2NjEsMTIgQEAgc3RhdGljIGludCBheDI1X3JlY3Ztc2coc3Ry
-dWN0IHNvY2tldCAqc29jaywgc3RydWN0IG1zZ2hkciAqbXNnLCBzaXplX3Qgc2l6ZSwKICAgICAg
-ICAgICAgICAgICAgICAgICAgaW50IGZsYWdzKQogewogICAgICAgIHN0cnVjdCBzb2NrICpzayA9
-IHNvY2stPnNrOwotICAgICAgIHN0cnVjdCBza19idWZmICpza2I7CisgICAgICAgc3RydWN0IHNr
-X2J1ZmYgKnNrYiwgKmxhc3Q7CisgICAgICAgc3RydWN0IHNrX2J1ZmZfaGVhZCAqc2tfcXVldWU7
-CiAgICAgICAgaW50IGNvcGllZDsKICAgICAgICBpbnQgZXJyID0gMDsKKyAgICAgICBib29sIGlz
-X2Jsb2NrID0gZmFsc2U7CisgICAgICAgbG9uZyB0aW1lbzsKCiAgICAgICAgbG9ja19zb2NrKHNr
-KTsKICAgICAgICAvKgpAQCAtMTY3Niw5ICsxNjc5LDI5IEBAIHN0YXRpYyBpbnQgYXgyNV9yZWN2
-bXNnKHN0cnVjdCBzb2NrZXQgKnNvY2ssIHN0cnVjdCBtc2doZHIgKm1zZywgc2l6ZV90IHNpemUs
-CiAgICAgICAgfQoKICAgICAgICAvKiBOb3cgd2UgY2FuIHRyZWF0IGFsbCBhbGlrZSAqLwotICAg
-ICAgIHNrYiA9IHNrYl9yZWN2X2RhdGFncmFtKHNrLCBmbGFncywgJmVycik7Ci0gICAgICAgaWYg
-KHNrYiA9PSBOVUxMKQotICAgICAgICAgICAgICAgZ290byBvdXQ7CisgICAgICAgc2tfcXVldWUg
-PSAmc2stPnNrX3JlY2VpdmVfcXVldWU7CisgICAgICAgdGltZW8gPSBzb2NrX3JjdnRpbWVvKHNr
-LCBmbGFncyAmIE1TR19ET05UV0FJVCk7CisgICAgICAgc2tiID0gX19za2JfdHJ5X3JlY3ZfZGF0
-YWdyYW0oc2ssIHNrX3F1ZXVlLCBmbGFncywgMCwgJmVyciwKKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAmbGFzdCk7CisgICAgICAgaWYgKCFza2IgJiYgKGVyciA9PSAtRUFH
-QUlOKSkgeworICAgICAgICAgICAgICAgaXNfYmxvY2sgPSB0cnVlOworICAgICAgICAgICAgICAg
-cmVsZWFzZV9zb2NrKHNrKTsKKyAgICAgICAgICAgICAgIGRvIHsKKyAgICAgICAgICAgICAgICAg
-ICAgICAgc2tiID0gX19za2JfdHJ5X3JlY3ZfZGF0YWdyYW0oc2ssIHNrX3F1ZXVlLCBmbGFncywg
-MCwgJmVyciwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAmbGFzdCk7CisgICAgICAgICAgICAgICAgICAgICAgIGlmIChza2IpCisgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgYnJlYWs7CisKKyAgICAgICAgICAgICAgICAgICAgICAg
-aWYgKGVyciAhPSAtRUFHQUlOKQorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGdvdG8g
-ZG9uZTsKKyAgICAgICAgICAgICAgIH0gd2hpbGUgKHRpbWVvICYmCisgICAgICAgICAgICAgICAg
-ICAgICAgICFfX3NrYl93YWl0X2Zvcl9tb3JlX3BhY2tldHMoc2ssIHNrX3F1ZXVlLCAmZXJyLAor
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICZ0
-aW1lbywgbGFzdCkpOworICAgICAgICAgICAgICAgaWYoIXNrYikKKyAgICAgICAgICAgICAgICAg
-ICAgICAgZ290byBkb25lOworICAgICAgIH0KKyAgICAgICBpZiAoaXNfYmxvY2spCisgICAgICAg
-ICAgICAgICBsb2NrX3NvY2soc2spOwoKICAgICAgICBpZiAoIXNrX3RvX2F4MjUoc2spLT5waWRp
-bmNsKQogICAgICAgICAgICAgICAgc2tiX3B1bGwoc2tiLCAxKTsgICAgICAgICAgICAgICAvKiBS
-ZW1vdmUgUElEICovCkBAIC0xNzI1LDYgKzE3NDgsNyBAQCBzdGF0aWMgaW50IGF4MjVfcmVjdm1z
-ZyhzdHJ1Y3Qgc29ja2V0ICpzb2NrLCBzdHJ1Y3QgbXNnaGRyICptc2csIHNpemVfdCBzaXplLAog
-b3V0OgogICAgICAgIHJlbGVhc2Vfc29jayhzayk7CgorZG9uZToKICAgICAgICByZXR1cm4gZXJy
-OwogfQoKSSB0aGluayB0aGlzIG1ldGhvZCBjb3VsZCBzb2x2ZSB0aGUgcHJvYmxlbS4gV2VsY29t
-ZSBtb3JlIGFkdmljZS4KCkJlc3QgcmVnYXJkcywKRHVvbWluZyBaaG91
+Hello:
+
+This patch was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Tue,  7 Jun 2022 21:39:55 -0700 you wrote:
+> Netdev reference helpers have a dev_ prefix for historic
+> reasons. Renaming the old helpers would be too much churn
+> but we can rename the tracking ones which are relatively
+> recent and should be the default for new code.
+> 
+> Rename:
+>  dev_hold_track()    -> netdev_hold()
+>  dev_put_track()     -> netdev_put()
+>  dev_replace_track() -> netdev_ref_replace()
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next] net: rename reference+tracking helpers
+    https://git.kernel.org/netdev/net-next/c/d62607c3fe45
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
