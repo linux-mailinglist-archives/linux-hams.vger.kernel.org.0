@@ -2,175 +2,170 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72C4C545E42
-	for <lists+linux-hams@lfdr.de>; Fri, 10 Jun 2022 10:12:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B79CA5466B1
+	for <lists+linux-hams@lfdr.de>; Fri, 10 Jun 2022 14:33:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347186AbiFJILs (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 10 Jun 2022 04:11:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35786 "EHLO
+        id S241061AbiFJMds (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 10 Jun 2022 08:33:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347192AbiFJILa (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 10 Jun 2022 04:11:30 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DE4621E32D;
-        Fri, 10 Jun 2022 01:11:23 -0700 (PDT)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25A1V0gj002885;
-        Fri, 10 Jun 2022 08:10:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=AMsjRJcrLyPsDc31mIm9J00joV6EQz9iYY3opP4QBXs=;
- b=NkL2RJUX4NsEwMA7YAO/2eyao/gG3RO8Gs1UXHpBAWVCgdbWJ/CTcWzMk1SXruh8vPeF
- yCBEb9K2Hejpg8JRBhQRdOcnWzKKxjPAFVJJccxPBX7HDBvjvx0Iq6diQzGqJgNt5xiY
- OkxtiaoVpYmKXRIQ2D6gCJUpjlx7hSmAkMBdwHPSL0OP4a+2xwI4a6TUhcff8HyuTCjF
- g9F4sjPpNbGbyU56TJOpM3c3TC3Hrv41KTRASIERE/kcUrhhOVSeGtzrECwM64muwC+O
- jNFJk8GiWhktM6wDXabaueNF/Z3EZOW4UdiNak/WzczKr0kN/9qztcob96o3nZk4JwiU DQ== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gfyxsn8mf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 10 Jun 2022 08:10:58 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25A8AiMX037977;
-        Fri, 10 Jun 2022 08:10:57 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2170.outbound.protection.outlook.com [104.47.73.170])
-        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gfwu5nmtj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 10 Jun 2022 08:10:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HuAUTpggpqffVmmPYsh26nNgcF+rCb0sbPe0WrsjAwhRXhL3ZZ8rEg/wzsBpyjKRDt5dcESTbAQX5KobikXJQcdRgkczsIK7K5MjkwpnevQHZMqHas889TJjFblIy7ia2PMNGheMddJGoXfjBrlq4oMH83lQ+UXZJ0nr8ulOntVOva8iqyJFp2zDULD/HV701eIkeFCbSHv3Z1P+TQeaHb7GpEG7+Q2cx9Xc87eQByu+XMaGgVEH5TzoLLF5FdRlunSMptNCLAtq9jEv6kvRXhWAD/w8EjHzowExy/Ob/Nc93hU9KMDsCJDyEiBrTusI+oPGsk7yh207PMJ63Kgs9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AMsjRJcrLyPsDc31mIm9J00joV6EQz9iYY3opP4QBXs=;
- b=OhS5v1lJwRLBgUZgC2Ikep8s0ns5uNu++92s5FGEb9W2uDgONPbJ73gRy7jj4C42psRHTpVfRxpMHFtizT3wPrKxYxQS9TxEa/7R4CHsQQRwHKfkgUJ74TDWAyqRdhiSVeymq8coQTkqHVaONrjJovbJLTlg6VowSY/IhPMeAAcAb/aOdkm2RVzg45P6OSIv2pMTgV+8XXRtt1MbRVMZ7p6r3KCvLxdkDoz454rAQpKUI1vm9EFkkempuG9xDaaPc12glcvN+KNcfV1GDjUolqug/F45RPrNJ1xrw6nc/MWnvFxgxiv7KIkJzbPFIfuC8tAl7wpm9iBZGWxr4ew8CQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AMsjRJcrLyPsDc31mIm9J00joV6EQz9iYY3opP4QBXs=;
- b=vP2Yizf3DZe3BGxDrD+pnoezJ3iCzEVMJruPkS82Fob2l9g1EOJXz0s4XpfJZVZEKYXFQCvDo7YQLxsTMP5fkxsYjmWHNmtU8lINL/ST842f2r3iVeNnmWm5y+CgAgwNkK45DGy3hZZfwaNkCbkQm2IrJ6VpPVyOlmwjY6PQ9VE=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by PH7PR10MB5813.namprd10.prod.outlook.com
- (2603:10b6:510:132::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.12; Fri, 10 Jun
- 2022 08:10:55 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5332.013; Fri, 10 Jun 2022
- 08:10:55 +0000
-Date:   Fri, 10 Jun 2022 11:10:43 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Thomas Osterried <thomas@osterried.de>
-Cc:     Eric Dumazet <edumazet@google.com>,
-        Duoming Zhou <duoming@zju.edu.cn>,
-        LKML <linux-kernel@vger.kernel.org>, jreuter@yaina.de,
-        Ralf =?iso-8859-1?Q?B=E4chle?= DL5RB <ralf@linux-mips.org>,
-        David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        netdev <netdev@vger.kernel.org>, linux-hams@vger.kernel.org
-Subject: Re: [PATCH net-next] ax25: Fix deadlock caused by skb_recv_datagram
- in ax25_recvmsg
-Message-ID: <20220610081043.GB2146@kadam>
-References: <20220606162138.81505-1-duoming@zju.edu.cn>
- <CANn89i+HbdWS4JU0odCbRApuCTGFAt9_NSUoCSFo-b4-z0uWCQ@mail.gmail.com>
- <E5F82D12-56D3-4040-A92B-C658772FD8DD@osterried.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E5F82D12-56D3-4040-A92B-C658772FD8DD@osterried.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: AS8PR04CA0027.eurprd04.prod.outlook.com
- (2603:10a6:20b:310::32) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e4df3aa9-ec8c-4ffc-a096-08da4ab8be3c
-X-MS-TrafficTypeDiagnostic: PH7PR10MB5813:EE_
-X-Microsoft-Antispam-PRVS: <PH7PR10MB58137028397E158B676488838EA69@PH7PR10MB5813.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6THrnPlrssf6HftvO4mpsQGsnieuBBcvH88UCvueFoPEBgQ8rUZ2MWWeBF528C+WQiJhCqao2opMmfjwjmFlPu6mJWebzedyw3pkg3qi7Y/dGG3PU+bs4ziRIOP9wMMVAm8nZyYBaM1/97tzbMlzsQ+mjAVwzcCyuI55CCMkTRa8o1bgPZGWWwBkai7NGCfw5W0IiI4Xj1HyldfjJSdu7GbaRS4a+RxOqAG6H1XM0wu/A8s66Q4qpNrQJpDSzxUvX1MgLSSzigXJh27a3TIGOsHySLVp/L4Ubm+hoHzpvcOUPCYjiTVEF/XOzJhUFYIIVD+m2uF0kWc8RjeWT3t45vyxkg2eaQe4HCPWAOmkAF775te51QhULti8ID84SVnlTEnfucZeyRN0UMFV6RjpUuNO0cREjHgnirhbapYWpvVpo4fwH2qtuU6qAhslH9SY3RxNNW6vSv1uJlPyFKjisdMdtVWh7/4EdZd9L/3NhS81t14waW2NPnOaUBeBM31gMpk1/Hoy6ZpohUwnhzuBUCNwIS0G3y6Qo5w976zdwUzPs6ySgsYvzI1AGCwJ7qxiY7xZPsP9Ni41GbKo5gbRDqCogbq45JC2LCaK/uhpUHEzKwQyDcVMfeGqqKS+jga1u+cRiOgi6WW/u379hi62LPynxOzvqu2DrXfmVcTdvwu7WJlJgnOSXLqSxIoEdFrQ1Fe/SHLYlc0+2k6s2Y2KUxEsmOAEPnrzfdHvR4Ju4XrdQcbHMIsd3Sp29ItoW39irrc8t4KkTci23MvV9OCVw2BBsvGED8LTR3NPnVRbQQo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(26005)(316002)(38350700002)(6486002)(8936002)(86362001)(1076003)(52116002)(6506007)(38100700002)(66946007)(8676002)(186003)(66556008)(4326008)(44832011)(33656002)(4744005)(6916009)(5660300002)(508600001)(6666004)(33716001)(6512007)(9686003)(66476007)(54906003)(2906002)(966005)(7416002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wdiJ8Wgy6ZEwsO3YgEySqx9bi3NcZR3D5gTvOXVumaL/3x1pHFXuCOpO0vgn?=
- =?us-ascii?Q?oLJy0x1hGBUNaxvdCzX90k/evKINyIOYWSKPNodU8UgXGup6ZfLI9PcSkkvO?=
- =?us-ascii?Q?TKB7jMQRP7+dqkCAzX+J+dpzCu5LOAU6XW42qHpSlCqzixJvt7/+3SqpKs7K?=
- =?us-ascii?Q?ZXWsgLXnK+qwFBkVvkDegfP8ClCnkudk6yb6/3einjC5Rc9sRmC1duhwMdDr?=
- =?us-ascii?Q?6n+52irCWT8ZN7UMl+1Lv/5XM4VZJFxJtGl/j58y2KAoQa4lMpEMzj1B0Q29?=
- =?us-ascii?Q?WBci/s2RNlsHhA8ZcW8bVgNq3Q1niFyyy/VBtwvIh7RncZEBMz52RQiZnBFj?=
- =?us-ascii?Q?XNv1e1M6+rJLUcKfkznDj9y2uYMhLP9N8BjDt5YTN3DTNjNIqQdrrJSeXxsN?=
- =?us-ascii?Q?pqsj/svxhZnIBzPO0AYuR9UwJ7gHJaWBh8ZKCu53qd6XPErDLz0pV1cS7Dr3?=
- =?us-ascii?Q?bXQP+NeSyNGl6f+MNYuaW46w+LjGWS291mW8fNrfAveKqXh2ezjSV1C1E04k?=
- =?us-ascii?Q?nMmiTIyyIRzQF+SdvvzwWT1w9m33bgad2s3EbvKWeawx3tdhXwBd1on4ilmH?=
- =?us-ascii?Q?ykTOd5RHH8ziA1ePT3RgK43q8sZkY6gYeyvckLtIV0KzdlgMkJFcbrfuboKv?=
- =?us-ascii?Q?ehz7t7WZ6Gm1I/wj/bwZaojp4njEjCAiaOdiFR7PQjYUfkWa3EyWVLrqY4AB?=
- =?us-ascii?Q?WCMLCeTSGTmtcumN2YPgW2NOy5K+6wdQERv7k5xZuTjRrcLvo7PPwSLVhc+3?=
- =?us-ascii?Q?NioULXKa0nf1q3N0JrTVlLNcLV5QgshS57UChBtzxVG2+3plwkuIyeQ7HT7B?=
- =?us-ascii?Q?IvkFi0JXutCuD5x2czHaEWOiPFR6QVSXzpTDDNloegXipW89M30SMpKvNGoR?=
- =?us-ascii?Q?QkW1HRpgh91dSLClKFlwo67RfFc+fyZa5HoYYlHav2KGkgf70TZamiiE8QwU?=
- =?us-ascii?Q?Z6OtgtF9t2caMrx1hhm5sC2qVQSljIkv0JVwwY6uohADJ/Jw+U8Rq5ntMefJ?=
- =?us-ascii?Q?KstB6/S8+LRIclKnUdUZTAK21LQTm3aC9jzbiosYUcVcv43ft1wbCFVOU1Tn?=
- =?us-ascii?Q?xc0BdyEAIqIv1C6FgSG3uxxwGNq7zkoSWQXXetbIZbTzlbCitsBc7zdegSBN?=
- =?us-ascii?Q?34dj26oXC4LQiagwE/G7TZrm6pgDnB2SQ7RFy8pIjpMz93MNB6952wS5UXd9?=
- =?us-ascii?Q?dyw1kIuVrpLWRH3tZMB3mwE1TzQVWaRfAL7jBUQD+V1vAuY+7+H8ebF4ZK5x?=
- =?us-ascii?Q?ai3nUOiWOaekJTrEHXsl9MJcsjkAZSeylduPiTAFQb0X6F36Jy2XqnfUVHJo?=
- =?us-ascii?Q?PEhkirpzL9mTfXzZkmHuHB7RWebn6rSWd3FVs7bD618jIVnaH9ET7dtWiAaW?=
- =?us-ascii?Q?6jRCbuqq1Z7LtpcCISmv1ng2pw2zRigfLjXxJA611ClpBG26x7VfHR5IwGIh?=
- =?us-ascii?Q?6k0tPpX4IDtUm+94h9MgCsXpDTJ8nwWOt3z4M0o3Gbzr3OZH+dRV97v7nRcS?=
- =?us-ascii?Q?CKG085vpe86y2iJkTkceMcL2LugJIpH8cC+EcfwGHcwsgNIum6y17xOUZOIE?=
- =?us-ascii?Q?HUbHw78/LXEQQoyZXEjOYcnUxGOB2TyMGp2GPKGBNOS/G1ze87My4qDVVd4B?=
- =?us-ascii?Q?kX2elILdIl/volSJyfFRPWd/ANUce7Gv2ACBr5Yhw+xMW9DPIqsGBLzTSOy5?=
- =?us-ascii?Q?9uwjsYgl1ILjsCI3fgqbu964xA08qG/GKRXnjzIf4ggKVuJexZmSkizTws8a?=
- =?us-ascii?Q?RDxXyPoX755Z9XAT3a5OIX8KSbvG3HA=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4df3aa9-ec8c-4ffc-a096-08da4ab8be3c
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2022 08:10:55.6178
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WyCVngMR9ClDYVzVJGeBksMz0NfWGJ0EPOUTsG9rSAbxz74qT7eCiQ99CIHpH2rhXNfcfqy/OuTxBcLvc9VJFpOKMRWAqNj5KTkaeVe4tfs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB5813
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
- definitions=2022-06-10_02:2022-06-09,2022-06-10 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=736 spamscore=0
- adultscore=0 suspectscore=0 malwarescore=0 phishscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206100029
-X-Proofpoint-ORIG-GUID: kW9zVf1XJU_zNQBCRppGdi1Or547xym0
-X-Proofpoint-GUID: kW9zVf1XJU_zNQBCRppGdi1Or547xym0
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S232158AbiFJMdr (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 10 Jun 2022 08:33:47 -0400
+X-Greylist: delayed 83743 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 10 Jun 2022 05:33:43 PDT
+Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id F2E1F341AB6;
+        Fri, 10 Jun 2022 05:33:42 -0700 (PDT)
+Received: from ubuntu.localdomain (unknown [106.117.78.144])
+        by mail-app4 (Coremail) with SMTP id cS_KCgB37o0POqNiJzebAQ--.43212S2;
+        Fri, 10 Jun 2022 20:33:28 +0800 (CST)
+From:   Duoming Zhou <duoming@zju.edu.cn>
+To:     linux-kernel@vger.kernel.org
+Cc:     jreuter@yaina.de, ralf@linux-mips.org, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        netdev@vger.kernel.org, linux-hams@vger.kernel.org,
+        thomas@osterried.de, Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH net v4] net: ax25: Fix deadlock caused by skb_recv_datagram in ax25_recvmsg
+Date:   Fri, 10 Jun 2022 20:33:19 +0800
+Message-Id: <20220610123319.32118-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cS_KCgB37o0POqNiJzebAQ--.43212S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZw43ZFyfAF1kWFy3KFW3Jrb_yoWrWFykpF
+        WUKFyrWr4kJFW2qr43tFWDXr4fA3Z5CFy7Xr1xX3yxAFn8W3WrXryrtr4jyayjqrWDA347
+        tF1qga1xKr13WaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
+        JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+        n2kIc2xKxwCY02Avz4vE14v_Xr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
+        0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
+        17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
+        C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY
+        6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
+        73UjIFyTuYvjfU5rWrDUUUU
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgARAVZdtaJW2gAZsb
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Tue, Jun 07, 2022 at 11:14:34AM +0200, Thomas Osterried wrote:
-> > Why is this targeting net-next tree ?
-> 
-> Off-topic question for better understanding: when patches go to netdev,
-> when to net-next tree? Ah, found explanation it here (mentioning it
-> for our readers at linux-hams@):
->   https://www.kernel.org/doc/Documentation/networking/netdev-FAQ.txt
-> 
-> > 1) A fix should target net tree
-> > 2) It should include a Fixes: tag
-> 
-> tnx for info. "Fix" in subject is not enough?
-> 
+The skb_recv_datagram() in ax25_recvmsg() will hold lock_sock
+and block until it receives a packet from the remote. If the client
+doesn`t connect to server and calls read() directly, it will not
+receive any packets forever. As a result, the deadlock will happen.
 
-A Fixes tag says when the bug was introduced.
+The fail log caused by deadlock is shown below:
 
-regards,
-dan carpenter
+[  369.606973] INFO: task ax25_deadlock:157 blocked for more than 245 seconds.
+[  369.608919] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+[  369.613058] Call Trace:
+[  369.613315]  <TASK>
+[  369.614072]  __schedule+0x2f9/0xb20
+[  369.615029]  schedule+0x49/0xb0
+[  369.615734]  __lock_sock+0x92/0x100
+[  369.616763]  ? destroy_sched_domains_rcu+0x20/0x20
+[  369.617941]  lock_sock_nested+0x6e/0x70
+[  369.618809]  ax25_bind+0xaa/0x210
+[  369.619736]  __sys_bind+0xca/0xf0
+[  369.620039]  ? do_futex+0xae/0x1b0
+[  369.620387]  ? __x64_sys_futex+0x7c/0x1c0
+[  369.620601]  ? fpregs_assert_state_consistent+0x19/0x40
+[  369.620613]  __x64_sys_bind+0x11/0x20
+[  369.621791]  do_syscall_64+0x3b/0x90
+[  369.622423]  entry_SYSCALL_64_after_hwframe+0x46/0xb0
+[  369.623319] RIP: 0033:0x7f43c8aa8af7
+[  369.624301] RSP: 002b:00007f43c8197ef8 EFLAGS: 00000246 ORIG_RAX: 0000000000000031
+[  369.625756] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f43c8aa8af7
+[  369.626724] RDX: 0000000000000010 RSI: 000055768e2021d0 RDI: 0000000000000005
+[  369.628569] RBP: 00007f43c8197f00 R08: 0000000000000011 R09: 00007f43c8198700
+[  369.630208] R10: 0000000000000000 R11: 0000000000000246 R12: 00007fff845e6afe
+[  369.632240] R13: 00007fff845e6aff R14: 00007f43c8197fc0 R15: 00007f43c8198700
+
+This patch replaces skb_recv_datagram() with an open-coded variant of it
+releasing the socket lock before the __skb_wait_for_more_packets() call
+and re-acquiring it after such call in order that other functions that
+need socket lock could be executed.
+
+what's more, the socket lock will be released only when recvmsg() will
+block and that should produce nicer overall behavior.
+
+Fixes: 40d0a923f55a ("Implement locking of internal data for NET/ROM and ROSE.")
+Suggested-by: Thomas Osterried <thomas@osterried.de>
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+Reported-by: Thomas Habets <thomas@@habets.se>
+---
+Changes in v4:
+  - Replaces skb_recv_datagram() with an open-coded variant of it.
+
+ net/ax25/af_ax25.c | 33 ++++++++++++++++++++++++++++-----
+ 1 file changed, 28 insertions(+), 5 deletions(-)
+
+diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+index 95393bb2760..4c7030ed8d3 100644
+--- a/net/ax25/af_ax25.c
++++ b/net/ax25/af_ax25.c
+@@ -1661,9 +1661,12 @@ static int ax25_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
+ 			int flags)
+ {
+ 	struct sock *sk = sock->sk;
+-	struct sk_buff *skb;
++	struct sk_buff *skb, *last;
++	struct sk_buff_head *sk_queue;
+ 	int copied;
+ 	int err = 0;
++	int off = 0;
++	long timeo;
+ 
+ 	lock_sock(sk);
+ 	/*
+@@ -1675,10 +1678,29 @@ static int ax25_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
+ 		goto out;
+ 	}
+ 
+-	/* Now we can treat all alike */
+-	skb = skb_recv_datagram(sk, flags, &err);
+-	if (skb == NULL)
+-		goto out;
++	/*  We need support for non-blocking reads. */
++	sk_queue = &sk->sk_receive_queue;
++	skb = __skb_try_recv_datagram(sk, sk_queue, flags, &off, &err, &last);
++	/* If no packet is available, release_sock(sk) and try again. */
++	if (!skb) {
++		if (err != -EAGAIN)
++			goto out;
++		release_sock(sk);
++		timeo = sock_rcvtimeo(sk, flags & MSG_DONTWAIT);
++		while (timeo && !__skb_wait_for_more_packets(sk, sk_queue, &err,
++							     &timeo, last)) {
++			skb = __skb_try_recv_datagram(sk, sk_queue, flags, &off,
++						      &err, &last);
++			if (skb)
++				break;
++
++			if (err != -EAGAIN)
++				goto done;
++		}
++		if (!skb)
++			goto done;
++		lock_sock(sk);
++	}
+ 
+ 	if (!sk_to_ax25(sk)->pidincl)
+ 		skb_pull(skb, 1);		/* Remove PID */
+@@ -1725,6 +1747,7 @@ static int ax25_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
+ out:
+ 	release_sock(sk);
+ 
++done:
+ 	return err;
+ }
+ 
+-- 
+2.17.1
 
