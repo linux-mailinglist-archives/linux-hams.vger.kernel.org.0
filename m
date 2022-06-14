@@ -2,46 +2,76 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96E175482B6
-	for <lists+linux-hams@lfdr.de>; Mon, 13 Jun 2022 11:15:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48E6554ACA8
+	for <lists+linux-hams@lfdr.de>; Tue, 14 Jun 2022 10:59:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240644AbiFMJND (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 13 Jun 2022 05:13:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47980 "EHLO
+        id S236825AbiFNI7t (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 14 Jun 2022 04:59:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240687AbiFMJNA (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 13 Jun 2022 05:13:00 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F69A10FE9;
-        Mon, 13 Jun 2022 02:12:55 -0700 (PDT)
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4LM5SF52vHzDqts;
-        Mon, 13 Jun 2022 17:12:29 +0800 (CST)
-Received: from kwepemm600017.china.huawei.com (7.193.23.234) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 13 Jun 2022 17:12:51 +0800
-Received: from localhost.localdomain (10.175.112.70) by
- kwepemm600017.china.huawei.com (7.193.23.234) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 13 Jun 2022 17:12:50 +0800
-From:   Xu Jia <xujia39@huawei.com>
-To:     <linux-hams@vger.kernel.org>
-CC:     <ajk@comnets.uni-bremen.de>, <davem@davemloft.net>,
-        <kuba@kernel.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <xujia39@huawei.com>
-Subject: [PATCH] hamradio: 6pack: fix array-index-out-of-bounds in decode_std_command()
-Date:   Mon, 13 Jun 2022 17:25:37 +0800
-Message-ID: <1655112337-48005-1-git-send-email-xujia39@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
+        with ESMTP id S241976AbiFNI7n (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 14 Jun 2022 04:59:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D5E2D25E8E
+        for <linux-hams@vger.kernel.org>; Tue, 14 Jun 2022 01:59:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655197181;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=IwpnFeqpjQPPhi0b6JCKQ8hffeOUpqZ7wRTwt/30kI4=;
+        b=GM+exdlqTWTTJi3zoFeLyUJGO8HimVQ+lDdWkv6nPM7kghv1TzQCc9SHt2MXzEcraRqPT/
+        1CwjzQ2YTG5qK0dUFhOzgeNEckhMxh6ZRX+HBM7Wvcj3Sjsv+pHwbwd0FrZJMCt9Kl/mmx
+        uO3j4x4u+iIlu0MXgsImzzfs6Gy1D5o=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-581-U0ZYIKNtO-WxTrpfnI1lJg-1; Tue, 14 Jun 2022 04:59:40 -0400
+X-MC-Unique: U0ZYIKNtO-WxTrpfnI1lJg-1
+Received: by mail-qv1-f72.google.com with SMTP id da12-20020a05621408cc00b0046448be0e98so5507191qvb.9
+        for <linux-hams@vger.kernel.org>; Tue, 14 Jun 2022 01:59:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=IwpnFeqpjQPPhi0b6JCKQ8hffeOUpqZ7wRTwt/30kI4=;
+        b=O2h1Lrwv967NAXqUqbRSj9o7Uq0o7QoPrPoSFLt5NGTWpRaEn+hv+EfxXp3Xgs6DN3
+         hnKks/fCDp21YdkZCv/G6MX3LWBKSQ9OU8xRKUSh79/aQAD1NH/X6hcBQoSUSZ5fmab9
+         L7AmxNdV/Ey8Oy7PddjrTbYp2HZcu98WYbFRpXW39HbfhRx1RFq3/f6tzVeuAUqeLi4Y
+         IVBfN/9E3VSSRrovxq4aic65amSRI2LejxQ0WH2IqLJHrIZSc4nMUnXZ4EHe2k1+dGhE
+         aEU8q2J3fYi11dPTgnag//wx0v/AagyJsXuczi9kOVHlknB9f//+lDFWcpBcOaNaiV2A
+         UGVA==
+X-Gm-Message-State: AOAM5329ZxPhMSh6dqHvAIOOJaM6jfYumeTFp4vmBV/0+lsqDVSC4v91
+        Cb+h/kIxcpIwOQWTjWdDtA3T7O4iJOeXklllF+gkn0BdnOL7ktu+fVP65Apk37mquUCVR3fCbn6
+        JbIrawEEhcnIe0KEZET7dDA==
+X-Received: by 2002:a05:620a:1094:b0:6a7:1861:66e7 with SMTP id g20-20020a05620a109400b006a7186166e7mr3049293qkk.323.1655197179446;
+        Tue, 14 Jun 2022 01:59:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzyc/79DVoJuW2vdiVgQb+wK/7pfp+CMdc4B6TqbLHAn5s1EiYdEl+m3b7Q0MbmEaN07zu+uQ==
+X-Received: by 2002:a05:620a:1094:b0:6a7:1861:66e7 with SMTP id g20-20020a05620a109400b006a7186166e7mr3049287qkk.323.1655197179157;
+        Tue, 14 Jun 2022 01:59:39 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-113-202.dyn.eolo.it. [146.241.113.202])
+        by smtp.gmail.com with ESMTPSA id f19-20020a05620a409300b006a6278a2b31sm9311562qko.75.2022.06.14.01.59.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jun 2022 01:59:38 -0700 (PDT)
+Message-ID: <cdcd1de63ff8fd6ce5fb23f38669ee9092ceb45a.camel@redhat.com>
+Subject: Re: [PATCH net v4] net: ax25: Fix deadlock caused by
+ skb_recv_datagram in ax25_recvmsg
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Duoming Zhou <duoming@zju.edu.cn>, linux-kernel@vger.kernel.org
+Cc:     jreuter@yaina.de, ralf@linux-mips.org, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, netdev@vger.kernel.org,
+        linux-hams@vger.kernel.org, thomas@osterried.de
+Date:   Tue, 14 Jun 2022 10:59:35 +0200
+In-Reply-To: <20220610123319.32118-1-duoming@zju.edu.cn>
+References: <20220610123319.32118-1-duoming@zju.edu.cn>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.112.70]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemm600017.china.huawei.com (7.193.23.234)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -49,78 +79,62 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hulk Robot reports incorrect sp->rx_count_cooked value in decode_std_command().
-This should be caused by the subtracting from sp->rx_count_cooked before.
-It seems that sp->rx_count_cooked value is changed to 0, which bypassed the
-previous judgment.
-sp->rx_count_cooked is a shared variable but is not protected by a lock.
-The same applies to sp->rx_count. This patch adds a lock to fix the bug.
+On Fri, 2022-06-10 at 20:33 +0800, Duoming Zhou wrote:
+> The skb_recv_datagram() in ax25_recvmsg() will hold lock_sock
+> and block until it receives a packet from the remote. If the client
+> doesn`t connect to server and calls read() directly, it will not
+> receive any packets forever. As a result, the deadlock will happen.
+> 
+> The fail log caused by deadlock is shown below:
+> 
+> [  369.606973] INFO: task ax25_deadlock:157 blocked for more than 245 seconds.
+> [  369.608919] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> [  369.613058] Call Trace:
+> [  369.613315]  <TASK>
+> [  369.614072]  __schedule+0x2f9/0xb20
+> [  369.615029]  schedule+0x49/0xb0
+> [  369.615734]  __lock_sock+0x92/0x100
+> [  369.616763]  ? destroy_sched_domains_rcu+0x20/0x20
+> [  369.617941]  lock_sock_nested+0x6e/0x70
+> [  369.618809]  ax25_bind+0xaa/0x210
+> [  369.619736]  __sys_bind+0xca/0xf0
+> [  369.620039]  ? do_futex+0xae/0x1b0
+> [  369.620387]  ? __x64_sys_futex+0x7c/0x1c0
+> [  369.620601]  ? fpregs_assert_state_consistent+0x19/0x40
+> [  369.620613]  __x64_sys_bind+0x11/0x20
+> [  369.621791]  do_syscall_64+0x3b/0x90
+> [  369.622423]  entry_SYSCALL_64_after_hwframe+0x46/0xb0
+> [  369.623319] RIP: 0033:0x7f43c8aa8af7
+> [  369.624301] RSP: 002b:00007f43c8197ef8 EFLAGS: 00000246 ORIG_RAX: 0000000000000031
+> [  369.625756] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f43c8aa8af7
+> [  369.626724] RDX: 0000000000000010 RSI: 000055768e2021d0 RDI: 0000000000000005
+> [  369.628569] RBP: 00007f43c8197f00 R08: 0000000000000011 R09: 00007f43c8198700
+> [  369.630208] R10: 0000000000000000 R11: 0000000000000246 R12: 00007fff845e6afe
+> [  369.632240] R13: 00007fff845e6aff R14: 00007f43c8197fc0 R15: 00007f43c8198700
+> 
+> This patch replaces skb_recv_datagram() with an open-coded variant of it
+> releasing the socket lock before the __skb_wait_for_more_packets() call
+> and re-acquiring it after such call in order that other functions that
+> need socket lock could be executed.
+> 
+> what's more, the socket lock will be released only when recvmsg() will
+> block and that should produce nicer overall behavior.
+> 
+> Fixes: 40d0a923f55a ("Implement locking of internal data for NET/ROM and ROSE.")
 
-The fail log is shown below:
-=======================================================================
-UBSAN: array-index-out-of-bounds in drivers/net/hamradio/6pack.c:925:31
-index 400 is out of range for type 'unsigned char [400]'
-CPU: 3 PID: 7433 Comm: kworker/u10:1 Not tainted 5.18.0-rc5-00163-g4b97bac0756a #2
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
-Workqueue: events_unbound flush_to_ldisc
-Call Trace:
- <TASK>
- dump_stack_lvl+0xcd/0x134
- ubsan_epilogue+0xb/0x50
- __ubsan_handle_out_of_bounds.cold+0x62/0x6c
- sixpack_receive_buf+0xfda/0x1330
- tty_ldisc_receive_buf+0x13e/0x180
- tty_port_default_receive_buf+0x6d/0xa0
- flush_to_ldisc+0x213/0x3f0
- process_one_work+0x98f/0x1620
- worker_thread+0x665/0x1080
- kthread+0x2e9/0x3a0
- ret_from_fork+0x1f/0x30
- ...
+The correct tag is actually: 
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Xu Jia <xujia39@huawei.com>
----
- drivers/net/hamradio/6pack.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 
-diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
-index 45c3c4a..194f22f 100644
---- a/drivers/net/hamradio/6pack.c
-+++ b/drivers/net/hamradio/6pack.c
-@@ -100,6 +100,8 @@ struct sixpack {
- 	unsigned int		rx_count;
- 	unsigned int		rx_count_cooked;
- 
-+	spinlock_t		rxlock;
-+
- 	int			mtu;		/* Our mtu (to spot changes!) */
- 	int			buffsize;       /* Max buffers sizes */
- 
-@@ -565,6 +567,7 @@ static int sixpack_open(struct tty_struct *tty)
- 	sp->dev = dev;
- 
- 	spin_lock_init(&sp->lock);
-+	spin_lock_init(&sp->rxlock);
- 	refcount_set(&sp->refcnt, 1);
- 	init_completion(&sp->dead);
- 
-@@ -913,6 +916,7 @@ static void decode_std_command(struct sixpack *sp, unsigned char cmd)
- 			sp->led_state = 0x60;
- 			/* fill trailing bytes with zeroes */
- 			sp->tty->ops->write(sp->tty, &sp->led_state, 1);
-+			spin_lock(&sp->rxlock);
- 			rest = sp->rx_count;
- 			if (rest != 0)
- 				 for (i = rest; i <= 3; i++)
-@@ -930,6 +934,7 @@ static void decode_std_command(struct sixpack *sp, unsigned char cmd)
- 				sp_bump(sp, 0);
- 			}
- 			sp->rx_count_cooked = 0;
-+			spin_unlock(&sp->rxlock);
- 		}
- 		break;
- 	case SIXP_TX_URUN: printk(KERN_DEBUG "6pack: TX underrun\n");
--- 
-1.8.3.1
+We don't pick hashes from historicaly repository, as they would confuse
+most/all users. Please re-post with the correct tag. Note that you can
+check patchwork yourself for this kind of formal errors.
+
+The patch LGTM, when you repost you can append:
+
+Acked-by: Paolo Abeni <pabeni@redhat.com>
+
+Thanks,
+
+Paolo
 
