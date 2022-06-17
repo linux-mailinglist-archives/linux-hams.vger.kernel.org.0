@@ -2,65 +2,45 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD58954E5F0
-	for <lists+linux-hams@lfdr.de>; Thu, 16 Jun 2022 17:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F7BA54F417
+	for <lists+linux-hams@lfdr.de>; Fri, 17 Jun 2022 11:18:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237637AbiFPPXs (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 16 Jun 2022 11:23:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32776 "EHLO
+        id S234628AbiFQJSb (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 17 Jun 2022 05:18:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232877AbiFPPXr (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 16 Jun 2022 11:23:47 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 481EE2316F
-        for <linux-hams@vger.kernel.org>; Thu, 16 Jun 2022 08:23:46 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id d23so1247416qke.0
-        for <linux-hams@vger.kernel.org>; Thu, 16 Jun 2022 08:23:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mtu.edu; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uf2srz+jvUuBHVzeHSAw8LdbJCHtKsvu2sAafAia9yQ=;
-        b=edJu7G4J3ImG0fR3ZwDCYQThhDqRjboD6CjK6OqPgfSVQd+yOL+zAtuxSkiTs6cuQ+
-         tNtcqOMnQiysxZInQmPdjPM+XE6NBULDg0NmXyScAvf2r0UYfOqpOPipMmTw4JE4DDas
-         +V/8DBgKhk/JDTuOiJcSzBEM3K6uB368O2J+iDwRojbODRsaDBRcpDmo0NdwtNktb/s3
-         jIaujkjpwjxTjafHiFg3eygK71rA1O26SumVkqjoUUkaJ8ajm14TRRBYd7wt+NYlw2b6
-         94xZtn1R9tEfqxvDgdtdi9ZrUqFQRefROHsJu1pZpJWx1AxWE6Ul5YHGC+LMtVbHQ4MB
-         k5UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uf2srz+jvUuBHVzeHSAw8LdbJCHtKsvu2sAafAia9yQ=;
-        b=hFbNjk/Bl0+Ku0lRTkLs8Oo8VjJ7ZeeYDMS+2lvsYY8/QZ49w+SRez53hCJ9grw7RY
-         vSvrQiQPiJh99w5kWzQSqw6rhicppv4nn6X1+nrn/iN7li2ES0B9NvTQ2zyfvmQNMAlJ
-         Og2HDfjQR3gvgyQ+UfjOtp5d2opwQBQCQ/hXKnNNVXq51R/txY4j5TpdaVTqW6z/hUDe
-         Dc9s4NvxUNhwpGJWl3U8OAbFMSGakYFm/w7xXwdv6nFPnL2sju8HBAxh3jBn9Ltw6o62
-         H+OrWqixxcIZL+1MTF/YzuCS90/CgFGxSb7YZdgVSTNO5H4SqElFgTrMTdH/HTy0tE51
-         kdcQ==
-X-Gm-Message-State: AJIora+NWrzw3GhUQRsSkQbiBWgE0G58QA4lvwV1XlCeOG0aYm0YnPTr
-        CsaQtv4hX/3qE6idJqcG2f5aSI+DxQiKOQ==
-X-Google-Smtp-Source: AGRyM1s4xlVCkGrMLrNyd0BYyj/zbIMYf+az4x+5ozfFtKkrExWnFMej+TMq5+C4DA5CbVBzFXDCgQ==
-X-Received: by 2002:a05:620a:4142:b0:6a7:59c9:c0b0 with SMTP id k2-20020a05620a414200b006a759c9c0b0mr3933642qko.13.1655393025281;
-        Thu, 16 Jun 2022 08:23:45 -0700 (PDT)
-Received: from Peter-Reagan-Desktop-VI.. (z205.pasty.net. [71.13.100.205])
-        by smtp.googlemail.com with ESMTPSA id i3-20020a05622a08c300b002f92b74ba99sm1861240qte.13.2022.06.16.08.23.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jun 2022 08:23:44 -0700 (PDT)
-From:   Peter Lafreniere <pjlafren@mtu.edu>
-To:     linux-hams@vger.kernel.org
-Cc:     netdev@vger.kernel.org, ralf@linux-mips.org,
-        Peter Lafreniere <pjlafren@mtu.edu>,
-        kernel test robot <lkp@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH v4] ax25: use GFP_KERNEL in ax25_dev_device_up()
-Date:   Thu, 16 Jun 2022 11:23:33 -0400
-Message-Id: <20220616152333.9812-1-pjlafren@mtu.edu>
-X-Mailer: git-send-email 2.36.1
+        with ESMTP id S235678AbiFQJS2 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 17 Jun 2022 05:18:28 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E4755677A;
+        Fri, 17 Jun 2022 02:18:26 -0700 (PDT)
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4LPYLv5d4Qz1K9xM;
+        Fri, 17 Jun 2022 17:16:23 +0800 (CST)
+Received: from kwepemm600017.china.huawei.com (7.193.23.234) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 17 Jun 2022 17:18:16 +0800
+Received: from localhost.localdomain (10.175.112.70) by
+ kwepemm600017.china.huawei.com (7.193.23.234) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 17 Jun 2022 17:18:15 +0800
+From:   Xu Jia <xujia39@huawei.com>
+To:     <linux-hams@vger.kernel.org>, <pabeni@redhat.com>,
+        <ajk@comnets.uni-bremen.de>
+CC:     <davem@davemloft.net>, <kuba@kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <xujia39@huawei.com>
+Subject: [PATCH v2] hamradio: 6pack: fix array-index-out-of-bounds in decode_std_command()
+Date:   Fri, 17 Jun 2022 17:31:06 +0800
+Message-ID: <1655458266-27879-1-git-send-email-xujia39@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.70]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemm600017.china.huawei.com (7.193.23.234)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -69,57 +49,104 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-ax25_dev_device_up() is only called during device setup, which is
-done in user context. In addition, ax25_dev_device_up()
-unconditionally calls ax25_register_dev_sysctl(), which already
-allocates with GFP_KERNEL.
+Hulk Robot reports incorrect sp->rx_count_cooked value in decode_std_command().
+This should be caused by the subtracting from sp->rx_count_cooked before.
+It seems that sp->rx_count_cooked value is changed to 0, which bypassed the
+previous judgment.
 
-Since it is allowed to sleep in this function, here we change
-ax25_dev_device_up() to use GFP_KERNEL to reduce unnecessary
-out-of-memory errors.
+The situation is shown below:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Peter Lafreniere <pjlafren@mtu.edu>
+         (Thread 1)			|  (Thread 2)
+decode_std_command()		| resync_tnc()
+...					|
+if (rest == 2)			|
+	sp->rx_count_cooked -= 2;	|
+else if (rest == 3)			| ...
+					| sp->rx_count_cooked = 0;
+	sp->rx_count_cooked -= 1;	|
+for (i = 0; i < sp->rx_count_cooked; i++) // report error
+	checksum += sp->cooked_buf[i];
+
+sp->rx_count_cooked is a shared variable but is not protected by a lock.
+The same applies to sp->rx_count. This patch adds a lock to fix the bug.
+
+The fail log is shown below:
+=======================================================================
+UBSAN: array-index-out-of-bounds in drivers/net/hamradio/6pack.c:925:31
+index 400 is out of range for type 'unsigned char [400]'
+CPU: 3 PID: 7433 Comm: kworker/u10:1 Not tainted 5.18.0-rc5-00163-g4b97bac0756a #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
+Workqueue: events_unbound flush_to_ldisc
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xcd/0x134
+ ubsan_epilogue+0xb/0x50
+ __ubsan_handle_out_of_bounds.cold+0x62/0x6c
+ sixpack_receive_buf+0xfda/0x1330
+ tty_ldisc_receive_buf+0x13e/0x180
+ tty_port_default_receive_buf+0x6d/0xa0
+ flush_to_ldisc+0x213/0x3f0
+ process_one_work+0x98f/0x1620
+ worker_thread+0x665/0x1080
+ kthread+0x2e9/0x3a0
+ ret_from_fork+0x1f/0x30
+ ...
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Xu Jia <xujia39@huawei.com>
 ---
-v3 -> v4:
- - Cleaned up coding style
-    - Thanks to to Paolo Abeni
+ drivers/net/hamradio/6pack.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-v2 -> v3:
- - Rebased for clean application to net-next
-
-v1 -> v2:
- - Renamed patch from "ax25: use GFP_KERNEL over GFP_ATOMIC where possible"
- - Removed invalid changes to ax25_rt_add()
-
- net/ax25/ax25_dev.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/net/ax25/ax25_dev.c b/net/ax25/ax25_dev.c
-index ab88b6ac5401..c5462486dbca 100644
---- a/net/ax25/ax25_dev.c
-+++ b/net/ax25/ax25_dev.c
-@@ -52,7 +52,8 @@ void ax25_dev_device_up(struct net_device *dev)
- {
- 	ax25_dev *ax25_dev;
+diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
+index ff2bb3d..833dcc7 100644
+--- a/drivers/net/hamradio/6pack.c
++++ b/drivers/net/hamradio/6pack.c
+@@ -99,6 +99,7 @@ struct sixpack {
  
--	if ((ax25_dev = kzalloc(sizeof(*ax25_dev), GFP_ATOMIC)) == NULL) {
-+	ax25_dev = kzalloc(sizeof(*ax25_dev), GFP_KERNEL);
-+	if (!ax25_dev) {
- 		printk(KERN_ERR "AX.25: ax25_dev_device_up - out of memory\n");
- 		return;
+ 	unsigned int		rx_count;
+ 	unsigned int		rx_count_cooked;
++	spinlock_t		rxlock;
+ 
+ 	int			mtu;		/* Our mtu (to spot changes!) */
+ 	int			buffsize;       /* Max buffers sizes */
+@@ -565,6 +566,7 @@ static int sixpack_open(struct tty_struct *tty)
+ 	sp->dev = dev;
+ 
+ 	spin_lock_init(&sp->lock);
++	spin_lock_init(&sp->rxlock);
+ 	refcount_set(&sp->refcnt, 1);
+ 	init_completion(&sp->dead);
+ 
+@@ -913,6 +915,7 @@ static void decode_std_command(struct sixpack *sp, unsigned char cmd)
+ 			sp->led_state = 0x60;
+ 			/* fill trailing bytes with zeroes */
+ 			sp->tty->ops->write(sp->tty, &sp->led_state, 1);
++			spin_lock_bh(&sp->rxlock);
+ 			rest = sp->rx_count;
+ 			if (rest != 0)
+ 				 for (i = rest; i <= 3; i++)
+@@ -930,6 +933,7 @@ static void decode_std_command(struct sixpack *sp, unsigned char cmd)
+ 				sp_bump(sp, 0);
+ 			}
+ 			sp->rx_count_cooked = 0;
++			spin_unlock_bh(&sp->rxlock);
+ 		}
+ 		break;
+ 	case SIXP_TX_URUN: printk(KERN_DEBUG "6pack: TX underrun\n");
+@@ -959,8 +963,11 @@ static void decode_std_command(struct sixpack *sp, unsigned char cmd)
+ 			decode_prio_command(sp, inbyte);
+ 		else if ((inbyte & SIXP_STD_CMD_MASK) != 0)
+ 			decode_std_command(sp, inbyte);
+-		else if ((sp->status & SIXP_RX_DCD_MASK) == SIXP_RX_DCD_MASK)
++		else if ((sp->status & SIXP_RX_DCD_MASK) == SIXP_RX_DCD_MASK) {
++			spin_lock_bh(&sp->rxlock);
+ 			decode_data(sp, inbyte);
++			spin_unlock_bh(&sp->rxlock);
++		}
  	}
-@@ -60,7 +61,7 @@ void ax25_dev_device_up(struct net_device *dev)
- 	refcount_set(&ax25_dev->refcount, 1);
- 	dev->ax25_ptr     = ax25_dev;
- 	ax25_dev->dev     = dev;
--	netdev_hold(dev, &ax25_dev->dev_tracker, GFP_ATOMIC);
-+	netdev_hold(dev, &ax25_dev->dev_tracker, GFP_KERNEL);
- 	ax25_dev->forward = NULL;
- 	ax25_dev->device_up = true;
+ }
  
-
-base-commit: 5dcb50c009c9f8ec1cfca6a81a05c0060a5bbf68
 -- 
-2.36.1
+1.8.3.1
+
