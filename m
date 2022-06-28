@@ -2,155 +2,166 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6BC3558C9B
-	for <lists+linux-hams@lfdr.de>; Fri, 24 Jun 2022 03:06:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 400F855D981
+	for <lists+linux-hams@lfdr.de>; Tue, 28 Jun 2022 15:21:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbiFXBGQ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 23 Jun 2022 21:06:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51986 "EHLO
+        id S243488AbiF1CT5 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 27 Jun 2022 22:19:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229694AbiFXBGP (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 23 Jun 2022 21:06:15 -0400
-Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C82B25DF0F;
-        Thu, 23 Jun 2022 18:06:11 -0700 (PDT)
-Received: from ubuntu.localdomain (unknown [10.190.64.135])
-        by mail-app2 (Coremail) with SMTP id by_KCgCHjorsDbViLh+JAg--.57370S4;
-        Fri, 24 Jun 2022 09:06:05 +0800 (CST)
-From:   Duoming Zhou <duoming@zju.edu.cn>
-To:     linux-hams@vger.kernel.org, pabeni@redhat.com
-Cc:     ralf@linux-mips.org, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH net v3 2/2] net: rose: fix null-ptr-deref caused by rose_kill_by_neigh
-Date:   Fri, 24 Jun 2022 09:05:45 +0800
-Message-Id: <c31f454f74833b2003713fffa881aabb190b8290.1656031586.git.duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1656031586.git.duoming@zju.edu.cn>
-References: <cover.1656031586.git.duoming@zju.edu.cn>
-In-Reply-To: <cover.1656031586.git.duoming@zju.edu.cn>
-References: <cover.1656031586.git.duoming@zju.edu.cn>
-X-CM-TRANSID: by_KCgCHjorsDbViLh+JAg--.57370S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxJw1fGr1kXFyrXw4fAFWfGrg_yoW5uF43pr
-        9xKrW3Grs7Jw4DWF4DJF1Uur40vF1q9F9rJrW09F92y3Z8GrWjvrykKFWUWr15XFsrGFya
-        gF1UW34SyrnFyw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUk21xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW0oVCq3wA2z4x0Y4vEx4A2
-        jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
-        x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWU
-        GwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
-        8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
-        6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGw
-        C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48J
-        MIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMI
-        IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
-        87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAg4KAVZdtaXsswA3s0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S243474AbiF1CTz (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Jun 2022 22:19:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0020F22BDD;
+        Mon, 27 Jun 2022 19:19:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5520B615C3;
+        Tue, 28 Jun 2022 02:19:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FF84C341D1;
+        Tue, 28 Jun 2022 02:19:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656382782;
+        bh=Y9LFZ5AYICHV61HYIR74tGPitldOGzjg7gwkPbn555U=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=tn0mMk8dRllacvf5XMKDeYkn8I2KU9qrFH1JdWJ51TfBlOnGkwVJ3TTWjns09HuJG
+         x2VEDd1pLXkEx/GmmtfQWvv5oshFb2aBbTXTi7iFuuNP78sJ7GAZkfdUQnBxgaWXbL
+         qN55MuPMGeH5T2Y/ieg/w7+4Ep7mUhD4GIUY/NA+dM+NbX9ydD/g2PhVWnouIQf64v
+         ijJ3exkUaoCI+tlB57IXe72+fDTxdfFya+dT1Gheg49tOKoifw7n4UaaWeikJX77wc
+         Qx479YaIoIvCXuWImkYcUd6ZRLYXSdKxPpHzsxqrRlk0iY8nbP9qgaY/o4PXcemfCb
+         Pp/j5gORCb89Q==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Xu Jia <xujia39@huawei.com>, Hulk Robot <hulkci@huawei.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, ajk@comnets.uni-bremen.de,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        linux-hams@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.18 20/53] hamradio: 6pack: fix array-index-out-of-bounds in decode_std_command()
+Date:   Mon, 27 Jun 2022 22:18:06 -0400
+Message-Id: <20220628021839.594423-20-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220628021839.594423-1-sashal@kernel.org>
+References: <20220628021839.594423-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-When the link layer connection is broken, the rose->neighbour is
-set to null. But rose->neighbour could be used by rose_connection()
-and rose_release() later, because there is no synchronization among
-them. As a result, the null-ptr-deref bugs will happen.
+From: Xu Jia <xujia39@huawei.com>
 
-One of the null-ptr-deref bugs is shown below:
+[ Upstream commit 2b04495e21cdb9b45c28c6aeb2da560184de20a3 ]
 
-    (thread 1)                  |        (thread 2)
-                                |  rose_connect
-rose_kill_by_neigh              |    lock_sock(sk)
-  spin_lock_bh(&rose_list_lock) |    if (!rose->neighbour)
-  rose->neighbour = NULL;//(1)  |
-                                |    rose->neighbour->use++;//(2)
+Hulk Robot reports incorrect sp->rx_count_cooked value in decode_std_command().
+This should be caused by the subtracting from sp->rx_count_cooked before.
+It seems that sp->rx_count_cooked value is changed to 0, which bypassed the
+previous judgment.
 
-The rose->neighbour is set to null in position (1) and dereferenced
-in position (2).
+The situation is shown below:
 
-The KASAN report triggered by POC is shown below:
+         (Thread 1)			|  (Thread 2)
+decode_std_command()		| resync_tnc()
+...					|
+if (rest == 2)			|
+	sp->rx_count_cooked -= 2;	|
+else if (rest == 3)			| ...
+					| sp->rx_count_cooked = 0;
+	sp->rx_count_cooked -= 1;	|
+for (i = 0; i < sp->rx_count_cooked; i++) // report error
+	checksum += sp->cooked_buf[i];
 
-KASAN: null-ptr-deref in range [0x0000000000000028-0x000000000000002f]
-...
-RIP: 0010:rose_connect+0x6c2/0xf30
-RSP: 0018:ffff88800ab47d60 EFLAGS: 00000206
-RAX: 0000000000000005 RBX: 000000000000002a RCX: 0000000000000000
-RDX: ffff88800ab38000 RSI: ffff88800ab47e48 RDI: ffff88800ab38309
-RBP: dffffc0000000000 R08: 0000000000000000 R09: ffffed1001567062
-R10: dfffe91001567063 R11: 1ffff11001567061 R12: 1ffff11000d17cd0
-R13: ffff8880068be680 R14: 0000000000000002 R15: 1ffff11000d17cd0
-...
+sp->rx_count_cooked is a shared variable but is not protected by a lock.
+The same applies to sp->rx_count. This patch adds a lock to fix the bug.
+
+The fail log is shown below:
+=======================================================================
+UBSAN: array-index-out-of-bounds in drivers/net/hamradio/6pack.c:925:31
+index 400 is out of range for type 'unsigned char [400]'
+CPU: 3 PID: 7433 Comm: kworker/u10:1 Not tainted 5.18.0-rc5-00163-g4b97bac0756a #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
+Workqueue: events_unbound flush_to_ldisc
 Call Trace:
-  <TASK>
-  ? __local_bh_enable_ip+0x54/0x80
-  ? selinux_netlbl_socket_connect+0x26/0x30
-  ? rose_bind+0x5b0/0x5b0
-  __sys_connect+0x216/0x280
-  __x64_sys_connect+0x71/0x80
-  do_syscall_64+0x43/0x90
-  entry_SYSCALL_64_after_hwframe+0x46/0xb0
+ <TASK>
+ dump_stack_lvl+0xcd/0x134
+ ubsan_epilogue+0xb/0x50
+ __ubsan_handle_out_of_bounds.cold+0x62/0x6c
+ sixpack_receive_buf+0xfda/0x1330
+ tty_ldisc_receive_buf+0x13e/0x180
+ tty_port_default_receive_buf+0x6d/0xa0
+ flush_to_ldisc+0x213/0x3f0
+ process_one_work+0x98f/0x1620
+ worker_thread+0x665/0x1080
+ kthread+0x2e9/0x3a0
+ ret_from_fork+0x1f/0x30
+ ...
 
-This patch adds lock_sock() in rose_kill_by_neigh() in order to
-synchronize with rose_connect() and rose_release().
-
-Meanwhile, this patch adds sock_hold() protected by rose_list_lock
-that could synchronize with rose_remove_socket() in order to mitigate
-UAF bug caused by lock_sock() we add.
-
-What's more, there is no need using rose_neigh_list_lock to protect
-rose_kill_by_neigh(). Because we have already used rose_neigh_list_lock
-to protect the state change of rose_neigh in rose_link_failed(), which
-is well synchronized.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Xu Jia <xujia39@huawei.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-Changes since v2:
-  - v2: Fix refcount leak of sock.
+ drivers/net/hamradio/6pack.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
- net/rose/af_rose.c    | 6 ++++++
- net/rose/rose_route.c | 2 ++
- 2 files changed, 8 insertions(+)
-
-diff --git a/net/rose/af_rose.c b/net/rose/af_rose.c
-index bf2d986a6bc..5caa222c490 100644
---- a/net/rose/af_rose.c
-+++ b/net/rose/af_rose.c
-@@ -169,9 +169,15 @@ void rose_kill_by_neigh(struct rose_neigh *neigh)
- 		struct rose_sock *rose = rose_sk(s);
+diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
+index 45c3c4a1101b..9fb567524220 100644
+--- a/drivers/net/hamradio/6pack.c
++++ b/drivers/net/hamradio/6pack.c
+@@ -99,6 +99,7 @@ struct sixpack {
  
- 		if (rose->neighbour == neigh) {
-+			sock_hold(s);
- 			rose_disconnect(s, ENETUNREACH, ROSE_OUT_OF_ORDER, 0);
- 			rose->neighbour->use--;
-+			spin_unlock_bh(&rose_list_lock);
-+			lock_sock(s);
- 			rose->neighbour = NULL;
-+			release_sock(s);
-+			spin_lock_bh(&rose_list_lock);
-+			sock_put(s);
+ 	unsigned int		rx_count;
+ 	unsigned int		rx_count_cooked;
++	spinlock_t		rxlock;
+ 
+ 	int			mtu;		/* Our mtu (to spot changes!) */
+ 	int			buffsize;       /* Max buffers sizes */
+@@ -565,6 +566,7 @@ static int sixpack_open(struct tty_struct *tty)
+ 	sp->dev = dev;
+ 
+ 	spin_lock_init(&sp->lock);
++	spin_lock_init(&sp->rxlock);
+ 	refcount_set(&sp->refcnt, 1);
+ 	init_completion(&sp->dead);
+ 
+@@ -913,6 +915,7 @@ static void decode_std_command(struct sixpack *sp, unsigned char cmd)
+ 			sp->led_state = 0x60;
+ 			/* fill trailing bytes with zeroes */
+ 			sp->tty->ops->write(sp->tty, &sp->led_state, 1);
++			spin_lock_bh(&sp->rxlock);
+ 			rest = sp->rx_count;
+ 			if (rest != 0)
+ 				 for (i = rest; i <= 3; i++)
+@@ -930,6 +933,7 @@ static void decode_std_command(struct sixpack *sp, unsigned char cmd)
+ 				sp_bump(sp, 0);
+ 			}
+ 			sp->rx_count_cooked = 0;
++			spin_unlock_bh(&sp->rxlock);
  		}
+ 		break;
+ 	case SIXP_TX_URUN: printk(KERN_DEBUG "6pack: TX underrun\n");
+@@ -959,8 +963,11 @@ sixpack_decode(struct sixpack *sp, const unsigned char *pre_rbuff, int count)
+ 			decode_prio_command(sp, inbyte);
+ 		else if ((inbyte & SIXP_STD_CMD_MASK) != 0)
+ 			decode_std_command(sp, inbyte);
+-		else if ((sp->status & SIXP_RX_DCD_MASK) == SIXP_RX_DCD_MASK)
++		else if ((sp->status & SIXP_RX_DCD_MASK) == SIXP_RX_DCD_MASK) {
++			spin_lock_bh(&sp->rxlock);
+ 			decode_data(sp, inbyte);
++			spin_unlock_bh(&sp->rxlock);
++		}
  	}
- 	spin_unlock_bh(&rose_list_lock);
-diff --git a/net/rose/rose_route.c b/net/rose/rose_route.c
-index fee6409c2bb..b116828b422 100644
---- a/net/rose/rose_route.c
-+++ b/net/rose/rose_route.c
-@@ -827,7 +827,9 @@ void rose_link_failed(ax25_cb *ax25, int reason)
- 		ax25_cb_put(ax25);
- 
- 		rose_del_route_by_neigh(rose_neigh);
-+		spin_unlock_bh(&rose_neigh_list_lock);
- 		rose_kill_by_neigh(rose_neigh);
-+		return;
- 	}
- 	spin_unlock_bh(&rose_neigh_list_lock);
  }
+ 
 -- 
-2.17.1
+2.35.1
 
