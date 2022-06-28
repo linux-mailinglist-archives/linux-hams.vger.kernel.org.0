@@ -2,35 +2,35 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9C2755C5AE
-	for <lists+linux-hams@lfdr.de>; Tue, 28 Jun 2022 14:51:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86F1455C8EA
+	for <lists+linux-hams@lfdr.de>; Tue, 28 Jun 2022 14:56:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244125AbiF1CXC (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 27 Jun 2022 22:23:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60960 "EHLO
+        id S244271AbiF1C0S (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 27 Jun 2022 22:26:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243811AbiF1CWB (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Jun 2022 22:22:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2965324958;
-        Mon, 27 Jun 2022 19:21:43 -0700 (PDT)
+        with ESMTP id S244278AbiF1CYU (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Jun 2022 22:24:20 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7224524F0A;
+        Mon, 27 Jun 2022 19:23:21 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BA5EF617D4;
-        Tue, 28 Jun 2022 02:21:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E56FDC341CC;
-        Tue, 28 Jun 2022 02:21:40 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id EA1E0B81C17;
+        Tue, 28 Jun 2022 02:23:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35720C341CC;
+        Tue, 28 Jun 2022 02:23:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656382902;
-        bh=pqFvgJ8fBTY304BDoI8GuIDGiLlPge7h5+NmN2eyUEo=;
+        s=k20201202; t=1656382998;
+        bh=F5PklHD+9cTDpXg9Leq80IrJfmRoAeSbs4nZU72r4SI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=D+XE0F0E2Tw3xRm5aOEERB3Ki6WgdJ2sg3JcdSm7HQjzQ+Gg+KFJvYy/k4zHX6qOo
-         tGvR16WoOSx5jBeL6nKuJ/zisL9mczllzCYXO0qijDzHPAagPOrv5wiza7q5AuloMo
-         KpXBLnySnyyTE47dPlzTepH1kUc7vUB8oTWejr2oyzUGLqpV/MYAHq9nYcy9I62+O1
-         6T1oqN/S9HRd5bXhqagsYwn++ECH9KdsTCe9zTc2JzGmmglHDB/hYST9cV14Rcj2gP
-         f+WwHi+qptibsuyfE+71piTfm5baUmoEoop3anvOeSQoN5A1vgbjDF5PLbB9feAVjC
-         Fl/ZkHnX3/k9w==
+        b=mU1itTZjLWysU/JZAHA3S3P/5+ejyN3iYVFkIk4/iBf9fpTm7VtpmOa7DdKO2Vt+J
+         BufBRqde99kotsCxIP5uBJ6OFfJP4fUIdjshyMON41P7+ZPc3nS+M5loglqPVEfvv5
+         Ged3lRO9kCl6XnkbWlKeuw5DDDsl6CH2PXZZrII52lk0C0/Xv24gDZlO3U4nXbts+F
+         IPZ1G2wHM89c/b86kdmgDJs3Tx33i9Dr667r6dRnHk8asfDmJhym/fIgTb8N9Picu5
+         Prcca2RrPyANx6y1gC1GEXXymUSIId0iGfKO/i7d+RtSyajJPmKH4uLYHQ7450FdaI
+         qvq1xkNybgtZw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Xu Jia <xujia39@huawei.com>, Hulk Robot <hulkci@huawei.com>,
@@ -38,12 +38,12 @@ Cc:     Xu Jia <xujia39@huawei.com>, Hulk Robot <hulkci@huawei.com>,
         Sasha Levin <sashal@kernel.org>, ajk@comnets.uni-bremen.de,
         edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
         linux-hams@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 16/41] hamradio: 6pack: fix array-index-out-of-bounds in decode_std_command()
-Date:   Mon, 27 Jun 2022 22:20:35 -0400
-Message-Id: <20220628022100.595243-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 13/34] hamradio: 6pack: fix array-index-out-of-bounds in decode_std_command()
+Date:   Mon, 27 Jun 2022 22:22:20 -0400
+Message-Id: <20220628022241.595835-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220628022100.595243-1-sashal@kernel.org>
-References: <20220628022100.595243-1-sashal@kernel.org>
+In-Reply-To: <20220628022241.595835-1-sashal@kernel.org>
+References: <20220628022241.595835-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -114,7 +114,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
-index 36a9fbb70402..ac2e79f0a928 100644
+index 83dc1c2c3b84..d92df9bafbbd 100644
 --- a/drivers/net/hamradio/6pack.c
 +++ b/drivers/net/hamradio/6pack.c
 @@ -99,6 +99,7 @@ struct sixpack {
@@ -125,7 +125,7 @@ index 36a9fbb70402..ac2e79f0a928 100644
  
  	int			mtu;		/* Our mtu (to spot changes!) */
  	int			buffsize;       /* Max buffers sizes */
-@@ -565,6 +566,7 @@ static int sixpack_open(struct tty_struct *tty)
+@@ -570,6 +571,7 @@ static int sixpack_open(struct tty_struct *tty)
  	sp->dev = dev;
  
  	spin_lock_init(&sp->lock);
@@ -133,7 +133,7 @@ index 36a9fbb70402..ac2e79f0a928 100644
  	refcount_set(&sp->refcnt, 1);
  	init_completion(&sp->dead);
  
-@@ -913,6 +915,7 @@ static void decode_std_command(struct sixpack *sp, unsigned char cmd)
+@@ -925,6 +927,7 @@ static void decode_std_command(struct sixpack *sp, unsigned char cmd)
  			sp->led_state = 0x60;
  			/* fill trailing bytes with zeroes */
  			sp->tty->ops->write(sp->tty, &sp->led_state, 1);
@@ -141,7 +141,7 @@ index 36a9fbb70402..ac2e79f0a928 100644
  			rest = sp->rx_count;
  			if (rest != 0)
  				 for (i = rest; i <= 3; i++)
-@@ -930,6 +933,7 @@ static void decode_std_command(struct sixpack *sp, unsigned char cmd)
+@@ -942,6 +945,7 @@ static void decode_std_command(struct sixpack *sp, unsigned char cmd)
  				sp_bump(sp, 0);
  			}
  			sp->rx_count_cooked = 0;
@@ -149,7 +149,7 @@ index 36a9fbb70402..ac2e79f0a928 100644
  		}
  		break;
  	case SIXP_TX_URUN: printk(KERN_DEBUG "6pack: TX underrun\n");
-@@ -959,8 +963,11 @@ sixpack_decode(struct sixpack *sp, const unsigned char *pre_rbuff, int count)
+@@ -971,8 +975,11 @@ sixpack_decode(struct sixpack *sp, const unsigned char *pre_rbuff, int count)
  			decode_prio_command(sp, inbyte);
  		else if ((inbyte & SIXP_STD_CMD_MASK) != 0)
  			decode_std_command(sp, inbyte);
