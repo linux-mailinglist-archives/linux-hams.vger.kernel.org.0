@@ -2,35 +2,35 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86F1455C8EA
-	for <lists+linux-hams@lfdr.de>; Tue, 28 Jun 2022 14:56:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC78F55D49E
+	for <lists+linux-hams@lfdr.de>; Tue, 28 Jun 2022 15:14:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244271AbiF1C0S (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 27 Jun 2022 22:26:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32858 "EHLO
+        id S244706AbiF1C3q (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 27 Jun 2022 22:29:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244278AbiF1CYU (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Jun 2022 22:24:20 -0400
+        with ESMTP id S244519AbiF1C1I (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Jun 2022 22:27:08 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7224524F0A;
-        Mon, 27 Jun 2022 19:23:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A97324BDC;
+        Mon, 27 Jun 2022 19:24:34 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id EA1E0B81C17;
-        Tue, 28 Jun 2022 02:23:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35720C341CC;
-        Tue, 28 Jun 2022 02:23:17 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 45A58B81C14;
+        Tue, 28 Jun 2022 02:24:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B75A5C341CB;
+        Tue, 28 Jun 2022 02:24:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656382998;
+        s=k20201202; t=1656383072;
         bh=F5PklHD+9cTDpXg9Leq80IrJfmRoAeSbs4nZU72r4SI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mU1itTZjLWysU/JZAHA3S3P/5+ejyN3iYVFkIk4/iBf9fpTm7VtpmOa7DdKO2Vt+J
-         BufBRqde99kotsCxIP5uBJ6OFfJP4fUIdjshyMON41P7+ZPc3nS+M5loglqPVEfvv5
-         Ged3lRO9kCl6XnkbWlKeuw5DDDsl6CH2PXZZrII52lk0C0/Xv24gDZlO3U4nXbts+F
-         IPZ1G2wHM89c/b86kdmgDJs3Tx33i9Dr667r6dRnHk8asfDmJhym/fIgTb8N9Picu5
-         Prcca2RrPyANx6y1gC1GEXXymUSIId0iGfKO/i7d+RtSyajJPmKH4uLYHQ7450FdaI
-         qvq1xkNybgtZw==
+        b=pLnMyXQKpD3myhHY1lrGZdpeopIDQRowpfR2A+P4elec71k6VGIlvAVOMfwY+p0Fg
+         6wqfn50EWX7K++wp4CYuTxz3DbtembSd5o/t1ZaK5Knagj/uN2tFUTtXeQNXaqohEb
+         AeiYlm61LxW46Fiu+EJjVAf1ZXGtKUCkbe6ArQhjqzjnT8wQxeSwwt/HIhOh5Ycvak
+         Ylcwj9prz+zIQuRFr3Wl4Ho2R+26LfLIKWI4sXzfmqwQ72YfzJsJii7nqqKtEQQotv
+         ySaAcSAQ9yQnYI925hXDyvZsF7m96rhwcfouG6d1HJuDlGk7tVTt2Gzd7OA6/IAmxO
+         vdaBVHsYkpOaA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Xu Jia <xujia39@huawei.com>, Hulk Robot <hulkci@huawei.com>,
@@ -38,12 +38,12 @@ Cc:     Xu Jia <xujia39@huawei.com>, Hulk Robot <hulkci@huawei.com>,
         Sasha Levin <sashal@kernel.org>, ajk@comnets.uni-bremen.de,
         edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
         linux-hams@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 13/34] hamradio: 6pack: fix array-index-out-of-bounds in decode_std_command()
-Date:   Mon, 27 Jun 2022 22:22:20 -0400
-Message-Id: <20220628022241.595835-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 08/27] hamradio: 6pack: fix array-index-out-of-bounds in decode_std_command()
+Date:   Mon, 27 Jun 2022 22:23:54 -0400
+Message-Id: <20220628022413.596341-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220628022241.595835-1-sashal@kernel.org>
-References: <20220628022241.595835-1-sashal@kernel.org>
+In-Reply-To: <20220628022413.596341-1-sashal@kernel.org>
+References: <20220628022413.596341-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
