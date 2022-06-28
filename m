@@ -2,35 +2,35 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 400F855D981
-	for <lists+linux-hams@lfdr.de>; Tue, 28 Jun 2022 15:21:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9C2755C5AE
+	for <lists+linux-hams@lfdr.de>; Tue, 28 Jun 2022 14:51:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243488AbiF1CT5 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 27 Jun 2022 22:19:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60092 "EHLO
+        id S244125AbiF1CXC (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 27 Jun 2022 22:23:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243474AbiF1CTz (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Jun 2022 22:19:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0020F22BDD;
-        Mon, 27 Jun 2022 19:19:43 -0700 (PDT)
+        with ESMTP id S243811AbiF1CWB (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Jun 2022 22:22:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2965324958;
+        Mon, 27 Jun 2022 19:21:43 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5520B615C3;
-        Tue, 28 Jun 2022 02:19:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FF84C341D1;
-        Tue, 28 Jun 2022 02:19:41 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BA5EF617D4;
+        Tue, 28 Jun 2022 02:21:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E56FDC341CC;
+        Tue, 28 Jun 2022 02:21:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656382782;
-        bh=Y9LFZ5AYICHV61HYIR74tGPitldOGzjg7gwkPbn555U=;
+        s=k20201202; t=1656382902;
+        bh=pqFvgJ8fBTY304BDoI8GuIDGiLlPge7h5+NmN2eyUEo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tn0mMk8dRllacvf5XMKDeYkn8I2KU9qrFH1JdWJ51TfBlOnGkwVJ3TTWjns09HuJG
-         x2VEDd1pLXkEx/GmmtfQWvv5oshFb2aBbTXTi7iFuuNP78sJ7GAZkfdUQnBxgaWXbL
-         qN55MuPMGeH5T2Y/ieg/w7+4Ep7mUhD4GIUY/NA+dM+NbX9ydD/g2PhVWnouIQf64v
-         ijJ3exkUaoCI+tlB57IXe72+fDTxdfFya+dT1Gheg49tOKoifw7n4UaaWeikJX77wc
-         Qx479YaIoIvCXuWImkYcUd6ZRLYXSdKxPpHzsxqrRlk0iY8nbP9qgaY/o4PXcemfCb
-         Pp/j5gORCb89Q==
+        b=D+XE0F0E2Tw3xRm5aOEERB3Ki6WgdJ2sg3JcdSm7HQjzQ+Gg+KFJvYy/k4zHX6qOo
+         tGvR16WoOSx5jBeL6nKuJ/zisL9mczllzCYXO0qijDzHPAagPOrv5wiza7q5AuloMo
+         KpXBLnySnyyTE47dPlzTepH1kUc7vUB8oTWejr2oyzUGLqpV/MYAHq9nYcy9I62+O1
+         6T1oqN/S9HRd5bXhqagsYwn++ECH9KdsTCe9zTc2JzGmmglHDB/hYST9cV14Rcj2gP
+         f+WwHi+qptibsuyfE+71piTfm5baUmoEoop3anvOeSQoN5A1vgbjDF5PLbB9feAVjC
+         Fl/ZkHnX3/k9w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Xu Jia <xujia39@huawei.com>, Hulk Robot <hulkci@huawei.com>,
@@ -38,12 +38,12 @@ Cc:     Xu Jia <xujia39@huawei.com>, Hulk Robot <hulkci@huawei.com>,
         Sasha Levin <sashal@kernel.org>, ajk@comnets.uni-bremen.de,
         edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
         linux-hams@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 20/53] hamradio: 6pack: fix array-index-out-of-bounds in decode_std_command()
-Date:   Mon, 27 Jun 2022 22:18:06 -0400
-Message-Id: <20220628021839.594423-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 16/41] hamradio: 6pack: fix array-index-out-of-bounds in decode_std_command()
+Date:   Mon, 27 Jun 2022 22:20:35 -0400
+Message-Id: <20220628022100.595243-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220628021839.594423-1-sashal@kernel.org>
-References: <20220628021839.594423-1-sashal@kernel.org>
+In-Reply-To: <20220628022100.595243-1-sashal@kernel.org>
+References: <20220628022100.595243-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -114,7 +114,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
-index 45c3c4a1101b..9fb567524220 100644
+index 36a9fbb70402..ac2e79f0a928 100644
 --- a/drivers/net/hamradio/6pack.c
 +++ b/drivers/net/hamradio/6pack.c
 @@ -99,6 +99,7 @@ struct sixpack {
