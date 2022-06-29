@@ -2,301 +2,146 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6945D55F25A
-	for <lists+linux-hams@lfdr.de>; Wed, 29 Jun 2022 02:27:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5693C55F450
+	for <lists+linux-hams@lfdr.de>; Wed, 29 Jun 2022 05:50:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbiF2A10 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 28 Jun 2022 20:27:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52704 "EHLO
+        id S229735AbiF2Dsv (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 28 Jun 2022 23:48:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiF2A10 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 28 Jun 2022 20:27:26 -0400
-Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 9DBC02A97C;
-        Tue, 28 Jun 2022 17:27:21 -0700 (PDT)
-Received: from ubuntu.localdomain (unknown [221.192.178.115])
-        by mail-app3 (Coremail) with SMTP id cC_KCgDnt8hCnLtiHEMWAQ--.35491S2;
-        Wed, 29 Jun 2022 08:26:53 +0800 (CST)
-From:   Duoming Zhou <duoming@zju.edu.cn>
-To:     linux-hams@vger.kernel.org
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        pabeni@redhat.com, kuba@kernel.org, edumazet@google.com,
-        davem@davemloft.net, ralf@linux-mips.org,
-        Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH v3 RESEND] net: rose: fix UAF bugs caused by timer handler
-Date:   Wed, 29 Jun 2022 08:26:40 +0800
-Message-Id: <20220629002640.5693-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgDnt8hCnLtiHEMWAQ--.35491S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtr1DGw45AF4kXry3Jr17Awb_yoWxtw15pF
-        W7Ka47Jr4rtw42grW8Ars7CrW3t3W5Jry7Ar1xXF4IyFn7WrWUXF1DAryjqa13GFWkGFy3
-        XF1kXrySyFn7taDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUym14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-        JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vI
-        r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-        xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-        cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-        AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
-        14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgIPAVZdtacoVwAEss
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S229541AbiF2Dst (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 28 Jun 2022 23:48:49 -0400
+Received: from azure-sdnproxy-1.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 20BEF1F2C5;
+        Tue, 28 Jun 2022 20:48:46 -0700 (PDT)
+Received: by ajax-webmail-mail-app3 (Coremail) ; Wed, 29 Jun 2022 11:48:30
+ +0800 (GMT+08:00)
+X-Originating-IP: [221.192.178.115]
+Date:   Wed, 29 Jun 2022 11:48:30 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   duoming@zju.edu.cn
+To:     "Paolo Abeni" <pabeni@redhat.com>
+Cc:     linux-hams@vger.kernel.org, ralf@linux-mips.org,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v3 2/2] net: rose: fix null-ptr-deref caused by
+ rose_kill_by_neigh
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
+In-Reply-To: <ecac788497ea0e4e5b725226ad8b1209dc62fa0e.camel@redhat.com>
+References: <cover.1656031586.git.duoming@zju.edu.cn>
+ <c31f454f74833b2003713fffa881aabb190b8290.1656031586.git.duoming@zju.edu.cn>
+ <ecac788497ea0e4e5b725226ad8b1209dc62fa0e.camel@redhat.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Message-ID: <411487ea.1b211.181ad932398.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cC_KCgDXT0OPy7tilWYZAQ--.7854W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgIQAVZdtac28AAAsO
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-There are UAF bugs in rose_heartbeat_expiry(), rose_timer_expiry()
-and rose_idletimer_expiry(). The root cause is that del_timer()
-could not stop the timer handler that is running and the refcount
-of sock is not managed properly.
-
-One of the UAF bugs is shown below:
-
-    (thread 1)          |        (thread 2)
-                        |  rose_bind
-                        |  rose_connect
-                        |    rose_start_heartbeat
-rose_release            |    (wait a time)
-  case ROSE_STATE_0     |
-  rose_destroy_socket   |  rose_heartbeat_expiry
-    rose_stop_heartbeat |
-    sock_put(sk)        |    ...
-  sock_put(sk) // FREE  |
-                        |    bh_lock_sock(sk) // USE
-
-The sock is deallocated by sock_put() in rose_release() and
-then used by bh_lock_sock() in rose_heartbeat_expiry().
-
-Although rose_destroy_socket() calls rose_stop_heartbeat(),
-it could not stop the timer that is running.
-
-The KASAN report triggered by POC is shown below:
-
-BUG: KASAN: use-after-free in _raw_spin_lock+0x5a/0x110
-Write of size 4 at addr ffff88800ae59098 by task swapper/3/0
-...
-Call Trace:
- <IRQ>
- dump_stack_lvl+0xbf/0xee
- print_address_description+0x7b/0x440
- print_report+0x101/0x230
- ? irq_work_single+0xbb/0x140
- ? _raw_spin_lock+0x5a/0x110
- kasan_report+0xed/0x120
- ? _raw_spin_lock+0x5a/0x110
- kasan_check_range+0x2bd/0x2e0
- _raw_spin_lock+0x5a/0x110
- rose_heartbeat_expiry+0x39/0x370
- ? rose_start_heartbeat+0xb0/0xb0
- call_timer_fn+0x2d/0x1c0
- ? rose_start_heartbeat+0xb0/0xb0
- expire_timers+0x1f3/0x320
- __run_timers+0x3ff/0x4d0
- run_timer_softirq+0x41/0x80
- __do_softirq+0x233/0x544
- irq_exit_rcu+0x41/0xa0
- sysvec_apic_timer_interrupt+0x8c/0xb0
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1b/0x20
-RIP: 0010:default_idle+0xb/0x10
-RSP: 0018:ffffc9000012fea0 EFLAGS: 00000202
-RAX: 000000000000bcae RBX: ffff888006660f00 RCX: 000000000000bcae
-RDX: 0000000000000001 RSI: ffffffff843a11c0 RDI: ffffffff843a1180
-RBP: dffffc0000000000 R08: dffffc0000000000 R09: ffffed100da36d46
-R10: dfffe9100da36d47 R11: ffffffff83cf0950 R12: 0000000000000000
-R13: 1ffff11000ccc1e0 R14: ffffffff8542af28 R15: dffffc0000000000
-...
-Allocated by task 146:
- __kasan_kmalloc+0xc4/0xf0
- sk_prot_alloc+0xdd/0x1a0
- sk_alloc+0x2d/0x4e0
- rose_create+0x7b/0x330
- __sock_create+0x2dd/0x640
- __sys_socket+0xc7/0x270
- __x64_sys_socket+0x71/0x80
- do_syscall_64+0x43/0x90
- entry_SYSCALL_64_after_hwframe+0x46/0xb0
-
-Freed by task 152:
- kasan_set_track+0x4c/0x70
- kasan_set_free_info+0x1f/0x40
- ____kasan_slab_free+0x124/0x190
- kfree+0xd3/0x270
- __sk_destruct+0x314/0x460
- rose_release+0x2fa/0x3b0
- sock_close+0xcb/0x230
- __fput+0x2d9/0x650
- task_work_run+0xd6/0x160
- exit_to_user_mode_loop+0xc7/0xd0
- exit_to_user_mode_prepare+0x4e/0x80
- syscall_exit_to_user_mode+0x20/0x40
- do_syscall_64+0x4f/0x90
- entry_SYSCALL_64_after_hwframe+0x46/0xb0
-
-This patch adds refcount of sock when we use functions
-such as rose_start_heartbeat() and so on to start timer,
-and decreases the refcount of sock when timer is finished
-or deleted by functions such as rose_stop_heartbeat()
-and so on. As a result, the UAF bugs could be mitigated.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-Tested-by: Duoming Zhou <duoming@zju.edu.cn>
----
-Changes in v3:
-  - Change del_timer to sk_stop_timer in order to fix refcount leak.
-
- net/rose/rose_timer.c | 34 +++++++++++++++++++---------------
- 1 file changed, 19 insertions(+), 15 deletions(-)
-
-diff --git a/net/rose/rose_timer.c b/net/rose/rose_timer.c
-index b3138fc2e55..f06ddbed3fe 100644
---- a/net/rose/rose_timer.c
-+++ b/net/rose/rose_timer.c
-@@ -31,89 +31,89 @@ static void rose_idletimer_expiry(struct timer_list *);
- 
- void rose_start_heartbeat(struct sock *sk)
- {
--	del_timer(&sk->sk_timer);
-+	sk_stop_timer(sk, &sk->sk_timer);
- 
- 	sk->sk_timer.function = rose_heartbeat_expiry;
- 	sk->sk_timer.expires  = jiffies + 5 * HZ;
- 
--	add_timer(&sk->sk_timer);
-+	sk_reset_timer(sk, &sk->sk_timer, sk->sk_timer.expires);
- }
- 
- void rose_start_t1timer(struct sock *sk)
- {
- 	struct rose_sock *rose = rose_sk(sk);
- 
--	del_timer(&rose->timer);
-+	sk_stop_timer(sk, &rose->timer);
- 
- 	rose->timer.function = rose_timer_expiry;
- 	rose->timer.expires  = jiffies + rose->t1;
- 
--	add_timer(&rose->timer);
-+	sk_reset_timer(sk, &rose->timer, rose->timer.expires);
- }
- 
- void rose_start_t2timer(struct sock *sk)
- {
- 	struct rose_sock *rose = rose_sk(sk);
- 
--	del_timer(&rose->timer);
-+	sk_stop_timer(sk, &rose->timer);
- 
- 	rose->timer.function = rose_timer_expiry;
- 	rose->timer.expires  = jiffies + rose->t2;
- 
--	add_timer(&rose->timer);
-+	sk_reset_timer(sk, &rose->timer, rose->timer.expires);
- }
- 
- void rose_start_t3timer(struct sock *sk)
- {
- 	struct rose_sock *rose = rose_sk(sk);
- 
--	del_timer(&rose->timer);
-+	sk_stop_timer(sk, &rose->timer);
- 
- 	rose->timer.function = rose_timer_expiry;
- 	rose->timer.expires  = jiffies + rose->t3;
- 
--	add_timer(&rose->timer);
-+	sk_reset_timer(sk, &rose->timer, rose->timer.expires);
- }
- 
- void rose_start_hbtimer(struct sock *sk)
- {
- 	struct rose_sock *rose = rose_sk(sk);
- 
--	del_timer(&rose->timer);
-+	sk_stop_timer(sk, &rose->timer);
- 
- 	rose->timer.function = rose_timer_expiry;
- 	rose->timer.expires  = jiffies + rose->hb;
- 
--	add_timer(&rose->timer);
-+	sk_reset_timer(sk, &rose->timer, rose->timer.expires);
- }
- 
- void rose_start_idletimer(struct sock *sk)
- {
- 	struct rose_sock *rose = rose_sk(sk);
- 
--	del_timer(&rose->idletimer);
-+	sk_stop_timer(sk, &rose->idletimer);
- 
- 	if (rose->idle > 0) {
- 		rose->idletimer.function = rose_idletimer_expiry;
- 		rose->idletimer.expires  = jiffies + rose->idle;
- 
--		add_timer(&rose->idletimer);
-+		sk_reset_timer(sk, &rose->idletimer, rose->idletimer.expires);
- 	}
- }
- 
- void rose_stop_heartbeat(struct sock *sk)
- {
--	del_timer(&sk->sk_timer);
-+	sk_stop_timer(sk, &sk->sk_timer);
- }
- 
- void rose_stop_timer(struct sock *sk)
- {
--	del_timer(&rose_sk(sk)->timer);
-+	sk_stop_timer(sk, &rose_sk(sk)->timer);
- }
- 
- void rose_stop_idletimer(struct sock *sk)
- {
--	del_timer(&rose_sk(sk)->idletimer);
-+	sk_stop_timer(sk, &rose_sk(sk)->idletimer);
- }
- 
- static void rose_heartbeat_expiry(struct timer_list *t)
-@@ -130,6 +130,7 @@ static void rose_heartbeat_expiry(struct timer_list *t)
- 		    (sk->sk_state == TCP_LISTEN && sock_flag(sk, SOCK_DEAD))) {
- 			bh_unlock_sock(sk);
- 			rose_destroy_socket(sk);
-+			sock_put(sk);
- 			return;
- 		}
- 		break;
-@@ -152,6 +153,7 @@ static void rose_heartbeat_expiry(struct timer_list *t)
- 
- 	rose_start_heartbeat(sk);
- 	bh_unlock_sock(sk);
-+	sock_put(sk);
- }
- 
- static void rose_timer_expiry(struct timer_list *t)
-@@ -181,6 +183,7 @@ static void rose_timer_expiry(struct timer_list *t)
- 		break;
- 	}
- 	bh_unlock_sock(sk);
-+	sock_put(sk);
- }
- 
- static void rose_idletimer_expiry(struct timer_list *t)
-@@ -205,4 +208,5 @@ static void rose_idletimer_expiry(struct timer_list *t)
- 		sock_set_flag(sk, SOCK_DEAD);
- 	}
- 	bh_unlock_sock(sk);
-+	sock_put(sk);
- }
--- 
-2.17.1
-
+SGVsbG8sCgpPbiBUdWUsIDI4IEp1biAyMDIyIDEzOjEyOjQwICswMjAwIFBhb2xvIEFiZW5pIHdy
+b3RlOgoKPiA+IFdoZW4gdGhlIGxpbmsgbGF5ZXIgY29ubmVjdGlvbiBpcyBicm9rZW4sIHRoZSBy
+b3NlLT5uZWlnaGJvdXIgaXMKPiA+IHNldCB0byBudWxsLiBCdXQgcm9zZS0+bmVpZ2hib3VyIGNv
+dWxkIGJlIHVzZWQgYnkgcm9zZV9jb25uZWN0aW9uKCkKPiA+IGFuZCByb3NlX3JlbGVhc2UoKSBs
+YXRlciwgYmVjYXVzZSB0aGVyZSBpcyBubyBzeW5jaHJvbml6YXRpb24gYW1vbmcKPiA+IHRoZW0u
+IEFzIGEgcmVzdWx0LCB0aGUgbnVsbC1wdHItZGVyZWYgYnVncyB3aWxsIGhhcHBlbi4KPiA+IAo+
+ID4gT25lIG9mIHRoZSBudWxsLXB0ci1kZXJlZiBidWdzIGlzIHNob3duIGJlbG93Ogo+ID4gCj4g
+PiAgICAgKHRocmVhZCAxKSAgICAgICAgICAgICAgICAgIHwgICAgICAgICh0aHJlYWQgMikKPiA+
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgcm9zZV9jb25uZWN0Cj4gPiByb3Nl
+X2tpbGxfYnlfbmVpZ2ggICAgICAgICAgICAgIHwgICAgbG9ja19zb2NrKHNrKQo+ID4gICBzcGlu
+X2xvY2tfYmgoJnJvc2VfbGlzdF9sb2NrKSB8ICAgIGlmICghcm9zZS0+bmVpZ2hib3VyKQo+ID4g
+ICByb3NlLT5uZWlnaGJvdXIgPSBOVUxMOy8vKDEpICB8Cj4gPiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHwgICAgcm9zZS0+bmVpZ2hib3VyLT51c2UrKzsvLygyKQo+ID4gCj4gPiBU
+aGUgcm9zZS0+bmVpZ2hib3VyIGlzIHNldCB0byBudWxsIGluIHBvc2l0aW9uICgxKSBhbmQgZGVy
+ZWZlcmVuY2VkCj4gPiBpbiBwb3NpdGlvbiAoMikuCj4gPiAKPiA+IFRoZSBLQVNBTiByZXBvcnQg
+dHJpZ2dlcmVkIGJ5IFBPQyBpcyBzaG93biBiZWxvdzoKPiA+IAo+ID4gS0FTQU46IG51bGwtcHRy
+LWRlcmVmIGluIHJhbmdlIFsweDAwMDAwMDAwMDAwMDAwMjgtMHgwMDAwMDAwMDAwMDAwMDJmXQo+
+ID4gLi4uCj4gPiBSSVA6IDAwMTA6cm9zZV9jb25uZWN0KzB4NmMyLzB4ZjMwCj4gPiBSU1A6IDAw
+MTg6ZmZmZjg4ODAwYWI0N2Q2MCBFRkxBR1M6IDAwMDAwMjA2Cj4gPiBSQVg6IDAwMDAwMDAwMDAw
+MDAwMDUgUkJYOiAwMDAwMDAwMDAwMDAwMDJhIFJDWDogMDAwMDAwMDAwMDAwMDAwMAo+ID4gUkRY
+OiBmZmZmODg4MDBhYjM4MDAwIFJTSTogZmZmZjg4ODAwYWI0N2U0OCBSREk6IGZmZmY4ODgwMGFi
+MzgzMDkKPiA+IFJCUDogZGZmZmZjMDAwMDAwMDAwMCBSMDg6IDAwMDAwMDAwMDAwMDAwMDAgUjA5
+OiBmZmZmZWQxMDAxNTY3MDYyCj4gPiBSMTA6IGRmZmZlOTEwMDE1NjcwNjMgUjExOiAxZmZmZjEx
+MDAxNTY3MDYxIFIxMjogMWZmZmYxMTAwMGQxN2NkMAo+ID4gUjEzOiBmZmZmODg4MDA2OGJlNjgw
+IFIxNDogMDAwMDAwMDAwMDAwMDAwMiBSMTU6IDFmZmZmMTEwMDBkMTdjZDAKPiA+IC4uLgo+ID4g
+Q2FsbCBUcmFjZToKPiA+ICAgPFRBU0s+Cj4gPiAgID8gX19sb2NhbF9iaF9lbmFibGVfaXArMHg1
+NC8weDgwCj4gPiAgID8gc2VsaW51eF9uZXRsYmxfc29ja2V0X2Nvbm5lY3QrMHgyNi8weDMwCj4g
+PiAgID8gcm9zZV9iaW5kKzB4NWIwLzB4NWIwCj4gPiAgIF9fc3lzX2Nvbm5lY3QrMHgyMTYvMHgy
+ODAKPiA+ICAgX194NjRfc3lzX2Nvbm5lY3QrMHg3MS8weDgwCj4gPiAgIGRvX3N5c2NhbGxfNjQr
+MHg0My8weDkwCj4gPiAgIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ2LzB4YjAK
+PiA+IAo+ID4gVGhpcyBwYXRjaCBhZGRzIGxvY2tfc29jaygpIGluIHJvc2Vfa2lsbF9ieV9uZWln
+aCgpIGluIG9yZGVyIHRvCj4gPiBzeW5jaHJvbml6ZSB3aXRoIHJvc2VfY29ubmVjdCgpIGFuZCBy
+b3NlX3JlbGVhc2UoKS4KPiA+IAo+ID4gTWVhbndoaWxlLCB0aGlzIHBhdGNoIGFkZHMgc29ja19o
+b2xkKCkgcHJvdGVjdGVkIGJ5IHJvc2VfbGlzdF9sb2NrCj4gPiB0aGF0IGNvdWxkIHN5bmNocm9u
+aXplIHdpdGggcm9zZV9yZW1vdmVfc29ja2V0KCkgaW4gb3JkZXIgdG8gbWl0aWdhdGUKPiA+IFVB
+RiBidWcgY2F1c2VkIGJ5IGxvY2tfc29jaygpIHdlIGFkZC4KPiA+IAo+ID4gV2hhdCdzIG1vcmUs
+IHRoZXJlIGlzIG5vIG5lZWQgdXNpbmcgcm9zZV9uZWlnaF9saXN0X2xvY2sgdG8gcHJvdGVjdAo+
+ID4gcm9zZV9raWxsX2J5X25laWdoKCkuIEJlY2F1c2Ugd2UgaGF2ZSBhbHJlYWR5IHVzZWQgcm9z
+ZV9uZWlnaF9saXN0X2xvY2sKPiA+IHRvIHByb3RlY3QgdGhlIHN0YXRlIGNoYW5nZSBvZiByb3Nl
+X25laWdoIGluIHJvc2VfbGlua19mYWlsZWQoKSwgd2hpY2gKPiA+IGlzIHdlbGwgc3luY2hyb25p
+emVkLgo+ID4gCj4gPiBGaXhlczogMWRhMTc3ZTRjM2Y0ICgiTGludXgtMi42LjEyLXJjMiIpCj4g
+PiBTaWduZWQtb2ZmLWJ5OiBEdW9taW5nIFpob3UgPGR1b21pbmdAemp1LmVkdS5jbj4KPiA+IC0t
+LQo+ID4gQ2hhbmdlcyBzaW5jZSB2MjoKPiA+ICAgLSB2MjogRml4IHJlZmNvdW50IGxlYWsgb2Yg
+c29jay4KPiA+IAo+ID4gIG5ldC9yb3NlL2FmX3Jvc2UuYyAgICB8IDYgKysrKysrCj4gPiAgbmV0
+L3Jvc2Uvcm9zZV9yb3V0ZS5jIHwgMiArKwo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRp
+b25zKCspCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9uZXQvcm9zZS9hZl9yb3NlLmMgYi9uZXQvcm9z
+ZS9hZl9yb3NlLmMKPiA+IGluZGV4IGJmMmQ5ODZhNmJjLi41Y2FhMjIyYzQ5MCAxMDA2NDQKPiA+
+IC0tLSBhL25ldC9yb3NlL2FmX3Jvc2UuYwo+ID4gKysrIGIvbmV0L3Jvc2UvYWZfcm9zZS5jCj4g
+PiBAQCAtMTY5LDkgKzE2OSwxNSBAQCB2b2lkIHJvc2Vfa2lsbF9ieV9uZWlnaChzdHJ1Y3Qgcm9z
+ZV9uZWlnaCAqbmVpZ2gpCj4gPiAgCQlzdHJ1Y3Qgcm9zZV9zb2NrICpyb3NlID0gcm9zZV9zayhz
+KTsKPiA+ICAKPiA+ICAJCWlmIChyb3NlLT5uZWlnaGJvdXIgPT0gbmVpZ2gpIHsKPiA+ICsJCQlz
+b2NrX2hvbGQocyk7Cj4gPiAgCQkJcm9zZV9kaXNjb25uZWN0KHMsIEVORVRVTlJFQUNILCBST1NF
+X09VVF9PRl9PUkRFUiwgMCk7Cj4gPiAgCQkJcm9zZS0+bmVpZ2hib3VyLT51c2UtLTsKPiA+ICsJ
+CQlzcGluX3VubG9ja19iaCgmcm9zZV9saXN0X2xvY2spOwo+ID4gKwkJCWxvY2tfc29jayhzKTsK
+PiA+ICAJCQlyb3NlLT5uZWlnaGJvdXIgPSBOVUxMOwo+ID4gKwkJCXJlbGVhc2Vfc29jayhzKTsK
+PiA+ICsJCQlzcGluX2xvY2tfYmgoJnJvc2VfbGlzdF9sb2NrKTsKPiAKPiBJJ20gc29ycnksIEkg
+bGlrZWx5IHdhcyBub3QgY2xlYXIgZW5vdWdoIGluIG15IHByZXZpb3VzIHJlcGx5LiBUaGlzIGlz
+Cj4gYnJva2VuLiBJZiBhIGxpc3QgaXMgW3NwaW5fXWxvY2sgcHJvdGVjdGVkLCB5b3UgY2FuJ3Qg
+cmVsZWFzZSB0aGUgbG9jaywKPiByZWFjcXVpcmUgaXQgYW5kIGNvbnRpbnVlIHRyYXZlcnNpbmcg
+dGhlIGxpc3QgZnJvbSB0aGUgW25vdyBpbnZhbGlkXQo+IHNhbWUgaXRlcmF0b3IuCj4gCj4gZS5n
+LiBpZiBzIGlzIHJlbW92ZWQgZnJvbSB0aGUgbGlzdCwgZXZlbiBpZiB0aGUgc29jayBpcyBub3Qg
+ZGUtCj4gYWxsb2NhdGVkIGR1ZSB0byB0aGUgYWRkdGlvbmFsIHJlZmNvdW50LCB0aGUgdHJhdmVy
+c2luZyB3aWxsIGVycm5vdXNseQo+IHN0b3AgYWZ0ZXIgdGhpcyBzb2NrLCBpbnN0ZWFkIG9mIGNv
+bnRpbnVpbmcgcHJvY2Vzc2luZyB0aGUgcmVtYWluaW5nCj4gc29ja3MgaW4gdGhlIGxpc3QuCgpJ
+IHVuZGVyc3RhbmQuIFRoZSBmb2xsb3dpbmcgaXMgYSBuZXcgc29sdXRpb246CgpkaWZmIC0tZ2l0
+IGEvbmV0L3Jvc2UvYWZfcm9zZS5jIGIvbmV0L3Jvc2UvYWZfcm9zZS5jCmluZGV4IGJmMmQ5ODZh
+NmJjLi4yNGRjYmRlODhmYiAxMDA2NDQKLS0tIGEvbmV0L3Jvc2UvYWZfcm9zZS5jCisrKyBiL25l
+dC9yb3NlL2FmX3Jvc2UuYwpAQCAtMTY1LDEzICsxNjUsMjEgQEAgdm9pZCByb3NlX2tpbGxfYnlf
+bmVpZ2goc3RydWN0IHJvc2VfbmVpZ2ggKm5laWdoKQogICAgICAgIHN0cnVjdCBzb2NrICpzOwoK
+ICAgICAgICBzcGluX2xvY2tfYmgoJnJvc2VfbGlzdF9sb2NrKTsKK2FnYWluOgogICAgICAgIHNr
+X2Zvcl9lYWNoKHMsICZyb3NlX2xpc3QpIHsKICAgICAgICAgICAgICAgIHN0cnVjdCByb3NlX3Nv
+Y2sgKnJvc2UgPSByb3NlX3NrKHMpOwoKICAgICAgICAgICAgICAgIGlmIChyb3NlLT5uZWlnaGJv
+dXIgPT0gbmVpZ2gpIHsKKyAgICAgICAgICAgICAgICAgICAgICAgc29ja19ob2xkKHMpOworICAg
+ICAgICAgICAgICAgICAgICAgICBzcGluX3VubG9ja19iaCgmcm9zZV9saXN0X2xvY2spOworICAg
+ICAgICAgICAgICAgICAgICAgICBsb2NrX3NvY2socyk7CiAgICAgICAgICAgICAgICAgICAgICAg
+IHJvc2VfZGlzY29ubmVjdChzLCBFTkVUVU5SRUFDSCwgUk9TRV9PVVRfT0ZfT1JERVIsIDApOwog
+ICAgICAgICAgICAgICAgICAgICAgICByb3NlLT5uZWlnaGJvdXItPnVzZS0tOwogICAgICAgICAg
+ICAgICAgICAgICAgICByb3NlLT5uZWlnaGJvdXIgPSBOVUxMOworICAgICAgICAgICAgICAgICAg
+ICAgICByZWxlYXNlX3NvY2socyk7CisgICAgICAgICAgICAgICAgICAgICAgIHNwaW5fbG9ja19i
+aCgmcm9zZV9saXN0X2xvY2spOworICAgICAgICAgICAgICAgICAgICAgICBzb2NrX3B1dChzKTsK
+KyAgICAgICAgICAgICAgICAgICAgICAgZ290byBhZ2FpbjsKICAgICAgICAgICAgICAgIH0KICAg
+ICAgICB9CiAgICAgICAgc3Bpbl91bmxvY2tfYmgoJnJvc2VfbGlzdF9sb2NrKTsKZGlmZiAtLWdp
+dCBhL25ldC9yb3NlL3Jvc2Vfcm91dGUuYyBiL25ldC9yb3NlL3Jvc2Vfcm91dGUuYwppbmRleCBm
+ZWU2NDA5YzJiYi4uYjExNjgyOGI0MjIgMTAwNjQ0Ci0tLSBhL25ldC9yb3NlL3Jvc2Vfcm91dGUu
+YworKysgYi9uZXQvcm9zZS9yb3NlX3JvdXRlLmMKQEAgLTgyNyw3ICs4MjcsOSBAQCB2b2lkIHJv
+c2VfbGlua19mYWlsZWQoYXgyNV9jYiAqYXgyNSwgaW50IHJlYXNvbikKICAgICAgICAgICAgICAg
+IGF4MjVfY2JfcHV0KGF4MjUpOwoKICAgICAgICAgICAgICAgIHJvc2VfZGVsX3JvdXRlX2J5X25l
+aWdoKHJvc2VfbmVpZ2gpOworICAgICAgICAgICAgICAgc3Bpbl91bmxvY2tfYmgoJnJvc2VfbmVp
+Z2hfbGlzdF9sb2NrKTsKICAgICAgICAgICAgICAgIHJvc2Vfa2lsbF9ieV9uZWlnaChyb3NlX25l
+aWdoKTsKKyAgICAgICAgICAgICAgIHJldHVybjsKICAgICAgICB9CiAgICAgICAgc3Bpbl91bmxv
+Y2tfYmgoJnJvc2VfbmVpZ2hfbGlzdF9sb2NrKTsKIH0KCklmIHMgaXMgcmVtb3ZlZCBmcm9tIHRo
+ZSBsaXN0LCB0aGUgdHJhdmVyc2luZyB3aWxsIG5vdCBzdG9wIGVycm9uZW91c2x5LgoKQmVzdCBy
+ZWdhcmRzLApEdW9taW5nIFpob3U=
