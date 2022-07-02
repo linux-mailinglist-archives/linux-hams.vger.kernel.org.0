@@ -2,207 +2,111 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A415A562AC0
-	for <lists+linux-hams@lfdr.de>; Fri,  1 Jul 2022 07:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0059A563DCE
+	for <lists+linux-hams@lfdr.de>; Sat,  2 Jul 2022 04:42:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231235AbiGAFOX (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 1 Jul 2022 01:14:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33538 "EHLO
+        id S229681AbiGBCmC (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 1 Jul 2022 22:42:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229670AbiGAFOW (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 1 Jul 2022 01:14:22 -0400
-X-Greylist: delayed 50721 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 30 Jun 2022 22:14:18 PDT
-Received: from azure-sdnproxy-1.icoremail.net (azure-sdnproxy.icoremail.net [52.187.6.220])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 4A5DB677EE;
-        Thu, 30 Jun 2022 22:14:18 -0700 (PDT)
-Received: by ajax-webmail-mail-app4 (Coremail) ; Fri, 1 Jul 2022 13:14:03
- +0800 (GMT+08:00)
-X-Originating-IP: [221.192.178.118]
-Date:   Fri, 1 Jul 2022 13:14:03 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   duoming@zju.edu.cn
-To:     "Eric Dumazet" <edumazet@google.com>
-Cc:     linux-hams@vger.kernel.org, netdev <netdev@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Paolo Abeni" <pabeni@redhat.com>,
-        "Jakub Kicinski" <kuba@kernel.org>,
-        "David Miller" <davem@davemloft.net>,
-        "Ralf Baechle" <ralf@linux-mips.org>
-Subject: Re: [PATCH net] net: rose: fix UAF bug caused by
- rose_t0timer_expiry
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <CANn89iLBE_kdnznsURLHVuaKqvzJ2nyuzKxz2y8G_29WjccsOA@mail.gmail.com>
-References: <20220630143842.24906-1-duoming@zju.edu.cn>
- <CANn89iLda2oxoPQaGd9r8frAaOu1LqxmWYm2O8W4HXaGRN8tcQ@mail.gmail.com>
- <bed69ee.1e8d9.181b528391c.Coremail.duoming@zju.edu.cn>
- <CANn89iKo-uuF-iQWrfL=pgMu7bEakWHPDAVuLvT-TZ4AujiD=w@mail.gmail.com>
- <55ffc892.1ea21.181b54f4b2f.Coremail.duoming@zju.edu.cn>
- <CANn89iLBE_kdnznsURLHVuaKqvzJ2nyuzKxz2y8G_29WjccsOA@mail.gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S229486AbiGBCmB (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 1 Jul 2022 22:42:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 574CA1CB0F;
+        Fri,  1 Jul 2022 19:41:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BDDBA617EB;
+        Sat,  2 Jul 2022 02:41:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8937C3411E;
+        Sat,  2 Jul 2022 02:41:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656729717;
+        bh=Sm9lhSTRgNM8o4IlZEyh366RuQsTgSkbhEG4P3KRiRo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Erc18y7RaSJz6gdjdeb7ycXcGAuApkdXnctOzJLTg6oDKvAx6k/qWELu90xoryvsJ
+         Dhcd+otpOb9HCXHCKDYKMMY1tVuX1h+a6G3SMixBCljgvIriMPPtEMdvzSaFxsT15v
+         UqsxVqg54Ukm/dO6gQ9pZp4qVhxShX0rKmGmSWrWhwC1HQel9O+e3ljswHzLL+Q3Fe
+         vWV9zPicgxk5lXhW1Z9hnKs3mwEhk1xAYv7X1Ewry8WPrWdtI4cDxAyJ7dkxwgMfCf
+         cNf9X56YZKF9cTTKV8GaKG0JLbM/HV6Ihlhc4TDI1dS4rV3v0voo/yVffilxi6iSuX
+         +YDe9Yts8vmGw==
+Date:   Fri, 1 Jul 2022 19:41:55 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Duoming Zhou <duoming@zju.edu.cn>
+Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ralf@linux-mips.org,
+        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com
+Subject: Re: [PATCH v4] net: rose: fix null-ptr-deref caused by
+ rose_kill_by_neigh
+Message-ID: <20220701194155.5bd61e58@kernel.org>
+In-Reply-To: <20220629104941.26351-1-duoming@zju.edu.cn>
+References: <20220629104941.26351-1-duoming@zju.edu.cn>
 MIME-Version: 1.0
-Message-ID: <7813de7c.1fde3.181b82e30ab.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cS_KCgAX+uKcgr5iQaLrAg--.65535W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgYSAVZdtafE3QAAsX
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-SGVsbG8sCgpPbiBUaHUsIDMwIEp1biAyMDIyIDE4OjA3OjM5ICswMjAwIEVyaWMgRHVtYXpldCB3
-cm90ZToKCj4gPiA+ID4gPiA+IFRoZXJlIGFyZSBVQUYgYnVncyBjYXVzZWQgYnkgcm9zZV90MHRp
-bWVyX2V4cGlyeSgpLiBUaGUKPiA+ID4gPiA+ID4gcm9vdCBjYXVzZSBpcyB0aGF0IGRlbF90aW1l
-cigpIGNvdWxkIG5vdCBzdG9wIHRoZSB0aW1lcgo+ID4gPiA+ID4gPiBoYW5kbGVyIHRoYXQgaXMg
-cnVubmluZyBhbmQgdGhlcmUgaXMgbm8gc3luY2hyb25pemF0aW9uLgo+ID4gPiA+ID4gPiBPbmUg
-b2YgdGhlIHJhY2UgY29uZGl0aW9ucyBpcyBzaG93biBiZWxvdzoKPiA+ID4gPiA+ID4KPiA+ID4g
-PiA+ID4gICAgICh0aHJlYWQgMSkgICAgICAgICAgICAgfCAgICAgICAgKHRocmVhZCAyKQo+ID4g
-PiA+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IHJvc2VfZGV2aWNlX2V2ZW50Cj4g
-PiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICByb3NlX3J0X2RldmljZV9k
-b3duCj4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgIHJvc2VfcmVt
-b3ZlX25laWdoCj4gPiA+ID4gPiA+IHJvc2VfdDB0aW1lcl9leHBpcnkgICAgICAgIHwgICAgICAg
-cm9zZV9zdG9wX3QwdGltZXIocm9zZV9uZWlnaCkKPiA+ID4gPiA+ID4gICAuLi4gICAgICAgICAg
-ICAgICAgICAgICAgfCAgICAgICAgIGRlbF90aW1lcigmbmVpZ2gtPnQwdGltZXIpCj4gPiA+ID4g
-PiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgICAgICBrZnJlZShyb3NlX25laWdo
-KSAvL1sxXUZSRUUKPiA+ID4gPiA+ID4gICBuZWlnaC0+ZGNlX21vZGUgLy9bMl1VU0UgfAo+ID4g
-PiA+ID4gPgo+ID4gPiA+ID4gPiBUaGUgcm9zZV9uZWlnaCBpcyBkZWFsbG9jYXRlZCBpbiBwb3Np
-dGlvbiBbMV0gYW5kIHVzZSBpbgo+ID4gPiA+ID4gPiBwb3NpdGlvbiBbMl0uCj4gPiA+ID4gPiA+
-Cj4gPiA+ID4gPiA+IFRoZSBjcmFzaCB0cmFjZSB0cmlnZ2VyZWQgYnkgUE9DIGlzIGxpa2UgYmVs
-b3c6Cj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IEJVRzogS0FTQU46IHVzZS1hZnRlci1mcmVlIGlu
-IGV4cGlyZV90aW1lcnMrMHgxNDQvMHgzMjAKPiA+ID4gPiA+ID4gV3JpdGUgb2Ygc2l6ZSA4IGF0
-IGFkZHIgZmZmZjg4ODAwOWIxOTY1OCBieSB0YXNrIHN3YXBwZXIvMC8wCj4gPiA+ID4gPiA+IC4u
-Lgo+ID4gPiA+ID4gPiBDYWxsIFRyYWNlOgo+ID4gPiA+ID4gPiAgPElSUT4KPiA+ID4gPiA+ID4g
-IGR1bXBfc3RhY2tfbHZsKzB4YmYvMHhlZQo+ID4gPiA+ID4gPiAgcHJpbnRfYWRkcmVzc19kZXNj
-cmlwdGlvbisweDdiLzB4NDQwCj4gPiA+ID4gPiA+ICBwcmludF9yZXBvcnQrMHgxMDEvMHgyMzAK
-PiA+ID4gPiA+ID4gID8gZXhwaXJlX3RpbWVycysweDE0NC8weDMyMAo+ID4gPiA+ID4gPiAga2Fz
-YW5fcmVwb3J0KzB4ZWQvMHgxMjAKPiA+ID4gPiA+ID4gID8gZXhwaXJlX3RpbWVycysweDE0NC8w
-eDMyMAo+ID4gPiA+ID4gPiAgZXhwaXJlX3RpbWVycysweDE0NC8weDMyMAo+ID4gPiA+ID4gPiAg
-X19ydW5fdGltZXJzKzB4M2ZmLzB4NGQwCj4gPiA+ID4gPiA+ICBydW5fdGltZXJfc29mdGlycSsw
-eDQxLzB4ODAKPiA+ID4gPiA+ID4gIF9fZG9fc29mdGlycSsweDIzMy8weDU0NAo+ID4gPiA+ID4g
-PiAgLi4uCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IFRoaXMgcGF0Y2ggY2hhbmdlcyBkZWxfdGlt
-ZXIoKSBpbiByb3NlX3N0b3BfdDB0aW1lcigpIGFuZAo+ID4gPiA+ID4gPiByb3NlX3N0b3BfZnRp
-bWVyKCkgdG8gZGVsX3RpbWVyX3N5bmMoKSBpbiBvcmRlciB0aGF0IHRoZQo+ID4gPiA+ID4gPiB0
-aW1lciBoYW5kbGVyIGNvdWxkIGJlIGZpbmlzaGVkIGJlZm9yZSB0aGUgcmVzb3VyY2VzIHN1Y2gg
-YXMKPiA+ID4gPiA+ID4gcm9zZV9uZWlnaCBhbmQgc28gb24gYXJlIGRlYWxsb2NhdGVkLiBBcyBh
-IHJlc3VsdCwgdGhlIFVBRgo+ID4gPiA+ID4gPiBidWdzIGNvdWxkIGJlIG1pdGlnYXRlZC4KPiA+
-ID4gPiA+ID4KPiA+ID4gPiA+ID4gRml4ZXM6IDFkYTE3N2U0YzNmNCAoIkxpbnV4LTIuNi4xMi1y
-YzIiKQo+ID4gPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBEdW9taW5nIFpob3UgPGR1b21pbmdAemp1
-LmVkdS5jbj4KPiA+ID4gPiA+ID4gLS0tCj4gPiA+ID4gPiA+ICBuZXQvcm9zZS9yb3NlX2xpbmsu
-YyB8IDQgKystLQo+ID4gPiA+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
-MiBkZWxldGlvbnMoLSkKPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gZGlmZiAtLWdpdCBhL25ldC9y
-b3NlL3Jvc2VfbGluay5jIGIvbmV0L3Jvc2Uvcm9zZV9saW5rLmMKPiA+ID4gPiA+ID4gaW5kZXgg
-OGI5NmE1NmQzYTQuLjk3MzRkMTI2NGRlIDEwMDY0NAo+ID4gPiA+ID4gPiAtLS0gYS9uZXQvcm9z
-ZS9yb3NlX2xpbmsuYwo+ID4gPiA+ID4gPiArKysgYi9uZXQvcm9zZS9yb3NlX2xpbmsuYwo+ID4g
-PiA+ID4gPiBAQCAtNTQsMTIgKzU0LDEyIEBAIHN0YXRpYyB2b2lkIHJvc2Vfc3RhcnRfdDB0aW1l
-cihzdHJ1Y3Qgcm9zZV9uZWlnaCAqbmVpZ2gpCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ICB2b2lk
-IHJvc2Vfc3RvcF9mdGltZXIoc3RydWN0IHJvc2VfbmVpZ2ggKm5laWdoKQo+ID4gPiA+ID4gPiAg
-ewo+ID4gPiA+ID4gPiAtICAgICAgIGRlbF90aW1lcigmbmVpZ2gtPmZ0aW1lcik7Cj4gPiA+ID4g
-PiA+ICsgICAgICAgZGVsX3RpbWVyX3N5bmMoJm5laWdoLT5mdGltZXIpOwo+ID4gPiA+ID4gPiAg
-fQo+ID4gPiA+ID4KPiA+ID4gPiA+IEFyZSB5b3Ugc3VyZSB0aGlzIGlzIHNhZmUgPwo+ID4gPiA+
-ID4KPiA+ID4gPiA+IGRlbF90aW1lcl9zeW5jKCkgY291bGQgaGFuZyBpZiB0aGUgY2FsbGVyIGhv
-bGRzIGEgbG9jayB0aGF0IHRoZSB0aW1lcgo+ID4gPiA+ID4gZnVuY3Rpb24gd291bGQgbmVlZCB0
-byBhY3F1aXJlLgo+ID4gPiA+Cj4gPiA+ID4gSSB0aGluayB0aGlzIGlzIHNhZmUuIFRoZSByb3Nl
-X2Z0aW1lcl9leHBpcnkoKSBpcyBhbiBlbXB0eSBmdW5jdGlvbiB0aGF0IGlzCj4gPiA+ID4gc2hv
-d24gYmVsb3c6Cj4gPiA+ID4KPiA+ID4gPiBzdGF0aWMgdm9pZCByb3NlX2Z0aW1lcl9leHBpcnko
-c3RydWN0IHRpbWVyX2xpc3QgKnQpCj4gPiA+ID4gewo+ID4gPiA+IH0KPiA+ID4gPgo+ID4gPiA+
-ID4gPgo+ID4gPiA+ID4gPiAgdm9pZCByb3NlX3N0b3BfdDB0aW1lcihzdHJ1Y3Qgcm9zZV9uZWln
-aCAqbmVpZ2gpCj4gPiA+ID4gPiA+ICB7Cj4gPiA+ID4gPiA+IC0gICAgICAgZGVsX3RpbWVyKCZu
-ZWlnaC0+dDB0aW1lcik7Cj4gPiA+ID4gPiA+ICsgICAgICAgZGVsX3RpbWVyX3N5bmMoJm5laWdo
-LT50MHRpbWVyKTsKPiA+ID4gPiA+ID4gIH0KPiA+ID4gPiA+Cj4gPiA+ID4gPiBTYW1lIGhlcmUs
-IHBsZWFzZSBleHBsYWluIHdoeSBpdCBpcyBzYWZlLgo+ID4gPiA+Cj4gPiA+ID4gVGhlIHJvc2Vf
-c3RvcF90MHRpbWVyKCkgbWF5IGhvbGQgInJvc2Vfbm9kZV9saXN0X2xvY2siIGFuZCAicm9zZV9u
-ZWlnaF9saXN0X2xvY2siLAo+ID4gPiA+IGJ1dCB0aGUgdGltZXIgaGFuZGxlciByb3NlX3QwdGlt
-ZXJfZXhwaXJ5KCkgdGhhdCBpcyBzaG93biBiZWxvdyBkb2VzIG5vdCBuZWVkCj4gPiA+ID4gdGhl
-c2UgdHdvIGxvY2tzLgo+ID4gPiA+Cj4gPiA+ID4gc3RhdGljIHZvaWQgcm9zZV90MHRpbWVyX2V4
-cGlyeShzdHJ1Y3QgdGltZXJfbGlzdCAqdCkKPiA+ID4gPiB7Cj4gPiA+ID4gICAgICAgICBzdHJ1
-Y3Qgcm9zZV9uZWlnaCAqbmVpZ2ggPSBmcm9tX3RpbWVyKG5laWdoLCB0LCB0MHRpbWVyKTsKPiA+
-ID4gPgo+ID4gPiA+ICAgICAgICAgcm9zZV90cmFuc21pdF9yZXN0YXJ0X3JlcXVlc3QobmVpZ2gp
-Owo+ID4gPiA+Cj4gPiA+ID4gICAgICAgICBuZWlnaC0+ZGNlX21vZGUgPSAwOwo+ID4gPiA+Cj4g
-PiA+ID4gICAgICAgICByb3NlX3N0YXJ0X3QwdGltZXIobmVpZ2gpOwo+ID4gPgo+ID4gPiBUaGlz
-IHdpbGwgcmVhcm0gdGhlIHRpbWVyLiAgZGVsX3RpbWVyX3N5bmMoKSB3aWxsIG5vdCBoZWxwLgo+
-ID4KPiA+IFRoYW5rIHlvdSBmb3IgeW91ciB0aW1lLCBidXQgSSBkb24ndCB0aGluayBzby4KPiA+
-Cj4gPiA+IFBsZWFzZSByZWFkIHRoZSBjb21tZW50IGluIGZyb250IG9mIGRlbF90aW1lcl9zeW5j
-KCksIGluIGtlcm5lbC90aW1lL3RpbWVyLmMKPiA+Cj4gPiBJIHdyb3RlIGEga2VybmVsIG1vZHVs
-ZSB0byB0ZXN0IHdoZXRoZXIgZGVsX3RpbWVyX3N5bmMoKSBjb3VsZCBmaW5pc2ggYSB0aW1lciBo
-YW5kbGVyCj4gPiB0aGF0IHVzZSBtb2RfdGltZXIoKSB0byByZXdpbmQgaXRzZWxmLiBUaGUgZm9s
-bG93aW5nIGlzIHRoZSByZXN1bHQuCj4gPgo+ID4gIyBpbnNtb2QgZGVsX3RpbWVyX3N5bmMua28K
-PiA+IFsgIDkyOS4zNzQ0MDVdIG15X3RpbWVyIHdpbGwgYmUgY3JlYXRlLgo+ID4gWyAgOTI5LjM3
-NDczOF0gdGhlIGppZmZpZXMgaXMgOjQyOTU1OTU1NzIKPiA+IFsgIDkzMC40MTE1ODFdIEluIG15
-X3RpbWVyX2Z1bmN0aW9uCj4gPiBbICA5MzAuNDExOTU2XSB0aGUgamlmZmllcyBpcyA0Mjk1NTk2
-NjA5Cj4gPiBbICA5MzUuNDY2NjQzXSBJbiBteV90aW1lcl9mdW5jdGlvbgo+ID4gWyAgOTM1LjQ2
-NzUwNV0gdGhlIGppZmZpZXMgaXMgNDI5NTYwMTY2NQo+ID4gWyAgOTQwLjU4NjUzOF0gSW4gbXlf
-dGltZXJfZnVuY3Rpb24KPiA+IFsgIDk0MC41ODY5MTZdIHRoZSBqaWZmaWVzIGlzIDQyOTU2MDY3
-ODQKPiA+IFsgIDk0NS43MDY1NzldIEluIG15X3RpbWVyX2Z1bmN0aW9uCj4gPiBbICA5NDUuNzA2
-ODg1XSB0aGUgamlmZmllcyBpcyA0Mjk1NjExOTA0Cj4gPgo+ID4gIwo+ID4gIyBybW1vZCBkZWxf
-dGltZXJfc3luYy5rbwo+ID4gWyAgOTQ4LjUwNzY5Ml0gdGhlIGRlbF90aW1lcl9zeW5jIGlzIDox
-Cj4gPiBbICA5NDguNTA3NjkyXQo+ID4gIwo+ID4gIwo+ID4KPiA+IFRoZSByZXN1bHQgb2YgdGhl
-IGV4cGVyaW1lbnQgc2hvd3MgdGhhdCB0aGUgdGltZXIgaGFuZGxlciBjb3VsZAo+ID4gYmUga2ls
-bGVkIGFmdGVyIHdlIGV4ZWN1dGUgZGVsX3RpbWVyX3N5bmMoKSwgZXZlbiBpZiB0aGUgdGltZXIg
-Y291bGQKPiA+IHJld2luZCBpdHNlbGYuCj4gCj4gCj4gVGhpcyBpcyBub3QgZW5vdWdoIHRvIHJ1
-biBhbiBleHBlcmltZW50IHRvIGRldGVybWluZSBhIGNvbW1lbnQgaXMgb2Jzb2xldGUuCj4gCj4g
-RXNwZWNpYWxseSBpZiB5b3UgYXJlIG5vdCBydW5uaW5nIHRoZSBjb2RlIGZyb20gaW50ZXJydXB0
-cywgbGlrZSByb3NlCj4gcHJvdG9jb2wgbWlnaHQuLi4KCkkgaGF2ZSB0ZXN0ZWQgdGhpcyBwYXRj
-aCwgaXQgY291bGQgd29yay4gCgpJbiBvcmRlciB0byBmdXJ0aGVyIHByb3ZlIHRoZSBkZWxfdGlt
-ZXJfc3luYygpIGNvdWxkIHN0b3AgdGhlIHRpbWVyIHRoYXQKcmVzdGFydCBpdHNlbGYgaW4gaXRz
-IHRpbWVyIGhhbmRsZXIsIEkgd3JvdGUgdGhlIGZvbGxvd2luZyBrZXJuZWwgbW9kdWxlCndob2Vz
-IHBhcnQgb2YgY29kZSBpcyBzaG93biBiZWxvdzoKCj09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CgpzdHJ1Y3QgdGltZXJfbGlz
-dCBteV90aW1lcjsKc3RhdGljIHZvaWQgbXlfdGltZXJfY2FsbGJhY2soc3RydWN0IHRpbWVyX2xp
-c3QgKnRpbWVyKTsKc3RhdGljIHZvaWQgc3RhcnRfdGltZXIodm9pZCk7CgpzdGF0aWMgdm9pZCBz
-dGFydF90aW1lcih2b2lkKXsKICAgIGRlbF90aW1lcigmbXlfdGltZXIpOwogICAgbXlfdGltZXIu
-ZXhwaXJlcyA9IGppZmZpZXMrSFo7CiAgICBteV90aW1lci5mdW5jdGlvbiA9IG15X3RpbWVyX2Nh
-bGxiYWNrOwogICAgYWRkX3RpbWVyKCZteV90aW1lcik7Cn0KCnN0YXRpYyB2b2lkIG15X3RpbWVy
-X2NhbGxiYWNrKHN0cnVjdCB0aW1lcl9saXN0ICp0aW1lcil7CiAgICBwcmludGsoIkluIG15X3Rp
-bWVyX2Z1bmN0aW9uIik7CiAgICBwcmludGsoInRoZSBqaWZmaWVzIGlzICVsZFxuIixqaWZmaWVz
-KTsKICAgIHN0YXJ0X3RpbWVyKCk7Cn0KCnN0YXRpYyBpbnQgX19pbml0IGRlbF90aW1lcl9zeW5j
-X2luaXQodm9pZCkKewogICAgaW50IHJlc3VsdDsKICAgIHByaW50aygibXlfdGltZXIgd2lsbCBi
-ZSBjcmVhdGUuXG4iKTsKICAgIHByaW50aygidGhlIGppZmZpZXMgaXMgOiVsZFxuIiwgamlmZmll
-cyk7CiAgICB0aW1lcl9zZXR1cCgmbXlfdGltZXIsbXlfdGltZXJfY2FsbGJhY2ssMCk7CiAgICBy
-ZXN1bHQgPSBtb2RfdGltZXIoJm15X3RpbWVyLGppZmZpZXMgKyBTSVhQX1RYREVMQVkpOwogICAg
-cHJpbnRrKCJ0aGUgbW9kX3RpbWVyIGlzIDolZFxuXG4iLHJlc3VsdCk7CiAgICByZXR1cm4gMDsK
-fQoKc3RhdGljIHZvaWQgX19leGl0IGRlbF90aW1lcl9zeW5jX2V4aXQodm9pZCkKewogICAgaW50
-IHJlc3VsdD1kZWxfdGltZXJfc3luYygmbXlfdGltZXIpOwogICAgcHJpbnRrKCJ0aGUgZGVsX3Rp
-bWVyX3N5bmMgaXMgOiVkXG5cbiIsIHJlc3VsdCk7Cn0KCj09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CgpUaGUgdGltZXIgaGFu
-ZGxlciBpcyBydW5uaW5nIGZyb20gaW50ZXJydXB0cyBhbmQgZGVsX3RpbWVyX3N5bmMoKSBjb3Vs
-ZCBzdG9wCnRoZSB0aW1lciB0aGF0IHJld2luZCBpdHNlbGYgaW4gaXRzIHRpbWVyIGhhbmRsZXIs
-IHRoZSByZXN1bHQgaXMgc2hvd24gYmVsb3c6CgojIGluc21vZCBkZWxfdGltZXJfc3luYy5rbyAK
-WyAgMTAzLjUwNTg1N10gbXlfdGltZXIgd2lsbCBiZSBjcmVhdGUuClsgIDEwMy41MDU5MjJdIHRo
-ZSBqaWZmaWVzIGlzIDo0Mjk0NzcwODMyClsgIDEwMy41MDY4NDVdIHRoZSBtb2RfdGltZXIgaXMg
-OjAKWyAgMTAzLjUwNjg0NV0gCiMgWyAgMTAzLjUzMjM4OV0gSW4gbXlfdGltZXJfZnVuY3Rpb24K
-WyAgMTAzLjUzMjQ1Ml0gdGhlIGppZmZpZXMgaXMgNDI5NDc3MDg1OQpbICAxMDQuNTc2NzY4XSBJ
-biBteV90aW1lcl9mdW5jdGlvbgpbICAxMDQuNTc3MDk2XSB0aGUgamlmZmllcyBpcyA0Mjk0Nzcx
-OTA0ClsgIDEwNS42MDA5NDFdIEluIG15X3RpbWVyX2Z1bmN0aW9uClsgIDEwNS42MDEwNzJdIHRo
-ZSBqaWZmaWVzIGlzIDQyOTQ3NzI5MjgKWyAgMTA2LjYyNTM5N10gSW4gbXlfdGltZXJfZnVuY3Rp
-b24KWyAgMTA2LjYyNTU3M10gdGhlIGppZmZpZXMgaXMgNDI5NDc3Mzk1MgpbICAxMDcuNjQ4OTk1
-XSBJbiBteV90aW1lcl9mdW5jdGlvbgpbICAxMDcuNjQ5MjEyXSB0aGUgamlmZmllcyBpcyA0Mjk0
-Nzc0OTc2ClsgIDEwOC42NzMwMzddIEluIG15X3RpbWVyX2Z1bmN0aW9uClsgIDEwOC42NzM3ODdd
-IHRoZSBqaWZmaWVzIGlzIDQyOTQ3NzYwMDEKcm1tb2QgZGVsX3RpbWVyX3N5bmMua28KWyAgMTA5
-LjY0OTQ4Ml0gdGhlIGRlbF90aW1lcl9zeW5jIGlzIDoxClsgIDEwOS42NDk0ODJdIAojIAoKVGhl
-IHJvb3QgY2F1c2UgaXMgc2hvd24gYmVsb3c6CgoJZG8gewoJCXJldCA9IHRyeV90b19kZWxfdGlt
-ZXJfc3luYyh0aW1lcik7CgoJCWlmICh1bmxpa2VseShyZXQgPCAwKSkgewoJCQlkZWxfdGltZXJf
-d2FpdF9ydW5uaW5nKHRpbWVyKTsKCQkJY3B1X3JlbGF4KCk7CgkJfQoJfSB3aGlsZSAocmV0IDwg
-MCk7CgpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC9sYXRlc3Qvc291cmNlL2tlcm5l
-bC90aW1lL3RpbWVyLmMjTDEzODEKCklmIHdlIGNhbGwgYW5vdGhlciB0aHJlYWQgc3VjaCBhcyBh
-IHdvcmtfcXVldWUgb3IgdGhlIGNvZGUgaW4gb3RoZXIgcGxhY2VzCnRvIHJlc3RhcnQgdGhlIHRp
-bWVyIGluc3RlYWQgb2YgaW4gaXRzIHRpbWVyIGhhbmRsZXIsIHRoZSBkZWxfdGltZXJfc3luYygp
-IApjb3VsZCBub3Qgc3RvcCBpdC4KCj4gSWYgeW91IHRoaW5rIHRoZSBjb21tZW50IGlzIG9ic29s
-ZXRlLCBwbGVhc2Ugc2VuZCBhIHBhdGNoIHRvIGFtZW5kIGl0LgoKVGhlIGNvbW1lbnQgc2F5czoK
-CiAqIFN5bmNocm9uaXphdGlvbiBydWxlczogQ2FsbGVycyBtdXN0IHByZXZlbnQgcmVzdGFydGlu
-ZyBvZiB0aGUgdGltZXIsCiAqIG90aGVyd2lzZSB0aGlzIGZ1bmN0aW9uIGlzIG1lYW5pbmdsZXNz
-LiAKCldlIGNvdWxkIHJlc3RhcnQgdGhlIHRpbWVyIHN1Y2Nlc3NmdWxseSBleGNlcHQgZm9yIHJl
-c3RhcnRpbmcgaW4gaXRzCnRpbWVyIGhhbmRsZXIgYWZ0ZXIgd2UgY2FsbCBkZWxfdGltZXJfc3lu
-YygpLgoKSSB0aGluayBjaGFuZ2luZyB0aGUgY29tbWVudCB0byB0aGUgZm9sbG93aW5nIGlzIGJl
-dHRlcjoKCiAqIFN5bmNocm9uaXphdGlvbiBydWxlczogQ2FsbGVycyBtdXN0IHByZXZlbnQgcmVz
-dGFydGluZyBvZiB0aGUgdGltZXIgaW4KICogb3RoZXIgcGxhY2VzIGV4Y2VwdCBmb3IgaXRzIHRp
-bWVyIGhhbmRsZXIsIG90aGVyd2lzZSB0aGlzIGZ1bmN0aW9uIGlzIAogKiBtZWFuaW5nbGVzcy4K
-CkJlc3QgcmVnYXJkcywKRHVvbWluZyBaaG91
+On Wed, 29 Jun 2022 18:49:41 +0800 Duoming Zhou wrote:
+> When the link layer connection is broken, the rose->neighbour is
+> set to null. But rose->neighbour could be used by rose_connection()
+> and rose_release() later, because there is no synchronization among
+> them. As a result, the null-ptr-deref bugs will happen.
+> 
+> One of the null-ptr-deref bugs is shown below:
+> 
+>     (thread 1)                  |        (thread 2)
+>                                 |  rose_connect
+> rose_kill_by_neigh              |    lock_sock(sk)
+>   spin_lock_bh(&rose_list_lock) |    if (!rose->neighbour)
+>   rose->neighbour = NULL;//(1)  |
+>                                 |    rose->neighbour->use++;//(2)
+
+>  		if (rose->neighbour == neigh) {
+
+Why is it okay to perform this comparison without the socket lock,
+if we need a socket lock to clear it? Looks like rose_kill_by_neigh()
+is not guaranteed to clear all the uses of a neighbor.
+
+> +			sock_hold(s);
+> +			spin_unlock_bh(&rose_list_lock);
+> +			lock_sock(s);
+>  			rose_disconnect(s, ENETUNREACH, ROSE_OUT_OF_ORDER, 0);
+>  			rose->neighbour->use--;
+
+What protects the use counter?
+
+>  			rose->neighbour = NULL;
+> +			release_sock(s);
+> +			spin_lock_bh(&rose_list_lock);
+
+Don't take the lock here just dump one line further back.
+
+> +			sock_put(s);
+> +			goto again;
+>  		}
+>  	}
+>  	spin_unlock_bh(&rose_list_lock);
+> diff --git a/net/rose/rose_route.c b/net/rose/rose_route.c
+> index fee6409c2bb..b116828b422 100644
+> --- a/net/rose/rose_route.c
+> +++ b/net/rose/rose_route.c
+> @@ -827,7 +827,9 @@ void rose_link_failed(ax25_cb *ax25, int reason)
+>  		ax25_cb_put(ax25);
+>  
+>  		rose_del_route_by_neigh(rose_neigh);
+> +		spin_unlock_bh(&rose_neigh_list_lock);
+>  		rose_kill_by_neigh(rose_neigh);
+> +		return;
+>  	}
+>  	spin_unlock_bh(&rose_neigh_list_lock);
+>  }
+
