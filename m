@@ -2,193 +2,123 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A02A566548
-	for <lists+linux-hams@lfdr.de>; Tue,  5 Jul 2022 10:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 991D3566F6B
+	for <lists+linux-hams@lfdr.de>; Tue,  5 Jul 2022 15:38:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230405AbiGEIny (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 5 Jul 2022 04:43:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48666 "EHLO
+        id S230499AbiGENin (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 5 Jul 2022 09:38:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230151AbiGEInx (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 5 Jul 2022 04:43:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BFCF91089
-        for <linux-hams@vger.kernel.org>; Tue,  5 Jul 2022 01:43:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657010630;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kZy/nxlcdzOmZXOvcCR//qWGLqmbIlGg7XXJRIbpjK0=;
-        b=cPDxGVWhY3B0gKdY3WYL0WffsWdyHrTYD6GMuxLIruIGoNMV2NzYanKRnzgymaCL1/4QWv
-        uORCS6ABzYOWZQxImUkRCtZgLlLHNnjuZg8nMxUKUl9yLyHTr8dakqETuhtho+xxkvZFFX
-        8srY50pe54LmeN8lJZkRVUljaBEtdrk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-283-KtcHX4V8Npa_GPMVwnhGVQ-1; Tue, 05 Jul 2022 04:43:47 -0400
-X-MC-Unique: KtcHX4V8Npa_GPMVwnhGVQ-1
-Received: by mail-wr1-f71.google.com with SMTP id w12-20020adf8bcc000000b0021d20a5b24fso1756930wra.22
-        for <linux-hams@vger.kernel.org>; Tue, 05 Jul 2022 01:43:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=kZy/nxlcdzOmZXOvcCR//qWGLqmbIlGg7XXJRIbpjK0=;
-        b=5Lov9f61Yw07oUZXuoIqbGIXKy4nVl78iYlAAlRrkxggKBSv+m8B17ZIyH2YuUCTe6
-         l/biFmqIyX9RdQW4QjUB9GCYa/YffIQw8NejPCt2OuTHUwL7O9JW5G6RPuiOc/NFr5y+
-         nqose6f6Eq81lrpiNVVjSbLOn6riX/WF9OypK3bhA76ZyvkBfyu0oV6YRwoSpa+R5DlO
-         M5R1Wht44hAGH1Vx59EqSFM3EQf73w+e+PXc864zi87POGnjRMXLO3xijfIMt+SR74XY
-         qcMr21PkyXWyBKKqVUs1CXHanzopMqcdWpim3VLId9z7Phw5mSbkwaE0Ut/0qVUs7F9b
-         npnw==
-X-Gm-Message-State: AJIora+LL/YHP0FA8SYd6sIicirqNmh5MHT1U/XKZnrrEr3VB7LGfJ19
-        jEotLTuSAisPP149PjUL4anMtfwfe6j6D3ZLxvgnmkT5USF7S6CZSauCnS7bDrIa85viq4qrCsX
-        hQVc5WI6mGW2LSVgW+W/oyQ==
-X-Received: by 2002:a1c:f60f:0:b0:3a0:3e0c:1de1 with SMTP id w15-20020a1cf60f000000b003a03e0c1de1mr38133787wmc.56.1657010626599;
-        Tue, 05 Jul 2022 01:43:46 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sHSdV9V2Ob02J3vbepG5ut1Vo9w3OUeEPmUiF13gGLPKO52cGyqadYgkGQJvykeI1zhkowZQ==
-X-Received: by 2002:a1c:f60f:0:b0:3a0:3e0c:1de1 with SMTP id w15-20020a1cf60f000000b003a03e0c1de1mr38133775wmc.56.1657010626385;
-        Tue, 05 Jul 2022 01:43:46 -0700 (PDT)
-Received: from gerbillo.redhat.com (146-241-106-148.dyn.eolo.it. [146.241.106.148])
-        by smtp.gmail.com with ESMTPSA id w8-20020a1cf608000000b0039c5a765388sm22308049wmc.28.2022.07.05.01.43.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 01:43:45 -0700 (PDT)
-Message-ID: <4a95703c5c1a09e3ed1a64ddf83e65e222326214.camel@redhat.com>
-Subject: Re: [PATCH net v5] net: rose: fix null-ptr-deref caused by
- rose_kill_by_neigh
-From:   Paolo Abeni <pabeni@redhat.com>
-To:     Duoming Zhou <duoming@zju.edu.cn>, linux-hams@vger.kernel.org
-Cc:     ralf@linux-mips.org, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Tue, 05 Jul 2022 10:43:44 +0200
-In-Reply-To: <20220702075718.25121-1-duoming@zju.edu.cn>
-References: <20220702075718.25121-1-duoming@zju.edu.cn>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        with ESMTP id S229802AbiGENi3 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 5 Jul 2022 09:38:29 -0400
+Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1B96C7D1F3;
+        Tue,  5 Jul 2022 05:59:34 -0700 (PDT)
+Received: from ubuntu.localdomain (unknown [10.190.65.210])
+        by mail-app2 (Coremail) with SMTP id by_KCgAnzUHrNMRivCY+Aw--.58122S2;
+        Tue, 05 Jul 2022 20:56:20 +0800 (CST)
+From:   Duoming Zhou <duoming@zju.edu.cn>
+To:     linux-hams@vger.kernel.org
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ralf@linux-mips.org, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com,
+        Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH net v2] net: rose: fix UAF bug caused by rose_t0timer_expiry
+Date:   Tue,  5 Jul 2022 20:56:10 +0800
+Message-Id: <20220705125610.77971-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: by_KCgAnzUHrNMRivCY+Aw--.58122S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ar1ftFyktw4DJryUAr1xuFg_yoW8uryrpF
+        WYk343Grs3tw4UXFW8XFn7Zw4Ygw4DJry3Wr1xuFWSy3Z7Jr4YvF1kKFW8uF4xZFWkCFWa
+        gr1kGry5AwnFqF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkF1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW0oVCq3wA2z4x0Y4vEx4A2
+        jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
+        x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWU
+        GwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
+        8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
+        6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGw
+        C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48J
+        MIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
+        IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
+        87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgoCAVZdtaiRogAtsD
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Sat, 2022-07-02 at 15:57 +0800, Duoming Zhou wrote:
-> When the link layer connection is broken, the rose->neighbour is
-> set to null. But rose->neighbour could be used by rose_connection()
-> and rose_release() later, because there is no synchronization among
-> them. As a result, the null-ptr-deref bugs will happen.
-> 
-> One of the null-ptr-deref bugs is shown below:
-> 
->     (thread 1)                  |        (thread 2)
->                                 |  rose_connect
-> rose_kill_by_neigh              |    lock_sock(sk)
->   spin_lock_bh(&rose_list_lock) |    if (!rose->neighbour)
->   rose->neighbour = NULL;//(1)  |
->                                 |    rose->neighbour->use++;//(2)
-> 
-> The rose->neighbour is set to null in position (1) and dereferenced
-> in position (2).
-> 
-> The KASAN report triggered by POC is shown below:
-> 
-> KASAN: null-ptr-deref in range [0x0000000000000028-0x000000000000002f]
-> ...
-> RIP: 0010:rose_connect+0x6c2/0xf30
-> RSP: 0018:ffff88800ab47d60 EFLAGS: 00000206
-> RAX: 0000000000000005 RBX: 000000000000002a RCX: 0000000000000000
-> RDX: ffff88800ab38000 RSI: ffff88800ab47e48 RDI: ffff88800ab38309
-> RBP: dffffc0000000000 R08: 0000000000000000 R09: ffffed1001567062
-> R10: dfffe91001567063 R11: 1ffff11001567061 R12: 1ffff11000d17cd0
-> R13: ffff8880068be680 R14: 0000000000000002 R15: 1ffff11000d17cd0
-> ...
-> Call Trace:
->   <TASK>
->   ? __local_bh_enable_ip+0x54/0x80
->   ? selinux_netlbl_socket_connect+0x26/0x30
->   ? rose_bind+0x5b0/0x5b0
->   __sys_connect+0x216/0x280
->   __x64_sys_connect+0x71/0x80
->   do_syscall_64+0x43/0x90
->   entry_SYSCALL_64_after_hwframe+0x46/0xb0
-> 
-> This patch adds lock_sock() in rose_kill_by_neigh() in order to
-> synchronize with rose_connect() and rose_release().
-> 
-> Meanwhile, this patch adds sock_hold() protected by rose_list_lock
-> that could synchronize with rose_remove_socket() in order to mitigate
-> UAF bug caused by lock_sock() we add.
-> 
-> What's more, there is no need using rose_neigh_list_lock to protect
-> rose_kill_by_neigh(). Because we have already used rose_neigh_list_lock
-> to protect the state change of rose_neigh in rose_link_failed(), which
-> is well synchronized.
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-> ---
-> Changes in v5:
->   - v5: Use socket lock to protect comparison in rose_kill_by_neigh.
-> 
->  net/rose/af_rose.c    | 12 ++++++++++++
->  net/rose/rose_route.c |  2 ++
->  2 files changed, 14 insertions(+)
-> 
-> diff --git a/net/rose/af_rose.c b/net/rose/af_rose.c
-> index bf2d986a6bc..6d5088b030a 100644
-> --- a/net/rose/af_rose.c
-> +++ b/net/rose/af_rose.c
-> @@ -165,14 +165,26 @@ void rose_kill_by_neigh(struct rose_neigh *neigh)
->  	struct sock *s;
->  
->  	spin_lock_bh(&rose_list_lock);
-> +again:
->  	sk_for_each(s, &rose_list) {
->  		struct rose_sock *rose = rose_sk(s);
->  
-> +		sock_hold(s);
-> +		spin_unlock_bh(&rose_list_lock);
-> +		lock_sock(s);
->  		if (rose->neighbour == neigh) {
->  			rose_disconnect(s, ENETUNREACH, ROSE_OUT_OF_ORDER, 0);
->  			rose->neighbour->use--;
+There are UAF bugs caused by rose_t0timer_expiry(). The
+root cause is that del_timer() could not stop the timer
+handler that is running and there is no synchronization.
+One of the race conditions is shown below:
 
-Note that the code can held different socket lock while updating
-'neighbour->use'. That really means that such updates can really race
-each other, with bad results.
+    (thread 1)             |        (thread 2)
+                           | rose_device_event
+                           |   rose_rt_device_down
+                           |     rose_remove_neigh
+rose_t0timer_expiry        |       rose_stop_t0timer(rose_neigh)
+  ...                      |         del_timer(&neigh->t0timer)
+                           |         kfree(rose_neigh) //[1]FREE
+  neigh->dce_mode //[2]USE |
 
-I think the only safe way out is using an atomic_t for 'neighbour->use'
-(likely a refcount_t would be a better option).
+The rose_neigh is deallocated in position [1] and use in
+position [2].
 
-All the above deserves a separate patch IMHO.
+The crash trace triggered by POC is like below:
 
->  			rose->neighbour = NULL;
-> +			release_sock(s);
-> +			sock_put(s);
-> +			spin_lock_bh(&rose_list_lock);
-> +			goto again;
+BUG: KASAN: use-after-free in expire_timers+0x144/0x320
+Write of size 8 at addr ffff888009b19658 by task swapper/0/0
+...
+Call Trace:
+ <IRQ>
+ dump_stack_lvl+0xbf/0xee
+ print_address_description+0x7b/0x440
+ print_report+0x101/0x230
+ ? expire_timers+0x144/0x320
+ kasan_report+0xed/0x120
+ ? expire_timers+0x144/0x320
+ expire_timers+0x144/0x320
+ __run_timers+0x3ff/0x4d0
+ run_timer_softirq+0x41/0x80
+ __do_softirq+0x233/0x544
+ ...
 
-This chunk is dup of the following lines, it could be dropped...
+This patch changes rose_stop_ftimer() and rose_stop_t0timer()
+in rose_remove_neigh() to del_timer_sync() in order that the
+timer handler could be finished before the resources such as
+rose_neigh and so on are deallocated. As a result, the UAF
+bugs could be mitigated.
 
->  		}
-> +		release_sock(s);
-> +		sock_put(s);
-> +		spin_lock_bh(&rose_list_lock);
-> +		goto again;
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+---
+Changes in v2:
+  - v2: Use del_timer_sync to stop timer in rose_remove_neigh.
 
-... if this would be correct, which apparently is not.
+ net/rose/rose_route.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-What happens when 'rose->neighbour' is different from 'neigh' for first
-socket in rose_list?
-
-Cheers,
-
-Paolo
+diff --git a/net/rose/rose_route.c b/net/rose/rose_route.c
+index fee6409c2bb..eb0b8197ac8 100644
+--- a/net/rose/rose_route.c
++++ b/net/rose/rose_route.c
+@@ -227,8 +227,8 @@ static void rose_remove_neigh(struct rose_neigh *rose_neigh)
+ {
+ 	struct rose_neigh *s;
+ 
+-	rose_stop_ftimer(rose_neigh);
+-	rose_stop_t0timer(rose_neigh);
++	del_timer_sync(&rose_neigh->ftimer);
++	del_timer_sync(&rose_neigh->t0timer);
+ 
+ 	skb_queue_purge(&rose_neigh->queue);
+ 
+-- 
+2.17.1
 
