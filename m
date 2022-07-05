@@ -2,50 +2,76 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56480564385
-	for <lists+linux-hams@lfdr.de>; Sun,  3 Jul 2022 02:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A02A566548
+	for <lists+linux-hams@lfdr.de>; Tue,  5 Jul 2022 10:43:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230314AbiGCAnd (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 2 Jul 2022 20:43:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40086 "EHLO
+        id S230405AbiGEIny (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 5 Jul 2022 04:43:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229688AbiGCAnc (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 2 Jul 2022 20:43:32 -0400
-Received: from azure-sdnproxy-3.icoremail.net (azure-sdnproxy.icoremail.net [20.232.28.96])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id C1663B1EE;
-        Sat,  2 Jul 2022 17:43:29 -0700 (PDT)
-Received: by ajax-webmail-mail-app4 (Coremail) ; Sun, 3 Jul 2022 08:43:10
- +0800 (GMT+08:00)
-X-Originating-IP: [221.192.179.62]
-Date:   Sun, 3 Jul 2022 08:43:10 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   duoming@zju.edu.cn
-To:     "Jakub Kicinski" <kuba@kernel.org>
-Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ralf@linux-mips.org,
-        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com
-Subject: Re: [PATCH v4] net: rose: fix null-ptr-deref caused by
+        with ESMTP id S230151AbiGEInx (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 5 Jul 2022 04:43:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BFCF91089
+        for <linux-hams@vger.kernel.org>; Tue,  5 Jul 2022 01:43:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1657010630;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kZy/nxlcdzOmZXOvcCR//qWGLqmbIlGg7XXJRIbpjK0=;
+        b=cPDxGVWhY3B0gKdY3WYL0WffsWdyHrTYD6GMuxLIruIGoNMV2NzYanKRnzgymaCL1/4QWv
+        uORCS6ABzYOWZQxImUkRCtZgLlLHNnjuZg8nMxUKUl9yLyHTr8dakqETuhtho+xxkvZFFX
+        8srY50pe54LmeN8lJZkRVUljaBEtdrk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-283-KtcHX4V8Npa_GPMVwnhGVQ-1; Tue, 05 Jul 2022 04:43:47 -0400
+X-MC-Unique: KtcHX4V8Npa_GPMVwnhGVQ-1
+Received: by mail-wr1-f71.google.com with SMTP id w12-20020adf8bcc000000b0021d20a5b24fso1756930wra.22
+        for <linux-hams@vger.kernel.org>; Tue, 05 Jul 2022 01:43:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=kZy/nxlcdzOmZXOvcCR//qWGLqmbIlGg7XXJRIbpjK0=;
+        b=5Lov9f61Yw07oUZXuoIqbGIXKy4nVl78iYlAAlRrkxggKBSv+m8B17ZIyH2YuUCTe6
+         l/biFmqIyX9RdQW4QjUB9GCYa/YffIQw8NejPCt2OuTHUwL7O9JW5G6RPuiOc/NFr5y+
+         nqose6f6Eq81lrpiNVVjSbLOn6riX/WF9OypK3bhA76ZyvkBfyu0oV6YRwoSpa+R5DlO
+         M5R1Wht44hAGH1Vx59EqSFM3EQf73w+e+PXc864zi87POGnjRMXLO3xijfIMt+SR74XY
+         qcMr21PkyXWyBKKqVUs1CXHanzopMqcdWpim3VLId9z7Phw5mSbkwaE0Ut/0qVUs7F9b
+         npnw==
+X-Gm-Message-State: AJIora+LL/YHP0FA8SYd6sIicirqNmh5MHT1U/XKZnrrEr3VB7LGfJ19
+        jEotLTuSAisPP149PjUL4anMtfwfe6j6D3ZLxvgnmkT5USF7S6CZSauCnS7bDrIa85viq4qrCsX
+        hQVc5WI6mGW2LSVgW+W/oyQ==
+X-Received: by 2002:a1c:f60f:0:b0:3a0:3e0c:1de1 with SMTP id w15-20020a1cf60f000000b003a03e0c1de1mr38133787wmc.56.1657010626599;
+        Tue, 05 Jul 2022 01:43:46 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sHSdV9V2Ob02J3vbepG5ut1Vo9w3OUeEPmUiF13gGLPKO52cGyqadYgkGQJvykeI1zhkowZQ==
+X-Received: by 2002:a1c:f60f:0:b0:3a0:3e0c:1de1 with SMTP id w15-20020a1cf60f000000b003a03e0c1de1mr38133775wmc.56.1657010626385;
+        Tue, 05 Jul 2022 01:43:46 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-106-148.dyn.eolo.it. [146.241.106.148])
+        by smtp.gmail.com with ESMTPSA id w8-20020a1cf608000000b0039c5a765388sm22308049wmc.28.2022.07.05.01.43.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 01:43:45 -0700 (PDT)
+Message-ID: <4a95703c5c1a09e3ed1a64ddf83e65e222326214.camel@redhat.com>
+Subject: Re: [PATCH net v5] net: rose: fix null-ptr-deref caused by
  rose_kill_by_neigh
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <20220702120108.32985427@kernel.org>
-References: <20220629104941.26351-1-duoming@zju.edu.cn>
- <20220701194155.5bd61e58@kernel.org>
- <1bbd2137.23c51.181bdcb792f.Coremail.duoming@zju.edu.cn>
- <20220702120108.32985427@kernel.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Duoming Zhou <duoming@zju.edu.cn>, linux-hams@vger.kernel.org
+Cc:     ralf@linux-mips.org, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Tue, 05 Jul 2022 10:43:44 +0200
+In-Reply-To: <20220702075718.25121-1-duoming@zju.edu.cn>
+References: <20220702075718.25121-1-duoming@zju.edu.cn>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Message-ID: <194120ff.22ed2.181c182e706.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cS_KCgC3COEf5sBi5IkHAw--.64853W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgkAAVZdtagNRwACsU
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,72 +79,116 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-SGVsbG8sCgpPbiBTYXQsIDIgSnVsIDIwMjIgMTI6MDE6MDggLTA3MDAgSmFrdWIgS2ljaW5za2kg
-d3JvdGU6Cgo+IE9uIFNhdCwgMiBKdWwgMjAyMiAxNToyMzo1NyArMDgwMCAoR01UKzA4OjAwKSBk
-dW9taW5nQHpqdS5lZHUuY24gd3JvdGU6Cj4gPiA+IE9uIFdlZCwgMjkgSnVuIDIwMjIgMTg6NDk6
-NDEgKzA4MDAgRHVvbWluZyBaaG91IHdyb3RlOiAgCj4gPiA+ID4gV2hlbiB0aGUgbGluayBsYXll
-ciBjb25uZWN0aW9uIGlzIGJyb2tlbiwgdGhlIHJvc2UtPm5laWdoYm91ciBpcwo+ID4gPiA+IHNl
-dCB0byBudWxsLiBCdXQgcm9zZS0+bmVpZ2hib3VyIGNvdWxkIGJlIHVzZWQgYnkgcm9zZV9jb25u
-ZWN0aW9uKCkKPiA+ID4gPiBhbmQgcm9zZV9yZWxlYXNlKCkgbGF0ZXIsIGJlY2F1c2UgdGhlcmUg
-aXMgbm8gc3luY2hyb25pemF0aW9uIGFtb25nCj4gPiA+ID4gdGhlbS4gQXMgYSByZXN1bHQsIHRo
-ZSBudWxsLXB0ci1kZXJlZiBidWdzIHdpbGwgaGFwcGVuLgo+ID4gPiA+IAo+ID4gPiA+IE9uZSBv
-ZiB0aGUgbnVsbC1wdHItZGVyZWYgYnVncyBpcyBzaG93biBiZWxvdzoKPiA+ID4gPiAKPiA+ID4g
-PiAgICAgKHRocmVhZCAxKSAgICAgICAgICAgICAgICAgIHwgICAgICAgICh0aHJlYWQgMikKPiA+
-ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIHJvc2VfY29ubmVjdAo+ID4g
-PiA+IHJvc2Vfa2lsbF9ieV9uZWlnaCAgICAgICAgICAgICAgfCAgICBsb2NrX3NvY2soc2spCj4g
-PiA+ID4gICBzcGluX2xvY2tfYmgoJnJvc2VfbGlzdF9sb2NrKSB8ICAgIGlmICghcm9zZS0+bmVp
-Z2hib3VyKQo+ID4gPiA+ICAgcm9zZS0+bmVpZ2hib3VyID0gTlVMTDsvLygxKSAgfAo+ID4gPiA+
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICByb3NlLT5uZWlnaGJvdXItPnVz
-ZSsrOy8vKDIpICAKPiA+ID4gICAKPiA+ID4gPiAgCQlpZiAocm9zZS0+bmVpZ2hib3VyID09IG5l
-aWdoKSB7ICAKPiA+ID4gCj4gPiA+IFdoeSBpcyBpdCBva2F5IHRvIHBlcmZvcm0gdGhpcyBjb21w
-YXJpc29uIHdpdGhvdXQgdGhlIHNvY2tldCBsb2NrLAo+ID4gPiBpZiB3ZSBuZWVkIGEgc29ja2V0
-IGxvY2sgdG8gY2xlYXIgaXQ/IExvb2tzIGxpa2Ugcm9zZV9raWxsX2J5X25laWdoKCkKPiA+ID4g
-aXMgbm90IGd1YXJhbnRlZWQgdG8gY2xlYXIgYWxsIHRoZSB1c2VzIG9mIGEgbmVpZ2hib3IuICAK
-PiA+IAo+ID4gSSBhbSBzb3JyeSwgdGhlIGNvbXBhcmlzaW9uIHNob3VsZCBhbHNvIGJlIHByb3Rl
-Y3RlZCB3aXRoIHNvY2tldCBsb2NrLgo+ID4gVGhlIHJvc2Vfa2lsbF9ieV9uZWlnaCgpIG9ubHkg
-Y2xlYXIgdGhlIG5laWdoYm9yIHRoYXQgaXMgcGFzc2VkIGFzCj4gPiBwYXJhbWV0ZXIgb2Ygcm9z
-ZV9raWxsX2J5X25laWdoKCkuIAo+IAo+IERvbid0IHRoaW5rIHRoYXQncyBwb3NzaWJsZSwgeW91
-J2QgaGF2ZSB0byBkcm9wIHRoZSBuZWlnaCBsb2NrIGV2ZXJ5Cj4gdGltZS4KClRoZSBuZWlnaGJv
-dXIgaXMgY2xlYXJlZCBpbiB0d28gc2l0dWF0aW9ucy4KCigxKSBXaGVuIHRoZSByb3NlIGRldmlj
-ZSBpcyBkb3duLCB0aGUgcm9zZV9saW5rX2RldmljZV9kb3duKCkgdHJhdmVyc2VzCnRoZSByb3Nl
-X25laWdoX2xpc3QgYW5kIHVzZXMgdGhlIHJvc2Vfa2lsbF9ieV9uZWlnaCgpIHRvIGNsZWFyIHRo
-ZQpuZWlnaGJvcnMgb2YgdGhlIGRldmljZS4KCnZvaWQgcm9zZV9saW5rX2RldmljZV9kb3duKHN0
-cnVjdCBuZXRfZGV2aWNlICpkZXYpCnsKCXN0cnVjdCByb3NlX25laWdoICpyb3NlX25laWdoOwoK
-CWZvciAocm9zZV9uZWlnaCA9IHJvc2VfbmVpZ2hfbGlzdDsgcm9zZV9uZWlnaCAhPSBOVUxMOyBy
-b3NlX25laWdoID0gcm9zZV9uZWlnaC0+bmV4dCkgewoJCWlmIChyb3NlX25laWdoLT5kZXYgPT0g
-ZGV2KSB7CgkJCXJvc2VfZGVsX3JvdXRlX2J5X25laWdoKHJvc2VfbmVpZ2gpOwoJCQlyb3NlX2tp
-bGxfYnlfbmVpZ2gocm9zZV9uZWlnaCk7CgkJfQoJfQp9CgpodHRwczovL2VsaXhpci5ib290bGlu
-LmNvbS9saW51eC92NS4xOS1yYzQvc291cmNlL25ldC9yb3NlL3Jvc2Vfcm91dGUuYyNMODM5Cgoo
-MikgV2hlbiB0aGUgbGV2ZWwgMiBsaW5rIGhhcyB0aW1lZCBvdXQsIHRoZSByb3NlX2xpbmtfZmFp
-bGVkKCkgY2FsbHMgcm9zZV9raWxsX2J5X25laWdoKCkKdG8gY2xlYXIgdGhlIHJvc2VfbmVpZ2gu
-CgpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC92NS4xOS1yYzQvc291cmNlL25ldC9y
-b3NlL3Jvc2Vfcm91dGUuYyNMODEzCgo+ID4gPiA+ICsJCQlzb2NrX2hvbGQocyk7Cj4gPiA+ID4g
-KwkJCXNwaW5fdW5sb2NrX2JoKCZyb3NlX2xpc3RfbG9jayk7Cj4gPiA+ID4gKwkJCWxvY2tfc29j
-ayhzKTsKPiA+ID4gPiAgCQkJcm9zZV9kaXNjb25uZWN0KHMsIEVORVRVTlJFQUNILCBST1NFX09V
-VF9PRl9PUkRFUiwgMCk7Cj4gPiA+ID4gIAkJCXJvc2UtPm5laWdoYm91ci0+dXNlLS07ICAKPiA+
-ID4gCj4gPiA+IFdoYXQgcHJvdGVjdHMgdGhlIHVzZSBjb3VudGVyPyAgCj4gPiAKPiA+IFRoZSB1
-c2UgY291bnRlciBpcyBwcm90ZWN0ZWQgYnkgc29ja2V0IGxvY2suCj4gCj4gV2hpY2ggb25lLCB0
-aGUgbmVpZ2ggb2JqZWN0IGNhbiBiZSBzaGFyZWQgYnkgbXVsdGlwbGUgc29ja2V0cywgbm8/CgpU
-aGUgc2tfZm9yX2VhY2goKSB0cmF2ZXJzZXMgdGhlIHJvc2VfbGlzdCBhbmQgdXNlcyB0aGUgbG9j
-ayBvZiB0aGUgc29ja2V0IHRoYXQgaXMgZXh0cmFjdGVkCmZyb20gdGhlIHJvc2VfbGlzdCB0byBw
-cm90ZWN0IHRoZSB1c2UgY291bnRlci4KCmRpZmYgLS1naXQgYS9uZXQvcm9zZS9hZl9yb3NlLmMg
-Yi9uZXQvcm9zZS9hZl9yb3NlLmMKaW5kZXggYmYyZDk4NmE2YmMuLjZkNTA4OGIwMzBhIDEwMDY0
-NAotLS0gYS9uZXQvcm9zZS9hZl9yb3NlLmMKKysrIGIvbmV0L3Jvc2UvYWZfcm9zZS5jCkBAIC0x
-NjUsMTQgKzE2NSwyNiBAQCB2b2lkIHJvc2Vfa2lsbF9ieV9uZWlnaChzdHJ1Y3Qgcm9zZV9uZWln
-aCAqbmVpZ2gpCiAgICAgICAgc3RydWN0IHNvY2sgKnM7CiAKICAgICAgICBzcGluX2xvY2tfYmgo
-JnJvc2VfbGlzdF9sb2NrKTsKK2FnYWluOgogICAgICAgIHNrX2Zvcl9lYWNoKHMsICZyb3NlX2xp
-c3QpIHsKICAgICAgICAgICAgICAgIHN0cnVjdCByb3NlX3NvY2sgKnJvc2UgPSByb3NlX3NrKHMp
-OwogCisgICAgICAgICAgICAgICBzb2NrX2hvbGQocyk7CisgICAgICAgICAgICAgICBzcGluX3Vu
-bG9ja19iaCgmcm9zZV9saXN0X2xvY2spOworICAgICAgICAgICAgICAgbG9ja19zb2NrKHMpOwog
-ICAgICAgICAgICAgICAgaWYgKHJvc2UtPm5laWdoYm91ciA9PSBuZWlnaCkgewogICAgICAgICAg
-ICAgICAgICAgICAgICByb3NlX2Rpc2Nvbm5lY3QocywgRU5FVFVOUkVBQ0gsIFJPU0VfT1VUX09G
-X09SREVSLCAwKTsKICAgICAgICAgICAgICAgICAgICAgICAgcm9zZS0+bmVpZ2hib3VyLT51c2Ut
-LTsKICAgICAgICAgICAgICAgICAgICAgICAgcm9zZS0+bmVpZ2hib3VyID0gTlVMTDsKKyAgICAg
-ICAgICAgICAgICAgICAgICAgcmVsZWFzZV9zb2NrKHMpOworICAgICAgICAgICAgICAgICAgICAg
-ICBzb2NrX3B1dChzKTsKKyAgICAgICAgICAgICAgICAgICAgICAgc3Bpbl9sb2NrX2JoKCZyb3Nl
-X2xpc3RfbG9jayk7CisgICAgICAgICAgICAgICAgICAgICAgIGdvdG8gYWdhaW47CiAgICAgICAg
-ICAgICAgICB9CisgICAgICAgICAgICAgICByZWxlYXNlX3NvY2socyk7CisgICAgICAgICAgICAg
-ICBzb2NrX3B1dChzKTsKKyAgICAgICAgICAgICAgIHNwaW5fbG9ja19iaCgmcm9zZV9saXN0X2xv
-Y2spOworICAgICAgICAgICAgICAgZ290byBhZ2FpbjsKICAgICAgICB9CiAgICAgICAgc3Bpbl91
-bmxvY2tfYmgoJnJvc2VfbGlzdF9sb2NrKTsKIH0KCkJlc3QgcmVnYXJkcywKRHVvbWluZyBaaG91
+On Sat, 2022-07-02 at 15:57 +0800, Duoming Zhou wrote:
+> When the link layer connection is broken, the rose->neighbour is
+> set to null. But rose->neighbour could be used by rose_connection()
+> and rose_release() later, because there is no synchronization among
+> them. As a result, the null-ptr-deref bugs will happen.
+> 
+> One of the null-ptr-deref bugs is shown below:
+> 
+>     (thread 1)                  |        (thread 2)
+>                                 |  rose_connect
+> rose_kill_by_neigh              |    lock_sock(sk)
+>   spin_lock_bh(&rose_list_lock) |    if (!rose->neighbour)
+>   rose->neighbour = NULL;//(1)  |
+>                                 |    rose->neighbour->use++;//(2)
+> 
+> The rose->neighbour is set to null in position (1) and dereferenced
+> in position (2).
+> 
+> The KASAN report triggered by POC is shown below:
+> 
+> KASAN: null-ptr-deref in range [0x0000000000000028-0x000000000000002f]
+> ...
+> RIP: 0010:rose_connect+0x6c2/0xf30
+> RSP: 0018:ffff88800ab47d60 EFLAGS: 00000206
+> RAX: 0000000000000005 RBX: 000000000000002a RCX: 0000000000000000
+> RDX: ffff88800ab38000 RSI: ffff88800ab47e48 RDI: ffff88800ab38309
+> RBP: dffffc0000000000 R08: 0000000000000000 R09: ffffed1001567062
+> R10: dfffe91001567063 R11: 1ffff11001567061 R12: 1ffff11000d17cd0
+> R13: ffff8880068be680 R14: 0000000000000002 R15: 1ffff11000d17cd0
+> ...
+> Call Trace:
+>   <TASK>
+>   ? __local_bh_enable_ip+0x54/0x80
+>   ? selinux_netlbl_socket_connect+0x26/0x30
+>   ? rose_bind+0x5b0/0x5b0
+>   __sys_connect+0x216/0x280
+>   __x64_sys_connect+0x71/0x80
+>   do_syscall_64+0x43/0x90
+>   entry_SYSCALL_64_after_hwframe+0x46/0xb0
+> 
+> This patch adds lock_sock() in rose_kill_by_neigh() in order to
+> synchronize with rose_connect() and rose_release().
+> 
+> Meanwhile, this patch adds sock_hold() protected by rose_list_lock
+> that could synchronize with rose_remove_socket() in order to mitigate
+> UAF bug caused by lock_sock() we add.
+> 
+> What's more, there is no need using rose_neigh_list_lock to protect
+> rose_kill_by_neigh(). Because we have already used rose_neigh_list_lock
+> to protect the state change of rose_neigh in rose_link_failed(), which
+> is well synchronized.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+> ---
+> Changes in v5:
+>   - v5: Use socket lock to protect comparison in rose_kill_by_neigh.
+> 
+>  net/rose/af_rose.c    | 12 ++++++++++++
+>  net/rose/rose_route.c |  2 ++
+>  2 files changed, 14 insertions(+)
+> 
+> diff --git a/net/rose/af_rose.c b/net/rose/af_rose.c
+> index bf2d986a6bc..6d5088b030a 100644
+> --- a/net/rose/af_rose.c
+> +++ b/net/rose/af_rose.c
+> @@ -165,14 +165,26 @@ void rose_kill_by_neigh(struct rose_neigh *neigh)
+>  	struct sock *s;
+>  
+>  	spin_lock_bh(&rose_list_lock);
+> +again:
+>  	sk_for_each(s, &rose_list) {
+>  		struct rose_sock *rose = rose_sk(s);
+>  
+> +		sock_hold(s);
+> +		spin_unlock_bh(&rose_list_lock);
+> +		lock_sock(s);
+>  		if (rose->neighbour == neigh) {
+>  			rose_disconnect(s, ENETUNREACH, ROSE_OUT_OF_ORDER, 0);
+>  			rose->neighbour->use--;
+
+Note that the code can held different socket lock while updating
+'neighbour->use'. That really means that such updates can really race
+each other, with bad results.
+
+I think the only safe way out is using an atomic_t for 'neighbour->use'
+(likely a refcount_t would be a better option).
+
+All the above deserves a separate patch IMHO.
+
+>  			rose->neighbour = NULL;
+> +			release_sock(s);
+> +			sock_put(s);
+> +			spin_lock_bh(&rose_list_lock);
+> +			goto again;
+
+This chunk is dup of the following lines, it could be dropped...
+
+>  		}
+> +		release_sock(s);
+> +		sock_put(s);
+> +		spin_lock_bh(&rose_list_lock);
+> +		goto again;
+
+... if this would be correct, which apparently is not.
+
+What happens when 'rose->neighbour' is different from 'neigh' for first
+socket in rose_list?
+
+Cheers,
+
+Paolo
 
