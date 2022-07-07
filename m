@@ -2,113 +2,91 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6B4B5697EC
-	for <lists+linux-hams@lfdr.de>; Thu,  7 Jul 2022 04:23:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA4E0569871
+	for <lists+linux-hams@lfdr.de>; Thu,  7 Jul 2022 05:00:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229496AbiGGCXb (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 6 Jul 2022 22:23:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36210 "EHLO
+        id S234889AbiGGDAR (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 6 Jul 2022 23:00:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234835AbiGGCX2 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 6 Jul 2022 22:23:28 -0400
-Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8F40A13F34;
-        Wed,  6 Jul 2022 19:23:25 -0700 (PDT)
-Received: by ajax-webmail-mail-app3 (Coremail) ; Thu, 7 Jul 2022 10:23:09
- +0800 (GMT+08:00)
-X-Originating-IP: [10.190.66.67]
-Date:   Thu, 7 Jul 2022 10:23:09 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   duoming@zju.edu.cn
-To:     "Jakub Kicinski" <kuba@kernel.org>
+        with ESMTP id S234870AbiGGDAQ (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 6 Jul 2022 23:00:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 916622F669;
+        Wed,  6 Jul 2022 20:00:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F27D62153;
+        Thu,  7 Jul 2022 03:00:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8A37AC341C6;
+        Thu,  7 Jul 2022 03:00:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657162813;
+        bh=N8b8Kgo3TvZmFgrWYY3ovqkpBeOo6ywQTI9gO+NvEcI=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=DYo65RSKuCA308SwdH4IS29/zn5qkE/oeVaqJUNnCyepBLgX4fyYSRZ08pJORE3iq
+         XN6bn5MlDIAhE2SAURtNVGix1erky5naN9BYVUee+BSF+dzcUm/D0l1Aa//8Vj3l80
+         W/tSUvXK0bfLxlh9tp+1luFwK6Iz6SFOeMItwneLSm+O+va/AwXxOUWwAWX38q54Rf
+         KhnR5ApY7PksUeJy8GLzeEIplzlW5MNmNV95UhWmPGUQTreHdUjyuSKl081QSwd5+i
+         K4Ai8GrmyR5bKBPMjuBBps0BGJhW+rAqvryQMYLHnFc3+ZUD7fnGIv/99Ogo8eGMHy
+         YoAlLlMveOlPA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6D51CE45BD9;
+        Thu,  7 Jul 2022 03:00:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v2] net: rose: fix UAF bug caused by rose_t0timer_expiry
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <165716281344.11165.3540358551022288195.git-patchwork-notify@kernel.org>
+Date:   Thu, 07 Jul 2022 03:00:13 +0000
+References: <20220705125610.77971-1-duoming@zju.edu.cn>
+In-Reply-To: <20220705125610.77971-1-duoming@zju.edu.cn>
+To:     Duoming Zhou <duoming@zju.edu.cn>
 Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, ralf@linux-mips.org,
-        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com
-Subject: Re: [PATCH net v2] net: rose: fix UAF bug caused by
- rose_t0timer_expiry
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <20220706190237.477f24ee@kernel.org>
-References: <20220705125610.77971-1-duoming@zju.edu.cn>
- <20220706190237.477f24ee@kernel.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
-MIME-Version: 1.0
-Message-ID: <1dd7d69d.2fd66.181d677e20d.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cC_KCgBnaTyNQ8ZiBJMAAA--.121W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgkEAVZdtajsngABsr
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-SGVsbG8sCgpPbiBXZWQsIDYgSnVsIDIwMjIgMTk6MDI6MzcgLTA3MDAgSmFrdWIgS2ljaW5za2k6
-Cgo+IE9uIFR1ZSwgIDUgSnVsIDIwMjIgMjA6NTY6MTAgKzA4MDAgRHVvbWluZyBaaG91IHdyb3Rl
-Ogo+ID4gKwlkZWxfdGltZXJfc3luYygmcm9zZV9uZWlnaC0+dDB0aW1lcik7Cj4gCj4gLyoqCj4g
-ICogZGVsX3RpbWVyX3N5bmMgLSBkZWFjdGl2YXRlIGEgdGltZXIgYW5kIHdhaXQgZm9yIHRoZSBo
-YW5kbGVyIHRvIGZpbmlzaC4KPiBbLi4uXQo+ICAqIFN5bmNocm9uaXphdGlvbiBydWxlczogQ2Fs
-bGVycyBtdXN0IHByZXZlbnQgcmVzdGFydGluZyBvZiB0aGUgdGltZXIsCj4gICogb3RoZXJ3aXNl
-IHRoaXMgZnVuY3Rpb24gaXMgbWVhbmluZ2xlc3MuCj4gCj4gaG93IGlzIHRoZSByZXN0YXJ0aW5n
-IHByZXZlbnRlZD8gSWYgSSdtIGxvb2tpbmcgcmlnaHQgCj4gcm9zZV90MHRpbWVyX2V4cGlyeSgp
-IHJlYXJtcyB0aGUgdGltZXIuCgpUaGUgZGVsX3RpbWVyX3N5bmMoKSBjb3VsZCBzdG9wIHRoZSB0
-aW1lciB0aGF0IHJlc3RhcnQgaXRzZWxmIGluCml0cyB0aW1lciBjYWxsYmFjayBmdW5jdGlvbi4K
-ClRoZSByb290IGNhdXNlIGlzIHNob3duIGJlbG93IHdoaWNoIGlzIGEgcGFydCBvZiBjb2RlIGlu
-CmRlbF90aW1lcl9zeW5jOgoKCWRvIHsKCQlyZXQgPSB0cnlfdG9fZGVsX3RpbWVyX3N5bmModGlt
-ZXIpOwoKCQlpZiAodW5saWtlbHkocmV0IDwgMCkpIHsKCQkJZGVsX3RpbWVyX3dhaXRfcnVubmlu
-Zyh0aW1lcik7CgkJCWNwdV9yZWxheCgpOwoJCX0KCX0gd2hpbGUgKHJldCA8IDApOwoKaHR0cHM6
-Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvbGF0ZXN0L3NvdXJjZS9rZXJuZWwvdGltZS90aW1l
-ci5jI0wxMzgxCgpJZiB0aGUgdGltZXIgY2FsbGJhY2sgZnVuY3Rpb24gaXMgcnVubmluZywgdGhl
-IHRyeV90b19kZWxfdGltZXJfc3luYwp3aWxsIHJldHVybiAtMS4gVGhlbiwgaXQgd2lsbCBsb29w
-IHVudGlsIHRoZSB0aW1lciBpcyBub3QgcXVldWVkIGFuZAp0aGUgaGFuZGxlciBpcyBub3QgcnVu
-bmluZyBvbiBhbnkgQ1BVLgoKQWx0aG91Z2ggdGhlIHRpbWVyIG1heSByZXN0YXJ0IGl0c2VsZiBp
-biB0aW1lciBjYWxsYmFjayBmdW5jdGlvbiwgdGhlCmRlbF90aW1lcl9zeW5jIGNvdWxkIGFsc28g
-c3RvcCBpdC4KCkluIG9yZGVyIHRvIGZ1cnRoZXIgcHJvdmUgdGhlIGRlbF90aW1lcl9zeW5jKCkg
-Y291bGQgc3RvcCB0aGUgdGltZXIgdGhhdApyZXN0YXJ0IGl0c2VsZiBpbiBpdHMgdGltZXIgaGFu
-ZGxlciwgSSB3cm90ZSB0aGUgZm9sbG93aW5nIGtlcm5lbCBtb2R1bGUKd2hvZXMgcGFydCBvZiBj
-b2RlIGlzIHNob3duIGJlbG93OgoKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KCnN0cnVjdCB0aW1lcl9saXN0IG15X3RpbWVy
-OwpzdGF0aWMgdm9pZCBteV90aW1lcl9jYWxsYmFjayhzdHJ1Y3QgdGltZXJfbGlzdCAqdGltZXIp
-OwpzdGF0aWMgdm9pZCBzdGFydF90aW1lcih2b2lkKTsKCnN0YXRpYyB2b2lkIHN0YXJ0X3RpbWVy
-KHZvaWQpewogICAgZGVsX3RpbWVyKCZteV90aW1lcik7CiAgICBteV90aW1lci5leHBpcmVzID0g
-amlmZmllcytIWjsKICAgIG15X3RpbWVyLmZ1bmN0aW9uID0gbXlfdGltZXJfY2FsbGJhY2s7CiAg
-ICBhZGRfdGltZXIoJm15X3RpbWVyKTsKfQoKc3RhdGljIHZvaWQgbXlfdGltZXJfY2FsbGJhY2so
-c3RydWN0IHRpbWVyX2xpc3QgKnRpbWVyKXsKICAgIHByaW50aygiSW4gbXlfdGltZXJfZnVuY3Rp
-b24iKTsKICAgIHByaW50aygidGhlIGppZmZpZXMgaXMgJWxkXG4iLGppZmZpZXMpOwogICAgc3Rh
-cnRfdGltZXIoKTsKfQoKc3RhdGljIGludCBfX2luaXQgZGVsX3RpbWVyX3N5bmNfaW5pdCh2b2lk
-KQp7CiAgICBpbnQgcmVzdWx0OwogICAgcHJpbnRrKCJteV90aW1lciB3aWxsIGJlIGNyZWF0ZS5c
-biIpOwogICAgcHJpbnRrKCJ0aGUgamlmZmllcyBpcyA6JWxkXG4iLCBqaWZmaWVzKTsKICAgIHRp
-bWVyX3NldHVwKCZteV90aW1lcixteV90aW1lcl9jYWxsYmFjaywwKTsKICAgIHJlc3VsdCA9IG1v
-ZF90aW1lcigmbXlfdGltZXIsamlmZmllcyArIFNJWFBfVFhERUxBWSk7CiAgICBwcmludGsoInRo
-ZSBtb2RfdGltZXIgaXMgOiVkXG5cbiIscmVzdWx0KTsKICAgIHJldHVybiAwOwp9CgpzdGF0aWMg
-dm9pZCBfX2V4aXQgZGVsX3RpbWVyX3N5bmNfZXhpdCh2b2lkKQp7CiAgICBpbnQgcmVzdWx0PWRl
-bF90aW1lcl9zeW5jKCZteV90aW1lcik7CiAgICBwcmludGsoInRoZSBkZWxfdGltZXJfc3luYyBp
-cyA6JWRcblxuIiwgcmVzdWx0KTsKfQoKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KClRoZSB0aW1lciBoYW5kbGVyIGlzIHJ1
-bm5pbmcgZnJvbSBpbnRlcnJ1cHRzIGFuZCBkZWxfdGltZXJfc3luYygpIGNvdWxkIHN0b3AKdGhl
-IHRpbWVyIHRoYXQgcmV3aW5kIGl0c2VsZiBpbiBpdHMgdGltZXIgaGFuZGxlciwgdGhlIHJlc3Vs
-dCBpcyBzaG93biBiZWxvdzoKCiMgaW5zbW9kIGRlbF90aW1lcl9zeW5jLmtvIApbICAxMDMuNTA1
-ODU3XSBteV90aW1lciB3aWxsIGJlIGNyZWF0ZS4KWyAgMTAzLjUwNTkyMl0gdGhlIGppZmZpZXMg
-aXMgOjQyOTQ3NzA4MzIKWyAgMTAzLjUwNjg0NV0gdGhlIG1vZF90aW1lciBpcyA6MApbICAxMDMu
-NTA2ODQ1XSAKIyBbICAxMDMuNTMyMzg5XSBJbiBteV90aW1lcl9mdW5jdGlvbgpbICAxMDMuNTMy
-NDUyXSB0aGUgamlmZmllcyBpcyA0Mjk0NzcwODU5ClsgIDEwNC41NzY3NjhdIEluIG15X3RpbWVy
-X2Z1bmN0aW9uClsgIDEwNC41NzcwOTZdIHRoZSBqaWZmaWVzIGlzIDQyOTQ3NzE5MDQKWyAgMTA1
-LjYwMDk0MV0gSW4gbXlfdGltZXJfZnVuY3Rpb24KWyAgMTA1LjYwMTA3Ml0gdGhlIGppZmZpZXMg
-aXMgNDI5NDc3MjkyOApbICAxMDYuNjI1Mzk3XSBJbiBteV90aW1lcl9mdW5jdGlvbgpbICAxMDYu
-NjI1NTczXSB0aGUgamlmZmllcyBpcyA0Mjk0NzczOTUyClsgIDEwNy42NDg5OTVdIEluIG15X3Rp
-bWVyX2Z1bmN0aW9uClsgIDEwNy42NDkyMTJdIHRoZSBqaWZmaWVzIGlzIDQyOTQ3NzQ5NzYKWyAg
-MTA4LjY3MzAzN10gSW4gbXlfdGltZXJfZnVuY3Rpb24KWyAgMTA4LjY3Mzc4N10gdGhlIGppZmZp
-ZXMgaXMgNDI5NDc3NjAwMQpybW1vZCBkZWxfdGltZXJfc3luYy5rbwpbICAxMDkuNjQ5NDgyXSB0
-aGUgZGVsX3RpbWVyX3N5bmMgaXMgOjEKWyAgMTA5LjY0OTQ4Ml0gCiMgCgpJZiB3ZSBjYWxsIGFu
-b3RoZXIgdGhyZWFkIHN1Y2ggYXMgYSB3b3JrX3F1ZXVlIG9yIHRoZSBjb2RlIGluIG90aGVyIHBs
-YWNlcwp0byByZXN0YXJ0IHRoZSB0aW1lciBpbnN0ZWFkIG9mIGluIGl0cyB0aW1lciBoYW5kbGVy
-LCB0aGUgZGVsX3RpbWVyX3N5bmMoKQpjb3VsZCBub3Qgc3RvcCBpdC4KCkJlc3QgcmVnYXJkcywK
-RHVvbWluZyBaaG91
+Hello:
+
+This patch was applied to netdev/net.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Tue,  5 Jul 2022 20:56:10 +0800 you wrote:
+> There are UAF bugs caused by rose_t0timer_expiry(). The
+> root cause is that del_timer() could not stop the timer
+> handler that is running and there is no synchronization.
+> One of the race conditions is shown below:
+> 
+>     (thread 1)             |        (thread 2)
+>                            | rose_device_event
+>                            |   rose_rt_device_down
+>                            |     rose_remove_neigh
+> rose_t0timer_expiry        |       rose_stop_t0timer(rose_neigh)
+>   ...                      |         del_timer(&neigh->t0timer)
+>                            |         kfree(rose_neigh) //[1]FREE
+>   neigh->dce_mode //[2]USE |
+> 
+> [...]
+
+Here is the summary with links:
+  - [net,v2] net: rose: fix UAF bug caused by rose_t0timer_expiry
+    https://git.kernel.org/netdev/net/c/148ca0451807
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
