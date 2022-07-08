@@ -2,91 +2,74 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA4E0569871
-	for <lists+linux-hams@lfdr.de>; Thu,  7 Jul 2022 05:00:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A646C56C280
+	for <lists+linux-hams@lfdr.de>; Sat,  9 Jul 2022 01:13:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234889AbiGGDAR (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 6 Jul 2022 23:00:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60442 "EHLO
+        id S240448AbiGHVUA (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 8 Jul 2022 17:20:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234870AbiGGDAQ (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 6 Jul 2022 23:00:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 916622F669;
-        Wed,  6 Jul 2022 20:00:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F27D62153;
-        Thu,  7 Jul 2022 03:00:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8A37AC341C6;
-        Thu,  7 Jul 2022 03:00:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657162813;
-        bh=N8b8Kgo3TvZmFgrWYY3ovqkpBeOo6ywQTI9gO+NvEcI=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=DYo65RSKuCA308SwdH4IS29/zn5qkE/oeVaqJUNnCyepBLgX4fyYSRZ08pJORE3iq
-         XN6bn5MlDIAhE2SAURtNVGix1erky5naN9BYVUee+BSF+dzcUm/D0l1Aa//8Vj3l80
-         W/tSUvXK0bfLxlh9tp+1luFwK6Iz6SFOeMItwneLSm+O+va/AwXxOUWwAWX38q54Rf
-         KhnR5ApY7PksUeJy8GLzeEIplzlW5MNmNV95UhWmPGUQTreHdUjyuSKl081QSwd5+i
-         K4Ai8GrmyR5bKBPMjuBBps0BGJhW+rAqvryQMYLHnFc3+ZUD7fnGIv/99Ogo8eGMHy
-         YoAlLlMveOlPA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6D51CE45BD9;
-        Thu,  7 Jul 2022 03:00:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S240081AbiGHVT7 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 8 Jul 2022 17:19:59 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 011482BB09
+        for <linux-hams@vger.kernel.org>; Fri,  8 Jul 2022 14:19:58 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id p129so10049992yba.7
+        for <linux-hams@vger.kernel.org>; Fri, 08 Jul 2022 14:19:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=4K4mMKpXpf4R41YLhVfBwKVJzk8ioNewf9siCI5kyc8=;
+        b=I4FzbgMvm4Y8V4egJjBo2dI0dOpJM5FHSzWoJVA5s/qswPvIRM/khh2Z7k9AP/R7l3
+         zV2b/+ESAYqxpoBKWbQrm3bY0kRwfHuVgY7vsif1a709mTY+b56qB0jPAoTDFMxJ/+je
+         lISp+G6NuBLklKk9c4+8saU+2vu8ox9Zw3JxAl9itKGmbSN3sHufpptVpFsjp//7o5Q+
+         w04kJz4fIANwWkwDiRe+Ii11vhU6cIsdFT3mBDSeIcWVL1Ah55eK82JAeHKKy35Dv0jr
+         b7gro165LxHPpmkVct/oENU2KdJQf7Y4/tt1cCaW+eMTPtjYEk0IM7d0HjCgaHiKKiU+
+         z82g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=4K4mMKpXpf4R41YLhVfBwKVJzk8ioNewf9siCI5kyc8=;
+        b=qmszGJLnNwjDtYbDBTCm6bWyXGahS3N6pKZBjXLrp84rKozSDWYbQb92nLcbB2/L3C
+         yvhHSVnMlDi2HaWTvIQCNMQyBTBx65hnCyRzhTfArtLTrZhGmdBzFEQbN6Dv17rh37L2
+         gtz6sfUYKf4ZDsUnwi7zjFk3xbv0ZPs76NMjrDI/X4f5LSeq3yXPzhtcavdyTi2Cpz5h
+         abiiMfBDTjtjc/7wfzjtsxBkdlTk9q2IWajRMFp0dsoKbOi/yvVUxOKdNXVuIAQFPj6p
+         EKePDbfZV3qfnhscJfqi/y9jtMsvBC3pW5o6wseip/R2SWt72PFp7e+asr9P26ZoJSV8
+         Xc0A==
+X-Gm-Message-State: AJIora+EKPn0sZffowj30/rIgsvZcLrkxYz201ddRl/q0mzQWP4u+pR1
+        Cf7PD+mva6rnnoe3yP0pw5Wss+UhYE1mwvIb9yY=
+X-Google-Smtp-Source: AGRyM1vLdHBMqrfIy4Vbjy3KYixLPHen1EJa2Ps0Pfaz5Rt7AGW/ff8j2H4S4jb9v5U5Vh3qVA7S+hMLhqN35vrVcJ0=
+X-Received: by 2002:a25:d253:0:b0:66e:4d5b:8a67 with SMTP id
+ j80-20020a25d253000000b0066e4d5b8a67mr5542216ybg.627.1657315197890; Fri, 08
+ Jul 2022 14:19:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v2] net: rose: fix UAF bug caused by rose_t0timer_expiry
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165716281344.11165.3540358551022288195.git-patchwork-notify@kernel.org>
-Date:   Thu, 07 Jul 2022 03:00:13 +0000
-References: <20220705125610.77971-1-duoming@zju.edu.cn>
-In-Reply-To: <20220705125610.77971-1-duoming@zju.edu.cn>
-To:     Duoming Zhou <duoming@zju.edu.cn>
-Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ralf@linux-mips.org,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a05:7010:26a9:b0:2d9:cadb:e46c with HTTP; Fri, 8 Jul 2022
+ 14:19:57 -0700 (PDT)
+Reply-To: pstefanopessina80@gmail.com
+From:   STEFANO PESSINA <zaitunagoi@gmail.com>
+Date:   Sat, 9 Jul 2022 00:19:57 +0300
+Message-ID: <CAEXtvcK3BXKW39G-vgVGFiHzT3vmYrWYgyqEDtnD5dNRWdJVuA@mail.gmail.com>
+Subject: =?UTF-8?Q?Herzliche_Gl=C3=BCckw=C3=BCnsche=21?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Tue,  5 Jul 2022 20:56:10 +0800 you wrote:
-> There are UAF bugs caused by rose_t0timer_expiry(). The
-> root cause is that del_timer() could not stop the timer
-> handler that is running and there is no synchronization.
-> One of the race conditions is shown below:
-> 
->     (thread 1)             |        (thread 2)
->                            | rose_device_event
->                            |   rose_rt_device_down
->                            |     rose_remove_neigh
-> rose_t0timer_expiry        |       rose_stop_t0timer(rose_neigh)
->   ...                      |         del_timer(&neigh->t0timer)
->                            |         kfree(rose_neigh) //[1]FREE
->   neigh->dce_mode //[2]USE |
-> 
-> [...]
-
-Here is the summary with links:
-  - [net,v2] net: rose: fix UAF bug caused by rose_t0timer_expiry
-    https://git.kernel.org/netdev/net/c/148ca0451807
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+--=20
+Herzliche Gl=C3=BCckw=C3=BCnsche!
+Die Summe von 1.500.000,00 =E2=82=AC wurde Ihnen von STEFANO PESSINA gespen=
+det.
+Bitte kontaktieren Sie uns f=C3=BCr weitere Informationen =C3=BCber
+pstefanopessina80@gmail.com
