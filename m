@@ -2,232 +2,165 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD4C857312D
-	for <lists+linux-hams@lfdr.de>; Wed, 13 Jul 2022 10:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C02CE5731FA
+	for <lists+linux-hams@lfdr.de>; Wed, 13 Jul 2022 11:03:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231748AbiGMIeD (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 13 Jul 2022 04:34:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43642 "EHLO
+        id S235389AbiGMJDr (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 13 Jul 2022 05:03:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234806AbiGMIeC (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 13 Jul 2022 04:34:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0ADFB74DD6
-        for <linux-hams@vger.kernel.org>; Wed, 13 Jul 2022 01:33:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657701238;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=74dW0jhlKIvaOyEGuXtY/bgXjn9zQ+zDadO8O10/PE4=;
-        b=aIKtupRNEH2SKNNHxvUh4RcXNRL+R10L5gkoewRC0jIb/mVSzQUkQfGCmf/aq7y2ymqjSF
-        7ttzIJrpj6MpaTBML8anB3PeDogKkrilnPl+Xw80hAFwIVy6iofVcTzonPuNBMFNLQAnEC
-        ALS/1UaxN5Iy2spvFepuV/Znkm9z3XI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-55-9yrNsyJGOmC55BZ95qcNBw-1; Wed, 13 Jul 2022 04:33:57 -0400
-X-MC-Unique: 9yrNsyJGOmC55BZ95qcNBw-1
-Received: by mail-wm1-f69.google.com with SMTP id t25-20020a7bc3d9000000b003a2ea772bd2so667298wmj.2
-        for <linux-hams@vger.kernel.org>; Wed, 13 Jul 2022 01:33:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=74dW0jhlKIvaOyEGuXtY/bgXjn9zQ+zDadO8O10/PE4=;
-        b=3RKPH+4zgKSEr1GprgpfyYGdCOGxpfGLBMBqh/Uo2lfjnVddF7NwIVPisit3jHVgl2
-         AIDHwaZGURJziaZjg9kjGkDXsmOoOgsvOHMScaZzg1le08owCTQgeoDySZh0HlDHdkNZ
-         xqgs0YPZ91MU15R9BgMC3BA6fR/zX2H3fZ/xSMXNNk1BoAWOgtQ4EgYEUclbRPWo2LB1
-         R7DD3syDLthbX/eSKkDhXJovsoMpyQ4ji/5wdbKXovSKid8oEiOslqO2E2RWTRoRj5OU
-         T8WRDND5XwDyTNnuIU18/i/GIl1YdKp2kdFwC2dJjCkPMHmr6HYBlQpPTB6ettQj/p5I
-         3i6Q==
-X-Gm-Message-State: AJIora/juFa213ZvpDn4DyRMKG3rZqVRiTPEj0tQu3/nrJxrhZOPOWGK
-        IZAiaDMZr9dgwSlBUjA9B2EmV/eZeZGFS1kgIFP3gi+P1kP3Sdt9AfVQmNUZ+1esAcjoOkQwG5+
-        G4q/FgkspLr0FGN0i5kMMTw==
-X-Received: by 2002:adf:eccb:0:b0:21d:7b41:22c7 with SMTP id s11-20020adfeccb000000b0021d7b4122c7mr1924337wro.543.1657701236586;
-        Wed, 13 Jul 2022 01:33:56 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u8ITw976yDjianJL9XwDcoXz2Y6QyUbFXu8PB3MPkowu/ymg7juX4C+XbujXlltHzYiurZOQ==
-X-Received: by 2002:adf:eccb:0:b0:21d:7b41:22c7 with SMTP id s11-20020adfeccb000000b0021d7b4122c7mr1924318wro.543.1657701236338;
-        Wed, 13 Jul 2022 01:33:56 -0700 (PDT)
-Received: from gerbillo.redhat.com (146-241-97-238.dyn.eolo.it. [146.241.97.238])
-        by smtp.gmail.com with ESMTPSA id l26-20020a056000023a00b0021d96b3b6adsm10266971wrz.106.2022.07.13.01.33.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jul 2022 01:33:55 -0700 (PDT)
-Message-ID: <2dc058285c524363b93ebf9468ff85186b9c72c2.camel@redhat.com>
-Subject: Re: [PATCH net v6] net: rose: fix null-ptr-deref caused by
- rose_kill_by_neigh
-From:   Paolo Abeni <pabeni@redhat.com>
-To:     duoming@zju.edu.cn
+        with ESMTP id S235007AbiGMJDp (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 13 Jul 2022 05:03:45 -0400
+Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 39A78101C1;
+        Wed, 13 Jul 2022 02:03:40 -0700 (PDT)
+Received: by ajax-webmail-mail-app3 (Coremail) ; Wed, 13 Jul 2022 17:03:27
+ +0800 (GMT+08:00)
+X-Originating-IP: [10.190.69.130]
+Date:   Wed, 13 Jul 2022 17:03:27 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   duoming@zju.edu.cn
+To:     "Paolo Abeni" <pabeni@redhat.com>
 Cc:     linux-hams@vger.kernel.org, ralf@linux-mips.org,
         davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Wed, 13 Jul 2022 10:33:54 +0200
-In-Reply-To: <540ab034.3f081.181f6895dba.Coremail.duoming@zju.edu.cn>
+Subject: Re: [PATCH net v6] net: rose: fix null-ptr-deref caused by
+ rose_kill_by_neigh
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
+In-Reply-To: <2dc058285c524363b93ebf9468ff85186b9c72c2.camel@redhat.com>
 References: <20220711013111.33183-1-duoming@zju.edu.cn>
-         <daa2b799956c286b2cce898bee22fb2a043f5177.camel@redhat.com>
-         <540ab034.3f081.181f6895dba.Coremail.duoming@zju.edu.cn>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ <daa2b799956c286b2cce898bee22fb2a043f5177.camel@redhat.com>
+ <540ab034.3f081.181f6895dba.Coremail.duoming@zju.edu.cn>
+ <2dc058285c524363b93ebf9468ff85186b9c72c2.camel@redhat.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Message-ID: <26cdbcc8.3f44f.181f6cc848f.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cC_KCgCXnQxfis5i+0htAA--.7402W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgUKAVZdtapS7AATs1
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Wed, 2022-07-13 at 15:50 +0800, duoming@zju.edu.cn wrote:
-> Hello,
-> 
-> On Tue, 12 Jul 2022 13:00:49 +0200 Paolo Abeni wrote:
-> 
-> > On Mon, 2022-07-11 at 09:31 +0800, Duoming Zhou wrote:
-> > > When the link layer connection is broken, the rose->neighbour is
-> > > set to null. But rose->neighbour could be used by rose_connection()
-> > > and rose_release() later, because there is no synchronization among
-> > > them. As a result, the null-ptr-deref bugs will happen.
-> > > 
-> > > One of the null-ptr-deref bugs is shown below:
-> > > 
-> > >     (thread 1)                  |        (thread 2)
-> > >                                 |  rose_connect
-> > > rose_kill_by_neigh              |    lock_sock(sk)
-> > >   spin_lock_bh(&rose_list_lock) |    if (!rose->neighbour)
-> > >   rose->neighbour = NULL;//(1)  |
-> > >                                 |    rose->neighbour->use++;//(2)
-> > > 
-> > > The rose->neighbour is set to null in position (1) and dereferenced
-> > > in position (2).
-> > > 
-> > > The KASAN report triggered by POC is shown below:
-> > > 
-> > > KASAN: null-ptr-deref in range [0x0000000000000028-0x000000000000002f]
-> > > ...
-> > > RIP: 0010:rose_connect+0x6c2/0xf30
-> > > RSP: 0018:ffff88800ab47d60 EFLAGS: 00000206
-> > > RAX: 0000000000000005 RBX: 000000000000002a RCX: 0000000000000000
-> > > RDX: ffff88800ab38000 RSI: ffff88800ab47e48 RDI: ffff88800ab38309
-> > > RBP: dffffc0000000000 R08: 0000000000000000 R09: ffffed1001567062
-> > > R10: dfffe91001567063 R11: 1ffff11001567061 R12: 1ffff11000d17cd0
-> > > R13: ffff8880068be680 R14: 0000000000000002 R15: 1ffff11000d17cd0
-> > > ...
-> > > Call Trace:
-> > >   <TASK>
-> > >   ? __local_bh_enable_ip+0x54/0x80
-> > >   ? selinux_netlbl_socket_connect+0x26/0x30
-> > >   ? rose_bind+0x5b0/0x5b0
-> > >   __sys_connect+0x216/0x280
-> > >   __x64_sys_connect+0x71/0x80
-> > >   do_syscall_64+0x43/0x90
-> > >   entry_SYSCALL_64_after_hwframe+0x46/0xb0
-> > > 
-> > > This patch adds lock_sock() in rose_kill_by_neigh() in order to
-> > > synchronize with rose_connect() and rose_release(). Then, changing
-> > > type of 'neighbour->use' from unsigned short to atomic_t in order to
-> > > mitigate race conditions caused by holding different socket lock while
-> > > updating 'neighbour->use'.
-> > > 
-> > > Meanwhile, this patch adds sock_hold() protected by rose_list_lock
-> > > that could synchronize with rose_remove_socket() in order to mitigate
-> > > UAF bug caused by lock_sock() we add.
-> > > 
-> > > What's more, there is no need using rose_neigh_list_lock to protect
-> > > rose_kill_by_neigh(). Because we have already used rose_neigh_list_lock
-> > > to protect the state change of rose_neigh in rose_link_failed(), which
-> > > is well synchronized.
-> > > 
-> > > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> > > Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-> > > ---
-> > > Changes in v6:
-> > >   - Change sk_for_each() to sk_for_each_safe().
-> > >   - Change type of 'neighbour->use' from unsigned short to atomic_t.
-> > > 
-> > >  include/net/rose.h    |  2 +-
-> > >  net/rose/af_rose.c    | 19 +++++++++++++------
-> > >  net/rose/rose_in.c    | 12 ++++++------
-> > >  net/rose/rose_route.c | 24 ++++++++++++------------
-> > >  net/rose/rose_timer.c |  2 +-
-> > >  5 files changed, 33 insertions(+), 26 deletions(-)
-> > > 
-> > > diff --git a/include/net/rose.h b/include/net/rose.h
-> > > index 0f0a4ce0fee..d5ddebc556d 100644
-> > > --- a/include/net/rose.h
-> > > +++ b/include/net/rose.h
-> > > @@ -95,7 +95,7 @@ struct rose_neigh {
-> > >  	ax25_cb			*ax25;
-> > >  	struct net_device		*dev;
-> > >  	unsigned short		count;
-> > > -	unsigned short		use;
-> > > +	atomic_t		use;
-> > >  	unsigned int		number;
-> > >  	char			restarted;
-> > >  	char			dce_mode;
-> > > diff --git a/net/rose/af_rose.c b/net/rose/af_rose.c
-> > > index bf2d986a6bc..54e7b76c4f3 100644
-> > > --- a/net/rose/af_rose.c
-> > > +++ b/net/rose/af_rose.c
-> > > @@ -163,16 +163,23 @@ static void rose_remove_socket(struct sock *sk)
-> > >  void rose_kill_by_neigh(struct rose_neigh *neigh)
-> > >  {
-> > >  	struct sock *s;
-> > > +	struct hlist_node *tmp;
-> > >  
-> > >  	spin_lock_bh(&rose_list_lock);
-> > > -	sk_for_each(s, &rose_list) {
-> > > +	sk_for_each_safe(s, tmp, &rose_list) {
-> > >  		struct rose_sock *rose = rose_sk(s);
-> > >  
-> > > +		sock_hold(s);
-> > > +		spin_unlock_bh(&rose_list_lock);
-> > > +		lock_sock(s);
-> > >  		if (rose->neighbour == neigh) {
-> > >  			rose_disconnect(s, ENETUNREACH, ROSE_OUT_OF_ORDER, 0);
-> > > -			rose->neighbour->use--;
-> > > +			atomic_dec(&rose->neighbour->use);
-> > >  			rose->neighbour = NULL;
-> > >  		}
-> > > +		release_sock(s);
-> > > +		sock_put(s);
-> > 
-> > I'm sorry, this does not work. At this point both 's' and 'tmp' sockets
-> > can be freed and reused. Both iterators are not valid anymore when you
-> > acquire the 'rose_list_lock' later.
-> 
-> Thank you for your time and reply! But I think both 's' and 'tmp' can not
-> be freed and reused in rose_kill_by_neigh(). Because rose_remove_socket()
-> calls sk_del_node_init() which is protected by rose_list_lock to delete the
-> socket node from the hlist and if sk->sk_refcnt equals to 1, the socket will
-> be deallocated.
-> 
-> static void rose_remove_socket(struct sock *sk)
-> {
-> 	spin_lock_bh(&rose_list_lock);
-> 	sk_del_node_init(sk);
-> 	spin_unlock_bh(&rose_list_lock);
-> }
-> 
-> https://elixir.bootlin.com/linux/v5.19-rc6/source/net/rose/af_rose.c#L152
-> 
-> Both 's' and 'tmp' in rose_kill_by_neigh() is also protected by rose_list_lock.
-
-The above loop explicitly releases the rose_list_lock at each
-iteration. Additionally, the reference count to 's' is released before
-re-acquiring such lock. By the time rose_list_lock is re-acquired, some
-other process could have removed from the list both 's' and 'tmp' and
-even de-allocate them.
-
-Moving the 'sock_put(s);' after re-acquiring the rose_list_lock could
-protect from 's' being de-allocated, but can't protect from 'tmp' being
-deallocated, neither from 's' and 'tmp' being removed from the list.
-
-The above code is not safe.
-
-/P
-
-
+SGVsbG8sCgpPbiBXZWQsIDEzIEp1bCAyMDIyIDEwOjMzOjU0ICswMjAwIFBhb2xvIEFiZW5pIHdy
+b3RlOgoKPiA+ID4gT24gTW9uLCAyMDIyLTA3LTExIGF0IDA5OjMxICswODAwLCBEdW9taW5nIFpo
+b3Ugd3JvdGU6Cj4gPiA+ID4gV2hlbiB0aGUgbGluayBsYXllciBjb25uZWN0aW9uIGlzIGJyb2tl
+biwgdGhlIHJvc2UtPm5laWdoYm91ciBpcwo+ID4gPiA+IHNldCB0byBudWxsLiBCdXQgcm9zZS0+
+bmVpZ2hib3VyIGNvdWxkIGJlIHVzZWQgYnkgcm9zZV9jb25uZWN0aW9uKCkKPiA+ID4gPiBhbmQg
+cm9zZV9yZWxlYXNlKCkgbGF0ZXIsIGJlY2F1c2UgdGhlcmUgaXMgbm8gc3luY2hyb25pemF0aW9u
+IGFtb25nCj4gPiA+ID4gdGhlbS4gQXMgYSByZXN1bHQsIHRoZSBudWxsLXB0ci1kZXJlZiBidWdz
+IHdpbGwgaGFwcGVuLgo+ID4gPiA+IAo+ID4gPiA+IE9uZSBvZiB0aGUgbnVsbC1wdHItZGVyZWYg
+YnVncyBpcyBzaG93biBiZWxvdzoKPiA+ID4gPiAKPiA+ID4gPiAgICAgKHRocmVhZCAxKSAgICAg
+ICAgICAgICAgICAgIHwgICAgICAgICh0aHJlYWQgMikKPiA+ID4gPiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHwgIHJvc2VfY29ubmVjdAo+ID4gPiA+IHJvc2Vfa2lsbF9ieV9uZWln
+aCAgICAgICAgICAgICAgfCAgICBsb2NrX3NvY2soc2spCj4gPiA+ID4gICBzcGluX2xvY2tfYmgo
+JnJvc2VfbGlzdF9sb2NrKSB8ICAgIGlmICghcm9zZS0+bmVpZ2hib3VyKQo+ID4gPiA+ICAgcm9z
+ZS0+bmVpZ2hib3VyID0gTlVMTDsvLygxKSAgfAo+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgfCAgICByb3NlLT5uZWlnaGJvdXItPnVzZSsrOy8vKDIpCj4gPiA+ID4gCj4g
+PiA+ID4gVGhlIHJvc2UtPm5laWdoYm91ciBpcyBzZXQgdG8gbnVsbCBpbiBwb3NpdGlvbiAoMSkg
+YW5kIGRlcmVmZXJlbmNlZAo+ID4gPiA+IGluIHBvc2l0aW9uICgyKS4KPiA+ID4gPiAKPiA+ID4g
+PiBUaGUgS0FTQU4gcmVwb3J0IHRyaWdnZXJlZCBieSBQT0MgaXMgc2hvd24gYmVsb3c6Cj4gPiA+
+ID4gCj4gPiA+ID4gS0FTQU46IG51bGwtcHRyLWRlcmVmIGluIHJhbmdlIFsweDAwMDAwMDAwMDAw
+MDAwMjgtMHgwMDAwMDAwMDAwMDAwMDJmXQo+ID4gPiA+IC4uLgo+ID4gPiA+IFJJUDogMDAxMDpy
+b3NlX2Nvbm5lY3QrMHg2YzIvMHhmMzAKPiA+ID4gPiBSU1A6IDAwMTg6ZmZmZjg4ODAwYWI0N2Q2
+MCBFRkxBR1M6IDAwMDAwMjA2Cj4gPiA+ID4gUkFYOiAwMDAwMDAwMDAwMDAwMDA1IFJCWDogMDAw
+MDAwMDAwMDAwMDAyYSBSQ1g6IDAwMDAwMDAwMDAwMDAwMDAKPiA+ID4gPiBSRFg6IGZmZmY4ODgw
+MGFiMzgwMDAgUlNJOiBmZmZmODg4MDBhYjQ3ZTQ4IFJESTogZmZmZjg4ODAwYWIzODMwOQo+ID4g
+PiA+IFJCUDogZGZmZmZjMDAwMDAwMDAwMCBSMDg6IDAwMDAwMDAwMDAwMDAwMDAgUjA5OiBmZmZm
+ZWQxMDAxNTY3MDYyCj4gPiA+ID4gUjEwOiBkZmZmZTkxMDAxNTY3MDYzIFIxMTogMWZmZmYxMTAw
+MTU2NzA2MSBSMTI6IDFmZmZmMTEwMDBkMTdjZDAKPiA+ID4gPiBSMTM6IGZmZmY4ODgwMDY4YmU2
+ODAgUjE0OiAwMDAwMDAwMDAwMDAwMDAyIFIxNTogMWZmZmYxMTAwMGQxN2NkMAo+ID4gPiA+IC4u
+Lgo+ID4gPiA+IENhbGwgVHJhY2U6Cj4gPiA+ID4gICA8VEFTSz4KPiA+ID4gPiAgID8gX19sb2Nh
+bF9iaF9lbmFibGVfaXArMHg1NC8weDgwCj4gPiA+ID4gICA/IHNlbGludXhfbmV0bGJsX3NvY2tl
+dF9jb25uZWN0KzB4MjYvMHgzMAo+ID4gPiA+ICAgPyByb3NlX2JpbmQrMHg1YjAvMHg1YjAKPiA+
+ID4gPiAgIF9fc3lzX2Nvbm5lY3QrMHgyMTYvMHgyODAKPiA+ID4gPiAgIF9feDY0X3N5c19jb25u
+ZWN0KzB4NzEvMHg4MAo+ID4gPiA+ICAgZG9fc3lzY2FsbF82NCsweDQzLzB4OTAKPiA+ID4gPiAg
+IGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ2LzB4YjAKPiA+ID4gPiAKPiA+ID4g
+PiBUaGlzIHBhdGNoIGFkZHMgbG9ja19zb2NrKCkgaW4gcm9zZV9raWxsX2J5X25laWdoKCkgaW4g
+b3JkZXIgdG8KPiA+ID4gPiBzeW5jaHJvbml6ZSB3aXRoIHJvc2VfY29ubmVjdCgpIGFuZCByb3Nl
+X3JlbGVhc2UoKS4gVGhlbiwgY2hhbmdpbmcKPiA+ID4gPiB0eXBlIG9mICduZWlnaGJvdXItPnVz
+ZScgZnJvbSB1bnNpZ25lZCBzaG9ydCB0byBhdG9taWNfdCBpbiBvcmRlciB0bwo+ID4gPiA+IG1p
+dGlnYXRlIHJhY2UgY29uZGl0aW9ucyBjYXVzZWQgYnkgaG9sZGluZyBkaWZmZXJlbnQgc29ja2V0
+IGxvY2sgd2hpbGUKPiA+ID4gPiB1cGRhdGluZyAnbmVpZ2hib3VyLT51c2UnLgo+ID4gPiA+IAo+
+ID4gPiA+IE1lYW53aGlsZSwgdGhpcyBwYXRjaCBhZGRzIHNvY2tfaG9sZCgpIHByb3RlY3RlZCBi
+eSByb3NlX2xpc3RfbG9jawo+ID4gPiA+IHRoYXQgY291bGQgc3luY2hyb25pemUgd2l0aCByb3Nl
+X3JlbW92ZV9zb2NrZXQoKSBpbiBvcmRlciB0byBtaXRpZ2F0ZQo+ID4gPiA+IFVBRiBidWcgY2F1
+c2VkIGJ5IGxvY2tfc29jaygpIHdlIGFkZC4KPiA+ID4gPiAKPiA+ID4gPiBXaGF0J3MgbW9yZSwg
+dGhlcmUgaXMgbm8gbmVlZCB1c2luZyByb3NlX25laWdoX2xpc3RfbG9jayB0byBwcm90ZWN0Cj4g
+PiA+ID4gcm9zZV9raWxsX2J5X25laWdoKCkuIEJlY2F1c2Ugd2UgaGF2ZSBhbHJlYWR5IHVzZWQg
+cm9zZV9uZWlnaF9saXN0X2xvY2sKPiA+ID4gPiB0byBwcm90ZWN0IHRoZSBzdGF0ZSBjaGFuZ2Ug
+b2Ygcm9zZV9uZWlnaCBpbiByb3NlX2xpbmtfZmFpbGVkKCksIHdoaWNoCj4gPiA+ID4gaXMgd2Vs
+bCBzeW5jaHJvbml6ZWQuCj4gPiA+ID4gCj4gPiA+ID4gRml4ZXM6IDFkYTE3N2U0YzNmNCAoIkxp
+bnV4LTIuNi4xMi1yYzIiKQo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IER1b21pbmcgWmhvdSA8ZHVv
+bWluZ0B6anUuZWR1LmNuPgo+ID4gPiA+IC0tLQo+ID4gPiA+IENoYW5nZXMgaW4gdjY6Cj4gPiA+
+ID4gICAtIENoYW5nZSBza19mb3JfZWFjaCgpIHRvIHNrX2Zvcl9lYWNoX3NhZmUoKS4KPiA+ID4g
+PiAgIC0gQ2hhbmdlIHR5cGUgb2YgJ25laWdoYm91ci0+dXNlJyBmcm9tIHVuc2lnbmVkIHNob3J0
+IHRvIGF0b21pY190Lgo+ID4gPiA+IAo+ID4gPiA+ICBpbmNsdWRlL25ldC9yb3NlLmggICAgfCAg
+MiArLQo+ID4gPiA+ICBuZXQvcm9zZS9hZl9yb3NlLmMgICAgfCAxOSArKysrKysrKysrKysrLS0t
+LS0tCj4gPiA+ID4gIG5ldC9yb3NlL3Jvc2VfaW4uYyAgICB8IDEyICsrKysrKy0tLS0tLQo+ID4g
+PiA+ICBuZXQvcm9zZS9yb3NlX3JvdXRlLmMgfCAyNCArKysrKysrKysrKystLS0tLS0tLS0tLS0K
+PiA+ID4gPiAgbmV0L3Jvc2Uvcm9zZV90aW1lci5jIHwgIDIgKy0KPiA+ID4gPiAgNSBmaWxlcyBj
+aGFuZ2VkLCAzMyBpbnNlcnRpb25zKCspLCAyNiBkZWxldGlvbnMoLSkKPiA+ID4gPiAKPiA+ID4g
+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9uZXQvcm9zZS5oIGIvaW5jbHVkZS9uZXQvcm9zZS5oCj4g
+PiA+ID4gaW5kZXggMGYwYTRjZTBmZWUuLmQ1ZGRlYmM1NTZkIDEwMDY0NAo+ID4gPiA+IC0tLSBh
+L2luY2x1ZGUvbmV0L3Jvc2UuaAo+ID4gPiA+ICsrKyBiL2luY2x1ZGUvbmV0L3Jvc2UuaAo+ID4g
+PiA+IEBAIC05NSw3ICs5NSw3IEBAIHN0cnVjdCByb3NlX25laWdoIHsKPiA+ID4gPiAgCWF4MjVf
+Y2IJCQkqYXgyNTsKPiA+ID4gPiAgCXN0cnVjdCBuZXRfZGV2aWNlCQkqZGV2Owo+ID4gPiA+ICAJ
+dW5zaWduZWQgc2hvcnQJCWNvdW50Owo+ID4gPiA+IC0JdW5zaWduZWQgc2hvcnQJCXVzZTsKPiA+
+ID4gPiArCWF0b21pY190CQl1c2U7Cj4gPiA+ID4gIAl1bnNpZ25lZCBpbnQJCW51bWJlcjsKPiA+
+ID4gPiAgCWNoYXIJCQlyZXN0YXJ0ZWQ7Cj4gPiA+ID4gIAljaGFyCQkJZGNlX21vZGU7Cj4gPiA+
+ID4gZGlmZiAtLWdpdCBhL25ldC9yb3NlL2FmX3Jvc2UuYyBiL25ldC9yb3NlL2FmX3Jvc2UuYwo+
+ID4gPiA+IGluZGV4IGJmMmQ5ODZhNmJjLi41NGU3Yjc2YzRmMyAxMDA2NDQKPiA+ID4gPiAtLS0g
+YS9uZXQvcm9zZS9hZl9yb3NlLmMKPiA+ID4gPiArKysgYi9uZXQvcm9zZS9hZl9yb3NlLmMKPiA+
+ID4gPiBAQCAtMTYzLDE2ICsxNjMsMjMgQEAgc3RhdGljIHZvaWQgcm9zZV9yZW1vdmVfc29ja2V0
+KHN0cnVjdCBzb2NrICpzaykKPiA+ID4gPiAgdm9pZCByb3NlX2tpbGxfYnlfbmVpZ2goc3RydWN0
+IHJvc2VfbmVpZ2ggKm5laWdoKQo+ID4gPiA+ICB7Cj4gPiA+ID4gIAlzdHJ1Y3Qgc29jayAqczsK
+PiA+ID4gPiArCXN0cnVjdCBobGlzdF9ub2RlICp0bXA7Cj4gPiA+ID4gIAo+ID4gPiA+ICAJc3Bp
+bl9sb2NrX2JoKCZyb3NlX2xpc3RfbG9jayk7Cj4gPiA+ID4gLQlza19mb3JfZWFjaChzLCAmcm9z
+ZV9saXN0KSB7Cj4gPiA+ID4gKwlza19mb3JfZWFjaF9zYWZlKHMsIHRtcCwgJnJvc2VfbGlzdCkg
+ewo+ID4gPiA+ICAJCXN0cnVjdCByb3NlX3NvY2sgKnJvc2UgPSByb3NlX3NrKHMpOwo+ID4gPiA+
+ICAKPiA+ID4gPiArCQlzb2NrX2hvbGQocyk7Cj4gPiA+ID4gKwkJc3Bpbl91bmxvY2tfYmgoJnJv
+c2VfbGlzdF9sb2NrKTsKPiA+ID4gPiArCQlsb2NrX3NvY2socyk7Cj4gPiA+ID4gIAkJaWYgKHJv
+c2UtPm5laWdoYm91ciA9PSBuZWlnaCkgewo+ID4gPiA+ICAJCQlyb3NlX2Rpc2Nvbm5lY3Qocywg
+RU5FVFVOUkVBQ0gsIFJPU0VfT1VUX09GX09SREVSLCAwKTsKPiA+ID4gPiAtCQkJcm9zZS0+bmVp
+Z2hib3VyLT51c2UtLTsKPiA+ID4gPiArCQkJYXRvbWljX2RlYygmcm9zZS0+bmVpZ2hib3VyLT51
+c2UpOwo+ID4gPiA+ICAJCQlyb3NlLT5uZWlnaGJvdXIgPSBOVUxMOwo+ID4gPiA+ICAJCX0KPiA+
+ID4gPiArCQlyZWxlYXNlX3NvY2socyk7Cj4gPiA+ID4gKwkJc29ja19wdXQocyk7Cj4gPiA+IAo+
+ID4gPiBJJ20gc29ycnksIHRoaXMgZG9lcyBub3Qgd29yay4gQXQgdGhpcyBwb2ludCBib3RoICdz
+JyBhbmQgJ3RtcCcgc29ja2V0cwo+ID4gPiBjYW4gYmUgZnJlZWQgYW5kIHJldXNlZC4gQm90aCBp
+dGVyYXRvcnMgYXJlIG5vdCB2YWxpZCBhbnltb3JlIHdoZW4geW91Cj4gPiA+IGFjcXVpcmUgdGhl
+ICdyb3NlX2xpc3RfbG9jaycgbGF0ZXIuCj4gPiAKPiA+IFRoYW5rIHlvdSBmb3IgeW91ciB0aW1l
+IGFuZCByZXBseSEgQnV0IEkgdGhpbmsgYm90aCAncycgYW5kICd0bXAnIGNhbiBub3QKPiA+IGJl
+IGZyZWVkIGFuZCByZXVzZWQgaW4gcm9zZV9raWxsX2J5X25laWdoKCkuIEJlY2F1c2Ugcm9zZV9y
+ZW1vdmVfc29ja2V0KCkKPiA+IGNhbGxzIHNrX2RlbF9ub2RlX2luaXQoKSB3aGljaCBpcyBwcm90
+ZWN0ZWQgYnkgcm9zZV9saXN0X2xvY2sgdG8gZGVsZXRlIHRoZQo+ID4gc29ja2V0IG5vZGUgZnJv
+bSB0aGUgaGxpc3QgYW5kIGlmIHNrLT5za19yZWZjbnQgZXF1YWxzIHRvIDEsIHRoZSBzb2NrZXQg
+d2lsbAo+ID4gYmUgZGVhbGxvY2F0ZWQuCj4gPiAKPiA+IHN0YXRpYyB2b2lkIHJvc2VfcmVtb3Zl
+X3NvY2tldChzdHJ1Y3Qgc29jayAqc2spCj4gPiB7Cj4gPiAJc3Bpbl9sb2NrX2JoKCZyb3NlX2xp
+c3RfbG9jayk7Cj4gPiAJc2tfZGVsX25vZGVfaW5pdChzayk7Cj4gPiAJc3Bpbl91bmxvY2tfYmgo
+JnJvc2VfbGlzdF9sb2NrKTsKPiA+IH0KPiA+IAo+ID4gaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5j
+b20vbGludXgvdjUuMTktcmM2L3NvdXJjZS9uZXQvcm9zZS9hZl9yb3NlLmMjTDE1Mgo+ID4gCj4g
+PiBCb3RoICdzJyBhbmQgJ3RtcCcgaW4gcm9zZV9raWxsX2J5X25laWdoKCkgaXMgYWxzbyBwcm90
+ZWN0ZWQgYnkgcm9zZV9saXN0X2xvY2suCj4gCj4gVGhlIGFib3ZlIGxvb3AgZXhwbGljaXRseSBy
+ZWxlYXNlcyB0aGUgcm9zZV9saXN0X2xvY2sgYXQgZWFjaAo+IGl0ZXJhdGlvbi4gQWRkaXRpb25h
+bGx5LCB0aGUgcmVmZXJlbmNlIGNvdW50IHRvICdzJyBpcyByZWxlYXNlZCBiZWZvcmUKPiByZS1h
+Y3F1aXJpbmcgc3VjaCBsb2NrLiBCeSB0aGUgdGltZSByb3NlX2xpc3RfbG9jayBpcyByZS1hY3F1
+aXJlZCwgc29tZQo+IG90aGVyIHByb2Nlc3MgY291bGQgaGF2ZSByZW1vdmVkIGZyb20gdGhlIGxp
+c3QgYm90aCAncycgYW5kICd0bXAnIGFuZAo+IGV2ZW4gZGUtYWxsb2NhdGUgdGhlbS4KPiAKPiBN
+b3ZpbmcgdGhlICdzb2NrX3B1dChzKTsnIGFmdGVyIHJlLWFjcXVpcmluZyB0aGUgcm9zZV9saXN0
+X2xvY2sgY291bGQKPiBwcm90ZWN0IGZyb20gJ3MnIGJlaW5nIGRlLWFsbG9jYXRlZCwgYnV0IGNh
+bid0IHByb3RlY3QgZnJvbSAndG1wJyBiZWluZwo+IGRlYWxsb2NhdGVkLCBuZWl0aGVyIGZyb20g
+J3MnIGFuZCAndG1wJyBiZWluZyByZW1vdmVkIGZyb20gdGhlIGxpc3QuCj4gCj4gVGhlIGFib3Zl
+IGNvZGUgaXMgbm90IHNhZmUuCgpJIHVuZGVyc3RhbmQsIEkgd2lsbCBpbXByb3ZlIHRoZSBjb2Rl
+ICwgdGhhbmsgeW91IQoKQmVzdCByZWdhcmRzLApEdW9taW5nIFpob3U=
