@@ -2,86 +2,119 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B52F57612D
-	for <lists+linux-hams@lfdr.de>; Fri, 15 Jul 2022 14:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0818576A19
+	for <lists+linux-hams@lfdr.de>; Sat, 16 Jul 2022 00:44:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229480AbiGOMTJ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 15 Jul 2022 08:19:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36130 "EHLO
+        id S231864AbiGOWoZ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 15 Jul 2022 18:44:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbiGOMTH (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 15 Jul 2022 08:19:07 -0400
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A0AF24956
-        for <linux-hams@vger.kernel.org>; Fri, 15 Jul 2022 05:19:07 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id g19-20020a9d1293000000b0061c7bfda5dfso3014116otg.1
-        for <linux-hams@vger.kernel.org>; Fri, 15 Jul 2022 05:19:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jSvYAeAIJFf07uogcZKXr9ZzPPjkyHH1o/p7a6UG+M0=;
-        b=T6l27ZZONIelTb3PKz5nGr/eOws1rQ3BPYy1xDDrfNWui7MS7+Dbhh2900AbiiLq0q
-         cAFhCVtuTuMUQMirm+1oZmpoI6UUz46ckDjL17q77BWEQJ03nSC3F5EPmu/oM1mIFMw2
-         OBDROJ71SgOMldwwiUOlIWmfv57+ElQmVuz/CeMggUqkloR2UCZ3PDzPTYNj6m0dF8h0
-         OLsrz0zVYnMLY9S9j5lVZtMneYURNTI+qPUGpj5L3Bf1oOyUvZm29fe2sf/LKPmmfNxX
-         Bz0DIrhr6CO7ihfy+UkjC2oYY8Hp+4+7rYoYW3Qlhrz9AHZ6FLLUP4Lkn0ABkr13kHId
-         uN8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jSvYAeAIJFf07uogcZKXr9ZzPPjkyHH1o/p7a6UG+M0=;
-        b=Ie3WEGICcnkpH8fjf0UQ7R67n35CWlG8f1vjPkFjZ8gwZalYlaOr/d+IqroXcnFfKk
-         GNvspT8dBJk1JZLEeq/rUWMJfv+Qs87ZsZ5iag4IsGw/CvZihl94yyr4yDpqy1Q+kJ4Y
-         DOxqe5BJU33rTI/2evfNgx3QJckAgrK5/pGlHLmfL4AHX1f5XpWmOYo21+DFl9+iCOwZ
-         g6XenAb6y5KYHtHwiaH3mxTPFOL80sN/xiWx87tlGaJGKMovrsW/kH370Y27ANHNtG+x
-         4Wgoi1n8qOKhzlt20iOMuXlgaH6xuBRyKzp7Cwby4IqfsWSlUQ80qxW6bJmm2hcKtGbV
-         BZgg==
-X-Gm-Message-State: AJIora9he1d722gn/hYuwJ0wNJkJj/UiwOSomKtDLKSa+ImhVTu5gr2o
-        iolYbxmfgE4hTRq4X8mOXTZb1FqSG3ONJbQihgjWpz3yUPA=
-X-Google-Smtp-Source: AGRyM1sSNZlbu2XLz8+EJYAdC55bOmkzcwhT7OYqXDr43tzffpi4aJtIjJPfNPQ/44XzRX8DB+vW0ImXtbgfW4KoRlI=
-X-Received: by 2002:a9d:6209:0:b0:61c:30be:713b with SMTP id
- g9-20020a9d6209000000b0061c30be713bmr5561896otj.225.1657887546581; Fri, 15
- Jul 2022 05:19:06 -0700 (PDT)
+        with ESMTP id S232585AbiGOWoF (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 15 Jul 2022 18:44:05 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E1EE904FF;
+        Fri, 15 Jul 2022 15:43:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D4381B80B9D;
+        Fri, 15 Jul 2022 22:43:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4027CC34115;
+        Fri, 15 Jul 2022 22:43:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657924995;
+        bh=SYs1CcavLTZPQ9Ht+CPL2jtfT27xIDO5hQjAOP1TFNU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=KIKoFMWfzIZ5TA1kgJXoEfDnhmk1OBAGITW/xdyeC0YFlSqDqOxkUcTFCTXQDsf+G
+         M8M2moR/Vb3cZTD25WQG/pLwBlhLlGHsm7i/faVG+4zjXKtAdmwAUHlF9JuhZIS4h5
+         6YvpqY63DFKa3RufjHVhSLn3wxFyFZ/OnAIvQcxVq/dSdnpGVDNJHY47cgMo43B4WR
+         tYd/7sALjqyDk02a+fHDxHbZUD+fZ1f7U1ipBGhvGo36EZKqvuvrGPfPRrvBaLsaqZ
+         QG+4D6hGTgdoREXpxRxDj2okxy0LfZxrMdvw2O+c8Nt99Fg8yYJmdpABgaLKD9U3BX
+         435n5TzDGhHgg==
+Date:   Fri, 15 Jul 2022 15:43:14 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Bernard f6bvp <f6bvp@free.fr>
+Cc:     duoming@zju.edu.cn, davem@davemloft.net, edumazet@google.com,
+        linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, pabeni@redhat.com, ralf@linux-mips.org
+Subject: Re: [PATCH] net: rose: fix unregistered netdevice: waiting for
+ rose0 to become free
+Message-ID: <20220715154314.510ca2fb@kernel.org>
+In-Reply-To: <ab0eac7b-3041-6772-21dd-273e1b8fc43e@free.fr>
+References: <26cdbcc8.3f44f.181f6cc848f.Coremail.duoming@zju.edu.cn>
+        <4c604039-ffb8-bca3-90bb-d8014249c9a2@free.fr>
+        <ab0eac7b-3041-6772-21dd-273e1b8fc43e@free.fr>
 MIME-Version: 1.0
-References: <CAH4uzPNH6GVX_H0eCrBUxPdgynRc9a7xLGde1_37dTCz3fgJOA@mail.gmail.com>
- <YPlpLpL3Yrz/YE6R@linux-mips.org> <CAH4uzPPuXA19KvikagjcQZmFYvTjw1nNCVQhY_07LPz_F0mmSw@mail.gmail.com>
- <YPmo1cAlGdIkapxL@linux-mips.org> <CAH4uzPMXHnR+Z60iCA41FYsbDViQ5K2kMC_YWC1r4EaWMKiT8w@mail.gmail.com>
- <CAH4uzPOrW4CEvmMhqqxTV650P9JpEftgd92Z3JCZut8JXvng4w@mail.gmail.com> <CAH4uzPN+dUmuLVTdO6qHTiHbKUisxRpi94ydEh8Dtt7S2O9ujQ@mail.gmail.com>
-In-Reply-To: <CAH4uzPN+dUmuLVTdO6qHTiHbKUisxRpi94ydEh8Dtt7S2O9ujQ@mail.gmail.com>
-From:   Dan Cross <crossd@gmail.com>
-Date:   Fri, 15 Jul 2022 08:18:30 -0400
-Message-ID: <CAEoi9W6wSAG3FHvqVB6p6GdFp44=d=NjFAL6c2JfWHyCjenqWA@mail.gmail.com>
-Subject: Re: SECURITY: Some type of NETROM frames contain random fragments of
- data from memory
-To:     Dave van der Locht <d.vanderlocht@gmail.com>
-Cc:     Ralf Baechle <ralf@linux-mips.org>, linux-hams@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Wed, Jul 13, 2022 at 1:38 PM Dave van der Locht
-<d.vanderlocht@gmail.com> wrote:
-> Any updates on this one? I think we're still not able to use a 5.x
-> kernel with NETROM due too it's leaking all kinds of sensitive
-> information/data?
+On Fri, 15 Jul 2022 17:59:06 +0200 Bernard f6bvp wrote:
+> Here is the context.
+>=20
+> This patch adds dev_put(dev) in order to allow removal of rose module=20
+> after use of AX25 and ROSE via rose0 device.
+>=20
+> Otherwise when trying to remove rose module via rmmod rose an infinite=20
+> loop message was displayed on all consoles with xx being a random number.
+>=20
+> unregistered_netdevice: waiting for rose0 to become free. Usage count =3D=
+ xx
+>=20
+> unregistered_netdevice: waiting for rose0 to become free. Usage count =3D=
+ xx
+>=20
+> ...
+>=20
+> With the patch it is ok to rmmod rose.
+>=20
+> This bug appeared with kernel 4.10 and was tentatively repaired five=20
+> years ago.
 
-I'll note that NETROM seems to have other problems, particularly
-when used in conjunction with AXIP/AXUDP. I have observed it
-getting into "loops" when communicating with distant systems, in
-which the distant end continues sending my machine traffic that
-is acked, but the acks never never move the session along.
+Please try resending with git send-email.
+Your current email contains HTML so it won't make it to netdev@
+and other vger lists.
 
-I'm afraid this is a bit handwavey, but I can provide packet traces
-for anyone who's interested in looking into what may be going on,
-as I have found the errant behavior trivial to induce.
+> *Subject: [BUG] unregistered netdevice: wainting for rose0 to become=20
+> free. Usage count =3D xx <https://marc.info/?t=3D148811830800001&r=3D1&w=
+=3D2>=20
+> From: f6bvp <f6bvp () free ! fr>=20
+> <https://marc.info/?a=3D128152583500001&r=3D1&w=3D2> Date: 2017-02-26 14:=
+09:08=20
+> <https://marc.info/?l=3Dlinux-hams&r=3D1&w=3D2&b=3D201702> Message-ID:=20
+> ce03a972-a3b0-ca24-5195-2fe2fd5c44d3 () free ! fr=20
+> <https://marc.info/?i=3Dce03a972-a3b0-ca24-5195-2fe2fd5c44d3%20()%20free%=
+20!%20fr>*=20
+>=20
+>=20
+> Since then the bug reamains.
 
-        - Dan C.
+Is it possible to use a link to the lore.kernel.org archive? It's the
+most common way of referring to past threads these days.
+
+> Signed-off-by: Bernard f6bvp / ai7bg
+
+Well formed s-o-b is required, "the name you'd use if you were signing
+a legal document".
+
+> diff --git a/a/net/rose/af_rose.c b/b/net/rose/af_rose.c
+> index bf2d986..41e106a 100644
+> --- a/a/net/rose/af_rose.c
+> +++ b/b/net/rose/af_rose.c
+> @@ -711,6 +711,7 @@ static int rose_bind(struct socket *sock, struct=20
+> sockaddr *uaddr, int addr_len)
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rose_insert_socket(sk);
+>=20
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sock_reset_flag(sk, SOCK_ZAPP=
+ED);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_put(dev);
+>=20
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>  =C2=A0}
