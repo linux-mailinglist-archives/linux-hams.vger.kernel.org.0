@@ -2,49 +2,67 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 461D357ED5C
-	for <lists+linux-hams@lfdr.de>; Sat, 23 Jul 2022 11:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB9E257EF01
+	for <lists+linux-hams@lfdr.de>; Sat, 23 Jul 2022 13:21:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232785AbiGWJza (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 23 Jul 2022 05:55:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44852 "EHLO
+        id S230399AbiGWLVX (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 23 Jul 2022 07:21:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230216AbiGWJz3 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 23 Jul 2022 05:55:29 -0400
-Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [IPv6:2a01:e0c:1:1599::12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D476213E06;
-        Sat, 23 Jul 2022 02:55:24 -0700 (PDT)
-Received: from [44.168.19.21] (unknown [86.242.59.24])
-        (Authenticated sender: f6bvp@free.fr)
-        by smtp3-g21.free.fr (Postfix) with ESMTPSA id 4D13413FA37;
-        Sat, 23 Jul 2022 11:55:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-        s=smtp-20201208; t=1658570123;
-        bh=2amTBDr7UZzf/QgemlY36R9hPW8RKXF9Vgybt8Yi4UM=;
-        h=Date:To:Cc:References:Subject:From:In-Reply-To:From;
-        b=ZkmqffzgKv6Q58tAjn8KOfLGx1YyYHXDrdTj2qwMpnZzoqcuck+HSvvh7bc3hoYgK
-         WZLxjMCYkIpgXw7juXSqprp5t174o58/BdWC+eaNTyCeq+TxWbnzVymNPVtur71gRi
-         4NZJiEmLE76tMJ/TfRgIwcXqwruxVU42IwhByi3ZjYp3Cv+8AyL35pUoQ7AuPHoRwW
-         +8wk10imBdilc2ZfcZBdHSngiAdzdmtO/Prkf/5HJZNxeUqtvrFB9kh/hC4xrrNpya
-         kFyC/0yI6SLy8c/7/eAwxyfw/47B/KQR/R7fBzy6+OrWwN92Dq1LMbpPl6MmxVRoJj
-         SjhqHWki7cnSw==
-Content-Type: multipart/mixed; boundary="------------dl132MwUT8hB4I7T8hDR0oJH"
-Message-ID: <fb7544a1-f42e-9254-18cc-c9b071f4ca70@free.fr>
-Date:   Sat, 23 Jul 2022 11:55:13 +0200
+        with ESMTP id S230010AbiGWLVX (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 23 Jul 2022 07:21:23 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61FBD3CBD7;
+        Sat, 23 Jul 2022 04:21:21 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id h9so9681767wrm.0;
+        Sat, 23 Jul 2022 04:21:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:from:subject:to:cc
+         :references:content-language:in-reply-to;
+        bh=TMF1VA68na5tYB1bsLpmDOqqkReLjYmG9JeqZV/EFic=;
+        b=Fk0wgAD8Wb2IyFgIHbmvpbG2J5yub7gUhXcNyH1PHPArjPdKTc+QwDDMNsZx2JISzt
+         WTxI+u+c0cHLusioi/a0B+cANjHwnvjWSyb65xVGEX5bRMzfjmpGyxsYMEJApBGkgYG7
+         NEDRkhTzIUA005eGWGR47ZvcKc8DWsftWWOXM8Tn0iFi5vSeZFtN/LYCYthkyLMloDz9
+         YjtK/kYqOwpckODt9T7hKt8IGanVholjeswKAJx5Gh9bjJD/mJlD56dn+2V/hq38OCQX
+         xUIgGADTcot+gIunDEau9lOqsabqFefkcp0HDpiqkAARzGjNBJST/9SlRwA5iHtVPy/r
+         W9IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+         :subject:to:cc:references:content-language:in-reply-to;
+        bh=TMF1VA68na5tYB1bsLpmDOqqkReLjYmG9JeqZV/EFic=;
+        b=m87sWIpa+UmkfZu02y90NSJ+aNsSK4LYfTnBuFc/xEd33vvpi34hBv0yTphTk61x6+
+         oFUUjR9myY1j8JGV6P92KwR3a5F4i/s0rCoSTEdiXYTrWRtZS0wtC2NTexr79+P+It2Z
+         T8Sl7OZDu6eHVaLZn/VGuW7EAg5qecPIK3Mg5eD4xQztDZg3cxt01e/2XYIAmcL/QgDD
+         JVSr4v8UJLS8oK3rJ0A069NZZ8odOE7QgUVcmHF6+SV087OnSjeR3mrA56SX6kkxIami
+         RIcliPZsISIPo9pWc1wkyqjfMFIsF0u2ni8UzIM2OwhcC6oWe2KhYJFYUktUPu3dk5h2
+         L7+Q==
+X-Gm-Message-State: AJIora/zRh6113BC8lNlAUt4DVjkWss7mHgSSFHFEFouBMO6oLCT5eE2
+        MDtRkUguQk8n+ufQp605OEQ=
+X-Google-Smtp-Source: AGRyM1tcvLH1OWk3lqCJX/ohi7NEbXt4L5YGrL4Ik0diY01UInJ9GKw9f9KBjbXTL0vRXFrDR59/iw==
+X-Received: by 2002:adf:fbd2:0:b0:21e:7f74:5df1 with SMTP id d18-20020adffbd2000000b0021e7f745df1mr418456wrs.43.1658575279500;
+        Sat, 23 Jul 2022 04:21:19 -0700 (PDT)
+Received: from [44.168.19.21] (lfbn-idf1-1-596-24.w86-242.abo.wanadoo.fr. [86.242.59.24])
+        by smtp.gmail.com with ESMTPSA id l35-20020a05600c1d2300b003a2fc754313sm8574771wms.10.2022.07.23.04.21.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 23 Jul 2022 04:21:18 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="------------6PM0hj1E9Ju9VYfbav02XwXC"
+Message-ID: <de16c149-2d93-c5d5-3eda-6751c593d996@gmail.com>
+Date:   Sat, 23 Jul 2022 13:21:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
+From:   Bernard F6BVP <bernard.f6bvp@gmail.com>
+Subject: Re: [PATCH] net: rose: fix unregistered netdevice: waiting for rose0
+ to become free
 To:     edumazet@google.com
 Cc:     davem@davemloft.net, duoming@zju.edu.cn, f6bvp@free.fr,
         kuba@kernel.org, linux-hams@vger.kernel.org,
         linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
         pabeni@redhat.com, ralf@linux-mips.org
 References: <CANn89i+-THx+jTzsLDxaX9diV4hz7z4mYqwn2CjtydFp+U4gow@mail.gmail.com>
-Subject: Re: [PATCH] net: rose: fix unregistered netdevice: waiting for rose0
- to become free
 Content-Language: en-US
-From:   Bernard f6bvp <f6bvp@free.fr>
-Organization: Dimension Parabole
 In-Reply-To: <CANn89i+-THx+jTzsLDxaX9diV4hz7z4mYqwn2CjtydFp+U4gow@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
@@ -57,7 +75,7 @@ List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
 This is a multi-part message in MIME format.
---------------dl132MwUT8hB4I7T8hDR0oJH
+--------------6PM0hj1E9Ju9VYfbav02XwXC
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -70,7 +88,8 @@ Attached is (I hope) relevant dmesg dump.
 
 
 
---------------dl132MwUT8hB4I7T8hDR0oJH
+
+--------------6PM0hj1E9Ju9VYfbav02XwXC
 Content-Type: text/plain; charset=UTF-8; name="dmesg_tracker.txt"
 Content-Disposition: attachment; filename="dmesg_tracker.txt"
 Content-Transfer-Encoding: base64
@@ -329,4 +348,4 @@ YW1pbHkKWyAgMjg1LjU1NTM2NF0gbWtpc3M6IGF4MDogVHJ5aW5nIGNyYy1zbWFjawpbICAy
 ODUuNTU1NDg1XSBta2lzczogYXgwOiBUcnlpbmcgY3JjLWZsZXhuZXQKWzE3NzUwLjUxNDQz
 MF0ga2F1ZGl0ZF9wcmludGtfc2tiOiAxNiBjYWxsYmFja3Mgc3VwcHJlc3NlZAoK
 
---------------dl132MwUT8hB4I7T8hDR0oJH--
+--------------6PM0hj1E9Ju9VYfbav02XwXC--
