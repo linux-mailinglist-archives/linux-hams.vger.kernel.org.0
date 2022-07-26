@@ -2,60 +2,63 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C64658099E
-	for <lists+linux-hams@lfdr.de>; Tue, 26 Jul 2022 04:49:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 316BC5809DD
+	for <lists+linux-hams@lfdr.de>; Tue, 26 Jul 2022 05:20:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237254AbiGZCtf (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 25 Jul 2022 22:49:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44090 "EHLO
+        id S231287AbiGZDUx (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 25 Jul 2022 23:20:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235723AbiGZCtf (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 25 Jul 2022 22:49:35 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84DC729CA2;
-        Mon, 25 Jul 2022 19:49:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2CDB2B811BF;
-        Tue, 26 Jul 2022 02:49:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93398C341C6;
-        Tue, 26 Jul 2022 02:49:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658803771;
-        bh=AbX2QCLey1R/5yUdZnU56V8A2R71L0RrpAubeVRBi90=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=DT38NbwI/RppGtvW8Lp5toPwEKFfMzYiE/0CBpM87K0VjEZIkPtybp5zfYOk1V76B
-         sBNa3NCyy4pRHxAl1wQw79Gb4G1jYRvT8prMGoPIXVVyJTn90XjkdModSmFA/fC34I
-         JvpEHgGQwYqmTX6SXTXQ/+82t0PXefftDlFRP1uGjKitAjCTnCJdf+9V+bC//9dFN8
-         KCy7Aj+PxpGnaLw9LU4KOTitFL4+Wws4jlhancH7i55HOhO+L5bSwAxL9OCRpnMAlt
-         HmdMy0cLPvxZX6RapoYPrsXW+oL+d7+aP3VEn2BJYsCDPW/O/VRq2Yit1qoA28Bdz/
-         qpKWnJQ7xRQnw==
-Date:   Mon, 25 Jul 2022 19:49:30 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Duoming Zhou <duoming@zju.edu.cn>
+        with ESMTP id S230164AbiGZDUw (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 25 Jul 2022 23:20:52 -0400
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id E2DA727CE4;
+        Mon, 25 Jul 2022 20:20:46 -0700 (PDT)
+Received: by ajax-webmail-mail-app2 (Coremail) ; Tue, 26 Jul 2022 11:20:25
+ +0800 (GMT+08:00)
+X-Originating-IP: [218.12.17.60]
+Date:   Tue, 26 Jul 2022 11:20:25 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   duoming@zju.edu.cn
+To:     "Jakub Kicinski" <kuba@kernel.org>
 Cc:     linux-hams@vger.kernel.org, ralf@linux-mips.org,
         davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH net] netrom: fix sleep in atomic context bugs in timer
  handlers
-Message-ID: <20220725194930.44ca1518@kernel.org>
-In-Reply-To: <20220723035646.29857-1-duoming@zju.edu.cn>
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
+In-Reply-To: <20220725194930.44ca1518@kernel.org>
 References: <20220723035646.29857-1-duoming@zju.edu.cn>
+ <20220725194930.44ca1518@kernel.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Message-ID: <14bac17c.5d665.182388522da.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: by_KCgCHz1t6Xd9iXENnAQ--.25193W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgMDAVZdta05LAABsE
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Sat, 23 Jul 2022 11:56:46 +0800 Duoming Zhou wrote:
-> Fixes: eafff86d3bd8 ("[NETROM]: Use kmemdup")
-
-That's not a correct Fixes tag, acme just swapped kmalloc for kmemdup().
-The allocate flags did not change.
+SGVsbG8sCgpPbiBNb24sIDI1IEp1bCAyMDIyIDE5OjQ5OjMwIC0wNzAwIEpha3ViIEtpY2luc2tp
+IHdyb3RlOgoKPiBPbiBTYXQsIDIzIEp1bCAyMDIyIDExOjU2OjQ2ICswODAwIER1b21pbmcgWmhv
+dSB3cm90ZToKPiA+IEZpeGVzOiBlYWZmZjg2ZDNiZDggKCJbTkVUUk9NXTogVXNlIGttZW1kdXAi
+KQo+IAo+IFRoYXQncyBub3QgYSBjb3JyZWN0IEZpeGVzIHRhZywgYWNtZSBqdXN0IHN3YXBwZWQg
+a21hbGxvYyBmb3Iga21lbWR1cCgpLgo+IFRoZSBhbGxvY2F0ZSBmbGFncyBkaWQgbm90IGNoYW5n
+ZS4KClRoYW5rcyBmb3IgeW91ciB0aW1lIGFuZCByZXBseSEKClRoZSBjb3JyZWN0IEZpeGVzIHRh
+ZyBpcyAiRml4ZXM6IDFkYTE3N2U0YzNmNCAoIkxpbnV4LTIuNi4xMi1yYzIiKSIuClRoZSBmb2xs
+b3dpbmcgaXMgdGhlIGNvZGU6CgpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC92Mi42
+LjEyLXJjMi9zb3VyY2UvbmV0L25ldHJvbS9ucl9yb3V0ZS5jI0wxNTgKCi4uLgppZiAoKG5yX25l
+aWdoLT5kaWdpcGVhdCA9IGttYWxsb2Moc2l6ZW9mKCpheDI1X2RpZ2kpLCBHRlBfS0VSTkVMKSkg
+PT0gTlVMTCkgewouLi4KCkJlc3QgcmVnYXJkcywKRHVvbWluZyBaaG91CgoK
