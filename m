@@ -2,108 +2,117 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B44EB581576
-	for <lists+linux-hams@lfdr.de>; Tue, 26 Jul 2022 16:36:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2468E5819AC
+	for <lists+linux-hams@lfdr.de>; Tue, 26 Jul 2022 20:25:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239418AbiGZOfj (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 26 Jul 2022 10:35:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45142 "EHLO
+        id S229644AbiGZSZe (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 26 Jul 2022 14:25:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239366AbiGZOf2 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 26 Jul 2022 10:35:28 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B425175A8
-        for <linux-hams@vger.kernel.org>; Tue, 26 Jul 2022 07:35:26 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id z23so26295912eju.8
-        for <linux-hams@vger.kernel.org>; Tue, 26 Jul 2022 07:35:25 -0700 (PDT)
+        with ESMTP id S239372AbiGZSZb (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 26 Jul 2022 14:25:31 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E18F214021;
+        Tue, 26 Jul 2022 11:25:28 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id id17so9253274wmb.1;
+        Tue, 26 Jul 2022 11:25:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=lLG88JCPgF7Yhflf4FNi4GQedsSNMbwmPtgneUr9Mu0=;
-        b=Nh6yhuk/aIMnslDUOuPndz9/LdCefExgEmHC2GvZaS074idlrWCFK9IXVr75sC4COi
-         77cqtdopPbdNkT6x5uaheIxm63AZ0QTxIEvCUQElsg9UEWc73kVMg30jbSXbYNGLUV8U
-         RJNAaPZiXc+0D5EVVGweRRqDQtVZN/jrxCIYwzeCR/tHLMU4KWqCrjp3Y3sx4N1morOg
-         3lEpX6f9qn7FXW1b+s459oZ4D6zNytZ5sa3aAiR/+AJ+o21Bh92d+7fp8/Mzg1L1Q6L+
-         z7/QGfNLHNk5t5EwGPdt5jm85ZUZc99wfuq7m9zTpC8ElSPSEQlFW1OU1ttSuPYfZ0uH
-         1OKA==
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=eL31OvkZUAyrlwyFeqU3KWReKbezeGtO4fmJhiZIKUA=;
+        b=DKgRAQAljMzRejI/Iqoga92jt8KLooDGUU6w8bP4NnAmJnWUunCKzdjPeIzvUD+z6H
+         cex/ymmOE78UU9o3QQYKjLKubtveotwoxyj2bU2AKsdvcQri4l/Z0v56/MycUMxhKRrc
+         aTR7mdaYI8TEttUhnB87s52+opS7LKPRsMQsiO4pxk3EAOqwMzQgabhiz0Du/woaK9ph
+         rpKIW7KFoo/hIFZukktgmGPiYllpv4MRIpcn0VAusqF7pahO4Hn/S0QbS/2d6xskm7Qq
+         d+7WXydc1INdzUNifqP/0wvAslRxpMFbtkgebTfmlCMQbafUsSRpZwDP1Ig2U7k2ZSob
+         NTDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=lLG88JCPgF7Yhflf4FNi4GQedsSNMbwmPtgneUr9Mu0=;
-        b=uHNtUaVhUHVnYdIeq6gzSF6kpt/kaNfBfXgTXPgGwVvv7mzhkEujS62jzDBGNpUR3t
-         bSzLSvPIj0L+sxaKt+zdadELhDBE/5zQubnTyTXx2P4+HaU+m/y4xa7+Fpnr5kpKqhjW
-         VB8wuYKqqLTPrajqKUNnJ59Sl7Hx7LB2iMK97NpqNqPJgeRCbMbz6PxrhnuZonDsBkUl
-         on9JrNNwUDZbI071z7HBl2dgZetz38QcR51kQM87TK5E3amN65O0KS8pRPwCdLdums4N
-         SWRCYCnsbjzFVyh+rc13KFKHAXAdlbPoQDC4gzHmP1wYfPtRbPQ1QnHhKzI6fY+86z7h
-         1Y3g==
-X-Gm-Message-State: AJIora9iQ1YqC36+iv2ujBI7KsCeKdvHKACUVXZ/jSHveLr9jINZS8CR
-        vKtd5ThzMbgBreoNoJtkjk3s1KmWhbgTkbfiXEw=
-X-Google-Smtp-Source: AGRyM1vqfDqPYbhSiZkLjp0yyYCQf2pkn5dqaqNe1JVfehbsMWdhIBxQj4kdS+qEU7x7+1rXX+MFudzpfpTsmnGz0RQ=
-X-Received: by 2002:a17:906:6a1c:b0:72f:2174:13db with SMTP id
- qw28-20020a1709066a1c00b0072f217413dbmr13425982ejc.687.1658846124567; Tue, 26
- Jul 2022 07:35:24 -0700 (PDT)
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=eL31OvkZUAyrlwyFeqU3KWReKbezeGtO4fmJhiZIKUA=;
+        b=PahFhkl+0X5KUlaV+T2q8k3Us+kGcWDyisJgQzTlx02KYTZ9lO+6gOoGX/i/qbfCSo
+         E+SC/RulZksXf58iJUg9rbi0Vt6+s3dOYOcgfX+kPIvsBnR0j3yUJyeOEAvQZu+Kjg5A
+         JJEvPIs3lJ5Gj6e4uvVEMzT9Ddhb0HHmEAg9IiaEjoLnRjdIez8XIUkb312QMx/19Z8h
+         Fl43oUG9cITAaiElcz2MxFCkvHDvQIxW9jLXkKzQZD4IBw+VVd5Q7205EG8KypByVAp9
+         /xRK9hWuF6nZms2C9GTk0r/HR8mPRUH0Czv3M9fhUFV2asJQ8tZSJIntwW7hwCb5JVHs
+         9UwA==
+X-Gm-Message-State: AJIora8kRbh+RW2OoJaWjilD/D5RbaQeoqdHg+mw1L0+7FLqPFj4yfBY
+        YRyvyc/sQBq77h0MLetLRG4=
+X-Google-Smtp-Source: AGRyM1s61eF6VPjOS/mNVSTCLaMz0eqjD3U+jUmS4DEhrWuGUCvhY/0xOhPgV4V9CZIXu3/gqGfKYA==
+X-Received: by 2002:a7b:c401:0:b0:3a2:ca58:85bc with SMTP id k1-20020a7bc401000000b003a2ca5885bcmr339502wmi.156.1658859927169;
+        Tue, 26 Jul 2022 11:25:27 -0700 (PDT)
+Received: from ubuntu-f6bvp.. (lfbn-idf1-1-596-24.w86-242.abo.wanadoo.fr. [86.242.59.24])
+        by smtp.gmail.com with ESMTPSA id o9-20020a05600c058900b0039c54bb28f2sm19768331wmd.36.2022.07.26.11.25.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Jul 2022 11:25:26 -0700 (PDT)
+Sender: Bernard Pidoux <bernard.f6bvp@gmail.com>
+From:   Bernard Pidoux <f6bvp@free.fr>
+To:     kuba@kernel.org
+Cc:     davem@davemloft.net, duoming@zju.edu.cn, edumazet@google.com,
+        f6bvp@free.fr, linux-hams@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        pabeni@redhat.com, ralf@linux-mips.org
+Subject: [PATCH 1/1] [PATCH] net: rose: fix unregistered netdevice: waiting for rose0 to become free
+Date:   Tue, 26 Jul 2022 20:25:18 +0200
+Message-Id: <20220726182518.47047-1-f6bvp@free.fr>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220722103750.1938776d@kernel.org>
+References: <20220722103750.1938776d@kernel.org>
 MIME-Version: 1.0
-Received: by 2002:a17:906:241b:0:0:0:0 with HTTP; Tue, 26 Jul 2022 07:35:23
- -0700 (PDT)
-Reply-To: clmloans9@gmail.com
-From:   MR ANTHONY EDWARD <zayyanusaidu009@gmail.com>
-Date:   Tue, 26 Jul 2022 15:35:23 +0100
-Message-ID: <CADM+8wR9Tg=hsdnNiedSSRWbgV8hrksz2nrTMjTskPnhfi_Qbw@mail.gmail.com>
-Subject: SICHERES KREDITANGEBOT BEI 2%
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
-        T_HK_NAME_FM_MR_MRS,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:634 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [clmloans9[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [zayyanusaidu009[at]gmail.com]
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [zayyanusaidu009[at]gmail.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
---=20
-Ben=C3=B6tigen Sie ein Gesch=C3=A4ftsdarlehen oder ein Darlehen jeglicher A=
-rt?
-Wenn ja, kontaktieren Sie uns
+Here is the context.
 
-*Vollst=C3=A4ndiger Name:
-* Ben=C3=B6tigte Menge:
-*Leihdauer:
-*Mobiltelefon:
-*Land:
+This patch adds dev_put(dev) in order to allow removal of rose module
+after use of AX25 and ROSE via rose0 device.
+
+Otherwise when trying to remove rose module via rmmod rose an infinite
+loop message was displayed on all consoles with xx being a random number.
+
+unregistered_netdevice: waiting for rose0 to become free. Usage count = xx
+
+unregistered_netdevice: waiting for rose0 to become free. Usage count = xx
+
+...
+
+With the patch it is ok to rmmod rose.
+
+This bug appeared with kernel 4.10 and has been only partially repaired by adding two dev_put(dev).
+
+Signed-off-by: Bernard Pidoux <f6bvp@free.fr>
+
+---
+ net/rose/af_rose.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/net/rose/af_rose.c b/net/rose/af_rose.c
+index bf2d986a6bc3..4163171ce3a6 100644
+--- a/net/rose/af_rose.c
++++ b/net/rose/af_rose.c
+@@ -711,6 +711,8 @@ static int rose_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len)
+ 	rose_insert_socket(sk);
+ 
+ 	sock_reset_flag(sk, SOCK_ZAPPED);
++	
++	dev_put(dev);
+ 
+ 	return 0;
+ }
+-- 
+2.34.1
+
+[master da21d19e920d] [PATCH] net: rose: fix unregistered netdevice: waiting for rose0 to become free
+ Date: Mon Jul 18 16:23:54 2022 +0200
+ 1 file changed, 2 insertions(+)
+
