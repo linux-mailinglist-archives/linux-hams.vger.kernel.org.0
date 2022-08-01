@@ -2,87 +2,151 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E87CC586211
-	for <lists+linux-hams@lfdr.de>; Mon,  1 Aug 2022 02:42:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A23B95865FB
+	for <lists+linux-hams@lfdr.de>; Mon,  1 Aug 2022 10:06:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238558AbiHAAmZ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 31 Jul 2022 20:42:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53694 "EHLO
+        id S229642AbiHAIGu convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hams@lfdr.de>); Mon, 1 Aug 2022 04:06:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238562AbiHAAmW (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 31 Jul 2022 20:42:22 -0400
-X-Greylist: delayed 192 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 31 Jul 2022 17:42:22 PDT
-Received: from violet.fr.zoreil.com (violet.fr.zoreil.com [IPv6:2001:4b98:dc0:41:216:3eff:fe56:8398])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07F6F11471
-        for <linux-hams@vger.kernel.org>; Sun, 31 Jul 2022 17:42:21 -0700 (PDT)
-Received: from violet.fr.zoreil.com ([127.0.0.1])
-        by violet.fr.zoreil.com (8.17.1/8.17.1) with ESMTP id 2710d2S42336390;
-        Mon, 1 Aug 2022 02:39:02 +0200
-DKIM-Filter: OpenDKIM Filter v2.11.0 violet.fr.zoreil.com 2710d2S42336390
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fr.zoreil.com;
-        s=v20220413; t=1659314342;
-        bh=Zxv04oT1Cg4jN72m0ayc33xrbu48Tl96Y3zZxHd+yR0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OSyI+AUBfRVw5UjMTX0g9/HhOzc/DxiAb0Oy1ruUwgx2MNTkiWHLsmm3bWkSemlls
-         pIRTkoltGcLYch6yIVXNPuEv+tu451qsXFzGjNmzONu4eifUxkG2KodrYncb8zHBn6
-         L/qsj3tXw7Lb05wQ9qy0NwFBFtSltT768AHVwV7k=
-Received: (from romieu@localhost)
-        by violet.fr.zoreil.com (8.17.1/8.17.1/Submit) id 2710d1sL2336389;
-        Mon, 1 Aug 2022 02:39:01 +0200
-Date:   Mon, 1 Aug 2022 02:39:01 +0200
-From:   Francois Romieu <romieu@fr.zoreil.com>
-To:     Bernard f6bvp <f6bvp@free.fr>
-Cc:     Eric Dumazet <edumazet@google.com>, linux-hams@vger.kernel.org,
+        with ESMTP id S229555AbiHAIGt (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 1 Aug 2022 04:06:49 -0400
+Received: from einhorn-mail-out.in-berlin.de (einhorn.in-berlin.de [192.109.42.8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1688218E07
+        for <linux-hams@vger.kernel.org>; Mon,  1 Aug 2022 01:06:47 -0700 (PDT)
+X-Envelope-From: thomas@osterried.de
+Received: from x-berg.in-berlin.de (x-change.in-berlin.de [217.197.86.40])
+        by einhorn.in-berlin.de  with ESMTPS id 27186gHH3963284
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Mon, 1 Aug 2022 10:06:42 +0200
+Received: from x-berg.in-berlin.de ([217.197.86.42] helo=smtpclient.apple)
+        by x-berg.in-berlin.de with esmtpa (Exim 4.94.2)
+        (envelope-from <thomas@osterried.de>)
+        id 1oIQRl-0004jA-QK; Mon, 01 Aug 2022 10:06:41 +0200
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.100.31\))
+Subject: Re: rose timer t error displayed in /proc/net/rose
+From:   Thomas Osterried <thomas@osterried.de>
+In-Reply-To: <YucgpeXpqwZuievg@electric-eye.fr.zoreil.com>
+Date:   Mon, 1 Aug 2022 10:06:40 +0200
+Cc:     Bernard f6bvp <f6bvp@free.fr>, Eric Dumazet <edumazet@google.com>,
+        linux-hams@vger.kernel.org,
         Thomas Osterried DL9SAU <thomas@x-berg.in-berlin.de>,
         netdev@vger.kernel.org
-Subject: Re: rose timer t error displayed in /proc/net/rose
-Message-ID: <YucgpeXpqwZuievg@electric-eye.fr.zoreil.com>
+Content-Transfer-Encoding: 8BIT
+Message-Id: <A9A8A0B7-5009-4FB0-9317-5033DE17E701@osterried.de>
 References: <d5e93cc7-a91f-13d3-49a1-b50c11f0f811@free.fr>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d5e93cc7-a91f-13d3-49a1-b50c11f0f811@free.fr>
-X-Organisation: Land of Sunshine Inc.
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+ <YucgpeXpqwZuievg@electric-eye.fr.zoreil.com>
+To:     Francois Romieu <romieu@fr.zoreil.com>
+X-Mailer: Apple Mail (2.3696.100.31)
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Bernard f6bvp <f6bvp@free.fr> :
-> Rose proc timer t error
+Hello,
+
+> Am 01.08.2022 um 02:39 schrieb Francois Romieu <romieu@fr.zoreil.com>:
 > 
-> Timer t is decremented one by one during normal operations.
+> Bernard f6bvp <f6bvp@free.fr> :
+>> Rose proc timer t error
+>> 
+>> Timer t is decremented one by one during normal operations.
+>> 
+>> When decreasing from 1 to 0 it displays a very large number until next clock
+>> tic as demonstrated below.
+>> 
+>> t1, t2 and t3 are correctly handled.
 > 
-> When decreasing from 1 to 0 it displays a very large number until next clock
-> tic as demonstrated below.
+> "t" is ax25_display_timer(&rose->timer) / HZ whereas "tX" are rose->tX / HZ.
 > 
-> t1, t2 and t3 are correctly handled.
+> ax25_display_timer() does not like jiffies > timer->expires (and it should
+> probably return plain seconds btw).
+> 
+> You may try the hack below.
+> 
+> diff --git a/net/ax25/ax25_timer.c b/net/ax25/ax25_timer.c
+> index 85865ebfdfa2..b77433fff0c9 100644
+> --- a/net/ax25/ax25_timer.c
+> +++ b/net/ax25/ax25_timer.c
+> @@ -108,10 +108,9 @@ int ax25_t1timer_running(ax25_cb *ax25)
+> 
+> unsigned long ax25_display_timer(struct timer_list *timer)
+> {
+> -	if (!timer_pending(timer))
+> -		return 0;
+> +	long delta = timer->expires - jiffies;
+> 
+> -	return timer->expires - jiffies;
+> +	return jiffies_delta_to_clock_t(delta) * HZ;
+> }
+> 
+> EXPORT_SYMBOL(ax25_display_timer);
 
-"t" is ax25_display_timer(&rose->timer) / HZ whereas "tX" are rose->tX / HZ.
 
-ax25_display_timer() does not like jiffies > timer->expires (and it should
-probably return plain seconds btw).
+1. why do you check for pending timer anymore?
 
-You may try the hack below.
+2. I'm not really sure what value jiffies_delta_to_clock_t() returns. jiffies / HZ?
+   jiffies_delta_to_clock_t() returns clock_t.
 
-diff --git a/net/ax25/ax25_timer.c b/net/ax25/ax25_timer.c
-index 85865ebfdfa2..b77433fff0c9 100644
---- a/net/ax25/ax25_timer.c
-+++ b/net/ax25/ax25_timer.c
-@@ -108,10 +108,9 @@ int ax25_t1timer_running(ax25_cb *ax25)
- 
- unsigned long ax25_display_timer(struct timer_list *timer)
- {
--	if (!timer_pending(timer))
--		return 0;
-+	long delta = timer->expires - jiffies;
- 
--	return timer->expires - jiffies;
-+	return jiffies_delta_to_clock_t(delta) * HZ;
- }
- 
- EXPORT_SYMBOL(ax25_display_timer);
+ax25_display_timer() is used in ax25, netrom and rose, mostly for displaying states in /proc.
+
+In ax25_subr.c, ax25_calculate_rtt() it is used for rtt calculation. Is it proven that the the values that ax25_display_timer returns are still as expected?
+I ask, because we see there a substraction ax25_display_timer(&ax25->t1timer) from ax25->t1, and we need to be sure, that your change will not break he ax.25 stack.
+
+# grep ax25_display_timer ../*/*c|cut -d/ -f2-
+ax25/af_ax25.c:         ax25_info.t1timer   = ax25_display_timer(&ax25->t1timer)   / HZ;
+ax25/af_ax25.c:         ax25_info.t2timer   = ax25_display_timer(&ax25->t2timer)   / HZ;
+ax25/af_ax25.c:         ax25_info.t3timer   = ax25_display_timer(&ax25->t3timer)   / HZ;
+ax25/af_ax25.c:         ax25_info.idletimer = ax25_display_timer(&ax25->idletimer) / (60 * HZ);
+ax25/af_ax25.c:            ax25_display_timer(&ax25->t1timer) / HZ, ax25->t1 / HZ,
+ax25/af_ax25.c:            ax25_display_timer(&ax25->t2timer) / HZ, ax25->t2 / HZ,
+ax25/af_ax25.c:            ax25_display_timer(&ax25->t3timer) / HZ, ax25->t3 / HZ,
+ax25/af_ax25.c:            ax25_display_timer(&ax25->idletimer) / (60 * HZ),
+ax25/ax25.mod.c:SYMBOL_CRC(ax25_display_timer, 0x14cecd59, "");
+ax25/ax25_subr.c:               ax25->rtt = (9 * ax25->rtt + ax25->t1 - ax25_display_timer(&ax25->t1timer)) / 10;
+ax25/ax25_timer.c:unsigned long ax25_display_timer(struct timer_list *timer)
+ax25/ax25_timer.c:EXPORT_SYMBOL(ax25_display_timer);
+netrom/af_netrom.c:                     ax25_display_timer(&nr->t1timer) / HZ,
+netrom/af_netrom.c:                     ax25_display_timer(&nr->t2timer) / HZ,
+netrom/af_netrom.c:                     ax25_display_timer(&nr->t4timer) / HZ,
+netrom/af_netrom.c:                     ax25_display_timer(&nr->idletimer) / (60 * HZ),
+netrom/netrom.mod.c:    { 0x14cecd59, "ax25_display_timer" },
+rose/af_rose.c:                 ax25_display_timer(&rose->timer) / HZ,
+rose/af_rose.c:                 ax25_display_timer(&rose->idletimer) / (60 * HZ),
+rose/rose.mod.c:        { 0x14cecd59, "ax25_display_timer" },
+rose/rose_route.c:                         ax25_display_timer(&rose_neigh->t0timer) / HZ,
+rose/rose_route.c:                         ax25_display_timer(&rose_neigh->ftimer)  / HZ);
+
+
+3. Back to the initial problem:
+
+>> When decreasing from 1 to 0 it displays a very large number until next clock
+>> tic as demonstrated below.
+
+I assume it's the information when timer for rose expired.
+If it has been expired 1s ago, the computed time diff diff becomes negative ->  -(jiffies).
+We are unsigned long (and imho need to b), but the "underflow" result is something like (2**64)-1-jiffies -- a very large positive number that represents a small negative number.
+
+=> If my assumptions for rose behavior are correct:
+1. I expect rose->timer to be restarted soon. If it does not happen, is there a bug?
+2. The time window with that large value is large.
+3. Are negative numbers (-> timer expired) are of interest? Else, 0 should be enough to indicate that the timer has expired.
+   linux/jiffies.h:
+     extern clock_t jiffies_to_clock_t(unsigned long x);
+    static inline clock_t jiffies_delta_to_clock_t(long delta)
+    {
+            return jiffies_to_clock_t(max(0L, delta));
+    }
+
+   => Negative may be handled due to Francois' patch now correctly. delta as signed long may be negative. max(0L, -nnnn) sould result to 0L.
+   This would result to 0. Perhaps proven by Francois, because he used this function and achieved a correct display of that idle value. Francois, am I correct, is "0" really displayed?
+
+
+
+
