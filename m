@@ -2,78 +2,99 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70C205872AF
-	for <lists+linux-hams@lfdr.de>; Mon,  1 Aug 2022 23:00:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73A9F587E94
+	for <lists+linux-hams@lfdr.de>; Tue,  2 Aug 2022 17:08:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234754AbiHAVAB (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 1 Aug 2022 17:00:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34098 "EHLO
+        id S234770AbiHBPIV (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 2 Aug 2022 11:08:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234949AbiHAU76 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 1 Aug 2022 16:59:58 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E1053F32A
-        for <linux-hams@vger.kernel.org>; Mon,  1 Aug 2022 13:59:57 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id l14so9022803qtv.4
-        for <linux-hams@vger.kernel.org>; Mon, 01 Aug 2022 13:59:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=iLb8ugeaf3dbpDh9pOJVGSMieKWvANPBP/SCH9cR+Sw=;
-        b=dDiHXaOe+QG91YrTiT+3oIdfqihTqPfA0t6A5CieYPO2HOGvplKHFU0e+wn3BdaheF
-         My2uJzHRHdAekD9rVjVFHnu3hNwPe3WSVj+wbJY9MVMCeSIunD/py/Q1pj8MrIplAV6S
-         rSB6TeaWIzF4o/tUCyYxyYoB8qhqNZb6yeWLPS/2VjXPQ/ddTg8Kjh2O8EsTfUD9ZGYU
-         xo4ulD7LLlXvCB5+7Nm6jElguP86ZYEPpfhsmht1T0tsGpBaC0GV0pZ/EPuiMgc068a4
-         Y6xJlqJaMCKUQQ/OTGFiXxkx32AovjXDQXhTh5sXWs+NzdxXdix11Ncoej996TpUPcF2
-         wDKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=iLb8ugeaf3dbpDh9pOJVGSMieKWvANPBP/SCH9cR+Sw=;
-        b=GLXS5tNZ6Gh4V0IXxhkLg1Y7YvIOtv+TZLn4c1fbX3zYLYcE8ZW/vHlhDJx593FnfJ
-         DoqFvN2/lc3qy9gU5V8XpH5gCHkUTLIubaVPNDYztHnx0+2Wa3lFFQWeDUNGERsDU2r5
-         3U38eiq+kOeEaG/R7xI50liC4igEfvH7YqGIQKc2QJDjDU2Ef8FCE28JcL0r8l9eCd5X
-         +je8sueZYlX5nIkQylBVcwld6RJILV494qydeBUJlOzeC+aHz254deqeTekaDG1KRE0S
-         B15KTy+l6/YSdjcdZEtTi58X/w0XLFQuYXXLxl3ZMYsTdP1FsAyudpAvWXdL9Ip1LXp5
-         0LSA==
-X-Gm-Message-State: AJIora9HnZVVKizDNrG1bM9FlqIZUU5qlpfNc3yqBL3bF9f0ecoOPrJU
-        i/Xy17aK6hnJ8nwkBx3ubG+djMzwBUVPynVnrk8=
-X-Google-Smtp-Source: AGRyM1u1DYHC7rB691jDfV7jPyiCPaQpdf1ku1HpjMB4eqMzYXmppvewEAP5W5IFpdJCXrsd8pQ76yaWTexdLRu7u0w=
-X-Received: by 2002:ac8:5913:0:b0:31f:1541:6b8a with SMTP id
- 19-20020ac85913000000b0031f15416b8amr16094899qty.231.1659387595844; Mon, 01
- Aug 2022 13:59:55 -0700 (PDT)
+        with ESMTP id S233406AbiHBPIU (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 2 Aug 2022 11:08:20 -0400
+Received: from violet.fr.zoreil.com (violet.fr.zoreil.com [IPv6:2001:4b98:dc0:41:216:3eff:fe56:8398])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 360D826AC9;
+        Tue,  2 Aug 2022 08:08:19 -0700 (PDT)
+Received: from violet.fr.zoreil.com ([127.0.0.1])
+        by violet.fr.zoreil.com (8.17.1/8.17.1) with ESMTP id 272F7g5t2380071;
+        Tue, 2 Aug 2022 17:07:42 +0200
+DKIM-Filter: OpenDKIM Filter v2.11.0 violet.fr.zoreil.com 272F7g5t2380071
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fr.zoreil.com;
+        s=v20220413; t=1659452862;
+        bh=2oD14gOZO93tqzNZQjZFooIHsA19Pom4E2LBsvbbNMk=;
+        h=Date:From:To:Cc:Subject:From;
+        b=jJZhLnZ/lG173aiPYJfjoqNgC2+Hp9y2Hoyocxz+Ze90D9tr/9uAp9QaD5SAADs/+
+         P5tndqCCSnO7QKJGk9RCZbmz9HEGB4bOpSMcj4SEp8UB86FXuuub48/bhJ0Kl/N/Sp
+         0/OK1RMwWLz+ZLnXs+Iaq3wvwartlGjc0HSrJf5U=
+Received: (from romieu@localhost)
+        by violet.fr.zoreil.com (8.17.1/8.17.1/Submit) id 272F7god2380070;
+        Tue, 2 Aug 2022 17:07:42 +0200
+Date:   Tue, 2 Aug 2022 17:07:42 +0200
+From:   Francois Romieu <romieu@fr.zoreil.com>
+To:     netdev@vger.kernel.org
+Cc:     edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
+        pabeni@redhat.com, f6bvp@free.fr, thomas@osterried.de,
+        thomas@x-berg.in-berlin.de, linux-hams@vger.kernel.org
+Subject: [PATCH v1 net 1/1] net: avoid overflow when rose /proc displays
+ timer information.
+Message-ID: <Yuk9vq7t7VhmnOXu@electric-eye.fr.zoreil.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6214:238d:0:0:0:0 with HTTP; Mon, 1 Aug 2022 13:59:55
- -0700 (PDT)
-Reply-To: te463602@gmail.com
-From:   "Mr. Jibri loubda" <gjibriloubda@gmail.com>
-Date:   Mon, 1 Aug 2022 13:59:55 -0700
-Message-ID: <CAO=FyH+GZOqOk63=5vUvvZE95WxADQV=mm7TCJrTKXLxD=wZUg@mail.gmail.com>
-Subject: Greetings,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_HK_NAME_FM_MR_MRS,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Organisation: Land of Sunshine Inc.
+X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_SBL_CSS,SPF_HELO_PASS,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
+rose /proc code does not serialize timer accesses.
+
+Initial report by Bernard F6BVP Pidoux exhibits overflow amounting
+to 116 ticks on its HZ=250 system.
+
+Full timer access serialization would imho be overkill as rose /proc
+does not enforce consistency between displayed ROSE_STATE_XYZ and
+timer values during changes of state.
+
+The patch may also fix similar behavior in ax25 /proc, ax25 ioctl
+and netrom /proc as they all exhibit the same timer serialization
+policy. This point has not been reported though.
+
+The sole remaining use of ax25_display_timer - ax25 rtt valuation -
+may also perform marginally better but I have not analyzed it too
+deeply.
+
+Signed-off-by: Francois Romieu <romieu@fr.zoreil.com>
+Cc: Thomas DL9SAU Osterried <thomas@osterried.de>
+Link: https://lore.kernel.org/all/d5e93cc7-a91f-13d3-49a1-b50c11f0f811@free.fr/
+---
+ net/ax25/ax25_timer.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+Bernard, can you formally test and add your "Tested-by:" on this one ?
+
+diff --git a/net/ax25/ax25_timer.c b/net/ax25/ax25_timer.c
+index 85865ebfdfa2..9f7cb0a7c73f 100644
+--- a/net/ax25/ax25_timer.c
++++ b/net/ax25/ax25_timer.c
+@@ -108,10 +108,12 @@ int ax25_t1timer_running(ax25_cb *ax25)
+ 
+ unsigned long ax25_display_timer(struct timer_list *timer)
+ {
++	long delta = timer->expires - jiffies;
++
+ 	if (!timer_pending(timer))
+ 		return 0;
+ 
+-	return timer->expires - jiffies;
++	return max(0L, delta);
+ }
+ 
+ EXPORT_SYMBOL(ax25_display_timer);
 -- 
-Hello,
-We the Board Directors believe you are in good health, doing great and
-with the hope that this mail will meet you in good condition, We are
-privileged and delighted to reach you via email" And we are urgently
-waiting to hear from you. and again your number is not connecting.
+2.37.1
 
-My regards,
-Dr. Jibri loubda.
-
-Sincerely,
-Prof. Chin Guang
