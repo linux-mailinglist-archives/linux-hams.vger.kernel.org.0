@@ -2,220 +2,103 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3740258C864
-	for <lists+linux-hams@lfdr.de>; Mon,  8 Aug 2022 14:31:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C96F58D7CE
+	for <lists+linux-hams@lfdr.de>; Tue,  9 Aug 2022 13:05:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234545AbiHHMbm (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 8 Aug 2022 08:31:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53788 "EHLO
+        id S233367AbiHILFY (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 9 Aug 2022 07:05:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237479AbiHHMbj (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 8 Aug 2022 08:31:39 -0400
-Received: from shiva-su2.sorbonne-universite.fr (shiva-su2.sorbonne-universite.fr [134.157.0.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 51FD7655A
-        for <linux-hams@vger.kernel.org>; Mon,  8 Aug 2022 05:31:37 -0700 (PDT)
-Received: from nirriti.ent.upmc.fr (nirriti.dsi.upmc.fr [134.157.0.215])
-        by shiva-su2.sorbonne-universite.fr (Postfix) with ESMTP id 9230240FF1ED;
-        Mon,  8 Aug 2022 14:31:35 +0200 (CEST)
-Received: from [44.168.19.21] (lfbn-idf1-1-596-24.w86-242.abo.wanadoo.fr [86.242.59.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: pidoux)
-        by nirriti.ent.upmc.fr (Postfix) with ESMTPSA id 231BD13FF8FF5;
-        Mon,  8 Aug 2022 14:31:36 +0200 (CEST)
-Message-ID: <71e52ce6-438c-8a90-6241-f6c3409fab8d@free.fr>
-Date:   Mon, 8 Aug 2022 14:31:35 +0200
+        with ESMTP id S240642AbiHILFW (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 9 Aug 2022 07:05:22 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B95D11C18
+        for <linux-hams@vger.kernel.org>; Tue,  9 Aug 2022 04:05:21 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id a89so14636937edf.5
+        for <linux-hams@vger.kernel.org>; Tue, 09 Aug 2022 04:05:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=7Y/JdsEkSREwJKr86OHWX5QErz49ZeuAmhJMoJpoQbc=;
+        b=TB1VLC9Xk+s56nGeUIPDOPMNk7tiYe1A+DSXkOZw7uXaiG0oO1vv9MGhfj8bs6iHHX
+         gXhZ+6GtI3O7APVt6nU5y+cW1bg+XZO4m8mwjaRb42uJgpbZkE6uB9gsJS5yYFDC9ZSu
+         0VyAW/YCozt5RrdQsFjAbR8TUogiOGycGiyzfBoeVGz9iblzrMbN1lVvG0uBJeLPkEvq
+         9Z9mqCDrXfD2FjAQLKDFxIBTf8L+OIv1od5scBt4vS/bjfh9fmQUCTh2HrtOLqo+Sf0k
+         0wO8OydyKG+eYhOyFcfksXGejhf48o+SIhwUkZkzTscksGpAmRRCeCEUWbT/foQGb6vJ
+         GLGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=7Y/JdsEkSREwJKr86OHWX5QErz49ZeuAmhJMoJpoQbc=;
+        b=tNUk7cjIZK6joaKHV4j9D5I0fSC6tSuG+qOq1tkiz4g3Axwy0PIkaKfl5Q0QZAhcya
+         5Ie48TiO2AEMuZpB/d8z1/q6DOumHck2C2S4qAmgoyDzL4OpxnXMt15/D5qmpEwDsLaV
+         PBS/fx2i6R+YJW5dmA8bnmfBsABk07j0ndy88lCYDGN1zYQm5qsUMlL3S6zshXRceKIf
+         khnYGmG+zda2ACPoVRU+aKrrYAlEjC/o6Z24pe+jBVtOvAIYfu+OIU7eyfKgirBRTYnE
+         W5ruIU2C1Mf9fpn/l22525//VXrzVPlL6w1ei8N5usbiI/L/5Rt5CcO9aPuXI46M94bO
+         b1+A==
+X-Gm-Message-State: ACgBeo3HwfmBMC2eav9PTL/OuYoLlbNFJ9IE8WSPo9Io+czo7OWEOTtA
+        bjupPpHvZOIMx5gwVqeVm9lZjhWg0uEKJSTiEVY=
+X-Google-Smtp-Source: AA6agR5uVAL71snQjlfLDpnjOJyo5WIwQxsziEhBPG9Ks9jV7Lq0ZzRdcW4cS7SUwA+ZolgLvQSS6WLEc98AL7bcs+g=
+X-Received: by 2002:a05:6402:5024:b0:440:e4ad:f7b6 with SMTP id
+ p36-20020a056402502400b00440e4adf7b6mr5232760eda.358.1660043120010; Tue, 09
+ Aug 2022 04:05:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: Resend : [PATCH] AX25 rose_call - replacing carriage return by
- newlines
-Content-Language: en-US
-To:     Thomas Osterried <thomas@osterried.de>
-Cc:     linux-hams@vger.kernel.org, Francois Romieu <romieu@fr.zoreil.com>,
-        David Ranch <dranch@trinnet.net>, F3KT <f3kt@free.fr>,
-        Eric Dumazet <edumazet@google.com>, k4gbb1@embarqmail.com,
-        Woldanski Lee <ve7fet@tparc.org>
-References: <d5e93cc7-a91f-13d3-49a1-b50c11f0f811@free.fr>
- <YucgpeXpqwZuievg@electric-eye.fr.zoreil.com>
- <A9A8A0B7-5009-4FB0-9317-5033DE17E701@osterried.de>
- <Yuf04XIsXrQMJuUy@electric-eye.fr.zoreil.com>
- <d3e987ef-2c6d-4ae4-9b58-75d25f7793c2@free.fr>
- <ABFC096C-8F65-49C9-8BB9-7B75B3CE30B7@osterried.de>
-From:   f6bvp <f6bvp@free.fr>
-In-Reply-To: <ABFC096C-8F65-49C9-8BB9-7B75B3CE30B7@osterried.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
-        NICE_REPLY_A,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NEUTRAL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Received: by 2002:a05:6402:2b8c:b0:43c:570d:7d55 with HTTP; Tue, 9 Aug 2022
+ 04:05:19 -0700 (PDT)
+Reply-To: evelynchez7@gmail.com
+From:   EVELYN SANCHEZ <richfirm40@gmail.com>
+Date:   Tue, 9 Aug 2022 12:05:19 +0100
+Message-ID: <CAP5NkWbVVtOqKUUF=z+YYdhHM6Hvs+327nfuxW8G9YMMO+C0sA@mail.gmail.com>
+Subject: =?UTF-8?Q?Buon_giorno_come_stai=3F_Per_favore_quando_ricever=C3=B2_l?=
+        =?UTF-8?Q?a_tua_risposta_al_Email_che_ti_ho_inviato=3F?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:542 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [richfirm40[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [evelynchez7[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [richfirm40[at]gmail.com]
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hi Thomas,
-
-Many thanks for providing your feelings about what I have done.
-
-I understand you don't want to change old AX.25 tools that are 
-convenient for packet radio.
-
-No problem.
-
-As I needed a simple user application to connect ROSE network I will 
-still use my application for rose kernel module debugging.
-
-"call" is a multi protocol application that is working for AX25 or 
-Netrom but does abolutely not work for rose as it is quite buggy.
-
-This is why I preferred to adapt rose_call that is a single protocol 
-simple application.
-
-I already repaired rose module in (net-next kernel 5.19+) that had been 
-broken by a patch applied two years ago without any user checking. Very 
-bad behavior indeed from AX25 and ROSE so called maintainers. Reverting 
-the patch did the job. Without all rose users have to keep using 5.4.79 
-kernel.
-
-I spend the last hours to repair call application and rose protocol is 
-now working. However it will take a few days to certify the whole.
-
-73 de Bernard, f6bvp / ai7bg
-
-link to commit :
-
-https://lore.kernel.org/all/20201119191043.28813-1-anmol.karan123@gmail.com/
-
-link to call screen image
-http://f6bvp.org/call_screen.png
+Good Day how are you? Please when will i get your response to the
+email i sent to you?
 
 
-Le 07/08/2022 à 21:07, Thomas Osterried a écrit :
-> Hello,
-> 
-> I don't think netev@ is the right addressee here. netdev is for kernel, not for userspace programs like telnet, libreoffice or X11. Or am I wrong? I removed netdev from the list of receipients.
-> 
-> 
-> Your patch makes things bad.
-> Reason: see man page:
-> 
->         ax25_call, netrom_call, rose_call and tcp_call establish an AX.25, NET/ROM, ROSE or
->         a TCP connection in a manner suitable for calling from  either  the  ax25d  program
->         directly,  or  from the node program as an external command. By setting the command
->         line arguments appropriately it is possible to set the local  callsign  from  which
->         the call will be made. No translation of the end of lines is performed by this pro‐
->         gram.
-> 
-> 
-> Explanation:
-> EOL convention in PacketRadio is '\r'. Not '\n', and not '\r\n'. There's no algorithm possible for autodetection - so many people have tried over the years, all have failed.
-> The last sentense, "No translation of the end of lines is performed by this program." is important; it explains the purpose of the program and why it is implemented this way.
-> 
-> The sense of ax25_call is, for example, that it is called from ax25d (i.e. if user connects you to -10, you might pass the connection over to your local mailbox in the LAN).
-> Same for netrom_call, rose_call.
-> These commands are not intended for a unix user to be executed directly on the shell. That's why they reside in /usr/sbin.
-> 
-> If the program is used as intended, but with your changes, the packet-radio-user sees now in his terminal:
-> ===
-> Connecting to %s @ %s ...[linefeed]
->                          *** Connected[linefeed]
->                                                 Hello user xy, welcome to our BBS.
-> Last login...
-> mailboxprompt> [linefeed]
->                 *** Disconnected[linefeed]
-> ===
-> 
-> => his session is messed up.
-> 
-> 
-> Users from shell normally use the call command, which does the correct EOL conversion.
-> 
-> 
-> If you have a special usecase, that's out of the scope of the current demands, you may implement a comandline option for changing the EOL character behavior.
-> But rose_call becomes with such an addition more and more like call. I see no reason why this is useful.
-> 
-> Apart from EOL in the messages, you implemented an EOL-changer for the input buffer.
-> You missed implementing an EOL changer for what unix user enters (normaly, his lines end with \n): Unix users press enter and don't know, that they have to enter ^M so that remote side understands your line correctly.
-> 
-> 
-> 
-> A site note on your remark
->> However once connected rose_call displays remote message without linefeed. Consequently it is impossible to read messages.
-> 
-> If the remote site is using a software that does not behave like a normal packet-radio-software,
-> then you could either try to change all client terminal softwares in the world and make \n the new EOL standard,
-> or please the remote site to correct the EOL according to what's everywhere else used in the packet-radio world.
-> 
-> 
-> ..and one comment inline:
-> 
->> Am 07.08.2022 um 20:21 schrieb f6bvp <f6bvp@free.fr>:
->>
->> [PATCH] AX25 rose_call - replacing carriage return by newlines
->>
->> Previous patch was reversed... resending correct one.
->>
->> I have been using intensively rose_call application (part of ax25tools/user_call library) while debugging rose connect issue.
->>
->> However once connected rose_call displays remote message without linefeed. Consequently it is impossible to read messages.
->>
->> For example calling local node :
->>
->> # rose_call rose0 f6bvp f6bvp-4 2080175524
->> Connecting to f6bvp-4 @ 2080175524 ...
->>
->> *** Connected
->>
->> F6BVP-4 (Commands = ?) : Aug  5 2022) for LINUX (help = h)
->>
->>
->> Then issuing command P to the connected local node, all answer
->> lines are superimposed.
->>
->> F6BVP-4 (Commands = ?) : Switch Port
->>
->>
->> Now with the proposed patch is the complete info displayed:
->>
->> # ./rose_call rose0 f6bvp f6bvp-4 2080175524
->>
->> Connecting to f6bvp-4 @ 2080175524 ...
->>
->> *** Connected
->>
->> User call : F6BVP-0
->>
->> Welcome to the last release of Fpac!
->>
->> This file is fpac.hello and is displayed when
->>
->> a user connects to the node.
-> 
-> I see
-> 
-> many more
-> 
-> newlines.
-> 
->>
->>
->>
->> FPAC-Node v 4.1.3 (built Aug  5 2022) for LINUX (help = h)
->>
->> F6BVP-4 (Commands = ?) :
->>
->>
->> In file rose_call.c carriage returns are also replaced by newlines
->> in order to let error messages to be correctly displayed.
->>
->> Cc: Thomas DL9SAU Osterried <thomas@osterried.de>
->> Cc: Francois Romieu <romieu@fr.zoreil.com>
->> Signed-off-by: Bernard Pidoux <f6bvp@free.fr>
->>
->> <replace_return-linefeed_in_rose_call.patch>
-> 
-> 
-> vy 73,
->        - Thomas  dl9sau
+Buon giorno come stai? Per favore quando ricever=C3=B2 la tua risposta al
+Email che ti ho inviato?
