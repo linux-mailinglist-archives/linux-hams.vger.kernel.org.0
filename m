@@ -2,60 +2,57 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C96F58D7CE
-	for <lists+linux-hams@lfdr.de>; Tue,  9 Aug 2022 13:05:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A94358E2FB
+	for <lists+linux-hams@lfdr.de>; Wed, 10 Aug 2022 00:17:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233367AbiHILFY (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 9 Aug 2022 07:05:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39504 "EHLO
+        id S230486AbiHIWQg (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 9 Aug 2022 18:16:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240642AbiHILFW (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 9 Aug 2022 07:05:22 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B95D11C18
-        for <linux-hams@vger.kernel.org>; Tue,  9 Aug 2022 04:05:21 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id a89so14636937edf.5
-        for <linux-hams@vger.kernel.org>; Tue, 09 Aug 2022 04:05:21 -0700 (PDT)
+        with ESMTP id S230030AbiHIWPU (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 9 Aug 2022 18:15:20 -0400
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A20DA252BB
+        for <linux-hams@vger.kernel.org>; Tue,  9 Aug 2022 15:15:15 -0700 (PDT)
+Received: by mail-io1-xd32.google.com with SMTP id o2so10752519iof.8
+        for <linux-hams@vger.kernel.org>; Tue, 09 Aug 2022 15:15:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=7Y/JdsEkSREwJKr86OHWX5QErz49ZeuAmhJMoJpoQbc=;
-        b=TB1VLC9Xk+s56nGeUIPDOPMNk7tiYe1A+DSXkOZw7uXaiG0oO1vv9MGhfj8bs6iHHX
-         gXhZ+6GtI3O7APVt6nU5y+cW1bg+XZO4m8mwjaRb42uJgpbZkE6uB9gsJS5yYFDC9ZSu
-         0VyAW/YCozt5RrdQsFjAbR8TUogiOGycGiyzfBoeVGz9iblzrMbN1lVvG0uBJeLPkEvq
-         9Z9mqCDrXfD2FjAQLKDFxIBTf8L+OIv1od5scBt4vS/bjfh9fmQUCTh2HrtOLqo+Sf0k
-         0wO8OydyKG+eYhOyFcfksXGejhf48o+SIhwUkZkzTscksGpAmRRCeCEUWbT/foQGb6vJ
-         GLGg==
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc;
+        bh=GI1h58u9NHz7rI/vIwOU5DkUcoHPmL+b4tk5i/xxv5Y=;
+        b=QTP95oQi+RYhXbI8sz4RyTZp0RSE4jP48cyyUmWbTiK1ItvOHbADVtjkGHK/8zFbqv
+         EIzUG3d4HgG5eAQxnVHuBpH33ycuIiNpMEXk8S0LHARhhQGb6AufQVVn/40aQfLvP77W
+         778oK7qnpGZXO0Q2aGCYT4Mad4FGDHlh1br3s7D4D+9Vr7gPQrhXDR8bwR1fyz6kQ1n2
+         /mI7/+oIm6xqfpBjeRephfywWnzvzUcqvvdKwYuFsxmTm/GRVEQb9jKfBsLPvHEPeyBR
+         SLk52BQ10Zm7GZ4Mv5gugSKJZhGFXVOipaGDVsAOq6ABLyMrmGMv+5RYTjL3cqduwO+M
+         O1Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=7Y/JdsEkSREwJKr86OHWX5QErz49ZeuAmhJMoJpoQbc=;
-        b=tNUk7cjIZK6joaKHV4j9D5I0fSC6tSuG+qOq1tkiz4g3Axwy0PIkaKfl5Q0QZAhcya
-         5Ie48TiO2AEMuZpB/d8z1/q6DOumHck2C2S4qAmgoyDzL4OpxnXMt15/D5qmpEwDsLaV
-         PBS/fx2i6R+YJW5dmA8bnmfBsABk07j0ndy88lCYDGN1zYQm5qsUMlL3S6zshXRceKIf
-         khnYGmG+zda2ACPoVRU+aKrrYAlEjC/o6Z24pe+jBVtOvAIYfu+OIU7eyfKgirBRTYnE
-         W5ruIU2C1Mf9fpn/l22525//VXrzVPlL6w1ei8N5usbiI/L/5Rt5CcO9aPuXI46M94bO
-         b1+A==
-X-Gm-Message-State: ACgBeo3HwfmBMC2eav9PTL/OuYoLlbNFJ9IE8WSPo9Io+czo7OWEOTtA
-        bjupPpHvZOIMx5gwVqeVm9lZjhWg0uEKJSTiEVY=
-X-Google-Smtp-Source: AA6agR5uVAL71snQjlfLDpnjOJyo5WIwQxsziEhBPG9Ks9jV7Lq0ZzRdcW4cS7SUwA+ZolgLvQSS6WLEc98AL7bcs+g=
-X-Received: by 2002:a05:6402:5024:b0:440:e4ad:f7b6 with SMTP id
- p36-20020a056402502400b00440e4adf7b6mr5232760eda.358.1660043120010; Tue, 09
- Aug 2022 04:05:20 -0700 (PDT)
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc;
+        bh=GI1h58u9NHz7rI/vIwOU5DkUcoHPmL+b4tk5i/xxv5Y=;
+        b=Svz1wFsDoKAZiDiAQkv86bn9/Jcte03vT5YGOrw/YX0pLEVAQ1WAMrjrQ/rsBxlG4a
+         IrzE/n8OU3XUKwx70SlG9HVOLC5vkePEJQrNBsEFkmri7G5YBpoMg26Opg55HW73pOa5
+         FsUXZJ62f12Kt9k06LsSG6Twy+mxBzoJs/Pyj18QmRBdnTvcrz2DtoGkWkPfKpqDKyzN
+         syc0CQekrzY+NiBe5TwH86yF5mZTf6lPV5/zub5xT9TcMFZ0/gUBSSoglL6k6qGC35GS
+         2XsiLQEFXFbx66lfb0Ic6sO2Z723TPYFwUzbgnBa7A253T96OIJRCZuE8zvbsWVP3nam
+         v1Og==
+X-Gm-Message-State: ACgBeo3BxKxLkEP9bbEraOjloe8+pkHcNaIxIYyvaruUu9cdEZhnXE16
+        vMc+Stiqz8ZS+ccFGRg8BQYF50Jv5VCDC7Y9M1Z7WhDgwK3Uag==
+X-Google-Smtp-Source: AA6agR7pJ6r7fhR2kV9XLe+oV3h+/ej1weqLnpTQS1YP5ule1vsDwGSNCnOW6LlEIY2xTapZFY+hu5KXPqSjTYpoaJM=
+X-Received: by 2002:a63:4642:0:b0:41b:d353:c5c7 with SMTP id
+ v2-20020a634642000000b0041bd353c5c7mr20359415pgk.568.1660083303718; Tue, 09
+ Aug 2022 15:15:03 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6402:2b8c:b0:43c:570d:7d55 with HTTP; Tue, 9 Aug 2022
- 04:05:19 -0700 (PDT)
-Reply-To: evelynchez7@gmail.com
-From:   EVELYN SANCHEZ <richfirm40@gmail.com>
-Date:   Tue, 9 Aug 2022 12:05:19 +0100
-Message-ID: <CAP5NkWbVVtOqKUUF=z+YYdhHM6Hvs+327nfuxW8G9YMMO+C0sA@mail.gmail.com>
-Subject: =?UTF-8?Q?Buon_giorno_come_stai=3F_Per_favore_quando_ricever=C3=B2_l?=
-        =?UTF-8?Q?a_tua_risposta_al_Email_che_ti_ho_inviato=3F?=
+Received: by 2002:a05:6a10:e8a6:b0:2d4:fb1c:cc5e with HTTP; Tue, 9 Aug 2022
+ 15:15:03 -0700 (PDT)
+Reply-To: wijh555@gmail.com
+From:   "Dr. Ali Moses" <alimoses07@gmail.com>
+Date:   Tue, 9 Aug 2022 15:15:03 -0700
+Message-ID: <CADWzZe65tcOX2+bMZfMLLauGpHEQ9Cdv814nLU=uQvKzDFrEVg@mail.gmail.com>
+Subject: Good Day,
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
@@ -63,21 +60,21 @@ X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
         UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
         *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:542 listed in]
+        *      [2607:f8b0:4864:20:0:0:0:d32 listed in]
         [list.dnswl.org]
         *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
         *      [score: 0.5000]
         *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
         *      provider
-        *      [richfirm40[at]gmail.com]
+        *      [alimoses07[at]gmail.com]
         * -0.0 SPF_PASS SPF: sender matches SPF record
         *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
         *      digit
-        *      [evelynchez7[at]gmail.com]
+        *      [wijh555[at]gmail.com]
         *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
         *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
         *       in digit
-        *      [richfirm40[at]gmail.com]
+        *      [alimoses07[at]gmail.com]
         * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
         *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
         *       valid
@@ -96,9 +93,15 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Good Day how are you? Please when will i get your response to the
-email i sent to you?
+-- 
+Hello,
+We the Board Directors believe you are in good health, doing great and
+with the hope that this mail will meet you in good condition, We are
+privileged and delighted to reach you via email" And we are urgently
+waiting to hear from you. and again your number is not connecting.
 
+My regards,
+Dr. Ali Moses..
 
-Buon giorno come stai? Per favore quando ricever=C3=B2 la tua risposta al
-Email che ti ho inviato?
+Sincerely,
+Prof. Chin Guang
