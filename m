@@ -2,78 +2,111 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 491FA598F34
-	for <lists+linux-hams@lfdr.de>; Thu, 18 Aug 2022 23:13:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA7B75997CF
+	for <lists+linux-hams@lfdr.de>; Fri, 19 Aug 2022 10:50:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346684AbiHRVLY (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 18 Aug 2022 17:11:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35076 "EHLO
+        id S1346800AbiHSIpq (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 19 Aug 2022 04:45:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346808AbiHRVKd (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 18 Aug 2022 17:10:33 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA8C1D8E0C
-        for <linux-hams@vger.kernel.org>; Thu, 18 Aug 2022 14:05:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=W5UGnGy/GSwD9XyKYDYFsDjvFEW
-        7Q8vxwRA/nDT/aJw=; b=QroF6rJXK8HBFrDtaM64JKo/GIbhl5fGfPYUp8kcdnn
-        lf3fqvG17Ad3WgkxszBl/+t3JDZNoHAZIxKxzXBIC+bsC/IdKFP7cbev/pBsSPhc
-        iAVxSW5WIWWHj7VAEB/mdkRAaKUPpcAB7d+F7xkOSwd2H4qPUObAxKQmDjAovJfg
-        =
-Received: (qmail 3962886 invoked from network); 18 Aug 2022 23:02:06 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Aug 2022 23:02:06 +0200
-X-UD-Smtp-Session: l3s3148p1@jjBDS4rm4uEucref
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Joerg Reuter <jreuter@yaina.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
+        with ESMTP id S1347780AbiHSIpg (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 19 Aug 2022 04:45:36 -0400
+X-Greylist: delayed 85 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 19 Aug 2022 01:45:35 PDT
+Received: from einhorn-mail-out.in-berlin.de (einhorn.in-berlin.de [192.109.42.8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0B78BE4C6
+        for <linux-hams@vger.kernel.org>; Fri, 19 Aug 2022 01:45:35 -0700 (PDT)
+X-Envelope-From: thomas@x-berg.in-berlin.de
+Received: from x-berg.in-berlin.de (x-change.in-berlin.de [217.197.86.40])
+        by einhorn.in-berlin.de  with ESMTPS id 27J8hdYm2632683
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Fri, 19 Aug 2022 10:43:39 +0200
+Received: from thomas by x-berg.in-berlin.de with local (Exim 4.94.2)
+        (envelope-from <thomas@x-berg.in-berlin.de>)
+        id 1oOxbO-0005Fh-V0; Fri, 19 Aug 2022 10:43:38 +0200
+Date:   Fri, 19 Aug 2022 10:43:38 +0200
+From:   Thomas Osterried <thomas@osterried.de>
+To:     Francois Romieu <romieu@fr.zoreil.com>
+Cc:     netdev@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
+        linux-hams@vger.kernel.org,
+        "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-hams@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH] ax25: move from strlcpy with unused retval to strscpy
-Date:   Thu, 18 Aug 2022 23:02:05 +0200
-Message-Id: <20220818210206.8299-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
+        Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Bernard Pidoux <f6bvp@free.fr>,
+        Thomas Osterried <thomas@osterried.de>
+Subject: Re: [PATCH net-next 1/1] MAINTAINERS: update amateur radio status.
+Message-ID: <Yv9NOmXjRLf6WSCB@x-berg.in-berlin.de>
+References: <Yv6fCCB3vW++EGaP@electric-eye.fr.zoreil.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yv6fCCB3vW++EGaP@electric-eye.fr.zoreil.com>
+Sender: Thomas Osterried <thomas@x-berg.in-berlin.de>
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Follow the advice of the below link and prefer 'strscpy' in this
-subsystem. Conversion is 1:1 because the return value is not used.
-Generated by a coccinelle script.
+Hello,
 
-Link: https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- net/ax25/af_ax25.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I disagree.
 
-diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-index d82a51e69386..6b4c25a92377 100644
---- a/net/ax25/af_ax25.c
-+++ b/net/ax25/af_ax25.c
-@@ -778,7 +778,7 @@ static int ax25_getsockopt(struct socket *sock, int level, int optname,
- 		ax25_dev = ax25->ax25_dev;
- 
- 		if (ax25_dev != NULL && ax25_dev->dev != NULL) {
--			strlcpy(devname, ax25_dev->dev->name, sizeof(devname));
-+			strscpy(devname, ax25_dev->dev->name, sizeof(devname));
- 			length = strlen(devname) + 1;
- 		} else {
- 			*devname = '\0';
--- 
-2.35.1
+I hoped Ralf will come back and waited with my offer to do the maintainership.
 
+A question for the process: What needs to be done to get listet as maintainer?
+
+vy 73,
+	- Thomas  dl9sau
+
+
+On Thu, Aug 18, 2022 at 10:20:24PM +0200, Francois Romieu wrote:
+> There is still useful work in the linux kernel amateur radio area but
+> it should not hurt to align advertised expectations in MAINTAINERS file
+> with Ralf Baechle's stance from 2021/07/17.
+> 
+> Signed-off-by: Francois Romieu <romieu@fr.zoreil.com>
+> Link: https://marc.info/?l=linux-hams&m=162651322506623
+> ---
+>  MAINTAINERS | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f2d64020399b..691aa4e84537 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3436,7 +3436,7 @@ F:	drivers/iio/adc/hx711.c
+>  AX.25 NETWORK LAYER
+>  M:	Ralf Baechle <ralf@linux-mips.org>
+>  L:	linux-hams@vger.kernel.org
+> -S:	Maintained
+> +S:	Odd Fixes
+>  W:	http://www.linux-ax25.org/
+>  F:	include/net/ax25.h
+>  F:	include/uapi/linux/ax25.h
+> @@ -14074,7 +14074,7 @@ F:	net/netfilter/
+>  NETROM NETWORK LAYER
+>  M:	Ralf Baechle <ralf@linux-mips.org>
+>  L:	linux-hams@vger.kernel.org
+> -S:	Maintained
+> +S:	Odd Fixes
+>  W:	http://www.linux-ax25.org/
+>  F:	include/net/netrom.h
+>  F:	include/uapi/linux/netrom.h
+> @@ -17640,7 +17640,7 @@ F:	include/linux/mfd/rohm-shared.h
+>  ROSE NETWORK LAYER
+>  M:	Ralf Baechle <ralf@linux-mips.org>
+>  L:	linux-hams@vger.kernel.org
+> -S:	Maintained
+> +S:	Odd Fixes
+>  W:	http://www.linux-ax25.org/
+>  F:	include/net/rose.h
+>  F:	include/uapi/linux/rose.h
+> -- 
+> 2.37.1
+> 
+> 
