@@ -2,263 +2,93 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D23AD5AC80C
-	for <lists+linux-hams@lfdr.de>; Mon,  5 Sep 2022 00:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C242E5B00EA
+	for <lists+linux-hams@lfdr.de>; Wed,  7 Sep 2022 11:52:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235160AbiIDWtE (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 4 Sep 2022 18:49:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42484 "EHLO
+        id S230048AbiIGJwd (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 7 Sep 2022 05:52:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230495AbiIDWtC (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 4 Sep 2022 18:49:02 -0400
-Received: from shiva-su2.sorbonne-universite.fr (shiva-su2.sorbonne-universite.fr [134.157.0.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2BF3228E3C;
-        Sun,  4 Sep 2022 15:49:00 -0700 (PDT)
-Received: from nirriti.ent.upmc.fr (nirriti.dsi.upmc.fr [134.157.0.215])
-        by shiva-su2.sorbonne-universite.fr (Postfix) with ESMTP id 9862D413FDB0;
-        Mon,  5 Sep 2022 00:48:57 +0200 (CEST)
-Received: from [44.168.19.21] (lfbn-idf1-1-596-24.w86-242.abo.wanadoo.fr [86.242.59.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: pidoux)
-        by nirriti.ent.upmc.fr (Postfix) with ESMTPSA id C373F1234C71D;
-        Mon,  5 Sep 2022 00:48:58 +0200 (CEST)
-Message-ID: <4cb974e2-d5ba-d610-7fe8-4089256a9854@free.fr>
-Date:   Mon, 5 Sep 2022 00:48:58 +0200
+        with ESMTP id S230009AbiIGJwa (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 7 Sep 2022 05:52:30 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CD18B56D6
+        for <linux-hams@vger.kernel.org>; Wed,  7 Sep 2022 02:52:26 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id a22so9946665qtw.10
+        for <linux-hams@vger.kernel.org>; Wed, 07 Sep 2022 02:52:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date;
+        bh=DpObpoquH4YpznKJxVCFc58T2f9yvoIPiJpaYHSd//k=;
+        b=A+cXsyn3SHLjLVy2X+o5drWwgwE5qiUo932LzBb6OQQyJJVS6mxnhHK08CNx+sw4QK
+         RIqCYuVuzOnsD79fvf4SI4a06C5Cjbul20FvVAhBJLsTcHSqgHu+uX/hS0rNKLHxV+63
+         WmiPAoRjBhtd5WNpWQmjdRGeeU2x1pDDarZBvf/hayx8MuB9vflFisjtBvC95V715QPy
+         ZwDNmxzqNkqKWsr4beadPdjKmDI4x70jpMGlWZtIYeCTtYgJmRczRk41MXkaIz323dta
+         MYOIdmr2dZdZgUVxa2DCyrFr7qt/X6QkT1M2PN/n4khDpnRiNo2ZbkjYuG0+urjs+cfg
+         WWXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=DpObpoquH4YpznKJxVCFc58T2f9yvoIPiJpaYHSd//k=;
+        b=zM9yTTDvgIm6YqI9/cSNazu9xk5LweJSQhyANBrg4jkRJf1LW6pyBoiAtaRYZVoXDn
+         8Qkadpg9spriQIfQSxX/8DfgLjDa3lpbXyN3UKHMsr8xWGzOXr7IGWqS7JaMPTsew/4n
+         WYBKBC7nG/7hDCLMfP+M37AvquUmiDq3K7I8miBfQw8Y1esMUVxaKlxYAcEeAxCgNNJN
+         uh9XKue8tVwhiJKHU/vRVoSzTM3ce/k0BZ2mOhtE5owBFwCKcWbfZRAV9JvZ9m9kg8FH
+         OvWWg8x4Qy3UWbbInKuSvAITJVksCHXyMQFzOPxB3I1pfe4/3ziFxDugGpFLGG4fWe7M
+         bmqA==
+X-Gm-Message-State: ACgBeo0utWsK2gqjL3R/BlM9NPYnfZV3EmoEBRkJKlLk+N4RB4uRm/cp
+        LX21KIijZwN74/dGuozeO9K5eWraT4r25Vgla8E=
+X-Google-Smtp-Source: AA6agR4yIv/Z6+n+m4Jndfu4iRSYiVtuv7ceYMW5bPHOcbA9NZyEXPq0OzI2dbw9JrTf623YDolS5BEqdlrfk3Nh4aw=
+X-Received: by 2002:a05:622a:5a07:b0:343:4e03:d5a with SMTP id
+ fy7-20020a05622a5a0700b003434e030d5amr2271950qtb.357.1662544344748; Wed, 07
+ Sep 2022 02:52:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-To:     edumazet@google.com
-Cc:     davem@davemloft.net, duoming@zju.edu.cn, f6bvp@free.fr,
-        kuba@kernel.org, linux-hams@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        pabeni@redhat.com, ralf@linux-mips.org
-References: <CANn89i+FBa-KLJz5xPvk3jO3Miww4Vs+qw4nPf_9SPwiWpyTWw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] [PATCH] net: rose: fix unregistered netdevice:
- waiting for rose0 to become free
-Content-Language: en-US
-From:   f6bvp <f6bvp@free.fr>
-In-Reply-To: <CANn89i+FBa-KLJz5xPvk3jO3Miww4Vs+qw4nPf_9SPwiWpyTWw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
-        NICE_REPLY_A,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NEUTRAL,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a0c:fd8d:0:0:0:0:0 with HTTP; Wed, 7 Sep 2022 02:52:24 -0700 (PDT)
+Reply-To: servicepersoonlijke_aanbieding@aol.com
+From:   KREDITANGEBOT <oyelekanoyenikeabosede@gmail.com>
+Date:   Wed, 7 Sep 2022 03:52:24 -0600
+Message-ID: <CAGz_rygmEfAfTppqMP73+X7-SEAzTK7R2jor6_f=jzQRaOQnzA@mail.gmail.com>
+Subject: =?UTF-8?Q?Suchen_Sie_einen_Gesch=C3=A4ftskredit=2C_einen_Privatkredi?=
+        =?UTF-8?Q?t=2C_eine_Hypothek=2C_ein_Auto=3F?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Linux bernard-f6bvp 6.0.0-rc3-DEBUG+ #6 SMP PREEMPT_DYNAMIC Sun Sep 4 
-19:40:14 CEST 2022 x86_64 x86_64 x86_64 GNU/Linux
-
-
-Trying to removing rose module when it is no more in use is still impossible
-
-# lsmod
-
-Module                  Size  Used by
-
-rose                   53248  -1
-
-ax25                   65536  1 rose
-
-
-
-#dmesg
-..........
-[17199.188170] NET: Unregistered PF_ROSE protocol family
-
-[17209.327901] unregister_netdevice: waiting for rose0 to become free. 
-Usage count = 17
-
-[17209.327910] leaked reference.
-
-[17209.327913]  rose_rx_call_request+0x334/0x7b0 [rose]
-
-[17209.327923]  rose_route_frame+0x287/0x740 [rose]
-
-[17209.327928]  ax25_rx_iframe.part.0+0x8a/0x340 [ax25]
-
-[17209.327936]  ax25_rx_iframe+0x13/0x20 [ax25]
-
-[17209.327942]  ax25_std_frame_in+0x7ae/0x810 [ax25]
-
-[17209.327948]  ax25_rcv.constprop.0+0x5ee/0x880 [ax25]
-
-[17209.327953]  ax25_kiss_rcv+0x6c/0x90 [ax25]
-
-[17209.327959]  __netif_receive_skb_one_core+0x91/0xa0
-
-[17209.327964]  __netif_receive_skb+0x15/0x60
-
-[17209.327968]  process_backlog+0x96/0x140
-
-[17209.327971]  __napi_poll+0x33/0x190
-
-[17209.327974]  net_rx_action+0x19f/0x300
-
-[17209.327977]  __do_softirq+0x103/0x366
-
-[17209.327983] leaked reference.
-
-[17209.327985]  rose_rx_call_request+0x334/0x7b0 [rose]
-
-[17209.327990]  rose_loopback_timer+0xa3/0x1c0 [rose]
-
-[17209.327995]  call_timer_fn+0x2c/0x150
-
-[17209.328000]  __run_timers.part.0+0x1d9/0x280
-
-[17209.328003]  run_timer_softirq+0x3f/0xa0
-
-[17209.328007]  __do_softirq+0x103/0x366
-
-[17209.328011] leaked reference.
-
-[17209.328013]  rose_rx_call_request+0x334/0x7b0 [rose]
-
-[17209.328018]  rose_route_frame+0x287/0x740 [rose]
-
-[17209.328023]  ax25_rx_iframe.part.0+0x8a/0x340 [ax25]
-
-[17209.328028]  ax25_rx_iframe+0x13/0x20 [ax25]
-
-[17209.328034]  ax25_std_frame_in+0x7ae/0x810 [ax25]
-
-[17209.328040]  ax25_rcv.constprop.0+0x5ee/0x880 [ax25]
-
-[17209.328045]  ax25_kiss_rcv+0x6c/0x90 [ax25]
-
-[17209.328050]  __netif_receive_skb_one_core+0x91/0xa0
-
-[17209.328054]  __netif_receive_skb+0x15/0x60
-
-[17209.328057]  process_backlog+0x96/0x140
-
-[17209.328060]  __napi_poll+0x33/0x190
-
-[17209.328063]  net_rx_action+0x19f/0x300
-
-[17209.328067]  __do_softirq+0x103/0x366
-
-[17209.328071] leaked reference.
-
-[17209.328072]  rose_rx_call_request+0x334/0x7b0 [rose]
-
-[17209.328077]  rose_loopback_timer+0xa3/0x1c0 [rose]
-
-[17209.328082]  call_timer_fn+0x2c/0x150
-
-[17209.328085]  __run_timers.part.0+0x1d9/0x280
-
-[17209.328089]  run_timer_softirq+0x3f/0xa0
-
-[17209.328092]  __do_softirq+0x103/0x366
-
-[17209.328096] leaked reference.
-
-[17209.328098]  rose_rx_call_request+0x334/0x7b0 [rose]
-
-[17209.328103]  rose_loopback_timer+0xa3/0x1c0 [rose]
-
-[17209.328107]  call_timer_fn+0x2c/0x150
-
-[17209.328111]  __run_timers.part.0+0x1d9/0x280
-
-[17209.328114]  run_timer_softirq+0x3f/0xa0
-
-[17209.328117]  __do_softirq+0x103/0x366
-
-[17209.328121] leaked reference.
-
-[17209.328123]  rose_rx_call_request+0x334/0x7b0 [rose]
-
-[17209.328128]  rose_route_frame+0x287/0x740 [rose]
-
-[17209.328133]  ax25_rx_iframe.part.0+0x8a/0x340 [ax25]
-
-[17209.328138]  ax25_rx_iframe+0x13/0x20 [ax25]
-
-[17209.328144]  ax25_std_frame_in+0x7ae/0x810 [ax25]
-
-[17209.328150]  ax25_rcv.constprop.0+0x5ee/0x880 [ax25]
-
-[17209.328155]  ax25_kiss_rcv+0x6c/0x90 [ax25]
-
-[17209.328160]  __netif_receive_skb_one_core+0x91/0xa0
-
-[17209.328164]  __netif_receive_skb+0x15/0x60
-
-[17209.328167]  process_backlog+0x96/0x140
-
-[17209.328170]  __napi_poll+0x33/0x190
-
-[17209.328173]  net_rx_action+0x19f/0x300
-
-[17209.328176]  __do_softirq+0x103/0x366
-
-[17209.328180] leaked reference.
-
-[17209.328182]  rose_rx_call_request+0x334/0x7b0 [rose]
-
-[17209.328187]  rose_loopback_timer+0xa3/0x1c0 [rose]
-
-[17209.328192]  call_timer_fn+0x2c/0x150
-
-[17209.328195]  __run_timers.part.0+0x1d9/0x280
-
-[17209.328198]  run_timer_softirq+0x3f/0xa0
-
-[17209.328202]  __do_softirq+0x103/0x366
-
-[17209.328206] leaked reference.
-
-[17209.328208]  rose_rx_call_request+0x334/0x7b0 [rose]
-
-[17209.328212]  rose_loopback_timer+0xa3/0x1c0 [rose]
-
-[17209.328217]  call_timer_fn+0x2c/0x150
-
-[17209.328220]  __run_timers.part.0+0x1d9/0x280
-
-[17209.328223]  run_timer_softirq+0x3f/0xa0
-
-[17209.328227]  __do_softirq+0x103/0x366
-
-[17209.328231] leaked reference.
-
-[17209.328232]  rose_rx_call_request+0x334/0x7b0 [rose]
-
-[17209.328237]  rose_loopback_timer+0xa3/0x1c0 [rose]
-
-[17209.328242]  call_timer_fn+0x2c/0x150
-
-[17209.328245]  __run_timers.part.0+0x1d9/0x280
-
-[17209.328248]  run_timer_softirq+0x3f/0xa0
-
-[17209.328252]  __do_softirq+0x103/0x366
-
-[17209.328256] leaked reference.
-
-[17209.328258]  rose_rx_call_request+0x334/0x7b0 [rose]
-
-[17209.328262]  rose_loopback_timer+0xa3/0x1c0 [rose]
-
-[17209.328267]  call_timer_fn+0x2c/0x150
-
-[17209.328270]  __run_timers.part.0+0x1d9/0x280
-
-[17209.328273]  run_timer_softirq+0x3f/0xa0
-
-[17209.328277]  __do_softirq+0x103/0x366
-
-
-
-
-
-
-
-
+--=20
+Hallo
+
+Suchen Sie einen Gesch=C3=A4ftskredit, einen Privatkredit, eine Hypothek,
+ein Auto? Darlehen, Studiendarlehen, Schuldenkonsolidierungsdarlehen,
+unbesicherte Darlehen, Risiko Kapital etc ... sind Sie bei uns genau
+richtig Ihre Kreditl=C3=B6sungen! Ich bin ein privater Kreditgeber, der
+Kredite vergibt
+Privatpersonen und Unternehmen zu einem niedrigen Zinssatz und
+erschwinglich Zinssatz von 2%. Kontaktieren Sie uns per E-Mail:
+servicepersoonlijke_aanbieding@aol.com
+
+
+Dein Name:
+Land:
+Erforderlicher Kreditbetrag:
+Dauer:
+Telefon:
+Monatliches Einkommen:
+Arbeit:
+
+Gott segne dich
+HINWEISE: ALLE ANTWORTEN WERDEN VON UNS GESENDET:
+servicepersoonlijke_aanbieding@aol.com
+
+GR=C3=9CSSE
