@@ -2,48 +2,130 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D834A5B461F
-	for <lists+linux-hams@lfdr.de>; Sat, 10 Sep 2022 13:49:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0C005BA3E7
+	for <lists+linux-hams@lfdr.de>; Fri, 16 Sep 2022 03:17:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbiIJLtc (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 10 Sep 2022 07:49:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45272 "EHLO
+        id S229846AbiIPBRp (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 15 Sep 2022 21:17:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbiIJLta (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 10 Sep 2022 07:49:30 -0400
-Received: from einhorn-mail-out.in-berlin.de (einhorn.in-berlin.de [192.109.42.8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F388E2621
-        for <linux-hams@vger.kernel.org>; Sat, 10 Sep 2022 04:49:26 -0700 (PDT)
-X-Envelope-From: thomas@x-berg.in-berlin.de
-Received: from x-berg.in-berlin.de (x-change.in-berlin.de [217.197.86.40])
-        by einhorn.in-berlin.de  with ESMTPS id 28ABn5Ki2858591
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Sat, 10 Sep 2022 13:49:05 +0200
-Received: from thomas by x-berg.in-berlin.de with local (Exim 4.94.2)
-        (envelope-from <thomas@x-berg.in-berlin.de>)
-        id 1oWyyv-0008Qi-11; Sat, 10 Sep 2022 13:49:05 +0200
-Date:   Sat, 10 Sep 2022 13:49:04 +0200
-From:   Thomas Osterried <thomas@osterried.de>
-To:     Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Bernard Pidoux <f6bvp@free.fr>,
-        Duoming Zhou <duoming@zju.edu.cn>, netdev@vger.kernel.org,
-        linux-hams@vger.kernel.org
-Subject: Re: [AX25] patch did not fix --  was: ax25: fix incorrect
- dev_tracker usage
-Message-ID: <Yxx5sJh/TLzSR5xU@x-berg.in-berlin.de>
-References: <Yxw5siQ3FC6VHo7C@x-berg.in-berlin.de>
+        with ESMTP id S229544AbiIPBRh (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 15 Sep 2022 21:17:37 -0400
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01hn2205.outbound.protection.outlook.com [52.100.0.205])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C90A7757A;
+        Thu, 15 Sep 2022 18:17:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S4zNsTA1GtSbc/0kAsfDc0D42MqMUxzKoKQxE+jbb4HFKt0l1Xa6OySfaHegb1mGJyat185df5zerzg05KYlbuS2xLe6QJgBNvAwOYT/6SHtRQFFfT1zPeQXkZneWVhz4QNh2WbINDhHSPVdJgvK2ds3KTAFlXPI7klef5eDdM6z/mOEA1nafD8f/uC1JJJ/v5BUiQooqnBHPszEPRvMSAip1wDuVdIttjpHdbKFE6oPl+c6nrOogdqTNY0VCsFAEOOI4Bbv9ygbY49M8QHFT8LjAhQ+UuAwgyv4BbRtH/RBqVjdPyPoTEry00wHj+00dgoJ52sn9V6btFE6mlebYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bs10Md+15nMnyayKLyd22Uv+/ZH79IcFcpzuzGLq1Fg=;
+ b=ABF4zgQLqPSYDA3/AOmTmGs5pbxsOCLrHKldFkHAyKG7Eb9cDwIhH6cPVvalVW27VQ/GOR0WWe75cAGbXNNME98XP8O1A5Y/2r7W9M5AmB0RgHQ1ggFSuMtcY34fo/iwYY+WMWaEqd3mdi7tgLGpqQh8JIlWBPodeEUHR7PEWk9paY1QEKp+A44rnl+beLFnRAgLbbLrnMmJQpwjd3EjMynNffn9W0DEfSQMjtHyqTiKwm/qg8hSF8FW+RVQY+vfGA/YRFiPyNddJmy/v4iYAbcqYEXC0ex5AXseQpzknyjuRygZR/bXjPdhoGBKwf/ihIA2b1PAeTshDafVBOyXZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 45.14.71.5) smtp.rcpttodomain=mail.uni-mainz.de smtp.mailfrom=t4.cims.jp;
+ dmarc=bestguesspass action=none header.from=t4.cims.jp; dkim=none (message
+ not signed); arc=none (0)
+Received: from SG2PR02CA0089.apcprd02.prod.outlook.com (2603:1096:4:90::29) by
+ KL1PR0401MB4130.apcprd04.prod.outlook.com (2603:1096:820:21::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.14; Fri, 16 Sep
+ 2022 01:17:34 +0000
+Received: from SG2APC01FT0020.eop-APC01.prod.protection.outlook.com
+ (2603:1096:4:90:cafe::13) by SG2PR02CA0089.outlook.office365.com
+ (2603:1096:4:90::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.16 via Frontend
+ Transport; Fri, 16 Sep 2022 01:17:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 45.14.71.5)
+ smtp.mailfrom=t4.cims.jp; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=t4.cims.jp;
+Received-SPF: Pass (protection.outlook.com: domain of t4.cims.jp designates
+ 45.14.71.5 as permitted sender) receiver=protection.outlook.com;
+ client-ip=45.14.71.5; helo=User; pr=M
+Received: from mail.prasarana.com.my (58.26.8.159) by
+ SG2APC01FT0020.mail.protection.outlook.com (10.13.36.117) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5632.12 via Frontend Transport; Fri, 16 Sep 2022 01:17:32 +0000
+Received: from MRL-EXH-02.prasarana.com.my (10.128.66.101) by
+ MRL-EXH-02.prasarana.com.my (10.128.66.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Fri, 16 Sep 2022 09:17:02 +0800
+Received: from User (45.14.71.5) by MRL-EXH-02.prasarana.com.my
+ (10.128.66.101) with Microsoft SMTP Server id 15.1.2176.14 via Frontend
+ Transport; Fri, 16 Sep 2022 09:16:27 +0800
+Reply-To: <rhashimi202222@kakao.com>
+From:   Consultant Swift Capital Loans Ltd <info@t4.cims.jp>
+Subject: I hope you are doing well, and business is great!
+Date:   Fri, 16 Sep 2022 09:17:13 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yxw5siQ3FC6VHo7C@x-berg.in-berlin.de>
-Sender: Thomas Osterried <thomas@x-berg.in-berlin.de>
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <b6ddaece-1ca6-43f5-8952-0fc7d50aeeb1@MRL-EXH-02.prasarana.com.my>
+To:     Undisclosed recipients:;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender: ip=[45.14.71.5];domain=User
+X-MS-Exchange-ExternalOriginalInternetSender: ip=[45.14.71.5];domain=User
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG2APC01FT0020:EE_|KL1PR0401MB4130:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5ad405e9-5ae2-43d1-aa10-08da97813b2d
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?windows-1251?Q?FHqI8+s7pKKRlS69NfkDlp1BxodDyoLQZMN7ITGboB71dh486cANKC47?=
+ =?windows-1251?Q?1kYhoZSVY9O6IgjlubSS0jLTtf3V9SK6sqkanngfUQ/Zz4DSZY1HOClW?=
+ =?windows-1251?Q?ntReVrwe8DBG1jzuoM8kimh9zadoh5ZbTRkPc46r11pB8NN8DEaDbZyq?=
+ =?windows-1251?Q?c94xsQGITRm4Ub4NhZQzwlUCZwbw0Z5cgoLuKXoSIS+bY6LQNTlzuTv8?=
+ =?windows-1251?Q?Zilwj1VupMrGVJ5MHKDIGpmA+f2jUvCZlGzLDwVJKbsJtTukkRAgan5P?=
+ =?windows-1251?Q?qtsh+tRTtnJJg5mkNhv1sZO2IOt3Sn2mEXLvcC8r+qFhF0sHnbntOP0m?=
+ =?windows-1251?Q?Pqy9sPZ5M1ukYPP3QkDAbYa40wB+prhusbZE0aiToCrXJPQ4B90OUmU1?=
+ =?windows-1251?Q?Z+yrIMtvD38sw5oUqYfTdhttdrhmTLKC7ENigvomCFB6l6gUX9LTdQs4?=
+ =?windows-1251?Q?HmzwAPWCQEMxBqpQDXE1ZzAyESwCn12NftDmcco8RmV1YblR22RF7yym?=
+ =?windows-1251?Q?5NuKJa/PUPUuaOx4nAQNHHgwiC1SqG2fAecociulPUJ9Z58Q4xa8R6D5?=
+ =?windows-1251?Q?3AnB1YHozvT9pD4bprgQzMRh0cyDU+DJPonD1vXYk/GAa51nysO4ODKE?=
+ =?windows-1251?Q?qcjq9iUTE8DmC4nhN5ok6tYVgiqDEU885P9bnGV+/yDRwZiWfyZYyI96?=
+ =?windows-1251?Q?a3k/I0RBGpA2s7FvvjakB5qS4KymcmE6uKjWnnCSDoca9G9debA/Z2Qu?=
+ =?windows-1251?Q?di8gzhRgRIzN0pWeN8c/rAjH6xaeu3mj0cd11lskX/qBwf7JOrGiZ331?=
+ =?windows-1251?Q?99utJAGwP6vqDh141fsr2q+c7JYDudamBAi0WjqHSjSg81AOP0LFM/TY?=
+ =?windows-1251?Q?zGaQhSDiTQWT9bwFAQxGY7E5ZKgrzl8+Pp9gPbbt/Mkkq8vSTvbPAv8S?=
+ =?windows-1251?Q?p6QF0P+L+MQE9YgqjIm/DdHCmbN9J/RFxnZZPU1cJV6LoWi2Aa5aR6yV?=
+ =?windows-1251?Q?gnqsrOACuT2B5QHPGCvYyIJQYcYDZbvJRXYBgNwNPiIWVi48nU2GWvP+?=
+ =?windows-1251?Q?A8Fk/0LV6OtLSLNmSpnazPhzco9KgJCSxOI/XiJDNWM1WJ7U+G4cWoju?=
+ =?windows-1251?Q?UFmjSzd/XaXEoVZLK79nlBXMYOWxAAFQ3ZpS2F1ahwcOJQE09xZh1Jv3?=
+ =?windows-1251?Q?PTF+b5aMPsmmgmmbpucQMey3UR+15oFAUI7bEgbEj7D6iqk55VP48EAs?=
+ =?windows-1251?Q?PfC3X2qOo4OIy7J7wsqwrHVXVpuLlsDuD10exlN5lcteVtv8sgGKLbpX?=
+ =?windows-1251?Q?qZP8PZXW+QlbgjYwDt1b76z8HM8PJ8ficinjDlGO/NRizKRX?=
+X-Forefront-Antispam-Report: CIP:58.26.8.159;CTRY:JP;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:User;PTR:45.14.71.5.static.xtom.com;CAT:OSPM;SFS:(13230022)(4636009)(136003)(376002)(39860400002)(396003)(346002)(451199015)(46966006)(40470700004)(66899012)(81166007)(31686004)(4744005)(2906002)(5660300002)(40460700003)(82740400003)(7406005)(7416002)(956004)(31696002)(26005)(9686003)(40480700001)(6666004)(41300700001)(498600001)(86362001)(8936002)(32850700003)(156005)(36906005)(316002)(336012)(35950700001)(82310400005)(109986005)(8676002)(70206006)(70586007)(47076005)(2700400008);DIR:OUT;SFP:1501;
+X-OriginatorOrg: myprasarana.onmicrosoft.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2022 01:17:32.5145
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ad405e9-5ae2-43d1-aa10-08da97813b2d
+X-MS-Exchange-CrossTenant-Id: 3cbb2ff2-27fb-4993-aecf-bf16995e64c0
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3cbb2ff2-27fb-4993-aecf-bf16995e64c0;Ip=[58.26.8.159];Helo=[mail.prasarana.com.my]
+X-MS-Exchange-CrossTenant-AuthSource: SG2APC01FT0020.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0401MB4130
+X-Spam-Status: Yes, score=6.2 required=5.0 tests=AXB_XMAILER_MIMEOLE_OL_024C2,
+        AXB_X_FF_SEZ_S,BAYES_50,FORGED_MUA_OUTLOOK,FSL_CTYPE_WIN1251,
+        FSL_NEW_HELO_USER,HEADER_FROM_DIFFERENT_DOMAINS,NSL_RCVD_FROM_USER,
+        SPF_HELO_PASS,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5049]
+        *  0.0 NSL_RCVD_FROM_USER Received from User
+        *  0.0 FSL_CTYPE_WIN1251 Content-Type only seen in 419 spam
+        *  3.2 AXB_X_FF_SEZ_S Forefront sez this is spam
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+        *  0.2 HEADER_FROM_DIFFERENT_DOMAINS From and EnvelopeFrom 2nd level
+        *      mail domains are different
+        *  0.0 AXB_XMAILER_MIMEOLE_OL_024C2 Yet another X header trait
+        *  0.0 FSL_NEW_HELO_USER Spam's using Helo and User
+        *  1.9 FORGED_MUA_OUTLOOK Forged mail pretending to be from MS Outlook
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -52,169 +134,15 @@ X-Mailing-List: linux-hams@vger.kernel.org
 
 Hello,
 
-please allow me the question what the patch tries to fix.
+I hope you are doing well, and business is great!
+However, if you need working capital to further grow and expand your business, we may be a perfect fit for you. I am Ms. Kaori Ichikawa Swift Capital Loans Ltd Consultant, Our loans are NOT based on your personal credit, and NO collateral is required.
 
-1. we add sessions to the list of active sessions ax25_cb_add(ax25),
-   and remove them on close.
-   Why do we need a tracker?
+We are a Direct Lender who can approve your loan today, and fund as Early as Tomorrow.
 
-2. ax25_dev.c:
-   ax25_dev_device_up():
-     netdev_hold(dev, &ax25_dev->dev_tracker, GFP_KERNEL);
-   ax25_dev_device_down():
-     netdev_put(dev, &ax25_dev->dev_tracker);
-   ax25_dev_free():
-     netdev_put(ax25_dev->dev, &ax25_dev->dev_tracker);
+Once your reply I will send you the official website to complete your application
 
-   Just to be sure: It's the list of active ax25-interface, correct?
+Waiting for your reply.
 
-   -> Looks good to me.
-
-3. On device status change, i.e. NETDEV_DOWN, ax25_device_event() calls
-   ax25_kill_by_device(dev)
-     and
-   ax25_dev_device_down(dev) (we saw in 2)).
-
-   Before patches
-     7c6327c77d509e78bff76f2a4551fcfee851682e /	d7c4c9e075f8cc6d88d277bc24e5d99297f03c06
-   we did
-    in ax25_relase(): netdev_put(ax25_dev->dev, &ax25_dev->dev_tracker);
-   and
-    in ax25_bind(); netdev_hold(ax25_dev->dev, &ax25_dev->dev_tracker, GFP_ATOMIC);
-
-   ax25_kill_by_device() traverses through the list of active connections
-   (ax25_list):
-       if (sk->sk_socket) {
-               netdev_put(ax25_dev->dev,
-                      &ax25_dev->dev_tracker);
-               ax25_dev_put(ax25_dev);
-       }
-
-    The patches mentioned above were:
-      ax25_release(): netdev_put(ax25_dev->dev, &ax25->dev_tracker);
-      ax25_bind(): netdev_hold(ax25_dev->dev, &ax25->dev_tracker, GFP_ATOMIC);
-
-    -> Previously, each session (ax25_cb) was added to it's device with the
-         dev_tracker of the _device_ (&ax25_dev->dev_tracker)
-       Now, each session (ax25_cb) is added with it's own dev_tracker
-         &ax25->dev_tracker
-       But:
-         ax25_kill_by_device() goes through the list of active sessions and
-         does
-           netdev_put(ax25_dev->dev, &ax25_dev->dev_tracker);
-         instead of the new concept; I would have expected:
-           netdev_put(ax25_dev->dev, &s->dev_tracker);
-         
-         If we netdev_put() to a non-existent tracker, this may explain
-         the warnings
-           unregister_netdevice: waiting for bpq1 to become free. Usage count = -2
-         and
-           refcount_t: underflow; use-after-free.
-         that I observed in my previous mail.
-
-   
-4. Again, my question for understanding about the dev_tracker concept:
-   should _all_ in- and outgoing sessions be tracked?
-   If so, I argue we have to add
-     - new outbound sessions to the tracker (i.E. if a IP mode VC frame is
-       sent)
-     - new inbound sessions to the tracker
-
-
-   Also, ax25_bind() currently does not track all sessions:
-
-        /*
-         * User already set interface with SO_BINDTODEVICE
-         */
-        if (ax25->ax25_dev != NULL)
-                goto done;
-        ...
-        if (ax25_dev) {
-                ax25_fillin_cb(ax25, ax25_dev);
-                netdev_hold(ax25_dev->dev, &ax25->dev_tracker, GFP_ATOMIC);
-        }
-	done:
-        	ax25_cb_add(ax25);
-
-    -> If user has previously called ax25_setsockopt() with SO_BINDTODEVICE,
-       the device has been added to ax25->ax25_dev. But ax25_bind() does not
-       add it to the tracker list (see above, ax25->ax25_dev is != NULL).
-
-
-   ax25_connect() does also currently not track all sessions:
-
-      There's a spcial condition sock_flag(sk, SOCK_ZAPPED), where connect()
-      is allowed to be called without having gone through ax25_bind().
-      Via ax25_rt_autobind(ax25, ..) it get's the appropriete ax25>dev.
-      -> ax25_fillin_cb(ax25, ax25->ax25_dev);
-         ax25_cb_add(ax25);
-      => No tracker is added for this session.
-
-
-   ax25_kill_by_device() does remove the tracker. I argued above, it removes
-   the wrong tracker here:
-                        if (sk->sk_socket) {
-                                netdev_put(ax25_dev->dev,
-                                           &ax25_dev->dev_tracker);
-                                ax25_dev_put(ax25_dev);
-                        }
-   ..instead of &s->dev_tracker.
-
-   And if we have trackers for all sessions (not only those that came via
-   ax25_bind() from userspace), it's not enough to remove the tracker only
-   for sessions with sk->socket.
-   
-   -> I would have expeted
-      ax25_for_each(s, &ax25_list) {
-        if (s->ax25_dev == ax25_dev) {
-          if (s->ax25_dev == ax25_dev) {
-            netdev_put(ax25_dev->dev, &s->dev_tracker);
-            ...
-   
-
-   Finally:
-   On normal session close (userspace program, or idle timer expiry),
-   we need to have timers running for correct AX.25-session-close:
-   If we are in connected state (AX25_STATE_3 or AX25_STATE_4), we need
-   to send DISC in interval until max retry reached, or until we receive
-   a DM-). 
-   In ax25_release(), we see:
-     if (ax25_dev) {
-         ...
-         netdev_put(ax25_dev->dev, &ax25->dev_tracker);
-         ax25_dev_put(ax25_dev);
-   But we need have timers running for ax25_cb's that still refer to
-   the network dev (and need to be there until correct session
-   termination), we have a conflict here, because
-   netdev_put() assures here we are not allowed to refer to the
-   dev anymore.
-   That needs to be resolved.
- 
-
-Context:
-
-diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-index bbac3cb4dc99d..d82a51e69386b 100644
---- a/net/ax25/af_ax25.c
-+++ b/net/ax25/af_ax25.c
-@@ -1066,7 +1066,7 @@ static int ax25_release(struct socket *sock)
- 			del_timer_sync(&ax25->t3timer);
- 			del_timer_sync(&ax25->idletimer);
- 		}
--		netdev_put(ax25_dev->dev, &ax25_dev->dev_tracker);
-+		netdev_put(ax25_dev->dev, &ax25->dev_tracker);
- 		ax25_dev_put(ax25_dev);
- 	}
- 
-@@ -1147,7 +1147,7 @@ static int ax25_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len)
- 
- 	if (ax25_dev) {
- 		ax25_fillin_cb(ax25, ax25_dev);
--		netdev_hold(ax25_dev->dev, &ax25_dev->dev_tracker, GFP_ATOMIC);
-+		netdev_hold(ax25_dev->dev, &ax25->dev_tracker, GFP_ATOMIC);
- 	}
- 
- done:
-
-
-
+Regards
+Ms. Kaori Ichikawa
+Consultant Swift Capital Loans Ltd
