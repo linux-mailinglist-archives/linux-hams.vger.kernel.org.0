@@ -2,115 +2,106 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAF285E913D
-	for <lists+linux-hams@lfdr.de>; Sun, 25 Sep 2022 08:25:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F2B85EB15A
+	for <lists+linux-hams@lfdr.de>; Mon, 26 Sep 2022 21:31:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229616AbiIYGZQ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hams@lfdr.de>); Sun, 25 Sep 2022 02:25:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60718 "EHLO
+        id S229780AbiIZTbY (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 26 Sep 2022 15:31:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbiIYGZP (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 25 Sep 2022 02:25:15 -0400
-Received: from einhorn-mail-out.in-berlin.de (einhorn.in-berlin.de [192.109.42.8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17E0A11A0F
-        for <linux-hams@vger.kernel.org>; Sat, 24 Sep 2022 23:25:09 -0700 (PDT)
-X-Envelope-From: thomas@osterried.de
-Received: from x-berg.in-berlin.de (x-change.in-berlin.de [217.197.86.40])
-        by einhorn.in-berlin.de  with ESMTPS id 28P6P3n23585903
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Sun, 25 Sep 2022 08:25:03 +0200
-Received: from x-berg.in-berlin.de ([217.197.86.42] helo=smtpclient.apple)
-        by x-berg.in-berlin.de with esmtpa (Exim 4.94.2)
-        (envelope-from <thomas@osterried.de>)
-        id 1ocL4Z-00021Z-2O; Sun, 25 Sep 2022 08:25:03 +0200
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: Problems in compiling ax25apps on modern systems -- nothing to
- fix?
-From:   Thomas Osterried <thomas@osterried.de>
-In-Reply-To: <0bb5641b-53a8-ff10-1dbe-b4ac913421e2@gmail.com>
-Date:   Sun, 25 Sep 2022 08:25:02 +0200
-Cc:     David Ranch <dranch@trinnet.net>, linux-hams@vger.kernel.org
-Content-Transfer-Encoding: 8BIT
-Message-Id: <65A875CE-F0F9-4008-AC96-29AB6E95FF50@osterried.de>
-References: <43ef460e-d884-87ad-b865-0b8dcd1cd9a8@trinnet.net>
- <f18c0409-dd3a-71cf-6f4f-dab05c600ea2@trinnet.net>
- <2CEB20FD-4469-4014-80DF-13858987B5B1@osterried.de>
- <0bb5641b-53a8-ff10-1dbe-b4ac913421e2@gmail.com>
-To:     Bernard Pidoux <bernard.f6bvp@gmail.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,NORMAL_HTTP_TO_IP,
-        NUMERIC_HTTP_ADDR,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        with ESMTP id S230025AbiIZTbT (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 26 Sep 2022 15:31:19 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3A989F0F4
+        for <linux-hams@vger.kernel.org>; Mon, 26 Sep 2022 12:31:16 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id n83so9473848oif.11
+        for <linux-hams@vger.kernel.org>; Mon, 26 Sep 2022 12:31:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date;
+        bh=rA5xeXD0TyjUhjvsrx6ejmOzOVqFLC9Uf1Of+5mK/os=;
+        b=XYLGtCvyTnJImyC4fHMGRBRWfyyGInN0ek05ZAmxmZqzFNBT5Kr1LPwn4NSLbAHbck
+         dJ4mTOJiA9Ng0qmJdG8lgA8J+4GW04jkMT0EZCXUP1k2nm1DDZWG/UWhgNwT2d311gxN
+         cbzXEZcV9PEWeb4auJ8YfKX51kuM63TVorvqcTP621X6VMY42pEknEr00Qj/eaCkiv3u
+         iIHSoKyAGlOaSeLoe9UzG98QVrElZO+9Ue7rCD3hFoNoOxcHO1OyBq8qgCmfHrjEa47H
+         xRUze1ZrVNTpSAXVnKTKl41z7UCbFNPTrsF1+4880Xce3SH7oZ//g65K5OoBHG+dvcGs
+         yzJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=rA5xeXD0TyjUhjvsrx6ejmOzOVqFLC9Uf1Of+5mK/os=;
+        b=rQLFt1XYm69FjO4vQXiqho2pYkJ6jo8zhHpKRb/lgMB2ApMU4ITZvt4G9653MRHATd
+         tu9gyKaxXJYwnd+58hROirgCrCS4Gg0C9+G1+sZp4W7y9jhclCWVHFb9b/LBpnOauL+y
+         9V2Y2l9wPFzc2laZvkWtOHkm/aJ/K2BcUiFVHtRrSImCs+EMgp8Ny+2+LXU6cAoumj54
+         eejVm1XQnKiBPa0nlzl6ekSmqLhxogK5uxzyMbn0VkUM/QaW+zsCeFrCULCBjnLYT+VQ
+         sF7qoCSlI5i8p8S1/iHzu8zB7S/xfF66LI82jMb1VxNB+wrFiYFBiWzObo6WIocAN/jQ
+         XSVA==
+X-Gm-Message-State: ACrzQf1NunCnL36vfjcabcszmVwA62m9e8Hk5xyjHO2AQd7rTqrUoojB
+        RsrmMU3+g6+s2IsL9yGRZ1cjYGK/jUs1TsY0u/g=
+X-Google-Smtp-Source: AMsMyM4VRTXS41jsPPJScI9q/EFUHpNf32UA5q3Da+DZbTVyGQsvA+z+WpVJmroZvC8Z6n2RBouuoygEzzes90zagS4=
+X-Received: by 2002:a05:6808:30a0:b0:34f:656c:1909 with SMTP id
+ bl32-20020a05680830a000b0034f656c1909mr140742oib.115.1664220675896; Mon, 26
+ Sep 2022 12:31:15 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a05:6358:7253:b0:c7:f373:780 with HTTP; Mon, 26 Sep 2022
+ 12:31:15 -0700 (PDT)
+Reply-To: pointerscott009@gmail.com
+From:   Aminuind Aabawa <aminuindabawa00@gmail.com>
+Date:   Mon, 26 Sep 2022 20:31:15 +0100
+Message-ID: <CAP_JfypsEfR_sHu+px7aKWhO=YFVcTcfQP7xigQtUQG=Q-mYWg@mail.gmail.com>
+Subject: =?UTF-8?Q?Bussines_offer_Gesch=C3=A4ftsangebot=2E?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:244 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [pointerscott009[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [aminuindabawa00[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [aminuindabawa00[at]gmail.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello Bernard,
-
-congrats, but it does not answer my question.
-
-You mentioned in https://www.spinics.net/lists/linux-hams/msg05082.html compilation errors,
-and David sent fixes and askmne to apply, for a problem that I cannot reproduce.
-
-Even more, David's suggested to
-  add includes that already exist in the ax25-apps/-tools since 23 years,
-and to remove a macro in configure.ac that does not exist. -- with the result that nothing is left to be patched.
-
-I'm still confused about your problems.
-
-vy 73,
-	- Thomas  dl9sau
+--=20
+Hello, Do you have a projects that need urgent loan??
+Granting out loans today in 10,000 / 500 Million to Interested
+Investors, Companies & Private Individuals.
+Revert back if you interested.
 
 
-
-> Am 24.09.2022 um 19:40 schrieb Bernard Pidoux <bernard.f6bvp@gmail.com>:
-> 
-> Hi David,
-> 
-> I am using the last kernel available for RaspBerry Pi that includes my recent patch reparing ROSE broken since 5.4.78.
-> 
-> Linux F6BVP-8 5.15.68-v7+ #1586 SMP Fri Sep 16 12:07:16 BST 2022 armv7l GNU/Linux
-> 
-> 
-> Using the following instructions I can install AX25 library, tools and apps without issues.
-> 
-> http://44.168.19.18/configuration6_RPi.html
-> 
-> 
-> 
-> My updAX25 script is getting and installing AX25 library, tools and apps sources from :
-> 
-> 
-> 
-> wget https://github.com/ve7fet/linuxax25/archive/master.zip
-> 
-> 
-> 
-> Gcc :
-> 
-> 
-> 
-> Using built-in specs.
-> 
-> COLLECT_GCC=gcc
-> 
-> COLLECT_LTO_WRAPPER=/usr/lib/gcc/arm-linux-gnueabihf/8/lto-wrapper
-> 
-> Target: arm-linux-gnueabihf
-> 
-> Configured with: ../src/configure -v --with-pkgversion='Raspbian 8.3.0-6+rpi1' --with-bugurl=file:///usr/share/doc/gcc-8/README.Bugs --enable-languages=c,ada,c++,go,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-8 --program-prefix=arm-linux-gnueabihf- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-libitm --disable-libquadmath --disable-libquadmath-support --enable-plugin --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-sjlj-exceptions --with-arch=armv6 --with-fpu=vfp --with-float=hard --disable-werror --enable-checking=release --build=arm-linux-gnueabihf --host=arm-linux-gnueabihf --target=arm-linux-gnueabihf
-> 
-> Thread model: posix
-> 
-> gcc version 8.3.0 (Raspbian 8.3.0-6+rpi1)
-> 
-> 
-> 73 de Bernard, f6bvp
-> 
-> 
-
+Hallo, haben Sie Projekte, die dringend einen Kredit ben=C3=B6tigen?
+Vergeben Sie heute Kredite in H=C3=B6he von 10.000 / 500 Millionen an
+interessierte Investoren, Unternehmen und Privatpersonen. Kommen Sie
+zur=C3=BCck, wenn Sie interessiert sind.
