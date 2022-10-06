@@ -2,249 +2,253 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5899C5F4043
-	for <lists+linux-hams@lfdr.de>; Tue,  4 Oct 2022 11:49:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DE7D5F6719
+	for <lists+linux-hams@lfdr.de>; Thu,  6 Oct 2022 15:01:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229479AbiJDJtH (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 4 Oct 2022 05:49:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45998 "EHLO
+        id S230403AbiJFNBr (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 6 Oct 2022 09:01:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230147AbiJDJsf (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 4 Oct 2022 05:48:35 -0400
-Received: from mail-io1-xd46.google.com (mail-io1-xd46.google.com [IPv6:2607:f8b0:4864:20::d46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 462345A3FE
-        for <linux-hams@vger.kernel.org>; Tue,  4 Oct 2022 02:46:06 -0700 (PDT)
-Received: by mail-io1-xd46.google.com with SMTP id 5-20020a5d9c05000000b006a44709a638so8692609ioe.11
-        for <linux-hams@vger.kernel.org>; Tue, 04 Oct 2022 02:46:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=YgqL6KexoQlIlR8vLI+bZehWnTZP4i0xZPCh2nTby/w=;
-        b=BCI9HvHkEI03nzfyt04DgFrUPWaH2wijHk9npd0yZ00fh9ak4XqhEd6aSy6xRDppBI
-         NBDFaqHhlGJXNSRKfSrtJ+uqGz0HcN9k+cCSvYhdy4adjugLXXQzPFtVCYBUgjGgIYrI
-         Ez7AfCMNw8mvUm8bOEkItBWnJp1i8SbzvBdmLDJA4PmLOe1HJUAMEgCzQ0UUqQO1Wtan
-         06rU5qgidLphOrVGwN+elYBHQMiNsYcEQT/WVqyTXkS/l45J+GVmpOvh/SUhUJ3WndmO
-         rpMY7vLsX7Jg08c5ZlWTgdBbDDELItm+XY308rSCimPt3BeedWZMdfUfliJ5Eq8wEFYZ
-         mKKQ==
-X-Gm-Message-State: ACrzQf3mS7G4tkMFAtlLnK2jFo9viKtBKqyYYa6N3prrta8f6s0LBUzI
-        lV8zDP/dEQyBK2SE3NArWSPck1Ea2SFmZe02OFSlJNpDdJua
-X-Google-Smtp-Source: AMsMyM5FFxeSY+qMmC3ywTwK52eMerzOgiQPbGBiCYBV8deMbbd4WIDW0S2pP0wcVj8LUi7Kpx8wehotTPLIL/Pw6yvAiRJswdvJ
+        with ESMTP id S230133AbiJFNBn (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 6 Oct 2022 09:01:43 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2C8E8A1FC;
+        Thu,  6 Oct 2022 06:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665061302; x=1696597302;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ru6CnBvVhIEhYJCAeuuxpRt9HHeJLOxAuoa9BjBuh8k=;
+  b=AGWKWrAmNTte351h2k1feYl2fEi8rMwITVCJk7pNUXa1Ng0fQ3b2azOq
+   uKuvJLxK0mA9Tqu3UQrxcvZhNBZH7+ufyXr/eCl51aK2E+6alzDUNMpev
+   Nal/AmQePVXxf51aw66W9WRCAYm+XU/TtJLHLlzK0fLBMpvOkNSKnYU6a
+   G0RPB2YNDasi333P00LsC+HLiCjUDiLmBkQrJ9Dt5KAHtZ7QeMOcScwI0
+   yVVxu3xrA0z8zp+mB6pCuwFd+t1IPnDGoJrgOtk/mfFAE1KbrDX96OsuA
+   Q6dzk7SPLhjyK1/yFBt+FIYuNforlaW4X0SnFFSBR/uzfXEGd3cKuEo3f
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="283804515"
+X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
+   d="scan'208";a="283804515"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 06:01:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="767139765"
+X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
+   d="scan'208";a="767139765"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001.fm.intel.com with ESMTP; 06 Oct 2022 06:01:22 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1ogQUx-0039Oq-2J;
+        Thu, 06 Oct 2022 16:01:11 +0300
+Date:   Thu, 6 Oct 2022 16:01:11 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     Jan Kara <jack@suse.cz>, Andrew Lunn <andrew@lunn.ch>,
+        "Darrick J . Wong" <djwong@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        dri-devel@lists.freedesktop.org,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-sctp@vger.kernel.org,
+        "Md . Haris Iqbal" <haris.iqbal@ionos.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Sergey Matyukevich <geomatsi@gmail.com>,
+        Rohit Maheshwari <rohitm@chelsio.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        ceph-devel@vger.kernel.org,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Nilesh Javali <njavali@marvell.com>,
+        Jean-Paul Roubelat <jpr@f6fbb.org>,
+        Dick Kennedy <dick.kennedy@broadcom.com>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Potnuri Bharat Teja <bharat@chelsio.com>,
+        Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
+        linux-nfs@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
+        Igor Mitsyanko <imitsyanko@quantenna.com>,
+        Andy Lutomirski <luto@kernel.org>, linux-hams@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        linux-raid@vger.kernel.org, Neil Horman <nhorman@tuxdriver.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org,
+        Michael Chan <michael.chan@broadcom.com>,
+        linux-kernel@vger.kernel.org, Varun Prakash <varun@chelsio.com>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        netfilter-devel@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jiri Olsa <jolsa@kernel.org>, Jan Kara <jack@suse.com>,
+        linux-fsdevel@vger.kernel.org,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        linux-media@vger.kernel.org,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Sharvari Harisangam <sharvari.harisangam@nxp.com>,
+        linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mmc@vger.kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Song Liu <song@kernel.org>, Eric Dumazet <edumazet@google.com>,
+        target-devel@vger.kernel.org, John Stultz <jstultz@google.com>,
+        Stanislav Fomichev <sdf@google.com>,
+        Gregory Greenman <gregory.greenman@intel.com>,
+        drbd-dev@lists.linbit.com, dev@openvswitch.org,
+        Leon Romanovsky <leon@kernel.org>,
+        Helge Deller <deller@gmx.de>, Hugh Dickins <hughd@google.com>,
+        James Smart <james.smart@broadcom.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        Pravin B Shelar <pshelar@ovn.org>,
+        Julian Anastasov <ja@ssi.bg>, coreteam@netfilter.org,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Yonghong Song <yhs@fb.com>,
+        Namjae Jeon <linkinjeon@kernel.org>,
+        linux-crypto@vger.kernel.org,
+        Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+        Ganapathi Bhat <ganapathi017@gmail.com>,
+        linux-actions@lists.infradead.org,
+        Simon Horman <horms@verge.net.au>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Hao Luo <haoluo@google.com>, Theodore Ts'o <tytso@mit.edu>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+        Florian Westphal <fw@strlen.de>,
+        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+        Jon Maloy <jmaloy@redhat.com>,
+        Vlad Yasevich <vyasevich@gmail.com>,
+        Anna Schumaker <anna@kernel.org>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Haoyue Xu <xuhaoyue1@hisilicon.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        linux-wireless@vger.kernel.org,
+        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-nvme@lists.infradead.org,
+        Michal Januszewski <spock@gentoo.org>,
+        linux-mtd@lists.infradead.org, kasan-dev@googlegroups.com,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Thomas Sailer <t.sailer@alumni.ethz.ch>,
+        Ajay Singh <ajay.kathat@microchip.com>,
+        Xiubo Li <xiubli@redhat.com>, Sagi Grimberg <sagi@grimberg.me>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
+        lvs-devel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Marco Elver <elver@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jamal Hadi Salim <jhs@mojatatu.com>,
+        KP Singh <kpsingh@kernel.org>, Borislav Petkov <bp@alien8.de>,
+        Keith Busch <kbusch@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Arend van Spriel <aspriel@gmail.com>,
+        linux-ext4@vger.kernel.org,
+        Wenpeng Liang <liangwenpeng@huawei.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Xinming Hu <huxinming820@gmail.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Jeff Layton <jlayton@kernel.org>, linux-xfs@vger.kernel.org,
+        netdev@vger.kernel.org, Ying Xue <ying.xue@windriver.com>,
+        Manish Rangankar <mrangankar@marvell.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Amitkumar Karwar <amitkarwar@gmail.com>, linux-mm@kvack.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        Jack Wang <jinpu.wang@ionos.com>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        rds-devel@oss.oracle.com, Herbert Xu <herbert@gondor.apana.org.au>,
+        linux-scsi@vger.kernel.org, dccp@vger.kernel.org,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        SHA-cyfmac-dev-list@infineon.com, Ingo Molnar <mingo@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Kalle Valo <kvalo@kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        linux-block@vger.kernel.org, dmaengine@vger.kernel.org,
+        Hannes Reinecke <hare@suse.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Jens Axboe <axboe@kernel.dk>, cake@lists.bufferbloat.net,
+        brcm80211-dev-list.pdl@broadcom.com,
+        Yishai Hadas <yishaih@nvidia.com>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        linuxppc-dev@lists.ozlabs.org, David Ahern <dsahern@kernel.org>,
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
+        <christoph.boehmwalder@linbit.com>, Vinod Koul <vkoul@kernel.org>,
+        tipc-discussion@lists.sourceforge.net, Thomas Graf <tgraf@suug.ch>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Sungjong Seo <sj1557.seo@samsung.com>,
+        Martin KaFai Lau <martin.lau@linux.dev>
+Subject: Re: [f2fs-dev] [PATCH v1 3/5] treewide: use get_random_u32() when
+ possible
+Message-ID: <Yz7Rl7BXamKQhRzH@smile.fi.intel.com>
+References: <20221005214844.2699-1-Jason@zx2c4.com>
+ <20221005214844.2699-4-Jason@zx2c4.com>
+ <20221006084331.4bdktc2zlvbaszym@quack3>
+ <Yz7LCyIAHC6l5mG9@zx2c4.com>
 MIME-Version: 1.0
-X-Received: by 2002:a92:ca49:0:b0:2f5:30:bfc1 with SMTP id q9-20020a92ca49000000b002f50030bfc1mr11053085ilo.224.1664876677433;
- Tue, 04 Oct 2022 02:44:37 -0700 (PDT)
-Date:   Tue, 04 Oct 2022 02:44:37 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f4116605ea324e13@google.com>
-Subject: [syzbot] WARNING: locking bug in nr_accept
-From:   syzbot <syzbot+9e255dc219e012cdee75@syzkaller.appspotmail.com>
-To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, pabeni@redhat.com, ralf@linux-mips.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SORTED_RECIPS,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yz7LCyIAHC6l5mG9@zx2c4.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello,
+On Thu, Oct 06, 2022 at 06:33:15AM -0600, Jason A. Donenfeld wrote:
+> On Thu, Oct 06, 2022 at 10:43:31AM +0200, Jan Kara wrote:
 
-syzbot found the following issue on:
+...
 
-HEAD commit:    5911b92626df Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=10eecbff080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=aae2d21e7dd80684
-dashboard link: https://syzkaller.appspot.com/bug?extid=9e255dc219e012cdee75
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: arm64
+> > The code here is effectively doing the
+> > 
+> > 	parent_group = prandom_u32_max(ngroups);
+> > 
+> > Similarly here we can use prandom_u32_max(ngroups) like:
+> > 
+> > 		if (qstr) {
+> > 			...
+> > 			parent_group = hinfo.hash % ngroups;
+> > 		} else
+> > 			parent_group = prandom_u32_max(ngroups);
+> 
+> Nice catch. I'll move these to patch #1.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+I believe coccinelle is able to handle this kind of code as well, so Kees'
+proposal to use it seems more plausible since it's less error prone and more
+flexible / powerful.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/c50e57f66737/disk-5911b926.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/f369b7b837e3/vmlinux-5911b926.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+9e255dc219e012cdee75@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-DEBUG_LOCKS_WARN_ON(1)
-WARNING: CPU: 0 PID: 12189 at kernel/locking/lockdep.c:231 check_wait_context kernel/locking/lockdep.c:4727 [inline]
-WARNING: CPU: 0 PID: 12189 at kernel/locking/lockdep.c:231 __lock_acquire+0x2b0/0x30a4 kernel/locking/lockdep.c:5003
-Modules linked in:
-CPU: 0 PID: 12189 Comm: syz-executor.0 Not tainted 6.0.0-rc7-syzkaller-18098-g5911b92626df #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
-pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : check_wait_context kernel/locking/lockdep.c:4727 [inline]
-pc : __lock_acquire+0x2b0/0x30a4 kernel/locking/lockdep.c:5003
-lr : hlock_class kernel/locking/lockdep.c:231 [inline]
-lr : check_wait_context kernel/locking/lockdep.c:4727 [inline]
-lr : __lock_acquire+0x298/0x30a4 kernel/locking/lockdep.c:5003
-sp : ffff800012dfba30
-x29: ffff800012dfbb10 x28: 0000000000000000 x27: ffff0000e8b44f80
-x26: ffff0000f17c3130 x25: ffff0000e8b459b0 x24: 0000000000000000
-x23: 0000000000000000 x22: 0000000000000001 x21: 0000000000000000
-x20: 0000000000000000 x19: aaaaab5555430f3e x18: 000000000000013d
-x17: ffff80000bffd6bc x16: ffff80000db49158 x15: ffff0000e8b44f80
-x14: 0000000000000000 x13: 0000000000000012 x12: 0000000000040000
-x11: 0000000000005336 x10: ffff80000dd0b198 x9 : fa0a257453282b00
-x8 : 0000000000000000 x7 : 4e5241575f534b43 x6 : ffff80000819545c
-x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-x2 : 0000000000000000 x1 : 0000000100000000 x0 : 0000000000000016
-Call trace:
- check_wait_context kernel/locking/lockdep.c:4727 [inline]
- __lock_acquire+0x2b0/0x30a4 kernel/locking/lockdep.c:5003
- lock_acquire+0x100/0x1f8 kernel/locking/lockdep.c:5666
- lock_sock_nested+0x70/0xd8 net/core/sock.c:3393
- lock_sock include/net/sock.h:1712 [inline]
- nr_accept+0x1ac/0x250 net/netrom/af_netrom.c:805
- do_accept+0x1d8/0x274 net/socket.c:1856
- __sys_accept4_file net/socket.c:1897 [inline]
- __sys_accept4+0xb4/0x12c net/socket.c:1927
- __do_sys_accept net/socket.c:1944 [inline]
- __se_sys_accept net/socket.c:1941 [inline]
- __arm64_sys_accept+0x28/0x3c net/socket.c:1941
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
- el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
- el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:581
-irq event stamp: 1543
-hardirqs last  enabled at (1543): [<ffff800008161dac>] raw_spin_rq_unlock_irq kernel/sched/sched.h:1367 [inline]
-hardirqs last  enabled at (1543): [<ffff800008161dac>] finish_lock_switch+0x94/0xe8 kernel/sched/core.c:4942
-hardirqs last disabled at (1542): [<ffff80000bfc0a34>] __schedule+0x84/0x5a0 kernel/sched/core.c:6393
-softirqs last  enabled at (1534): [<ffff80000b1bce74>] spin_unlock_bh include/linux/spinlock.h:394 [inline]
-softirqs last  enabled at (1534): [<ffff80000b1bce74>] release_sock+0xf4/0x108 net/core/sock.c:3419
-softirqs last disabled at (1532): [<ffff80000b1bcdac>] spin_lock_bh include/linux/spinlock.h:354 [inline]
-softirqs last disabled at (1532): [<ffff80000b1bcdac>] release_sock+0x2c/0x108 net/core/sock.c:3406
----[ end trace 0000000000000000 ]---
-BUG: sleeping function called from invalid context at arch/arm64/mm/fault.c:593
-in_atomic(): 0, irqs_disabled(): 128, non_block: 0, pid: 12189, name: syz-executor.0
-preempt_count: 0, expected: 0
-RCU nest depth: 0, expected: 0
-INFO: lockdep is turned off.
-irq event stamp: 1543
-hardirqs last  enabled at (1543): [<ffff800008161dac>] raw_spin_rq_unlock_irq kernel/sched/sched.h:1367 [inline]
-hardirqs last  enabled at (1543): [<ffff800008161dac>] finish_lock_switch+0x94/0xe8 kernel/sched/core.c:4942
-hardirqs last disabled at (1542): [<ffff80000bfc0a34>] __schedule+0x84/0x5a0 kernel/sched/core.c:6393
-softirqs last  enabled at (1534): [<ffff80000b1bce74>] spin_unlock_bh include/linux/spinlock.h:394 [inline]
-softirqs last  enabled at (1534): [<ffff80000b1bce74>] release_sock+0xf4/0x108 net/core/sock.c:3419
-softirqs last disabled at (1532): [<ffff80000b1bcdac>] spin_lock_bh include/linux/spinlock.h:354 [inline]
-softirqs last disabled at (1532): [<ffff80000b1bcdac>] release_sock+0x2c/0x108 net/core/sock.c:3406
-CPU: 0 PID: 12189 Comm: syz-executor.0 Tainted: G        W          6.0.0-rc7-syzkaller-18098-g5911b92626df #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
-Call trace:
- dump_backtrace+0x1c4/0x1f0 arch/arm64/kernel/stacktrace.c:156
- show_stack+0x2c/0x54 arch/arm64/kernel/stacktrace.c:163
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x104/0x16c lib/dump_stack.c:106
- dump_stack+0x1c/0x58 lib/dump_stack.c:113
- __might_resched+0x208/0x218 kernel/sched/core.c:9892
- __might_sleep+0x48/0x78 kernel/sched/core.c:9821
- do_page_fault+0x214/0x79c arch/arm64/mm/fault.c:593
- do_translation_fault+0x78/0x194 arch/arm64/mm/fault.c:685
- do_mem_abort+0x54/0x130 arch/arm64/mm/fault.c:821
- el1_abort+0x3c/0x5c arch/arm64/kernel/entry-common.c:366
- el1h_64_sync_handler+0x60/0xac arch/arm64/kernel/entry-common.c:426
- el1h_64_sync+0x64/0x68 arch/arm64/kernel/entry.S:576
- hlock_class kernel/locking/lockdep.c:222 [inline]
- check_wait_context kernel/locking/lockdep.c:4728 [inline]
- __lock_acquire+0x2d0/0x30a4 kernel/locking/lockdep.c:5003
- lock_acquire+0x100/0x1f8 kernel/locking/lockdep.c:5666
- lock_sock_nested+0x70/0xd8 net/core/sock.c:3393
- lock_sock include/net/sock.h:1712 [inline]
- nr_accept+0x1ac/0x250 net/netrom/af_netrom.c:805
- do_accept+0x1d8/0x274 net/socket.c:1856
- __sys_accept4_file net/socket.c:1897 [inline]
- __sys_accept4+0xb4/0x12c net/socket.c:1927
- __do_sys_accept net/socket.c:1944 [inline]
- __se_sys_accept net/socket.c:1941 [inline]
- __arm64_sys_accept+0x28/0x3c net/socket.c:1941
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
- el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
- el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:581
-Unable to handle kernel NULL pointer dereference at virtual address 00000000000000b8
-Mem abort info:
-  ESR = 0x0000000096000006
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x06: level 2 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000006
-  CM = 0, WnR = 0
-user pgtable: 4k pages, 48-bit VAs, pgdp=00000001291bb000
-[00000000000000b8] pgd=080000012933e003, p4d=080000012933e003, pud=080000012ab9a003, pmd=0000000000000000
-Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 0 PID: 12189 Comm: syz-executor.0 Tainted: G        W          6.0.0-rc7-syzkaller-18098-g5911b92626df #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
-pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : check_wait_context kernel/locking/lockdep.c:4727 [inline]
-pc : __lock_acquire+0x2d0/0x30a4 kernel/locking/lockdep.c:5003
-lr : hlock_class kernel/locking/lockdep.c:231 [inline]
-lr : check_wait_context kernel/locking/lockdep.c:4727 [inline]
-lr : __lock_acquire+0x298/0x30a4 kernel/locking/lockdep.c:5003
-sp : ffff800012dfba30
-x29: ffff800012dfbb10 x28: 0000000000000000 x27: ffff0000e8b44f80
-x26: ffff0000f17c3130 x25: ffff0000e8b459b0 x24: 0000000000000000
-x23: 0000000000000000 x22: 0000000000000001 x21: 0000000000000000
-x20: 0000000000000000 x19: aaaaab5555430f3e x18: 000000000000013d
-x17: ffff80000bffd6bc x16: ffff80000db49158 x15: ffff0000e8b44f80
-x14: 0000000000000000 x13: 0000000000000012 x12: 0000000000040000
-x11: 0000000000005336 x10: ffff80000dd0b198 x9 : 0000000000040f3e
-x8 : 0000000000000000 x7 : 4e5241575f534b43 x6 : ffff80000819545c
-x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-x2 : 0000000000000000 x1 : 0000000100000000 x0 : 0000000000000016
-Call trace:
- hlock_class kernel/locking/lockdep.c:222 [inline]
- check_wait_context kernel/locking/lockdep.c:4728 [inline]
- __lock_acquire+0x2d0/0x30a4 kernel/locking/lockdep.c:5003
- lock_acquire+0x100/0x1f8 kernel/locking/lockdep.c:5666
- lock_sock_nested+0x70/0xd8 net/core/sock.c:3393
- lock_sock include/net/sock.h:1712 [inline]
- nr_accept+0x1ac/0x250 net/netrom/af_netrom.c:805
- do_accept+0x1d8/0x274 net/socket.c:1856
- __sys_accept4_file net/socket.c:1897 [inline]
- __sys_accept4+0xb4/0x12c net/socket.c:1927
- __do_sys_accept net/socket.c:1944 [inline]
- __se_sys_accept net/socket.c:1941 [inline]
- __arm64_sys_accept+0x28/0x3c net/socket.c:1941
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
- el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
- el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:581
-Code: b002db8a 91056210 9106614a b9400329 (3942e114) 
----[ end trace 0000000000000000 ]---
-----------------
-Code disassembly (best guess):
-   0:	b002db8a 	adrp	x10, 0x5b71000
-   4:	91056210 	add	x16, x16, #0x158
-   8:	9106614a 	add	x10, x10, #0x198
-   c:	b9400329 	ldr	w9, [x25]
-* 10:	3942e114 	ldrb	w20, [x8, #184] <-- trapping instruction
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
