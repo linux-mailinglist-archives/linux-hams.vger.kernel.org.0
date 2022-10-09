@@ -2,131 +2,206 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D295D5F67AF
-	for <lists+linux-hams@lfdr.de>; Thu,  6 Oct 2022 15:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 991715F8977
+	for <lists+linux-hams@lfdr.de>; Sun,  9 Oct 2022 07:43:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229981AbiJFNUv (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 6 Oct 2022 09:20:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51258 "EHLO
+        id S229564AbiJIFni (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sun, 9 Oct 2022 01:43:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbiJFNUr (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 6 Oct 2022 09:20:47 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 793B49AFFE;
-        Thu,  6 Oct 2022 06:20:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665062447; x=1696598447;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EU0abpI6YFdk3YA4KGgLZ9e2cnqNyTF/1r17KmA6WbU=;
-  b=H/rXg2onBw8kdQTJR9j91bg7GaQ9NTLI4VQaO5RUMKhgyGVdTsqC0ihZ
-   ZFrzupyxaktvnWl0/oAO1N0j+d7VdJ7vhM5jhQno6ZKD98/lmLTbJHLEk
-   YdnjF2+yZPR82O204zlslKkxKat4YQqK1Imt18zDrXqo1ccS1JJsVSyxk
-   MRKlQcD0RpszRcaGv0aLNg8NB07bkMRbNN5u6y9NvDUd9Pep7UTxlCSgc
-   gMlNjOL77ikXzd/PJ+sKmxYh/x98yvYK62uMdNxBx1YoiL7Kpv6EnctwN
-   rw/6E45iagBLiy4ub27Y6WReJAotEZtIYsSDo2cskapKSLTwKhAf1RYEB
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="290697978"
-X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
-   d="scan'208";a="290697978"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 06:20:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="729143418"
-X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
-   d="scan'208";a="729143418"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Oct 2022 06:20:34 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ogQng-0039rX-0O;
-        Thu, 06 Oct 2022 16:20:32 +0300
-Date:   Thu, 6 Oct 2022 16:20:31 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>, linux-kernel@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com, cake@lists.bufferbloat.net,
-        ceph-devel@vger.kernel.org, coreteam@netfilter.org,
-        dccp@vger.kernel.org, dev@openvswitch.org,
-        dmaengine@vger.kernel.org, drbd-dev@lists.linbit.com,
-        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
-        linux-actions@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-hams@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mm@kvack.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-raid@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-sctp@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-xfs@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        lvs-devel@vger.kernel.org, netdev@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, rds-devel@oss.oracle.com,
-        SHA-cyfmac-dev-list@infineon.com, target-devel@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net
-Subject: Re: [PATCH v1 3/5] treewide: use get_random_u32() when possible
-Message-ID: <Yz7WHyD+teLOh2ho@smile.fi.intel.com>
-References: <20221005214844.2699-1-Jason@zx2c4.com>
- <20221005214844.2699-4-Jason@zx2c4.com>
- <Yz7OdfKZeGkpZSKb@ziepe.ca>
- <CAHmME9r_vNRFFjUvqx8QkBddg_kQU=FMgpk9TqOVZdvX6zXHNg@mail.gmail.com>
+        with ESMTP id S229458AbiJIFni (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sun, 9 Oct 2022 01:43:38 -0400
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA0092B186
+        for <linux-hams@vger.kernel.org>; Sat,  8 Oct 2022 22:43:35 -0700 (PDT)
+Received: by mail-il1-f198.google.com with SMTP id a9-20020a056e0208a900b002f6b21181f5so6663655ilt.10
+        for <linux-hams@vger.kernel.org>; Sat, 08 Oct 2022 22:43:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OkiLQRhmSLtuh1o8dvwMX2015uWLVIf0Afm2i0Kxr0I=;
+        b=MwPDSmSWx+BXB8kabc4hioUUJ3keH7HKGs2r/ke837mw6fIXqiBMl4zDbz7LEFIUKw
+         tZeSA4iRqOcE03LK2GISHxIhqQEhVY8GyMru144bdxPAz5mhqlufh6BeopZHpkSyH6+v
+         I5R6BSdBLyYVS8SVGqsmqJJcRc67/lJNAf2R9Cq6XJKoJ3aEGEyTWwN0tgZP33R++HcW
+         XNFsjN3lqvjkw4B627gtzKQNTQifYfAAxIND5BFuoU4ZHAsZMCv9J2/nHaN595BnrfSX
+         PGIVoZ1U9nwl95+nN13ywnmxnnM4/BwbeTTWn/HlOf4Br6rnP+81L+0pfLdbpgSoHHkY
+         R/vg==
+X-Gm-Message-State: ACrzQf2nFS4VXVONSFwQrqpsHafHAwDSOqIskXYwceNfnZdNcx4MGxx0
+        SKoZ6+WIk0L2f4wx/HL+q0p9hyzY275Y74P/hTiHM1LXKKih
+X-Google-Smtp-Source: AMsMyM7v1OPqx2GCvMc8TRZL35mPVQq/caKFC0BTkKYxkTlB2UZh8Cek4g7jA9i2vaVx0q1yeMd370FUGo+twQVQ8XHbLgSbGclH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHmME9r_vNRFFjUvqx8QkBddg_kQU=FMgpk9TqOVZdvX6zXHNg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Received: by 2002:a05:6602:98:b0:6a2:1723:bee1 with SMTP id
+ h24-20020a056602009800b006a21723bee1mr5442197iob.58.1665294215268; Sat, 08
+ Oct 2022 22:43:35 -0700 (PDT)
+Date:   Sat, 08 Oct 2022 22:43:35 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000025d09b05ea9386ab@google.com>
+Subject: [syzbot] general protection fault in rose_send_frame (2)
+From:   syzbot <syzbot+b25099bc0c49d0c2962e@syzkaller.appspotmail.com>
+To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, pabeni@redhat.com, ralf@linux-mips.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Thu, Oct 06, 2022 at 07:05:48AM -0600, Jason A. Donenfeld wrote:
-> On Thu, Oct 6, 2022 at 6:47 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > On Wed, Oct 05, 2022 at 11:48:42PM +0200, Jason A. Donenfeld wrote:
+Hello,
 
-...
+syzbot found the following issue on:
 
-> > > -     u32 isn = (prandom_u32() & ~7UL) - 1;
-> > > +     u32 isn = (get_random_u32() & ~7UL) - 1;
-> >
-> > Maybe this wants to be written as
-> >
-> > (prandom_max(U32_MAX >> 7) << 7) | 7
+HEAD commit:    0326074ff465 Merge tag 'net-next-6.1' of git://git.kernel...
+git tree:       net-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=1686bcdc880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=796b7c2847a6866a
+dashboard link: https://syzkaller.appspot.com/bug?extid=b25099bc0c49d0c2962e
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
-> > ?
-> 
-> Holy smokes. Yea I guess maybe? It doesn't exactly gain anything or
-> make the code clearer though, and is a little bit more magical than
-> I'd like on a first pass.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Shouldn't the two first 7s to be 3s?
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/b58a97ee1509/disk-0326074f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ba3e08c86725/vmlinux-0326074f.xz
 
-...
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b25099bc0c49d0c2962e@syzkaller.appspotmail.com
 
-> > > -     psn = prandom_u32() & 0xffffff;
-> > > +     psn = get_random_u32() & 0xffffff;
-> >
-> >  prandom_max(0xffffff + 1)
-> 
-> That'd work, but again it's not more clear. Authors here are going for
-> a 24-bit number, and masking seems like a clear way to express that.
+general protection fault, probably for non-canonical address 0xdffffc0000000070: 0000 [#1] PREEMPT SMP KASAN
+KASAN: null-ptr-deref in range [0x0000000000000380-0x0000000000000387]
+CPU: 0 PID: 18027 Comm: syz-executor.2 Not tainted 6.0.0-syzkaller-02734-g0326074ff465 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
+RIP: 0010:rose_send_frame+0x1dd/0x2f0 net/rose/rose_link.c:101
+Code: 48 c1 ea 03 80 3c 02 00 0f 85 06 01 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 6b 20 48 8d bd 80 03 00 00 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 ea 00 00 00 4c 8b bd 80 03 00 00 e9 77 fe ff ff
+RSP: 0018:ffffc90000007b00 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: ffff88802690b800 RCX: 0000000000000100
+RDX: 0000000000000070 RSI: ffffffff88514482 RDI: 0000000000000380
+RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88802690b800
+R13: 0000000000000078 R14: ffff88802f169640 R15: 0000000000000010
+FS:  00007f83f2834700(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff318aaf940 CR3: 0000000063a3f000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <IRQ>
+ rose_transmit_clear_request+0x1d5/0x290 net/rose/rose_link.c:255
+ rose_rx_call_request+0x4c0/0x1bc0 net/rose/af_rose.c:1009
+ rose_loopback_timer+0x19e/0x590 net/rose/rose_loopback.c:111
+ call_timer_fn+0x1a0/0x6b0 kernel/time/timer.c:1474
+ expire_timers kernel/time/timer.c:1519 [inline]
+ __run_timers.part.0+0x674/0xa80 kernel/time/timer.c:1790
+ __run_timers kernel/time/timer.c:1768 [inline]
+ run_timer_softirq+0xb3/0x1d0 kernel/time/timer.c:1803
+ __do_softirq+0x1d0/0x9c8 kernel/softirq.c:571
+ invoke_softirq kernel/softirq.c:445 [inline]
+ __irq_exit_rcu+0x123/0x180 kernel/softirq.c:650
+ irq_exit_rcu+0x5/0x20 kernel/softirq.c:662
+ sysvec_apic_timer_interrupt+0x93/0xc0 arch/x86/kernel/apic/apic.c:1107
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x16/0x20 arch/x86/include/asm/idtentry.h:649
+RIP: 0010:stackdepot_memcmp lib/stackdepot.c:279 [inline]
+RIP: 0010:find_stack lib/stackdepot.c:295 [inline]
+RIP: 0010:__stack_depot_save+0x145/0x500 lib/stackdepot.c:435
+Code: 29 48 85 ed 75 12 e9 92 00 00 00 48 8b 6d 00 48 85 ed 0f 84 85 00 00 00 39 5d 08 75 ee 44 3b 7d 0c 75 e8 31 c0 48 8b 74 c5 18 <49> 39 34 c6 75 db 48 83 c0 01 48 39 c2 75 ec 48 8b 7c 24 28 48 85
+RSP: 0018:ffffc9001499eb88 EFLAGS: 00000216
+RAX: 000000000000000d RBX: 0000000021011daf RCX: ffff88823b48ed78
+RDX: 0000000000000016 RSI: ffffffff879583d3 RDI: 000000005430cc72
+RBP: ffff8880784e7240 R08: 00000000498c1a10 R09: 0000000000000000
+R10: 0000000000000001 R11: 000000000008c07c R12: 0000000000000001
+R13: 0000000000008dc0 R14: ffffc9001499ebf8 R15: 0000000000000016
+ kasan_save_stack+0x2e/0x40 mm/kasan/common.c:39
+ kasan_set_track mm/kasan/common.c:45 [inline]
+ set_alloc_info mm/kasan/common.c:437 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:516 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:475 [inline]
+ __kasan_kmalloc+0xa9/0xd0 mm/kasan/common.c:525
+ kmalloc include/linux/slab.h:600 [inline]
+ kzalloc include/linux/slab.h:733 [inline]
+ ref_tracker_alloc+0x14c/0x550 lib/ref_tracker.c:85
+ __netdev_tracker_alloc include/linux/netdevice.h:3995 [inline]
+ netdev_hold include/linux/netdevice.h:4024 [inline]
+ netdev_hold include/linux/netdevice.h:4019 [inline]
+ neigh_parms_alloc+0x255/0x5f0 net/core/neighbour.c:1707
+ inetdev_init+0x133/0x580 net/ipv4/devinet.c:269
+ inetdev_event+0xa85/0x1610 net/ipv4/devinet.c:1534
+ notifier_call_chain+0xb5/0x200 kernel/notifier.c:87
+ call_netdevice_notifiers_info+0xb5/0x130 net/core/dev.c:1945
+ call_netdevice_notifiers_extack net/core/dev.c:1983 [inline]
+ call_netdevice_notifiers net/core/dev.c:1997 [inline]
+ register_netdevice+0x10bb/0x1670 net/core/dev.c:10086
+ veth_newlink+0x338/0x990 drivers/net/veth.c:1764
+ rtnl_newlink_create net/core/rtnetlink.c:3364 [inline]
+ __rtnl_newlink+0x1087/0x17e0 net/core/rtnetlink.c:3581
+ rtnl_newlink+0x64/0xa0 net/core/rtnetlink.c:3594
+ rtnetlink_rcv_msg+0x43a/0xca0 net/core/rtnetlink.c:6091
+ netlink_rcv_skb+0x153/0x420 net/netlink/af_netlink.c:2540
+ netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+ netlink_unicast+0x543/0x7f0 net/netlink/af_netlink.c:1345
+ netlink_sendmsg+0x917/0xe10 net/netlink/af_netlink.c:1921
+ sock_sendmsg_nosec net/socket.c:714 [inline]
+ sock_sendmsg+0xcf/0x120 net/socket.c:734
+ ____sys_sendmsg+0x712/0x8c0 net/socket.c:2482
+ ___sys_sendmsg+0x110/0x1b0 net/socket.c:2536
+ __sys_sendmsg+0xf3/0x1c0 net/socket.c:2565
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f83f168a5a9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f83f2834168 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
+RAX: ffffffffffffffda RBX: 00007f83f17abf80 RCX: 00007f83f168a5a9
+RDX: 0000000000000000 RSI: 0000000020000040 RDI: 0000000000000007
+RBP: 00007f83f16e5580 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffcf014405f R14: 00007f83f2834300 R15: 0000000000022000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:rose_send_frame+0x1dd/0x2f0 net/rose/rose_link.c:101
+Code: 48 c1 ea 03 80 3c 02 00 0f 85 06 01 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 6b 20 48 8d bd 80 03 00 00 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 ea 00 00 00 4c 8b bd 80 03 00 00 e9 77 fe ff ff
+RSP: 0018:ffffc90000007b00 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: ffff88802690b800 RCX: 0000000000000100
+RDX: 0000000000000070 RSI: ffffffff88514482 RDI: 0000000000000380
+RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88802690b800
+R13: 0000000000000078 R14: ffff88802f169640 R15: 0000000000000010
+FS:  00007f83f2834700(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff318aaf940 CR3: 0000000063a3f000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	48 c1 ea 03          	shr    $0x3,%rdx
+   4:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
+   8:	0f 85 06 01 00 00    	jne    0x114
+   e:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  15:	fc ff df
+  18:	48 8b 6b 20          	mov    0x20(%rbx),%rbp
+  1c:	48 8d bd 80 03 00 00 	lea    0x380(%rbp),%rdi
+  23:	48 89 fa             	mov    %rdi,%rdx
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
+  2e:	0f 85 ea 00 00 00    	jne    0x11e
+  34:	4c 8b bd 80 03 00 00 	mov    0x380(%rbp),%r15
+  3b:	e9 77 fe ff ff       	jmpq   0xfffffeb7
 
-We have some 24-bit APIs (and 48-bit) already in kernel, why not to have
-get_random_u24() ?
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
