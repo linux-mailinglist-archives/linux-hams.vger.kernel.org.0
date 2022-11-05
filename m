@@ -2,73 +2,73 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A37DD61A018
-	for <lists+linux-hams@lfdr.de>; Fri,  4 Nov 2022 19:36:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7352261DA59
+	for <lists+linux-hams@lfdr.de>; Sat,  5 Nov 2022 13:40:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232184AbiKDSgD (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 4 Nov 2022 14:36:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55062 "EHLO
+        id S229826AbiKEMkH (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 5 Nov 2022 08:40:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230045AbiKDSgD (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 4 Nov 2022 14:36:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5FA540931;
-        Fri,  4 Nov 2022 11:35:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6DE33622FB;
-        Fri,  4 Nov 2022 18:35:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5118CC433D6;
-        Fri,  4 Nov 2022 18:35:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667586957;
-        bh=VPj9cmh6AQFP0VK/8I1kT7FJ9030U5M07JRujBjXtss=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=sQbWWomwLEvYnjJKkidFiGQ28C8Q1HidFmegtNdDhJZSVz2riozKuI+h6yavtGznE
-         Z2KDFcZtgfh5LAyksLsQXJvjXfD8rE8hnJ83uOQ8o3XoopYB2PXbFOr30342+1nYmB
-         GBOH4VgLtWNPoRne/PUemG5sV4elSyLF3EhnqJNWSeB3EhmE2AOrmOeRusYAIUG3O2
-         +bqWH0D4HAzPtxEt6oILW6LnlMACedeW2ygnXb+61wxxuP/+2FCQIgE6dDBSNJRF8y
-         nFMJJCymy1JNsHvgMVHBipZ0sJDx2SzwLpGTBv+5FE+CKwG0iQDPlHOI/gsNmnaTJ2
-         PYBzFjFj+wedA==
-Date:   Fri, 4 Nov 2022 11:35:56 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Ahelenia =?UTF-8?B?WmllbWlhxYRza2E=?= 
-        <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>, coda@cs.cmu.edu,
-        codalist@coda.cs.cmu.edu, linux-arm-kernel@lists.infradead.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-scsi@vger.kernel.org,
-        netdev@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v2 00/15] magic-number.rst funeral rites
-Message-ID: <20221104113556.488c4e17@kernel.org>
-In-Reply-To: <cover.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
-References: <cover.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
+        with ESMTP id S229900AbiKEMkA (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 5 Nov 2022 08:40:00 -0400
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21D6217584
+        for <linux-hams@vger.kernel.org>; Sat,  5 Nov 2022 05:39:59 -0700 (PDT)
+Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-13bd2aea61bso8278730fac.0
+        for <linux-hams@vger.kernel.org>; Sat, 05 Nov 2022 05:39:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=mu8m7znM9duu/MEuox3wxE9uI+enJzfHDrHCiCJ0dxXEnbtqlugP30RV4pUA4LaD8D
+         DTqzL6R3iJdygnN0tebcl2jKMC1xnk2qmH9yHj5ZpYJsig0zgAkFbQEJMtQOsyMS9E9+
+         9mZsd+BXbCYizoNZILloIeJgVKBYQDDlfcxWmhtehgP0gShVz6QbysTuA73O0zNW89oN
+         M95vp9qd39mlLDduLYXTQkqHXtcuCB6sr4c0ysKpoCTw5s/vT8zmw06SHC/DLusZ9o66
+         sNkDbmLIhAcJBtA+VmbRSjB+l+4rXBDt3pKOG75zF9L+vjSBjo5n2zZjo+rRsufLH5jZ
+         6xmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=Z0irwQkSG7RNmXcW1KQdAJPm4C2EIwD8zOH6a3lp9SlP/oIpmG1K+0VRENVCfhCVii
+         QsLlQMM5Tg6homgSfs8etRruuFRLFeZ8A6aclZhyNz8ra/Ps9sXRsJlaV9IOx+FzIH7O
+         Vhnvro6duYgmJGO0bKmIqfK8eWgqfThHeqBZ/B6YS3jN+7uIEYrnMj+T6nzHWyDKgmch
+         JT45BmnBnWPb6fbtZLwXNYDRXemAYhS3D2XiRnWX3jAKS+BmtSP8wP5fxKbt5YKjNhqc
+         PX/8sSxGl5FhV8hIskHzCnf4nNog/yesxz05IeFSyhnUjEwANWAZleNlkV/Zt4dAUfwT
+         1JnQ==
+X-Gm-Message-State: ACrzQf2wMYbB4DvoTfn15iiEP6hFZKDKmQnSptgToVunjzwFvzfiYEdr
+        HaRt3OtDhxpU6DPiqUE9Z4UoxOlCvw9dRYFTLqDeQiIJwKA=
+X-Google-Smtp-Source: AMsMyM5GFe2gsiMaHXHXvp99K7JeNN2UuK6dELDyLpsoJjIUkQcn4q3aD74FbKEapmwctM2YF8x1D4LMLHeg4fM3LVk=
+X-Received: by 2002:a17:90b:4ac3:b0:213:3918:f276 with SMTP id
+ mh3-20020a17090b4ac300b002133918f276mr57022678pjb.19.1667651987563; Sat, 05
+ Nov 2022 05:39:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Received: by 2002:a05:7301:2e91:b0:83:922d:c616 with HTTP; Sat, 5 Nov 2022
+ 05:39:47 -0700 (PDT)
+Reply-To: stefanopessia755@hotmail.com
+From:   Stefano Pessina <wamathaibenard@gmail.com>
+Date:   Sat, 5 Nov 2022 15:39:47 +0300
+Message-ID: <CAN7bvZKO8GxFn7CG_EtS_Of+AZ+KsuqTkq40Mq-yJDNrEHyakg@mail.gmail.com>
+Subject: Geldspende
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-8.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Wed, 2 Nov 2022 00:04:54 +0100 Ahelenia Ziemia=C5=84ska wrote:
-> This is a follow-up for the 18+1-patch series (
-> https://lore.kernel.org/linux-kernel/8389a7b85b5c660c6891b1740b5dacc53491=
-a41b.1663280877.git.nabijaczleweli@nabijaczleweli.xyz/
-> https://lore.kernel.org/linux-kernel/20220927003727.slf4ofb7dgum6apt@tart=
-a.nabijaczleweli.xyz/
-> ) I sent in September, and the same reasoning applies:
-
-No idea how you want this to get merged, but FWIW you can add my
-
-Acked-by: Jakub Kicinski <kuba@kernel.org>
-
-to patches 1, 2, 11 and 12.
+--=20
+Die Summe von 500.000,00 =E2=82=AC wurde Ihnen von STEFANO PESSINA gespende=
+t.
+Bitte kontaktieren Sie uns f=C3=BCr weitere Informationen =C3=BCber
+stefanopessia755@hotmail.com
