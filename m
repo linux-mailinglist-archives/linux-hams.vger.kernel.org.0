@@ -2,73 +2,126 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7352261DA59
-	for <lists+linux-hams@lfdr.de>; Sat,  5 Nov 2022 13:40:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09B4F61DDAE
+	for <lists+linux-hams@lfdr.de>; Sat,  5 Nov 2022 20:23:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229826AbiKEMkH (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 5 Nov 2022 08:40:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40370 "EHLO
+        id S229934AbiKETXa (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 5 Nov 2022 15:23:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229900AbiKEMkA (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 5 Nov 2022 08:40:00 -0400
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21D6217584
-        for <linux-hams@vger.kernel.org>; Sat,  5 Nov 2022 05:39:59 -0700 (PDT)
-Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-13bd2aea61bso8278730fac.0
-        for <linux-hams@vger.kernel.org>; Sat, 05 Nov 2022 05:39:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
-        b=mu8m7znM9duu/MEuox3wxE9uI+enJzfHDrHCiCJ0dxXEnbtqlugP30RV4pUA4LaD8D
-         DTqzL6R3iJdygnN0tebcl2jKMC1xnk2qmH9yHj5ZpYJsig0zgAkFbQEJMtQOsyMS9E9+
-         9mZsd+BXbCYizoNZILloIeJgVKBYQDDlfcxWmhtehgP0gShVz6QbysTuA73O0zNW89oN
-         M95vp9qd39mlLDduLYXTQkqHXtcuCB6sr4c0ysKpoCTw5s/vT8zmw06SHC/DLusZ9o66
-         sNkDbmLIhAcJBtA+VmbRSjB+l+4rXBDt3pKOG75zF9L+vjSBjo5n2zZjo+rRsufLH5jZ
-         6xmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
-        b=Z0irwQkSG7RNmXcW1KQdAJPm4C2EIwD8zOH6a3lp9SlP/oIpmG1K+0VRENVCfhCVii
-         QsLlQMM5Tg6homgSfs8etRruuFRLFeZ8A6aclZhyNz8ra/Ps9sXRsJlaV9IOx+FzIH7O
-         Vhnvro6duYgmJGO0bKmIqfK8eWgqfThHeqBZ/B6YS3jN+7uIEYrnMj+T6nzHWyDKgmch
-         JT45BmnBnWPb6fbtZLwXNYDRXemAYhS3D2XiRnWX3jAKS+BmtSP8wP5fxKbt5YKjNhqc
-         PX/8sSxGl5FhV8hIskHzCnf4nNog/yesxz05IeFSyhnUjEwANWAZleNlkV/Zt4dAUfwT
-         1JnQ==
-X-Gm-Message-State: ACrzQf2wMYbB4DvoTfn15iiEP6hFZKDKmQnSptgToVunjzwFvzfiYEdr
-        HaRt3OtDhxpU6DPiqUE9Z4UoxOlCvw9dRYFTLqDeQiIJwKA=
-X-Google-Smtp-Source: AMsMyM5GFe2gsiMaHXHXvp99K7JeNN2UuK6dELDyLpsoJjIUkQcn4q3aD74FbKEapmwctM2YF8x1D4LMLHeg4fM3LVk=
-X-Received: by 2002:a17:90b:4ac3:b0:213:3918:f276 with SMTP id
- mh3-20020a17090b4ac300b002133918f276mr57022678pjb.19.1667651987563; Sat, 05
- Nov 2022 05:39:47 -0700 (PDT)
+        with ESMTP id S229913AbiKETX3 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 5 Nov 2022 15:23:29 -0400
+X-Greylist: delayed 600 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 05 Nov 2022 12:23:27 PDT
+Received: from shiva-su1.sorbonne-universite.fr (shiva-su1.sorbonne-universite.fr [134.157.0.152])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 20ACDBC83;
+        Sat,  5 Nov 2022 12:23:26 -0700 (PDT)
+Received: from nirriti.ent.upmc.fr (nirriti.dsi.upmc.fr [134.157.0.215])
+        by shiva-su1.sorbonne-universite.fr (Postfix) with ESMTP id 7E061414EC8B;
+        Sat,  5 Nov 2022 20:07:03 +0100 (CET)
+Received: from [44.168.19.230] (lfbn-idf1-1-1846-125.w90-91.abo.wanadoo.fr [90.91.31.125])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: pidoux)
+        by nirriti.ent.upmc.fr (Postfix) with ESMTPSA id 568F112973D9A;
+        Sat,  5 Nov 2022 20:07:03 +0100 (CET)
+Message-ID: <0549f15a-181c-1719-987c-d5641fac3f8e@free.fr>
+Date:   Sat, 5 Nov 2022 20:07:02 +0100
 MIME-Version: 1.0
-Received: by 2002:a05:7301:2e91:b0:83:922d:c616 with HTTP; Sat, 5 Nov 2022
- 05:39:47 -0700 (PDT)
-Reply-To: stefanopessia755@hotmail.com
-From:   Stefano Pessina <wamathaibenard@gmail.com>
-Date:   Sat, 5 Nov 2022 15:39:47 +0300
-Message-ID: <CAN7bvZKO8GxFn7CG_EtS_Of+AZ+KsuqTkq40Mq-yJDNrEHyakg@mail.gmail.com>
-Subject: Geldspende
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] rose: Fix NULL pointer dereference in rose_send_frame()
+Content-Language: fr
+To:     Zhang Qilong <zhangqilong3@huawei.com>, ralf@linux-mips.org,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com
+Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org
+References: <20221028161049.113625-1-zhangqilong3@huawei.com>
+From:   F6BVP <f6bvp@free.fr>
+In-Reply-To: <20221028161049.113625-1-zhangqilong3@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
+        NICE_REPLY_A,SPF_HELO_NONE,SPF_NEUTRAL autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
---=20
-Die Summe von 500.000,00 =E2=82=AC wurde Ihnen von STEFANO PESSINA gespende=
-t.
-Bitte kontaktieren Sie uns f=C3=BCr weitere Informationen =C3=BCber
-stefanopessia755@hotmail.com
+ZhangQilong ni hao,
+
+I have just pulled net-next 6.1.0-rc3 including  the rose_link.c patch 
+on my FPAC/ROSE hamradio node F6BVP.
+
+Xie xie ni
+
+Zaitien
+
+Bernard,
+
+http://f6bvp.org
+
+Le 28/10/2022 à 18:10, Zhang Qilong a écrit :
+> The syzkaller reported an issue:
+>
+> KASAN: null-ptr-deref in range [0x0000000000000380-0x0000000000000387]
+> CPU: 0 PID: 4069 Comm: kworker/0:15 Not tainted 6.0.0-syzkaller-02734-g0326074ff465 #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
+> Workqueue: rcu_gp srcu_invoke_callbacks
+> RIP: 0010:rose_send_frame+0x1dd/0x2f0 net/rose/rose_link.c:101
+> Call Trace:
+>   <IRQ>
+>   rose_transmit_clear_request+0x1d5/0x290 net/rose/rose_link.c:255
+>   rose_rx_call_request+0x4c0/0x1bc0 net/rose/af_rose.c:1009
+>   rose_loopback_timer+0x19e/0x590 net/rose/rose_loopback.c:111
+>   call_timer_fn+0x1a0/0x6b0 kernel/time/timer.c:1474
+>   expire_timers kernel/time/timer.c:1519 [inline]
+>   __run_timers.part.0+0x674/0xa80 kernel/time/timer.c:1790
+>   __run_timers kernel/time/timer.c:1768 [inline]
+>   run_timer_softirq+0xb3/0x1d0 kernel/time/timer.c:1803
+>   __do_softirq+0x1d0/0x9c8 kernel/softirq.c:571
+>   [...]
+>   </IRQ>
+>
+> It triggers NULL pointer dereference when 'neigh->dev->dev_addr' is
+> called in the rose_send_frame(). It's the first occurrence of the
+> `neigh` is in rose_loopback_timer() as `rose_loopback_neigh', and
+> the 'dev' in 'rose_loopback_neigh' is initialized sa nullptr.
+>
+> It had been fixed by commit 3b3fd068c56e3fbea30090859216a368398e39bf
+> ("rose: Fix Null pointer dereference in rose_send_frame()") ever.
+> But it's introduced by commit 3c53cd65dece47dd1f9d3a809f32e59d1d87b2b8
+> ("rose: check NULL rose_loopback_neigh->loopback") again.
+>
+> We fix it by add NULL check in rose_transmit_clear_request(). When
+> the 'dev' in 'neigh' is NULL, we don't reply the request and just
+> clear it.
+>
+> syzkaller don't provide repro, and I provide a syz repro like:
+> r0 = syz_init_net_socket$bt_sco(0x1f, 0x5, 0x2)
+> ioctl$sock_inet_SIOCSIFFLAGS(r0, 0x8914, &(0x7f0000000180)={'rose0\x00', 0x201})
+> r1 = syz_init_net_socket$rose(0xb, 0x5, 0x0)
+> bind$rose(r1, &(0x7f00000000c0)=@full={0xb, @dev, @null, 0x0, [@null, @null, @netrom, @netrom, @default, @null]}, 0x40)
+> connect$rose(r1, &(0x7f0000000240)=@short={0xb, @dev={0xbb, 0xbb, 0xbb, 0x1, 0x0}, @remote={0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0x1}, 0x1, @netrom={0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0x0, 0x0}}, 0x1c)
+>
+> Fixes: 3c53cd65dece ("rose: check NULL rose_loopback_neigh->loopback")
+> Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
+> ---
+>   net/rose/rose_link.c | 3 +++
+>   1 file changed, 3 insertions(+)
+>
+> diff --git a/net/rose/rose_link.c b/net/rose/rose_link.c
+> index 8b96a56d3a49..0f77ae8ef944 100644
+> --- a/net/rose/rose_link.c
+> +++ b/net/rose/rose_link.c
+> @@ -236,6 +236,9 @@ void rose_transmit_clear_request(struct rose_neigh *neigh, unsigned int lci, uns
+>   	unsigned char *dptr;
+>   	int len;
+>   
+> +	if (!neigh->dev)
+> +		return;
+> +
+>   	len = AX25_BPQ_HEADER_LEN + AX25_MAX_HEADER_LEN + ROSE_MIN_LEN + 3;
+>   
+>   	if ((skb = alloc_skb(len, GFP_ATOMIC)) == NULL)
