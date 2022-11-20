@@ -2,66 +2,113 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19DB063102D
-	for <lists+linux-hams@lfdr.de>; Sat, 19 Nov 2022 18:56:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49B936311FE
+	for <lists+linux-hams@lfdr.de>; Sun, 20 Nov 2022 01:02:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230466AbiKSR4l (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 19 Nov 2022 12:56:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38520 "EHLO
+        id S234589AbiKTACB (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 19 Nov 2022 19:02:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230398AbiKSR4k (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 19 Nov 2022 12:56:40 -0500
-Received: from trinity3.trinnet.net (trinity.trinnet.net [96.78.144.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8CD8AA6
-        for <linux-hams@vger.kernel.org>; Sat, 19 Nov 2022 09:56:39 -0800 (PST)
-Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
-        by trinity3.trinnet.net (TrinityOS hardened/TrinityOS Hardened) with ESMTP id 2AJHucIB018150
-        for <linux-hams@vger.kernel.org>; Sat, 19 Nov 2022 09:56:39 -0800
-Subject: =?UTF-8?Q?Re:_Greetings_=e2=80=94_New_Member_KQ6UP?=
-To:     linux-hams@vger.kernel.org
-References: <CANnsUMFwS=mmkd8sMYUmkPFhNNK79vSs9mwMW7y3uNfZx9vX2Q@mail.gmail.com>
- <CANnsUME3OjjKZ_R-XfhahgeKucTm-qScHx4Atcz4Qu5ZtfaeUQ@mail.gmail.com>
-From:   David Ranch <linux-hams@trinnet.net>
-Message-ID: <27dba473-a48a-09da-055e-0d89b76d9bc3@trinnet.net>
-Date:   Sat, 19 Nov 2022 09:56:38 -0800
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        with ESMTP id S234179AbiKTABw (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 19 Nov 2022 19:01:52 -0500
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA92A165A8;
+        Sat, 19 Nov 2022 16:01:47 -0800 (PST)
+Date:   Sun, 20 Nov 2022 00:01:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=n8pjl.ca;
+        s=protonmail; t=1668902501; x=1669161701;
+        bh=lvzGxYQdIo6DToOuBILM9gN0gZvQcQ+reM0/jv620qw=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=slKxsVaLdg8gvQ2+rTPW+9hG8eGAOdJ2qlNJCWCKjtgce7sCcDjsftS0IRha5cgjv
+         EHB0ik2GjopNoLHPgb2xECbZLEX4d3uRkU2eELjRc2o/0BqRBSbbWRSgLCZEfnh0Xs
+         yPSBIB/WipNjozeS/jd3hzbIED7GklQQlvlN8kmN7WxJkTHV02QQEAkxQ2eaBXfmC4
+         KjCbkwoFQMAzLwlXplx4wgX16nJlWG/HWundIObJ1f5Yr09TBgf96grrsbnd0iZ8PX
+         On8ZD9tV3Sak6fBnaikT6T1+wXJTdkVHpETC6lqZc156ZgLjKIp5EhOEK6QpUYt3VI
+         l8fPy/D22jC8Q==
+To:     syzbot <syzbot+4643bc868f47ad276452@syzkaller.appspotmail.com>
+From:   Peter Lafreniere <peter@n8pjl.ca>
+Cc:     davem@davemloft.net, edumazet@google.com, jreuter@yaina.de,
+        kuba@kernel.org, linux-hams@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        pabeni@redhat.com, ralf@linux-mips.org,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] general protection fault in ax25_send_frame (2)
+Message-ID: <_EStAmQIIbOHjwEqqb54KlnJy9ltngO0A__i8T4sJISE0rRSCaa8TlYBrwJ9AJPxJtrp27MNaXRISYfABlCoIWA1bze3-o2Oblw7PcCdxM4=@n8pjl.ca>
+In-Reply-To: <000000000000da093705edbd2ca4@google.com>
+References: <000000000000da093705edbd2ca4@google.com>
+Feedback-ID: 53133685:user:proton
 MIME-Version: 1.0
-In-Reply-To: <CANnsUME3OjjKZ_R-XfhahgeKucTm-qScHx4Atcz4Qu5ZtfaeUQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Sat, 19 Nov 2022 09:56:39 -0800 (PST)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SORTED_RECIPS,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
+In response to the following syzbot report:
 
-Hello Chris,
-
-Welcome to the group.  If you check the recent email archives here, 
-you'll see that llinux-ax25.org was moved to linux-ax25.in-berlin.de due 
-to the previous domain holder was not renewing the domain.  Beyond that, 
-for in-kernel AX.25 support, do you have any specific questions for the 
-group?  It does work but there are still some known bugs that are slowly 
-getting worked out.
-
---David
-KI6ZHD
-
-
-
-On 11/19/2022 09:36 AM, Chris Maness wrote:
-> Just dropped in to find out the current AX.25 situation in kernel/user
-> space.  Been playing with doing NETROM using UROnode.  Also wondering
-> what happened to Linux-ax25.org
+> general protection fault, probably for non-canonical address 0xdffffc0000=
+00006c: 0000 [#1] PREEMPT SMP KASAN
+> KASAN: null-ptr-deref in range [0x0000000000000360-0x0000000000000367]
+> CPU: 1 PID: 10715 Comm: syz-executor.3 Not tainted 6.0.0-rc4-syzkaller-00=
+136-g0727a9a5fbc1 #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS G=
+oogle 08/26/2022
+> RIP: 0010:ax25_dev_ax25dev include/net/ax25.h:342 [inline]
+> RIP: 0010:ax25_send_frame+0xe4/0x640 net/ax25/ax25_out.c:56
+> Code: 00 48 85 c0 49 89 c4 0f 85 fb 03 00 00 e8 34 cb 2b f9 49 8d bd 60 0=
+3 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f=
+ 85 b1 04 00 00 4d 8b ad 60 03 00 00 4d 85 ed 0f 84
+>=20
+> RSP: 0000:ffffc90004c77a00 EFLAGS: 00010206
+> RAX: dffffc0000000000 RBX: ffff88814a308008 RCX: 0000000000000100
+> RDX: 000000000000006c RSI: ffffffff88503efc RDI: 0000000000000360
+> RBP: ffffffff91561460 R08: 0000000000000001 R09: ffffffff908e4a9f
+> R10: 0000000000000001 R11: 1ffffffff2020d9a R12: 0000000000000000
+> R13: 0000000000000000 R14: 0000000000000104 R15: 0000000000000000
+> FS: 0000555556215400(0000) GS:ffff8880b9b00000(0000) knlGS:00000000000000=
+00
+> CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000001b2f328000 CR3: 0000000050a64000 CR4: 00000000003506e0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+> <TASK>
 >
-> 73 de Chris KQ6UP
-> --
-> Thanks,
-> Chris Maness
-> -Sent from my iPhone
+> rose_send_frame+0xcc/0x2f0 net/rose/rose_link.c:106
+> rose_transmit_clear_request+0x1d5/0x290 net/rose/rose_link.c:255
+> rose_rx_call_request+0x4c0/0x1bc0 net/rose/af_rose.c:1009
+> rose_loopback_timer+0x19e/0x590 net/rose/rose_loopback.c:111
+> call_timer_fn+0x1a0/0x6b0 kernel/time/timer.c:1474
+> expire_timers kernel/time/timer.c:1519 [inline]
+> __run_timers.part.0+0x674/0xa80 kernel/time/timer.c:1790
+> __run_timers kernel/time/timer.c:1768 [inline]
+> run_timer_softirq+0xb3/0x1d0 kernel/time/timer.c:1803
+> [...]
+> </TASK>
+
+The null dereference in ax25_dev_ax25dev() must be from a null struct
+net_device* dev being passed to ax25_send_frame(). By tracing the call stac=
+k,
+the null pointer can be shown as coming from the dev field of
+rose_loopback_neigh being null.
+
+The null dereference was already mitigated with a fail-silent check by
+commit e97c089d7a49 ("rose: Fix NULL pointer dereference in rose_send_frame=
+()")
+in response to a previous syzbot report "general protection fault in=20
+rose_send_frame (2)", which was not closed.
+
+Does anyone object to marking syzbot bugs
+"general protection fault in {ax25|rose}_send_frame (2)"
+as fixed?
+
+Respectfully,
+Peter Lafreniere (N8PJL)
 
