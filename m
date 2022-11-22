@@ -2,113 +2,96 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49B936311FE
-	for <lists+linux-hams@lfdr.de>; Sun, 20 Nov 2022 01:02:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9C6E633292
+	for <lists+linux-hams@lfdr.de>; Tue, 22 Nov 2022 03:03:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234589AbiKTACB (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 19 Nov 2022 19:02:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47376 "EHLO
+        id S232417AbiKVCDf (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 21 Nov 2022 21:03:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234179AbiKTABw (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 19 Nov 2022 19:01:52 -0500
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA92A165A8;
-        Sat, 19 Nov 2022 16:01:47 -0800 (PST)
-Date:   Sun, 20 Nov 2022 00:01:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=n8pjl.ca;
-        s=protonmail; t=1668902501; x=1669161701;
-        bh=lvzGxYQdIo6DToOuBILM9gN0gZvQcQ+reM0/jv620qw=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=slKxsVaLdg8gvQ2+rTPW+9hG8eGAOdJ2qlNJCWCKjtgce7sCcDjsftS0IRha5cgjv
-         EHB0ik2GjopNoLHPgb2xECbZLEX4d3uRkU2eELjRc2o/0BqRBSbbWRSgLCZEfnh0Xs
-         yPSBIB/WipNjozeS/jd3hzbIED7GklQQlvlN8kmN7WxJkTHV02QQEAkxQ2eaBXfmC4
-         KjCbkwoFQMAzLwlXplx4wgX16nJlWG/HWundIObJ1f5Yr09TBgf96grrsbnd0iZ8PX
-         On8ZD9tV3Sak6fBnaikT6T1+wXJTdkVHpETC6lqZc156ZgLjKIp5EhOEK6QpUYt3VI
-         l8fPy/D22jC8Q==
-To:     syzbot <syzbot+4643bc868f47ad276452@syzkaller.appspotmail.com>
-From:   Peter Lafreniere <peter@n8pjl.ca>
-Cc:     davem@davemloft.net, edumazet@google.com, jreuter@yaina.de,
-        kuba@kernel.org, linux-hams@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        pabeni@redhat.com, ralf@linux-mips.org,
-        syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] general protection fault in ax25_send_frame (2)
-Message-ID: <_EStAmQIIbOHjwEqqb54KlnJy9ltngO0A__i8T4sJISE0rRSCaa8TlYBrwJ9AJPxJtrp27MNaXRISYfABlCoIWA1bze3-o2Oblw7PcCdxM4=@n8pjl.ca>
-In-Reply-To: <000000000000da093705edbd2ca4@google.com>
-References: <000000000000da093705edbd2ca4@google.com>
-Feedback-ID: 53133685:user:proton
+        with ESMTP id S231788AbiKVCDe (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 21 Nov 2022 21:03:34 -0500
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99AFBC7213;
+        Mon, 21 Nov 2022 18:03:33 -0800 (PST)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-36cbcda2157so130672307b3.11;
+        Mon, 21 Nov 2022 18:03:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MZ0+4cnAIfX8CYYRaiH5tv4rfyf0U7kZyCR7bDyQ238=;
+        b=RJ+ecxNeq5OZaDvi87MRj0jKdDnKxJW6vlyOn6JrVyHunWT+N3e5eVwoeOSFQSeHZa
+         q9MyKsYrms9MjHtQN5ujcD00hNVidMOBEcxNNn6intEqcJjsO2re35O9qg4dW+81A0yr
+         NobhVUJdeN5vG0tJNtLeufzWfcUflEtcpqpv7chlvZ5JJsyTerUCzrd1duPQsMUDwedP
+         LidfeZR15y3SMMMXK9+ppwuoYRhZHnxVLApxkXydLfXko838yO9RIbvvbktmH0wky6v+
+         zPPW5QV+SoIcgzwmuEYuIQXrzgHUQaZ6M3V48gy8Lzc1RwbDJZnQKzjOpxoHLvnSn+fz
+         NEjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MZ0+4cnAIfX8CYYRaiH5tv4rfyf0U7kZyCR7bDyQ238=;
+        b=3MIKYwg1Cr8texsqOXKrZhy0zVY6DLfvj0uvGUtXpphZ0Syd2UZypOnfaeelopsM44
+         VB0pCBP54kU7i5oyayD+bzh81RZugQXdNQ8/qMuiDQlXfF4kgghq36JxNlN5OwY0EFSm
+         gEzfLg71/I/x7E4oHeqEbNGgdQ0kIFIO7tz8y3W29IKY2tpXmlKYUJS7n5Zq0I96rMAq
+         h/J0jcP5l88ng2hg1l+Q3NBL6ZhAY7kTu7MtB3cPvYyiyluQKq9gCtqJqitculO6B0lI
+         4r2PDitXHScolkSM7AJOYu+48nJCmZRo8r7azBM4uLdISoiCvSXVGwTU1LhNNMXE/Kke
+         0Xfg==
+X-Gm-Message-State: ANoB5pnaIi4Cc+h5roMQv3pAZ3oag9ZDpgj4VymXhRYKHjs/+swpprR9
+        +TjBbUuCSC7eXZRHKCWB4BPnEtWcoUDQalK2XdyFmo6IIr9FbA==
+X-Google-Smtp-Source: AA0mqf5WTEPcR1uyF8Gei17thsBbEMzCy12Xx8sABUso05SpPDnwmB8i02rN6v+5a/2gnxiJ6HqrYFpqcaJF98ZDpGg=
+X-Received: by 2002:a05:690c:691:b0:391:c586:65ce with SMTP id
+ bp17-20020a05690c069100b00391c58665cemr2439803ywb.65.1669082612716; Mon, 21
+ Nov 2022 18:03:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SORTED_RECIPS,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Received: by 2002:a25:9f88:0:0:0:0:0 with HTTP; Mon, 21 Nov 2022 18:03:32
+ -0800 (PST)
+From:   Felipe Bedetti <felipebedetticosta@gmail.com>
+Date:   Mon, 21 Nov 2022 23:03:32 -0300
+Message-ID: <CAFO8usxTRUKjioUXk7thEhocooQkAbfUiyF9=Ari+bYcfCaxYg@mail.gmail.com>
+Subject: Fw:Norah Colly
+To:     linux fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux geode <linux-geode@lists.infradead.org>,
+        linux hams <linux-hams@vger.kernel.org>,
+        linux hexagon <linux-hexagon@vger.kernel.org>,
+        linux hippi <linux-hippi@sunsite.dk>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,BODY_SINGLE_URI,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SHORT_SHORTNER,SPF_HELO_NONE,SPF_PASS,
+        SUSPICIOUS_RECIPS,TVD_SPACE_RATIO,T_PDS_SHORTFWD_URISHRT_FP
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:1135 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  2.5 SUSPICIOUS_RECIPS Similar addresses in recipient list
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [felipebedetticosta[at]gmail.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.0 TVD_SPACE_RATIO No description available.
+        *  0.0 T_PDS_SHORTFWD_URISHRT_FP Apparently a short fwd/re with URI
+        *      shortener
+        *  1.6 SHORT_SHORTNER Short body with little more than a link to a
+        *      shortener
+        *  0.7 BODY_SINGLE_URI Message body is only a URI
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-In response to the following syzbot report:
-
-> general protection fault, probably for non-canonical address 0xdffffc0000=
-00006c: 0000 [#1] PREEMPT SMP KASAN
-> KASAN: null-ptr-deref in range [0x0000000000000360-0x0000000000000367]
-> CPU: 1 PID: 10715 Comm: syz-executor.3 Not tainted 6.0.0-rc4-syzkaller-00=
-136-g0727a9a5fbc1 #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS G=
-oogle 08/26/2022
-> RIP: 0010:ax25_dev_ax25dev include/net/ax25.h:342 [inline]
-> RIP: 0010:ax25_send_frame+0xe4/0x640 net/ax25/ax25_out.c:56
-> Code: 00 48 85 c0 49 89 c4 0f 85 fb 03 00 00 e8 34 cb 2b f9 49 8d bd 60 0=
-3 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f=
- 85 b1 04 00 00 4d 8b ad 60 03 00 00 4d 85 ed 0f 84
->=20
-> RSP: 0000:ffffc90004c77a00 EFLAGS: 00010206
-> RAX: dffffc0000000000 RBX: ffff88814a308008 RCX: 0000000000000100
-> RDX: 000000000000006c RSI: ffffffff88503efc RDI: 0000000000000360
-> RBP: ffffffff91561460 R08: 0000000000000001 R09: ffffffff908e4a9f
-> R10: 0000000000000001 R11: 1ffffffff2020d9a R12: 0000000000000000
-> R13: 0000000000000000 R14: 0000000000000104 R15: 0000000000000000
-> FS: 0000555556215400(0000) GS:ffff8880b9b00000(0000) knlGS:00000000000000=
-00
-> CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000001b2f328000 CR3: 0000000050a64000 CR4: 00000000003506e0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> Call Trace:
-> <TASK>
->
-> rose_send_frame+0xcc/0x2f0 net/rose/rose_link.c:106
-> rose_transmit_clear_request+0x1d5/0x290 net/rose/rose_link.c:255
-> rose_rx_call_request+0x4c0/0x1bc0 net/rose/af_rose.c:1009
-> rose_loopback_timer+0x19e/0x590 net/rose/rose_loopback.c:111
-> call_timer_fn+0x1a0/0x6b0 kernel/time/timer.c:1474
-> expire_timers kernel/time/timer.c:1519 [inline]
-> __run_timers.part.0+0x674/0xa80 kernel/time/timer.c:1790
-> __run_timers kernel/time/timer.c:1768 [inline]
-> run_timer_softirq+0xb3/0x1d0 kernel/time/timer.c:1803
-> [...]
-> </TASK>
-
-The null dereference in ax25_dev_ax25dev() must be from a null struct
-net_device* dev being passed to ax25_send_frame(). By tracing the call stac=
-k,
-the null pointer can be shown as coming from the dev field of
-rose_loopback_neigh being null.
-
-The null dereference was already mitigated with a fail-silent check by
-commit e97c089d7a49 ("rose: Fix NULL pointer dereference in rose_send_frame=
-()")
-in response to a previous syzbot report "general protection fault in=20
-rose_send_frame (2)", which was not closed.
-
-Does anyone object to marking syzbot bugs
-"general protection fault in {ax25|rose}_send_frame (2)"
-as fixed?
-
-Respectfully,
-Peter Lafreniere (N8PJL)
-
+https://bit.ly/3gkfct7
