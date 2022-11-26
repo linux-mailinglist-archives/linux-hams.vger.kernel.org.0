@@ -2,63 +2,124 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B07B63492B
-	for <lists+linux-hams@lfdr.de>; Tue, 22 Nov 2022 22:24:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3995B6392EF
+	for <lists+linux-hams@lfdr.de>; Sat, 26 Nov 2022 01:57:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234552AbiKVVY0 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 22 Nov 2022 16:24:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49124 "EHLO
+        id S230008AbiKZA51 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 25 Nov 2022 19:57:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234079AbiKVVYZ (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 22 Nov 2022 16:24:25 -0500
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF8107CBB4
-        for <linux-hams@vger.kernel.org>; Tue, 22 Nov 2022 13:24:21 -0800 (PST)
-Date:   Tue, 22 Nov 2022 21:24:15 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=n8pjl.ca;
-        s=protonmail; t=1669152259; x=1669411459;
-        bh=9ofKl9oHCU42v/48JpRRjgnyMPeMwcajH/4A4AXLFDU=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=ZDAfSB4DCJAH+65PTSJ3aueEoK8pVz5ogbV5wHTi3jbxaGfnx/1sqO+Rw4BRvly2E
-         NRicdFIso1eL5xnFS+cuqbwuQwzScQ+bHBgIj0g5o4QVgwQubWdzCylY/gf4Ql51tI
-         63Q+329SOkqP+eHgfTfSIFgjeY36TTnvdzEydFmfyhy0lSP2grmMqfgnXEF95/sOLh
-         LrSDRFVL4qNi00jVjmkl/aYW1+dP50Fag/ExpbGW/MLrOaZbJtH3H5K5kQeB3GAkm8
-         FRM1RPv+EZKouB9k1OJkBYk2IDjJn7HtPKyNfpJtFPwAkfRvClQ4cQb0WTjfnpVNGz
-         0qi7dRT16ObNw==
-To:     Peter Lafreniere <peter@n8pjl.ca>,
-        syzbot <syzbot+4643bc868f47ad276452@syzkaller.appspotmail.com>,
-        "syzbot+b25099bc0c49d0c2962e@syzkaller.appspotmail.com" 
-        <syzbot+b25099bc0c49d0c2962e@syzkaller.appspotmail.com>
-From:   Peter Lafreniere <peter@n8pjl.ca>
-Cc:     davem@davemloft.net, edumazet@google.com, jreuter@yaina.de,
-        kuba@kernel.org, linux-hams@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        pabeni@redhat.com, ralf@linux-mips.org,
-        syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] general protection fault in ax25_send_frame (2)
-Message-ID: <JJGUy6QkMUNauicWmgsVM8Q7NyGQpFad_3TlRqZsc0lwyR5e2jaNf6--kUKcNBcBpI2ZQ89SC5KtsuboH3g8PgbJqZsgvvVwxd4mKcMDCMk=@n8pjl.ca>
-In-Reply-To: <_EStAmQIIbOHjwEqqb54KlnJy9ltngO0A__i8T4sJISE0rRSCaa8TlYBrwJ9AJPxJtrp27MNaXRISYfABlCoIWA1bze3-o2Oblw7PcCdxM4=@n8pjl.ca>
-References: <000000000000da093705edbd2ca4@google.com> <_EStAmQIIbOHjwEqqb54KlnJy9ltngO0A__i8T4sJISE0rRSCaa8TlYBrwJ9AJPxJtrp27MNaXRISYfABlCoIWA1bze3-o2Oblw7PcCdxM4=@n8pjl.ca>
-Feedback-ID: 53133685:user:proton
+        with ESMTP id S229990AbiKZA50 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 25 Nov 2022 19:57:26 -0500
+Received: from mail-yw1-x1144.google.com (mail-yw1-x1144.google.com [IPv6:2607:f8b0:4864:20::1144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0BCD5985A
+        for <linux-hams@vger.kernel.org>; Fri, 25 Nov 2022 16:57:20 -0800 (PST)
+Received: by mail-yw1-x1144.google.com with SMTP id 00721157ae682-36cbcda2157so55052357b3.11
+        for <linux-hams@vger.kernel.org>; Fri, 25 Nov 2022 16:57:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=q5grRhzDgJlRek3REBN4Xq7JrHQXLu+Ef9bolVS8SjU=;
+        b=pE0EE204QfApPu07hlxe/IrT+Gm/y11be9zBrZdOYSL+bBqM1erl7U5oS71+H35vu2
+         eXRyT0ojbcq2Bg4rRLEcIySXE9tb/2nC3ei/G0Tf+rk0GPWJlUve1vVvJ94nNaGJlSPQ
+         HZjWYwaMNZXUOOQJHfTOdp9nqTC+8jR3CvHZTwE6r9sPmygjUhd8H+NvRqNgHWugZAU5
+         LSnWqs0An87WicfBt40uqu+nFq+xug2ymSnj5sxUswWKt740EFlc5QxlK/U7PwJK/8J7
+         hsXM1FD9iCXzAdQQtMPY5BxaogktlP9UPn0kFOhP6YfHOHgE2fogq175p+TO16CjMqiu
+         hHdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=q5grRhzDgJlRek3REBN4Xq7JrHQXLu+Ef9bolVS8SjU=;
+        b=3qQdzAGKerFLKhFc/z8CcQWShze1/FV8jbWGJn4522pycQ8DcemfRY7cvuZJqlyanw
+         tb7J7OJUSmLRlc+Jwb2WaH10GUJICl3Ms0OVRuvcAcxMxygl/UmlFP27qnCyyxul3GBj
+         psBwnVs+yqLjxaUxuSjkNs6ttRyXZilrCVSkxGXN26GUjSD34b3rCMOuCptncXYAdzLF
+         EXd1ICk5gJPDcZ9a/uMmHpxqZH4qUd8Xn96QVpnQgncb5UyWZNxtx5WJUgBy7IKcQH6i
+         DwH4tWq4hTjb8t4DDQiIU92Xuwhcr6ZtGhPma9sJ0t4pkFw+dCbCiCs0GSSx7Vlq3gup
+         UkrQ==
+X-Gm-Message-State: ANoB5pkUSIG4p2bBES44uz0Ht/Iwb3ZkfdPQVoQjAfogpf0Y3c8LLnsp
+        05wbuP62DpaDBegJDwX3SlHkvePvqEfGAwWBWmo=
+X-Google-Smtp-Source: AA0mqf6519474Zb6Fw0+w/vk47jdpLurX7zacFH9X6nEc11h8MTVafeCt4mmLkr8bCbehMaJTQGk24GKYx4ygMQIAh4=
+X-Received: by 2002:a81:1915:0:b0:3bf:9e45:1139 with SMTP id
+ 21-20020a811915000000b003bf9e451139mr693756ywz.267.1669424239908; Fri, 25 Nov
+ 2022 16:57:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: by 2002:a05:6918:6b07:b0:ef:f5dc:12ae with HTTP; Fri, 25 Nov 2022
+ 16:57:19 -0800 (PST)
+Reply-To: samsonvichisunday@gmail.com
+From:   Pastor Experience <experiencepastor@gmail.com>
+Date:   Sat, 26 Nov 2022 01:57:19 +0100
+Message-ID: <CAKLjfSGQ0EQCCdF7YKPN=G1xXQ8ihhntG9V=HG0d9wOOz++DMQ@mail.gmail.com>
+Subject: INVITATION TO THE GREAT ILLUMINATI SOCIETY.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=7.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FILL_THIS_FORM,
+        FILL_THIS_FORM_LONG,FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,T_FILL_THIS_FORM_LOAN,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:1144 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5007]
+        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [experiencepastor[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  0.0 FILL_THIS_FORM Fill in a form with personal information
+        *  2.0 FILL_THIS_FORM_LONG Fill in a form with personal information
+        *  0.0 T_FILL_THIS_FORM_LOAN Answer loan question(s)
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-> Does anyone object to marking syzbot bugs
-> "general protection fault in {ax25|rose}_send_frame (2)"
-> as fixed?
-
-As nobody seems to object to closing these reports:
-#syz fix: rose: Fix NULL pointer dereference in rose_send_frame()
-
-- Peter
+--=20
+INVITATION TO THE GREAT ILLUMINATI SOCIETY
+CONGRATULATIONS TO YOU....
+You have been chosen among the people given the opportunity this
+November to become rich and popular by joining the Great ILLUMINATI.
+This is an open invitation for you to become part of the world's
+biggest conglomerate and reach the peak of your career. a worthy goal
+and motivation to reach those upper layers of the pyramid to become
+one among the most Successful, Richest, Famous, Celebrated, Powerful
+and most decorated Personalities in the World???
+If you are interested, please respond to this message now with =E2=80=9CI
+ACCEPT" and fill the below details to get the step to join the
+Illuminati.
+KINDLY FILL BELOW DETAILS AND RETURN NOW.....
+Full names: ....................
+Your Country: .................
+State/ City: .............
+Age: ....................
+Marital status: ....................
+Occupation: ....................
+Monthly income: ....................
+WhatsApp Number: ......
+Postal Code: .....
+Home / House Address: .....
+For direct Whats-App Messages : + 356 7795 1054
+Email : samsonvichisunday@gmail.com
+NOTE: That you are not forced to join us, it is on your decision to
+become part of the world's biggest conglomerate and reach the peak of
+your career.
+Distance is not a barrier.
