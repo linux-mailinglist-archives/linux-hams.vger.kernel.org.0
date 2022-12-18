@@ -2,35 +2,35 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C58F650137
-	for <lists+linux-hams@lfdr.de>; Sun, 18 Dec 2022 17:25:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E452C6501F0
+	for <lists+linux-hams@lfdr.de>; Sun, 18 Dec 2022 17:39:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232059AbiLRQZt (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 18 Dec 2022 11:25:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42122 "EHLO
+        id S232479AbiLRQjn (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sun, 18 Dec 2022 11:39:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231990AbiLRQYc (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 18 Dec 2022 11:24:32 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DDD2D2D7;
-        Sun, 18 Dec 2022 08:09:47 -0800 (PST)
+        with ESMTP id S232350AbiLRQi7 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sun, 18 Dec 2022 11:38:59 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23F1D1837F;
+        Sun, 18 Dec 2022 08:13:57 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8A24060C99;
-        Sun, 18 Dec 2022 16:09:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98D7DC43392;
-        Sun, 18 Dec 2022 16:09:01 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C68C3B80BD1;
+        Sun, 18 Dec 2022 16:13:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17538C433F1;
+        Sun, 18 Dec 2022 16:13:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671379743;
-        bh=T9v2af0blhUSQ1zITjghYUNkuy7dANnd3er1zWX4zcI=;
+        s=k20201202; t=1671380018;
+        bh=HvhBXNttaTTCxIN6/c+CJYTilJvv/u7LgQqCqzGcXGE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lsl/7OKPDwXfzLp6loG3PUB7cA3w3gw6k25dUUfUuGrt3vZF0fGkRb22TyMTwGXdm
-         KTcAQuoXiG1YVFI7D7hGmZK8UNl5h1nJGv9DEiqnhkKUn+ktzYtCRTIpU9ZaJwV8Y3
-         c2QRKaFU2UmOxJpcoMgL9OYLlmMWTNZjhsu/jj1dEIAltTiVrG8eAxwhXzUQY/fhm9
-         J3HoqwB0MFWGR+2xjdvdM3Z+VBjgOUAGgOcjAZIJbTSsRv5JzJ6b+oVSnwq1/0nWgN
-         QijvPJ/N7cDUQOM+ntRQDgQQOMGCztsHqHwl27CVr8/HDipSmFlQg0pOnX1nMB8ARD
-         Z28Sp1gqY6pdQ==
+        b=r95QBPFdgrbnG7ueUrJSOKc8w5V2I1BF1ACmbCxIDrU+fJ/47yYfKp2pvIvlY0xwM
+         hUre4Lxa/y5pBoRVMwFHNvMyfBcFjN3X4N6GcRIMQfHCSlfUO499EpPROpAXYTCtne
+         KzvXTknLe6gbvhFlN7I8QTos4KSJgU5IzQdnNP8agOrf6bDfxrZ/6gNryLggcrNoKJ
+         4kTO7l4fKinDmyywXuUQ/ntaAVucBJ7vMJT51WGZA2u9GJ1P3rng7kbtnqM1vqVWpA
+         PND/0pfoee7jmfTuWLeTMkq7kzNCUoBBI6anSp/63aTsTG3N8qZZoGow4fld9YPb/E
+         dSq38C/Oe3V8Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Nathan Chancellor <nathan@kernel.org>,
@@ -40,12 +40,12 @@ Cc:     Nathan Chancellor <nathan@kernel.org>,
         davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
         ndesaulniers@google.com, linux-hams@vger.kernel.org,
         netdev@vger.kernel.org, llvm@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.0 22/73] hamradio: baycom_epp: Fix return type of baycom_send_packet()
-Date:   Sun, 18 Dec 2022 11:06:50 -0500
-Message-Id: <20221218160741.927862-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 13/46] hamradio: baycom_epp: Fix return type of baycom_send_packet()
+Date:   Sun, 18 Dec 2022 11:12:11 -0500
+Message-Id: <20221218161244.930785-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221218160741.927862-1-sashal@kernel.org>
-References: <20221218160741.927862-1-sashal@kernel.org>
+In-Reply-To: <20221218161244.930785-1-sashal@kernel.org>
+References: <20221218161244.930785-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -91,7 +91,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/net/hamradio/baycom_epp.c b/drivers/net/hamradio/baycom_epp.c
-index 3e69079ed694..94720f8a8ba5 100644
+index 6b6f28d5b8d5..f9d03f7b9101 100644
 --- a/drivers/net/hamradio/baycom_epp.c
 +++ b/drivers/net/hamradio/baycom_epp.c
 @@ -758,7 +758,7 @@ static void epp_bh(struct work_struct *work)
