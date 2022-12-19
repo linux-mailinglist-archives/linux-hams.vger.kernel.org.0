@@ -2,54 +2,50 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 844D96503E1
-	for <lists+linux-hams@lfdr.de>; Sun, 18 Dec 2022 18:09:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7B8B650989
+	for <lists+linux-hams@lfdr.de>; Mon, 19 Dec 2022 10:50:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233588AbiLRRJv (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 18 Dec 2022 12:09:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59204 "EHLO
+        id S231389AbiLSJuU (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 19 Dec 2022 04:50:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233638AbiLRRHu (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 18 Dec 2022 12:07:50 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9257CD12C;
-        Sun, 18 Dec 2022 08:23:20 -0800 (PST)
+        with ESMTP id S229528AbiLSJuT (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 19 Dec 2022 04:50:19 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15638D2EA;
+        Mon, 19 Dec 2022 01:50:19 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F7FA60DB4;
-        Sun, 18 Dec 2022 16:23:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C121C433D2;
-        Sun, 18 Dec 2022 16:23:18 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B348AB80BA3;
+        Mon, 19 Dec 2022 09:50:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 687ECC43396;
+        Mon, 19 Dec 2022 09:50:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671380599;
-        bh=+Y5rY6Spr69G3yO6EVScjdi7yjQxdJZoDsPcAT51BN8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RfgcHsE1S+1PnoKb+nBfl8wD+3FxD/O8uREaKthxnvMukuM6ZcuWmm65e8fJxOk+d
-         zw9m+VM3xm0veGRThP/VbFlMeZMaiuE7LytNdDAm1OFzXDonxYh2Wjyt3/Gcv39FPY
-         9QacZ65e+fNBLSggW3TI7DU9hcT/zOHOMViu8hRDIGxhPyDl4oWNdOUvWXz6tVHg/q
-         jL5Fi8ZSV4A/AgfwIBUp0OD+oQp+RehjlTFYoBCbzh7UZqdX4yOZycidVdJinLfhN0
-         YP+sQ0Hms5W8vqoXbEqMnPMJgY4MBmlckMkFmnJF2P69zQLIwxAOA3sEicPl4ymmpa
-         9bG3V3dqnV64g==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, t.sailer@alumni.ethz.ch,
-        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-        ndesaulniers@google.com, linux-hams@vger.kernel.org,
-        netdev@vger.kernel.org, llvm@lists.linux.dev
-Subject: [PATCH AUTOSEL 4.9 05/20] hamradio: baycom_epp: Fix return type of baycom_send_packet()
-Date:   Sun, 18 Dec 2022 11:22:50 -0500
-Message-Id: <20221218162305.935724-5-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221218162305.935724-1-sashal@kernel.org>
-References: <20221218162305.935724-1-sashal@kernel.org>
+        s=k20201202; t=1671443416;
+        bh=39AaLIEWFIQskMzhGuFVWOTbXa7X4viiTu8/D1DBPKg=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=nfkqsporUMPQNhz29OmGvmQ78isR14ALdzPoe++NxCx/KRWrJDHsqMsGgOcDqwB/z
+         xe1gU70D2Z8fIzg3P4CyFOWEq28O/8oDh5FNcccSx9h5oRAv9p3RFZRDQOprc+PcTx
+         wX7GmsKRYEY9R1pa0KE8qzJjQ8aF2PxlXJeRs/rYq+shFSuwor/7dvNbexpL1UAYGd
+         AeKmyOH3rXrn/bM4/HjvPi5z9sLZaWkOSKF5UmLfZmOws3PaOmPr1KY5hGTuDhvZzQ
+         I7o3hk+ixgteDGp0T+1dPQrFkl1Fm9vb/EUL7ppY/PDb041HEf6adAS1NA5a1gINB6
+         lhoCof3dzUR7Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 53843E451B7;
+        Mon, 19 Dec 2022 09:50:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] hamradio: baycom_epp: Do not use x86-specific rdtsc()
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167144341633.12312.2432800353975438526.git-patchwork-notify@kernel.org>
+Date:   Mon, 19 Dec 2022 09:50:16 +0000
+References: <20221218120405.2431-1-bp@alien8.de>
+In-Reply-To: <20221218120405.2431-1-bp@alien8.de>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     t.sailer@alumni.ethz.ch, linux-hams@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -59,50 +55,28 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-From: Nathan Chancellor <nathan@kernel.org>
+Hello:
 
-[ Upstream commit c5733e5b15d91ab679646ec3149e192996a27d5d ]
+This patch was applied to netdev/net-next.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-With clang's kernel control flow integrity (kCFI, CONFIG_CFI_CLANG),
-indirect call targets are validated against the expected function
-pointer prototype to make sure the call target is valid to help mitigate
-ROP attacks. If they are not identical, there is a failure at run time,
-which manifests as either a kernel panic or thread getting killed. A
-proposed warning in clang aims to catch these at compile time, which
-reveals:
+On Sun, 18 Dec 2022 13:04:05 +0100 you wrote:
+> From: "Borislav Petkov (AMD)" <bp@alien8.de>
+> 
+> Use get_cycles() which is provided by pretty much every arch.
+> 
+> The UML build works too because get_cycles() is a simple "return 0;"
+> because the rdtsc() is optimized away there.
+> 
+> [...]
 
-  drivers/net/hamradio/baycom_epp.c:1119:25: error: incompatible function pointer types initializing 'netdev_tx_t (*)(struct sk_buff *, struct net_device *)' (aka 'enum netdev_tx (*)(struct sk_buff *, struct net_device *)') with an expression of type 'int (struct sk_buff *, struct net_device *)' [-Werror,-Wincompatible-function-pointer-types-strict]
-          .ndo_start_xmit      = baycom_send_packet,
-                                ^~~~~~~~~~~~~~~~~~
-  1 error generated.
+Here is the summary with links:
+  - hamradio: baycom_epp: Do not use x86-specific rdtsc()
+    https://git.kernel.org/netdev/net-next/c/aba5b397cad7
 
-->ndo_start_xmit() in 'struct net_device_ops' expects a return type of
-'netdev_tx_t', not 'int'. Adjust the return type of baycom_send_packet()
-to match the prototype's to resolve the warning and CFI failure.
-
-Link: https://github.com/ClangBuiltLinux/linux/issues/1750
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Link: https://lore.kernel.org/r/20221102160610.1186145-1-nathan@kernel.org
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/hamradio/baycom_epp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/net/hamradio/baycom_epp.c b/drivers/net/hamradio/baycom_epp.c
-index 78dbc44540f6..b7831d0fd084 100644
---- a/drivers/net/hamradio/baycom_epp.c
-+++ b/drivers/net/hamradio/baycom_epp.c
-@@ -768,7 +768,7 @@ static void epp_bh(struct work_struct *work)
-  * ===================== network driver interface =========================
-  */
- 
--static int baycom_send_packet(struct sk_buff *skb, struct net_device *dev)
-+static netdev_tx_t baycom_send_packet(struct sk_buff *skb, struct net_device *dev)
- {
- 	struct baycom_state *bc = netdev_priv(dev);
- 
+You are awesome, thank you!
 -- 
-2.35.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
