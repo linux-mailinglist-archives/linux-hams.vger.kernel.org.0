@@ -2,35 +2,35 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6F206906F1
-	for <lists+linux-hams@lfdr.de>; Thu,  9 Feb 2023 12:22:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83D20690721
+	for <lists+linux-hams@lfdr.de>; Thu,  9 Feb 2023 12:24:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231204AbjBILWX (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 9 Feb 2023 06:22:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51774 "EHLO
+        id S231236AbjBILY0 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 9 Feb 2023 06:24:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230476AbjBILVR (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 9 Feb 2023 06:21:17 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13EFF5ACCF;
-        Thu,  9 Feb 2023 03:18:09 -0800 (PST)
+        with ESMTP id S231304AbjBILXm (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 9 Feb 2023 06:23:42 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE0D45C4BD;
+        Thu,  9 Feb 2023 03:19:03 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A89D6B82108;
-        Thu,  9 Feb 2023 11:18:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D84FC433D2;
-        Thu,  9 Feb 2023 11:18:06 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8543261A2A;
+        Thu,  9 Feb 2023 11:19:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA3EFC433A1;
+        Thu,  9 Feb 2023 11:19:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675941487;
+        s=k20201202; t=1675941543;
         bh=PzVLqgik+UZhivOVOlgqzazqXqJD0EAdVX08zDOwBf4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Riv0Axq9xF+6hyb1fRkMxk0qoK1JeHo63A852Lyn3NLmIiIkdQNzJ40Y07JTrlLDd
-         QujsAagRa+zfFw/8OfWa30qBU8bo2hQNb42gaqfCulsioA2qJfI4WXnp8AArgY1AJZ
-         l3HEAXG/uS3a78yUT/kC+wicmycCkgJE3CyXbq3L0lkQLzpJ9jAhoO00hfT2IE5NTZ
-         utbpaHn+VVTzKngVYlcellDwzo8QwZ+n/Z9YuIiKJcxGIzVrjOSk0bjH0x7VUp49FH
-         9wmySdeXlKC7bF8dJEb0OgkxYLOE/7guoxZMraGDHboXBShx+a5PT+cbOzeQHXCB3h
-         yFoyoW/Apw+IQ==
+        b=ecFDJBt3qzoVWke8iDbWTt+bC8uz1M/ty5gNz0/oWyLm9FegJx0sF9EWQ/lWKboB+
+         bwfwCWjljTTyhxQXASRX2BzodHeGcAGsQcC2XTIKzQqNsUbbImyjX4coxdgRy6qDhj
+         KXg8vwjuwVIvoetj3XCHZotsuAzYCGVf7xzEVLhGZuMY1QsyEjTZzTVhs7fHOCwsps
+         Rg8feFdcUdagkhXEp1yn8h9BoAZyqA6NPA5N47r77krHheqSgaGRMwSYEXSjOTLvzR
+         u4BE5dGv02pwcE9XmA5Kvl4tJpa54EWog4I0owvk7sKxNCfnkMpVSFQqvf4NsoFiVU
+         g9F1KTh6RTCoQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hyunwoo Kim <v4bel@theori.io>,
@@ -39,12 +39,12 @@ Cc:     Hyunwoo Kim <v4bel@theori.io>,
         Sasha Levin <sashal@kernel.org>, davem@davemloft.net,
         edumazet@google.com, pabeni@redhat.com, linux-hams@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 08/17] net/rose: Fix to not accept on connected socket
-Date:   Thu,  9 Feb 2023 06:17:20 -0500
-Message-Id: <20230209111731.1892569-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 06/13] net/rose: Fix to not accept on connected socket
+Date:   Thu,  9 Feb 2023 06:18:24 -0500
+Message-Id: <20230209111833.1892896-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230209111731.1892569-1-sashal@kernel.org>
-References: <20230209111731.1892569-1-sashal@kernel.org>
+In-Reply-To: <20230209111833.1892896-1-sashal@kernel.org>
+References: <20230209111833.1892896-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
