@@ -2,35 +2,35 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A147690753
-	for <lists+linux-hams@lfdr.de>; Thu,  9 Feb 2023 12:27:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2CDF69076D
+	for <lists+linux-hams@lfdr.de>; Thu,  9 Feb 2023 12:29:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231473AbjBIL1K (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 9 Feb 2023 06:27:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59154 "EHLO
+        id S231561AbjBIL3A (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 9 Feb 2023 06:29:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230413AbjBIL0l (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 9 Feb 2023 06:26:41 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E40946567D;
-        Thu,  9 Feb 2023 03:20:29 -0800 (PST)
+        with ESMTP id S231526AbjBIL2A (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 9 Feb 2023 06:28:00 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B9D46ADF2;
+        Thu,  9 Feb 2023 03:21:06 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id D5167CE2470;
-        Thu,  9 Feb 2023 11:19:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1238CC433A4;
-        Thu,  9 Feb 2023 11:19:42 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 43CAF61A35;
+        Thu,  9 Feb 2023 11:20:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 862F4C433D2;
+        Thu,  9 Feb 2023 11:20:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675941584;
-        bh=T1kifxKCcz36WRe+I26DJfv71M1mq8/SHh41hZWGDKQ=;
+        s=k20201202; t=1675941620;
+        bh=4+DCYv2zGhoaxL5+EHAVjF5eJMGU1CVZfGmZ1VDD5G8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kSmvBwcs09nxhb/DOwo8hWXAg9nlgBJDkrOOiNM2aXBP2hmNQOvG5+dSnDjgxM8jM
-         ImQdyejQ3F3+uEK4jKzVfNDIkwz+17wX7WJVnnAypytcCw5IwKWCzB/tcQ5vhLrQ4q
-         YcdOKCDun4tJY2Oru+geJcPXJqJ8fhOSmc3cn+g/kKjFKWbySp3aeJTOhx1hvGFmwk
-         NtxmZMxFQ3a0/C7JUOOOyCbxzKiadl4l+1F7NFcnQd+mLHvn/1BZRtxrbzkcTkHZqV
-         YcCQ9A8XJ2YdS0wW0G/qir4IULNVpuYesWx7lZMgpuhXiKGYQOeO9ndOslf3RiMrdE
-         NBZGNep/PBCrw==
+        b=g2hn8GFIgyF5vLVlS8i/Eu5CVhu6lJNWGFOgfHpOhoBuWWsbahbFuVjWjGDSUZTE4
+         j62l1y2fSayKz3tV1MUug+JbqpGFNoXuAcTZToNPnAaqzFUVl+X0uAw6PXzMbMRNmb
+         0HkL/DxU78plRS5ZJ/XMqxCLaOAflNd4q3IXQnoyy9Eh350p+2kDsJ+TNh0DKrxaBy
+         iS3q5O1rTDWERM+PIEPE7AUVh6mMxsujyAXXCq65I+BWdLwTSmzvNnsH6V527BWtFO
+         cGCd6XnNQH8sJXR41/3yjd2J6jMw7JghCP7PapqPYCiIJRoAdMiCPjWh/C9FMeBwmq
+         CO/sXtQj23o2A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hyunwoo Kim <v4bel@theori.io>,
@@ -39,12 +39,12 @@ Cc:     Hyunwoo Kim <v4bel@theori.io>,
         Sasha Levin <sashal@kernel.org>, davem@davemloft.net,
         edumazet@google.com, pabeni@redhat.com, linux-hams@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 04/10] net/rose: Fix to not accept on connected socket
-Date:   Thu,  9 Feb 2023 06:19:13 -0500
-Message-Id: <20230209111921.1893095-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 3/6] net/rose: Fix to not accept on connected socket
+Date:   Thu,  9 Feb 2023 06:19:56 -0500
+Message-Id: <20230209111959.1893269-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230209111921.1893095-1-sashal@kernel.org>
-References: <20230209111921.1893095-1-sashal@kernel.org>
+In-Reply-To: <20230209111959.1893269-1-sashal@kernel.org>
+References: <20230209111959.1893269-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -86,10 +86,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+)
 
 diff --git a/net/rose/af_rose.c b/net/rose/af_rose.c
-index 95dda29058a0e..6fb158172ddc2 100644
+index 03a1ee221112e..4edd127bb8928 100644
 --- a/net/rose/af_rose.c
 +++ b/net/rose/af_rose.c
-@@ -465,6 +465,12 @@ static int rose_listen(struct socket *sock, int backlog)
+@@ -490,6 +490,12 @@ static int rose_listen(struct socket *sock, int backlog)
  {
  	struct sock *sk = sock->sk;
  
@@ -102,7 +102,7 @@ index 95dda29058a0e..6fb158172ddc2 100644
  	if (sk->sk_state != TCP_LISTEN) {
  		struct rose_sock *rose = rose_sk(sk);
  
-@@ -474,8 +480,10 @@ static int rose_listen(struct socket *sock, int backlog)
+@@ -499,8 +505,10 @@ static int rose_listen(struct socket *sock, int backlog)
  		memset(rose->dest_digis, 0, AX25_ADDR_LEN * ROSE_MAX_DIGIS);
  		sk->sk_max_ack_backlog = backlog;
  		sk->sk_state           = TCP_LISTEN;
