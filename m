@@ -2,117 +2,87 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8139D690780
-	for <lists+linux-hams@lfdr.de>; Thu,  9 Feb 2023 12:30:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF7656998DA
+	for <lists+linux-hams@lfdr.de>; Thu, 16 Feb 2023 16:27:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230332AbjBILas (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 9 Feb 2023 06:30:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59058 "EHLO
+        id S229935AbjBPP1E (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 16 Feb 2023 10:27:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231518AbjBIL3r (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 9 Feb 2023 06:29:47 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 813CB5A9C9;
-        Thu,  9 Feb 2023 03:21:38 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6AB87616A8;
-        Thu,  9 Feb 2023 11:20:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAA49C4339C;
-        Thu,  9 Feb 2023 11:20:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675941646;
-        bh=9VEO9pRwOJ9ghSVUE5fqmvAsIdGwV808Rjb7kQnwxFg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oF30vGR4pNrU4BKooQ3wdkfiyzyg44mjUEYKy7z+N35VIcXB3AvhXACic/87d+9oB
-         I3CiONLzk7jdWgZP9xs4/vI6+Qxxzeu7iMbLHYbtQZn8HFjOpMp8ZG6g47+FQHCVsI
-         28IIpyYoZynUC7B2WOZ/Gau+YOkj3OmHK5SMybzXOUMrLy7hEM+Pi1WSe2WQko3Uw0
-         wf56imxRC6AF0JCdqrqpkGMRf/w6+uvWhcDdX7hOiX5Uz6oYWDxCbbbzGG3YP+sYy5
-         e60mlMZF+twnpDNJlrKy8E60BcnDGZrEGNgeJCpP2T3uqCveHed69E000ApTC+je6Q
-         q+CnyDoFJ8tfw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hyunwoo Kim <v4bel@theori.io>,
-        Kuniyuki Iwashima <kuniyu@amazon.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, davem@davemloft.net,
-        edumazet@google.com, pabeni@redhat.com, linux-hams@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 2/5] net/rose: Fix to not accept on connected socket
-Date:   Thu,  9 Feb 2023 06:20:24 -0500
-Message-Id: <20230209112042.1893375-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230209112042.1893375-1-sashal@kernel.org>
-References: <20230209112042.1893375-1-sashal@kernel.org>
+        with ESMTP id S229973AbjBPP1D (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 16 Feb 2023 10:27:03 -0500
+Received: from mail-yw1-x1142.google.com (mail-yw1-x1142.google.com [IPv6:2607:f8b0:4864:20::1142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B07155E57
+        for <linux-hams@vger.kernel.org>; Thu, 16 Feb 2023 07:26:24 -0800 (PST)
+Received: by mail-yw1-x1142.google.com with SMTP id 00721157ae682-5339759be1cso15706227b3.3
+        for <linux-hams@vger.kernel.org>; Thu, 16 Feb 2023 07:26:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=conferencedatalist.com; s=google;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rio92At0sOIu/IWYYBib7d781COwumWXxhMg48MIfsQ=;
+        b=CpRmosxfGNIAd002oCrIO2Wz9BHa1eUOKcNnOs5vlr6sEU+OqEol0ZTP9t5bvJYubb
+         ngBbfyExLQtFARzzShu4kBUq0QADGLDc+4aw/mm+aYwI9c7xM4Y4WdStqMdqw1C9zkvZ
+         qkjBAqiHcIhB7xTOWqPtrzpwMgmYLf/12ZcEn8hKS5GceFuuT/KC//9al2F9xQb4Cxxr
+         kz1g4rjZGkssMAo+FVViYVf11hJdfaEbNI0jKcm+SGf62bQI043OPSNQeItZ+1FBVO/Q
+         0Zq/DG0q1/872cnG6JBDTWsUlxI6XpJxEgwlaWQwsiX7bv+Xx1fyQ0+rutq/o4eNnk45
+         88Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Rio92At0sOIu/IWYYBib7d781COwumWXxhMg48MIfsQ=;
+        b=OjsqYWIC9Cy1+puCfigRUTrf9NbF13fTIR44Gtq87xE1/naaZIb2ZQlH2AVx1n0k5B
+         uHXjLYJaSsdCgren29c4U2iVoT1vhlgaWwzIXAjRckOFlquwoK7iod6hzJw6ss0NS+LK
+         lg4tMgXHp1U9C6LglvO3EiN7Nym8Z9u+8QOdKSkF3tz6dPv94h9/lHqZ6fP3OyB23Bjw
+         PnVSW1YC5i/RCa2oNTc20CRhNJZO++AbQ4laO1al9g9j2/pZ0KySwgo4X5z/CqF1vFcI
+         9mxDvp1rvso9FIL/9BwbOMKjE168cTKToyf9OnyDp86PiN4DcOw6VNxHweocivoUz4Tb
+         dFxg==
+X-Gm-Message-State: AO0yUKXUFFW97aA9/MgxaOE9789KXKw40E6h5JtGUoNTG+jXF/IGZMO4
+        loPHcSACvHGxZbN5TZkyAoh4ytNcFGj1p8Aa1qUOuw==
+X-Google-Smtp-Source: AK7set/k9LYrq4F79+CfwR37KcO/dGw0uGJD+RWrrt3WVGT1Gzrn8inC8JFjZZHusi+KPhGcj6jfhrM8+eKadELmi/8=
+X-Received: by 2002:a81:fd12:0:b0:4f0:64a3:725a with SMTP id
+ g18-20020a81fd12000000b004f064a3725amr820885ywn.229.1676561183526; Thu, 16
+ Feb 2023 07:26:23 -0800 (PST)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+From:   Mary John <maryjohn@conferencedatalist.com>
+Date:   Thu, 16 Feb 2023 09:28:19 -0600
+Message-ID: <CAJxfvDYFv7uxt8CWjfUpOuVm5V7incUxv0W5DGpOJwa42gNLQQ@mail.gmail.com>
+Subject: RE: NAB Show Attendees Data Lists-2023
+To:     Mary John <maryjohn@conferencedatalist.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=2.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FILL_THIS_FORM,
+        FILL_THIS_FORM_LONG,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-From: Hyunwoo Kim <v4bel@theori.io>
+Hi,
 
-[ Upstream commit 14caefcf9837a2be765a566005ad82cd0d2a429f ]
+I hope you=E2=80=99re doing well!
 
-If you call listen() and accept() on an already connect()ed
-rose socket, accept() can successfully connect.
-This is because when the peer socket sends data to sendmsg,
-the skb with its own sk stored in the connected socket's
-sk->sk_receive_queue is connected, and rose_accept() dequeues
-the skb waiting in the sk->sk_receive_queue.
+Would you be interested in acquiring NAB Show attendees Data Lists 2023?
 
-This creates a child socket with the sk of the parent
-rose socket, which can cause confusion.
+List Includes:- Clinic/Org Name, First Name, Last Name, Full Name,
+Contact Job Title, Verified Email Address, Website URL, Mailing
+address, Phone number, Industry and many more=E2=80=A6
 
-Fix rose_listen() to return -EINVAL if the socket has
-already been successfully connected, and add lock_sock
-to prevent this issue.
+Number of Contacts    :-       45,724 Opt-in Contacts.
+Cost                             :-      $1,479
 
-Signed-off-by: Hyunwoo Kim <v4bel@theori.io>
-Reviewed-by: Kuniyuki Iwashima <kuniyu@amazon.com>
-Link: https://lore.kernel.org/r/20230125105944.GA133314@ubuntu
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- net/rose/af_rose.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Interested? Email me Back, I would love to provide more information on the =
+list.
 
-diff --git a/net/rose/af_rose.c b/net/rose/af_rose.c
-index b53468edf35a6..ac2ea4ebf7c7c 100644
---- a/net/rose/af_rose.c
-+++ b/net/rose/af_rose.c
-@@ -490,6 +490,12 @@ static int rose_listen(struct socket *sock, int backlog)
- {
- 	struct sock *sk = sock->sk;
- 
-+	lock_sock(sk);
-+	if (sock->state != SS_UNCONNECTED) {
-+		release_sock(sk);
-+		return -EINVAL;
-+	}
-+
- 	if (sk->sk_state != TCP_LISTEN) {
- 		struct rose_sock *rose = rose_sk(sk);
- 
-@@ -499,8 +505,10 @@ static int rose_listen(struct socket *sock, int backlog)
- 		memset(rose->dest_digis, 0, AX25_ADDR_LEN * ROSE_MAX_DIGIS);
- 		sk->sk_max_ack_backlog = backlog;
- 		sk->sk_state           = TCP_LISTEN;
-+		release_sock(sk);
- 		return 0;
- 	}
-+	release_sock(sk);
- 
- 	return -EOPNOTSUPP;
- }
--- 
-2.39.0
+Kind Regards,
+Mary John
+Marketing Coordinator
 
+If you do not wish to receive future emails from us, please reply as 'leave=
+ out
