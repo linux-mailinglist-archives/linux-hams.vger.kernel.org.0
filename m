@@ -2,73 +2,73 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E4986A5049
-	for <lists+linux-hams@lfdr.de>; Tue, 28 Feb 2023 01:52:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F3AA6A513B
+	for <lists+linux-hams@lfdr.de>; Tue, 28 Feb 2023 03:33:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbjB1Awj (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 27 Feb 2023 19:52:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40804 "EHLO
+        id S229590AbjB1Cd4 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 27 Feb 2023 21:33:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229659AbjB1Awa (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Feb 2023 19:52:30 -0500
-Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02AF126857;
-        Mon, 27 Feb 2023 16:52:21 -0800 (PST)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R871e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046060;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0VcgbXXg_1677545538;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VcgbXXg_1677545538)
-          by smtp.aliyun-inc.com;
-          Tue, 28 Feb 2023 08:52:19 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     kuba@kernel.org
+        with ESMTP id S229512AbjB1Cdz (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 27 Feb 2023 21:33:55 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA140212A;
+        Mon, 27 Feb 2023 18:33:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 850EDB80DA9;
+        Tue, 28 Feb 2023 02:33:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E13BBC433EF;
+        Tue, 28 Feb 2023 02:33:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677551631;
+        bh=p9MnJLALjiAb0WzYLv062jQYB+MMJnehQOB2xpAqptI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=P1sw0c3w83X8wXJxQkSDbdnCQbLE9mLfwVr5Z1PTjjFIq10eQsq6HOT22pGWf65xV
+         w1G6IZMzyJgQWQYXdtrWjePl22hgBCiVEqHU/cwRQcufTUweZ5tWrwMWCJbDe8YC5Z
+         cCsZ83kIpkz01NLrM3uTEguHsFGUyicSxGbaNPkQS6gGLdpWdofPKdbLhOzyekJJZt
+         6AcE3V2WzTfr7reFZF3j1zxUnPiuXcx84J7sEnSvrxZtiMwYMmlvMgSU8CAmpNu1G2
+         c5hE7gtHIe9qAKXReoh5EXSuaMGtIzWp4h98nIMN/f0NWeJI95e9abtRI0WhAS0gIG
+         fC5/CuuaTrriA==
+Date:   Mon, 27 Feb 2023 18:33:49 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Yang Li <yang.lee@linux.alibaba.com>
 Cc:     davem@davemloft.net, ralf@linux-mips.org, edumazet@google.com,
         pabeni@redhat.com, linux-hams@vger.kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yang Li <yang.lee@linux.alibaba.com>,
         Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH net-next] net: rose: Remove NULL check before dev_{put, hold}
-Date:   Tue, 28 Feb 2023 08:52:17 +0800
-Message-Id: <20230228005217.105058-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+Subject: Re: [PATCH net-next] net: rose: Remove NULL check before dev_{put,
+ hold}
+Message-ID: <20230227183349.68409721@kernel.org>
+In-Reply-To: <20230228005217.105058-1-yang.lee@linux.alibaba.com>
+References: <20230228005217.105058-1-yang.lee@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-The call netdev_{put, hold} of dev_{put, hold} will check NULL,
-so there is no need to check before using dev_{put, hold},
-remove it to silence the warning：
+On Tue, 28 Feb 2023 08:52:17 +0800 Yang Li wrote:
+> The call netdev_{put, hold} of dev_{put, hold} will check NULL,
+> so there is no need to check before using dev_{put, hold},
+> remove it to silence the warning=EF=BC=9A
+>=20
+> ./net/rose/rose_route.c:619:2-10: WARNING: NULL check before dev_{put, ho=
+ld} functions is not needed.
 
-./net/rose/rose_route.c:619:2-10: WARNING: NULL check before dev_{put, hold} functions is not needed.
+# Form letter - net-next is closed
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4239
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- net/rose/rose_route.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+The merge window for v6.3 has begun and therefore net-next is closed
+for new drivers, features, code refactoring and optimizations.
+We are currently accepting bug fixes only.
 
-diff --git a/net/rose/rose_route.c b/net/rose/rose_route.c
-index fee772b4637c..58d0312c0119 100644
---- a/net/rose/rose_route.c
-+++ b/net/rose/rose_route.c
-@@ -615,8 +615,7 @@ struct net_device *rose_dev_first(void)
- 			if (first == NULL || strncmp(dev->name, first->name, 3) < 0)
- 				first = dev;
- 	}
--	if (first)
--		dev_hold(first);
-+	dev_hold(first);
- 	rcu_read_unlock();
- 
- 	return first;
--- 
-2.20.1.7.g153144c
+Please repost when net-next reopens after Mar 6th.
 
+RFC patches sent for review only are obviously welcome at any time.
