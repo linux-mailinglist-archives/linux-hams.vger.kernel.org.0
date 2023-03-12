@@ -2,98 +2,105 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4710A6B60B9
-	for <lists+linux-hams@lfdr.de>; Sat, 11 Mar 2023 21:54:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97C946B6A35
+	for <lists+linux-hams@lfdr.de>; Sun, 12 Mar 2023 19:38:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229885AbjCKUyS (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 11 Mar 2023 15:54:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35464 "EHLO
+        id S230281AbjCLShz (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sun, 12 Mar 2023 14:37:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229754AbjCKUyP (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 11 Mar 2023 15:54:15 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B72FF1259C
-        for <linux-hams@vger.kernel.org>; Sat, 11 Mar 2023 12:53:50 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id y15so1501198lfa.7
-        for <linux-hams@vger.kernel.org>; Sat, 11 Mar 2023 12:53:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678568026;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=jYqarH6yRmH0LuJ3MMvmnq1A4xlgUvvOnTFpPsJ8tFg=;
-        b=pY34aob2YtDbEv3woQG7QVVPoUyEp34GIzMrN2KdA1xmscJPUpvVlOw0LkjFWfZC4p
-         paoL+2q14a4V4Df9HW2xG4Swd8b1MKWeYUp78L86jx+TqbcGnxZLrNkmbzTmGub9x46T
-         W/tSRJrL6e5VsuvxPoHIfNfd++Ulyvhxfw2e1FfUmsz54fFdjeI3Evv64P7JaSCDqBhj
-         YF1O9uLFkkUqlzAEwoOvS/+54B6eDOlOKNCOHXPskG6KfdGDw9YeMiR2kA//I08DSyHg
-         tMkgP99FONY3rAgdqGKo1Q3jjW/PpI7GAaNxDRpO25z0EE0JhCpBNIfG175YZcbvJd4u
-         YFdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678568026;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jYqarH6yRmH0LuJ3MMvmnq1A4xlgUvvOnTFpPsJ8tFg=;
-        b=0Yc2zFw7RQrwZABJSN7U+dVJjc7RUpNurVwsR1zSMy7ETzQUAYtNX8oa93kIPkGlOY
-         B2Z8bKo12p7UDZm7wx4FXA8+XGKFy/G0LeV+sl7Oml8yBQ8yViPwjAMhR5KtbrnKutOq
-         Ty6VuLcfRjb/V5F1im6gqtc+cR7NGlinHI80/L6TLF1i1zmRB+NZZFPi6tT0jCLYjD7n
-         szkq95rIaSbWtm8TuL5i4utGOcudKNmdjeW+CTDeRTxRwQCiDVXfTPvBIsJbkdBL9f5Z
-         tathmL73eq+qGc5HBGtqfDeGlE3BRDWQ0H/aUhgkRcI1eSTvdhuFKVnnjKBnMscV4/vx
-         h3tg==
-X-Gm-Message-State: AO0yUKUAUVYalga2eBz3UhQXoGvqkfIKPxGLnsL/8iRv32d/G43iGdA7
-        OPDLdNgHMc17vha2o6soNENQVMqDOl+hwCWwC8p97ns/w7s=
-X-Google-Smtp-Source: AK7set9bnMmPuJ1oOm7k+Y266XFzJT0ssYxqXgqPgb3UOyEuwXnyPUEygNfJj9GuO2nvy6uMTiuVL0NOXskOfpIubXU=
-X-Received: by 2002:ac2:530f:0:b0:4db:266c:4338 with SMTP id
- c15-20020ac2530f000000b004db266c4338mr8959202lfh.1.1678568026128; Sat, 11 Mar
- 2023 12:53:46 -0800 (PST)
+        with ESMTP id S230165AbjCLShy (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sun, 12 Mar 2023 14:37:54 -0400
+X-Greylist: delayed 1144 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 12 Mar 2023 11:37:17 PDT
+Received: from trinity3.trinnet.net (trinity.trinnet.net [96.78.144.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D1DD349CE
+        for <linux-hams@vger.kernel.org>; Sun, 12 Mar 2023 11:37:17 -0700 (PDT)
+Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
+        by trinity3.trinnet.net (TrinityOS hardened/TrinityOS Hardened) with ESMTP id 32CI5sZU010948
+        for <linux-hams@vger.kernel.org>; Sun, 12 Mar 2023 10:05:54 -0800
+Subject: Re: Backport to LTR?
+To:     "linux-hams@vger.kernel.org" <linux-hams@vger.kernel.org>
+References: <CANnsUMExojiA6ZNyH=_zjO44N4hR0ytqj-BWrRjO0L6Ox=MjsA@mail.gmail.com>
+From:   David Ranch <linux-hams@trinnet.net>
+Message-ID: <8a2cea63-b0e2-c348-1b72-0f810c022332@trinnet.net>
+Date:   Sun, 12 Mar 2023 11:05:54 -0700
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-From:   Chris Maness <christopher.maness@gmail.com>
-Date:   Sat, 11 Mar 2023 12:53:34 -0800
-Message-ID: <CANnsUMG_aubfxQ4+dmVovrdri46c58ZZ5ky6TseZ4QCKRnOf2Q@mail.gmail.com>
-Subject: One Slipped By
-To:     linux-hams@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <CANnsUMExojiA6ZNyH=_zjO44N4hR0ytqj-BWrRjO0L6Ox=MjsA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Sun, 12 Mar 2023 10:05:54 -0800 (PST)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Looks like I missed a patch compared to my hand patched kernel, I see:
+
+Hello Chris,
+
+I think this post covers your question:
+
+https://unix.stackexchange.com/questions/715465/how-to-submit-patches-and-fixes-to-lts-linux-kernels
+
+--David
+KI6ZHD
 
 
-diff linux-6.2.5/net/ax25/af_ax25.c linux-5.15.89/net/ax25/af_ax25.c
-105,106c105
-<                               netdev_put(ax25_dev->dev,
-<                                          &ax25_dev->dev_tracker);
----
->                               dev_put(ax25_dev->dev);
-225c224
-< ax25_cb *ax25_find_cb(const ax25_address *src_addr, ax25_address *dest_addr,
----
-> ax25_cb *ax25_find_cb(ax25_address *src_addr, ax25_address *dest_addr,
-726c725
-<       valptr = &val;
----
->       valptr = (void *) &val;
-781c780
-<                       strscpy(devname, ax25_dev->dev->name, sizeof(devname));
----
->                       strlcpy(devname, ax25_dev->dev->name, sizeof(devname));
-788c787
-<               valptr = devname;
----
->               valptr = (void *) devname;
-1069c1068
-<               netdev_put(ax25_dev->dev, &ax25->dev_tracker);
----
->               dev_put(ax25_dev->dev);
-1150c1149
-<               netdev_hold(ax25_dev->dev, &ax25->dev_tracker, GFP_ATOMIC);
----
->               dev_hold(ax25_dev->dev);
--- 
-Thanks,
-Chris Maness
+On 03/11/2023 12:48 PM, Chris Maness wrote:
+> I am wondering what the process is to get maintainers to backport
+> AX.25 fixes to LTS kernels.  Any suggestions?  This is a diff I pulled
+> off the latest LTS kernel, so unfortunately it still has not been
+> committed.
+>
+> diff linux-5.15.100/net/ax25/af_ax25.c linux-5.15.89/net/ax25/af_ax25.c
+> (I patched 5.15.89 by hand, and it has been working solid on both
+> x86_64 and also 64 bit Pi.
+>
+> I am going to the latest release branch and see if runs my
+> Slackware-15 ok.  I will keep my stuff as a fallback.
+>
+> 64a65
+>>        spin_lock_bh(&ax25_list_lock);
+> 66d66
+> <               spin_lock_bh(&ax25_list_lock);
+> 68d67
+> <               spin_unlock_bh(&ax25_list_lock);
+> 70a70
+>>        spin_unlock_bh(&ax25_list_lock);
+> 83a84
+>>        ax25_dev->device_up = false;
+> 93a95
+>>                                ax25_cb_del(s);
+> 105a108
+>>                        ax25_cb_del(s);
+> 998,1000c1001,1005
+> <                       release_sock(sk);
+> <                       ax25_disconnect(ax25, 0);
+> <                       lock_sock(sk);
+> ---
+>>                        if (!sock_flag(ax25->sk, SOCK_DEAD)) {
+>>                                release_sock(sk);
+>>                                ax25_disconnect(ax25, 0);
+>>                                lock_sock(sk);
+>>                        }
+> 1056,1060c1061,1067
+> <               del_timer_sync(&ax25->timer);
+> <               del_timer_sync(&ax25->t1timer);
+> <               del_timer_sync(&ax25->t2timer);
+> <               del_timer_sync(&ax25->t3timer);
+> <               del_timer_sync(&ax25->idletimer);
+> ---
+>>                if (!ax25_dev->device_up) {
+>>                        del_timer_sync(&ax25->timer);
+>>                        del_timer_sync(&ax25->t1timer);
+>>                        del_timer_sync(&ax25->t2timer);
+>>                        del_timer_sync(&ax25->t3timer);
+>>                        del_timer_sync(&ax25->idletimer);
+>>                }
+>
+>
+
