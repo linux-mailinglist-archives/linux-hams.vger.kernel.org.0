@@ -2,55 +2,63 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 288C26BBA30
-	for <lists+linux-hams@lfdr.de>; Wed, 15 Mar 2023 17:50:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4345C6BBA40
+	for <lists+linux-hams@lfdr.de>; Wed, 15 Mar 2023 17:54:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbjCOQuz (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 15 Mar 2023 12:50:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36588 "EHLO
+        id S231820AbjCOQyU (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 15 Mar 2023 12:54:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231205AbjCOQuy (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 15 Mar 2023 12:50:54 -0400
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23D86A5D7
-        for <linux-hams@vger.kernel.org>; Wed, 15 Mar 2023 09:50:52 -0700 (PDT)
-Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-5416b0ab0ecso250447997b3.6
-        for <linux-hams@vger.kernel.org>; Wed, 15 Mar 2023 09:50:52 -0700 (PDT)
+        with ESMTP id S230421AbjCOQyS (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 15 Mar 2023 12:54:18 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06528E381;
+        Wed, 15 Mar 2023 09:54:16 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id p203so12909741ybb.13;
+        Wed, 15 Mar 2023 09:54:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678899051;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZoXhq8GT0Z7S+0nYPHo2hu7FEao+rkXIsLYsER9uNZg=;
-        b=jFvbmNY76QI5h6NfFAx+kVGU/IBoKIIiGSB2LfCSJ59sIvi/Y9IYxh7oQiZUT70fCS
-         S2aH1QRlT4vuLz2Oz1bMsiAAxS6BMql5t0oIB2sqIbgZto/+oqRk6Sz56cDzgOl1+gv2
-         mJsBnpXLe2GMsWSk5qUtnfFBCjAuS1kXKggzYHYu/DmC/JyGw1OcSk3iMhkqrSb2Wkot
-         wsI1lulXVXROhzbn++Z3BRpd1D5OzQkJo5Ca1jv0n+vg6gAfwbkIY+34MZI6Z3Nt0S3W
-         DZHfRJYayexRUfOtuJsoO9HBjg8kmjgJIkJzG4wUNKSS5S7QIVuseB959LUDRfaz5BGF
-         kvhQ==
+        d=gmail.com; s=20210112; t=1678899256;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H67sFtck4pdaZVH5u5XSyic+UKJKeR5maSkvXCrf3VA=;
+        b=Jpjgzbz9BGaKI6PMhn4mZatKgsbsiL6Jrsg+ws1E4UxHBD1ILSKMLQJ1atmwabDQwU
+         xpMVe8tlDvgazr4KksQ/qCTXAEH6ofYl44cLd7pcUmHHQX2cW5GGsEsJfIuXVZz2JyWY
+         Z0d0c+nPj2VONPNSy49v6LAqRIgTVO+rmVRfcmemrbQKZokKMZt5WurRDiTOfRPbbNpF
+         F+rdny0kY0D48H57rT2s6znVllPzlmf9KXE2RuDSNvhZ73YZF5w99epJ8CW9FSNqYIDP
+         d9wcRIvrjPislFrczmeQFPHIv47cvtXWbU5qGfJ6aiHsGhe+QwiyPHm5uFvzdqL5PCfa
+         7Oxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678899051;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZoXhq8GT0Z7S+0nYPHo2hu7FEao+rkXIsLYsER9uNZg=;
-        b=ppeSawumYawkwKGvn5Xq09VFaQJNiwabuV3hNrkbh2MRczM7BEg5g71snTyeW3IgBW
-         Xej5l/8NECiuPa+YSPWpAUO8AuGPQ3JhpCICCXlFfJ4do2nOE557/F4qOjAwnb2KOxv4
-         KwbIyCwq6wiR8FvKrGLnpqPD2FvwG9mR+o2dOnGyslRCnEJZd82lUB6CnDNUIWuuDurW
-         POCB4sO31qyovUEz3jSsiXkLD+nBI6q6rYhnr2LY16rdymrrBvA2MU13JcD96wu4RZj1
-         L8kEGN2g0i/lDyazF9wQ2opQjzPjilteliO8OYSNxHmMA8aOGLoaSqi53VxD1tQPK1lY
-         /S/w==
-X-Gm-Message-State: AO0yUKUrSAP98DpJyharlWxm9zr3d+5oz6/3gXhB7puiFe63mlmg6PVt
-        O4w6TnksylqCyI9NHFpHhGtlN5XxTLTcKNEm3Gv0VxaiB3o=
-X-Google-Smtp-Source: AK7set9nR4XJ9VSYBnHgETc//sFeae+F/NlUcYYj/DRKwG33ThoeNVTc+4Okg6wkcyDxgvLkCNd1RMfNHQ5tAzBs8vg=
-X-Received: by 2002:a81:a7c2:0:b0:541:a0ab:bd28 with SMTP id
- e185-20020a81a7c2000000b00541a0abbd28mr355674ywh.4.1678899050907; Wed, 15 Mar
- 2023 09:50:50 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678899256;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=H67sFtck4pdaZVH5u5XSyic+UKJKeR5maSkvXCrf3VA=;
+        b=0G4kX4Bdp1XLYUDo+11XiLeVYNgyc6PLZSUluJrc9icLFV0JXPRjibj+ScMgF4Wh+7
+         1plfDYhSRcidfXdDsPfTdg8Iu47del4mF8AzC5CRYyY5c0h8GL6Y5A+C9i7EdNOKXBRa
+         hgWkfgXHZUnx53qo9DMWjO6hHMmmOV3ZPmpYeUTbN1tvTUnYZneop2ESm6dRPvT95Wmr
+         IyJ8Jqu6IS/eol/m62LyPmYNCSzcAiVmuzmrjmoeECw8OBRouBDo2gjRgVJPAyRWd240
+         OrAkFXc8IDt0XZoyimKSatSMV7qgmNaHN4jUwJKXxAB4Z3p4dUwAsVtn1Wn0KjgAiaR+
+         +Zsg==
+X-Gm-Message-State: AO0yUKV+5ut1C+8m4sGSOsIvv78OT7GXEbpl5Kj4OHV57ib3WwYodyOT
+        Vt63J9HaF+aJcWFKJRdP4xQ7UJhqqZVdAlGx4nQ=
+X-Google-Smtp-Source: AK7set+bqaLwo4Ej4xQM5CCKCSqZT1XgxkHm61oZLwe9Jhm4oZ08AH1iDhs5d1jD13NlV1CbqByBWLsbCRXMhoejorM=
+X-Received: by 2002:a5b:1cb:0:b0:9f5:af8a:3b61 with SMTP id
+ f11-20020a5b01cb000000b009f5af8a3b61mr26091888ybp.4.1678899254731; Wed, 15
+ Mar 2023 09:54:14 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230126041636.GA2599@ubuntu> <20230126173445.97212-1-kuniyu@amazon.com>
+In-Reply-To: <20230126173445.97212-1-kuniyu@amazon.com>
 From:   Chris Maness <christopher.maness@gmail.com>
-Date:   Wed, 15 Mar 2023 09:50:39 -0700
-Message-ID: <CANnsUMEG936taQ0jVUzs4FCbAOjYFKqJ=qgHkP3OJPACoYHwXA@mail.gmail.com>
+Date:   Wed, 15 Mar 2023 09:54:03 -0700
+Message-ID: <CANnsUMFTYdXovM5gPC0PZ6gRDLnUPXyrnnhuZky5wbFjHf+NoA@mail.gmail.com>
 Subject: KERNEL BUG LIKELY: Kernel Panic! MKISS related
-To:     linux-hams@vger.kernel.org
+To:     Kuniyuki Iwashima <kuniyu@amazon.com>
+Cc:     v4bel@theori.io, davem@davemloft.net, edumazet@google.com,
+        imv4bel@gmail.com, kuba@kernel.org, linux-hams@vger.kernel.org,
+        netdev@vger.kernel.org, committer Paolo Abeni <pabeni@redhat.com>,
+        ralf@linux-mips.org,
+        syzbot+caa188bdfc1eeafeb418@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -282,8 +290,3 @@ uni
 
 Regards,
 Chris KQ6UP
-
-
---=20
-Thanks,
-Chris Maness
