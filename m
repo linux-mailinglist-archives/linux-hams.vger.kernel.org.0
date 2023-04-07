@@ -2,108 +2,114 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F335B6D75F9
-	for <lists+linux-hams@lfdr.de>; Wed,  5 Apr 2023 09:56:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2A576DAEDB
+	for <lists+linux-hams@lfdr.de>; Fri,  7 Apr 2023 16:25:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237113AbjDEH46 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 5 Apr 2023 03:56:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36686 "EHLO
+        id S231915AbjDGOZx (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 7 Apr 2023 10:25:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237148AbjDEH4v (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 5 Apr 2023 03:56:51 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D83EF4C25
-        for <linux-hams@vger.kernel.org>; Wed,  5 Apr 2023 00:56:47 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id b20so138951403edd.1
-        for <linux-hams@vger.kernel.org>; Wed, 05 Apr 2023 00:56:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680681406;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q2eIUIgQam+Znm92t75ub3SSql/5kD/CSnGjaZOIeRE=;
-        b=TbfE/M3KLTLcH5vT2Fre6fZYOYPWvvtxQkGTov6z1yTYm3WWX0o+lTIhTOG+wcSwIr
-         Shh1zY364kogmQhRAc0fmFUnYMo7ZU5Ky8ffXUG3ryGAwkPV8ypCT8eTFfjq9CYDvF34
-         wd9tQF0WuIJQpr3lhmr30HlFr0l1LwFrvYdgr8mH0O6e9FfWr5OPxhkLBM/13q30F9ig
-         EG1EUr+OVaWTOJKmPFrxHNqGlS+65K8SsVkrarg61QTLcPElkQBRwd5OoyrukvetA/wf
-         Vqy9Mst7SvFcranOTqZhNf+dN08TZqf8qZtRsH7Kuac3IsmXwWAy0wOKyifHo22AsbGf
-         ub3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680681406;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q2eIUIgQam+Znm92t75ub3SSql/5kD/CSnGjaZOIeRE=;
-        b=q/YhrhF/9m4QK07s+mU+VlVwqFUkYYDliyf7IL23xYYAHYJIQumLlKxL053iETwgkE
-         fxWOaBgnqi1LL8ItPc0wQMWXjKxoT1cFI7z+59SfUDOWn4eeRQlU4fZcr2I71n/RVys6
-         ryLEUw0ciIQnqpxXcMYmDkCdNy72HGtgz8Yry3fYqe80qymZDgfP4DLoLGF3G2xlzqsy
-         Ka9owN6ini/ABWdj6IinCg9ukXGEcD+2ocD4Gzzek8/Uxhnx+H6bNPzpaITTKc6CBEI9
-         vsBQUvx5U2pV2eij49/PmLJ40QM3XUDmVCH+Wq+pN+fZt1fEpmQzxbg2b6LoMvW0JX3w
-         8vtQ==
-X-Gm-Message-State: AAQBX9fqdPl2qAREa4p3afl51RIDpu2MDpNqMBCj1Gz0nPvLj8ctCjDt
-        Upcjl3xIxGj6GEq0hno6nX4VdkATRsASCPoQZrI=
-X-Google-Smtp-Source: AKy350aKLqDIJOBs2+w17/O65tIzNsWo0HsCJMoNyTEOl6/xftBTjTFN3K+wYTFKjUWLGLXPGVtupVTP2HNAQxlPhhQ=
-X-Received: by 2002:a17:906:f8db:b0:92b:ec37:e4b7 with SMTP id
- lh27-20020a170906f8db00b0092bec37e4b7mr1145683ejb.14.1680681406051; Wed, 05
- Apr 2023 00:56:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a05:7208:2202:b0:65:e547:3943 with HTTP; Wed, 5 Apr 2023
- 00:56:45 -0700 (PDT)
-Reply-To: tamimbinhamadalthani00@gmail.com
-From:   Tamim Mohammed Taher <cisskhadidiatou890@gmail.com>
-Date:   Wed, 5 Apr 2023 00:56:45 -0700
-Message-ID: <CAAYY=dY1_XALb_mD3qTfxhx_hk9X7aOuccJ_bL2QrungoJAyKA@mail.gmail.com>
-Subject: RE:Saudi Arabia-Inquiry about your products.!!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.9 required=5.0 tests=DEAR_SOMETHING,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:530 listed in]
-        [list.dnswl.org]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [tamimbinhamadalthani00[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [cisskhadidiatou890[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [cisskhadidiatou890[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  1.7 DEAR_SOMETHING BODY: Contains 'Dear (something)'
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+        with ESMTP id S231279AbjDGOZw (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 7 Apr 2023 10:25:52 -0400
+X-Greylist: delayed 300 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 07 Apr 2023 07:25:50 PDT
+Received: from aib29gb125.yyz1.oracleemaildelivery.com (aib29gb125.yyz1.oracleemaildelivery.com [192.29.72.125])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58256EA1
+        for <linux-hams@vger.kernel.org>; Fri,  7 Apr 2023 07:25:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=oci-2023;
+ d=n8pjl.ca;
+ h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
+ bh=OwRei2BNhmX8BvkJp0ZRG4WxXMLSD0qgfQ+sHxu4kJY=;
+ b=femRHw778OSDlNxmFnGld1JbuhztYY0Zas5/EW5a+oMMRbO+NljHtKhUm4RgJeRFUsWYLq+2qWbK
+   sDD4ZEDoZwzfDCHwJAOVRKg1FUa4ui+keHPGFQikex48T6R1yBgv1b9ptn7xZCPgdr4AeJ8gvzZv
+   Y7HNQqyHDLfsqeICqOUBAEiZGgMkPSuWzfh4tKdzgFfMRUHMvm07obyNuQ+Z3G4+9TfocdJyPC4u
+   MxUyF2IUg9ry761GQAoyCKaM6PjBmlePJQiOa0VHlRlta377agnIc2nfeXH+1LLww5jGmd2sMgNL
+   J7dxmQ8dzqhwK4VOkRQBjsxf1qqbyh1/dUJEGA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=prod-yyz-20200204;
+ d=yyz1.rp.oracleemaildelivery.com;
+ h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
+ bh=OwRei2BNhmX8BvkJp0ZRG4WxXMLSD0qgfQ+sHxu4kJY=;
+ b=pb38zMMdLPNdfGip2jYCBjov8UtYlXZQ4QSuC0u5xU2Fw455RqrwNn0ZxGh0cvXWdoQ0J1cpd+cH
+   0GP4/LWNpMGfxVXI3fEMtKjJ4IZ8PfHu4cG6T5uM3+6Efcp2WnhQmmI5ak70gUoFpAgDFHDKfpIJ
+   8XW9x97fkNtEEkJOKXGfwJfCzgicGIIW4dpYAt85O+gpmPspBfMzuSiElUVI37nPQ2de5O810rpK
+   BZoYBuyx+yZJcoJKQ1/V9dF07IWvEMRJkTsegskImfRCShpStYIZwMD842iRkWFVAPnxCstXP6r8
+   cvCPQVPTc1un5RSM+EEp+tK3JHqQj+AfAm+oAw==
+Received: by omta-ad1-fd2-102-ca-toronto-1.omtaad1.vcndpyyz.oraclevcn.com
+ (Oracle Communications Messaging Server 8.1.0.1.20230214 64bit (built Feb 14
+ 2023))
+ with ESMTPS id <0RSR0025116PKRE0@omta-ad1-fd2-102-ca-toronto-1.omtaad1.vcndpyyz.oraclevcn.com> for
+ linux-hams@vger.kernel.org; Fri, 07 Apr 2023 14:20:49 +0000 (GMT)
+From:   Peter Lafreniere <peter@n8pjl.ca>
+To:     linux-hams@vger.kernel.org
+Cc:     Peter Lafreniere <peter@n8pjl.ca>, netdev@vger.kernel.org
+Subject: [PATCH net-next] ax25: exit linked-list searches earlier
+Date:   Fri,  7 Apr 2023 10:20:42 -0400
+Message-id: <20230407142042.11901-1-peter@n8pjl.ca>
+X-Mailer: git-send-email 2.40.0
+MIME-version: 1.0
+Content-transfer-encoding: 8bit
+Reporting-Meta: AAHJTkcuOwBLX2QSOTC6qVKi7uFhL45PTtpGFyGAesMEHaBMBfI2+IUYuHWctzq7
+ L9JywvyGfZl0adaHBmEEQAUCc+tRrWrw6h3vqDVI81/DkHxkO9RjLg715M+/hiUc
+ /6KyptVVvhhwT9EaBzT49FSoBCVbDaQ6fFrWYuYrdwHdrZONO1B5YvbRy4Ma4TlR
+ 3iFasS6ttQTs7KQ7D9qy7ii6iMHegTMPlBHNo1CQFICJ/knbzGkmR5fjXf5ervUn
+ YZzOTsAWAtj5pMWxgf7m2lLqkBiTk1pyHQu/WhJYB+DFMXXTAb5i19dk/jv3OMn5
+ Fno/L1MpsVeDSM4gpGQXrD+oEW+SXCH7me6GDaHPGOtHfh79kYYY/eKR970gubDO
+ U+EBiv8h+sp/bqiK1TZt7gZYnWvztLw8DA8ON4m7HwFcj+tTP/KxpMA6S+fE6/Y=
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Dear Sir/Madam,
+There's no need to loop until the end of the list if we have a result.
 
+Device callsigns are unique, so there can only be one dev returned from
+ax25_addr_ax25dev(). If not, there would be inconsistencies based on
+order of insertion, and refcount leaks.
 
+Same reasoning for ax25_get_route() as above.
 
-Can you supply your products to  the government of (Saudi Arabia). We
-buy in larger quantity if your company can supply please reply with
-your products detail for more information.
+Signed-off-by: Peter Lafreniere <peter@n8pjl.ca>
+---
+ net/ax25/ax25_dev.c   | 4 +++-
+ net/ax25/ax25_route.c | 3 +++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-Looking forward to hearing from you.
+diff --git a/net/ax25/ax25_dev.c b/net/ax25/ax25_dev.c
+index c5462486dbca..8186faea6b0d 100644
+--- a/net/ax25/ax25_dev.c
++++ b/net/ax25/ax25_dev.c
+@@ -34,11 +34,13 @@ ax25_dev *ax25_addr_ax25dev(ax25_address *addr)
+ 	ax25_dev *ax25_dev, *res = NULL;
+ 
+ 	spin_lock_bh(&ax25_dev_lock);
+-	for (ax25_dev = ax25_dev_list; ax25_dev != NULL; ax25_dev = ax25_dev->next)
++	for (ax25_dev = ax25_dev_list; ax25_dev != NULL; ax25_dev = ax25_dev->next) {
+ 		if (ax25cmp(addr, (const ax25_address *)ax25_dev->dev->dev_addr) == 0) {
+ 			res = ax25_dev;
+ 			ax25_dev_hold(ax25_dev);
++			break;
+ 		}
++	}
+ 	spin_unlock_bh(&ax25_dev_lock);
+ 
+ 	return res;
+diff --git a/net/ax25/ax25_route.c b/net/ax25/ax25_route.c
+index b7c4d656a94b..ed2cab200589 100644
+--- a/net/ax25/ax25_route.c
++++ b/net/ax25/ax25_route.c
+@@ -364,6 +364,9 @@ ax25_route *ax25_get_route(ax25_address *addr, struct net_device *dev)
+ 			if (ax25cmp(&ax25_rt->callsign, &null_ax25_address) == 0 && ax25_rt->dev == dev)
+ 				ax25_def_rt = ax25_rt;
+ 		}
++
++		if (ax25_spe_rt != NULL)
++			break;
+ 	}
+ 
+ 	ax25_rt = ax25_def_rt;
+-- 
+2.40.0
 
-Thanks and Regards
-
- Mr.Tamim Mohammed Taher
-
-Email:tamimbinhamadalthani00@gmail.com
