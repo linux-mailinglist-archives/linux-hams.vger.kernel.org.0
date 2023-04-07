@@ -2,114 +2,107 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2A576DAEDB
-	for <lists+linux-hams@lfdr.de>; Fri,  7 Apr 2023 16:25:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 581FD6DAF84
+	for <lists+linux-hams@lfdr.de>; Fri,  7 Apr 2023 17:15:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231915AbjDGOZx (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 7 Apr 2023 10:25:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48564 "EHLO
+        id S232212AbjDGPPF (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 7 Apr 2023 11:15:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231279AbjDGOZw (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 7 Apr 2023 10:25:52 -0400
-X-Greylist: delayed 300 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 07 Apr 2023 07:25:50 PDT
-Received: from aib29gb125.yyz1.oracleemaildelivery.com (aib29gb125.yyz1.oracleemaildelivery.com [192.29.72.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58256EA1
-        for <linux-hams@vger.kernel.org>; Fri,  7 Apr 2023 07:25:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=oci-2023;
- d=n8pjl.ca;
- h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
- bh=OwRei2BNhmX8BvkJp0ZRG4WxXMLSD0qgfQ+sHxu4kJY=;
- b=femRHw778OSDlNxmFnGld1JbuhztYY0Zas5/EW5a+oMMRbO+NljHtKhUm4RgJeRFUsWYLq+2qWbK
-   sDD4ZEDoZwzfDCHwJAOVRKg1FUa4ui+keHPGFQikex48T6R1yBgv1b9ptn7xZCPgdr4AeJ8gvzZv
-   Y7HNQqyHDLfsqeICqOUBAEiZGgMkPSuWzfh4tKdzgFfMRUHMvm07obyNuQ+Z3G4+9TfocdJyPC4u
-   MxUyF2IUg9ry761GQAoyCKaM6PjBmlePJQiOa0VHlRlta377agnIc2nfeXH+1LLww5jGmd2sMgNL
-   J7dxmQ8dzqhwK4VOkRQBjsxf1qqbyh1/dUJEGA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=prod-yyz-20200204;
- d=yyz1.rp.oracleemaildelivery.com;
- h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
- bh=OwRei2BNhmX8BvkJp0ZRG4WxXMLSD0qgfQ+sHxu4kJY=;
- b=pb38zMMdLPNdfGip2jYCBjov8UtYlXZQ4QSuC0u5xU2Fw455RqrwNn0ZxGh0cvXWdoQ0J1cpd+cH
-   0GP4/LWNpMGfxVXI3fEMtKjJ4IZ8PfHu4cG6T5uM3+6Efcp2WnhQmmI5ak70gUoFpAgDFHDKfpIJ
-   8XW9x97fkNtEEkJOKXGfwJfCzgicGIIW4dpYAt85O+gpmPspBfMzuSiElUVI37nPQ2de5O810rpK
-   BZoYBuyx+yZJcoJKQ1/V9dF07IWvEMRJkTsegskImfRCShpStYIZwMD842iRkWFVAPnxCstXP6r8
-   cvCPQVPTc1un5RSM+EEp+tK3JHqQj+AfAm+oAw==
-Received: by omta-ad1-fd2-102-ca-toronto-1.omtaad1.vcndpyyz.oraclevcn.com
- (Oracle Communications Messaging Server 8.1.0.1.20230214 64bit (built Feb 14
- 2023))
- with ESMTPS id <0RSR0025116PKRE0@omta-ad1-fd2-102-ca-toronto-1.omtaad1.vcndpyyz.oraclevcn.com> for
- linux-hams@vger.kernel.org; Fri, 07 Apr 2023 14:20:49 +0000 (GMT)
-From:   Peter Lafreniere <peter@n8pjl.ca>
-To:     linux-hams@vger.kernel.org
-Cc:     Peter Lafreniere <peter@n8pjl.ca>, netdev@vger.kernel.org
-Subject: [PATCH net-next] ax25: exit linked-list searches earlier
-Date:   Fri,  7 Apr 2023 10:20:42 -0400
-Message-id: <20230407142042.11901-1-peter@n8pjl.ca>
-X-Mailer: git-send-email 2.40.0
-MIME-version: 1.0
-Content-transfer-encoding: 8bit
-Reporting-Meta: AAHJTkcuOwBLX2QSOTC6qVKi7uFhL45PTtpGFyGAesMEHaBMBfI2+IUYuHWctzq7
- L9JywvyGfZl0adaHBmEEQAUCc+tRrWrw6h3vqDVI81/DkHxkO9RjLg715M+/hiUc
- /6KyptVVvhhwT9EaBzT49FSoBCVbDaQ6fFrWYuYrdwHdrZONO1B5YvbRy4Ma4TlR
- 3iFasS6ttQTs7KQ7D9qy7ii6iMHegTMPlBHNo1CQFICJ/knbzGkmR5fjXf5ervUn
- YZzOTsAWAtj5pMWxgf7m2lLqkBiTk1pyHQu/WhJYB+DFMXXTAb5i19dk/jv3OMn5
- Fno/L1MpsVeDSM4gpGQXrD+oEW+SXCH7me6GDaHPGOtHfh79kYYY/eKR970gubDO
- U+EBiv8h+sp/bqiK1TZt7gZYnWvztLw8DA8ON4m7HwFcj+tTP/KxpMA6S+fE6/Y=
+        with ESMTP id S231732AbjDGPOo (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 7 Apr 2023 11:14:44 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B914C31;
+        Fri,  7 Apr 2023 08:14:40 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id g18so9055000ejx.7;
+        Fri, 07 Apr 2023 08:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680880479; x=1683472479;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XOp6B3Yrf8/IElRYh7BCFuo52ng4eeD3hfWMY8BurBw=;
+        b=KhP0mxxllubIFX67GhecQYjfyspDjUfp6IGTgoo79QDraja9BpDHQSa4uh7byHUtmt
+         fPOc0hSsv7wxiQV0ClZIm7eRLXBwuZT06gl8DWPT4+Gaytm1HPWNK9fVzPinrQvmCox6
+         6vK7z+Xy42hOj0dp5EBSV9jzh2MCcsr8do92Nx5Yws6dIU7Db+N7/gQiqhw05m26i35w
+         U+XGz4r3kIejOc+BY+2x3pXaWJaYqicTotHJaSiPCdya2j0oqI1knX59uBKNnFAkSumC
+         HhuAhH3Ye7glX/+jacAIrrLjAlEXInSOSnJgnmT4RHs7V60sVeytdJOPF64oEVB3xTM8
+         k2nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680880479; x=1683472479;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XOp6B3Yrf8/IElRYh7BCFuo52ng4eeD3hfWMY8BurBw=;
+        b=WJSWLdIFr9mqtZ5RsYqkynULv7u3lbe4gnuqgaY2h0uRzZjFRMZCrm/a3iosMRq8jO
+         mVF4Ir9uWDw59FK8pwTedKNxQTNI7SUJ+cRRfRnAR/s+dbSTj/Q0FXfnQ+b0RV2zSwcS
+         G8hjD6T8r2i8as8ydisTJLplNmNzdLff2b0mdpz7rMWDTbJw8TjlTLG/Eoasgc1sIw29
+         +JuVMMW9+ROwYE9osfPEvoHN1bjzNywIvHKf86KSf6oZBH548zzto/fMu82nbDzvwSn4
+         bJj3lQMzOJTs37oA6MeRK63HlPwYJrsmEottBMSFwlfV1mDw9cRCpTQYxI6mH4+jpzmB
+         RScQ==
+X-Gm-Message-State: AAQBX9fRQ15RsuXwgigjpYz+p2NYeMI4nyCVnBTaUohJAA7OlgTfiSBH
+        BLAkEx+hxM0VDpEI6syau3wt0x5uejA=
+X-Google-Smtp-Source: AKy350Zxpfd+mV+JpvOVmcht89hMk1sTTTvhCBkHEhx4IGZ5AZpcPGVlidvuc7lfat2Fgf7K8uwKXA==
+X-Received: by 2002:a17:906:348f:b0:884:3707:bd83 with SMTP id g15-20020a170906348f00b008843707bd83mr2502133ejb.69.1680880479123;
+        Fri, 07 Apr 2023 08:14:39 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q13-20020a50cc8d000000b004fbdfbb5acesm1989686edi.89.2023.04.07.08.14.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Apr 2023 08:14:38 -0700 (PDT)
+Date:   Fri, 7 Apr 2023 18:14:33 +0300
+From:   Dan Carpenter <error27@gmail.com>
+To:     Peter Lafreniere <peter@n8pjl.ca>
+Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next] ax25: exit linked-list searches earlier
+Message-ID: <5d555fd8-0c9b-4460-9adf-9f8c2076f39a@kili.mountain>
+References: <20230407142042.11901-1-peter@n8pjl.ca>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230407142042.11901-1-peter@n8pjl.ca>
 X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-There's no need to loop until the end of the list if we have a result.
+On Fri, Apr 07, 2023 at 10:20:42AM -0400, Peter Lafreniere wrote:
+> diff --git a/net/ax25/ax25_route.c b/net/ax25/ax25_route.c
+> index b7c4d656a94b..ed2cab200589 100644
+> --- a/net/ax25/ax25_route.c
+> +++ b/net/ax25/ax25_route.c
+> @@ -364,6 +364,9 @@ ax25_route *ax25_get_route(ax25_address *addr, struct net_device *dev)
+>  			if (ax25cmp(&ax25_rt->callsign, &null_ax25_address) == 0 && ax25_rt->dev == dev)
+>  				ax25_def_rt = ax25_rt;
+>  		}
+> +
+> +		if (ax25_spe_rt != NULL)
+> +			break;
 
-Device callsigns are unique, so there can only be one dev returned from
-ax25_addr_ax25dev(). If not, there would be inconsistencies based on
-order of insertion, and refcount leaks.
+Better to just return directly.
 
-Same reasoning for ax25_get_route() as above.
-
-Signed-off-by: Peter Lafreniere <peter@n8pjl.ca>
----
- net/ax25/ax25_dev.c   | 4 +++-
- net/ax25/ax25_route.c | 3 +++
- 2 files changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/net/ax25/ax25_dev.c b/net/ax25/ax25_dev.c
-index c5462486dbca..8186faea6b0d 100644
---- a/net/ax25/ax25_dev.c
-+++ b/net/ax25/ax25_dev.c
-@@ -34,11 +34,13 @@ ax25_dev *ax25_addr_ax25dev(ax25_address *addr)
- 	ax25_dev *ax25_dev, *res = NULL;
- 
- 	spin_lock_bh(&ax25_dev_lock);
--	for (ax25_dev = ax25_dev_list; ax25_dev != NULL; ax25_dev = ax25_dev->next)
-+	for (ax25_dev = ax25_dev_list; ax25_dev != NULL; ax25_dev = ax25_dev->next) {
- 		if (ax25cmp(addr, (const ax25_address *)ax25_dev->dev->dev_addr) == 0) {
- 			res = ax25_dev;
- 			ax25_dev_hold(ax25_dev);
-+			break;
- 		}
-+	}
- 	spin_unlock_bh(&ax25_dev_lock);
- 
- 	return res;
 diff --git a/net/ax25/ax25_route.c b/net/ax25/ax25_route.c
-index b7c4d656a94b..ed2cab200589 100644
+index b7c4d656a94b..a8a3ab8c92f6 100644
 --- a/net/ax25/ax25_route.c
 +++ b/net/ax25/ax25_route.c
-@@ -364,6 +364,9 @@ ax25_route *ax25_get_route(ax25_address *addr, struct net_device *dev)
+@@ -364,13 +364,12 @@ ax25_route *ax25_get_route(ax25_address *addr, struct net_device *dev)
  			if (ax25cmp(&ax25_rt->callsign, &null_ax25_address) == 0 && ax25_rt->dev == dev)
  				ax25_def_rt = ax25_rt;
  		}
-+
-+		if (ax25_spe_rt != NULL)
-+			break;
- 	}
+-	}
  
- 	ax25_rt = ax25_def_rt;
--- 
-2.40.0
-
+-	ax25_rt = ax25_def_rt;
+-	if (ax25_spe_rt != NULL)
+-		ax25_rt = ax25_spe_rt;
++		if (ax25_spe_rt)
++			return ax25_spe_rt;
++	}
+ 
+-	return ax25_rt;
++	return ax25_def_rt;
+ }
+ 
+ /*
