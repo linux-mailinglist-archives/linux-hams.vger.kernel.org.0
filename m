@@ -2,75 +2,58 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D284B6E5A3A
-	for <lists+linux-hams@lfdr.de>; Tue, 18 Apr 2023 09:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB9676E9CE6
+	for <lists+linux-hams@lfdr.de>; Thu, 20 Apr 2023 22:14:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231174AbjDRHQj (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 18 Apr 2023 03:16:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34774 "EHLO
+        id S232003AbjDTUOZ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 20 Apr 2023 16:14:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229631AbjDRHQi (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 18 Apr 2023 03:16:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71D5B6195
-        for <linux-hams@vger.kernel.org>; Tue, 18 Apr 2023 00:15:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681802151;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=OFLrmPM4SY1LGfG6ef9nu/uLrU9eDtxg8RuZp9GHn+I=;
-        b=Y/axmV0wFp0boT6Hm37bKxuQcDLe2vXRNwWGQG7Gv04H0WnOfKTG+p6NdRUDdH2eSgYy/i
-        hrlmA95B42yDInoOh3nTfie4Gtlpsrb/7cfsIaQ+z9a6dOUOhxHLSXGARPNMAC8ywKg4wM
-        hJlA55oj1UHUYFtmHvP1MKqX+VKl5lM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-33-d-urpePWPoeJ1bnmH6S2BQ-1; Tue, 18 Apr 2023 03:15:45 -0400
-X-MC-Unique: d-urpePWPoeJ1bnmH6S2BQ-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-3f0b1dcb286so3446855e9.1
-        for <linux-hams@vger.kernel.org>; Tue, 18 Apr 2023 00:15:44 -0700 (PDT)
+        with ESMTP id S229772AbjDTUOY (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 20 Apr 2023 16:14:24 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA8FE1BF2
+        for <linux-hams@vger.kernel.org>; Thu, 20 Apr 2023 13:14:23 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-b9525e18bfbso899692276.1
+        for <linux-hams@vger.kernel.org>; Thu, 20 Apr 2023 13:14:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682021663; x=1684613663;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=dCd1mdYXEqgK93odkn99S1OR1zuJDxkEC1hS/WVPxHE=;
+        b=UQlZxXZoILSFCQKQX4D+PK45UcnRs/RfSJIzxlak1vaJb70xzdncp3FGcwbH1rHYqs
+         zlFyJYYNB5Z5Z/o1F5YFWNFAhGFUxVCO1YLnMmf2M+09b1NR2pdNk9BxiYR0SCMsWWQa
+         Ghkqpmu7Hakf6IQSDBHsT+1958Q1nhttZhtBrS7/IyziTiiltrq9BMjHsL3WPZZ2Z+FV
+         clq7ONiTv2AGbMu5sRdB1wDt43+SE4GDtBhp9OHbfmt9VHBZg1dPdJ663kk/49bOWLTN
+         PC+aYlVPYASGBhrJPfqb5C7ExaWkO4cHGXKpYzSVYFI8BdFt37E4J2MldD0QlCrpVIsm
+         YJGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681802144; x=1684394144;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=1e100.net; s=20221208; t=1682021663; x=1684613663;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=OFLrmPM4SY1LGfG6ef9nu/uLrU9eDtxg8RuZp9GHn+I=;
-        b=Omf5j5v1IedqVx7xAaS6RjrCFvjx9gIXbw8dZA9Sp2C/XLo666qtCe3xaJSGJxk1PL
-         yc9ReNmEsFAaokFOvlTsA65fqgWBvrrzYu5ufKgtZZm5PML/pnSqTF/9bJA239C2Ugxn
-         yKWm6dzd0ZhrCpr7QtP4AABoh6Qf2WdhOmpFO+P+5pKmIzRnlerYJ5qjtImx0x6j2u7n
-         q8HGNr2Pf5CU9l3gcsXhmzhWSGmzFuomSsVnpOhXgJBHcYwLwLhuIVYJxRDScoxg4fPH
-         zDFafZxi22jMUFdthAtqd3oc+qc/Bn+aQYd6juLNNavELu93jthPve+HeIqmTlQESh2d
-         q1sg==
-X-Gm-Message-State: AAQBX9fGAXvzwIo51TOqnx19+tLY+C+C759NdZ1VgjXANSOe2YoLKPZY
-        hbzcr0VC1N9eaI4/3UCH8o2fB4B6xa5Hnry+Kr0IBz3MCXF++bWivdgpxbnNDWSyRUOxneNKY8x
-        dVawsp7uj5HX9ows4FEhYEQ==
-X-Received: by 2002:a05:600c:4588:b0:3f1:7579:3c66 with SMTP id r8-20020a05600c458800b003f175793c66mr3266375wmo.4.1681802144049;
-        Tue, 18 Apr 2023 00:15:44 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bk8vtKBmPtxgaVJKyI9rBD8Abn8HTy6dEVyGUV89kSyowJkBnX4Q6NX+NLJE2i1bxpMGbepA==
-X-Received: by 2002:a05:600c:4588:b0:3f1:7579:3c66 with SMTP id r8-20020a05600c458800b003f175793c66mr3266347wmo.4.1681802143688;
-        Tue, 18 Apr 2023 00:15:43 -0700 (PDT)
-Received: from gerbillo.redhat.com (146-241-229-200.dyn.eolo.it. [146.241.229.200])
-        by smtp.gmail.com with ESMTPSA id 8-20020a05600c228800b003edef091b17sm13985291wmf.37.2023.04.18.00.15.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Apr 2023 00:15:43 -0700 (PDT)
-Message-ID: <0b96894f4540d1d60761f92811a58c3844b6869d.camel@redhat.com>
-Subject: Re: [PATCH v2 net-next] ax25: exit linked-list searches earlier
-From:   Paolo Abeni <pabeni@redhat.com>
-To:     Peter Lafreniere <peter@n8pjl.ca>, linux-hams@vger.kernel.org
-Cc:     netdev@vger.kernel.org, error27@gmail.com
-Date:   Tue, 18 Apr 2023 09:15:42 +0200
-In-Reply-To: <20230414143357.5523-1-peter@n8pjl.ca>
-References: <20230407142042.11901-1-peter@n8pjl.ca>
-         <20230414143357.5523-1-peter@n8pjl.ca>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+        bh=dCd1mdYXEqgK93odkn99S1OR1zuJDxkEC1hS/WVPxHE=;
+        b=IkLCdjHgFKRgKwUBHMZ+hCoRDJW8FfPWfLCGC1lVwzvzw5N+naX3+Qe383yazc6Qe0
+         HwPnx3sa+m4vpfLp2CQSDsV6IWD78QE6N3cs5LSKY4RfM0M31giBwuXYyP8Y/RiijwIh
+         Jzgs8VfxEJ+dvAx9icz1CyPbhAa7e4mF/lYHiIvl8sEV4zTOT1GUlxK/MNkyzeJs+FYd
+         XpljZ090eS/+xAOligTFq7fIJHlPQ/R+a6IVnY5kH1oJHqa+dToGcca1yaKlcH9rzyER
+         lmmLm0Lpg9YdQurZdaNnBiQb02yySP4zR4n4Uo7jJyFrputcqVZ99KAyauutIR7pIu8l
+         lyQg==
+X-Gm-Message-State: AAQBX9flZNC9fyWz7hMw1D+FvsqRX8kZ2fCqcMEgdxb8yjVsbbArIPac
+        jbNrYPePaK1aYui7HKXjVUH5Yfv75JpuWdV2Go9j573I4Pa8RA==
+X-Google-Smtp-Source: AKy350bcHBiVDYP2ygXALbn8C6XO0v/XJckJZuGMUImABe3wifty7nA4Egpg9H0LjOGezAoeXhDr148iWyVMMygVRB8=
+X-Received: by 2002:a25:2f56:0:b0:b94:bbf2:277a with SMTP id
+ v83-20020a252f56000000b00b94bbf2277amr190241ybv.33.1682021662737; Thu, 20 Apr
+ 2023 13:14:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+From:   Chris Maness <christopher.maness@gmail.com>
+Date:   Thu, 20 Apr 2023 13:14:11 -0700
+Message-ID: <CANnsUME6LaYohriVo6zMq7SuEB1pbu2EsVVci2jow+gcp1aCog@mail.gmail.com>
+Subject: 6PACK Crash
+To:     linux-hams@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,105 +61,28 @@ Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Fri, 2023-04-14 at 10:33 -0400, Peter Lafreniere wrote:
-> There's no need to loop until the end of the list if we have a result.
->=20
-> Device callsigns are unique, so there can only be one dev returned from
-> ax25_addr_ax25dev(). If not, there would be inconsistencies based on
-> order of insertion, and refcount leaks.
->=20
-> We follow the same reasoning in ax25_get_route(), and additionally
-> reorder conditions to skip calling ax25cmp() whenever possible.=20
->=20
-> Signed-off-by: Peter Lafreniere <peter@n8pjl.ca>
-> ---
-> v1 -> v2
->  - Make ax25_get_route() return directly
->  - Reorder calls to ax25cmp() in ax25_get_route()
->  - Skip searching for default route once found in ax25_get_route()
->=20
->  net/ax25/ax25_dev.c   |  4 +++-
->  net/ax25/ax25_route.c | 25 +++++++++++++------------
->  2 files changed, 16 insertions(+), 13 deletions(-)
->=20
-> diff --git a/net/ax25/ax25_dev.c b/net/ax25/ax25_dev.c
-> index c5462486dbca..8186faea6b0d 100644
-> --- a/net/ax25/ax25_dev.c
-> +++ b/net/ax25/ax25_dev.c
-> @@ -34,11 +34,13 @@ ax25_dev *ax25_addr_ax25dev(ax25_address *addr)
->  	ax25_dev *ax25_dev, *res =3D NULL;
-> =20
->  	spin_lock_bh(&ax25_dev_lock);
-> -	for (ax25_dev =3D ax25_dev_list; ax25_dev !=3D NULL; ax25_dev =3D ax25_=
-dev->next)
-> +	for (ax25_dev =3D ax25_dev_list; ax25_dev !=3D NULL; ax25_dev =3D ax25_=
-dev->next) {
->  		if (ax25cmp(addr, (const ax25_address *)ax25_dev->dev->dev_addr) =3D=
-=3D 0) {
->  			res =3D ax25_dev;
->  			ax25_dev_hold(ax25_dev);
-> +			break;
->  		}
-> +	}
->  	spin_unlock_bh(&ax25_dev_lock);
-> =20
->  	return res;
-> diff --git a/net/ax25/ax25_route.c b/net/ax25/ax25_route.c
-> index b7c4d656a94b..ebef46c38e80 100644
-> --- a/net/ax25/ax25_route.c
-> +++ b/net/ax25/ax25_route.c
-> @@ -344,7 +344,6 @@ const struct seq_operations ax25_rt_seqops =3D {
->   */
->  ax25_route *ax25_get_route(ax25_address *addr, struct net_device *dev)
->  {
-> -	ax25_route *ax25_spe_rt =3D NULL;
->  	ax25_route *ax25_def_rt =3D NULL;
->  	ax25_route *ax25_rt;
-> =20
-> @@ -354,23 +353,25 @@ ax25_route *ax25_get_route(ax25_address *addr, stru=
-ct net_device *dev)
->  	 */
->  	for (ax25_rt =3D ax25_route_list; ax25_rt !=3D NULL; ax25_rt =3D ax25_r=
-t->next) {
->  		if (dev =3D=3D NULL) {
-> -			if (ax25cmp(&ax25_rt->callsign, addr) =3D=3D 0 && ax25_rt->dev !=3D N=
-ULL)
-> -				ax25_spe_rt =3D ax25_rt;
-> -			if (ax25cmp(&ax25_rt->callsign, &null_ax25_address) =3D=3D 0 && ax25_=
-rt->dev !=3D NULL)
-> +			if (ax25_rt->dev !=3D NULL && ax25cmp(&ax25_rt->callsign, addr) =3D=
-=3D 0)
-> +				return ax25_rt;
-> +
-> +			if (ax25_def_rt !=3D NULL &&
-> +			    ax25_rt->dev !=3D NULL &&
-> +			    ax25cmp(&ax25_rt->callsign, &null_ax25_address) =3D=3D 0)
->  				ax25_def_rt =3D ax25_rt;
->  		} else {
-> -			if (ax25cmp(&ax25_rt->callsign, addr) =3D=3D 0 && ax25_rt->dev =3D=3D=
- dev)
-> -				ax25_spe_rt =3D ax25_rt;
-> -			if (ax25cmp(&ax25_rt->callsign, &null_ax25_address) =3D=3D 0 && ax25_=
-rt->dev =3D=3D dev)
-> +			if (ax25_rt->dev =3D=3D dev && ax25cmp(&ax25_rt->callsign, addr) =3D=
-=3D 0)
-> +				return ax25_rt;
-> +
-> +			if (ax25_def_rt !=3D NULL &&
-> +			    ax25_rt->dev =3D=3D dev &&
-> +			    ax25cmp(&ax25_rt->callsign, &null_ax25_address) =3D=3D 0)
->  				ax25_def_rt =3D ax25_rt;
+I am playing with a 6pack EPROM in a TAPR TNC2 Clone, and I can easily
+crash the latest stable kernel in Arch Linux:
 
-If I read correctly, multiple routes can legitly match the null
-callsign and the above chunk introduces a behavioral change: before the
-kernel selected the last of such routes, now the first one.
+This same HW configuration works fine under WindowsXP and The flexnet
+kermel + 6PACK driver.
 
-What about dropping the new condition 'ax25_def_rt !=3D NULL' ?
+Linux positron 6.2.11-arch1-1 #1 SMP PREEMPT_DYNAMIC Thu, 13 Apr 2023
+16:59:24 +0000 x86_64 GNU/Linux
 
-If so, this patch could target the -net tree - with a suitable fixes
-tag.
+spattach /dev/ttyS0 vhf
+where vhf is defined as:
+vhf [tab] KQ6UP-2 [tab] 9600 [tab] 2 [tab] Info
 
-Thanks!
+I used:
 
-Paolo
+call vhf KQ6UP-5 and after a little bit of playing around the machine
+locked hard. I have no issues with this box other than messing with
+AX.25 stuff.
 
+73 de Chris KQ6UP
+
+
+-- 
+Thanks,
+Chris Maness
