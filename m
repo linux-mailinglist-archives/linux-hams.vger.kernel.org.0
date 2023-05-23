@@ -2,445 +2,332 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11E1270BAC7
-	for <lists+linux-hams@lfdr.de>; Mon, 22 May 2023 12:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FA2970DB7E
+	for <lists+linux-hams@lfdr.de>; Tue, 23 May 2023 13:32:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232791AbjEVKye (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 22 May 2023 06:54:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41350 "EHLO
+        id S236532AbjEWLcw (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 23 May 2023 07:32:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232442AbjEVKwh (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 22 May 2023 06:52:37 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F233510D2;
-        Mon, 22 May 2023 03:51:37 -0700 (PDT)
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34M9laC7007778;
-        Mon, 22 May 2023 10:51:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=iHMcw4trvGKtrIGkpf8XG8SyeLt/2qeBIumRjnFKYng=;
- b=DPxcyh09on0kz3NXoyltuSmP86Z9+7SNRtJRxpO7Tzv2T6xdFgHHt2OJOwKOYpyTk8q3
- m3mK2gcHLr+Zgy5VcDc81TIv7bcaUC52LjlN7SFmKlOmjqYL7PGgeEp3isJ6mDnvIcza
- EehL2GpBCCUI4nDAwUPmFYqh5EUkGoA6ZDPJwMKhUGPKaPprp1JS7BNPOQJRp8WdC/O5
- nlhTUJoKU516OFct5NWlcpN0Ho5PRxpR/EAvHyTosH3cKzinPmuTa1Fnw6d90twN9LtS
- hItZE31qzKQ1tr5UpWyhbRm6rMV6olUW5BCuisl8SSlmXq4di22c5sNn+2c/yQXVAu7E 3A== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qqawenuky-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 22 May 2023 10:51:17 +0000
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34MAGv3l022256;
-        Mon, 22 May 2023 10:51:16 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qqawenuk4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 22 May 2023 10:51:16 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34MANAnA030387;
-        Mon, 22 May 2023 10:51:14 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-        by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3qppdk0w98-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 22 May 2023 10:51:14 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-        by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34MApAHp18678398
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 22 May 2023 10:51:10 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3CE0220043;
-        Mon, 22 May 2023 10:51:10 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A08B02004B;
-        Mon, 22 May 2023 10:51:09 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Mon, 22 May 2023 10:51:09 +0000 (GMT)
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-To:     Arnd Bergmann <arnd@arndb.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Ralf Baechle <ralf@linux-mips.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        netdev@vger.kernel.org, linux-can@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, linux-hams@vger.kernel.org
-Subject: [PATCH v5 22/44] net: handle HAS_IOPORT dependencies
-Date:   Mon, 22 May 2023 12:50:27 +0200
-Message-Id: <20230522105049.1467313-23-schnelle@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230522105049.1467313-1-schnelle@linux.ibm.com>
-References: <20230522105049.1467313-1-schnelle@linux.ibm.com>
+        with ESMTP id S236373AbjEWLcv (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 23 May 2023 07:32:51 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE0D9119
+        for <linux-hams@vger.kernel.org>; Tue, 23 May 2023 04:32:48 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3f600a6a890so55485e9.0
+        for <linux-hams@vger.kernel.org>; Tue, 23 May 2023 04:32:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1684841567; x=1687433567;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hbROoHa1pSTuFDb1xaCJvalyJJVqq/a6pn7ge+KYRic=;
+        b=ArQE/FGoscqnRZOB/VMsy3T+HRVUpuD/WDRB/4Vwg0QqDQZSot7ZTtjwIi0LYw9aEx
+         Ys1VDB08Q9CMq34klCFWH25f38Fs5RisBoSWiGuEt8jexlDTFz1Tjb7LBQUzmnQVXeYA
+         BwYx5n5x+EStlDaODwLiEWhZRBAL1fTbLmt9QTqyomWFKLqJOlmFy3QvIHMQKPtJFzxG
+         RVsThqj28sPMy379e0LTJdQE5lABOeYTjCFKjC2qD+Bs691GXrsmBBaVr3AMB+yB4dhP
+         QD2qnEpJ72wbVICLShNngQ3dWzxUGZNsa5q0XtjPbnqws69r9DnXkFUTVKO5NxM7XUAb
+         Wmjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684841567; x=1687433567;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hbROoHa1pSTuFDb1xaCJvalyJJVqq/a6pn7ge+KYRic=;
+        b=dS5o0TBMVlwuH6mlINeUI2+n74/HWKbMlzKXV+ZSDPLskvHyPWc0/ibZl/pOOzLXf3
+         jCb/hmcXU/F4DZvykNCYQSmxiYRP15hpvZMYHwjWC8FiI5e3aqVQbdjOI4LV9E2nzGzx
+         TNbyLxT6UQ0KCClrnM5eVREPwq/63fiag+prLdJoON2L+2Uhgm7D7X+Vc9iCwEqJA7aR
+         FlfMLPK85RAwiBpBbnH1D3jzBaVMNRUVG1ukPSuDNVkrcf7p4oGSlqQwnX2tDviqZk1+
+         z3wyedMER8ft6t8H4WoGzCLOOLdxr7QtBHn7m6B7JHWgmijbuwbdjbjvV1FBq62WzG9F
+         dTEQ==
+X-Gm-Message-State: AC+VfDzfypsCj6GO3oCTelJXAlVjagu32+aUPD+JLJoIyTiYTMmX069B
+        pBKHKBLcSIQpcJ9F+olD7KDYYwr3MM7BWmQS/nQZNQ==
+X-Google-Smtp-Source: ACHHUZ6IgbQqYHpr8yMryQC8/ZZT42dyGkppjDyBLuFFiojEpIDumnPKBU02NIw9b6XaZE5EMTihVRBV5R4e5pzxxzE=
+X-Received: by 2002:a05:600c:2f88:b0:3f5:f63:d490 with SMTP id
+ t8-20020a05600c2f8800b003f50f63d490mr109429wmn.5.1684841567120; Tue, 23 May
+ 2023 04:32:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 1mk8XQxidzjBpOd3ym4THR_HsUqkt2I3
-X-Proofpoint-GUID: Feg9xuGRmFUwYGJRugYLdNUEB3HNjTEX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-22_06,2023-05-22_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
- clxscore=1015 malwarescore=0 phishscore=0 spamscore=0 mlxscore=0
- priorityscore=1501 bulkscore=0 suspectscore=0 lowpriorityscore=0
- mlxlogscore=912 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305220089
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <CAJE3E7JoJfrnST3dU-vu_=6T_eB5gWVBKbfUSkCMu44gkbD3iQ@mail.gmail.com>
+ <CAJE3E7LfO5us9MvKZX1MMP8mUTFzO324cxshHTDSw6qkB6kHTw@mail.gmail.com>
+ <CANn89iKEX9wLYA3aisvVAGKJ2mGr9K35ALZTwHeM7DwEV2+nkg@mail.gmail.com> <CAJE3E7+EZVLRoLohp3Y2529HpKSndFZAyakX-FcbEe9wMBe-Bg@mail.gmail.com>
+In-Reply-To: <CAJE3E7+EZVLRoLohp3Y2529HpKSndFZAyakX-FcbEe9wMBe-Bg@mail.gmail.com>
+From:   Eric Dumazet <edumazet@google.com>
+Date:   Tue, 23 May 2023 13:32:35 +0200
+Message-ID: <CANn89iJ=eQhM4AJd9qZjn8JTupTpeGeGNeu=x3RAa5zvB+AMHg@mail.gmail.com>
+Subject: Re: Bug in the net/rom kernel module
+To:     Simon Kapadia <szymon@kapadia.pl>
+Cc:     security@kernel.org, Tom M0LTE <tom@m0lte.uk>,
+        linux-hams@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-15.6 required=5.0 tests=AC_HTML_NONSENSE_TAGS,
+        BAYES_00,DKIMWL_WL_MED,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
+        DKIM_VALID_EF,ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,
+        USER_IN_DEF_SPF_WL autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-not being declared. We thus need to add HAS_IOPORT as dependency for
-those drivers requiring them. For the DEFXX driver the use of I/O
-ports is optional and we only need to fence specific code paths. It also
-turns out that with HAS_IOPORT handled explicitly HAMRADIO does not need
-the !S390 dependency and successfully builds the bpqether driver.
+On Tue, May 23, 2023 at 12:47=E2=80=AFPM Simon Kapadia <szymon@kapadia.pl> =
+wrote:
+>
+> Would be much appreciated if you could send a patch -- happy to have my n=
+ame to it, just haven't done so in this century so would likely make a styl=
+istic error or something stupid!
+>
+> Thanks,
+>
+> -simon
+>
+> --- linux/net/netrom/nr_subr.c.orig     2023-04-19 19:50:03.080791821 +01=
+00
+> +++ linux/net/netrom/nr_subr.c  2023-04-19 19:50:22.410995440 +0100
+> @@ -149,7 +149,7 @@ void nr_write_internal(struct sock *sk,
+>          */
+>         skb_reserve(skb, NR_NETWORK_LEN);
+>
+> -       dptr =3D skb_put(skb, skb_tailroom(skb));
+> +       dptr =3D skb_put(skb, len);
 
-Acked-by: Marc Kleine-Budde <mkl@pengutronix.de>
-Acked-by: Jakub Kicinski <kuba@kernel.org>
-Acked-by: Maciej W. Rozycki <macro@orcam.me.uk>
-Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
- drivers/net/Kconfig                  | 2 +-
- drivers/net/arcnet/Kconfig           | 2 +-
- drivers/net/can/cc770/Kconfig        | 1 +
- drivers/net/can/sja1000/Kconfig      | 1 +
- drivers/net/ethernet/3com/Kconfig    | 4 ++--
- drivers/net/ethernet/8390/Kconfig    | 6 +++---
- drivers/net/ethernet/amd/Kconfig     | 4 ++--
- drivers/net/ethernet/fujitsu/Kconfig | 2 +-
- drivers/net/ethernet/intel/Kconfig   | 2 +-
- drivers/net/ethernet/sis/Kconfig     | 4 ++--
- drivers/net/ethernet/smsc/Kconfig    | 2 +-
- drivers/net/ethernet/ti/Kconfig      | 2 +-
- drivers/net/ethernet/via/Kconfig     | 1 +
- drivers/net/ethernet/xircom/Kconfig  | 2 +-
- drivers/net/fddi/defxx.c             | 2 +-
- drivers/net/hamradio/Kconfig         | 6 +++---
- drivers/net/wan/Kconfig              | 2 +-
- net/ax25/Kconfig                     | 2 +-
- 18 files changed, 25 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
-index d0a1ed216d15..817322605825 100644
---- a/drivers/net/Kconfig
-+++ b/drivers/net/Kconfig
-@@ -476,7 +476,7 @@ source "drivers/net/ipa/Kconfig"
- 
- config NET_SB1000
- 	tristate "General Instruments Surfboard 1000"
--	depends on PNP
-+	depends on ISA && PNP
- 	help
- 	  This is a driver for the General Instrument (also known as
- 	  NextLevel) SURFboard 1000 internal
-diff --git a/drivers/net/arcnet/Kconfig b/drivers/net/arcnet/Kconfig
-index a51b9dab6d3a..d1d07a1d4fbc 100644
---- a/drivers/net/arcnet/Kconfig
-+++ b/drivers/net/arcnet/Kconfig
-@@ -4,7 +4,7 @@
- #
- 
- menuconfig ARCNET
--	depends on NETDEVICES && (ISA || PCI || PCMCIA)
-+	depends on NETDEVICES && (ISA || PCI || PCMCIA) && HAS_IOPORT
- 	tristate "ARCnet support"
- 	help
- 	  If you have a network card of this type, say Y and check out the
-diff --git a/drivers/net/can/cc770/Kconfig b/drivers/net/can/cc770/Kconfig
-index 9ef1359319f0..467ef19de1c1 100644
---- a/drivers/net/can/cc770/Kconfig
-+++ b/drivers/net/can/cc770/Kconfig
-@@ -7,6 +7,7 @@ if CAN_CC770
- 
- config CAN_CC770_ISA
- 	tristate "ISA Bus based legacy CC770 driver"
-+	depends on ISA
- 	help
- 	  This driver adds legacy support for CC770 and AN82527 chips
- 	  connected to the ISA bus using I/O port, memory mapped or
-diff --git a/drivers/net/can/sja1000/Kconfig b/drivers/net/can/sja1000/Kconfig
-index 4b2f9cb17fc3..01168db4c106 100644
---- a/drivers/net/can/sja1000/Kconfig
-+++ b/drivers/net/can/sja1000/Kconfig
-@@ -87,6 +87,7 @@ config CAN_PLX_PCI
- 
- config CAN_SJA1000_ISA
- 	tristate "ISA Bus based legacy SJA1000 driver"
-+	depends on ISA
- 	help
- 	  This driver adds legacy support for SJA1000 chips connected to
- 	  the ISA bus using I/O port, memory mapped or indirect access.
-diff --git a/drivers/net/ethernet/3com/Kconfig b/drivers/net/ethernet/3com/Kconfig
-index 706bd59bf645..1fbab79e2be4 100644
---- a/drivers/net/ethernet/3com/Kconfig
-+++ b/drivers/net/ethernet/3com/Kconfig
-@@ -44,7 +44,7 @@ config 3C515
- 
- config PCMCIA_3C574
- 	tristate "3Com 3c574 PCMCIA support"
--	depends on PCMCIA
-+	depends on PCMCIA && HAS_IOPORT
- 	help
- 	  Say Y here if you intend to attach a 3Com 3c574 or compatible PCMCIA
- 	  (PC-card) Fast Ethernet card to your computer.
-@@ -54,7 +54,7 @@ config PCMCIA_3C574
- 
- config PCMCIA_3C589
- 	tristate "3Com 3c589 PCMCIA support"
--	depends on PCMCIA
-+	depends on PCMCIA && HAS_IOPORT
- 	help
- 	  Say Y here if you intend to attach a 3Com 3c589 or compatible PCMCIA
- 	  (PC-card) Ethernet card to your computer.
-diff --git a/drivers/net/ethernet/8390/Kconfig b/drivers/net/ethernet/8390/Kconfig
-index a4130e643342..345f250781c6 100644
---- a/drivers/net/ethernet/8390/Kconfig
-+++ b/drivers/net/ethernet/8390/Kconfig
-@@ -19,7 +19,7 @@ if NET_VENDOR_8390
- 
- config PCMCIA_AXNET
- 	tristate "Asix AX88190 PCMCIA support"
--	depends on PCMCIA
-+	depends on PCMCIA && HAS_IOPORT
- 	help
- 	  Say Y here if you intend to attach an Asix AX88190-based PCMCIA
- 	  (PC-card) Fast Ethernet card to your computer.  These cards are
-@@ -117,7 +117,7 @@ config NE2000
- 
- config NE2K_PCI
- 	tristate "PCI NE2000 and clones support (see help)"
--	depends on PCI
-+	depends on PCI && HAS_IOPORT
- 	select CRC32
- 	help
- 	  This driver is for NE2000 compatible PCI cards. It will not work
-@@ -146,7 +146,7 @@ config APNE
- 
- config PCMCIA_PCNET
- 	tristate "NE2000 compatible PCMCIA support"
--	depends on PCMCIA
-+	depends on PCMCIA && HAS_IOPORT
- 	select CRC32
- 	help
- 	  Say Y here if you intend to attach an NE2000 compatible PCMCIA
-diff --git a/drivers/net/ethernet/amd/Kconfig b/drivers/net/ethernet/amd/Kconfig
-index f8cc8925161c..b39c6f3e1eda 100644
---- a/drivers/net/ethernet/amd/Kconfig
-+++ b/drivers/net/ethernet/amd/Kconfig
-@@ -56,7 +56,7 @@ config LANCE
- 
- config PCNET32
- 	tristate "AMD PCnet32 PCI support"
--	depends on PCI
-+	depends on PCI && HAS_IOPORT
- 	select CRC32
- 	select MII
- 	help
-@@ -122,7 +122,7 @@ config MVME147_NET
- 
- config PCMCIA_NMCLAN
- 	tristate "New Media PCMCIA support"
--	depends on PCMCIA
-+	depends on PCMCIA && HAS_IOPORT
- 	help
- 	  Say Y here if you intend to attach a New Media Ethernet or LiveWire
- 	  PCMCIA (PC-card) Ethernet card to your computer.
-diff --git a/drivers/net/ethernet/fujitsu/Kconfig b/drivers/net/ethernet/fujitsu/Kconfig
-index 0a1400cb410a..06a28bce5d27 100644
---- a/drivers/net/ethernet/fujitsu/Kconfig
-+++ b/drivers/net/ethernet/fujitsu/Kconfig
-@@ -18,7 +18,7 @@ if NET_VENDOR_FUJITSU
- 
- config PCMCIA_FMVJ18X
- 	tristate "Fujitsu FMV-J18x PCMCIA support"
--	depends on PCMCIA
-+	depends on PCMCIA && HAS_IOPORT
- 	select CRC32
- 	help
- 	  Say Y here if you intend to attach a Fujitsu FMV-J18x or compatible
-diff --git a/drivers/net/ethernet/intel/Kconfig b/drivers/net/ethernet/intel/Kconfig
-index 9bc0a9519899..f48289a82a16 100644
---- a/drivers/net/ethernet/intel/Kconfig
-+++ b/drivers/net/ethernet/intel/Kconfig
-@@ -41,7 +41,7 @@ config E100
- 
- config E1000
- 	tristate "Intel(R) PRO/1000 Gigabit Ethernet support"
--	depends on PCI
-+	depends on PCI && HAS_IOPORT
- 	help
- 	  This driver supports Intel(R) PRO/1000 gigabit ethernet family of
- 	  adapters.  For more information on how to identify your adapter, go
-diff --git a/drivers/net/ethernet/sis/Kconfig b/drivers/net/ethernet/sis/Kconfig
-index 775d76d9890e..7e498bdbca73 100644
---- a/drivers/net/ethernet/sis/Kconfig
-+++ b/drivers/net/ethernet/sis/Kconfig
-@@ -19,7 +19,7 @@ if NET_VENDOR_SIS
- 
- config SIS900
- 	tristate "SiS 900/7016 PCI Fast Ethernet Adapter support"
--	depends on PCI
-+	depends on PCI && HAS_IOPORT
- 	select CRC32
- 	select MII
- 	help
-@@ -35,7 +35,7 @@ config SIS900
- 
- config SIS190
- 	tristate "SiS190/SiS191 gigabit ethernet support"
--	depends on PCI
-+	depends on PCI && HAS_IOPORT
- 	select CRC32
- 	select MII
- 	help
-diff --git a/drivers/net/ethernet/smsc/Kconfig b/drivers/net/ethernet/smsc/Kconfig
-index 5f22a8a4d27b..13ce9086a9ca 100644
---- a/drivers/net/ethernet/smsc/Kconfig
-+++ b/drivers/net/ethernet/smsc/Kconfig
-@@ -54,7 +54,7 @@ config SMC91X
- 
- config PCMCIA_SMC91C92
- 	tristate "SMC 91Cxx PCMCIA support"
--	depends on PCMCIA
-+	depends on PCMCIA && HAS_IOPORT
- 	select CRC32
- 	select MII
- 	help
-diff --git a/drivers/net/ethernet/ti/Kconfig b/drivers/net/ethernet/ti/Kconfig
-index fce06663e1e1..20068acce9fe 100644
---- a/drivers/net/ethernet/ti/Kconfig
-+++ b/drivers/net/ethernet/ti/Kconfig
-@@ -161,7 +161,7 @@ config TI_KEYSTONE_NETCP_ETHSS
- 
- config TLAN
- 	tristate "TI ThunderLAN support"
--	depends on (PCI || EISA)
-+	depends on (PCI || EISA) && HAS_IOPORT
- 	help
- 	  If you have a PCI Ethernet network card based on the ThunderLAN chip
- 	  which is supported by this driver, say Y here.
-diff --git a/drivers/net/ethernet/via/Kconfig b/drivers/net/ethernet/via/Kconfig
-index da287ef65be7..00773f5e4d7e 100644
---- a/drivers/net/ethernet/via/Kconfig
-+++ b/drivers/net/ethernet/via/Kconfig
-@@ -20,6 +20,7 @@ config VIA_RHINE
- 	tristate "VIA Rhine support"
- 	depends on PCI || (OF_IRQ && GENERIC_PCI_IOMAP)
- 	depends on PCI || ARCH_VT8500 || COMPILE_TEST
-+	depends on HAS_IOPORT
- 	depends on HAS_DMA
- 	select CRC32
- 	select MII
-diff --git a/drivers/net/ethernet/xircom/Kconfig b/drivers/net/ethernet/xircom/Kconfig
-index 7497b9bea511..bfbdcf758afb 100644
---- a/drivers/net/ethernet/xircom/Kconfig
-+++ b/drivers/net/ethernet/xircom/Kconfig
-@@ -19,7 +19,7 @@ if NET_VENDOR_XIRCOM
- 
- config PCMCIA_XIRC2PS
- 	tristate "Xircom 16-bit PCMCIA support"
--	depends on PCMCIA
-+	depends on PCMCIA && HAS_IOPORT
- 	help
- 	  Say Y here if you intend to attach a Xircom 16-bit PCMCIA (PC-card)
- 	  Ethernet or Fast Ethernet card to your computer.
-diff --git a/drivers/net/fddi/defxx.c b/drivers/net/fddi/defxx.c
-index 1fef8a9b1a0f..0fbbb7286008 100644
---- a/drivers/net/fddi/defxx.c
-+++ b/drivers/net/fddi/defxx.c
-@@ -254,7 +254,7 @@ static const char version[] =
- #define DFX_BUS_TC(dev) 0
- #endif
- 
--#if defined(CONFIG_EISA) || defined(CONFIG_PCI)
-+#ifdef CONFIG_HAS_IOPORT
- #define dfx_use_mmio bp->mmio
- #else
- #define dfx_use_mmio true
-diff --git a/drivers/net/hamradio/Kconfig b/drivers/net/hamradio/Kconfig
-index a94c7bd5db2e..887c61971841 100644
---- a/drivers/net/hamradio/Kconfig
-+++ b/drivers/net/hamradio/Kconfig
-@@ -83,7 +83,7 @@ config SCC_TRXECHO
- 
- config BAYCOM_SER_FDX
- 	tristate "BAYCOM ser12 fullduplex driver for AX.25"
--	depends on AX25 && !S390
-+	depends on AX25 && HAS_IOPORT
- 	select CRC_CCITT
- 	help
- 	  This is one of two drivers for Baycom style simple amateur radio
-@@ -103,7 +103,7 @@ config BAYCOM_SER_FDX
- 
- config BAYCOM_SER_HDX
- 	tristate "BAYCOM ser12 halfduplex driver for AX.25"
--	depends on AX25 && !S390
-+	depends on AX25 && HAS_IOPORT
- 	select CRC_CCITT
- 	help
- 	  This is one of two drivers for Baycom style simple amateur radio
-@@ -151,7 +151,7 @@ config BAYCOM_EPP
- 
- config YAM
- 	tristate "YAM driver for AX.25"
--	depends on AX25 && !S390
-+	depends on AX25 && HAS_IOPORT
- 	help
- 	  The YAM is a modem for packet radio which connects to the serial
- 	  port and includes some of the functions of a Terminal Node
-diff --git a/drivers/net/wan/Kconfig b/drivers/net/wan/Kconfig
-index dcb069dde66b..417e2c2d349d 100644
---- a/drivers/net/wan/Kconfig
-+++ b/drivers/net/wan/Kconfig
-@@ -178,7 +178,7 @@ config C101
- 
- config FARSYNC
- 	tristate "FarSync T-Series support"
--	depends on HDLC && PCI
-+	depends on HDLC && PCI && HAS_IOPORT
- 	help
- 	  Support for the FarSync T-Series X.21 (and V.35/V.24) cards by
- 	  FarSite Communications Ltd.
-diff --git a/net/ax25/Kconfig b/net/ax25/Kconfig
-index d3a9843a043d..f769e8f4bd02 100644
---- a/net/ax25/Kconfig
-+++ b/net/ax25/Kconfig
-@@ -4,7 +4,7 @@
- #
- 
- menuconfig HAMRADIO
--	depends on NET && !S390
-+	depends on NET
- 	bool "Amateur Radio support"
- 	help
- 	  If you want to connect your Linux box to an amateur radio, answer Y
--- 
-2.39.2
+Note that this patch does not look correct to me.
 
+len includes NR_NETWORK_LEN at this point.
+
+nr_transmit_buffer() will later add:
+
+dptr =3D skb_push(skb, NR_NETWORK_LEN);
+
+If you look again at your pcap after your patch, I guess we still send
+15 extra bytes ?
+
+>
+>
+>
+>         switch (frametype & 0x0F) {
+>         case NR_CONNREQ:
+>
+> --
+> Simon Kapadia, B.A., M.Sc., C.Eng.
+> szymon@kapadia.pl | http://kapadia.pl
+> http://astrophotos.uk/
+>
+>
+> On Tue, 23 May 2023 at 10:55, Eric Dumazet <edumazet@google.com> wrote:
+>>
+>>
+>>
+>> On Tue, May 23, 2023 at 11:47=E2=80=AFAM Simon Kapadia <szymon@kapadia.p=
+l> wrote:
+>>>
+>>> Hello there,
+>>>
+>>> I sent the attached bug report over a month ago to the maintainer of th=
+e AX.25 and NETROM modules as per the current MAINTAINERS file, but I haven=
+'t had any response.
+>>>
+>>> While this apparent bug has been around for a long time (it appears to =
+have been introduced in kernel version 2.0 in 1996), I do consider it a sec=
+urity problem.  We leak random bits of memory over the network, including u=
+ser data; see the attached pcaps and screenshots, showing sending informati=
+on on internal IP addresses and even an ELF binary out over the network.  I=
+ can't immediately think of a way in which it could directly be remotely ex=
+ploitable (eg to read a targeted section of memory) but simply leaking priv=
+ate data by dumping raw memory contents onto the network is, in my opinion,=
+ a significant concern.
+>>>
+>>> While this may seem pretty "niche" (who all uses packet networks and am=
+ateur radio nowadays, right?*) -- there is quite a large community of users=
+ that run AX25 over IP, including using NETROM, which means that this data =
+may be leaked and routed over the internet.
+>>>
+>>> Is there some way to "escalate" such an issue with the maintainers of t=
+he kernel module?
+>>>
+>>> Many thanks,
+>>>
+>>> -simon (M0GZP)
+>>>
+>>> *actually there is quite a resurgence of packet radio in the UK -- star=
+t at http://packet.oarc.uk if interested
+>>>
+>>> --
+>>> Simon Kapadia, B.A., M.Sc., C.Eng.
+>>> szymon@kapadia.pl | http://kapadia.pl
+>>> http://astrophotos.uk/
+>>>
+>>> ---------- Forwarded message ---------
+>>> From: Simon Kapadia <szymon@kapadia.pl>
+>>> Date: Wed, 19 Apr 2023 at 21:21
+>>> Subject: Bug in the net/rom kernel module
+>>> To: <ralf@linux-mips.org>
+>>> Cc: <linux-hams@vger.kernel.org>, <tom@m0lte.uk>, <naylorjs@yahoo.com>
+>>>
+>>>
+>>> Hi there,
+>>>
+>>> The Online Amateur Radio Community (OARC) has recently been experimenti=
+ng with building a nationwide packet network in the UK.  As part of our exp=
+erimentation, we have been testing out packet on 300bps HF, and playing wit=
+h net/rom.  For HF packet at this baud rate you really need to make sure th=
+at your MTU is relatively low; AX.25 suggests a PACLEN of 60, and a net/rom=
+ PACLEN of 40 to go with that.  However the Linux net/rom support didn't wo=
+rk with a low PACLEN; the mkiss module would truncate packets if you set th=
+e PACLEN below about 200 or so, e.g.:
+>>>
+>>> Apr 19 14:00:51 radio kernel: [12985.747310] mkiss: ax1: truncating ove=
+rsized transmit packet!
+>>>
+>>> This didn't make any sense to me (if the packets are smaller why would =
+they be truncated?) so I started investigating.  I looked at the packets us=
+ing ethereal, and found that many were just huge compared to what I would e=
+xpect.  A simple net/rom connection request packet had the request and then=
+ a bunch of what appeared to be random data following it:
+>>>
+>>>
+>>>
+>>> Weird eh?  But then I noticed this in a disconnect request from a frien=
+d (Tom, on copy of this mail):
+>>>
+>>>
+>>>
+>>> This is leaking internal data from his system.  So somehow, his disconn=
+ect request has some random bit of memory included in the packet!  I did so=
+me further experimentation and found that the data included truly is random=
+.  Here for example is a packet shown in my TNC log:
+>>>
+>>> Apr 18 12:14:17 radio direwolf[8011]: [2L] M0GZP-7>M0LTE-7:(I cmd, n(s)=
+=3D0, n(r)=3D0, p=3D0, pid=3D0xcf)<0x9a>`<0x8e><0xb4><0xa0>@l<0x9a>`<0x98><=
+0xa8><0x8a>@o<0x0f><0x01><0x01><0x00><0x00><0x01><0x04><0x9a>`<0x8e><0xb4><=
+0xa0>@l<0x9a>`<0x8e><0xb4><0xa0>@lx<0x00><0x00><0x00><0x00><0x00><0x00><0x0=
+0><0x00><0x00><0x00><0x00><0x00><0x03><0x00><0x00><0x00><0x19><0x00><0x00><=
+0x00><0x10><0x10>4<0xc3><0x10><0x10>4<0xc3><0x00><0x00><0x00><0x00><0x00><0=
+x00><0x00><0x00><0x00><0x00><0x00><0x00><0x00><0x00><0x00><0x00><0xec>o<0xa=
+2><0xbe><0x00><0x00><0x80><0x00><0xff><0xff><0xff><0xff><0x7f>ELF<0x01><0x0=
+1><0x01><0x00><0x00><0x00><0x00><0x00><0x00><0x00><0x00><0x00><0x02><0x00>(=
+<0x00><0x01><0x00><0x00><0x00>0'<0x01><0x00>4<0x00><0x00><0x00><0x08><0xd4>=
+<0x00><0x00><0x00><0x04><0x00><0x05>4<0x00><0x20><0x00><0x09><0x00>(<0x00><=
+0x1d><0x00><0x1c><0x00><0x01><0x00><0x00>p<0x00><0xc0><0x00><0x00><0x00><0x=
+c0><0x01><0x00><0x00><0xc0><0x01><0x00><0x08><0x00><0x00><0x00><0x08><0x00>=
+<0x00><0x00><0x04><0x00><0x00><0x00><0x04><0x00><0x00><0x00><0x06><0x00><0x=
+00><0x00>4<0x00><0x00><0x00>4<0x00><0x01><0x00>4<0x00><0x0
+>>>
+>>> 0x7f 0x45 0x4c 0x46 0x02 0x01 0x01 is the header for an ELF program bin=
+ary, which I'm sending over the wire...
+>>>
+>>> I spent some time reacquainting myself with kernel development (the las=
+t time I did any was the mid 90s), and I think I have worked out what is go=
+ing on (with copious use of printk of course).  Apologies in advance if I'v=
+e gotten all of this wrong, but I think I'm on solid ground.  I narrowed in=
+ on the problem when I noticed that this only happens for "internal" packet=
+s which are part of the protocol itself.  It seems that the problem arises =
+in nr_subr.c in when building up the packet to send:
+>>>
+>>> void nr_write_internal(struct sock *sk, int frametype)
+>>> {
+>>>         struct nr_sock *nr =3D nr_sk(sk);
+>>>         struct sk_buff *skb;
+>>>         unsigned char  *dptr;
+>>>         int len, timeout;
+>>>
+>>>         len =3D NR_NETWORK_LEN + NR_TRANSPORT_LEN;
+>>>
+>>>         switch (frametype & 0x0F) {
+>>>         case NR_CONNREQ:
+>>>                 len +=3D 17;
+>>>                 break;
+>>>         case NR_CONNACK:
+>>>                 len +=3D (nr->bpqext) ? 2 : 1;
+>>>                 break;
+>>>         case NR_DISCREQ:
+>>>         case NR_DISCACK:
+>>>         case NR_INFOACK:
+>>>                 break;
+>>>         default:
+>>>                 printk(KERN_ERR "NET/ROM: nr_write_internal - invalid f=
+rame type %d\n", frametype);
+>>>                 return;
+>>>         }
+>>>
+>>>         if ((skb =3D alloc_skb(len, GFP_ATOMIC)) =3D=3D NULL)
+>>>                 return;
+>>>
+>>>         /*
+>>>          *      Space for AX.25 and NET/ROM network header
+>>>          */
+>>>         skb_reserve(skb, NR_NETWORK_LEN);
+>>>
+>>>         dptr =3D skb_put(skb, skb_tailroom(skb));
+>>>
+>>> This code ends up building a packet structure which is too large.  The =
+reason for this is the skb_put() function, which is defined in skbuff.h as:
+>>>
+>>>         void *skb_put(struct sk_buff *skb, unsigned int len);
+>>>
+>>> The skb_tailroom of the struct at this point when it's used in the skb_=
+put is 241 (256 minus the NR_NETWORK_LEN of 15 which was taken by the skb_r=
+eserve).  By using the tailroom of the struct as the length of the data, we=
+ are effectively telling it that the data part of the skbuff should be equa=
+l to the tailroom.
+>>>
+>>> The following patch will make the skb_put use len as the length of the =
+data we want in the packet.
+>>>
+>>> --- linux/net/netrom/nr_subr.c.orig     2023-04-19 19:50:03.080791821 +=
+0100
+>>> +++ linux/net/netrom/nr_subr.c  2023-04-19 19:50:22.410995440 +0100
+>>> @@ -149,7 +149,7 @@ void nr_write_internal(struct sock *sk,
+>>>          */
+>>>         skb_reserve(skb, NR_NETWORK_LEN);
+>>>
+>>> -       dptr =3D skb_put(skb, skb_tailroom(skb));
+>>> +       dptr =3D skb_put(skb, len);
+>>>
+>>>         switch (frametype & 0x0F) {
+>>>         case NR_CONNREQ:
+>>
+>>
+>> Hi Simon
+>>
+>> Can you send an official linux patch to netdev@vger.kernel.org ?
+>>
+>> We fix similar bugs every day really.
+>> With enough time, any hacker can claim a bug is a security one ;)
+>>
+>> 'The wire' seems limited to L2 domain, which is pretty narrow these days=
+, AX25 is essentially dead.
+>>
+>> Alternatively, I can cook/send the patch, with your 'Signed-off-by: Simo=
+n Kapadia <szymon@kapadia.pl>'
+>>
+>> Thanks.
+>>
+>>>
+>>>
+>>> This appears to work correctly; netrom packets are the right size, you =
+can happily use an AX25 PACLEN of 60 (which for HF means that transmissions=
+ are about 2 seconds and not 10), there are no more truncations, and as a b=
+onus no random parts of memory are shared over the network.  I've attached =
+two packet captures to this email to support my assertions.  bad_cap.pcap s=
+hows a number of bad net/rom packets (including data leakage).  good_cap.pc=
+ap shows a net/rom conversation with the patch applied -- no huge packets, =
+everything working correctly.
+>>>
+>>> Since this issue does leak random bits of memory over the network, pote=
+ntially including user data, I considered copying it to security@kernel.org=
+, but since the bug appears to have been around for a long time (looking at=
+ history I think it was introduced in kernel version 2.0 in 1996) it's prob=
+ably not urgent, so I'll leave the decision as to whether there's any need =
+to treat it as a security issue to you :-)
+>>>
+>>> Many thanks,
+>>>
+>>> -simon M0GZP
+>>>
+>>> --
+>>> Simon Kapadia, B.A., M.Sc., C.Eng.
+>>> szymon@kapadia.pl | http://kapadia.pl
+>>> http://astrophotos.uk/
