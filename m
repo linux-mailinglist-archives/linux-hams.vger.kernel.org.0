@@ -2,48 +2,57 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B14AE735668
-	for <lists+linux-hams@lfdr.de>; Mon, 19 Jun 2023 14:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 612B3736C81
+	for <lists+linux-hams@lfdr.de>; Tue, 20 Jun 2023 14:59:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229847AbjFSMG3 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 19 Jun 2023 08:06:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38800 "EHLO
+        id S232194AbjFTM7Y (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 20 Jun 2023 08:59:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbjFSMG2 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 19 Jun 2023 08:06:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6500A18D
-        for <linux-hams@vger.kernel.org>; Mon, 19 Jun 2023 05:05:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687176342;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=flv0m9IzvhIUpKnDIyrInh56vnSxXK9hbzXv0isFig8=;
-        b=hnUetV29Dp1W/zpW3Yl5j5V1qiOL0PuvKfWbjW+/Y45dheY3YfE6x8eHoT5F07QrrWvRzQ
-        DaXdCLnO8Xwe9tvzxtXtpL9O0n4sLRvf/sqR1KkR/qQea5tAFRpiDS2oUKIznpFUcPs5Og
-        nWTlCXczkf/fPF88j/9jiSNVeRUj9TA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-98-6kJ1RmfDPwCBOHGN8dJYCQ-1; Mon, 19 Jun 2023 08:05:40 -0400
-X-MC-Unique: 6kJ1RmfDPwCBOHGN8dJYCQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7FC9A1C06EC1;
-        Mon, 19 Jun 2023 12:05:38 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.42.28.4])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 88C75C1603B;
-        Mon, 19 Jun 2023 12:05:34 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <648f36d02fe6e_33cfbc2944f@willemb.c.googlers.com.notmuch>
-References: <648f36d02fe6e_33cfbc2944f@willemb.c.googlers.com.notmuch> <20230617121146.716077-1-dhowells@redhat.com> <20230617121146.716077-18-dhowells@redhat.com>
-To:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+        with ESMTP id S231211AbjFTM7W (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 20 Jun 2023 08:59:22 -0400
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAF2810FF;
+        Tue, 20 Jun 2023 05:59:20 -0700 (PDT)
+Received: by mail-qk1-x735.google.com with SMTP id af79cd13be357-7624e8ceef7so346133885a.2;
+        Tue, 20 Jun 2023 05:59:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687265960; x=1689857960;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4RvNVFujZzQ9FH/nRDQhxgK8HOnuVe0ilksjI7/FigQ=;
+        b=V7CBqsvwa7HO9941Gx9rU48fbSNnkTARJq3hU0s4FJKqNq7uyQJvuWMi48BFYirjd9
+         Z+CSYTenkWtjPExrbuK55Lr4LajYIvMVcZS1i2H4hkmnnVf92/3eU5+256AdSIU7TTh1
+         xwVepNxy0+wSCXEIn2FLnq5fwolgWObqyrXGJD4a4dArZIDrRTCCQbOXeliLMdRNukOE
+         bfBqEL3D5v18ty2Fda4DTUDINVko/+/f9bRuKWlc9As/MXSXKCsqRSAvjLHgGSN+PYBz
+         OhKP930iRzIK8HICV0ZdtEG/GKM89Wb5av0m6K808diQPwrVMMP/ZUSrK2PjzRbzzuKs
+         Xiqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687265960; x=1689857960;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4RvNVFujZzQ9FH/nRDQhxgK8HOnuVe0ilksjI7/FigQ=;
+        b=TXgc61V4R/4/uHY2QZsPXgAX2Rf37It/aP8tEzZXkexa1Utxq2r8RE3sBLePmzTuoD
+         Dg/24MZVRUWEeB9qLSuWh9TxnBk3C9xAbLBjodnoCNHP4jSZs14NOCFeN5e5O5/OJJyU
+         9GE1yCOApc5CfQJxBmFnXVMD61xCjgHWd9RJT1do3WkwFPH0npMZTU3gKqWofrJdDGgu
+         qXndaATjAJrGxzyM2onxl5nsbdIT81r60FXCvnzC0rq/1EPneitwbOnIpJbj3rrubQw5
+         xJcJHr54Exltplonli1SVVhaeuevVfouQJAGylb1lVkNVADLArf5jY1csDryORRiJq3/
+         w1pg==
+X-Gm-Message-State: AC+VfDw+AvcpB+kzcrU2tO8dary8v4OzIEJ2EVlGXjUryXMHJcwWKhEV
+        ljMDIV+uw0uRJ28AUUbBK2o=
+X-Google-Smtp-Source: ACHHUZ5DO7ilI0HCjRl4Lbeq4UH3F7W+AS3gn0PcL1py6Hb93MUCpM1EgmXOFtEL5TVj5cEqHyVw6w==
+X-Received: by 2002:a05:6214:1306:b0:628:2e08:78b7 with SMTP id pn6-20020a056214130600b006282e0878b7mr5517848qvb.31.1687265959785;
+        Tue, 20 Jun 2023 05:59:19 -0700 (PDT)
+Received: from localhost (172.174.245.35.bc.googleusercontent.com. [35.245.174.172])
+        by smtp.gmail.com with ESMTPSA id m17-20020a0cf191000000b00631ecb1052esm1216204qvl.74.2023.06.20.05.59.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jun 2023 05:59:19 -0700 (PDT)
+Date:   Tue, 20 Jun 2023 08:59:18 -0400
+From:   Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To:     David Howells <dhowells@redhat.com>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>
 Cc:     dhowells@redhat.com, netdev@vger.kernel.org,
         Alexander Duyck <alexander.duyck@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -63,110 +72,69 @@ Cc:     dhowells@redhat.com, netdev@vger.kernel.org,
         mptcp@lists.linux.dev, rds-devel@oss.oracle.com,
         tipc-discussion@lists.sourceforge.net,
         virtualization@lists.linux-foundation.org
+Message-ID: <6491a2a6f1488_3bcfec294d7@willemb.c.googlers.com.notmuch>
+In-Reply-To: <784658.1687176327@warthog.procyon.org.uk>
+References: <648f36d02fe6e_33cfbc2944f@willemb.c.googlers.com.notmuch>
+ <20230617121146.716077-1-dhowells@redhat.com>
+ <20230617121146.716077-18-dhowells@redhat.com>
+ <784658.1687176327@warthog.procyon.org.uk>
 Subject: Re: [PATCH net-next v2 17/17] net: Kill MSG_SENDPAGE_NOTLAST
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <784657.1687176327.1@warthog.procyon.org.uk>
-Date:   Mon, 19 Jun 2023 13:05:27 +0100
-Message-ID: <784658.1687176327@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Willem de Bruijn <willemdebruijn.kernel@gmail.com> wrote:
-
-> Is it intentional to add MSG_MORE here in this patch?
+David Howells wrote:
+> Willem de Bruijn <willemdebruijn.kernel@gmail.com> wrote:
 > 
-> I do see that patch 3 removes this branch:
+> > Is it intentional to add MSG_MORE here in this patch?
+> > 
+> > I do see that patch 3 removes this branch:
+> 
+> Yeah.  I think I may have tcp_bpf a bit wrong with regard to handling
+> MSG_MORE.
+> 
+> How about the attached version of tcp_bpf_push()?
+> 
+> I wonder if it's save to move the setting of MSG_SENDPAGE_NOPOLICY out of the
+> loop as I've done here.  The caller holds the socket lock.
+> 
+> Also, I'm not sure whether to take account of apply/apply_bytes when setting
+> MSG_MORE mid-message, or whether to just go on whether we've reached
+> sge->length yet.  (I'm not sure exactly how tcp_bpf works).
 
-Yeah.  I think I may have tcp_bpf a bit wrong with regard to handling
-MSG_MORE.
+I'm not very familiar with it either.
 
-How about the attached version of tcp_bpf_push()?
+Instead of inferring whether MSG_MORE is safe to set, as below, sufficient to
+rely on the caller to pass it when appropriate?
 
-I wonder if it's save to move the setting of MSG_SENDPAGE_NOPOLICY out of the
-loop as I've done here.  The caller holds the socket lock.
+size = min(apply_bytes, sge->length). I doubt that size < apply_bytes is
+ever intended.
 
-Also, I'm not sure whether to take account of apply/apply_bytes when setting
-MSG_MORE mid-message, or whether to just go on whether we've reached
-sge->length yet.  (I'm not sure exactly how tcp_bpf works).
+And instead of this former branch
 
-David
----
+                if (flags & MSG_SENDPAGE_NOTLAST)
+                        msghdr.msg_flags |= MSG_MORE;
 
-static int tcp_bpf_push(struct sock *sk, struct sk_msg *msg, u32 apply_bytes,
-			int flags, bool uncharge)
-{
-	bool apply = apply_bytes;
-	struct scatterlist *sge;
-	struct page *page;
-	int size, ret = 0;
-	u32 off;
+update any caller to pass MSG_MORE instead of MSG_SENDPAGE_NOTLAST, if not yet
+done so.
 
-	flags |= MSG_SPLICE_PAGES;
-	if (tls_sw_has_ctx_tx(sk))
-		msghdr.msg_flags |= MSG_SENDPAGE_NOPOLICY;
-
-	while (1) {
-		struct msghdr msghdr = {};
-		struct bio_vec bvec;
-
-		sge = sk_msg_elem(msg, msg->sg.start);
-		size = (apply && apply_bytes < sge->length) ?
-			apply_bytes : sge->length;
-		off  = sge->offset;
-		page = sg_page(sge);
-
-		tcp_rate_check_app_limited(sk);
-retry:
-		msghdr.msg_flags = flags;
-
-		/* Determine if we need to set MSG_MORE. */
-		if (!(msghdr.msg_flags & MSG_MORE)) {
-			if (apply && size < apply_bytes)
-				msghdr.msg_flags |= MSG_MORE;
-			else if (!apply && size < sge->length &&
-				 msg->sg.start != msg->sg.end)
-				msghdr.msg_flags |= MSG_MORE;
-		}
-
-		bvec_set_page(&bvec, page, size, off);
-		iov_iter_bvec(&msghdr.msg_iter, ITER_SOURCE, &bvec, 1, size);
-		ret = tcp_sendmsg_locked(sk, &msghdr, size);
-		if (ret <= 0)
-			return ret;
-
-		if (apply)
-			apply_bytes -= ret;
-		msg->sg.size -= ret;
-		sge->offset += ret;
-		sge->length -= ret;
-		if (uncharge)
-			sk_mem_uncharge(sk, ret);
-		if (ret != size) {
-			size -= ret;
-			off  += ret;
-			goto retry;
-		}
-		if (!sge->length) {
-			put_page(page);
-			sk_msg_iter_next(msg, start);
-			sg_init_table(sge, 1);
-			if (msg->sg.start == msg->sg.end)
-				break;
-		}
-		if (apply && !apply_bytes)
-			break;
-	}
-
-	return 0;
-}
-
+> 		msghdr.msg_flags = flags;
+> 
+> 		/* Determine if we need to set MSG_MORE. */
+> 		if (!(msghdr.msg_flags & MSG_MORE)) {
+> 			if (apply && size < apply_bytes)
+> 				msghdr.msg_flags |= MSG_MORE;
+> 			else if (!apply && size < sge->length &&
+> 				 msg->sg.start != msg->sg.end)
+> 				msghdr.msg_flags |= MSG_MORE;
+> 		}
