@@ -2,98 +2,146 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF4D3744F6D
-	for <lists+linux-hams@lfdr.de>; Sun,  2 Jul 2023 19:55:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E86C576386C
+	for <lists+linux-hams@lfdr.de>; Wed, 26 Jul 2023 16:08:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229753AbjGBRz1 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 2 Jul 2023 13:55:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44384 "EHLO
+        id S233480AbjGZOIN (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 26 Jul 2023 10:08:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229679AbjGBRz0 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 2 Jul 2023 13:55:26 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1808E5E;
-        Sun,  2 Jul 2023 10:55:24 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id 3f1490d57ef6-c13cb2cb428so622377276.0;
-        Sun, 02 Jul 2023 10:55:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688320524; x=1690912524;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=B/346nUIZErMaap4Xzifysw7agxmNBKblpAJllVen+8=;
-        b=HS1Xpu8RutGjzNf2cNefIvO40PuyEyyWN1lXpuUm3Zm6tYXGDXwbDrBzDuJeX7KOHr
-         q1UGGgd94SVTRefQw+1rgl1gQ50uEoBHL2OdSUILUjvF+1ATH9gvheGUN++hFOwLNLid
-         1XMjRZLU+9Ge2en4fJbD50bjnQdqOwyoXZfvhIPbUVY/sq6Vm6BAvUYZPRqmTRzyIG2n
-         JWXOYS2flIDtpE0mu19bw1MyMQp5M6uow+iO1HWzOXqc6Z90+aO2nBs6Bf+FGR5IBS25
-         laBmv/H9uClBFT1isqMjJFlPY+WcanwzxZg1N8ZxZIN6sqfmOEIBN1yT1YF0buNY5Ya/
-         4xig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688320524; x=1690912524;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B/346nUIZErMaap4Xzifysw7agxmNBKblpAJllVen+8=;
-        b=jXMzier0L+uA9uqJKLdm5TIwgOAhgiAZeSAf6CZ7pSDwvbckdaLE4/JtIdDJA73YLg
-         M1yROHqCUDtrY/d6QM/kLYRfUMkUW39C0xSaijLtk7V/6zkIUKaSdF0bTK5xqzYUOJ21
-         XdMwBdozbMKoKy2GJxu60H09R/zh+jyWANP2/OE6fKdooaiTPggHcKUuaA3MLv/3Jdhv
-         xMdFlk1Uq/jTYzBbOIYSGt4uTRVsHD+zsMsyHJ8qfP+m6a89VPqNNafySDtenOEE0PPW
-         z4AOUwPm5Bd/e0kORptURQp1sAqAxIRYTkl4iPL8RY0mSaU+4n/TgsVND+Kb7gqbxopG
-         V32Q==
-X-Gm-Message-State: ABy/qLbXBRFGQ9vXsWtEkPvP85QWn0z0iO+Pv2E4bf3Lh+XyNrNrqZim
-        170QS63XFk2rmFh6OnNwDK/RIGMcXish1f07JoJTnJKPmcUzgQ==
-X-Google-Smtp-Source: APBJJlGKLhOT4Bu7qJ+9PV6J1mFibevhHpEsj9SgVNCYM6WTAos06S2LRQMzHrHXF1fE6Av0kYh7XbCZNh0JTIxm3q8=
-X-Received: by 2002:a25:2b88:0:b0:bd6:6e3e:3af3 with SMTP id
- r130-20020a252b88000000b00bd66e3e3af3mr4285143ybr.3.1688320523798; Sun, 02
- Jul 2023 10:55:23 -0700 (PDT)
-MIME-Version: 1.0
-From:   Askar Safin <safinaskar@gmail.com>
-Date:   Sun, 2 Jul 2023 20:54:47 +0300
-Message-ID: <CAPnZJGB6gk47Hw-OE2_9eSKJ0DwOzEiL+tncMJyiOD6arw6xag@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 17/18] sock: Remove ->sendpage*() in favour of sendmsg(MSG_SPLICE_PAGES)
-To:     David Howells <dhowells@redhat.com>
-Cc:     netdev@vger.kernel.org,
-        Alexander Duyck <alexander.duyck@gmail.com>,
+        with ESMTP id S234359AbjGZOHZ (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 26 Jul 2023 10:07:25 -0400
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5C5B2D5E
+        for <linux-hams@vger.kernel.org>; Wed, 26 Jul 2023 07:07:05 -0700 (PDT)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20230726140704euoutp020226ebc3e1cff52a0b01c2648164bc81~1cApBhoxg1595615956euoutp02b
+        for <linux-hams@vger.kernel.org>; Wed, 26 Jul 2023 14:07:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20230726140704euoutp020226ebc3e1cff52a0b01c2648164bc81~1cApBhoxg1595615956euoutp02b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1690380424;
+        bh=Nj7Ghn+kSOTETzoJsaSu9wi1agkqgAyigWTwaRVhj0w=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=HbnW/01MMcRCUhrsw3LYP6YjvDlXVP1MYApY5uoZdJmbfsrwN26OoN2OHYPgCiOBd
+         0YucJmFEG67aChRlzsG8aquq5auZfYYNphVIxMK/01giXLTjURJ+6zxGk4TpO7tvCt
+         6xZXQkBs3Kfs5pzrNM3yGS9pXvThzX9I2zh5pxks=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20230726140704eucas1p100b74ffbb75f5a4cb26bcfdedf619471~1cAornRKb2261122611eucas1p1p;
+        Wed, 26 Jul 2023 14:07:04 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges2new.samsung.com (EUCPMTA) with SMTP id 8B.F6.11320.78821C46; Wed, 26
+        Jul 2023 15:07:04 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20230726140703eucas1p2786577bcc67d5ae434671dac11870c60~1cAn-_eJa0080000800eucas1p2s;
+        Wed, 26 Jul 2023 14:07:03 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20230726140703eusmtrp262155482faef2d00243300fa4bb51762~1cAn-O03L2063520635eusmtrp2F;
+        Wed, 26 Jul 2023 14:07:03 +0000 (GMT)
+X-AuditID: cbfec7f4-993ff70000022c38-43-64c128872c53
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 87.57.14344.78821C46; Wed, 26
+        Jul 2023 15:07:03 +0100 (BST)
+Received: from localhost (unknown [106.210.248.223]) by eusmtip2.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20230726140703eusmtip2325884d0d96c3ee20ec7922d060314b9~1cAn01PTT2007220072eusmtip2H;
+        Wed, 26 Jul 2023 14:07:03 +0000 (GMT)
+From:   Joel Granados <j.granados@samsung.com>
+To:     mcgrof@kernel.org, Joerg Reuter <jreuter@yaina.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        David Ahern <dsahern@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jens Axboe <axboe@kernel.dk>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org,
-        Marc Kleine-Budde <mkl@pengutronix.de>, bpf@vger.kernel.org,
-        dccp@vger.kernel.org, linux-afs@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-hams@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-sctp@vger.kernel.org, linux-wpan@vger.kernel.org,
-        linux-x25@vger.kernel.org, mptcp@lists.linux.dev,
-        rds-devel@oss.oracle.com, tipc-discussion@lists.sourceforge.net,
-        virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Paolo Abeni <pabeni@redhat.com>
+Cc:     willy@infradead.org, keescook@chromium.org, josh@joshtriplett.org,
+        Joel Granados <j.granados@samsung.com>,
+        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 09/14] ax.25: Update to register_net_sysctl_sz
+Date:   Wed, 26 Jul 2023 16:06:29 +0200
+Message-Id: <20230726140635.2059334-10-j.granados@samsung.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230726140635.2059334-1-j.granados@samsung.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLKsWRmVeSWpSXmKPExsWy7djP87odGgdTDM58ZbSYc76FxeLpsUfs
+        Fkv3P2S0+L8g3+JnH7fFme5ciwvb+lgtrm2/y2RxedccNosbE54yWhxbIGbx7fQbRotLe1Qs
+        fv+Yw+bA5zG74SKLx5aVN5k8Fmwq9di8Qsvj1mtbj02rOtk8jq5cy+Txft9VNo++LasYPT5v
+        kvN4M+01UwB3FJdNSmpOZllqkb5dAlfG4buT2ArWsVf8+fmYvYFxJlsXIyeHhICJxPGJd9i7
+        GLk4hARWMEr83PiEGcL5wigx6W8PI0iVkMBnRomN621gOs49OQtVtJxRYu3X14wQzktGiYm3
+        Z4DNZRPQkTj/5g5YlYjAB0aJ9qcHwKqYBQ4zSnz92cUOUiUsYCfxaPlLsA4WAVWJpXfnsIDY
+        vEDxnqutUBfKS7Rdnw52BydQfOXa76wQNYISJ2c+AatnBqpp3jobbJuEQDenxJ+fF1khml0k
+        tsz9xw5hC0u8Or4FypaR+L9zPhNEw2RGif3/PrBDOKsZJZY1fmWCqLKWaLnyBCjBAbRCU2L9
+        Ln2IsKPEmZ4drCBhCQE+iRtvBSGO4JOYtG06M0SYV6KjTQiiWkWib+kUFghbSuL65Z1Qf3lI
+        PL55jXkCo+IsJO/MQvLOLIS9CxiZVzGKp5YW56anFhvlpZbrFSfmFpfmpesl5+duYgSmuNP/
+        jn/Zwbj81Ue9Q4xMHIyHGCU4mJVEeA1j9qUI8aYkVlalFuXHF5XmpBYfYpTmYFES59W2PZks
+        JJCeWJKanZpakFoEk2Xi4JRqYBL5U/1x+uHj86pZQ1YLRyxPyOfcuOfUvLVrBTTPbLpfeG2X
+        ztITO26oL/L0qL114OoG9zJO1Umt/5782/66MVW1oEEs6dE+zdNf/0UYKRieY5uYqyLu8HFF
+        kOLBep9Uq6V9vN4isZqn3D4/6d8RYvyhY+/v1oqWy1qTdxTe2XrnY5LJksq7b/02u/0W/j2r
+        ZVqn7zqunRaCKTWXthzaoVD77uXHzAVv9W0Ct/7bt0rr1t6VOl9Lv7Js38u27pWX6a1Hzu/i
+        dc6Kvuoz3HKd58YVr/4pU0UeH3I71rHww6f6x+9L9+VX18TUft55PCL954Fg7YkdV4rWnb6t
+        NKH7bZHk1rC1n1vr4pdVvvnB/6/ynBJLcUaioRZzUXEiACR2UqXgAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRmVeSWpSXmKPExsVy+t/xe7rtGgdTDNbfFLaYc76FxeLpsUfs
+        Fkv3P2S0+L8g3+JnH7fFme5ciwvb+lgtrm2/y2RxedccNosbE54yWhxbIGbx7fQbRotLe1Qs
+        fv+Yw+bA5zG74SKLx5aVN5k8Fmwq9di8Qsvj1mtbj02rOtk8jq5cy+Txft9VNo++LasYPT5v
+        kvN4M+01UwB3lJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllq
+        kb5dgl7G4buT2ArWsVf8+fmYvYFxJlsXIyeHhICJxLknZ5m7GLk4hASWMkpc6TjL2sXIAZSQ
+        kvi+jBOiRljiz7UuNoia54wSF5bfB2tmE9CROP/mDliziMA3RokJVy8ygiSYBU4zSnQfkgCx
+        hQXsJB4tfwnWwCKgKrH07hwWEJsXKN5ztRXqCnmJtuvTwXo5geIr135nBbGFBGwleqY+ZYeo
+        F5Q4OfMJC8R8eYnmrbOZJzAKzEKSmoUktYCRaRWjSGppcW56brGRXnFibnFpXrpecn7uJkZg
+        HG479nPLDsaVrz7qHWJk4mA8xCjBwawkwmsYsy9FiDclsbIqtSg/vqg0J7X4EKMp0N0TmaVE
+        k/OBiSCvJN7QzMDU0MTM0sDU0sxYSZzXs6AjUUggPbEkNTs1tSC1CKaPiYNTqoFpguO8pcn7
+        ND9mlgbnxfP82Cv71J1d/6hr6n3eDnOPeIWdu3kaDkfeC5rXfJlTpKt8k5MK050p+zpXThJf
+        ePvfDtYXU+IZTzR5xho/lsmTqVTOd1UO7Q9afnmKMkf8r1tfd1pk/Fm0NsVc1DhGlnPGEz4m
+        970lzC9+n/Da0qlhFsjisue25PfVvs2m95YsZqiP/lUycduFM9knVspOfKQSJbiFtafzh7+3
+        eC6XM/PEbz5TJ3oZ+bbNDl1/STXOdK5qq93e3tJyvpRN+ktXm809/VjL9ZWGi56/baiQ6sby
+        BZf/q+rtu7wrcyWfhnawUeediN70p4d3ftSJ9Zx0s5H9nnbrvq6ELbzWRUaTZJVYijMSDbWY
+        i4oTASZ3r8BMAwAA
+X-CMS-MailID: 20230726140703eucas1p2786577bcc67d5ae434671dac11870c60
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20230726140703eucas1p2786577bcc67d5ae434671dac11870c60
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20230726140703eucas1p2786577bcc67d5ae434671dac11870c60
+References: <20230726140635.2059334-1-j.granados@samsung.com>
+        <CGME20230726140703eucas1p2786577bcc67d5ae434671dac11870c60@eucas1p2.samsung.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-> -/* In some cases, both sendpage() and sendmsg() could have added
-> - * an skb to the write queue, but failed adding payload on it.
-> - * We need to remove it to consume less memory, but more
-> - * importantly be able to generate EPOLLOUT for Edge Trigger epoll()
-> - * users.
-> +/* In some cases, both sendmsg() could have added an skb to the write queue,
-> + * but failed adding payload on it.  We need to remove it to consume less
-> + * memory, but more importantly be able to generate EPOLLOUT for Edge Trigger
-> + * epoll() users.
->   */
+This is part of the effort to remove the sentinel (last empty) element
+from the ctl_table arrays. We update to the new function and pass it the
+array size.
 
-There is a typo here. "Both" is redundant now
+Signed-off-by: Joel Granados <j.granados@samsung.com>
+---
+ net/ax25/sysctl_net_ax25.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/net/ax25/sysctl_net_ax25.c b/net/ax25/sysctl_net_ax25.c
+index 2154d004d3dc..db66e11e7fe8 100644
+--- a/net/ax25/sysctl_net_ax25.c
++++ b/net/ax25/sysctl_net_ax25.c
+@@ -159,7 +159,8 @@ int ax25_register_dev_sysctl(ax25_dev *ax25_dev)
+ 		table[k].data = &ax25_dev->values[k];
+ 
+ 	snprintf(path, sizeof(path), "net/ax25/%s", ax25_dev->dev->name);
+-	ax25_dev->sysheader = register_net_sysctl(&init_net, path, table);
++	ax25_dev->sysheader = register_net_sysctl_sz(&init_net, path, table,
++						     ARRAY_SIZE(ax25_param_table));
+ 	if (!ax25_dev->sysheader) {
+ 		kfree(table);
+ 		return -ENOMEM;
 -- 
-Askar Safin
+2.30.2
+
