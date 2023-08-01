@@ -2,40 +2,56 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AF0376A8C1
-	for <lists+linux-hams@lfdr.de>; Tue,  1 Aug 2023 08:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B90276AE54
+	for <lists+linux-hams@lfdr.de>; Tue,  1 Aug 2023 11:38:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231400AbjHAGMN (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 1 Aug 2023 02:12:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33240 "EHLO
+        id S231485AbjHAJiL (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 1 Aug 2023 05:38:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231352AbjHAGMJ (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 1 Aug 2023 02:12:09 -0400
-Received: from mg.ssi.bg (mg.ssi.bg [193.238.174.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14AF219A4;
-        Mon, 31 Jul 2023 23:12:06 -0700 (PDT)
-Received: from mg.bb.i.ssi.bg (localhost [127.0.0.1])
-        by mg.bb.i.ssi.bg (Proxmox) with ESMTP id 0256B17CA9;
-        Tue,  1 Aug 2023 09:12:04 +0300 (EEST)
-Received: from ink.ssi.bg (ink.ssi.bg [193.238.174.40])
-        by mg.bb.i.ssi.bg (Proxmox) with ESMTPS id DD07D17CA8;
-        Tue,  1 Aug 2023 09:12:03 +0300 (EEST)
-Received: from ja.ssi.bg (unknown [213.16.62.126])
-        by ink.ssi.bg (Postfix) with ESMTPSA id D57A13C043A;
-        Tue,  1 Aug 2023 09:11:40 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ssi.bg; s=ink;
-        t=1690870305; bh=K3ToJDSb0mjMB1NLV0BUwfRmPEJudUn9AtuMI5luR6U=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References;
-        b=g8VQ+wTIFGtpegn5u/tW44R2fuNOJ5mdhEOWERlo2uGAwt4jdYY1YoeeDuqFVo4U0
-         aNfo6ZYRdJcjGbVx6zImrYA50NgX00UwUU7zEkwQHrQkNmmicTuRpjV7FrGXxh9JhJ
-         dK2ADIy7PUVpdMu+utC6V/dK7/xavRUlvurILIL0=
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-        by ja.ssi.bg (8.17.1/8.17.1) with ESMTP id 3716BQUG027447;
-        Tue, 1 Aug 2023 09:11:27 +0300
-Date:   Tue, 1 Aug 2023 09:11:26 +0300 (EEST)
-From:   Julian Anastasov <ja@ssi.bg>
-To:     Joel Granados <joel.granados@gmail.com>
-cc:     mcgrof@kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+        with ESMTP id S233209AbjHAJhg (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 1 Aug 2023 05:37:36 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B96FF1BD9;
+        Tue,  1 Aug 2023 02:35:59 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-31297125334so3670523f8f.0;
+        Tue, 01 Aug 2023 02:35:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690882558; x=1691487358;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VvT5J/1PJpb72S8f2nh5awbFCHxyuUpdf923ik/K8j4=;
+        b=ExXgh7eFyYEhKQs65FHri/ViJcpb8MfKCX9kbY13ZsJxBfJuzrlXbGUOa6PJHRnfVL
+         5KktONa25XH2j439bmJpT0Q4yTjYmX4D0DiBC4baDGrA30FHudWESCVxKcX9ypBipHeM
+         SQep1J2NOOI4y6MR1DOFPz5PzuY+E3qQVzADtwAIobtemnENQgZGsUJnpi/joyh4WivY
+         LIlCKOUJEek89CNVl+TOnj477K/qps7R9Z8rmn8+cL4kkeZWcXXI6KXXgTaf/3PYTlrh
+         pg5N0MEigdMBUTHFqQA2OwiMPdbJ/RuZNlJ9em5VweXgkSGFnwmWM0zlA01zCeSuodhm
+         IVHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690882558; x=1691487358;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VvT5J/1PJpb72S8f2nh5awbFCHxyuUpdf923ik/K8j4=;
+        b=F92qiyd2ELRgN0C9Eqo0eeM6vKTrICn4XmoijAWyEoQuQNNBrYt5M0qDe75la1KrpA
+         kGUaFyKXnMeBS1lV3K3tT3Jo44uDxScFIzOVipqL5bzkZjO4g1/Jvgm5r6PtBbvZGpBT
+         rQo26uMD3DB1P3sgfZmENXsA0sCCUhHhfib6+4UOGxwd41+gKfs/G113vJrsZNwH63ev
+         etI9JvaJJLGBA5Ud8DEMCN4EZUL95PeS8MEDpuwGTjbJai074sXn90UCiZUyHoD/YVFu
+         cac4BZXifnjB5VxJHQtp4MZoxQ9D/ueu/xrQMI43orgJP4SxxC2GKnAkCKD5+TJP75Q0
+         csHg==
+X-Gm-Message-State: ABy/qLav90cpuWyUPIT+1eJucyRIfRKYtX/gjbqvvqQHsVAJC6bWGhG8
+        ufcGc9httUC6C/E201vQshg=
+X-Google-Smtp-Source: APBJJlFenT4lJzl0wyFu60kMYJMIoCsq+b5HauhGzk/5vhq31BmGRtO2EgfwE19ne+ER5DzuG/6KpA==
+X-Received: by 2002:a5d:6b8c:0:b0:30a:c681:fd2e with SMTP id n12-20020a5d6b8c000000b0030ac681fd2emr1793379wrx.22.1690882557942;
+        Tue, 01 Aug 2023 02:35:57 -0700 (PDT)
+Received: from localhost (0x934e1fc8.cust.fastspeed.dk. [147.78.31.200])
+        by smtp.gmail.com with ESMTPSA id p16-20020a5d68d0000000b003140f47224csm15519172wrw.15.2023.08.01.02.35.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Aug 2023 02:35:57 -0700 (PDT)
+Date:   Tue, 1 Aug 2023 11:35:55 +0200
+From:   Joel Granados <joel.granados@gmail.com>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Iurii Zaikin <yzaikin@google.com>,
         Jozsef Kadlecsik <kadlec@netfilter.org>,
         Sven Schnelle <svens@linux.ibm.com>,
@@ -53,7 +69,7 @@ cc:     mcgrof@kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
         Matthieu Baerts <matthieu.baerts@tessares.net>,
         bridge@lists.linux-foundation.org,
         linux-arm-kernel@lists.infradead.org,
-        Joerg Reuter <jreuter@yaina.de>,
+        Joerg Reuter <jreuter@yaina.de>, Julian Anastasov <ja@ssi.bg>,
         David Ahern <dsahern@kernel.org>,
         netfilter-devel@vger.kernel.org, Wen Gu <guwen@linux.alibaba.com>,
         linux-kernel@vger.kernel.org,
@@ -78,17 +94,21 @@ cc:     mcgrof@kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
         linux-fsdevel@vger.kernel.org, linux-s390@vger.kernel.org,
         Xin Long <lucien.xin@gmail.com>,
         Nikolay Aleksandrov <razor@blackwall.org>,
-        netdev@vger.kernel.org, rds-devel@oss.oracle.com,
-        Joel Granados <j.granados@samsung.com>
-Subject: Re: [PATCH v2 10/14] netfilter: Update to register_net_sysctl_sz
-In-Reply-To: <20230731071728.3493794-11-j.granados@samsung.com>
-Message-ID: <b8564ac4-ab65-6212-2241-0843413e05de@ssi.bg>
-References: <20230731071728.3493794-1-j.granados@samsung.com> <20230731071728.3493794-11-j.granados@samsung.com>
+        netdev@vger.kernel.org, rds-devel@oss.oracle.com
+Subject: Re: [PATCH v2 00/14] sysctl: Add a size argument to register
+ functions in sysctl
+Message-ID: <20230801093555.wwl27a7wjm2oinxx@localhost>
+References: <20230731071728.3493794-1-j.granados@samsung.com>
+ <CGME20230731213734eucas1p2728233a3b9ecd360bbd0cb77f8a44002@eucas1p2.samsung.com>
+ <ZMgpck0rjqHR74sl@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ltg4mtomzaz4i2ki"
+Content-Disposition: inline
+In-Reply-To: <ZMgpck0rjqHR74sl@bombadil.infradead.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -97,144 +117,64 @@ List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
 
-	Hello,
+--ltg4mtomzaz4i2ki
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 31 Jul 2023, Joel Granados wrote:
+On Mon, Jul 31, 2023 at 02:36:50PM -0700, Luis Chamberlain wrote:
+> > Joel Granados (14):
+> >   sysctl: Prefer ctl_table_header in proc_sysctl
+> >   sysctl: Use ctl_table_header in list_for_each_table_entry
+> >   sysctl: Add ctl_table_size to ctl_table_header
+> >   sysctl: Add size argument to init_header
+> >   sysctl: Add a size arg to __register_sysctl_table
+> >   sysctl: Add size to register_sysctl
+> >   sysctl: Add size arg to __register_sysctl_init
+>=20
+> This is looking great thanks, I've taken the first 7 patches above
+> to sysctl-next to get more exposure / testing and since we're already
+> on rc4.
+Thx for the feedback.
 
-> Move from register_net_sysctl to register_net_sysctl_sz for all the
-> netfilter related files. Do this while making sure to mirror the NULL
-> assignments with a table_size of zero for the unprivileged users.
-> 
-> We need to move to the new function in preparation for when we change
-> SIZE_MAX to ARRAY_SIZE() in the register_net_sysctl macro. Failing to do
-> so would erroneously allow ARRAY_SIZE() to be called on a pointer. We
-> hold off the SIZE_MAX to ARRAY_SIZE change until we have migrated all
-> the relevant net sysctl registering functions to register_net_sysctl_sz
-> in subsequent commits.
-> 
-> Signed-off-by: Joel Granados <j.granados@samsung.com>
+>=20
+> Since the below patches involve more networking I'll wait to get
+> more feedback from networking folks before merging them.
+Just FYI, these are all networking except for the last one. That one is
+actually just in sysctl and will set everything up for removing the
+sentinels.
 
-	The IPVS part in net/netfilter/ipvs/ looks good to me, thanks!
+>=20
+> >   sysctl: Add size to register_net_sysctl function
+> >   ax.25: Update to register_net_sysctl_sz
+> >   netfilter: Update to register_net_sysctl_sz
+> >   networking: Update to register_net_sysctl_sz
+> >   vrf: Update to register_net_sysctl_sz
+> >   sysctl: SIZE_MAX->ARRAY_SIZE in register_net_sysctl
+> >   sysctl: Use ctl_table_size as stopping criteria for list macro
+>=20
+>   Luis
 
-Acked-by: Julian Anastasov <ja@ssi.bg>
+--=20
 
-> ---
->  net/bridge/br_netfilter_hooks.c         |  3 ++-
->  net/ipv6/netfilter/nf_conntrack_reasm.c |  3 ++-
->  net/netfilter/ipvs/ip_vs_ctl.c          |  8 ++++++--
->  net/netfilter/ipvs/ip_vs_lblc.c         | 10 +++++++---
->  net/netfilter/ipvs/ip_vs_lblcr.c        | 10 +++++++---
->  net/netfilter/nf_conntrack_standalone.c |  4 +++-
->  net/netfilter/nf_log.c                  |  7 ++++---
->  7 files changed, 31 insertions(+), 14 deletions(-)
-> 
+Joel Granados
 
-...
+--ltg4mtomzaz4i2ki
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> --- a/net/netfilter/ipvs/ip_vs_ctl.c
-> +++ b/net/netfilter/ipvs/ip_vs_ctl.c
-> @@ -4266,6 +4266,7 @@ static int __net_init ip_vs_control_net_init_sysctl(struct netns_ipvs *ipvs)
->  	struct net *net = ipvs->net;
->  	struct ctl_table *tbl;
->  	int idx, ret;
-> +	size_t ctl_table_size = ARRAY_SIZE(vs_vars);
->  
->  	atomic_set(&ipvs->dropentry, 0);
->  	spin_lock_init(&ipvs->dropentry_lock);
-> @@ -4282,8 +4283,10 @@ static int __net_init ip_vs_control_net_init_sysctl(struct netns_ipvs *ipvs)
->  			return -ENOMEM;
->  
->  		/* Don't export sysctls to unprivileged users */
-> -		if (net->user_ns != &init_user_ns)
-> +		if (net->user_ns != &init_user_ns) {
->  			tbl[0].procname = NULL;
-> +			ctl_table_size = 0;
-> +		}
->  	} else
->  		tbl = vs_vars;
->  	/* Initialize sysctl defaults */
-> @@ -4353,7 +4356,8 @@ static int __net_init ip_vs_control_net_init_sysctl(struct netns_ipvs *ipvs)
->  #endif
->  
->  	ret = -ENOMEM;
-> -	ipvs->sysctl_hdr = register_net_sysctl(net, "net/ipv4/vs", tbl);
-> +	ipvs->sysctl_hdr = register_net_sysctl_sz(net, "net/ipv4/vs", tbl,
-> +						  ctl_table_size);
->  	if (!ipvs->sysctl_hdr)
->  		goto err;
->  	ipvs->sysctl_tbl = tbl;
-> diff --git a/net/netfilter/ipvs/ip_vs_lblc.c b/net/netfilter/ipvs/ip_vs_lblc.c
-> index 1b87214d385e..cf78ba4ce5ff 100644
-> --- a/net/netfilter/ipvs/ip_vs_lblc.c
-> +++ b/net/netfilter/ipvs/ip_vs_lblc.c
-> @@ -550,6 +550,7 @@ static struct ip_vs_scheduler ip_vs_lblc_scheduler = {
->  static int __net_init __ip_vs_lblc_init(struct net *net)
->  {
->  	struct netns_ipvs *ipvs = net_ipvs(net);
-> +	size_t vars_table_size = ARRAY_SIZE(vs_vars_table);
->  
->  	if (!ipvs)
->  		return -ENOENT;
-> @@ -562,16 +563,19 @@ static int __net_init __ip_vs_lblc_init(struct net *net)
->  			return -ENOMEM;
->  
->  		/* Don't export sysctls to unprivileged users */
-> -		if (net->user_ns != &init_user_ns)
-> +		if (net->user_ns != &init_user_ns) {
->  			ipvs->lblc_ctl_table[0].procname = NULL;
-> +			vars_table_size = 0;
-> +		}
->  
->  	} else
->  		ipvs->lblc_ctl_table = vs_vars_table;
->  	ipvs->sysctl_lblc_expiration = DEFAULT_EXPIRATION;
->  	ipvs->lblc_ctl_table[0].data = &ipvs->sysctl_lblc_expiration;
->  
-> -	ipvs->lblc_ctl_header =
-> -		register_net_sysctl(net, "net/ipv4/vs", ipvs->lblc_ctl_table);
-> +	ipvs->lblc_ctl_header = register_net_sysctl_sz(net, "net/ipv4/vs",
-> +						       ipvs->lblc_ctl_table,
-> +						       vars_table_size);
->  	if (!ipvs->lblc_ctl_header) {
->  		if (!net_eq(net, &init_net))
->  			kfree(ipvs->lblc_ctl_table);
-> diff --git a/net/netfilter/ipvs/ip_vs_lblcr.c b/net/netfilter/ipvs/ip_vs_lblcr.c
-> index ad8f5fea6d3a..9eddf118b40e 100644
-> --- a/net/netfilter/ipvs/ip_vs_lblcr.c
-> +++ b/net/netfilter/ipvs/ip_vs_lblcr.c
-> @@ -736,6 +736,7 @@ static struct ip_vs_scheduler ip_vs_lblcr_scheduler =
->  static int __net_init __ip_vs_lblcr_init(struct net *net)
->  {
->  	struct netns_ipvs *ipvs = net_ipvs(net);
-> +	size_t vars_table_size = ARRAY_SIZE(vs_vars_table);
->  
->  	if (!ipvs)
->  		return -ENOENT;
-> @@ -748,15 +749,18 @@ static int __net_init __ip_vs_lblcr_init(struct net *net)
->  			return -ENOMEM;
->  
->  		/* Don't export sysctls to unprivileged users */
-> -		if (net->user_ns != &init_user_ns)
-> +		if (net->user_ns != &init_user_ns) {
->  			ipvs->lblcr_ctl_table[0].procname = NULL;
-> +			vars_table_size = 0;
-> +		}
->  	} else
->  		ipvs->lblcr_ctl_table = vs_vars_table;
->  	ipvs->sysctl_lblcr_expiration = DEFAULT_EXPIRATION;
->  	ipvs->lblcr_ctl_table[0].data = &ipvs->sysctl_lblcr_expiration;
->  
-> -	ipvs->lblcr_ctl_header =
-> -		register_net_sysctl(net, "net/ipv4/vs", ipvs->lblcr_ctl_table);
-> +	ipvs->lblcr_ctl_header = register_net_sysctl_sz(net, "net/ipv4/vs",
-> +							ipvs->lblcr_ctl_table,
-> +							vars_table_size);
->  	if (!ipvs->lblcr_ctl_header) {
->  		if (!net_eq(net, &init_net))
->  			kfree(ipvs->lblcr_ctl_table);
+-----BEGIN PGP SIGNATURE-----
 
-Regards
+iQGyBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmTI0fkACgkQupfNUreW
+QU/TKwv3ZwfCMFKh+tMOXHzAsW3p+jp8IR2frQvlCy8j4amsnTB8wJmsjkpeuJ3p
+s6IFeYrPE0pDidKOwzYiA4JDZdYDgF1hevrQAuqDsLkKBHzW0Cr6dt21CIQx9uZR
+RwhONU/JHoW6MKmO2PlcOiSQiRAhX/OvUhtCgQPTbff3fT6EAu9twn0vfWcyy+H0
+mn6LM2go/DW2cgdm4oa1U+DqwpJiGCabLbQNfPa8Vx8g7CK2y2Azd5/obW6ryOxe
+QDPdmQdVjytDnDHSW2AEYe2bDympPHaaoDU79e4FPVXC15+UAgF+/ExfDUVq6ek4
+FG5Gjh7ev+i6vPYAUR4AuPtB3hwH+vDsSE6Vcd37iKn/mjg1fi0DHx7Wz1Be/n1o
+8iSbL0N6an0fzzKlOdfwQs1bytw+ssWZtxLIQ3MUhHvwj882OXkYCBRW4Aycgop7
+/H+zOm0K2Yluph2h+5qmhjkzUlTx2MNwfSs34wsvBNsbb1MGZQouIAAQowb+mTzS
+31kDDA8=
+=shIJ
+-----END PGP SIGNATURE-----
 
---
-Julian Anastasov <ja@ssi.bg>
-
+--ltg4mtomzaz4i2ki--
