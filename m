@@ -2,79 +2,119 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7346B76C8A3
-	for <lists+linux-hams@lfdr.de>; Wed,  2 Aug 2023 10:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D821A77316E
+	for <lists+linux-hams@lfdr.de>; Mon,  7 Aug 2023 23:45:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230429AbjHBIs7 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Wed, 2 Aug 2023 04:48:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51802 "EHLO
+        id S230292AbjHGVo7 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 7 Aug 2023 17:44:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230076AbjHBIs5 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Wed, 2 Aug 2023 04:48:57 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 823B8D9
-        for <linux-hams@vger.kernel.org>; Wed,  2 Aug 2023 01:48:56 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-268128a0105so4627300a91.3
-        for <linux-hams@vger.kernel.org>; Wed, 02 Aug 2023 01:48:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690966136; x=1691570936;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ebUfZ9Aev/azXU+c0mq8j3e1VS4j3VI5Ob10mVXKXyc=;
-        b=E2uAOFY8NLr7VNiY4EeL2UQBbmz7a1HuVZk+9dS7ZWLGALbRdAHAWI4ovYUatCvmdm
-         eVqI22Pw4PJCbHjaw4f20EpUl2pj+3VRJ+ANwdqvb3gUaN/qnVJW1OCTlPFhz1cuLPvF
-         BkxZ8mbFjQyLCU0oLlZNAbmPIErkIirDRnESWHezsUxY4FYKuKJASX2AhOLril5l+Wg/
-         BgSokuEXmfw8cDh+HIGO14dFnD3kzB9PYPYKU8tjBafp6vTSXbbCS9aXDa5SXz5xTspN
-         v3esVNMGp1UVTQc+0E4eM9VmZ7NBcAtqFXM8BDYbhwiAhMHY1UqgZFLAte+pxwAL1J4x
-         iNIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690966136; x=1691570936;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ebUfZ9Aev/azXU+c0mq8j3e1VS4j3VI5Ob10mVXKXyc=;
-        b=dMKNEr9LlyrmF5o9mkmZ3yOo2jMPqPF6DgJW2j/nYwbguW5JkSwnBLQFRvcA4IdMVn
-         WY129i9rBTpeEOepk3FYw+0xVcX8eQiUzEaZGPpJWix8qkEY+LXIR7y7Z8VizYDTxZJC
-         kyoWnbQXRJwWoWrjd8pv4I9cB1OlLSSyNvWXkHMfTNlTAb+qlACjHzpVc3mOMWAv9M6r
-         rfCKcNWb+PcIS18wiybdDo54cXSs6+w4by4Z6xQKm5rNt4AAIGmpFE5iIU9o7SC4LrqX
-         kXaFzY6ajDmwgLMldqJ1DsKsApOrHgMKlqvLC84wmpCQw0NBBjHLyGweNhLI21qGYxgo
-         2MMw==
-X-Gm-Message-State: ABy/qLbekajMce1JwBfBWmkm7AACcDijjuYkx1eBIBRxa0tUmBB+7hec
-        EGdLAdQtNvN2p50YiKaGmHIIZNBnJi6dwY+NtO4=
-X-Google-Smtp-Source: APBJJlEZW//Q94b/bnm02q5MP+nW2EVqs6HzZFD2Pr+RoQZgnrd3gOUSsVuC2RdYaPP29jBf9t/wogfRuOnxn3xVH40=
-X-Received: by 2002:a17:90b:17c2:b0:267:8012:b39d with SMTP id
- me2-20020a17090b17c200b002678012b39dmr14205223pjb.29.1690966135529; Wed, 02
- Aug 2023 01:48:55 -0700 (PDT)
+        with ESMTP id S229615AbjHGVo6 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 7 Aug 2023 17:44:58 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA5B0199C;
+        Mon,  7 Aug 2023 14:44:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=g+VsSpIIvTZp+OYSzc71ePgWKvh9dbj0dOgrtfhVY08=; b=nv3YiaN+c2/xvyBTT2Scu3RVHn
+        Tj4b/HyzInNj8yGoInNGOYxe01yyjWs033Jma+vixDeIw5QdEW3/KFTOOcij/qjKWMuu5yJugNPak
+        5bGUWL8QxbO2hds1oMmC1dHP1V6cQK2D4CaALau+vpGeX5XE9OvQJDFIO1Yi21zaO8HE2+pk34l2n
+        BVyUdtZzZvxBzsi1joxY+1qA9ciAyv62012YcPxmBErjy0ZIa5JCIYEpqbx+tuJU0O0v/7lnUWQPd
+        Rgxo3BYCj2n7RrlkjDHbuZtr8gKU8wmwOtvkewC4c71qhu+pMW57ycko0SZ5Zi0jULdqh4x1zPD/o
+        G0OdFzXQ==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1qT81L-000nZJ-0p;
+        Mon, 07 Aug 2023 21:44:11 +0000
+Date:   Mon, 7 Aug 2023 14:44:11 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Joel Granados <joel.granados@gmail.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Kees Cook <keescook@chromium.org>,
+        "D. Wythe" <alibuda@linux.alibaba.com>, mptcp@lists.linux.dev,
+        Jakub Kicinski <kuba@kernel.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Paolo Abeni <pabeni@redhat.com>, coreteam@netfilter.org,
+        Jan Karcher <jaka@linux.ibm.com>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Matthieu Baerts <matthieu.baerts@tessares.net>,
+        bridge@lists.linux-foundation.org,
+        linux-arm-kernel@lists.infradead.org,
+        Joerg Reuter <jreuter@yaina.de>, Julian Anastasov <ja@ssi.bg>,
+        David Ahern <dsahern@kernel.org>,
+        netfilter-devel@vger.kernel.org, Wen Gu <guwen@linux.alibaba.com>,
+        linux-kernel@vger.kernel.org,
+        Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+        linux-wpan@vger.kernel.org, lvs-devel@vger.kernel.org,
+        Karsten Graul <kgraul@linux.ibm.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        linux-sctp@vger.kernel.org, Tony Lu <tonylu@linux.alibaba.com>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Florian Westphal <fw@strlen.de>, willy@infradead.org,
+        Heiko Carstens <hca@linux.ibm.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-rdma@vger.kernel.org, Roopa Prabhu <roopa@nvidia.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Simon Horman <horms@verge.net.au>,
+        Mat Martineau <martineau@kernel.org>, josh@joshtriplett.org,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Eric Dumazet <edumazet@google.com>, linux-hams@vger.kernel.org,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        linux-fsdevel@vger.kernel.org, linux-s390@vger.kernel.org,
+        Xin Long <lucien.xin@gmail.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        netdev@vger.kernel.org, rds-devel@oss.oracle.com,
+        Joel Granados <j.granados@samsung.com>
+Subject: Re: [PATCH v2 00/14] sysctl: Add a size argument to register
+ functions in sysctl
+Message-ID: <ZNFlqwwvE6w6HyHl@bombadil.infradead.org>
+References: <20230731071728.3493794-1-j.granados@samsung.com>
+ <ZMgpck0rjqHR74sl@bombadil.infradead.org>
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:a816:b0:4b5:b7ad:570a with HTTP; Wed, 2 Aug 2023
- 01:48:54 -0700 (PDT)
-Reply-To: dr.waleed.bin.hadi@gmail.com
-From:   "Dr. Waleed Bin Hadi" <clockw401@gmail.com>
-Date:   Wed, 2 Aug 2023 10:48:54 +0200
-Message-ID: <CADuhRV4+RNxM3J=w03qkav79Nb+fjQG16-r3haNTuX56Em-wrQ@mail.gmail.com>
-Subject: INVESTORS
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZMgpck0rjqHR74sl@bombadil.infradead.org>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=no
         autolearn_force=no version=3.4.6
-X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Salaam,
+On Mon, Jul 31, 2023 at 02:36:50PM -0700, Luis Chamberlain wrote:
+> > Joel Granados (14):
+> >   sysctl: Prefer ctl_table_header in proc_sysctl
+> >   sysctl: Use ctl_table_header in list_for_each_table_entry
+> >   sysctl: Add ctl_table_size to ctl_table_header
+> >   sysctl: Add size argument to init_header
+> >   sysctl: Add a size arg to __register_sysctl_table
+> >   sysctl: Add size to register_sysctl
+> >   sysctl: Add size arg to __register_sysctl_init
+> 
+> This is looking great thanks, I've taken the first 7 patches above
+> to sysctl-next to get more exposure / testing and since we're already
+> on rc4.
 
-Our investors are seeking for new business opportunities and projects
-for possible funding and capital financing. We are open to further
-discussions.
+Ok I havent't heard much more feedback from networking folks, and
+since this is mostly sysctl love I've taken in the rest of these
+patches. Thanks to Jani Nikula for the reviews and to Greg KH for
+the suggestion on simplifying things.
 
-Regards
+Let's see what busts in linux-next, and if anything does I can reset
+my tree back to only the first 7 patches.
 
-Dr. Waleed Bin Hadi
-Financial Advisory
-Doha Qatar
-dr.waleed.bin.hadi@gmail.com
+  Luis
