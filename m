@@ -2,185 +2,138 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86361781077
-	for <lists+linux-hams@lfdr.de>; Fri, 18 Aug 2023 18:37:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F32B07817ED
+	for <lists+linux-hams@lfdr.de>; Sat, 19 Aug 2023 09:05:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355516AbjHRQhJ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 18 Aug 2023 12:37:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41784 "EHLO
+        id S1343827AbjHSHDt (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 19 Aug 2023 03:03:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378681AbjHRQg4 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 18 Aug 2023 12:36:56 -0400
-Received: from mail-pl1-f206.google.com (mail-pl1-f206.google.com [209.85.214.206])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F5B73C04
-        for <linux-hams@vger.kernel.org>; Fri, 18 Aug 2023 09:36:54 -0700 (PDT)
-Received: by mail-pl1-f206.google.com with SMTP id d9443c01a7336-1bdcdbc356dso14968865ad.0
-        for <linux-hams@vger.kernel.org>; Fri, 18 Aug 2023 09:36:54 -0700 (PDT)
+        with ESMTP id S1343950AbjHSHDV (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 19 Aug 2023 03:03:21 -0400
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D18EA4239
+        for <linux-hams@vger.kernel.org>; Sat, 19 Aug 2023 00:03:17 -0700 (PDT)
+Received: by mail-oi1-x243.google.com with SMTP id 5614622812f47-3a76d882052so1184538b6e.0
+        for <linux-hams@vger.kernel.org>; Sat, 19 Aug 2023 00:03:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692428597; x=1693033397;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :reply-to:mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9kydyMnwD//o0quRqImkimRYfrWW9k+FT8t/oHoxyE8=;
+        b=nLON0lFU1HFxhxnwtvUZc9wvmWS7rbdnt2RdpqIoCtsDwWwHx0Gyjn1xZGSC5eb2FC
+         WmmpNW+ObIBj4H3oVA528E09LKJ9Oh4DAMKSu6pEL6PL1RhqFN61P9gLSK/8SD4vx9bP
+         JUWK2MGIfhLYg/xJvX06ahmCeb/lUSvcNrFKmvYLJLEYQO5IwjUSUqLNIk0w8cK+2/XQ
+         dSqtK5eCnXC+wrkDAzHrF00pkROWtcttibp6ntDQXOVUlo6vsHjNyWdY7UHT1JYeF2xL
+         PB0ef0uQvzc5mw6gaoXP2KOWKvpRua/iGaOI4B4VGugPnWVRf5iIcCLUY0NkKk3Xl8rO
+         5wkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692376614; x=1692981414;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bSZhR6gVcA72ML2uSus2xSyyM8G/A9KFGhoQSCEA4y8=;
-        b=Wjz4P3OttxmvbNCiHlPlbrbgiWeJ9uXWG2DScin/uJdCxo/UND5uy9V6O/nZLrukxa
-         ov8L3Y3Jb6p/HOTv90JLnomJQeBZ3Uqh6r/pfw+vNT/7M+luRPLrEOIu6WRpS+0I+tZF
-         yUCdsUb+IJG1OVP4lGpdQMn168do6Fu/r9Xq7v9hemxEQRINONYrjq50J261QQA+JG7M
-         qdO+GKjiDf6zi6V09Uhsvy7TMwlgCgyh+HsM8cDbdVw9ZSnLw2gfy1Iqz23l5YUdbfXh
-         BreWryKAQj6u75d4Y7WHhWMK6XiMlRGrmMuLW/xaNFGRTpHyXwHhrZ+KmHehTtyFFChT
-         fRfA==
-X-Gm-Message-State: AOJu0YzRnbJZf0o0QNkNHCu3Rg1og61Ec7qR9tBJvZXUbsxjpGW6q61G
-        S7Kwa2XBfTy6CVirDm/tabAUTOTD4HkRauLmOQyHrhFQ7V5x
-X-Google-Smtp-Source: AGHT+IGXX899sngJ8tvQ92ARO1tpgGyaaO+5lPxe4DxUAOZiuYcIzTTyk3Hpb3x0kW25hhoR08fkB9gkiv0VC3PiU5iF2Rdm7ecI
+        d=1e100.net; s=20221208; t=1692428597; x=1693033397;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9kydyMnwD//o0quRqImkimRYfrWW9k+FT8t/oHoxyE8=;
+        b=cUSZiQiw4dlRZ7wErGO49pFT7JBm4CStOtfdDZASpVXagGNHQqueJIVm0ZVm8+Bn6Z
+         mSGyJWPLRpZdg+2fxBn/MaQz5f6wFmDrIWJ5zKIYzmr8OONkvNnBSaRbbTI0GdEKE/Jv
+         92k84pp35suT6St1XhHqRxucO9ykl1fza2lIsLWbNpU+usoMmqI8Fu7y3TW5LYXW5f3d
+         0zqpXIxgov92OQrfh88WQbTB7wKZfKaOp+yPG1/w71aXDBkYVWncaLJamZcVpVp+hdJE
+         u9cuikankC3liZwJHoZdVC/0z0gYX6R9Cs/O/qsJ4ROG2eT8Ydpx9JHdQuz9OXFNhj8n
+         o6ew==
+X-Gm-Message-State: AOJu0YzcYMHvjrZsZZT27dhutgfU+GTB83w+UZVZDC3T3UvFYqNq7RbL
+        4j4YQJXPfDPNFLIVGsWODxTXcshaJq/0t3gdT/Hn4bm7CEdwwA==
+X-Google-Smtp-Source: AGHT+IHBFHux9W7amy752XAKQ4G+pXj9K8KLABgekYkKVjTaNiUovhqWPJjy5q7mdLIzANUAVG24gzrYlmHT6Kjn7Kk=
+X-Received: by 2002:a81:8782:0:b0:589:a9fc:ffcd with SMTP id
+ x124-20020a818782000000b00589a9fcffcdmr1407212ywf.20.1692428576106; Sat, 19
+ Aug 2023 00:02:56 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a17:902:fb0d:b0:1bc:a3b:e902 with SMTP id
- le13-20020a170902fb0d00b001bc0a3be902mr965734plb.3.1692376613958; Fri, 18 Aug
- 2023 09:36:53 -0700 (PDT)
-Date:   Fri, 18 Aug 2023 09:36:53 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e6c05806033522d3@google.com>
-Subject: [syzbot] [hams?] general protection fault in prepare_to_wait (2)
-From:   syzbot <syzbot+666c97e4686410e79649@syzkaller.appspotmail.com>
-To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, pabeni@redhat.com, ralf@linux-mips.org,
-        syzkaller-bugs@googlegroups.com
+Reply-To: razumkoykhailo@gmail.com
+Sender: mrtombaba@gmail.com
+Received: by 2002:a05:7000:5395:b0:4f4:2174:eed4 with HTTP; Sat, 19 Aug 2023
+ 00:02:55 -0700 (PDT)
+From:   "Mr.Razum Khailo" <razumkoykhailo@gmail.com>
+Date:   Sat, 19 Aug 2023 00:02:55 -0700
+X-Google-Sender-Auth: TD1SbUwALQWUaG93zNo0ky4SaO8
+Message-ID: <CADXgghn2t3mU_VvtZDjHwnbadg2QnVcJ30yFd0kN8SL6NDhY1g@mail.gmail.com>
+Subject: Greetings from Ukraine,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: base64
+X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,LOTS_OF_MONEY,
+        MILLION_USD,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_HK_NAME_FM_MR_MRS,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:243 listed in]
+        [list.dnswl.org]
+        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+        *      [score: 0.0000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [razumkoykhailo[at]gmail.com]
+        *  2.0 MILLION_USD BODY: Talks about millions of dollars
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  2.4 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  2.8 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    ace0ab3a4b54 Revert "vlan: Fix VLAN 0 memory leak"
-git tree:       net
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=152cdb63a80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3e670757e16affb
-dashboard link: https://syzkaller.appspot.com/bug?extid=666c97e4686410e79649
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10a80fc3a80000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/e03bf2f0ff9c/disk-ace0ab3a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/ad6e79c01723/vmlinux-ace0ab3a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/617319e5afb7/bzImage-ace0ab3a.xz
-
-Bisection is inconclusive: the issue happens on the oldest tested release.
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=157eda9ba80000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=177eda9ba80000
-console output: https://syzkaller.appspot.com/x/log.txt?x=137eda9ba80000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+666c97e4686410e79649@syzkaller.appspotmail.com
-
-general protection fault, probably for non-canonical address 0xdffffc0000000003: 0000 [#1] PREEMPT SMP KASAN
-KASAN: null-ptr-deref in range [0x0000000000000018-0x000000000000001f]
-CPU: 0 PID: 5059 Comm: syz-executor.0 Not tainted 6.5.0-rc5-syzkaller-00194-gace0ab3a4b54 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/26/2023
-RIP: 0010:__lock_acquire+0x109/0x5de0 kernel/locking/lockdep.c:5012
-Code: 45 85 c9 0f 84 cc 0e 00 00 44 8b 05 11 6e 23 0b 45 85 c0 0f 84 be 0d 00 00 48 ba 00 00 00 00 00 fc ff df 4c 89 d1 48 c1 e9 03 <80> 3c 11 00 0f 85 e8 40 00 00 49 81 3a a0 69 48 90 0f 84 96 0d 00
-RSP: 0018:ffffc90003d6f9e0 EFLAGS: 00010006
-RAX: ffff8880244c8000 RBX: 1ffff920007adf6c RCX: 0000000000000003
-RDX: dffffc0000000000 RSI: 0000000000000000 RDI: 0000000000000018
-RBP: 0000000000000001 R08: 0000000000000001 R09: 0000000000000001
-R10: 0000000000000018 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-FS:  00007f51d519a6c0(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f51d5158d58 CR3: 000000002943f000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- lock_acquire kernel/locking/lockdep.c:5761 [inline]
- lock_acquire+0x1ae/0x510 kernel/locking/lockdep.c:5726
- __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
- _raw_spin_lock_irqsave+0x3a/0x50 kernel/locking/spinlock.c:162
- prepare_to_wait+0x47/0x380 kernel/sched/wait.c:269
- nr_accept+0x20d/0x650 net/netrom/af_netrom.c:798
- do_accept+0x3a6/0x570 net/socket.c:1872
- __sys_accept4_file net/socket.c:1913 [inline]
- __sys_accept4+0x99/0x120 net/socket.c:1943
- __do_sys_accept4 net/socket.c:1954 [inline]
- __se_sys_accept4 net/socket.c:1951 [inline]
- __x64_sys_accept4+0x96/0x100 net/socket.c:1951
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x38/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f51d447cae9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 e1 20 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f51d519a0c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000120
-RAX: ffffffffffffffda RBX: 00007f51d459bf80 RCX: 00007f51d447cae9
-RDX: 0000000020000400 RSI: 0000000000000000 RDI: 0000000000000004
-RBP: 00007f51d44c847a R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000800 R11: 0000000000000246 R12: 0000000000000000
-R13: 000000000000000b R14: 00007f51d459bf80 R15: 00007ffc25c34e48
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:__lock_acquire+0x109/0x5de0 kernel/locking/lockdep.c:5012
-Code: 45 85 c9 0f 84 cc 0e 00 00 44 8b 05 11 6e 23 0b 45 85 c0 0f 84 be 0d 00 00 48 ba 00 00 00 00 00 fc ff df 4c 89 d1 48 c1 e9 03 <80> 3c 11 00 0f 85 e8 40 00 00 49 81 3a a0 69 48 90 0f 84 96 0d 00
-RSP: 0018:ffffc90003d6f9e0 EFLAGS: 00010006
-RAX: ffff8880244c8000 RBX: 1ffff920007adf6c RCX: 0000000000000003
-RDX: dffffc0000000000 RSI: 0000000000000000 RDI: 0000000000000018
-RBP: 0000000000000001 R08: 0000000000000001 R09: 0000000000000001
-R10: 0000000000000018 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-FS:  00007f51d519a6c0(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f51d5158d58 CR3: 000000002943f000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	45 85 c9             	test   %r9d,%r9d
-   3:	0f 84 cc 0e 00 00    	je     0xed5
-   9:	44 8b 05 11 6e 23 0b 	mov    0xb236e11(%rip),%r8d        # 0xb236e21
-  10:	45 85 c0             	test   %r8d,%r8d
-  13:	0f 84 be 0d 00 00    	je     0xdd7
-  19:	48 ba 00 00 00 00 00 	movabs $0xdffffc0000000000,%rdx
-  20:	fc ff df
-  23:	4c 89 d1             	mov    %r10,%rcx
-  26:	48 c1 e9 03          	shr    $0x3,%rcx
-* 2a:	80 3c 11 00          	cmpb   $0x0,(%rcx,%rdx,1) <-- trapping instruction
-  2e:	0f 85 e8 40 00 00    	jne    0x411c
-  34:	49 81 3a a0 69 48 90 	cmpq   $0xffffffff904869a0,(%r10)
-  3b:	0f                   	.byte 0xf
-  3c:	84                   	.byte 0x84
-  3d:	96                   	xchg   %eax,%esi
-  3e:	0d                   	.byte 0xd
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+R3JlZXRpbmdzwqBmcm9twqBVa3JhaW5lLA0KDQpNci7CoFJhenVta292wqBNeWtoYWlsbyzCoGFu
+wqBlbnRyZXByZW5ldXLCoGJ1c2luZXNzbWFuwqBmcm9twqBPZGVzc2ENClVrcmFpbmUuwqBXaXRo
+aW7CoGHCoHllYXLCoHBsdXPCoHNvbWXCoG1vbnRoc8Kgbm93LMKgbW9yZcKgdGhhbsKgOC4ywqBt
+aWxsaW9uDQpwZW9wbGXCoGFyb3VuZMKgdGhlwqBjaXRpZXPCoG9mwqBtecKgY291bnRyecKgVWty
+YWluZcKgaGF2ZcKgYmVlbsKgZXZhY3VhdGVkwqB0bw0KYcKgc2FmZcKgbG9jYXRpb27CoGFuZMKg
+b3V0wqBvZsKgdGhlwqBjb3VudHJ5LMKgbW9zdMKgZXNwZWNpYWxsecKgY2hpbGRyZW7CoHdpdGgN
+CnRoZWlywqBwYXJlbnRzLMKgbnVyc2luZ8KgbW90aGVyc8KgYW5kwqBwcmVnbmFudMKgd29tZW4s
+wqBhbmTCoHRob3NlwqB3aG/CoGhhdmUNCmJlZW7CoHNlcmlvdXNsecKgd291bmRlZMKgYW5kwqBu
+ZWVkwqB1cmdlbnTCoG1lZGljYWzCoGF0dGVudGlvbi7CoEnCoHdhc8KgYW1vbmcNCnRob3NlwqB0
+aGF0wqB3ZXJlwqBhYmxlwqB0b8KgZXZhY3VhdGXCoHRvwqBvdXLCoG5laWdoYm91cmluZ8KgY291
+bnRyaWVzwqBhbmTCoEnigJltDQpub3fCoGluwqB0aGXCoHJlZnVnZWXCoGNhbXDCoG9mwqBUZXLC
+oEFwZWzCoEdyb25pbmdlbsKgaW7CoHRoZcKgTmV0aGVybGFuZHMuDQoNCknCoG5lZWTCoGHCoGZv
+cmVpZ27CoHBhcnRuZXLCoHRvwqBlbmFibGXCoG1lwqB0b8KgdHJhbnNwb3J0wqBtecKgaW52ZXN0
+bWVudA0KY2FwaXRhbMKgYW5kwqB0aGVuwqByZWxvY2F0ZcKgd2l0aMKgbXnCoGZhbWlseSzCoGhv
+bmVzdGx5wqBpwqB3aXNowqBJwqB3aWxsDQpkaXNjdXNzwqBtb3JlwqBhbmTCoGdldMKgYWxvbmcu
+wqBJwqBuZWVkwqBhwqBwYXJ0bmVywqBiZWNhdXNlwqBtecKgaW52ZXN0bWVudA0KY2FwaXRhbMKg
+aXPCoGluwqBtecKgaW50ZXJuYXRpb25hbMKgYWNjb3VudC7CoEnigJltwqBpbnRlcmVzdGVkwqBp
+bsKgYnV5aW5nDQpwcm9wZXJ0aWVzLMKgaG91c2VzLMKgYnVpbGRpbmfCoHJlYWzCoGVzdGF0ZXMs
+wqBtecKgY2FwaXRhbMKgZm9ywqBpbnZlc3RtZW50DQppc8KgKCQzMMKgTWlsbGlvbsKgVVNEKcKg
+LsKgVGhlwqBmaW5hbmNpYWzCoGluc3RpdHV0aW9uc8KgaW7CoG15wqBjb3VudHJ5DQpVa3JhaW5l
+wqBhcmXCoGFsbMKgc2hvdMKgZG93bsKgZHVlwqB0b8KgdGhlwqBjcmlzaXPCoG9mwqB0aGlzwqB3
+YXLCoG9uwqBVa3JhaW5lDQpzb2lswqBiecKgdGhlwqBSdXNzaWFuwqBmb3JjZXMuwqBNZWFud2hp
+bGUswqBpZsKgdGhlcmXCoGlzwqBhbnnCoHByb2ZpdGFibGUNCmludmVzdG1lbnTCoHRoYXTCoHlv
+dcKgaGF2ZcKgc2/CoG11Y2jCoGV4cGVyaWVuY2XCoGluwqB5b3VywqBjb3VudHJ5LMKgdGhlbsKg
+d2UNCmNhbsKgam9pbsKgdG9nZXRoZXLCoGFzwqBwYXJ0bmVyc8Kgc2luY2XCoEnigJltwqBhwqBm
+b3JlaWduZXIuDQoNCknCoGNhbWXCoGFjcm9zc8KgeW91csKgZS1tYWlswqBjb250YWN0wqB0aHJv
+dWdowqBwcml2YXRlwqBzZWFyY2jCoHdoaWxlwqBpbsKgbmVlZA0Kb2bCoHlvdXLCoGFzc2lzdGFu
+Y2XCoGFuZMKgScKgZGVjaWRlZMKgdG/CoGNvbnRhY3TCoHlvdcKgZGlyZWN0bHnCoHRvwqBhc2vC
+oHlvdcKgaWYNCnlvdcKga25vd8KgYW55wqBsdWNyYXRpdmXCoGJ1c2luZXNzwqBpbnZlc3RtZW50
+wqBpbsKgeW91csKgY291bnRyecKgacKgY2FuDQppbnZlc3TCoG15wqBtb25lecKgc2luY2XCoG15
+wqBjb3VudHJ5wqBVa3JhaW5lwqBzZWN1cml0ecKgYW5kwqBlY29ub21pYw0KaW5kZXBlbmRlbnTC
+oGhhc8KgbG9zdMKgdG/CoHRoZcKgZ3JlYXRlc3TCoGxvd2VywqBsZXZlbCzCoGFuZMKgb3VywqBj
+dWx0dXJlwqBoYXMNCmxvc3TCoGluY2x1ZGluZ8Kgb3VywqBoYXBwaW5lc3PCoGhhc8KgYmVlbsKg
+dGFrZW7CoGF3YXnCoGZyb23CoHVzLsKgT3VywqBjb3VudHJ5DQpoYXPCoGJlZW7CoG9uwqBmaXJl
+wqBmb3LCoG1vcmXCoHRoYW7CoGHCoHllYXLCoG5vdy4NCg0KSWbCoHlvdcKgYXJlwqBjYXBhYmxl
+wqBvZsKgaGFuZGxpbmfCoHRoaXPCoGJ1c2luZXNzwqBwYXJ0bmVyc2hpcCzCoGNvbnRhY3TCoG1l
+DQpmb3LCoG1vcmXCoGRldGFpbHMswqBJwqB3aWxswqBhcHByZWNpYXRlwqBpdMKgaWbCoHlvdcKg
+Y2FuwqBjb250YWN0wqBtZQ0KaW1tZWRpYXRlbHkuwqBZb3XCoG1hecKgYXPCoHdlbGzCoHRlbGzC
+oG1lwqBhwqBsaXR0bGXCoG1vcmXCoGFib3V0wqB5b3Vyc2VsZi4NCkNvbnRhY3TCoG1lwqB1cmdl
+bnRsecKgdG/CoGVuYWJsZcKgdXPCoHRvwqBwcm9jZWVkwqB3aXRowqB0aGXCoGJ1c2luZXNzLsKg
+ScKgd2lsbA0KYmXCoHdhaXRpbmfCoGZvcsKgeW91csKgcmVzcG9uc2UuwqBNecKgc2luY2VyZcKg
+YXBvbG9naWVzwqBmb3LCoHRoZQ0KaW5jb252ZW5pZW5jZS4NCg0KDQpUaGFua8KgeW91IQ0KDQpN
+ci4gUmF6dW1rb3bCoE15a2hhaWxvLg0K
