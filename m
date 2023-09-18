@@ -2,112 +2,82 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 282057A366E
-	for <lists+linux-hams@lfdr.de>; Sun, 17 Sep 2023 17:46:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E4EF7A491A
+	for <lists+linux-hams@lfdr.de>; Mon, 18 Sep 2023 14:02:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236169AbjIQPbn (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sun, 17 Sep 2023 11:31:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33202 "EHLO
+        id S240447AbjIRMBk (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 18 Sep 2023 08:01:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237988AbjIQPbh (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sun, 17 Sep 2023 11:31:37 -0400
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 716E7CE9
-        for <linux-hams@vger.kernel.org>; Sun, 17 Sep 2023 08:30:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=n8pjl.ca;
-        s=protonmail2; t=1694964627; x=1695223827;
-        bh=r9tNyhYUviuUIEjOuqr/xK8XRYTBBhupTvy6oQw3GAo=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=iJhtsrVLAM+MN352MItoeVXIZAmzRmi64/3kba/5ayqO6ZUeikmUWrIfeG1WARKr7
-         SlGe4kY/YIUWmwDvHEPbb7hLAUPhTdUApEe7pWEnQjrBsQxUReIzzUmJID2CBOwlrD
-         ATLD055icLaFwn+2Q89JzofuRnqXTKDnED7z7S7g+UISYO4uZqmtKiqVmELfvkpjBp
-         8okehxph3hDO/FrJOZoV+qTGVV7u0bZZFG/mlsFIiM/89CCFxc4BzHPW9dLyFOifQE
-         nvmJhcQFp/iMNKyEiPnE73J+jxHZoiuXgxD7Xjh6Y9ELSfHWvF8ax3I3xKrhqC65Bo
-         YksA78WGaxOsQ==
-Date:   Sun, 17 Sep 2023 15:30:21 +0000
-To:     linux-hams@vger.kernel.org
-From:   Peter Lafreniere <peter@n8pjl.ca>
-Cc:     Peter Lafreniere <peter@n8pjl.ca>, thomas@osterried.de,
-        netdev@vger.kernel.org, ralf@linux-mips.org
-Subject: [PATCH 3/3] ax25: Kconfig: Update link for linux-ax25.org
-Message-ID: <20230917152938.8231-4-peter@n8pjl.ca>
-In-Reply-To: <20230917152938.8231-1-peter@n8pjl.ca>
-References: <20230908113907.25053-1-peter@n8pjl.ca> <20230917152938.8231-1-peter@n8pjl.ca>
-Feedback-ID: 53133685:user:proton
+        with ESMTP id S241934AbjIRMBY (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 18 Sep 2023 08:01:24 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CA08CDB;
+        Mon, 18 Sep 2023 05:00:24 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D1FDDC433C9;
+        Mon, 18 Sep 2023 12:00:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695038423;
+        bh=Ni0eR8OTKOtQebhcs2oSdkQO4hfRNZ1h4rEUJWi0vE8=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=eiiuTscW2dccO8+TpLHSgnSNMxZ0JiqNSAMjd8Wos/kboeacJemeHDVTu5FwFp6rn
+         iHRFUM1L2lxUJBB0AKk5moSdADBuijcZ3Q0vr5pnjiF1R4NxmXbCHhcLo8nEfv0hkj
+         2J73kOE64DXdvNEcz/TBn4aLHhdTsA2L9szhhAxm1uof1o4KG1ABABg1Fj64RH3oZ/
+         vceplLqR6Uf5LzH8Re9erFPqGi0uXqFuge2qcp1iOXqSt7jTtedMIiH5m+orgtLLKs
+         Kk/NTlCX8MUZoni2puvw8h6zVgTh5L/xcD9ITzICuScGD78mJK27m2sCP5Q1gnOrIQ
+         5TFfpZ7VdF1qQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B7B0CE11F41;
+        Mon, 18 Sep 2023 12:00:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/3] ax25: Update link for linux-ax25.org
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <169503842374.7731.4777712739974344012.git-patchwork-notify@kernel.org>
+Date:   Mon, 18 Sep 2023 12:00:23 +0000
+References: <20230917152938.8231-1-peter@n8pjl.ca>
+In-Reply-To: <20230917152938.8231-1-peter@n8pjl.ca>
+To:     Peter Lafreniere <peter@n8pjl.ca>
+Cc:     linux-hams@vger.kernel.org, thomas@osterried.de,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        ralf@linux-mips.org, linux-doc@vger.kernel.org, corbet@lwn.net
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-http://linux-ax25.org has been down for nearly a year. Its official
-replacement is https://linux-ax25.in-berlin.de. Change all references to
-the old site in the ax25 Kconfig to its replacement.
+Hello:
 
-Link: https://marc.info/?m=3D166792551600315
-Signed-off-by: Peter Lafreniere <peter@n8pjl.ca>
----
- net/ax25/Kconfig | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+This series was applied to netdev/net.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-diff --git a/net/ax25/Kconfig b/net/ax25/Kconfig
-index d3a9843a043d..fdb666607f10 100644
---- a/net/ax25/Kconfig
-+++ b/net/ax25/Kconfig
-@@ -10,7 +10,7 @@ menuconfig HAMRADIO
- =09  If you want to connect your Linux box to an amateur radio, answer Y
- =09  here. You want to read <https://www.tapr.org/>
- =09  and more specifically about AX.25 on Linux
--=09  <http://www.linux-ax25.org/>.
-+=09  <https://linux-ax25.in-berlin.de>.
-=20
- =09  Note that the answer to this question won't directly affect the
- =09  kernel: saying N will just cause the configurator to skip all
-@@ -61,7 +61,7 @@ config AX25_DAMA_SLAVE
- =09  configuration. Linux cannot yet act as a DAMA server.  This option
- =09  only compiles DAMA slave support into the kernel.  It still needs to
- =09  be enabled at runtime.  For more about DAMA see
--=09  <http://www.linux-ax25.org>.  If unsure, say Y.
-+=09  <https://linux-ax25.in-berlin.de>.  If unsure, say Y.
-=20
- # placeholder until implemented
- config AX25_DAMA_MASTER
-@@ -87,9 +87,9 @@ config NETROM
- =09  A comprehensive listing of all the software for Linux amateur radio
- =09  users as well as information about how to configure an AX.25 port is
- =09  contained in the Linux Ham Wiki, available from
--=09  <http://www.linux-ax25.org>. You also might want to check out the
--=09  file <file:Documentation/networking/ax25.rst>. More information about
--=09  digital amateur radio in general is on the WWW at
-+=09  <https://linux-ax25.in-berlin.de>. You also might want to check out
-+=09  the file <file:Documentation/networking/ax25.rst>. More information
-+=09  about digital amateur radio in general is on the WWW at
- =09  <https://www.tapr.org/>.
-=20
- =09  To compile this driver as a module, choose M here: the
-@@ -106,9 +106,9 @@ config ROSE
- =09  A comprehensive listing of all the software for Linux amateur radio
- =09  users as well as information about how to configure an AX.25 port is
- =09  contained in the Linux Ham Wiki, available from
--=09  <http://www.linux-ax25.org>.  You also might want to check out the
--=09  file <file:Documentation/networking/ax25.rst>. More information about
--=09  digital amateur radio in general is on the WWW at
-+=09  <https://linux-ax25.in-berlin.de>.  You also might want to check out
-+=09  the file <file:Documentation/networking/ax25.rst>. More information
-+=09  about digital amateur radio in general is on the WWW at
- =09  <https://www.tapr.org/>.
-=20
- =09  To compile this driver as a module, choose M here: the
---=20
-2.42.0
+On Sun, 17 Sep 2023 15:29:44 +0000 you wrote:
+> http://linux-ax25.org has been down for nearly a year. Its official
+> replacement is https://linux-ax25.in-berlin.de.
+> 
+> Update all references to the dead link to its replacement.
+> 
+> As the three touched files are in different areas of the tree, this is
+> being sent with one patch per file.
+> 
+> [...]
+
+Here is the summary with links:
+  - [1/3] Documentation: netdev: fix dead link in ax25.rst
+    https://git.kernel.org/netdev/net/c/418f438a2db6
+  - [2/3] MAINTAINERS: Update link for linux-ax25.org
+    https://git.kernel.org/netdev/net/c/1943f2b0ac5a
+  - [3/3] ax25: Kconfig: Update link for linux-ax25.org
+    https://git.kernel.org/netdev/net/c/71273c46a348
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
