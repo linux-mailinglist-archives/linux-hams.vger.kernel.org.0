@@ -2,82 +2,70 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E4EF7A491A
-	for <lists+linux-hams@lfdr.de>; Mon, 18 Sep 2023 14:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E041A7A6409
+	for <lists+linux-hams@lfdr.de>; Tue, 19 Sep 2023 14:57:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240447AbjIRMBk (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 18 Sep 2023 08:01:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50390 "EHLO
+        id S232283AbjISM5u (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 19 Sep 2023 08:57:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241934AbjIRMBY (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 18 Sep 2023 08:01:24 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CA08CDB;
-        Mon, 18 Sep 2023 05:00:24 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D1FDDC433C9;
-        Mon, 18 Sep 2023 12:00:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695038423;
-        bh=Ni0eR8OTKOtQebhcs2oSdkQO4hfRNZ1h4rEUJWi0vE8=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=eiiuTscW2dccO8+TpLHSgnSNMxZ0JiqNSAMjd8Wos/kboeacJemeHDVTu5FwFp6rn
-         iHRFUM1L2lxUJBB0AKk5moSdADBuijcZ3Q0vr5pnjiF1R4NxmXbCHhcLo8nEfv0hkj
-         2J73kOE64DXdvNEcz/TBn4aLHhdTsA2L9szhhAxm1uof1o4KG1ABABg1Fj64RH3oZ/
-         vceplLqR6Uf5LzH8Re9erFPqGi0uXqFuge2qcp1iOXqSt7jTtedMIiH5m+orgtLLKs
-         Kk/NTlCX8MUZoni2puvw8h6zVgTh5L/xcD9ITzICuScGD78mJK27m2sCP5Q1gnOrIQ
-         5TFfpZ7VdF1qQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B7B0CE11F41;
-        Mon, 18 Sep 2023 12:00:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S232311AbjISM5l (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 19 Sep 2023 08:57:41 -0400
+Received: from mail.moosomin24.com (mail.moosomin24.com [217.61.112.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B89EFF9
+        for <linux-hams@vger.kernel.org>; Tue, 19 Sep 2023 05:57:31 -0700 (PDT)
+Received: by mail.moosomin24.com (Postfix, from userid 1002)
+        id DB7BF82C76; Mon, 18 Sep 2023 09:40:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=moosomin24.com;
+        s=mail; t=1695022830;
+        bh=sxkamsLepnJSy5ikFDKOiyq8RChcIfs44Djo0bti1MM=;
+        h=Date:From:To:Subject:From;
+        b=I912uq9RREsu1NVPQ3VxlAjrm9uZ96V7Ih5i6la2SyqAwo8AIuOwYVcOI5mzmL1sO
+         SocIZI26H2majZNomUVQx2G46dJ6LpNCbwIi1e5t6Y3MxEUAK4K00oi+wTpsn9U3BI
+         gsiWHEdR13rw48XMA6fhPnrgU21PpHYu7HXSG2CmaSdsU2LPhdlNaLP/Ed5YRqu5aO
+         H5G9dVZWAmJFCjEdUrxFakSvcr7oe93/RW37yx+PHL9K/qJ/ciUZYO83BIMjzEgoBY
+         I+q/i7r/VeyjiBlcELxxJH+ZT9j7PmLbysQrYcRrzFIoqUCOEAehsrZU/4P10pDCwh
+         3FdCetT0ZXvow==
+Received: by mail.moosomin24.com for <linux-hams@vger.kernel.org>; Mon, 18 Sep 2023 07:40:20 GMT
+Message-ID: <20230918084500-0.1.2d.2rxl.0.87sq28p6q1@moosomin24.com>
+Date:   Mon, 18 Sep 2023 07:40:20 GMT
+From:   "Philipp Raber" <philipp.raber@moosomin24.com>
+To:     <linux-hams@vger.kernel.org>
+Subject: Metalworking and welding
+X-Mailer: mail.moosomin24.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/3] ax25: Update link for linux-ax25.org
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <169503842374.7731.4777712739974344012.git-patchwork-notify@kernel.org>
-Date:   Mon, 18 Sep 2023 12:00:23 +0000
-References: <20230917152938.8231-1-peter@n8pjl.ca>
-In-Reply-To: <20230917152938.8231-1-peter@n8pjl.ca>
-To:     Peter Lafreniere <peter@n8pjl.ca>
-Cc:     linux-hams@vger.kernel.org, thomas@osterried.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        ralf@linux-mips.org, linux-doc@vger.kernel.org, corbet@lwn.net
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=1.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_ABUSE_SURBL autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
+Good morning,
 
-This series was applied to netdev/net.git (main)
-by David S. Miller <davem@davemloft.net>:
+We specialize in serial production of metal elements.
 
-On Sun, 17 Sep 2023 15:29:44 +0000 you wrote:
-> http://linux-ax25.org has been down for nearly a year. Its official
-> replacement is https://linux-ax25.in-berlin.de.
-> 
-> Update all references to the dead link to its replacement.
-> 
-> As the three touched files are in different areas of the tree, this is
-> being sent with one patch per file.
-> 
-> [...]
+You do not have to resort to the services of subcontractors - we offer yo=
+u comprehensive services
+Support from design to production to transportation, which guarantees sho=
+rt delivery times orders and lower costs.
 
-Here is the summary with links:
-  - [1/3] Documentation: netdev: fix dead link in ax25.rst
-    https://git.kernel.org/netdev/net/c/418f438a2db6
-  - [2/3] MAINTAINERS: Update link for linux-ax25.org
-    https://git.kernel.org/netdev/net/c/1943f2b0ac5a
-  - [3/3] ax25: Kconfig: Update link for linux-ax25.org
-    https://git.kernel.org/netdev/net/c/71273c46a348
+We have an extensive machine park and a large team of specialists, thanks=
+ to which we can offer services such as laser sheet metal cutting, pipe a=
+nd profile bending, welding and powder coating.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+The main area of our production is currently storage and transport trolle=
+ys. We produce transport pallets, scissor lifts, furniture elements, buil=
+ding formwork and much more.
+
+If you have any need regarding this, please send me a message.
 
 
+Greetings
+Philipp Raber
