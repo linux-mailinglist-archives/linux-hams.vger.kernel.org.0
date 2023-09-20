@@ -2,112 +2,92 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62D317A6643
-	for <lists+linux-hams@lfdr.de>; Tue, 19 Sep 2023 16:14:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB4127A7507
+	for <lists+linux-hams@lfdr.de>; Wed, 20 Sep 2023 09:57:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232504AbjISOO5 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Tue, 19 Sep 2023 10:14:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44040 "EHLO
+        id S233511AbjITH5v (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Wed, 20 Sep 2023 03:57:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232547AbjISOO5 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Tue, 19 Sep 2023 10:14:57 -0400
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B6C51AC
-        for <linux-hams@vger.kernel.org>; Tue, 19 Sep 2023 07:14:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=n8pjl.ca;
-        s=protonmail2; t=1695132885; x=1695392085;
-        bh=vPL1MT90V5hwUBxn6nmVibwGx/TKACB+/zyKiiwt3hI=;
-        h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-        b=XJ2jy0fcgXvClcpNh0sWmuLY7c/jCyOSrEd+qn8XFgCuPNn11yNaPM2decmB3xa0d
-         5OR7iplV6v3+OD+g+O/LzjHd7eiiVBnXmzd/5moakHjLDtMoW6nrIJa912pnijJrKu
-         x+29Ica/T3imO2zFcLoIJiTpiKy15C3y47L6H4DXoyMA9RFbSTB8KZi/30QQO7A+pw
-         qy5mUQzQDg7XVTsnTueJacUzSWAet8+hZzY/Z07D2+SywsYtshj9L2qd3sHRuEIHqt
-         IC1ETP4q6infWPpf1Asctv0MN1sPuErJm0rPLbUfInB/ychBzlvdYrgpnKa7N5z9LX
-         ZGrX/MEwFVBAw==
-Date:   Tue, 19 Sep 2023 14:14:23 +0000
-To:     linux-hams@vger.kernel.org
-From:   Peter Lafreniere <peter@n8pjl.ca>
-Cc:     Peter Lafreniere <peter@n8pjl.ca>, netdev@vger.kernel.org
-Subject: [PATCH] hamradio: baycom: remove useless link in Kconfig
-Message-ID: <20230919141417.39702-1-peter@n8pjl.ca>
-Feedback-ID: 53133685:user:proton
+        with ESMTP id S232190AbjITH5t (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Wed, 20 Sep 2023 03:57:49 -0400
+X-Greylist: delayed 391 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 20 Sep 2023 00:57:44 PDT
+Received: from mail.venturelinkage.com (mail.venturelinkage.com [80.211.143.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7059B9E
+        for <linux-hams@vger.kernel.org>; Wed, 20 Sep 2023 00:57:44 -0700 (PDT)
+Received: by mail.venturelinkage.com (Postfix, from userid 1002)
+        id D8957827E0; Wed, 20 Sep 2023 09:51:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkage.com;
+        s=mail; t=1695196271;
+        bh=7iowqdzve/IIiUUjcEwx8j3uMrVqqiE7R9zbOCKRV9Q=;
+        h=Date:From:To:Subject:From;
+        b=Pz/Dq8rhRKaZYTxsh8h2Quj+IZ8lVEMb9I0overt5biJjdxJfD0shvoKhIx7F/QSQ
+         YillFgSI71zlPJrm40s6tGNsFVTqvr4XJCqOcaIEGx8Uz5EJz6jQnWidEcSiTJzj01
+         oe46PVublk2/RNls++6X0DayTg8RM59KKvDsQftEXIEM3bFIEP5Wz5gLsj5hhuTyua
+         SiLJFR6Bfm1sK3F0flSyCDuOSTgtDjjCaXoqr6D7GmxA4EF8XtH4Ch5Dl7cFZYy+y9
+         G4imEgUyxTfx1FD8i3xl+6Ci9bDFIGcKggikkf3HU9e0TzOvNvoYvr8xzN2MP4RRYv
+         9jw4rtNvkmkPQ==
+Received: by mail.venturelinkage.com for <linux-hams@vger.kernel.org>; Wed, 20 Sep 2023 07:51:03 GMT
+Message-ID: <20230920084500-0.1.l.125d.0.p43uc9czje@venturelinkage.com>
+Date:   Wed, 20 Sep 2023 07:51:03 GMT
+From:   "Lukas Varga" <lukas.varga@venturelinkage.com>
+To:     <linux-hams@vger.kernel.org>
+Subject: =?UTF-8?Q?Popt=C3=A1vka?=
+X-Mailer: mail.venturelinkage.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_20,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM28,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
+        URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: venturelinkage.com]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [80.211.143.151 listed in zen.spamhaus.org]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: venturelinkage.com]
+        *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
+        *      DNSWL was blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [80.211.143.151 listed in list.dnswl.org]
+        * -0.0 BAYES_20 BODY: Bayes spam probability is 5 to 20%
+        *      [score: 0.1040]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.8 FROM_FMBLA_NEWDOM28 From domain was registered in last 14-28
+        *      days
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-The Kconfig help text for baycom drivers suggests that more information
-on the hardware can be found at <https://www.baycom.de>. The website now
-includes no information on their ham radio products other than a mention
-that they were once produced by the company, saying:
-"The amateur radio equipment is now no longer part and business of BayCom G=
-mbH"
+Dobr=C3=A9 r=C3=A1no,
 
-As there is no information relavent to the baycom driver on the site,
-remove the link.
+Dovolil jsem si V=C3=A1s kontaktovat, proto=C5=BEe m=C3=A1m z=C3=A1jem ov=
+=C4=9B=C5=99it mo=C5=BEnost nav=C3=A1z=C3=A1n=C3=AD spolupr=C3=A1ce.
 
-Signed-off-by: Peter Lafreniere <peter@n8pjl.ca>
----
- drivers/net/hamradio/Kconfig | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+Podporujeme firmy p=C5=99i z=C3=ADsk=C3=A1v=C3=A1n=C3=AD nov=C3=BDch obch=
+odn=C3=ADch z=C3=A1kazn=C3=ADk=C5=AF.
 
-diff --git a/drivers/net/hamradio/Kconfig b/drivers/net/hamradio/Kconfig
-index a94c7bd5db2e..25b1f929c422 100644
---- a/drivers/net/hamradio/Kconfig
-+++ b/drivers/net/hamradio/Kconfig
-@@ -94,8 +94,8 @@ config BAYCOM_SER_FDX
- =09  driver, "BAYCOM ser12 half-duplex driver for AX.25" is the old
- =09  driver and still provided in case this driver does not work with
- =09  your serial interface chip. To configure the driver, use the sethdlc
--=09  utility available in the standard ax25 utilities package. For
--=09  information on the modems, see <http://www.baycom.de/> and
-+=09  utility available in the standard ax25 utilities package.
-+=09  For more information on the modems, see
- =09  <file:Documentation/networking/device_drivers/hamradio/baycom.rst>.
-=20
- =09  To compile this driver as a module, choose M here: the module
-@@ -112,8 +112,7 @@ config BAYCOM_SER_HDX
- =09  still provided in case your serial interface chip does not work with
- =09  the full-duplex driver. This driver is deprecated.  To configure
- =09  the driver, use the sethdlc utility available in the standard ax25
--=09  utilities package. For information on the modems, see
--=09  <http://www.baycom.de/> and
-+=09  utilities package. For more information on the modems, see
- =09  <file:Documentation/networking/device_drivers/hamradio/baycom.rst>.
-=20
- =09  To compile this driver as a module, choose M here: the module
-@@ -127,8 +126,8 @@ config BAYCOM_PAR
- =09  This is a driver for Baycom style simple amateur radio modems that
- =09  connect to a parallel interface. The driver supports the picpar and
- =09  par96 designs. To configure the driver, use the sethdlc utility
--=09  available in the standard ax25 utilities package. For information on
--=09  the modems, see <http://www.baycom.de/> and the file
-+=09  available in the standard ax25 utilities package.
-+=09  For more information on the modems, see
- =09  <file:Documentation/networking/device_drivers/hamradio/baycom.rst>.
-=20
- =09  To compile this driver as a module, choose M here: the module
-@@ -142,8 +141,8 @@ config BAYCOM_EPP
- =09  This is a driver for Baycom style simple amateur radio modems that
- =09  connect to a parallel interface. The driver supports the EPP
- =09  designs. To configure the driver, use the sethdlc utility available
--=09  in the standard ax25 utilities package. For information on the
--=09  modems, see <http://www.baycom.de/> and the file
-+=09  in the standard ax25 utilities package.
-+=09  For more information on the modems, see
- =09  <file:Documentation/networking/device_drivers/hamradio/baycom.rst>.
-=20
- =09  To compile this driver as a module, choose M here: the module
---=20
-2.42.0
+M=C5=AF=C5=BEeme si promluvit a poskytnout podrobnosti?
+
+V p=C5=99=C3=ADpad=C4=9B z=C3=A1jmu V=C3=A1s bude kontaktovat n=C3=A1=C5=A1=
+ anglicky mluv=C3=ADc=C3=AD z=C3=A1stupce.
 
 
+Pozdravy
+Lukas Varga
