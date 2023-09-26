@@ -2,78 +2,114 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE5A47AA9F7
-	for <lists+linux-hams@lfdr.de>; Fri, 22 Sep 2023 09:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C59517AEAE7
+	for <lists+linux-hams@lfdr.de>; Tue, 26 Sep 2023 12:57:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230036AbjIVHUa (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Fri, 22 Sep 2023 03:20:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51692 "EHLO
+        id S234465AbjIZK6A (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Tue, 26 Sep 2023 06:58:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbjIVHU3 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Fri, 22 Sep 2023 03:20:29 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DF7ECA
-        for <linux-hams@vger.kernel.org>; Fri, 22 Sep 2023 00:20:23 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2B046C433D9;
-        Fri, 22 Sep 2023 07:20:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695367223;
-        bh=BHybtxwY47uYYHFXoDtvlNNeebGa5opZ5WlHJz0v3Rs=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=mbSkkHZ8pd3qzc8pjpZc3Dku6xjLGdQvXmjxPtw65nHH1CkUnGvVs6oot1KwI/nUW
-         y2XX7Kl8QJCDvQAxrwW+27XENXRokAkjFfUAEHTzwZfW2xOifE8wnFpz1lG70aiMdl
-         d7NT/IRvfw9i7P8/qxZHTKQGHu+rr1vswU8LkBjxDRIL2NntQSv+JSHSnQPDkIYVwv
-         aq+JORGici5TpbU/WQM/36C4tAWvsOq8L1a6SSSpxvmNfyK9mOFCfOYb83b5mTA2oO
-         T0UItb3g4J4LGIaEqHVLl/eNsuOQ2BKE4mnxXK/o+y2OgRIfRA2Lnb+r0tlBAOBWj+
-         mdxIERzIFYRSA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 194A0C04DD9;
-        Fri, 22 Sep 2023 07:20:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] hamradio: baycom: remove useless link in Kconfig
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <169536722310.5471.3731844839478615297.git-patchwork-notify@kernel.org>
-Date:   Fri, 22 Sep 2023 07:20:23 +0000
-References: <20230919141417.39702-1-peter@n8pjl.ca>
-In-Reply-To: <20230919141417.39702-1-peter@n8pjl.ca>
-To:     Peter Lafreniere <peter@n8pjl.ca>
-Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S229725AbjIZK57 (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Tue, 26 Sep 2023 06:57:59 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 725A2101;
+        Tue, 26 Sep 2023 03:57:53 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1c5c91bec75so58687725ad.3;
+        Tue, 26 Sep 2023 03:57:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695725873; x=1696330673; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PjoNcHNpSndbmROelnkAs9z2pMPBqViv/3mMpfzHcDI=;
+        b=HhA/AH+HKx5baG3aDbhCPF8xm6+w77wf9fbNvj4m0MRV9mi+66Z0tvFR42HbgCPKH3
+         /L6JvLfHz0uw+fgK44OZtTYpglKx5+Nbt8MytEn1ohDoGoaKHtoKo6QABbOWkuzqvZvL
+         USqR17uSvn9rkTf2pprXF1Kr73izDP0E+JdC9dgcJo5WeYjx29M4ff5paoJsMdWUJ4IZ
+         3gHY4ubtyBLdNrGkH/S/sQVhHgLgo1fD27F4y8YWv7zegjtjeqecQOdektgKzNfy+cK+
+         ljFjtOPu6pQqC3tPy429zGv/e0jeMrbcg/92/htZvHk6mB270+2AstzClRangqQWwCau
+         YQ8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695725873; x=1696330673;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PjoNcHNpSndbmROelnkAs9z2pMPBqViv/3mMpfzHcDI=;
+        b=QAbXtoqmqO9HPNaWy3pwNTuq+pN7O6w7LVyGG96fhuu3AwLF0dFsQ0D6OLpP9K8BUc
+         0T2Rb9ST1603Azeb7+iUm/m53bApDoCa8oarlNxfJfi0Qglhr7TjKtyyCOjhcMFhrKVe
+         RWJGNzr6QRo1xG5j6gkD30I+f1LeePz5fSHPedxqxjKm7s6p3ca1qZBN07OQwWRQhmIN
+         PeWpuaRQ1ONw3yfEA2hOgFVn/BR+Rh+I23W3m0P5aoW8fZccy7/PVsoU4l9g/SZKrOTP
+         EvV45SVCeBGNYgS/p6sqafLMxGuke2wpiP2pHtjUrYeuP8g2weyDr2mVZOzAW2biKhXl
+         LLcQ==
+X-Gm-Message-State: AOJu0YwQ79tGCQDzusutk+BCKUzmZpxk3Vu5FOkVlvsfI83Stky0NJRC
+        uWp9p6ASq75it/Mg4jEl6AA=
+X-Google-Smtp-Source: AGHT+IEQFAiqu0pWO1taS10G4nOQB5oW4bLmRUqPIg4USAiB+tdqjNA4RCW1DUHvYMBE7csBQ9L3NQ==
+X-Received: by 2002:a17:902:c3d1:b0:1c3:8464:cabd with SMTP id j17-20020a170902c3d100b001c38464cabdmr6900788plj.12.1695725872792;
+        Tue, 26 Sep 2023 03:57:52 -0700 (PDT)
+Received: from 377044c6c369.cse.ust.hk (191host097.mobilenet.cse.ust.hk. [143.89.191.97])
+        by smtp.gmail.com with ESMTPSA id 19-20020a170902c11300b001b5247cac3dsm10648393pli.110.2023.09.26.03.57.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Sep 2023 03:57:52 -0700 (PDT)
+From:   Chengfeng Ye <dg573847474@gmail.com>
+To:     jreuter@yaina.de, ralf@linux-mips.org, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Chengfeng Ye <dg573847474@gmail.com>
+Subject: [PATCH] ax25: Fix potential deadlock on &ax25_list_lock
+Date:   Tue, 26 Sep 2023 10:57:32 +0000
+Message-Id: <20230926105732.10864-1-dg573847474@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-Hello:
+Timer interrupt ax25_ds_timeout() could introduce double locks on
+&ax25_list_lock.
 
-This patch was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
+ax25_ioctl()
+--> ax25_ctl_ioctl()
+--> ax25_dama_off()
+--> ax25_dev_dama_off()
+--> ax25_check_dama_slave()
+--> spin_lock(&ax25_list_lock)
+<timer interrupt>
+   --> ax25_ds_timeout()
+   --> spin_lock(&ax25_list_lock)
 
-On Tue, 19 Sep 2023 14:14:23 +0000 you wrote:
-> The Kconfig help text for baycom drivers suggests that more information
-> on the hardware can be found at <https://www.baycom.de>. The website now
-> includes no information on their ham radio products other than a mention
-> that they were once produced by the company, saying:
-> "The amateur radio equipment is now no longer part and business of BayCom GmbH"
-> 
-> As there is no information relavent to the baycom driver on the site,
-> remove the link.
-> 
-> [...]
+This flaw was found by an experimental static analysis tool I am
+developing for irq-related deadlock.
 
-Here is the summary with links:
-  - hamradio: baycom: remove useless link in Kconfig
-    https://git.kernel.org/netdev/net-next/c/84c19e655b29
+To prevent the potential deadlock, the patch use spin_lock_bh()
+on &ax25_list_lock inside ax25_check_dama_slave().
 
-You are awesome, thank you!
+Signed-off-by: Chengfeng Ye <dg573847474@gmail.com>
+---
+ net/ax25/ax25_ds_subr.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/ax25/ax25_ds_subr.c b/net/ax25/ax25_ds_subr.c
+index f00e27df3c76..010b11303d32 100644
+--- a/net/ax25/ax25_ds_subr.c
++++ b/net/ax25/ax25_ds_subr.c
+@@ -156,13 +156,13 @@ static int ax25_check_dama_slave(ax25_dev *ax25_dev)
+ 	ax25_cb *ax25;
+ 	int res = 0;
+ 
+-	spin_lock(&ax25_list_lock);
++	spin_lock_bh(&ax25_list_lock);
+ 	ax25_for_each(ax25, &ax25_list)
+ 		if (ax25->ax25_dev == ax25_dev && (ax25->condition & AX25_COND_DAMA_MODE) && ax25->state > AX25_STATE_1) {
+ 			res = 1;
+ 			break;
+ 		}
+-	spin_unlock(&ax25_list_lock);
++	spin_unlock_bh(&ax25_list_lock);
+ 
+ 	return res;
+ }
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.17.1
 
