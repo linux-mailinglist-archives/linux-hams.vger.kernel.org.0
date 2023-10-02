@@ -2,121 +2,85 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 664AB7B4205
-	for <lists+linux-hams@lfdr.de>; Sat, 30 Sep 2023 18:14:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A69E7B4F4F
+	for <lists+linux-hams@lfdr.de>; Mon,  2 Oct 2023 11:44:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234467AbjI3QOk (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 30 Sep 2023 12:14:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42956 "EHLO
+        id S236204AbjJBJoy (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Mon, 2 Oct 2023 05:44:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231580AbjI3QOk (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 30 Sep 2023 12:14:40 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5746DB9;
-        Sat, 30 Sep 2023 09:14:38 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20F11C433C8;
-        Sat, 30 Sep 2023 16:14:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696090478;
-        bh=MqO0aeyCzwGjYjLSV1SulI5oIkludvo2w2vvpfZBR5k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hHaXyUqb5u19NSeivZVuqsGLERwCFQVtvOSZ6WKeXWj8sZJ91a1IYj6qouew6kPjI
-         xic8ZhHrlWpBTQRI75wHUDuR0HCvOcw+RALr8TcWA0b4NYJ7B9hJEaecUMVc0zUzBo
-         xL9BwgWwTfzYsqBM7fiNNoFTpWIVmEpbD1ecY8PUIywsl6rYpabOdJjlCRxyHnDIMW
-         obFboj9ouQBWtT6atC//ZwtkNCNWFzxJ3C4pgUuuxUW+ThIsRz6QCvtyjgPbLBHBJQ
-         qXX1u3opw0VoTMXSqydg3hpaA9yRrVoLFDjMbbwPrOJe0G6RzF50c+G5k0PGSzb6YM
-         Z1f6WflMt+f8A==
-Date:   Sat, 30 Sep 2023 18:14:34 +0200
-From:   Simon Horman <horms@kernel.org>
-To:     Chengfeng Ye <dg573847474@gmail.com>
-Cc:     jreuter@yaina.de, ralf@linux-mips.org, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ax25: Fix potential deadlock on &ax25_list_lock
-Message-ID: <20230930161434.GC92317@kernel.org>
-References: <20230926105732.10864-1-dg573847474@gmail.com>
+        with ESMTP id S236185AbjJBJox (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Mon, 2 Oct 2023 05:44:53 -0400
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96A70B3
+        for <linux-hams@vger.kernel.org>; Mon,  2 Oct 2023 02:44:50 -0700 (PDT)
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-6c4f69456aeso17528160a34.2
+        for <linux-hams@vger.kernel.org>; Mon, 02 Oct 2023 02:44:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696239890; x=1696844690;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aZVwf6WiRiOj0OXOXdp+NwbIcumjFFUUSCI16ysNhaY=;
+        b=YRLCDRNe8abKbGCqIu5nmX+xMkfmeDCdmmCjfwIvk0Ii+sx/eyRg5/lPM0J9A5J4rg
+         tlgfHU/0+J/A/zn3nlyJ9f3iNHF+SnYYeQ9gaLMladdZ9gB27hjqIXZEz68wr83tG5cq
+         PcduHsv8xJo/6m3SM/sH5Z2xDZKixlJ9CHl03Qp2IU86yzzIL1XJIGcfY5qiJoqsspMU
+         UA8Qu9XjICM/BBNp4Xkyrnc1XuQdHaF1Fxnxh2y9rkfVj6U2dwfFth52qVRf0y9z3zwm
+         cnLBJZ3+QKtJn0OsjjyaxtB6PfoSm3jnyzqSMii8fiz33fdwdSTyU0T+GJwkHfP54XAf
+         VLMw==
+X-Gm-Message-State: AOJu0YxoUdWnRZ0tkthfpCcCdjGzn9aXcwv7SN8iQTAhrfzi/qXxyCAT
+        CaFzQ/UoAEYfeTobSHj0WqxIz/MU0Tqcm2urO/i1tS5hN7jkIPs=
+X-Google-Smtp-Source: AGHT+IGoOXhtRQRlr9dZLd6jo1k8tgYgp1b/Y6PWK9HqykysZZcKskz5Rg7o5F3MG32e87eBFwsr5UPAIsMNjA0a058LP4vpa2kf
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230926105732.10864-1-dg573847474@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Received: by 2002:a05:6830:16c3:b0:6c4:aa6a:c4db with SMTP id
+ l3-20020a05683016c300b006c4aa6ac4dbmr3726979otr.0.1696239889846; Mon, 02 Oct
+ 2023 02:44:49 -0700 (PDT)
+Date:   Mon, 02 Oct 2023 02:44:49 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000001697760606b8a05e@google.com>
+Subject: [syzbot] Monthly hams report (Sep 2023)
+From:   syzbot <syzbot+list96e394457c1cb35c32bc@syzkaller.appspotmail.com>
+To:     linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Tue, Sep 26, 2023 at 10:57:32AM +0000, Chengfeng Ye wrote:
-> Timer interrupt ax25_ds_timeout() could introduce double locks on
-> &ax25_list_lock.
-> 
-> ax25_ioctl()
-> --> ax25_ctl_ioctl()
-> --> ax25_dama_off()
-> --> ax25_dev_dama_off()
-> --> ax25_check_dama_slave()
-> --> spin_lock(&ax25_list_lock)
-> <timer interrupt>
->    --> ax25_ds_timeout()
->    --> spin_lock(&ax25_list_lock)
-> 
-> This flaw was found by an experimental static analysis tool I am
-> developing for irq-related deadlock.
-> 
-> To prevent the potential deadlock, the patch use spin_lock_bh()
-> on &ax25_list_lock inside ax25_check_dama_slave().
-> 
-> Signed-off-by: Chengfeng Ye <dg573847474@gmail.com>
+Hello hams maintainers/developers,
 
-Hi Chengfeng Ye,
+This is a 31-day syzbot report for the hams subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/hams
 
-thanks for your patch.
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 3 issues are still open and 31 have been fixed so far.
 
-As a fix for Networking this should probably be targeted at the
-'net' tree. Which should be denoted in the subject.
+Some of the still happening issues:
 
-        Subject: [PATCH net] ...
+Ref Crashes Repro Title
+<1> 92      Yes   memory leak in nr_rx_frame (2)
+                  https://syzkaller.appspot.com/bug?extid=0145ea560de205bc09f0
+<2> 20      No    general protection fault in rose_transmit_link (3)
+                  https://syzkaller.appspot.com/bug?extid=677921bcd8c3a67a3df3
+<3> 9       Yes   memory leak in nr_create (3)
+                  https://syzkaller.appspot.com/bug?extid=d327a1f3b12e1e206c16
 
-And as a fix this patch should probably have a Fixes tag.
-This ones seem appropriate to me, but I could be wrong.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Fixes: c070e51db5e2 ("ice: always add legacy 32byte RXDID in supported_rxdids")
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-I don't think it is necessary to repost just to address these issues,
-but the Networking maintainers may think otherwise.
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
-The code change itself looks good to me.
-
-Reviewed-by: Simon Horman <horms@kernel.org>
-
-> ---
->  net/ax25/ax25_ds_subr.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/net/ax25/ax25_ds_subr.c b/net/ax25/ax25_ds_subr.c
-> index f00e27df3c76..010b11303d32 100644
-> --- a/net/ax25/ax25_ds_subr.c
-> +++ b/net/ax25/ax25_ds_subr.c
-> @@ -156,13 +156,13 @@ static int ax25_check_dama_slave(ax25_dev *ax25_dev)
->  	ax25_cb *ax25;
->  	int res = 0;
->  
-> -	spin_lock(&ax25_list_lock);
-> +	spin_lock_bh(&ax25_list_lock);
->  	ax25_for_each(ax25, &ax25_list)
->  		if (ax25->ax25_dev == ax25_dev && (ax25->condition & AX25_COND_DAMA_MODE) && ax25->state > AX25_STATE_1) {
->  			res = 1;
->  			break;
->  		}
-> -	spin_unlock(&ax25_list_lock);
-> +	spin_unlock_bh(&ax25_list_lock);
->  
->  	return res;
->  }
-> -- 
-> 2.17.1
-> 
-> 
+You may send multiple commands in a single email message.
