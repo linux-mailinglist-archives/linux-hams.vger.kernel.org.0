@@ -2,74 +2,69 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38E117BA462
-	for <lists+linux-hams@lfdr.de>; Thu,  5 Oct 2023 18:06:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EF007BB2D7
+	for <lists+linux-hams@lfdr.de>; Fri,  6 Oct 2023 10:11:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240018AbjJEQFQ (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 5 Oct 2023 12:05:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58108 "EHLO
+        id S230361AbjJFILB (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 6 Oct 2023 04:11:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237560AbjJEQEF (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 5 Oct 2023 12:04:05 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18EB77AA6;
-        Thu,  5 Oct 2023 00:26:08 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-32329d935d4so621809f8f.2;
-        Thu, 05 Oct 2023 00:26:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696490766; x=1697095566; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AGYYSttdjbm4Vxe6u7LT5aarQ17DelLXBIN0Cg3r5h0=;
-        b=gSp+iZgBL+GY5YKW3bfrLjpntaDeEO+0qhTN2KY/OydrdBKBLu3WO6PIyav9HxkjQd
-         eFeFRM62rAsXFVA+S4A68kY+hIxr/Q5fWL3hXLQ17S8/pbwjtxrtpY3W7HAjWleka584
-         t/auVaCI6k+goMXWoAq2bUxjQmIuEXNBt+defnMzY+VQHfTfWLqG+Dz2NfbIMl1lNrMb
-         sx+fh31TU3nWV9qGTyHBrVgd7UKftqbpDi8ZDPHOgsZTljQZXtWkfzVh0CGcMXBW5an4
-         ABfwZGwvO8EaEVoJRER5gRx7s3TyiS50qDdmOIS81CHpdkdUJfbz1aXFW/FHUZDkZt8c
-         Fn+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696490766; x=1697095566;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AGYYSttdjbm4Vxe6u7LT5aarQ17DelLXBIN0Cg3r5h0=;
-        b=TmaLEYD0y4EpUzqBiCOD/AEHTBmK36VzBeZGNnuQtLreCJGjWsqoX2bCV5HGCzvaMu
-         /82+hpiRPdn9mkQmEc07+d5efSyuJdj7CD9NoA7caA6oKQC5NlAGwBfEW69lAjrwYvuu
-         5APVNKJ1/ZiELlpIZyuAi2QpxApIEFKrMBXk8mfFbRTbZSu7TyCEAXFyMoS5KyjmM3up
-         epOak/0gW0+BoDaCt0wyK4dGssCcAmV7OPFRFJCJd4RHT5ofiB81uxXDu18AePfUK4Sj
-         G9egCPHCujJMVc4wmDtJ3mfRd7mIqteObOZGA/iVH+fF/2hPtzeLmdJguLmNHqJLgsLy
-         Mgxw==
-X-Gm-Message-State: AOJu0Yxq7IceECszt+PfD3XomiqitSC483Bi3+F9kM0qp+f3BO/EP3cg
-        9gwffayZdEZ66RGyUNs4mcuuwQ3rexEAzluXYVM=
-X-Google-Smtp-Source: AGHT+IFOsR8bcDAMN52/cj4X6a3+o51XI/0aWe2O05i8XzyO1gLayHsWVB5H9d49ZRLb/znFkUaNAUvhg71omLR3Rxo=
-X-Received: by 2002:adf:fd12:0:b0:321:4ca9:ee86 with SMTP id
- e18-20020adffd12000000b003214ca9ee86mr4214908wrr.53.1696490766088; Thu, 05
- Oct 2023 00:26:06 -0700 (PDT)
+        with ESMTP id S230344AbjJFILA (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 6 Oct 2023 04:11:00 -0400
+Received: from mail.moosomin24.com (mail.moosomin24.com [217.61.112.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ECD6CA
+        for <linux-hams@vger.kernel.org>; Fri,  6 Oct 2023 01:10:57 -0700 (PDT)
+Received: by mail.moosomin24.com (Postfix, from userid 1002)
+        id 3F29482DD3; Fri,  6 Oct 2023 10:10:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=moosomin24.com;
+        s=mail; t=1696579855;
+        bh=sxkamsLepnJSy5ikFDKOiyq8RChcIfs44Djo0bti1MM=;
+        h=Date:From:To:Subject:From;
+        b=evXsEei8FNKYN/fxY3dnavd6EPrbBv/8w3v0C/u/+XRA+wtU8ZGunCDpxfO5kYTrZ
+         kZHkLwV2yvCqx3af8XV0sODRppk1wXEETaL8bQibF7akSMDoruAgSgTWptHzpUFtqe
+         KdVqGB1ai+uluQi1u52dWNM0Fngtxq2QbXqfWFgM2RRQsJcYtM4OsYXtyzwA2igA0R
+         GgDj5OSMNKT5fcoahLctYfbfsj+XRvEkng3P4RhJ1Ny3uJgFnr3FGmKY6R0DUjdsEU
+         DkcV8yViGA0ook8WOT6vu26HSkxuC23qsfSPW1Xsg4EvU4XVmFvE8khYkMLuynXIeV
+         GO2gkaiDwAM6Q==
+Received: by mail.moosomin24.com for <linux-hams@vger.kernel.org>; Fri,  6 Oct 2023 08:10:46 GMT
+Message-ID: <20231006084500-0.1.2p.2rxl.0.me2kw9cgrc@moosomin24.com>
+Date:   Fri,  6 Oct 2023 08:10:46 GMT
+From:   "Philipp Raber" <philipp.raber@moosomin24.com>
+To:     <linux-hams@vger.kernel.org>
+Subject: Metalworking and welding
+X-Mailer: mail.moosomin24.com
 MIME-Version: 1.0
-References: <20230926105732.10864-1-dg573847474@gmail.com> <20230930161434.GC92317@kernel.org>
- <20231004105317.212f1207@kernel.org>
-In-Reply-To: <20231004105317.212f1207@kernel.org>
-From:   Chengfeng Ye <dg573847474@gmail.com>
-Date:   Thu, 5 Oct 2023 15:25:54 +0800
-Message-ID: <CAAo+4rVuwAsJ=mr8u3tG5XdwBzY_QQ=G4UkA3nxkB_hux7581w@mail.gmail.com>
-Subject: Re: [PATCH] ax25: Fix potential deadlock on &ax25_list_lock
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Simon Horman <horms@kernel.org>, jreuter@yaina.de,
-        ralf@linux-mips.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, linux-hams@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=1.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        URIBL_ABUSE_SURBL autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-No problem, I just sent a v2 patch.
+Good morning,
 
-Thanks,
-Chengfeng
+We specialize in serial production of metal elements.
+
+You do not have to resort to the services of subcontractors - we offer yo=
+u comprehensive services
+Support from design to production to transportation, which guarantees sho=
+rt delivery times orders and lower costs.
+
+We have an extensive machine park and a large team of specialists, thanks=
+ to which we can offer services such as laser sheet metal cutting, pipe a=
+nd profile bending, welding and powder coating.
+
+The main area of our production is currently storage and transport trolle=
+ys. We produce transport pallets, scissor lifts, furniture elements, buil=
+ding formwork and much more.
+
+If you have any need regarding this, please send me a message.
+
+
+Greetings
+Philipp Raber
