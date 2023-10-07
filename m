@@ -2,80 +2,85 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 715EB7BC88B
-	for <lists+linux-hams@lfdr.de>; Sat,  7 Oct 2023 17:13:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F1F87BC8B8
+	for <lists+linux-hams@lfdr.de>; Sat,  7 Oct 2023 17:44:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343696AbjJGPK2 (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Sat, 7 Oct 2023 11:10:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56050 "EHLO
+        id S234187AbjJGPoP (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Sat, 7 Oct 2023 11:44:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229824AbjJGPK2 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Sat, 7 Oct 2023 11:10:28 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED041B9;
-        Sat,  7 Oct 2023 08:10:25 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72083C433C8;
-        Sat,  7 Oct 2023 15:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696691425;
-        bh=LH6IWkmyMSvjK2Q3N3HjTHI8GVBa4KuURUr6eXtccys=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kIzj7hK0L/DbwMAVrxGzakiLql+kw3pXx1ew0g45ixAo3GNkeQrZzd9PuDWCWxF0Q
-         9IBOXzzVpCsDt4JbpDmYgKUBKpNX66jLsOOr9tVCZ3XSODwohF1YU51Wz+vb8VDu74
-         8Hmcp5ZInqFxhE0tUi7gjmR1snrHvZNqezzcM1Vyz/ZSBAYEgwoRvJzHA7kujsBVpi
-         2REy0U1jFFh3BGvyd+PmEiqEfNdsyDXsBeKG+hQKKqnvjFFCyUT799FTz4+7oUYpCo
-         YaRyhio3Qc2+RS1XQBg66Gx7nlykEqJT67KZ7rKF79iuhooOR4XCaxgUXM4A8/t7Fp
-         XhWS0vNlAW3HQ==
-Date:   Sat, 7 Oct 2023 17:10:21 +0200
-From:   Simon Horman <horms@kernel.org>
-To:     Chengfeng Ye <dg573847474@gmail.com>
+        with ESMTP id S233364AbjJGPoO (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Sat, 7 Oct 2023 11:44:14 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81F0EBC;
+        Sat,  7 Oct 2023 08:44:13 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-40675f06f1fso24945295e9.1;
+        Sat, 07 Oct 2023 08:44:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696693452; x=1697298252; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=V6Z5TerGNyehqM1iknsGWSFNCfXFAQQJnxB4zmAfJjM=;
+        b=k5o+pEhe2v7ld13voD6aXTw093Y9u/bgNjH3D7YLy+fDBVoIVbc7G3jacWV1ma9SLP
+         y9Nsypuzk6DNbU2nY8GFGJ3m92TkMPkUNkpjv5h5AziFAHBnK+YZIgr1CVt8La2/HXgm
+         RRx2azwfuYZifg21PSSL8fVEawQ6OljjSc8b/FsH2jwb+dnM9tkA9JItJesrMGSAb/tb
+         KSUcHSLeBkHT4BDvtMRr9W2EjURO5M7ShgN2sdggZIdvvBxiZPGfDFbl7CzxXrF2JNn4
+         Q/PNWXl/RbaZBLXxco5uxu3XTg8fdPjFcJZleVg9f8n9mENhxt047pMO5h5Wkv4D9DUh
+         Q+8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696693452; x=1697298252;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V6Z5TerGNyehqM1iknsGWSFNCfXFAQQJnxB4zmAfJjM=;
+        b=BWFxgWPTkQSwM6lq5Fvo2nR9CFy/RQ2MQL3SxmTyIML7XJWR1WJo1CvrfKXtHjAYFf
+         Vu84ebfe7pkDggRnSG0z/F81tPy3w8k70TVKzeS8rFfpnWMEfbJharjEzlTHxPEMdhXK
+         3WyMuVop+/JIQbrI3rZLUdlQVaPDbznrgVQBSdsicFMCumF9d3+XMa0MOlgUKwl8CB61
+         6Cbw43z3B9l4UAJayKMIAlu/bfhAQoQQ0ZIs8/GRua+exnk9ERbG/V3xyt/8dUqHlTxA
+         k7CvOVnUM2AjltOnLWg8/IdHe9Uv0uf/6XwxjzFPOiymNDH18++Bls2h9t9uwRFA/RL3
+         682A==
+X-Gm-Message-State: AOJu0Yz+5dvVg/Vtc5rPwL5mPu1dvbVA5PUYp4xAaqdFluBfoUqQDTqh
+        v/3rIzo+1cBo8Y1biCnWDZNhdjcYNv1wVPAThPM=
+X-Google-Smtp-Source: AGHT+IGZrOp/akTMCs9YVCmQd8cDLyrbyRcRdlG4EG6CvG09DIY0ZqWAh+MaTcMWdILxTKUTdgJEBZn6Ge5/h3kGa6w=
+X-Received: by 2002:a5d:428b:0:b0:323:3b45:c452 with SMTP id
+ k11-20020a5d428b000000b003233b45c452mr5978552wrq.14.1696693451518; Sat, 07
+ Oct 2023 08:44:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <20231005072349.52602-1-dg573847474@gmail.com> <20231007151021.GC831234@kernel.org>
+In-Reply-To: <20231007151021.GC831234@kernel.org>
+From:   Chengfeng Ye <dg573847474@gmail.com>
+Date:   Sat, 7 Oct 2023 23:43:59 +0800
+Message-ID: <CAAo+4rWTq33LWgVonaK+AtZ0o_UYFLrM=ODW=hSX_VtgLvYHNw@mail.gmail.com>
+Subject: Re: [PATCH V2] ax25: Fix potential deadlock on &ax25_list_lock
+To:     Simon Horman <horms@kernel.org>
 Cc:     jreuter@yaina.de, ralf@linux-mips.org, davem@davemloft.net,
         edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
         linux-hams@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] ax25: Fix potential deadlock on &ax25_list_lock
-Message-ID: <20231007151021.GC831234@kernel.org>
-References: <20231005072349.52602-1-dg573847474@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231005072349.52602-1-dg573847474@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Thu, Oct 05, 2023 at 07:23:49AM +0000, Chengfeng Ye wrote:
-> Timer interrupt ax25_ds_timeout() could introduce double locks on
-> &ax25_list_lock.
-> 
-> ax25_ioctl()
-> --> ax25_ctl_ioctl()
-> --> ax25_dama_off()
-> --> ax25_dev_dama_off()
-> --> ax25_check_dama_slave()
-> --> spin_lock(&ax25_list_lock)
-> <timer interrupt>
->    --> ax25_ds_timeout()
->    --> spin_lock(&ax25_list_lock)
-> 
-> This flaw was found by an experimental static analysis tool I am
-> developing for irq-related deadlock.
-> 
-> To prevent the potential deadlock, the patch use spin_lock_bh()
-> on &ax25_list_lock inside ax25_check_dama_slave().
-> 
-> Fixes: c19c4b9c9acb ("[AX.25]: Optimize AX.25 socket list lock")
-> Signed-off-by: Chengfeng Ye <dg573847474@gmail.com>
+Hi Simon Horman,
 
-Hi Chengfeng Ye,
+I think maybe not. My static analysis tool only reported this function, I
+also just manually checked the spin_lock(&ax25_list_lock) in other
+functions, and it looks like they are basically under rcv callback or timer,
+which already have BH disabled. I think the developers who wrote
+the code should be aware of this so they used spin_lock() instead of
+spin_lock_bh().
 
-Are there other functions that spin_lock(&ax25_list_lock)
-that also need to use spin_lock_bh()?
+But the fixed function is a bit different, as it could be called from .ioctl(),
+which is from userland syscall and executes under the process
+context, and along the call chain BH is also not disabled explicitly. That's
+the reason why only at this place I change to spin_lock_bh().
 
-...
+Thanks,
+Chengfeng
