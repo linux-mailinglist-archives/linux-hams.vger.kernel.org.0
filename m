@@ -2,72 +2,144 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2B6B7BE3AB
-	for <lists+linux-hams@lfdr.de>; Mon,  9 Oct 2023 16:56:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4C637C78A5
+	for <lists+linux-hams@lfdr.de>; Thu, 12 Oct 2023 23:33:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346606AbjJIO4C (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Mon, 9 Oct 2023 10:56:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48850 "EHLO
+        id S1442915AbjJLVdh (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Thu, 12 Oct 2023 17:33:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346459AbjJIOz5 (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Mon, 9 Oct 2023 10:55:57 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1C88F;
-        Mon,  9 Oct 2023 07:55:55 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50892C433C8;
-        Mon,  9 Oct 2023 14:55:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696863355;
-        bh=b4xb+NjV8HwpVkf8km8Vp0zN8pTTrOozJrKIMoJyLcA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tWOqcytI+XckEtep8gcLcnVxKUZPsQKKDxNfus6FUyAOCrvufvZYWBcVrZPP5W2r2
-         O8ZGaelEHzyp1zF6zwkfSJaOev5td/25Kt7raz/GgCo3qjdZknpJBgz1AbzkcX0RdN
-         64GzL5ANpwg216deDrETDk+qX6so+f+Xmmd71DxI0jnPX9h/qayFTBdZcjh/lAnD+v
-         pTmBxpSLfebiXyxinwVZ0g85L/WkfedPrSH4IsIDxJnxRB7WIXUscXysVK0vTMCiKN
-         0OynMnvemuSieXrdqlZEx95o6ZmLQvAqNaT1L86LcrQrUsIRlrD8V33mU2BqdlMAvD
-         idw1DnDLWNCbg==
-Date:   Mon, 9 Oct 2023 16:55:50 +0200
-From:   Simon Horman <horms@kernel.org>
-To:     Chengfeng Ye <dg573847474@gmail.com>
-Cc:     jreuter@yaina.de, ralf@linux-mips.org, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] ax25: Fix potential deadlock on &ax25_list_lock
-Message-ID: <ZSQUdhzSDpAlaeXK@kernel.org>
-References: <20231005072349.52602-1-dg573847474@gmail.com>
- <20231007151021.GC831234@kernel.org>
- <CAAo+4rWTq33LWgVonaK+AtZ0o_UYFLrM=ODW=hSX_VtgLvYHNw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAo+4rWTq33LWgVonaK+AtZ0o_UYFLrM=ODW=hSX_VtgLvYHNw@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S1442945AbjJLVdg (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Thu, 12 Oct 2023 17:33:36 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3441DD8
+        for <linux-hams@vger.kernel.org>; Thu, 12 Oct 2023 14:33:34 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d9a5a3f2d4fso1978193276.3
+        for <linux-hams@vger.kernel.org>; Thu, 12 Oct 2023 14:33:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1697146413; x=1697751213; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hYSTVrCouVWE319gwaD4mDagDCplKYTMAl9k6NN6p0U=;
+        b=j3CIIv3gCVmU9R0l2dslE+oPVXaVD1Wa12FQFQirrDPseN8A6dyuCjQkG4CehA7t1K
+         zIKzQ/jnbO72wkULosOjGE3p2+FlOAojLHQt6Yhpgen1kY01ui21t7uupxt9dbDP7NBW
+         Xsl7U0Ceuwcax1UQPZSnQ4gZzAz5K+Q20nqi2u7o2OnxBs0I4R91gOBp4hg0G4OTFwzC
+         M/yTkOKiVBVDy/udMkd/tg9/nBLXJZ8WYkmYMYiW3RKBbYU40THgrA0nEhjEpn4veDd7
+         SL55rM0LcZY4zrw+T2zRKByaW6gfhT1IBAhRWlYd7QkxJM1KA4s40A2t6S0cvivV35Gg
+         IlRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697146413; x=1697751213;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hYSTVrCouVWE319gwaD4mDagDCplKYTMAl9k6NN6p0U=;
+        b=oEgDWllcPu5mrvagpSCkJYAiw2FObLenK6CJW7GGgwnV1jjkJDO3MVxhU7yvUsHlCo
+         xHjhWNyhgynnqnXtuGJg7FBp5BghYHQxQyBwTOnnfpRWdJyz4yg07nMbxBgErkNB46kq
+         rPY78NnICSNctoTD7mzK1lUwU9a8d4IRN9TEUHUYSPLoGuEERVx/fJwn52OEXo6BZQAC
+         Y5IWnSHYIBIinADxFE/M3PIhOC0EN3MvwFm4Frp1BV5YZdjlXSRUSzWwUX+EmR+j3Vcv
+         tfQEIWLXozrgApLtsOvPnF8oE2rJTl3nhb6dYZZ4nHvc+SqweHwTeVDfMVGHhXdMaRX5
+         3YPQ==
+X-Gm-Message-State: AOJu0YzfDUSOgYXMaSTNB6Rclfx0sD6A74Hlp4bGdTpLnVQZPBZDTckM
+        eiMPErcJobi5LnArHCSJhvDDBy3dp8UcIZxAdg==
+X-Google-Smtp-Source: AGHT+IHLXU+q2owngkTbSiNtMR5BADqKtueGDHMDZYEex8Po8KdOypDGg++9ce6J7+BSWDwmTy9Wy7uJXqIZ+5F3rA==
+X-Received: from jstitt-linux1.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
+ (user=justinstitt job=sendgmr) by 2002:a25:361e:0:b0:d9a:6b49:433d with SMTP
+ id d30-20020a25361e000000b00d9a6b49433dmr164492yba.6.1697146413504; Thu, 12
+ Oct 2023 14:33:33 -0700 (PDT)
+Date:   Thu, 12 Oct 2023 21:33:32 +0000
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIACxmKGUC/x3NwQqDMAyA4VeRnBcwVcbcq4wxahpnDrYlFZmI7
+ 27Z8bv8/wFFTKXAsznAZNOiKVbQrQGeffwKaqgG17qOWnJYVoucdwymm1jBKCvOfjEfNOHod07 LR3JGxrsQ8dA/unGYoPayyaS//+v1Ps8LZduKZXsAAAA=
+X-Developer-Key: i=justinstitt@google.com; a=ed25519; pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1697146412; l=2666;
+ i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
+ bh=GEipWyiXVMyF4NttCT1RNho91xfYNJdcMAw0nEmg9aU=; b=x7E6v7q0m/O/QprpRqxWPblE89KJH/8AAzMt116g3gzow9M2f7BwcEy/LlgWAsSKhgaWC4jk0
+ 9TdRQ3QWP87CvCdaWXAAGHMw7Gj12xOELpNOijQRm8halo5ZaaCR6zx
+X-Mailer: b4 0.12.3
+Message-ID: <20231012-strncpy-drivers-net-hamradio-baycom_epp-c-v1-1-8f4097538ee4@google.com>
+Subject: [PATCH] hamradio: replace deprecated strncpy with strscpy
+From:   Justin Stitt <justinstitt@google.com>
+To:     Thomas Sailer <t.sailer@alumni.ethz.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        Justin Stitt <justinstitt@google.com>
+Content-Type: text/plain; charset="utf-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-On Sat, Oct 07, 2023 at 11:43:59PM +0800, Chengfeng Ye wrote:
-> Hi Simon Horman,
-> 
-> I think maybe not. My static analysis tool only reported this function, I
-> also just manually checked the spin_lock(&ax25_list_lock) in other
-> functions, and it looks like they are basically under rcv callback or timer,
-> which already have BH disabled. I think the developers who wrote
-> the code should be aware of this so they used spin_lock() instead of
-> spin_lock_bh().
-> 
-> But the fixed function is a bit different, as it could be called from .ioctl(),
-> which is from userland syscall and executes under the process
-> context, and along the call chain BH is also not disabled explicitly. That's
-> the reason why only at this place I change to spin_lock_bh().
+strncpy() is deprecated for use on NUL-terminated destination strings
+[1] and as such we should prefer more robust and less ambiguous string
+interfaces.
 
-Thanks,
+We expect both hi.data.modename and hi.data.drivername to be
+NUL-terminated but not necessarily NUL-padded which is evident by its
+usage with sprintf:
+|       sprintf(hi.data.modename, "%sclk,%smodem,fclk=%d,bps=%d%s",
+|               bc->cfg.intclk ? "int" : "ext",
+|               bc->cfg.extmodem ? "ext" : "int", bc->cfg.fclk, bc->cfg.bps,
+|               bc->cfg.loopback ? ",loopback" : "");
 
-I agree that seems to be the case.
+Note that this data is copied out to userspace with:
+|       if (copy_to_user(data, &hi, sizeof(hi)))
+... however, the data was also copied FROM the user here:
+|       if (copy_from_user(&hi, data, sizeof(hi)))
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+Considering the above, a suitable replacement is `strscpy` [2] due to
+the fact that it guarantees NUL-termination on the destination buffer
+without unnecessarily NUL-padding.
+
+Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
+Link: https://github.com/KSPP/linux/issues/90
+Cc: linux-hardening@vger.kernel.org
+Signed-off-by: Justin Stitt <justinstitt@google.com>
+---
+Note: build-tested only.
+
+Also, there are 33 instances of trailing whitespace in this file alone.
+I've opted to not remove them in this patch.
+---
+ drivers/net/hamradio/baycom_epp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/hamradio/baycom_epp.c b/drivers/net/hamradio/baycom_epp.c
+index 83ff882f5d97..30a0fbb12b9c 100644
+--- a/drivers/net/hamradio/baycom_epp.c
++++ b/drivers/net/hamradio/baycom_epp.c
+@@ -1074,7 +1074,7 @@ static int baycom_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
+ 		return 0;
+ 
+ 	case HDLCDRVCTL_DRIVERNAME:
+-		strncpy(hi.data.drivername, "baycom_epp", sizeof(hi.data.drivername));
++		strscpy(hi.data.drivername, "baycom_epp", sizeof(hi.data.drivername));
+ 		break;
+ 		
+ 	case HDLCDRVCTL_GETMODE:
+@@ -1091,7 +1091,7 @@ static int baycom_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
+ 		return baycom_setmode(bc, hi.data.modename);
+ 
+ 	case HDLCDRVCTL_MODELIST:
+-		strncpy(hi.data.modename, "intclk,extclk,intmodem,extmodem,divider=x",
++		strscpy(hi.data.modename, "intclk,extclk,intmodem,extmodem,divider=x",
+ 			sizeof(hi.data.modename));
+ 		break;
+ 
+
+---
+base-commit: cbf3a2cb156a2c911d8f38d8247814b4c07f49a2
+change-id: 20231012-strncpy-drivers-net-hamradio-baycom_epp-c-6e11c9483b9f
+
+Best regards,
+--
+Justin Stitt <justinstitt@google.com>
+
