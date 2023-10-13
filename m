@@ -2,144 +2,74 @@ Return-Path: <linux-hams-owner@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4C637C78A5
-	for <lists+linux-hams@lfdr.de>; Thu, 12 Oct 2023 23:33:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 974497C7F0D
+	for <lists+linux-hams@lfdr.de>; Fri, 13 Oct 2023 09:55:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442915AbjJLVdh (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
-        Thu, 12 Oct 2023 17:33:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60296 "EHLO
+        id S229870AbjJMHzq (ORCPT <rfc822;lists+linux-hams@lfdr.de>);
+        Fri, 13 Oct 2023 03:55:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442945AbjJLVdg (ORCPT
-        <rfc822;linux-hams@vger.kernel.org>); Thu, 12 Oct 2023 17:33:36 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3441DD8
-        for <linux-hams@vger.kernel.org>; Thu, 12 Oct 2023 14:33:34 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d9a5a3f2d4fso1978193276.3
-        for <linux-hams@vger.kernel.org>; Thu, 12 Oct 2023 14:33:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1697146413; x=1697751213; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hYSTVrCouVWE319gwaD4mDagDCplKYTMAl9k6NN6p0U=;
-        b=j3CIIv3gCVmU9R0l2dslE+oPVXaVD1Wa12FQFQirrDPseN8A6dyuCjQkG4CehA7t1K
-         zIKzQ/jnbO72wkULosOjGE3p2+FlOAojLHQt6Yhpgen1kY01ui21t7uupxt9dbDP7NBW
-         Xsl7U0Ceuwcax1UQPZSnQ4gZzAz5K+Q20nqi2u7o2OnxBs0I4R91gOBp4hg0G4OTFwzC
-         M/yTkOKiVBVDy/udMkd/tg9/nBLXJZ8WYkmYMYiW3RKBbYU40THgrA0nEhjEpn4veDd7
-         SL55rM0LcZY4zrw+T2zRKByaW6gfhT1IBAhRWlYd7QkxJM1KA4s40A2t6S0cvivV35Gg
-         IlRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697146413; x=1697751213;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hYSTVrCouVWE319gwaD4mDagDCplKYTMAl9k6NN6p0U=;
-        b=oEgDWllcPu5mrvagpSCkJYAiw2FObLenK6CJW7GGgwnV1jjkJDO3MVxhU7yvUsHlCo
-         xHjhWNyhgynnqnXtuGJg7FBp5BghYHQxQyBwTOnnfpRWdJyz4yg07nMbxBgErkNB46kq
-         rPY78NnICSNctoTD7mzK1lUwU9a8d4IRN9TEUHUYSPLoGuEERVx/fJwn52OEXo6BZQAC
-         Y5IWnSHYIBIinADxFE/M3PIhOC0EN3MvwFm4Frp1BV5YZdjlXSRUSzWwUX+EmR+j3Vcv
-         tfQEIWLXozrgApLtsOvPnF8oE2rJTl3nhb6dYZZ4nHvc+SqweHwTeVDfMVGHhXdMaRX5
-         3YPQ==
-X-Gm-Message-State: AOJu0YzfDUSOgYXMaSTNB6Rclfx0sD6A74Hlp4bGdTpLnVQZPBZDTckM
-        eiMPErcJobi5LnArHCSJhvDDBy3dp8UcIZxAdg==
-X-Google-Smtp-Source: AGHT+IHLXU+q2owngkTbSiNtMR5BADqKtueGDHMDZYEex8Po8KdOypDGg++9ce6J7+BSWDwmTy9Wy7uJXqIZ+5F3rA==
-X-Received: from jstitt-linux1.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
- (user=justinstitt job=sendgmr) by 2002:a25:361e:0:b0:d9a:6b49:433d with SMTP
- id d30-20020a25361e000000b00d9a6b49433dmr164492yba.6.1697146413504; Thu, 12
- Oct 2023 14:33:33 -0700 (PDT)
-Date:   Thu, 12 Oct 2023 21:33:32 +0000
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIACxmKGUC/x3NwQqDMAyA4VeRnBcwVcbcq4wxahpnDrYlFZmI7
- 27Z8bv8/wFFTKXAsznAZNOiKVbQrQGeffwKaqgG17qOWnJYVoucdwymm1jBKCvOfjEfNOHod07 LR3JGxrsQ8dA/unGYoPayyaS//+v1Ps8LZduKZXsAAAA=
-X-Developer-Key: i=justinstitt@google.com; a=ed25519; pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1697146412; l=2666;
- i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
- bh=GEipWyiXVMyF4NttCT1RNho91xfYNJdcMAw0nEmg9aU=; b=x7E6v7q0m/O/QprpRqxWPblE89KJH/8AAzMt116g3gzow9M2f7BwcEy/LlgWAsSKhgaWC4jk0
- 9TdRQ3QWP87CvCdaWXAAGHMw7Gj12xOELpNOijQRm8halo5ZaaCR6zx
-X-Mailer: b4 0.12.3
-Message-ID: <20231012-strncpy-drivers-net-hamradio-baycom_epp-c-v1-1-8f4097538ee4@google.com>
-Subject: [PATCH] hamradio: replace deprecated strncpy with strscpy
-From:   Justin Stitt <justinstitt@google.com>
-To:     Thomas Sailer <t.sailer@alumni.ethz.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc:     linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        Justin Stitt <justinstitt@google.com>
-Content-Type: text/plain; charset="utf-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        with ESMTP id S229879AbjJMHzp (ORCPT
+        <rfc822;linux-hams@vger.kernel.org>); Fri, 13 Oct 2023 03:55:45 -0400
+Received: from mail.venturelinkbiz.com (mail.venturelinkbiz.com [51.195.119.142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E544CC
+        for <linux-hams@vger.kernel.org>; Fri, 13 Oct 2023 00:55:44 -0700 (PDT)
+Received: by mail.venturelinkbiz.com (Postfix, from userid 1002)
+        id 08277472D5; Fri, 13 Oct 2023 07:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkbiz.com;
+        s=mail; t=1697183743;
+        bh=JBV4b8UUo1MSngn/QBoedt1Dv52bT8rWeq4R22MtJMs=;
+        h=Date:From:To:Subject:From;
+        b=0fMXjNnCsgiQw0Q0oeaOzLqsxLlPd/JDtzPCjecHWhTiqPbgo34hC1y7W18NbKWMk
+         c6ZhmgUPE+q+O1BtvMvHV/RGFddLzMsmNcH68kU9EEYkPNfMgGmLzrxVKS9GvM4uqS
+         0L0F8SZIQ9v8ogigCdFgcn6y5ve5Luv6P5gdf9WNOV3TGiFEKyPrjWPSwIiH/x6oye
+         vU9aZGkmFZk/mXljGJzNUMkLag871MqQXYThhLSHGV7+yScJrqHA7jNg75fEsJzB1P
+         d8Qtwj4kofQ5Cd5uj/LPM+Yg5C5bQ7+NmRF7YG1IGt/zR1Uwxo5KEQy7U0C0L5ewTE
+         7JHYxzgZjUfZw==
+Received: by mail.venturelinkbiz.com for <linux-hams@vger.kernel.org>; Fri, 13 Oct 2023 07:55:33 GMT
+Message-ID: <20231013064500-0.1.2z.89b1.0.hom10kff19@venturelinkbiz.com>
+Date:   Fri, 13 Oct 2023 07:55:33 GMT
+From:   "Michal Rmoutil" <michal.rmoutil@venturelinkbiz.com>
+To:     <linux-hams@vger.kernel.org>
+Subject: =?UTF-8?Q?Efektivn=C3=AD_sledov=C3=A1n=C3=AD_a_optimalizace_v=C3=BDroby_pro_va=C5=A1i_spole=C4=8Dnost?=
+X-Mailer: mail.venturelinkbiz.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_CSS_A,
+        URIBL_DBL_SPAM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hams.vger.kernel.org>
 X-Mailing-List: linux-hams@vger.kernel.org
 
-strncpy() is deprecated for use on NUL-terminated destination strings
-[1] and as such we should prefer more robust and less ambiguous string
-interfaces.
+Dobr=C3=A9 r=C3=A1no,
 
-We expect both hi.data.modename and hi.data.drivername to be
-NUL-terminated but not necessarily NUL-padded which is evident by its
-usage with sprintf:
-|       sprintf(hi.data.modename, "%sclk,%smodem,fclk=%d,bps=%d%s",
-|               bc->cfg.intclk ? "int" : "ext",
-|               bc->cfg.extmodem ? "ext" : "int", bc->cfg.fclk, bc->cfg.bps,
-|               bc->cfg.loopback ? ",loopback" : "");
+m=C3=A1te mo=C5=BEnost sledovat stav ka=C5=BEd=C3=A9ho stroje a v=C3=BDro=
+bn=C3=ADho procesu z kancel=C3=A1=C5=99e, konferen=C4=8Dn=C3=AD m=C3=ADst=
+nosti nebo dokonce z domova =C4=8Di na cest=C3=A1ch =E2=80=93 na va=C5=A1=
+em telefonu?
 
-Note that this data is copied out to userspace with:
-|       if (copy_to_user(data, &hi, sizeof(hi)))
-... however, the data was also copied FROM the user here:
-|       if (copy_from_user(&hi, data, sizeof(hi)))
+Poskytujeme rychle implementovateln=C3=BD a snadno pou=C5=BEiteln=C3=BD n=
+=C3=A1stroj, kter=C3=BD zachyt=C3=AD i n=C4=9Bkolikasekundov=C3=BD mikrop=
+rostoj a okam=C5=BEit=C4=9B p=C5=99epo=C4=8D=C3=ADt=C3=A1 vyu=C5=BEit=C3=AD=
+ stroje v kontextu dan=C3=A9 v=C3=BDrobn=C3=AD zak=C3=A1zky.
 
-Considering the above, a suitable replacement is `strscpy` [2] due to
-the fact that it guarantees NUL-termination on the destination buffer
-without unnecessarily NUL-padding.
+Kdykoli vid=C3=ADte stav objedn=C3=A1vky a jste informov=C3=A1ni o p=C5=99=
+=C3=ADpadn=C3=A9m sn=C3=AD=C5=BEen=C3=AD efektivity. Syst=C3=A9m s=C3=A1m=
+ analyzuje data a p=C5=99ipravuje cenn=C3=A9 reporty, co=C5=BE oper=C3=A1=
+tor=C5=AFm umo=C5=BE=C5=88uje soust=C5=99edit se na v=C3=BDrobn=C3=AD c=C3=
+=ADl.
 
-Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
-Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
-Link: https://github.com/KSPP/linux/issues/90
-Cc: linux-hardening@vger.kernel.org
-Signed-off-by: Justin Stitt <justinstitt@google.com>
----
-Note: build-tested only.
+C=C3=ADl je jednoduch=C3=BD: jeden pohled =E2=80=93 cel=C3=A1 tov=C3=A1rn=
+a. =C4=8Cek=C3=A1m na odpov=C4=9B=C4=8F, jestli vid=C3=ADte mo=C5=BEnost =
+vyu=C5=BEit=C3=AD takov=C3=A9ho n=C3=A1stroje ve va=C5=A1=C3=AD firm=C4=9B=
+=2E
 
-Also, there are 33 instances of trailing whitespace in this file alone.
-I've opted to not remove them in this patch.
----
- drivers/net/hamradio/baycom_epp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/hamradio/baycom_epp.c b/drivers/net/hamradio/baycom_epp.c
-index 83ff882f5d97..30a0fbb12b9c 100644
---- a/drivers/net/hamradio/baycom_epp.c
-+++ b/drivers/net/hamradio/baycom_epp.c
-@@ -1074,7 +1074,7 @@ static int baycom_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
- 		return 0;
- 
- 	case HDLCDRVCTL_DRIVERNAME:
--		strncpy(hi.data.drivername, "baycom_epp", sizeof(hi.data.drivername));
-+		strscpy(hi.data.drivername, "baycom_epp", sizeof(hi.data.drivername));
- 		break;
- 		
- 	case HDLCDRVCTL_GETMODE:
-@@ -1091,7 +1091,7 @@ static int baycom_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
- 		return baycom_setmode(bc, hi.data.modename);
- 
- 	case HDLCDRVCTL_MODELIST:
--		strncpy(hi.data.modename, "intclk,extclk,intmodem,extmodem,divider=x",
-+		strscpy(hi.data.modename, "intclk,extclk,intmodem,extmodem,divider=x",
- 			sizeof(hi.data.modename));
- 		break;
- 
-
----
-base-commit: cbf3a2cb156a2c911d8f38d8247814b4c07f49a2
-change-id: 20231012-strncpy-drivers-net-hamradio-baycom_epp-c-6e11c9483b9f
-
-Best regards,
---
-Justin Stitt <justinstitt@google.com>
-
+Pozdravy
+Michal Rmoutil
