@@ -1,124 +1,101 @@
-Return-Path: <linux-hams+bounces-7-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-8-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206517E93C9
-	for <lists+linux-hams@lfdr.de>; Mon, 13 Nov 2023 01:57:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D39802BC6
+	for <lists+linux-hams@lfdr.de>; Mon,  4 Dec 2023 07:57:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ABC17B207F0
-	for <lists+linux-hams@lfdr.de>; Mon, 13 Nov 2023 00:57:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF907280CF3
+	for <lists+linux-hams@lfdr.de>; Mon,  4 Dec 2023 06:57:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BB743D86;
-	Mon, 13 Nov 2023 00:57:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6896F8F6A;
+	Mon,  4 Dec 2023 06:57:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="esw4ADa4"
+	dkim=pass (1024-bit key) header.d=theori.io header.i=@theori.io header.b="N/THPLzd"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C483D72;
-	Mon, 13 Nov 2023 00:56:59 +0000 (UTC)
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E263819A3;
-	Sun, 12 Nov 2023 16:56:58 -0800 (PST)
-Received: by mail-qk1-x72d.google.com with SMTP id af79cd13be357-7781bc3783fso268388285a.1;
-        Sun, 12 Nov 2023 16:56:58 -0800 (PST)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0732D3
+	for <linux-hams@vger.kernel.org>; Sun,  3 Dec 2023 22:57:06 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1d03fb57b69so14137295ad.1
+        for <linux-hams@vger.kernel.org>; Sun, 03 Dec 2023 22:57:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699837018; x=1700441818; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h9QZ1n8POJh9+TvhL/Oy+pYpky3GU7bSBr0YDOk94J8=;
-        b=esw4ADa4wWYbo2pVBLLbHdZ6kUtFfbZ85I+tIotfY9eYBNSvS8CZnEKizAJAhXS769
-         VDTUT1Ze1OPrplczDEi41iWO5IuAnjLHgcgDtKVVd25DqG+NqcMDs3Kxbo72DoQ/isPC
-         GLf8FIaKV5a66jb5eqWM+BzXCBnbNKrojRh7qcqnR7lqmKbh/G43LYtJBplApPY7L2De
-         rKmzlueRrrJ3/Zx+imbeIY8AtCCjZEim7DSRGy49iuh9rRdmPsiUe2Pu0L+Akm6a7JES
-         qMf8l9xzHHaLuE+N+gaRHbqIHcwIinYQDD0eLJO818As/Z2CStrMk3kPys4RvHog1Cwu
-         7rwA==
+        d=theori.io; s=google; t=1701673026; x=1702277826; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BQerDqLT/YuVKy8PnJF+K7oN0s4BlSSuzOpk3jy8sxI=;
+        b=N/THPLzddHjFTXscP7K0dZrgxzepvVC8wnhnHn0UUG0ltE6Pxu7XxNcXrpocyVMuEU
+         s9i8VPkO7iFQDdbuXQ7itX3QzqjW0KWZjG3uTvuiTASHjMS9OyV/BuTilsVsxrK9Ngyo
+         3y3CwHeeZPsUnaINeX4PnabSyC28Blol/jhTo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699837018; x=1700441818;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=h9QZ1n8POJh9+TvhL/Oy+pYpky3GU7bSBr0YDOk94J8=;
-        b=blrasRQ/y7YJBt2b6cF4aoIqyZOyQcvYyoyhUnA/DSl5nM4yy6Ahie0WyvuTKBkD4L
-         GlaGFwttqfJkfiQX2HI0RUJd1u6oGXhMekQMbG+8v7uOgNkrko5qv4odFu6I0p3Anxpi
-         cZ0Ou2bzm9kHjjaE7weJmdECbYoDOJ8abghq5DyBk11dPPBkqQpxfqO/gc0/gy7ogksU
-         ACBReYOoSVt3zFhmeilM3LrXE/XjW1jaJI364eRFg4eZ9J8e+qQl5odwb1LSSv+qy50d
-         2ZTgBrguipNeojFftSDkn5RKDSr7FEF1WCNfjKnHzP131J0CvClf9UC+FOBR+yP2hfCk
-         n0Dg==
-X-Gm-Message-State: AOJu0YyQMLUV0Y84BZjlK1vIv7rhGtVi6l4voue+dlHLWsQCwcblQ3k9
-	JIVf3txy/+4+eEY84m11go8=
-X-Google-Smtp-Source: AGHT+IH7rZFdulENijlkHxzeB6f1z9NgqYbwBtQgkfE8f/ZAnH0JFduNGoTsfSW5f6F5jCWI49besQ==
-X-Received: by 2002:a05:620a:2981:b0:77b:c493:b5f9 with SMTP id r1-20020a05620a298100b0077bc493b5f9mr7003496qkp.57.1699837017939;
-        Sun, 12 Nov 2023 16:56:57 -0800 (PST)
-Received: from localhost (240.157.150.34.bc.googleusercontent.com. [34.150.157.240])
-        by smtp.gmail.com with ESMTPSA id qq3-20020a05620a38c300b0076d08d5f93asm1500421qkn.60.2023.11.12.16.56.57
+        d=1e100.net; s=20230601; t=1701673026; x=1702277826;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BQerDqLT/YuVKy8PnJF+K7oN0s4BlSSuzOpk3jy8sxI=;
+        b=JaXZorQ/WJfF3q9pc9TGCtrhqCxJe7QicKFZQQF4+90qUKxZJosUsZep+om0lQsVMB
+         eYxI0rv3dUFufZuOqYqQdJjdb0gZdH7VdN+Sb8aAYEX+Gykuh7cnfx18N3kwpwzqfQa7
+         dywB3t7LPh5vE5euA6+PFp8TM1p0BsOc1Cy9TWWhbPRAyslPqpJ68C4pcKNo2pSk+Ba8
+         ukNrejASvCT6TOOvijuBbFNyQwebf0RrnneqUh087G619G+x5ruiGwkb1lkppibCH2dj
+         Z9oiCBYaY2CopfxsfBTIJfH2td3xkK+keTp3+rCWT53pnUcKegryNe1+XMWrGPd/dOI6
+         QjZg==
+X-Gm-Message-State: AOJu0YzOioz4Aa41YuGiF1aWOzbfn1IHCVLrDTnExUjsNNsuKI1IgOOW
+	Dxg86iBeDDKKWCS29inJX0MgBQ==
+X-Google-Smtp-Source: AGHT+IFNNVKaL+XBoun/3jgvrDxt2YOZK0MpsdVAjuRuoVTESBuUf6Y2VzcR5p72aXnQye4i+YOtrQ==
+X-Received: by 2002:a17:902:d48a:b0:1d0:9c9d:dcde with SMTP id c10-20020a170902d48a00b001d09c9ddcdemr574828plg.122.1701673026294;
+        Sun, 03 Dec 2023 22:57:06 -0800 (PST)
+Received: from ubuntu ([211.219.71.65])
+        by smtp.gmail.com with ESMTPSA id ja5-20020a170902efc500b001d0b080c7e6sm655829plb.208.2023.12.03.22.57.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Nov 2023 16:56:57 -0800 (PST)
-Date: Sun, 12 Nov 2023 19:56:56 -0500
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>, 
- ralf@linux-mips.org, 
- davem@davemloft.net, 
- edumazet@google.com, 
- kuba@kernel.org, 
- pabeni@redhat.com
-Cc: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>, 
- linux-hams@vger.kernel.org, 
- netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- syzbot+0145ea560de205bc09f0@syzkaller.appspotmail.com
-Message-ID: <65517458ef995_a08352943@willemb.c.googlers.com.notmuch>
-In-Reply-To: <20231110173632.2511-1-bragathemanick0908@gmail.com>
-References: <20231110173632.2511-1-bragathemanick0908@gmail.com>
-Subject: Re: [PATCH] net: memory leak in nr_rx_frame
+        Sun, 03 Dec 2023 22:57:05 -0800 (PST)
+Date: Sun, 3 Dec 2023 22:56:57 -0800
+From: Hyunwoo Kim <v4bel@theori.io>
+To: ralf@linux-mips.org
+Cc: v4bel@theori.io, imv4bel@gmail.com, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	linux-hams@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH] net/rose: Fix Use-After-Free in rose_ioctl
+Message-ID: <20231204065657.GA16054@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Bragatheswaran Manickavel wrote:
-> The condition (make = nr_make_new(sk)) == NULL suggests
-> that nr_make_new allocates memory and returns a pointer.
-> If this allocation fails (returns NULL), it indicates a
-> potential memory leak.
-> 
-> Added sock_put() for make which can potentially solve
-> this issue
-> 
-> Reported-by: syzbot+0145ea560de205bc09f0@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=0145ea560de205bc09f0
-> Signed-off-by: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>
-> ---
->  net/netrom/af_netrom.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/net/netrom/af_netrom.c b/net/netrom/af_netrom.c
-> index 0eed00184adf..7d7cda4ae300 100644
-> --- a/net/netrom/af_netrom.c
-> +++ b/net/netrom/af_netrom.c
-> @@ -970,6 +970,8 @@ int nr_rx_frame(struct sk_buff *skb, struct net_device *dev)
->  		nr_transmit_refusal(skb, 0);
->  		if (sk)
->  			sock_put(sk);
-> +		if (make)
-> +			sock_put(make);
->  		return 0;
->  	}
+Because rose_ioctl() accesses sk->sk_receive_queue
+without holding a lock_sock, it can cause a race with
+rose_accept().
+A use-after-free for skb occurs with the following flow.
+```
+rose_ioctl() -> skb_peek()
+rose_accept() -> skb_dequeue() -> kfree_skb()
+```
+Add lock_sock to rose_ioctl() to fix this issue.
 
-If the branch is entered because (make = nr_make_new(sk)) == NULL then
-make is.. NULL. If the branch is entered for one if the earlier two
-conditions failing, then make is undefined.
+Signed-off-by: Hyunwoo Kim <v4bel@theori.io>
+---
+ net/rose/af_rose.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-The syzbot report is that make is allocated here and eventually
-nothing points to this still allocated memory. It does not report
-where the last reference was lost. Not inside this branch.
+diff --git a/net/rose/af_rose.c b/net/rose/af_rose.c
+index 0cc5a4e19900..5fe9db64b6df 100644
+--- a/net/rose/af_rose.c
++++ b/net/rose/af_rose.c
+@@ -1316,8 +1316,10 @@ static int rose_ioctl(struct socket *sock, unsigned int cmd, unsigned long arg)
+ 		struct sk_buff *skb;
+ 		long amount = 0L;
+ 		/* These two are safe on a single CPU system as only user tasks fiddle here */
++		lock_sock(sk);
+ 		if ((skb = skb_peek(&sk->sk_receive_queue)) != NULL)
+ 			amount = skb->len;
++		release_sock(sk);
+ 		return put_user(amount, (unsigned int __user *) argp);
+ 	}
+ 
+-- 
+2.25.1
+
 
