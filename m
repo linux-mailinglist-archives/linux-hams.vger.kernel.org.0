@@ -1,141 +1,105 @@
-Return-Path: <linux-hams+bounces-13-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-14-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C435F806CCE
-	for <lists+linux-hams@lfdr.de>; Wed,  6 Dec 2023 11:57:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29940806D95
+	for <lists+linux-hams@lfdr.de>; Wed,  6 Dec 2023 12:13:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 01B921C2099B
-	for <lists+linux-hams@lfdr.de>; Wed,  6 Dec 2023 10:57:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3922281B32
+	for <lists+linux-hams@lfdr.de>; Wed,  6 Dec 2023 11:13:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB8B830664;
-	Wed,  6 Dec 2023 10:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90068315AD;
+	Wed,  6 Dec 2023 11:13:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bKCVbjSn"
+	dkim=pass (1024-bit key) header.d=theori.io header.i=@theori.io header.b="J8bwQQZe"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B07B8A5
-	for <linux-hams@vger.kernel.org>; Wed,  6 Dec 2023 02:57:09 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-54c79cca895so9985a12.0
-        for <linux-hams@vger.kernel.org>; Wed, 06 Dec 2023 02:57:09 -0800 (PST)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EF27CA
+	for <linux-hams@vger.kernel.org>; Wed,  6 Dec 2023 03:13:34 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1d0aaa979f0so21996325ad.0
+        for <linux-hams@vger.kernel.org>; Wed, 06 Dec 2023 03:13:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701860228; x=1702465028; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HzdUf4RM/Wx6idZfnPKuMR2zY1+EIoR42KUynHZ9RqM=;
-        b=bKCVbjSn6gFdF0XR7ssz3rlLNNUZ3mt2g6NqgHmfx75l9wWb9jjgDSJ8/WvIcJliPt
-         V08K+fUE3gtxw3QQDMFZQkKdL64FUrcLPYBht2Hb8FdpqFJDwqxbLZqjBVwHERSQkVdx
-         6J+CPqopku/e/3Xn3InTTCoJSFvN0LAYRYofPC6USxI1NfryeKi2P65bLQJiTbY5zMe4
-         fD71NLju77xCoa/rYT7tnhxGFj1rVoTvtST3K1uIzjDKie/RysPP3qorcBzNkvSZjbhq
-         NFrTP0SOu5rKcyL/LxYTp0lJd9CiWQXHiSaaaYPErgJc4JS8sxQodExnwTUyBEjzPTEv
-         rreQ==
+        d=theori.io; s=google; t=1701861214; x=1702466014; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7i8p6B2ghm30k4bcKSBkkS2M9cpAiFkI2BQp4RK+W6k=;
+        b=J8bwQQZegKQAKZWn1hq33SGrN607/mTkaKE/hlDFPg8vNfCaKqB2X3RE1neSHb/0bI
+         gaxUY2rVU3X6bk+iJ6vq+IaPCcsznIZhS9EdilLUe/pKx5FbENadGvY2aH4Hg6RiCZQi
+         rOUaKVo3JBnhtW8qXOai+6xR7vKjoKjipsasA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701860228; x=1702465028;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HzdUf4RM/Wx6idZfnPKuMR2zY1+EIoR42KUynHZ9RqM=;
-        b=OHz0HzAwycohMLDdef04WaA/n9+0iQrIIlOTZYLh8iAWZjJ67v9VCs0Z5BpC1HqbGr
-         Y45THZCIQM9Mz4d+QavE7FcRwha8P1fsE8sCSBlX02g6k/d3BA+0k+JvGj1QNA0T1pFa
-         Lol0+bO9T871IfMvVPTbcLnyrMnj4KOZRgxxt7nVp7bPz4F7+/EVKAEcbWzmhoKqrb+j
-         gbif6PCzux/cmJ5jCPGwAd1p4y+xzGf0Y+lMzGMSXN+ehtCa/pr3zdajMxik05dk6nFc
-         zLAEXLqaTPel4tdWvwsgN7O6zSoH4sEfqNvXyXvAafy5Wesh19mKFq3qpkA4l7rzAKIl
-         HwEA==
-X-Gm-Message-State: AOJu0Yx3YmOxd2bMSbqHD78q2arAqHFZKbZy39pDyT53q23Yd3NLqzR7
-	Gi2jE31uZnITEykQ4fRxPGJvx57p7Xs3CjTyjufVfQ==
-X-Google-Smtp-Source: AGHT+IHG02AV1ZHEOBMffNoAhPhPdOKKQ+DJspsYX5CpklYuC5PAZV15ZTQ1Ea6pAft3Hn+Y8lp9T5/TrfnMLHTgD3g=
-X-Received: by 2002:a50:baae:0:b0:545:279:d075 with SMTP id
- x43-20020a50baae000000b005450279d075mr55715ede.1.1701860227726; Wed, 06 Dec
- 2023 02:57:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701861214; x=1702466014;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7i8p6B2ghm30k4bcKSBkkS2M9cpAiFkI2BQp4RK+W6k=;
+        b=dL+MP6QlO7abnLXG55+tDJIETz/TLgWFC0buHKpONUbXWyji5N6ip7Y21VgmUcHBwY
+         0NlBTqJS/RliZhhVr9aYBs4Sg85kj2+Tm2VuOgjpmeD70gws8hMQkbxAmri+VZt+rvS/
+         apXpHfqDkGcOfA8dVaUcjuNGRDJ0sr0lH5nxMibLnaASV8gj0mJHdVXEItdDZKUXs6Hi
+         JIwntNTKHqVPrSfIfmG0504NFfp06Lk0FnXKCw5PXyurU3cxmhbIlnMJ8vPSePvUPdst
+         tKNvO6jviMSBKsGi9qOpXuy82dyF1fmPbGqsblK548dSz4v3lRgdI8snWlfKJN2GWI1Y
+         uB0A==
+X-Gm-Message-State: AOJu0YznKclIjs/xxGTTlT/L+/LwOD+mKs1aJjgXlh+nYmeBsxRfq3le
+	WU9UlfgF1FwpamdONxWpkutqdQ==
+X-Google-Smtp-Source: AGHT+IHyO7csI0IuiNs8mzji5TYTnhV7Hye3QQW9UPXvFHaYpXzKeWoRwXXvJryxe5gT02hfi9sxLA==
+X-Received: by 2002:a17:90b:314e:b0:286:e34a:d178 with SMTP id ip14-20020a17090b314e00b00286e34ad178mr502109pjb.36.1701861213912;
+        Wed, 06 Dec 2023 03:13:33 -0800 (PST)
+Received: from ubuntu ([211.219.71.65])
+        by smtp.gmail.com with ESMTPSA id t13-20020a1709028c8d00b001cfd35ec1d7sm11806933plo.243.2023.12.06.03.13.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Dec 2023 03:13:33 -0800 (PST)
+Date: Wed, 6 Dec 2023 03:13:29 -0800
+From: Hyunwoo Kim <v4bel@theori.io>
+To: ralf@linux-mips.org, edumazet@google.com
+Cc: v4bel@theori.io, imv4bel@gmail.com, davem@davemloft.net,
+	kuba@kernel.org, pabeni@redhat.com, linux-hams@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: [PATCH v3] net/rose: Fix Use-After-Free in rose_ioctl
+Message-ID: <20231206111329.GA9888@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231206041332.GA5721@ubuntu> <CANn89i+uXB__Bx7HAJt1Dg-P-cWyQUQk1SshE0jHjcTdODS9_w@mail.gmail.com>
- <20231206105251.GA7219@ubuntu>
-In-Reply-To: <20231206105251.GA7219@ubuntu>
-From: Eric Dumazet <edumazet@google.com>
-Date: Wed, 6 Dec 2023 11:56:53 +0100
-Message-ID: <CANn89i+MuoTwc2A_BfKYcvrJ1vECJ+EVUtYiHLVfO_AFcg7Big@mail.gmail.com>
-Subject: Re: [PATCH v2] net/rose: Fix Use-After-Free in rose_ioctl
-To: Hyunwoo Kim <v4bel@theori.io>
-Cc: ralf@linux-mips.org, imv4bel@gmail.com, davem@davemloft.net, 
-	kuba@kernel.org, pabeni@redhat.com, linux-hams@vger.kernel.org, 
-	netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Dec 6, 2023 at 11:52=E2=80=AFAM Hyunwoo Kim <v4bel@theori.io> wrote=
-:
->
-> Dear,
->
-> On Wed, Dec 06, 2023 at 11:33:15AM +0100, Eric Dumazet wrote:
-> > On Wed, Dec 6, 2023 at 5:13=E2=80=AFAM Hyunwoo Kim <v4bel@theori.io> wr=
-ote:
-> > >
-> > > Because rose_ioctl() accesses sk->sk_receive_queue
-> > > without holding a sk->sk_receive_queue.lock, it can
-> > > cause a race with rose_accept().
-> > > A use-after-free for skb occurs with the following flow.
-> > > ```
-> > > rose_ioctl() -> skb_peek()
-> > > rose_accept() -> skb_dequeue() -> kfree_skb()
-> > > ```
-> > > Add sk->sk_receive_queue.lock to rose_ioctl() to fix this issue.
-> > >
-> >
-> > Please add a Fixes: tag
-> >
-> > > Signed-off-by: Hyunwoo Kim <v4bel@theori.io>
-> > > ---
-> > > v1 -> v2: Use sk->sk_receive_queue.lock instead of lock_sock.
-> > > ---
-> > >  net/rose/af_rose.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > >
-> > > diff --git a/net/rose/af_rose.c b/net/rose/af_rose.c
-> > > index 0cc5a4e19900..841c238de222 100644
-> > > --- a/net/rose/af_rose.c
-> > > +++ b/net/rose/af_rose.c
-> > > @@ -1316,8 +1316,10 @@ static int rose_ioctl(struct socket *sock, uns=
-igned int cmd, unsigned long arg)
-> > >                 struct sk_buff *skb;
-> > >                 long amount =3D 0L;
-> > >                 /* These two are safe on a single CPU system as only =
-user tasks fiddle here */
-> > > +               spin_lock(&sk->sk_receive_queue.lock);
-> >
-> > You need interrupt safety here.
-> >
-> > sk_receive_queue can be fed from interrupt, that would potentially dead=
-lock.
->
-> I want to change spin_lock to spin_lock_irqsave, is this okay?
+Because rose_ioctl() accesses sk->sk_receive_queue
+without holding a sk->sk_receive_queue.lock, it can
+cause a race with rose_accept().
+A use-after-free for skb occurs with the following flow.
+```
+rose_ioctl() -> skb_peek()
+rose_accept() -> skb_dequeue() -> kfree_skb()
+```
+Add sk->sk_receive_queue.lock to rose_ioctl() to fix this issue.
 
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Hyunwoo Kim <v4bel@theori.io>
+---
+v1 -> v2: Use sk->sk_receive_queue.lock instead of lock_sock.
+v2 -> v3: Change spin_lock to spin_lock_irq
+---
+ net/rose/af_rose.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Either spin_lock_irq() or spin_lock_irqsave() will work.
+diff --git a/net/rose/af_rose.c b/net/rose/af_rose.c
+index 0cc5a4e19900..7ff76bf3f56e 100644
+--- a/net/rose/af_rose.c
++++ b/net/rose/af_rose.c
+@@ -1316,8 +1316,10 @@ static int rose_ioctl(struct socket *sock, unsigned int cmd, unsigned long arg)
+ 		struct sk_buff *skb;
+ 		long amount = 0L;
+ 		/* These two are safe on a single CPU system as only user tasks fiddle here */
++		spin_lock_irq(&sk->sk_receive_queue.lock);
+ 		if ((skb = skb_peek(&sk->sk_receive_queue)) != NULL)
+ 			amount = skb->len;
++		spin_unlock_irq(&sk->sk_receive_queue.lock);
+ 		return put_user(amount, (unsigned int __user *) argp);
+ 	}
+ 
+-- 
+2.25.1
 
->
->
-> Regards,
-> Hyunwoo Kim
->
-> >
-> > >                 if ((skb =3D skb_peek(&sk->sk_receive_queue)) !=3D NU=
-LL)
-> > >                         amount =3D skb->len;
-> > > +               spin_unlock(&sk->sk_receive_queue.lock);
-> > >                 return put_user(amount, (unsigned int __user *) argp)=
-;
-> > >         }
-> > >
-> > > --
-> > > 2.25.1
-> > >
 
