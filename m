@@ -1,110 +1,154 @@
-Return-Path: <linux-hams+bounces-21-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-22-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8AF828A42
-	for <lists+linux-hams@lfdr.de>; Tue,  9 Jan 2024 17:46:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB0A828C66
+	for <lists+linux-hams@lfdr.de>; Tue,  9 Jan 2024 19:20:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E71BA2882F5
-	for <lists+linux-hams@lfdr.de>; Tue,  9 Jan 2024 16:45:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D3D2E1C2589A
+	for <lists+linux-hams@lfdr.de>; Tue,  9 Jan 2024 18:20:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFD0F3A294;
-	Tue,  9 Jan 2024 16:45:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XXWvp3RF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FB5E3C46F;
+	Tue,  9 Jan 2024 18:20:32 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F953B18A;
-	Tue,  9 Jan 2024 16:45:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AB90C43609;
-	Tue,  9 Jan 2024 16:45:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704818726;
-	bh=BoIauk8diS1msR+j6h/3IjO6Ifvwea1xzmanxnMUhKI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XXWvp3RF9wsXr1MiMoovoQ/ADTPSNTBHuCdv8vp6UmfII40oZQZHXdSsDOhcpmZHT
-	 aRlUacg2b8fRAVkDojry/FkgHP6wUSSqBQIPYc0STarTLLqPh+9obPtFk3LpjUiVN9
-	 BL2ofTpPERQuKMwwWDkithrSPtpzT5z5GEtgOdgmcCy/WulzDnmbQdqv0KtfEtkQGP
-	 Exue6QIRiF6WXJrac3VIfPr8Czfe8w4tiUGqg3lqTqUM34CByS6YiKfv37q8cKMvs/
-	 TBVLRISxNfs+FmD9C7TrtLKzBj4QxTy4D7UOoh4oyKh+1Ml/bN47hu8uboGWeqMoOs
-	 C3xUWaywoD96A==
-From: Jakub Kicinski <kuba@kernel.org>
-To: davem@davemloft.net
-Cc: netdev@vger.kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	Jakub Kicinski <kuba@kernel.org>,
-	Ralf Baechle <ralf@linux-mips.org>,
-	linux-hams@vger.kernel.org
-Subject: [PATCH net 6/7] MAINTAINERS: mark ax25 as Orphan
-Date: Tue,  9 Jan 2024 08:45:16 -0800
-Message-ID: <20240109164517.3063131-7-kuba@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240109164517.3063131-1-kuba@kernel.org>
-References: <20240109164517.3063131-1-kuba@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAC33C067
+	for <linux-hams@vger.kernel.org>; Tue,  9 Jan 2024 18:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-7baae0a27efso190507539f.1
+        for <linux-hams@vger.kernel.org>; Tue, 09 Jan 2024 10:20:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704824430; x=1705429230;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8Tr1aIIWsVt//WG/Z51hhDuQCyR30G6igbYh+x2XRxA=;
+        b=n2dqcaVCByA3dGztAnVkglMmpo5LkjtzPLGT1nD7O0V08ghSAU5lfh9xBXMI7uIsTM
+         6JTCvbtmrdvXDmFfwLFiG4UJqVMMMVXeWhCAXD+eXyqlCApwp5mVoamzD+2h4H2py8fI
+         HJOPcIGJxuqzv1mk/6t5BZLFi9PHw3aEgjZGh8/i/GMILkma9E6LPlRZ0thP0NEC76Zv
+         zHWq+KVMmsKH1IxlC9ol2Nzdm0RUR4CflIOnnyxHhjqvbyHPUQZ3reeTUpo8sS6J2xaf
+         gWeXdejSWHvWx3pQVS0eOFxL4/wvzLZBvR6CGqt1QWODtICYYNRgl/hlzKLvT5tP9YmZ
+         2Htg==
+X-Gm-Message-State: AOJu0YyHYrT3cPPghjpnybefO6VO3cYARy8SLENkG4w3hR7f3PW6UULa
+	Q63jZaaRNwb0nnWJghaDr/uebP+7paWaqfnacz69mS6nCJty
+X-Google-Smtp-Source: AGHT+IHqa0NlqwbwjIezxAumM3nzDK1GGtqOkAJEHlw/qe/PfUY6XEpcX7Iv2ZpPENr15hQdlhVfIJv+q5Fpt10KBXmqBRZBGMwV
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6638:3e06:b0:46e:3b5e:70d0 with SMTP id
+ co6-20020a0566383e0600b0046e3b5e70d0mr81788jab.3.1704824430144; Tue, 09 Jan
+ 2024 10:20:30 -0800 (PST)
+Date: Tue, 09 Jan 2024 10:20:30 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000903473060e875e9e@google.com>
+Subject: [syzbot] [hams?] KMSAN: uninit-value in nr_route_frame
+From: syzbot <syzbot+f770ce3566e60e5573ac@syzkaller.appspotmail.com>
+To: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, ralf@linux-mips.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-We haven't heard from Ralf for two years, according to lore.
-We get a constant stream of "fixes" to ax25 from people using
-code analysis tools. Nobody is reviewing those, let's reflect
-this reality in MAINTAINERS.
+Hello,
 
-Subsystem AX.25 NETWORK LAYER
-  Changes 9 / 59 (15%)
-  (No activity)
-  Top reviewers:
-    [2]: mkl@pengutronix.de
-    [2]: edumazet@google.com
-    [2]: stefan@datenfreihafen.org
-  INACTIVE MAINTAINER Ralf Baechle <ralf@linux-mips.org>
+syzbot found the following issue on:
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+HEAD commit:    f5837722ffec Merge tag 'mm-hotfixes-stable-2023-12-27-15-0..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11b07dcee80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d4130d4bb32c48ef
+dashboard link: https://syzkaller.appspot.com/bug?extid=f770ce3566e60e5573ac
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/d07cf63b077e/disk-f5837722.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/444db9c07b7a/vmlinux-f5837722.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/7ed4733987d7/bzImage-f5837722.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+f770ce3566e60e5573ac@syzkaller.appspotmail.com
+
+=====================================================
+BUG: KMSAN: uninit-value in nr_route_frame+0x4a9/0xfc0 net/netrom/nr_route.c:787
+ nr_route_frame+0x4a9/0xfc0 net/netrom/nr_route.c:787
+ nr_xmit+0x5a/0x1c0 net/netrom/nr_dev.c:144
+ __netdev_start_xmit include/linux/netdevice.h:4940 [inline]
+ netdev_start_xmit include/linux/netdevice.h:4954 [inline]
+ xmit_one net/core/dev.c:3548 [inline]
+ dev_hard_start_xmit+0x247/0xa10 net/core/dev.c:3564
+ __dev_queue_xmit+0x33b8/0x5130 net/core/dev.c:4349
+ dev_queue_xmit include/linux/netdevice.h:3134 [inline]
+ raw_sendmsg+0x654/0xc10 net/ieee802154/socket.c:299
+ ieee802154_sock_sendmsg+0x91/0xc0 net/ieee802154/socket.c:96
+ sock_sendmsg_nosec net/socket.c:730 [inline]
+ __sock_sendmsg net/socket.c:745 [inline]
+ ____sys_sendmsg+0x9c2/0xd60 net/socket.c:2584
+ ___sys_sendmsg+0x28d/0x3c0 net/socket.c:2638
+ __sys_sendmsg net/socket.c:2667 [inline]
+ __do_sys_sendmsg net/socket.c:2676 [inline]
+ __se_sys_sendmsg net/socket.c:2674 [inline]
+ __x64_sys_sendmsg+0x307/0x490 net/socket.c:2674
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0x44/0x110 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+Uninit was created at:
+ slab_post_alloc_hook+0x129/0xa70 mm/slab.h:768
+ slab_alloc_node mm/slub.c:3478 [inline]
+ kmem_cache_alloc_node+0x5e9/0xb10 mm/slub.c:3523
+ kmalloc_reserve+0x13d/0x4a0 net/core/skbuff.c:560
+ __alloc_skb+0x318/0x740 net/core/skbuff.c:651
+ alloc_skb include/linux/skbuff.h:1286 [inline]
+ alloc_skb_with_frags+0xc8/0xbd0 net/core/skbuff.c:6334
+ sock_alloc_send_pskb+0xa80/0xbf0 net/core/sock.c:2780
+ sock_alloc_send_skb include/net/sock.h:1884 [inline]
+ raw_sendmsg+0x36d/0xc10 net/ieee802154/socket.c:282
+ ieee802154_sock_sendmsg+0x91/0xc0 net/ieee802154/socket.c:96
+ sock_sendmsg_nosec net/socket.c:730 [inline]
+ __sock_sendmsg net/socket.c:745 [inline]
+ ____sys_sendmsg+0x9c2/0xd60 net/socket.c:2584
+ ___sys_sendmsg+0x28d/0x3c0 net/socket.c:2638
+ __sys_sendmsg net/socket.c:2667 [inline]
+ __do_sys_sendmsg net/socket.c:2676 [inline]
+ __se_sys_sendmsg net/socket.c:2674 [inline]
+ __x64_sys_sendmsg+0x307/0x490 net/socket.c:2674
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0x44/0x110 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+CPU: 1 PID: 9891 Comm: syz-executor.5 Not tainted 6.7.0-rc7-syzkaller-00016-gf5837722ffec #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023
+=====================================================
+
+
 ---
-CC: Ralf Baechle <ralf@linux-mips.org>
-CC: linux-hams@vger.kernel.org
----
- CREDITS     | 1 +
- MAINTAINERS | 3 +--
- 2 files changed, 2 insertions(+), 2 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/CREDITS b/CREDITS
-index 1228f96110c4..8a483505e6b1 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -183,6 +183,7 @@ E: ralf@gnu.org
- P: 1024/AF7B30C1 CF 97 C2 CC 6D AE A7 FE  C8 BA 9C FC 88 DE 32 C3
- D: Linux/MIPS port
- D: Linux/68k hacker
-+D: AX25 maintainer
- S: Hauptstrasse 19
- S: 79837 St. Blasien
- S: Germany
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 388fe7baf89a..c8636166740f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3372,9 +3372,8 @@ F:	Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml
- F:	drivers/iio/adc/hx711.c
- 
- AX.25 NETWORK LAYER
--M:	Ralf Baechle <ralf@linux-mips.org>
- L:	linux-hams@vger.kernel.org
--S:	Maintained
-+S:	Orphan
- W:	https://linux-ax25.in-berlin.de
- F:	include/net/ax25.h
- F:	include/uapi/linux/ax25.h
--- 
-2.43.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
