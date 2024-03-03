@@ -1,94 +1,88 @@
-Return-Path: <linux-hams+bounces-28-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-29-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B84686F47A
-	for <lists+linux-hams@lfdr.de>; Sun,  3 Mar 2024 11:48:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A4E986F514
+	for <lists+linux-hams@lfdr.de>; Sun,  3 Mar 2024 14:24:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4446B1F2193D
-	for <lists+linux-hams@lfdr.de>; Sun,  3 Mar 2024 10:48:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C579E1F216C9
+	for <lists+linux-hams@lfdr.de>; Sun,  3 Mar 2024 13:24:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 351B5BA4B;
-	Sun,  3 Mar 2024 10:48:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA614D533;
+	Sun,  3 Mar 2024 13:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="eBPo8idw"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-249.mail.qq.com (out203-205-221-249.mail.qq.com [203.205.221.249])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7852FB658
-	for <linux-hams@vger.kernel.org>; Sun,  3 Mar 2024 10:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41A6101E3;
+	Sun,  3 Mar 2024 13:24:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709462899; cv=none; b=qI0cKT1o20qpE8QvaqBBdwlBbljTMmBWSDyq6vPsrb12wTUNlNp2sqR47qB26OG/Stn6lebEGyDfuVGMyitPBnuPCnJMnHH52M0hCpwHYGq7UQSTpj4AIj+ujuTa/3ole2EdEjOY4Fu9IvDLpT0VBGQbYND5ZCmHINqPxB5h4F0=
+	t=1709472247; cv=none; b=nLObS+pQP9lJ6XfBOLmedPMjyzySJwjJzGmVTfjQuRn2i9uJo3Fs2GLebc+3Tcvyy8b3sfA87aPbBsZkT9hrz6c4hUKZw43kZa7Qhkjla2B2YKYWw9eJxMvlpY9IiT0a6UcWZbSzI2Q6yW/n2VoYupP9rdLYVWiMXNAjfzt/tJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709462899; c=relaxed/simple;
-	bh=VjuhQGCzGOfzaihRX2JyJ76FsPEOFBeLHPY+5Hq/WRw=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=aO3WN1xGXgayGw1to1z+zVmRrNk3uYX0OfJm/PDS4a4jVO5gRhTnxQtGk9NuQgSARsYPB8cY4BflN5euJlGCp+696XtB4F2a+LD1z6mfUxqs+aZ3TjWrePJIi1X00NbF2uzHBWZ0bQunHn581y2YIWTsDq8jnis5ASNtdisTIN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-7c846da7ad2so40046839f.3
-        for <linux-hams@vger.kernel.org>; Sun, 03 Mar 2024 02:48:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709462896; x=1710067696;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nV/zkV9C2v6G1+zSdNLoBMk/XcnewbbvU219oPM9wzo=;
-        b=tOaaaSr7r9AuAboPI/4rOAmq50nHTQoQDdsnQFs+xjOLqExLpG7VT4OOBMWMrAbwAW
-         jAs8lZSlxa2+tt4lZkHOs4eOlT3Ju4MeEpDhCkgMnmzgojH9dBQbzrrG+XtLOAomk/0E
-         orlTjqW/uy9Zo0BAc/TdzcbBGuCP1XDCOEq3HweFqASEL/0wEGv9AnylItIgoexrkfZY
-         g+/xcw76WALfqb5m6hPBALn2f/JotBrRCXl6nmuof00AV32AX2toLvOXs6vSeye2k6b5
-         2jKPS9xQ3gJk6Gpx7M7KWmI/sBFmZWRacfd7tG40NaRCWljUKhj0EWlsAOT7K1+hlWaW
-         /OCA==
-X-Forwarded-Encrypted: i=1; AJvYcCUa8gEnOG9km8nnyh1FGaGmV4e5EY3QHI+g2piYWSJ1ayhZ8UTA2ARKkJGwt4+69fmGiuJMJ7SHxjlTL/GjP1lMCLqwaUd5c1pacQ==
-X-Gm-Message-State: AOJu0YxD7DwoufHkYaJ5DjEQ8zvML4b7W6dw3CEvKVzt3gjEeNepG+Jd
-	20u3MvUb1vZerKVfirZoorU3qTzAlCR1OnQzToC678qPa3DNZjmfVBxrekUnb+vNzKcxY+XwSA5
-	KTJLEbiHna/zlx55Ny9V1r1r0sJ+6e1qLrNJ5Na+ofaRGJdRC1DKhzQg=
-X-Google-Smtp-Source: AGHT+IHQRAaAzXWtAlHHXRq3FoQG0Pu2gvokhMpmLxgURuAWvd1ROW62KNKw88NbXloTj/U16U80J53/2ZZuXL510i8T6Lb2u6bw
+	s=arc-20240116; t=1709472247; c=relaxed/simple;
+	bh=G/uUIcpfGezZClHWnrZDD9K0NYrXcF/UXKZ/8huSANM=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=lBOw/uDlgxnekWKLmZWgAsGq041Vk1YDLVWw1kPWA2nQ/tLUJDq6cS81ImppwIiDYE4XdpbJ2nL9TnYYZIXv029QjSrzzSRsHlEZZhbZ4gz0eTjZ4dtsD7k/DM646oRux3zC9EQDQrB0UbKV4Mo+JREO6wMPTeRW+O/ZDnkwaEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=eBPo8idw; arc=none smtp.client-ip=203.205.221.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1709472241; bh=Uo6+rVGqUfEBi3BWpquQslrkKBAv6/iFpXZsRLuvnJM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=eBPo8idwVoLhTJ7X/bqvn7JnBbFiyJiyoNYw7fNldKYN1UcFh33Gkkp6vIgdCa024
+	 bU5JedGe+MaGryxQ5y+doWoUSAfrXoGyoeR4YNYToAVwXEIkpBTVqA5JZHBnERFgjR
+	 KuZIaMgFErJ9+CE+qw4nfoe5grhCvaEf9xfKE0ms=
+Received: from pek-lxu-l1.wrs.com ([111.198.228.140])
+	by newxmesmtplogicsvrszc5-0.qq.com (NewEsmtp) with SMTP
+	id 5FA2D2AD; Sun, 03 Mar 2024 21:23:58 +0800
+X-QQ-mid: xmsmtpt1709472238t63b8jqob
+Message-ID: <tencent_ECF3CC90A7DB86E312FF464F09BF2EEAAE06@qq.com>
+X-QQ-XMAILINFO: M/NR0wiIuy70vNwuqXnPcAATd38i+Hrt5nu5F7SU8jslSYo5IjGQa9TJ1wQdik
+	 Oun75WagS/8ZoK0TZ7S1N26r7C7sQE3LlrldG+1Ni9cHqmW/1dtGJmFd7UNuMZXRX03nR6tjf6nA
+	 BnnVJPZa2IoJlmcNLillPdbFwsQOwMDh9kyCqBQG/msZVSusQJvScF4tHHYlu/2IfLMBIIvUn5zs
+	 u2Nok8SVFOhjq7ThRqQJXlQGzDE18FVcc2e4NZ0+AT80PawnfU6XqBpXgAK9lCe4Ui12sCoBt+xJ
+	 SRhCDFF/EZn3F9tLhtpDb97HlKYOWtD2XiGBBvK6dXX0WXh5oTqA/+5R2XzHW4ORYsdPVEfFeEQc
+	 zlURosOWssYK+doMORe7kF2mpYo5atBOdIniDzcnmdnhh5FPoyo5xknvGSXj7kRSaqzNOIj4kwjg
+	 bAQoXWnD3MWFghthM8RIdD/BJ2RqM47nkak/qSS9QTU8m/UTg4YD0he5Cbzlt8dkm4jQU3X1Ujg/
+	 glXwh8TTz5zbpCAlqUDmSPanlfwYwMrlQ6GM7H0vu9CYQIm6SoP+kXBBjmMmQwRI5G0j0MyoY4xN
+	 /yvSmoRZEIkVUzyAZ/21MmcqQzRzhvvJXvO3vGD+z9hUFRHiyvK/hczX4tk3cNgpx3g3pZcMIlg5
+	 433FZruVXIFy3NhdSe5VX4/eQ9dBqzxXQgECQKWtiSw35fPcNrZ3qONr/wk8rIsbs4Vy86fZgFCi
+	 75cxqlmiJydXeQ6tbx18hWcPgIvt/eQaUV71fUs3BpIRlhWONxsJ0AuXsW8e7beuuec2jS316bAd
+	 UNn7g4SuVUbUK7ERPTH8UHsd/3Jx4od6GXy1w/UPe0sqhGtMaNDadVn9ju131bMEFNVcOCS6x2k5
+	 1AY3RHKTYJ3MhCUWEQ8gvV4daC84OVxywA0W6PaWBZZUOKIaQ0dAw1gNkPEuGmGwW+/eSL1UDa2J
+	 TW1DCnPf99xozrFY+0mPKrqjkmOCdlTgBc5lXrlHS3/Nplmen0p/yVRQJ0R6nc
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+f770ce3566e60e5573ac@syzkaller.appspotmail.com
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	linux-hams@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	pabeni@redhat.com,
+	ralf@linux-mips.org,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] skbuff: fix uninit-value in nr_route_frame
+Date: Sun,  3 Mar 2024 21:23:59 +0800
+X-OQ-MSGID: <20240303132358.639892-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <000000000000b69bf20612bf586e@google.com>
+References: <000000000000b69bf20612bf586e@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:348c:b0:474:e855:df7a with SMTP id
- t12-20020a056638348c00b00474e855df7amr54497jal.5.1709462896666; Sun, 03 Mar
- 2024 02:48:16 -0800 (PST)
-Date: Sun, 03 Mar 2024 02:48:16 -0800
-In-Reply-To: <000000000000903473060e875e9e@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b69bf20612bf586e@google.com>
-Subject: Re: [syzbot] [hams?] KMSAN: uninit-value in nr_route_frame
-From: syzbot <syzbot+f770ce3566e60e5573ac@syzkaller.appspotmail.com>
-To: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, pabeni@redhat.com, ralf@linux-mips.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-syzbot has found a reproducer for the following issue on:
-
-HEAD commit:    04b8076df253 Merge tag 'firewire-fixes-6.8-rc7' of git://g..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=15ccc1a2180000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=80c7a82a572c0de3
-dashboard link: https://syzkaller.appspot.com/bug?extid=f770ce3566e60e5573ac
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12918b32180000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16b3efac180000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/a4610b1ff2a7/disk-04b8076d.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/991e9d902d39/vmlinux-04b8076d.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/a5b8e8e98121/bzImage-04b8076d.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f770ce3566e60e5573ac@syzkaller.appspotmail.com
-
-=====================================================
+[Syzbot reported]
 BUG: KMSAN: uninit-value in nr_route_frame+0x4a9/0xfc0 net/netrom/nr_route.c:787
  nr_route_frame+0x4a9/0xfc0 net/netrom/nr_route.c:787
  nr_xmit+0x5a/0x1c0 net/netrom/nr_dev.c:144
@@ -136,13 +130,28 @@ Uninit was created at:
  do_syscall_64+0xcf/0x1e0 arch/x86/entry/common.c:83
  entry_SYSCALL_64_after_hwframe+0x63/0x6b
 
-CPU: 0 PID: 5044 Comm: syz-executor263 Not tainted 6.8.0-rc6-syzkaller-00250-g04b8076df253 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
-=====================================================
+[Fix]
+Let's clear all skb data at alloc time.
 
-
+Reported-and-tested-by: syzbot+f770ce3566e60e5573ac@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+ net/core/skbuff.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index edbbef563d4d..5ca5a608daec 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -656,6 +656,7 @@ struct sk_buff *__alloc_skb(unsigned int size, gfp_t gfp_mask,
+ 	 * to allow max possible filling before reallocation.
+ 	 */
+ 	prefetchw(data + SKB_WITH_OVERHEAD(size));
++	memset(data, 0, size);
+ 
+ 	/*
+ 	 * Only clear those fields we need to clear, not those that we will
+-- 
+2.43.0
+
 
