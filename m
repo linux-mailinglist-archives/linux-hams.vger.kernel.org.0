@@ -1,121 +1,124 @@
-Return-Path: <linux-hams+bounces-32-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-33-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B1686F969
-	for <lists+linux-hams@lfdr.de>; Mon,  4 Mar 2024 06:12:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E7C86FBA0
+	for <lists+linux-hams@lfdr.de>; Mon,  4 Mar 2024 09:21:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 46A531C20D0A
-	for <lists+linux-hams@lfdr.de>; Mon,  4 Mar 2024 05:12:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A7BD1C21ADC
+	for <lists+linux-hams@lfdr.de>; Mon,  4 Mar 2024 08:21:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12EB263D9;
-	Mon,  4 Mar 2024 05:12:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C63E168D0;
+	Mon,  4 Mar 2024 08:20:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZaV8S7NY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VSC+tFpW"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E43E612E
-	for <linux-hams@vger.kernel.org>; Mon,  4 Mar 2024 05:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FE48828;
+	Mon,  4 Mar 2024 08:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709529147; cv=none; b=VUr7i+UL7bqcNpMqYsb48tVC9smZUTuDMSEsTUqveVmHvIawKyFfF2yHICdjXG3x7TXo2xrpEsomSrGtxXvuPImfumw/rS5GFlDHb0D0oif1jXxsO4DaLhztCBPsF0o4KB+fw/irJg+I5JSrq6fZCz63SY8AEgABtvW61WDbtck=
+	t=1709540455; cv=none; b=exI9W64vpPoz4E0YNEga6lMQY+zxvl18KehkAgVhQtWN/Y3yRGcz1MOi2fhJ/p9l8affm/4PN5fs8Dvq44XAzJnrqZ4TnGY/IgkyLElTvmrP/Dwbk5YLGCl73b/OqTRE4fMv/K9B1O3uIfiQx1+R9R3ICvK07BCbvWALL1Sm6Es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709529147; c=relaxed/simple;
-	bh=RkZR6AQGNumxUNeiUTcE2zH9/MxQFnrzWkHwzZzIdoo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HepLoyt8U/tm+s36eHRxTsa2HZbMlhFC0IvUQKWkwpNY5CO7U79qStwWgll9wvEjp39Mq8fWtQHMVWbyGoOkULgG45IAzVpUDzxA7ea+2dMUfGTFH51QvZ0hIJe2xE8fXrPBO0MRwM3t+vbiEnwvHfaKbCJv3T+qFa0A5f+0Awc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZaV8S7NY; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5654ef0c61fso22510a12.0
-        for <linux-hams@vger.kernel.org>; Sun, 03 Mar 2024 21:12:25 -0800 (PST)
+	s=arc-20240116; t=1709540455; c=relaxed/simple;
+	bh=F3WJtqLmsRizVpz6XcoOW2IE8Hc87yyXZ/sAUXHPJgs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AchBU6GB7jD2IRiMMiKP5TVZzgHFsGhL7Bm7ibC8REfyX/xzzzWTD1o5q1zgaLbnIUCKdOz0G2xza7obbr85tEVfkD3ageqvC+hVT9V57OipBN2XRZbxsxLYVSn6RzAYR7MtRlYjaSqCnX0Fb5nbRFvejXmuHQyWc2OM+r8jMWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VSC+tFpW; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dd10a37d68so5691455ad.2;
+        Mon, 04 Mar 2024 00:20:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709529144; x=1710133944; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EUR3SXQYlMBJ+S1TsUhop+VTYRh3FUB5752NRTIEWf8=;
-        b=ZaV8S7NYxn1hackDu4FBfGIe5dr0W7lzNLYC+HxKvJW8Rv7+Z6gqkKP/z1fMQeC1dn
-         E+ffuop3JvrDNaB8h7a7lWGQrJnqNHNoyFBg4WxtXKRfrrl+nIaXOqlcCCSiYPBKgtUB
-         xHSF6/FfJPZL0Hp7Sw1ELSuz3vqvJESBp4QoWLSSp8iUxaWw0Tuw5q+cvHZBikgYbqrp
-         mYhSX1bg1mDFTq2Csop5Y2rvIHtjvH1InfrpLhKy3I/daktYp3CYZJbsLqJPEOjpLPjU
-         Y9uWWmav2sX/xCgyK1myD3ijjJbMHvoC44AdUnJfA7RPbPeRvW/yUSFV8U+zRx8lyQlH
-         4rhw==
+        d=gmail.com; s=20230601; t=1709540453; x=1710145253; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HuUBQk+9lD8phx2gva6SDnvaKaQ30xTMRHshAYSfztc=;
+        b=VSC+tFpWhioWAhPAKSn0jZAgztZgmP3YeWrSZfa/OWRmj2QI3phOU+hAKU2zZNxBr7
+         Z9E7sqCaXueIGiiMiO97MLIFlqXBwzSRZPIuz4/Fyhy0azsSfYOBppKMLNvDrI/tJYg2
+         yGUgmJQtJ7EE9upQyA5EzHp9h9EiIM1sAk3K/eFr3Y34pbxGsxWbZJuiKq/PX0D8tESk
+         38vvY3hymkwtlHAlFx6KnOeyWYPXgnGJ9GBIFXNe12iKWU9wUYdfqL1Lalf7a58twHin
+         fHXm9uAM1ifTEAT25QDx+u8PR21knPMVC4K5pBrG73ubSnikEhb3sSV8TDmtkLPWlAmM
+         9nEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709529144; x=1710133944;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EUR3SXQYlMBJ+S1TsUhop+VTYRh3FUB5752NRTIEWf8=;
-        b=r+mMp8GjxvlKKRtxb9GHAttFNcl7zwtwTnZkj1AAGNwCWbcUiHhtDzchL1i6PBeY24
-         0WqARof2AqQVTLCPbXtu8DniTzLxJzLK6xD+LBh9Nt9/vMrBcAZmIalpESSfEZ+0yexJ
-         AdVZ3x+fVm00z8TEhB7uxAr4i2NEBmnv86Ca6CMEWyiJxA8w6Qg+NX5Iyf307i27jyiD
-         HG3i/+YzHYeataKHKbBwi10hCrt+oBVfNqktWCtxV1vy3GMAbj+LDwFSUT1D/l2laf92
-         OjZWy4UfXVOiZKk6r4Hpxxmr9o44s7TAh4gtNkpYuseyzN7NByFsU7LimiJBQbmjEnQZ
-         XqSg==
-X-Forwarded-Encrypted: i=1; AJvYcCUiA0i/tD62jGVmBBQFwnYLslclx/eBLjMbsccR2P/GMOM/G9QYH3U+JhjmcHG+R9R6F4czWqBVk/dsus79k298Klpi4ghG327yJg==
-X-Gm-Message-State: AOJu0YzzFzRKszRN+OGTVg5J3GZfBQpUFhifO5udsRc1Jm0tKWX56iY1
-	d0Lvb+sV0VLkLCWij+RZFHtZHru8XbOhiW5/Skp7w+cnKftRSslmOi4AQh7rdzOtLu3RWrjByIC
-	yhqCmWNxxd/zWdPcmcK5X88LLXI4U75M99IWr
-X-Google-Smtp-Source: AGHT+IFk/yOw56LrMBCcjw5FkqWSmRn9c37C4hrrela5SKpQ0FiUwD8BBhxVSWUFxhxJtKdGT7I9Ik2nnrrNCi8cpxY=
-X-Received: by 2002:a05:6402:3496:b0:566:ff41:69f1 with SMTP id
- v22-20020a056402349600b00566ff4169f1mr182364edc.3.1709529144406; Sun, 03 Mar
- 2024 21:12:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709540453; x=1710145253;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HuUBQk+9lD8phx2gva6SDnvaKaQ30xTMRHshAYSfztc=;
+        b=RgP7vENOrhuwJj3wdt6QD/KEKVDRDGzsLWOValuVIhFq21O4GmrrD+yyBYVeLIJCOJ
+         rLOOtAhf4hbbLe6uO9AugkQ22MWU0Mn/8jo4CmqtHztrE3SiVsmS5Ynb+U2+VRqOMYjE
+         laH3CLaz69RPrTR2MhnIDRV4kg1Fe/IXTnUpXOVfPr+J8vHXWGVl6qo+EBU6LbfVPdVK
+         +xtW5KUOXWNPxACpbcOW/PDLs6JdywyG3vHLx2RgQgj+jx5H9Hlsn1x6klZyhAmo7i5t
+         NRUZQDQIImreiE8bUbTNfcAcImrwRi2Lc2PTIMVBavASADNaRlmi7ds7neXUQawO0Smh
+         hNbA==
+X-Forwarded-Encrypted: i=1; AJvYcCXG0sUadFkEXDLJpHZPR6W0M6VZG29tH1l8DPzLpqtz8u3TBglmhxYcB4WQknvBG63FtMhWJyTSIe2Lx1KE7NtBnh0SPMu7
+X-Gm-Message-State: AOJu0Yz+vcuCTgOJly66/6YwCXIVN9K7qk3F3kG08aBbVOZgzHcBn3qA
+	eQIvbgFXr1usozxuKl3z4i0Dl/9GolfpdQlzFo4z8M/qid08IEGi
+X-Google-Smtp-Source: AGHT+IGQvcrEPWxRCSUn5r8G4sGs+ScedbkTkm8kaZlIpW3QgJGDqBK8/d1eFWaKbo3lu8NIZTbU6A==
+X-Received: by 2002:a17:902:d38d:b0:1dc:a844:a38b with SMTP id e13-20020a170902d38d00b001dca844a38bmr7738164pld.67.1709540452905;
+        Mon, 04 Mar 2024 00:20:52 -0800 (PST)
+Received: from KERNELXING-MB0.tencent.com ([43.132.141.21])
+        by smtp.gmail.com with ESMTPSA id j12-20020a170902c3cc00b001dca9a6fdf1sm7897014plj.183.2024.03.04.00.20.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Mar 2024 00:20:52 -0800 (PST)
+From: Jason Xing <kerneljasonxing@gmail.com>
+To: ralf@linux-mips.org,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: linux-hams@vger.kernel.org,
+	netdev@vger.kernel.org,
+	kerneljasonxing@gmail.com,
+	Jason Xing <kernelxing@tencent.com>
+Subject: [PATCH net 00/12] netrom: Fix all the data-races around sysctls
+Date: Mon,  4 Mar 2024 16:20:34 +0800
+Message-Id: <20240304082046.64977-1-kerneljasonxing@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CANn89i+fJis6omMAuEmgkFy7iND97cA8WecRSVG6P=z15DpHnQ@mail.gmail.com>
- <tencent_FD84E7D8C6D392F1C66E89816EF36ED48C06@qq.com>
-In-Reply-To: <tencent_FD84E7D8C6D392F1C66E89816EF36ED48C06@qq.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Mon, 4 Mar 2024 06:12:11 +0100
-Message-ID: <CANn89i+cfMWX_ybtP-VHX7PgLT-mwuUkYMuqsnUwZ3jki8oTcA@mail.gmail.com>
-Subject: Re: [PATCH] net/netrom: fix uninit-value in nr_route_frame
-To: Edward Adam Davis <eadavis@qq.com>
-Cc: davem@davemloft.net, kuba@kernel.org, linux-hams@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
-	ralf@linux-mips.org, syzbot+f770ce3566e60e5573ac@syzkaller.appspotmail.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 4, 2024 at 6:05=E2=80=AFAM Edward Adam Davis <eadavis@qq.com> w=
-rote:
->
-> [Syzbot reported]
->
-> [Fix]
-> Let's clear all skb data at alloc time.
->
-> Reported-and-tested-by: syzbot+f770ce3566e60e5573ac@syzkaller.appspotmail=
-.com
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> ---
->  net/core/skbuff.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> index edbbef563d4d..5ca5a608daec 100644
-> --- a/net/core/skbuff.c
-> +++ b/net/core/skbuff.c
-> @@ -656,6 +656,7 @@ struct sk_buff *__alloc_skb(unsigned int size, gfp_t =
-gfp_mask,
->          * to allow max possible filling before reallocation.
->          */
->         prefetchw(data + SKB_WITH_OVERHEAD(size));
-> +       memset(data, 0, size);
+From: Jason Xing <kernelxing@tencent.com>
 
+As the title said, in this patchset I fix the data-race issues because
+the writer and the reader can manipulate the same value concurrently.
 
-We are not going to accept such a change, for obvious performance reasons.
+Jason Xing (12):
+  netrom: Fix a data-race around sysctl_netrom_default_path_quality
+  netrom: Fix a data-race around
+    sysctl_netrom_obsolescence_count_initialiser
+  netrom: Fix data-races around sysctl_netrom_network_ttl_initialiser
+  netrom: Fix a data-race around sysctl_netrom_transport_timeout
+  netrom: Fix a data-race around sysctl_netrom_transport_maximum_tries
+  netrom: Fix a data-race around
+    sysctl_netrom_transport_acknowledge_delay
+  netrom: Fix a data-race around sysctl_netrom_transport_busy_delay
+  netrom: Fix a data-race around
+    sysctl_netrom_transport_requested_window_size
+  netrom: Fix a data-race around
+    sysctl_netrom_transport_no_activity_timeout
+  netrom: Fix a data-race around sysctl_netrom_routing_control
+  netrom: Fix a data-race around sysctl_netrom_link_fails_count
+  netrom: Fix data-races around sysctl_net_busy_read
 
-Instead, please fix net/netrom/nr_route.c
+ net/netrom/af_netrom.c | 14 +++++++-------
+ net/netrom/nr_dev.c    |  2 +-
+ net/netrom/nr_in.c     |  6 +++---
+ net/netrom/nr_out.c    |  2 +-
+ net/netrom/nr_route.c  |  8 ++++----
+ net/netrom/nr_subr.c   |  5 +++--
+ 6 files changed, 19 insertions(+), 18 deletions(-)
 
-Thank you.
+-- 
+2.37.3
+
 
