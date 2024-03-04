@@ -1,72 +1,72 @@
-Return-Path: <linux-hams+bounces-44-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-45-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DAE686FBBA
-	for <lists+linux-hams@lfdr.de>; Mon,  4 Mar 2024 09:22:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E3C86FBBC
+	for <lists+linux-hams@lfdr.de>; Mon,  4 Mar 2024 09:22:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B90B6B211DA
-	for <lists+linux-hams@lfdr.de>; Mon,  4 Mar 2024 08:22:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C0D4280EF4
+	for <lists+linux-hams@lfdr.de>; Mon,  4 Mar 2024 08:22:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BED4918657;
-	Mon,  4 Mar 2024 08:21:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8431217565;
+	Mon,  4 Mar 2024 08:21:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ALBb7snR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cwEJQ/Kz"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4473C17BC7;
-	Mon,  4 Mar 2024 08:21:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F283218E10;
+	Mon,  4 Mar 2024 08:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709540487; cv=none; b=Qyb7jI3wH4vu0ytlm6dyaFM5jGka14MgqqnO1JH0skR4qTBNpoQtEwdZ2yWJuAWm8uN3W/6eJBQG/DOjDrJbHe9oID1TR0c+revBmgJRM13fOyKnHntKPtg+m0qona6uvv0txcbLCf2+eHIcxwW2YBtzADIqKa9C+yYs/jpX6co=
+	t=1709540490; cv=none; b=W1KsBxLOoOaMRxWekEs2L6z0T7R6eihR/wh6BpTs6c19THXBLtgFAXiLm8bd3RLr7gj7vwaU4A9vGjp+uBCoEaoYDLvBDlw0f/x30/6vqw5YaWi1FYw9tXeOBLY+2i1l8ShhXMtdypi+mRdgcCHIIkH97DrW9/LCFAlLftLJ7/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709540487; c=relaxed/simple;
-	bh=l+nl5U9gUiRcrhAmCFKOdJkQy4rCXq/0wTXqHsmUOwI=;
+	s=arc-20240116; t=1709540490; c=relaxed/simple;
+	bh=iUd1+h9Zu2i16qT9+q3U3uxvtz4TxEhADLcr/8i2Ues=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sLHEOLb7Hlje5myyCDOBxXogA+MI35B2sk9F+EY2zqNLdIlgaTMdCV14Osk2Z0f7Okvg47mDjXCDaGQkxwuJCpAilFi0r2GtldGI0FMJBCRBZBEWrUiHaAkGLfE9AoTZlHMG0hzTzCT7lGVZ8oAmMC/9HtmZ/Q01tM1G8k4WcSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ALBb7snR; arc=none smtp.client-ip=209.85.214.170
+	 MIME-Version; b=Hdk2M0AijSKXX40KMNa6JbfB6lzrrKaD6ZAy8UqPRRsA4AWuba1pmZLhyTS1JGNfV333Jw88JlQeOUaBei73PI06v7JTEQfC48TboFniqEYOnO3mJH1PphqbqTZBs6Fgx7o1E9jyq8nbhWbPBoppxE9bSJatg/EV0mV7POwTGA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cwEJQ/Kz; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1dc5d0162bcso35019945ad.0;
-        Mon, 04 Mar 2024 00:21:25 -0800 (PST)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1dc418fa351so37844715ad.1;
+        Mon, 04 Mar 2024 00:21:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709540485; x=1710145285; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1709540488; x=1710145288; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kpAr65Sbm9LW0YCuSNo2yuiYCmshjb/xMNGbnC9d5DA=;
-        b=ALBb7snRk03zb5sKzfrgS9H6hYAIFr1E6614AdSwY69/fpjiVduyfCKJl6kPTN4Rup
-         fgAwUL0qCSOOY+3jZ3hXfRDKGsMS4zZDtyPbp0zh6vrZwfBUr1+OZ0DlFdb2MPGmeKd2
-         QvQh2m4eB6u6Dcyv5DHrfP3BiyAYcyD0PAG28a/WWodLDatjXqjLaUd9YDsHZhactDAf
-         RUuSQB8vVBJtuR4LkwWRcnjjb/m2MwNvaYdDmHg/29Y+Deny6AWGzyO7CGbN9pdCLV3Z
-         NL69T0kY01pZ4CZa+WkanSqpNW5IzKoMpPh2LSUyBdyogioVywNvX4FbikGRWwZARjBx
-         ifFg==
+        bh=VZFq0Za5EFtHyYLLbHcoR4yWS/R5Nw5TqGrWr6tkvzI=;
+        b=cwEJQ/KzjnL0ZJhT4N1ZEcqEHjg69ARj3DeoCwTd8zlNJCDVLnZzC2LmjnUJHMtmwV
+         vmJabjZlJV0b5Ol4YNOtYtxnkkDHeT6y2kbl0knx3rgqJb0gicmUaqClafjRmTPor6Ad
+         Ljco42Bfgn38ros+TDGbjGXRcicU+e9mtowc8qv8qNzLufVLITCLdel0AxXBwNxHK3vp
+         +K/7OTNZAcCDqDMksSJRM8j1TIamKOIIGnwhVasDdf/8j7jfz3V5FfJLLCpRX4cBtqNL
+         vKO/0gUs9CUFbYS9YCQMgwAZAhRG3W7DGnU6uG9xZGicHOZKkfwTFjJQmqcgm8kD1jqJ
+         QB+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709540485; x=1710145285;
+        d=1e100.net; s=20230601; t=1709540488; x=1710145288;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kpAr65Sbm9LW0YCuSNo2yuiYCmshjb/xMNGbnC9d5DA=;
-        b=TLA577TVpPzSto4i8QBDnEzCby1d6nPCIUgOGXcu9woxuRnXsSDqbPsMS/R0hTxMQt
-         Ij5iF4/HEkJezkrJGp59Q11z9zcIzbtHq+uFGwk6Xe64ClpoUrDJnCfO/W3rDoAlyR5p
-         O1joKuJ5LPhhHM3DoxRuJak3ATe+TgAZlI+9IGaub8Uf/jPuoaPEW2vJqw/ggUTK7swA
-         aLeIO9mzYNY+DkQ+eV/sf96Zueu2JlcGT3JexzPkUTin1WEQA9clTlBK65IHPuNDulo7
-         7EjbHKT8mxmrJSqL20EnxQZqgExdfyx7MH3W0xTayadX7Z/OBc4tcEw4aZ0l9Mm75oxZ
-         pBZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXV2kEfZy0in/uus5ntPepwdW5dn0ED18qf4Tdk1pBLzC1QpuGFz0+yjIm6MGS1cGVyP7itbeEXxBy3/RCDtN9CqtNZnG/
-X-Gm-Message-State: AOJu0YwS2RVOj0ZUA2IEU9ktcMMoCP+CJFa/7a54Y1V0qFaBFGvyFAYR
-	DgarEqfoQK0RhhfttN9swME0BzOu6F/VbtkOek/M8FMmnP5mLzgt
-X-Google-Smtp-Source: AGHT+IGRaGO4WTuo5bXk3RmyfcuoVbeF9kDlApCU7UvX6DHah5bG9EpFMtrbFU2QeKfAI+rktdKeGQ==
-X-Received: by 2002:a17:902:ecc5:b0:1dd:7db:69ce with SMTP id a5-20020a170902ecc500b001dd07db69cemr4005022plh.51.1709540485538;
-        Mon, 04 Mar 2024 00:21:25 -0800 (PST)
+        bh=VZFq0Za5EFtHyYLLbHcoR4yWS/R5Nw5TqGrWr6tkvzI=;
+        b=P9G4MWfRyJ9HwZYsPWoVVi6JCTxsjG35bVHsll+kXeFZ8P9yZWG5AWb9vaw8wEDz6Q
+         nKK3YurCShrDzSrWWznXZNB8uZUr5dfOL1iHmRA5t9da8jYMdYc/93nG51NIoD9JUqbQ
+         IebpFiTEJDZTQzJG0qL7yXAaAt8SeT9L6Uh9NG1/VsegB+FjLTNIwhQmuYtzTr1w6+gO
+         Ja90Q/uJ5ewxsRqZ4CErBQS9tjU+U9lExBbQIz0zwGjj/G4SgFI1D/Z9w4LTFnyY1Yqh
+         foVmhiEw3bu1MDJzagsdQdqSoViMjbYVARHDEDs9I5ul3FjcQHGGSvqwO8x95Jt3swxp
+         ZMXg==
+X-Forwarded-Encrypted: i=1; AJvYcCX4NjUtmxlbrtW6TLF2KU9KaPoXmcHrNQsBkhIiUrtGj4Dkfbt21vlGz7whgy7oee9cHdBm3IqblGZH6PwZl8jQ4WuZfBUD
+X-Gm-Message-State: AOJu0YwUiI2ICQpTm5FefEcH0D7jzjTgjBp7erM6UtA/jGkyqIoxmBve
+	Gv7PGDKHg/ynUWnyUHTCYufmengJ0d4rFqBzQPfNkWOXLr7j6J52
+X-Google-Smtp-Source: AGHT+IGS37CSlS05KVWi+6sDThEBhGRc6petPQNRDWBCTCRqWuOk6N+fdjWBmO5nIgoAeNSu6PDjsA==
+X-Received: by 2002:a17:902:f944:b0:1db:fc18:2da5 with SMTP id kx4-20020a170902f94400b001dbfc182da5mr11851000plb.30.1709540488419;
+        Mon, 04 Mar 2024 00:21:28 -0800 (PST)
 Received: from KERNELXING-MB0.tencent.com ([43.132.141.21])
-        by smtp.gmail.com with ESMTPSA id j12-20020a170902c3cc00b001dca9a6fdf1sm7897014plj.183.2024.03.04.00.21.22
+        by smtp.gmail.com with ESMTPSA id j12-20020a170902c3cc00b001dca9a6fdf1sm7897014plj.183.2024.03.04.00.21.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 00:21:24 -0800 (PST)
+        Mon, 04 Mar 2024 00:21:27 -0800 (PST)
 From: Jason Xing <kerneljasonxing@gmail.com>
 To: ralf@linux-mips.org,
 	davem@davemloft.net,
@@ -77,9 +77,9 @@ Cc: linux-hams@vger.kernel.org,
 	netdev@vger.kernel.org,
 	kerneljasonxing@gmail.com,
 	Jason Xing <kernelxing@tencent.com>
-Subject: [PATCH net 11/12] netrom: Fix a data-race around sysctl_netrom_link_fails_count
-Date: Mon,  4 Mar 2024 16:20:45 +0800
-Message-Id: <20240304082046.64977-12-kerneljasonxing@gmail.com>
+Subject: [PATCH net 12/12] netrom: Fix data-races around sysctl_net_busy_read
+Date: Mon,  4 Mar 2024 16:20:46 +0800
+Message-Id: <20240304082046.64977-13-kerneljasonxing@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20240304082046.64977-1-kerneljasonxing@gmail.com>
 References: <20240304082046.64977-1-kerneljasonxing@gmail.com>
@@ -99,22 +99,54 @@ value can be changed concurrently.
 Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Signed-off-by: Jason Xing <kernelxing@tencent.com>
 ---
- net/netrom/nr_route.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ net/netrom/af_netrom.c | 2 +-
+ net/netrom/nr_in.c     | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/net/netrom/nr_route.c b/net/netrom/nr_route.c
-index 89e12e6eea2e..70480869ad1c 100644
---- a/net/netrom/nr_route.c
-+++ b/net/netrom/nr_route.c
-@@ -728,7 +728,7 @@ void nr_link_failed(ax25_cb *ax25, int reason)
- 	nr_neigh->ax25 = NULL;
- 	ax25_cb_put(ax25);
+diff --git a/net/netrom/af_netrom.c b/net/netrom/af_netrom.c
+index 1671be042ffe..104a80b75477 100644
+--- a/net/netrom/af_netrom.c
++++ b/net/netrom/af_netrom.c
+@@ -954,7 +954,7 @@ int nr_rx_frame(struct sk_buff *skb, struct net_device *dev)
+ 		 * G8PZT's Xrouter which is sending packets with command type 7
+ 		 * as an extension of the protocol.
+ 		 */
+-		if (sysctl_netrom_reset_circuit &&
++		if (READ_ONCE(sysctl_netrom_reset_circuit) &&
+ 		    (frametype != NR_RESET || flags != 0))
+ 			nr_transmit_reset(skb, 1);
  
--	if (++nr_neigh->failed < sysctl_netrom_link_fails_count) {
-+	if (++nr_neigh->failed < READ_ONCE(sysctl_netrom_link_fails_count)) {
- 		nr_neigh_put(nr_neigh);
- 		return;
- 	}
+diff --git a/net/netrom/nr_in.c b/net/netrom/nr_in.c
+index 2f084b6f69d7..97944db6b5ac 100644
+--- a/net/netrom/nr_in.c
++++ b/net/netrom/nr_in.c
+@@ -97,7 +97,7 @@ static int nr_state1_machine(struct sock *sk, struct sk_buff *skb,
+ 		break;
+ 
+ 	case NR_RESET:
+-		if (sysctl_netrom_reset_circuit)
++		if (READ_ONCE(sysctl_netrom_reset_circuit))
+ 			nr_disconnect(sk, ECONNRESET);
+ 		break;
+ 
+@@ -128,7 +128,7 @@ static int nr_state2_machine(struct sock *sk, struct sk_buff *skb,
+ 		break;
+ 
+ 	case NR_RESET:
+-		if (sysctl_netrom_reset_circuit)
++		if (READ_ONCE(sysctl_netrom_reset_circuit))
+ 			nr_disconnect(sk, ECONNRESET);
+ 		break;
+ 
+@@ -262,7 +262,7 @@ static int nr_state3_machine(struct sock *sk, struct sk_buff *skb, int frametype
+ 		break;
+ 
+ 	case NR_RESET:
+-		if (sysctl_netrom_reset_circuit)
++		if (READ_ONCE(sysctl_netrom_reset_circuit))
+ 			nr_disconnect(sk, ECONNRESET);
+ 		break;
+ 
 -- 
 2.37.3
 
