@@ -1,130 +1,96 @@
-Return-Path: <linux-hams+bounces-52-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-53-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E7E874BCB
-	for <lists+linux-hams@lfdr.de>; Thu,  7 Mar 2024 11:05:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 987108794FA
+	for <lists+linux-hams@lfdr.de>; Tue, 12 Mar 2024 14:21:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E5411B222EB
-	for <lists+linux-hams@lfdr.de>; Thu,  7 Mar 2024 10:05:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 424CE1F22E79
+	for <lists+linux-hams@lfdr.de>; Tue, 12 Mar 2024 13:21:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCA7E12BF28;
-	Thu,  7 Mar 2024 10:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tkm8wX4u"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD8EF7A135;
+	Tue, 12 Mar 2024 13:21:18 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97ACB127B74;
-	Thu,  7 Mar 2024 10:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D568978298;
+	Tue, 12 Mar 2024 13:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.245.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709805632; cv=none; b=ZlIqHyAUZjcvYLGvlUk32TvEJm7iQAuxOxgfBM+O0aJ752x1l3sf8A/4V0zog9CE89qnZ+RXj9pm1tgMjsttHqpadvvXzIdOtsxeeL8JkCopmloJsbkFZkbMoaRmxsv4DErUaTqYP9758lRbkLDSyS26X11Pvzb+rI3VtAUyU3M=
+	t=1710249678; cv=none; b=BE/4ELeI8hoBFILnLYOwIrsMsZVzkJGznBUSS0wPLK28PFG1jxCnLF3S5ISoXHmTi54gSnFTBIMIDbVo5MxZIXP39PTuqXmkfNdcPeu+VS46MDMc2sFERTGx96D2eYZaeW7+mW/1meNuRPcLA+ohO6tAODlf9G7X9df4FyaHE4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709805632; c=relaxed/simple;
-	bh=6CpFwo6gc627KHUzzl6xCi4freC95xx3mayG126Bzqs=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=cnHifVdhcF3mtSsFyLlxDdT0e5QnPfcmobeALhrBTQ1JdseBfBD7Ugel6isEDMiRUwb88bjzzbkuOwsFmcQZvorf1vW+uQsJuzeap9lzxkbB0boCSudEAexmuLAHe1gKS0Ra2XcRy8xGC9parMyNhubhg3KZRJyuQTTkYNftGd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tkm8wX4u; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 97BDFC433C7;
-	Thu,  7 Mar 2024 10:00:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709805631;
-	bh=6CpFwo6gc627KHUzzl6xCi4freC95xx3mayG126Bzqs=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Tkm8wX4uar4sy414mMvBmp5fLvqwBCDU5Ie8c5Ter+ElaLUCYAU1Htyq9E8LcWHo9
-	 3TpSdNiletZyqZHT/dsd/GkLZEpmowkg5ADoaWxAuZB2KLba83gQaErZqT3S4gSE4O
-	 mLLxgTmujVjOOtZSzHkQwAaCGRG2Z6ZL5Irn4gbUKj+C1hMwcYXE9l5XiA4QzSoZxG
-	 ur2eXDUGXoyijSf/17lNNkGr9GqQ4Nlv8d/qKrGwY8O9imhkAbRMzIJuldkGO7jIUl
-	 51xQGuVTaQgYZ7O70SN3hM/uIzS21kqE+Nc+95BdpXw08H/De3Ekg4+MqCJi5JUO8+
-	 lft37j92NChig==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6D4A2D84BD7;
-	Thu,  7 Mar 2024 10:00:31 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1710249678; c=relaxed/simple;
+	bh=tjDje4SaiRrTQc6DecP8S8++V0lhjuccYXfYjHPoXJE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VuyC212idw5D8h1B3UrFb+RQuHz9n4TpiOntvkEivL2GcrxZ20mM7kKKal6cp7my0JNfdkpOrOD9rg6oB8oHWediZ2gDRjxShdBzgayQS+dUw8pRGeq1bzUynXDEoM1SGl6/C/v+jt+7SNYT0PT98xxhCBeyoVqUb4Bx2XLSInk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de; spf=pass smtp.mailfrom=strlen.de; arc=none smtp.client-ip=91.216.245.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
+Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
+	(envelope-from <fw@strlen.de>)
+	id 1rk243-00010Z-Qy; Tue, 12 Mar 2024 14:21:07 +0100
+Date: Tue, 12 Mar 2024 14:21:07 +0100
+From: Florian Westphal <fw@strlen.de>
+To: Eric Dumazet <edumazet@google.com>
+Cc: Florian Westphal <fw@strlen.de>, xingwei lee <xrivendell7@gmail.com>,
+	pabeni@redhat.com, davem@davemloft.net, kuba@kernel.org,
+	linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, ralf@linux-mips.org,
+	syzkaller-bugs@googlegroups.com, samsun1006219@gmail.com
+Subject: Re: KASAN: slab-use-after-free Read in ip_finish_output
+Message-ID: <20240312132107.GA1529@breakpoint.cc>
+References: <CABOYnLwtfAxS7WoMw-1_uxVe3EYajXRuzZfwaQEk0+7m6-B+ug@mail.gmail.com>
+ <CANn89i+qLwyPLztPt6Mavjimyv0H_UihVVNfJXWLjcwrqOudTw@mail.gmail.com>
+ <20240306103632.GC4420@breakpoint.cc>
+ <CANn89iLe0KGjbSim5Qxxr6o0AjJVs7-h79UvMMXKOgGKQUosiA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net 00/12] netrom: Fix all the data-races around sysctls
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170980563143.27682.16929475387592674131.git-patchwork-notify@kernel.org>
-Date: Thu, 07 Mar 2024 10:00:31 +0000
-References: <20240304082046.64977-1-kerneljasonxing@gmail.com>
-In-Reply-To: <20240304082046.64977-1-kerneljasonxing@gmail.com>
-To: Jason Xing <kerneljasonxing@gmail.com>
-Cc: ralf@linux-mips.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, linux-hams@vger.kernel.org,
- netdev@vger.kernel.org, kernelxing@tencent.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANn89iLe0KGjbSim5Qxxr6o0AjJVs7-h79UvMMXKOgGKQUosiA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Hello:
-
-This series was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Mon,  4 Mar 2024 16:20:34 +0800 you wrote:
-> From: Jason Xing <kernelxing@tencent.com>
+Eric Dumazet <edumazet@google.com> wrote:
+> > so skb->sk gets propagated down to __ip_finish_output(), long
+> > after connrack defrag has called skb_orphan().
+> >
+> > No idea yet how to fix it,
 > 
-> As the title said, in this patchset I fix the data-race issues because
-> the writer and the reader can manipulate the same value concurrently.
+> My plan was to refine "inet: frag: Always orphan skbs inside
+> ip_defrag()" and only do the skb_orphan()
+> for skb added to a frag_list.
 > 
-> Jason Xing (12):
->   netrom: Fix a data-race around sysctl_netrom_default_path_quality
->   netrom: Fix a data-race around
->     sysctl_netrom_obsolescence_count_initialiser
->   netrom: Fix data-races around sysctl_netrom_network_ttl_initialiser
->   netrom: Fix a data-race around sysctl_netrom_transport_timeout
->   netrom: Fix a data-race around sysctl_netrom_transport_maximum_tries
->   netrom: Fix a data-race around
->     sysctl_netrom_transport_acknowledge_delay
->   netrom: Fix a data-race around sysctl_netrom_transport_busy_delay
->   netrom: Fix a data-race around
->     sysctl_netrom_transport_requested_window_size
->   netrom: Fix a data-race around
->     sysctl_netrom_transport_no_activity_timeout
->   netrom: Fix a data-race around sysctl_netrom_routing_control
->   netrom: Fix a data-race around sysctl_netrom_link_fails_count
->   netrom: Fix data-races around sysctl_net_busy_read
-> 
-> [...]
+> The head skb would keep a reference to the socket.
 
-Here is the summary with links:
-  - [net,01/12] netrom: Fix a data-race around sysctl_netrom_default_path_quality
-    https://git.kernel.org/netdev/net/c/958d6145a6d9
-  - [net,02/12] netrom: Fix a data-race around sysctl_netrom_obsolescence_count_initialiser
-    https://git.kernel.org/netdev/net/c/cfd9f4a740f7
-  - [net,03/12] netrom: Fix data-races around sysctl_netrom_network_ttl_initialiser
-    https://git.kernel.org/netdev/net/c/119cae5ea3f9
-  - [net,04/12] netrom: Fix a data-race around sysctl_netrom_transport_timeout
-    https://git.kernel.org/netdev/net/c/60a7a152abd4
-  - [net,05/12] netrom: Fix a data-race around sysctl_netrom_transport_maximum_tries
-    https://git.kernel.org/netdev/net/c/e799299aafed
-  - [net,06/12] netrom: Fix a data-race around sysctl_netrom_transport_acknowledge_delay
-    https://git.kernel.org/netdev/net/c/806f462ba902
-  - [net,07/12] netrom: Fix a data-race around sysctl_netrom_transport_busy_delay
-    https://git.kernel.org/netdev/net/c/43547d869943
-  - [net,08/12] netrom: Fix a data-race around sysctl_netrom_transport_requested_window_size
-    https://git.kernel.org/netdev/net/c/a2e706841488
-  - [net,09/12] netrom: Fix a data-race around sysctl_netrom_transport_no_activity_timeout
-    https://git.kernel.org/netdev/net/c/f99b494b4043
-  - [net,10/12] netrom: Fix a data-race around sysctl_netrom_routing_control
-    https://git.kernel.org/netdev/net/c/b5dffcb8f71b
-  - [net,11/12] netrom: Fix a data-race around sysctl_netrom_link_fails_count
-    https://git.kernel.org/netdev/net/c/bc76645ebdd0
-  - [net,12/12] netrom: Fix data-races around sysctl_net_busy_read
-    https://git.kernel.org/netdev/net/c/d380ce70058a
+I tried to follow this but its beyond my abilities.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Defrag messes with skb->truesize, and I do not know how to
+fix that up safely so later calls to destructor won't underflow sk
+accouting.
 
+Furthermore, depending on delivery order, the skb that gets
+passed to rest of stack might not be the head skb (the one with
+full l4 header and sk reference), its always the last one that arrived.
 
+Existing code skb_morphs() this, see inet_frag_reasm_prepare() and also
+the ->truesize munging (which is fine only because all skbs are
+orphans...).
+
+So in order to not pass already-released sk to inet output somehow
+the skb->sk reference needs to be stolen and moved from one sk
+to another.
+
+No idea how to do this, let alone do regression testing for this.
+see e.g. 48cac18ecf1de82f76259a54402c3adb7839ad01 which added
+unconditional orphaning in ipv6 netfilter defrag.
+
+ATM the only "solution" I see is to completely remove netfilter defrag
+support for outgoing packets.
 
