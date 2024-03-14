@@ -1,38 +1,38 @@
-Return-Path: <linux-hams+bounces-55-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-56-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361F087965F
-	for <lists+linux-hams@lfdr.de>; Tue, 12 Mar 2024 15:33:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D219087BBE4
+	for <lists+linux-hams@lfdr.de>; Thu, 14 Mar 2024 12:27:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D761B1F216F2
-	for <lists+linux-hams@lfdr.de>; Tue, 12 Mar 2024 14:33:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 723871F21CA6
+	for <lists+linux-hams@lfdr.de>; Thu, 14 Mar 2024 11:27:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26FCA7BAF2;
-	Tue, 12 Mar 2024 14:30:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C4106EB60;
+	Thu, 14 Mar 2024 11:27:02 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
 Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F210C29AB;
-	Tue, 12 Mar 2024 14:30:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DA86CDD7;
+	Thu, 14 Mar 2024 11:26:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.245.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710253843; cv=none; b=eoL+H/R2Hm2OC3nPHiNQXq985hLwDm1uaLqweZkJBlS9PXhUjECViVCFrrM0vEFRhMSio1rpSM04LggPOQaWFLQZkMxtwbZ12gv+8L7YvDdkViA7APlgqMbicQlLTuvToj6As0E+Eiq/xad3wu0BFYN22sh1U9q/p0pPNm7O0Xo=
+	t=1710415622; cv=none; b=os1C0NkHzNlZD9wv8TGK4Eebzaq/5JEJVNk+h5pW5H/yp+K3bTOO/JPljDpGtN+jjOQArr9Hdligy6oI+kZHliaKTDPBfxQavb7Bfk8jowwLr9h/RgomdZFA+2RgQeLCjGdnOWtsogOBP6DxDcCzsxPib85J9yhpp5ACm5sRPbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710253843; c=relaxed/simple;
-	bh=Nv9DSRH1knEN/7XSZZmWRevE7uROHH/o5/dobsKswvs=;
+	s=arc-20240116; t=1710415622; c=relaxed/simple;
+	bh=Pfd2z0WcwpHP46x04wMSW5dBhXIY/2MfqS+g3TP/9Sc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eAfEl9QRtStSJnVyFD5RZ4hvnX05uIedwIO9UJ1wcJCNy//1pCCyn/7sZ5nEQzmcY8vER57B9yHo4Dg0sc9MDL+29D03OlzRh+/SshN44EhzQ7vqgqS0paAvgLW857br+rsvYwxnatGuzWKzpPUqNHN7F59TKzcsvzGqpvVV/9I=
+	 Content-Type:Content-Disposition:In-Reply-To; b=c0yTYRQjtnfHshBti3p29+hm67Q7rnfREn8V0Ng3wLYNOe0l5pTvTyKlFJdi8ZIBzpolVeKLwX1G8aRa0VRth8yUT3mmejFUug8GtoKq5TfmfSzwbAUGNqApoR4m5uU184SG18jOIprov+aQyyQbEdNhUWQg2qkttSdFhd/WpKI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de; spf=pass smtp.mailfrom=strlen.de; arc=none smtp.client-ip=91.216.245.30
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
 Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
 	(envelope-from <fw@strlen.de>)
-	id 1rk39B-0001Mp-4H; Tue, 12 Mar 2024 15:30:29 +0100
-Date: Tue, 12 Mar 2024 15:30:29 +0100
+	id 1rkjEZ-0006nC-0U; Thu, 14 Mar 2024 12:26:51 +0100
+Date: Thu, 14 Mar 2024 12:26:50 +0100
 From: Florian Westphal <fw@strlen.de>
 To: Eric Dumazet <edumazet@google.com>
 Cc: Florian Westphal <fw@strlen.de>, xingwei lee <xrivendell7@gmail.com>,
@@ -41,7 +41,7 @@ Cc: Florian Westphal <fw@strlen.de>, xingwei lee <xrivendell7@gmail.com>,
 	netdev@vger.kernel.org, ralf@linux-mips.org,
 	syzkaller-bugs@googlegroups.com, samsun1006219@gmail.com
 Subject: Re: KASAN: slab-use-after-free Read in ip_finish_output
-Message-ID: <20240312143029.GE1529@breakpoint.cc>
+Message-ID: <20240314112650.GE1038@breakpoint.cc>
 References: <CABOYnLwtfAxS7WoMw-1_uxVe3EYajXRuzZfwaQEk0+7m6-B+ug@mail.gmail.com>
  <CANn89i+qLwyPLztPt6Mavjimyv0H_UihVVNfJXWLjcwrqOudTw@mail.gmail.com>
  <20240306103632.GC4420@breakpoint.cc>
@@ -63,7 +63,33 @@ Eric Dumazet <edumazet@google.com> wrote:
 > Thanks for taking a look Florian.
 > 
 > Perhaps not messing with truesize at all would help ?
+>
+> Something based on this POC :
+> 
+>                 spin_lock(&qp->q.lock);
+> +               if (!qp->q.sk) {
+> +                       struct sock *sk = skb->sk;
+> 
+> +                       if (sk && refcount_inc_not_zero(&sk->sk_refcnt))
+> +                               qp->q.sk = sk;
 
-Thanks for the sketch patch, that makes things simpler indeed.
-I'll try to build something along these lines.
+Unfortunetely I did not get this to work.
+
+sk_refcnt is 0.  sk is kept alive by sock_wfree destructor.
+
+I don't know how to recover from this, refcnt cannot be "repaired"
+anymore.
+
+I could artificially inflate sk_wmem counter by 1, to prevent release,
+but that needs yet another sock_wfree-like destructor.
+
+I'm already not sure how this existing scheme works, there are
+multiple places that check for skb->destructor == sock_wfree,
+yet we have is_skb_wmem helper that checks __sock_wfree and tcp_wfree.
+
+Removing defrag from output seems like best option, but it will
+surely break some scenarios.
+
+Or, I could just fail reasm if sk refcount is already 0, that would
+likely work too?
 
