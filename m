@@ -1,293 +1,220 @@
-Return-Path: <linux-hams+bounces-63-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-64-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB5587C6AC
-	for <lists+linux-hams@lfdr.de>; Fri, 15 Mar 2024 01:08:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F289987CFA3
+	for <lists+linux-hams@lfdr.de>; Fri, 15 Mar 2024 15:58:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CD811C216C3
-	for <lists+linux-hams@lfdr.de>; Fri, 15 Mar 2024 00:08:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F6191F240C4
+	for <lists+linux-hams@lfdr.de>; Fri, 15 Mar 2024 14:58:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D92363B;
-	Fri, 15 Mar 2024 00:08:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94A8A3CF5D;
+	Fri, 15 Mar 2024 14:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="G2Tv4oet"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9637C635;
-	Fri, 15 Mar 2024 00:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.245.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07ACB18EA8;
+	Fri, 15 Mar 2024 14:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710461295; cv=none; b=A1T04VZpGP+IWfIvgw/3F8y+MmRJ8GdHnrw1Of1E/9KYcOrMYGLI2syySx4lKdS65oNpx+8zYwj5abrG9EjdKlDGYgzPY/TKW44+MIEiF7rKJ4mnOF2N2mQefqH/Xt9M9vcB5WebKwh7KX8/ClV0Qh9UeNRHyRxnlLqe+ychy7U=
+	t=1710514725; cv=none; b=rgcvH+phdQupfxIAKNfIgZEVHfc+63ITbRNWTlDrW/h5XfPwbdGHfL++T2HGxf0cD3P9fqAAYNi4J+EZbmFR7ovV3TNdl/ZhdyruPBP2HrHdukINBDDDJetG5XcYNQIgdchMFDu2b5K3tGJGsloVd+y5Z2CtlzxG6Z9Hp/Hvfdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710461295; c=relaxed/simple;
-	bh=eYmW3Ftf7mefPPsE9pr/d71AHAAKr268pFGEIArfBlQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=seXNJ05Ru4yKOBoz1RBxsf/XyL2lN4iQiY9+7hjLe3cFM4LcigrHPu47o8SA0/ClEhW5uKUGfTe0B3cNfbqM+D8DBlGZAQr0WaI45v5t1Cy8BXCvUB9dhkAHoUpTzzsRRhMdAqNfR7E21cGiTZF2GewUVhGwe7AMyT70h7+tDSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de; spf=pass smtp.mailfrom=strlen.de; arc=none smtp.client-ip=91.216.245.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
-Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
-	(envelope-from <fw@strlen.de>)
-	id 1rkv78-00029A-9V; Fri, 15 Mar 2024 01:07:58 +0100
-Date: Fri, 15 Mar 2024 01:07:58 +0100
-From: Florian Westphal <fw@strlen.de>
-To: Florian Westphal <fw@strlen.de>
-Cc: Eric Dumazet <edumazet@google.com>, xingwei lee <xrivendell7@gmail.com>,
-	pabeni@redhat.com, davem@davemloft.net, kuba@kernel.org,
-	linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, ralf@linux-mips.org,
-	syzkaller-bugs@googlegroups.com, samsun1006219@gmail.com
-Subject: Re: KASAN: slab-use-after-free Read in ip_finish_output
-Message-ID: <20240315000758.GA30611@breakpoint.cc>
-References: <CABOYnLwtfAxS7WoMw-1_uxVe3EYajXRuzZfwaQEk0+7m6-B+ug@mail.gmail.com>
- <CANn89i+qLwyPLztPt6Mavjimyv0H_UihVVNfJXWLjcwrqOudTw@mail.gmail.com>
- <20240306103632.GC4420@breakpoint.cc>
- <CANn89iLe0KGjbSim5Qxxr6o0AjJVs7-h79UvMMXKOgGKQUosiA@mail.gmail.com>
- <20240312132107.GA1529@breakpoint.cc>
- <CANn89iLkDwnZdBY8CwkrQwCk2o7EAM9J1sv+uxU1tjKb=VB=Ag@mail.gmail.com>
- <20240314112650.GE1038@breakpoint.cc>
+	s=arc-20240116; t=1710514725; c=relaxed/simple;
+	bh=QkAlNJ9V9qppiro/zSbEdW694RBnZkoeHZrahCOadSs=;
+	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:References; b=BRh1Vfp16onm/9TCZHDqNmwVEhfnt9VjudysgjwtNsCDRxMG9yI1nUMwPGN8pMc+K645N1c+4/dusrbtuZlGheZUg7RZgvwD0DVkM6oqi3IlvcXnM3LtnOFsXqjgvEEP2XnqdDcVncaQsFAaYQtr0GZU5WDuU9rNL4cD6+Zw2CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=G2Tv4oet; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20240315145834euoutp0208e17bee17510a43114d2abc73c66d9e~8_BH9XOku2978829788euoutp02f;
+	Fri, 15 Mar 2024 14:58:34 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20240315145834euoutp0208e17bee17510a43114d2abc73c66d9e~8_BH9XOku2978829788euoutp02f
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1710514714;
+	bh=QkAlNJ9V9qppiro/zSbEdW694RBnZkoeHZrahCOadSs=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=G2Tv4oet03CghGKOrgieijfEl82FvjQVZBL+NfoG15HFyo9VIUHcvPRvsG82TfUwJ
+	 dX7pxAXAb9YPyNG2TKDc8iEY570oeA5ZpY68L1+/6ZETCD+YW+AwjxiTIrcFxIsFOl
+	 Mk2mYfgH8Xod4xWY0H6rRKtWJgy98o37Oog1PoZk=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20240315145834eucas1p263d507b6e6b1b2347755a3b8a3d110c2~8_BHm31sC0659706597eucas1p2F;
+	Fri, 15 Mar 2024 14:58:34 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id 62.5F.09539.A1264F56; Fri, 15
+	Mar 2024 14:58:34 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20240315145833eucas1p213fce847384eb45d99b496e63aeef842~8_BHARDUI1048010480eucas1p2_;
+	Fri, 15 Mar 2024 14:58:33 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240315145833eusmtrp1d4283c4c3365474281127eb3980b7d32~8_BG_cMhB2583725837eusmtrp1-;
+	Fri, 15 Mar 2024 14:58:33 +0000 (GMT)
+X-AuditID: cbfec7f2-515ff70000002543-32-65f4621a921a
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id B2.BC.09146.91264F56; Fri, 15
+	Mar 2024 14:58:33 +0000 (GMT)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240315145833eusmtip25fac59b9345218f02603c4bc99e60c97~8_BGowIxW0792607926eusmtip2S;
+	Fri, 15 Mar 2024 14:58:33 +0000 (GMT)
+Received: from localhost (106.210.248.173) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Fri, 15 Mar 2024 14:58:32 +0000
+Date: Fri, 15 Mar 2024 15:58:30 +0100
+From: Joel Granados <j.granados@samsung.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: Joel Granados via B4 Relay <devnull+j.granados.samsung.com@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>, Alexander Aring <alex.aring@gmail.com>,
+	Stefan Schmidt <stefan@datenfreihafen.org>, Miquel Raynal
+	<miquel.raynal@bootlin.com>, David Ahern <dsahern@kernel.org>, "Steffen
+ Klassert" <steffen.klassert@secunet.com>, Herbert Xu
+	<herbert@gondor.apana.org.au>, Matthieu Baerts <matttbe@kernel.org>, "Mat
+ Martineau" <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>, "Ralf
+ Baechle" <ralf@linux-mips.org>, Remi Denis-Courmont <courmisch@gmail.com>,
+	Allison Henderson <allison.henderson@oracle.com>, David Howells
+	<dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, "Marcelo
+ Ricardo Leitner" <marcelo.leitner@gmail.com>, Xin Long
+	<lucien.xin@gmail.com>, Wenjia Zhang <wenjia@linux.ibm.com>, Jan Karcher
+	<jaka@linux.ibm.com>, "D. Wythe" <alibuda@linux.alibaba.com>, Tony Lu
+	<tonylu@linux.alibaba.com>, "Wen Gu" <guwen@linux.alibaba.com>, Trond
+	Myklebust <trond.myklebust@hammerspace.com>, Anna Schumaker
+	<anna@kernel.org>, "Chuck Lever" <chuck.lever@oracle.com>, Jeff Layton
+	<jlayton@kernel.org>, Neil Brown <neilb@suse.de>, Olga Kornievskaia
+	<kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey
+	<tom@talpey.com>, Jon Maloy <jmaloy@redhat.com>, Ying Xue
+	<ying.xue@windriver.com>, Martin Schiller <ms@dev.tdt.de>, Pablo Neira Ayuso
+	<pablo@netfilter.org>, Jozsef Kadlecsik <kadlec@netfilter.org>, Florian
+	Westphal <fw@strlen.de>, Roopa Prabhu <roopa@nvidia.com>, Nikolay
+	Aleksandrov <razor@blackwall.org>, Simon Horman <horms@verge.net.au>, Julian
+	Anastasov <ja@ssi.bg>, Joerg Reuter <jreuter@yaina.de>, Luis Chamberlain
+	<mcgrof@kernel.org>, Kees Cook <keescook@chromium.org>,
+	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<dccp@vger.kernel.org>, <linux-wpan@vger.kernel.org>,
+	<mptcp@lists.linux.dev>, <linux-hams@vger.kernel.org>,
+	<linux-rdma@vger.kernel.org>, <rds-devel@oss.oracle.com>,
+	<linux-afs@lists.infradead.org>, <linux-sctp@vger.kernel.org>,
+	<linux-s390@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
+	<tipc-discussion@lists.sourceforge.net>, <linux-x25@vger.kernel.org>,
+	<netfilter-devel@vger.kernel.org>, <coreteam@netfilter.org>,
+	<bridge@lists.linux.dev>, <lvs-devel@vger.kernel.org>
+Subject: Re: [PATCH 0/4] sysctl: Remove sentinel elements from networking
+Message-ID: <20240315145830.e3sl57eytsosngeb@joelS2.panther.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="onm3lc3zkynvura4"
 Content-Disposition: inline
-In-Reply-To: <20240314112650.GE1038@breakpoint.cc>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20240314154248.155d96a4@kernel.org>
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA2WTfVBUZRTGe+/XLuA610XhDcwSgSE1Ck09fmBSUbeZmpTKcWq01riCCOjs
+	QlqMhoAu7opsMEUiCoryLSCsu6wCyyCisAQoauQsEAuEISLyIQICsV4cnem/33me87zznD9e
+	MSn9Rewk3hkaxstDZcEujC2lqx5teMtp+xD/TrWKgcrIVdBeqqIhMuYwAYcMUxTo0tUETLV0
+	EzBhUJIw2N5NQ+qZYgZSGmIomPhTzUDTyU4C+qLGKci/dIiArmqLCHRxuQhyo8wU6LtHGFD3
+	zIfoi8MIOuMtNNzK6GdgNCNHBG3DFgpGj9nBcVU0AXXqEChp6aSgUXeMBk2tF9zRtxDQdCmF
+	gcYKEw3/VMZRoDkdTUJX2n0azIkZFFSUpSKwFDwkIDp1gITowQ4SxrKu0VAfN0VCcn4OCc2a
+	LgRXlOU01BVEieDxqesklKVGUlCd5gCa/FoKHpt6EST13ibhZqkr1A5NEVBfPEjDYIoHJGZp
+	Cbh85IkItA1BUDtWS0DHSDcDU83vwcE6nWiDD3fXMkxyffU1iDuVF8GdiLxBcWOjizlt9l8E
+	p67qITlDcouI01W4cWlF4dzTygsirijnCMNdzT5PcIb21ZzmTAXiis/+vHHh17br/PngnT/w
+	8rfXf2cb2PFb0B69ZJ/+zjAZicx2KmQjxuy7OGXsJrKylM1CWHlsmm2neQjhkjuDImEYRPhJ
+	Xir1PFGgN9KCkYmwOcr0YqtmZHwmfxHhk6UnGGuEYt1wlVr5jBl2KW7oNZNWnsu64pji45Q1
+	QLLXpfipcpS2GvbsJzinoGvaEIsl7AZ8pmGrVZawc3DN8c5nNUh2H76elUBYV0jWGWdOiq2y
+	DeuF9UkdpNB0ER5OeMQIvB/Xau8SAv8xC/dVuQj8IW4tUM5cZo97rmlFAs/HpsSjz6phNhFh
+	42S/SBhyEc44ODzz0locc6tzJuGDRyz1jLUQZmfj5gdzhJ6zcYIuiRRkCY49LBW23XFuay+l
+	QYuSX7os+aXLkl9cJshLcdrlAeZ/8hKccfo+KbA3zs9/SKUhUQ5y5MMVIQG8wiuU3+upkIUo
+	wkMDPL/fHVKEpn+qafLaQAk62fPIsxIRYlSJXKfDlsLcRuREhe4O5V3mSg4sfMRLJf6yH3/i
+	5bu/lYcH84pK5CymXBwlbv6v81I2QBbG7+L5Pbz8uUuIbZwiCY/R5VrvV20vvPLF765VfY5G
+	JutXS+Z2P/mQIcCkjgr76k33BdnEra4VqfZfGjtKgnTpBuf0RCm9nJuQObLJxTFbBoyb/MK5
+	He3G97VNu25/tODzbZMyh+7YVt3mFtXHTSY3Ol5VXn109TJfDds+79PY9XV22yqilPqVtI/m
+	wKTveY95BtIvre1G9Gf96uA1Rvc5sRExCsk5Tp6+Kvvq+AdTbaqbCfjfwHubrhSeDYswP4hD
+	Ra+Jt3bcSxxY672hcMJ3zUPub5clzfGxbxw9VXGo1+ebQim3ZSSwxr3cqWrd7L0bz93bPMt/
+	hyzunOZ+0rK2B3n0yvay/Q4rxv3N9avFy33sXChFoMxrMSlXyP4Di5z3OyQFAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA2WTe0xTZxiH/c45Pa2XZmeU6bG6RDuYhmm1CPJ2Q4VM3XHZzJiJMTNGOz0r
+	OtqyXnTOzHETJhUsNhkBERC1AjoqLReroqRT1IqgUxlTGNLSEpHAEFAolw6oy0z235PfLV++
+	5OXhARe4Qt5upZZVK2VxInIGcWf85l9L5349wC5vuywEe0IEtF9J50BCSioGh2w+AqpO6THw
+	tXZiMGZLw6G/vZMDBUVWEvIaUwgY+0NPwoMTHRj0JI0QUHbpEAbuOicXqjLOITiX1EJAdecr
+	EvRd8yG5chBBx1EnBx6a/iZh2FTKhbZBJwHDmTMhJz0Zg3q9Ai62dhBwryqTAwaHBJqqWzF4
+	cCmPhHu1dzjgsWcQYDiZjIO78DkHWowmAmprChA4zb0YJBe8wCG534WDt/gmBxoyfDjklpXi
+	0GxwI/gt7SoH6s1JXHiZfwuHmoIEAuoKZ4OhzEHAyzvdCLK7H+Hw+5UgcAz4MGiw9nOgP28x
+	GIsrMLh8eIgLFY17wOF1YOB61UmCr3kNJNZXcaOimcfOQZzpabiNmPzzB5jjCfcJxjscwlSU
+	/Ikx+utdOGPLbeUyVbXBTKFFx4zay7mMpfQwydwo+RVjbO1SxlBUixjr6Z++WPiVOFKt0mnZ
+	BbEqjXaVaKsEQsUSKYhDw6RiyYqIbR+GhouWrY7cxcbt3suql63eIY496e7G4iv53xsfNuAJ
+	6PHMdDSdR1NhtLn6GicdzeAFUGcQ3Wsp4fiN+XT5wKPXLKBHm9JJf6gP0X2exNeNSkT/Ut42
+	lSKoYPq6Po2cZJJaQjd2t+CTHEgF0SnWHGKygFO3AuikorYpQ0BtoEvN7gmDx+NTUXRR4zb/
+	6A1Ej92yTY3yqbfp2zkdxCTj1F46c8AzlcepefTZcd6kPJ2S0NXZLtz/0vfowWN9pJ9/pPvH
+	PMiABLlvLOW+sZT735JfDqGbx59h/5M/oE0nn+N+XkWXlfUShYhbigJZnUYhV2gkYo1ModEp
+	5eKdKoUFTZxLVd2w9SLK7+oT2xHGQ3YUNNF0Xjh3DwkJpUrJigL5Bxf2sQH8XbL9P7Bq1Xa1
+	Lo7V2FH4xC9m4cJ3dqombk+p3S5ZuTxcErZSujxcunKFaA5/Q/zPsgBKLtOy37JsPKv+t4fx
+	pgsTMN3nnatEVv3GxIUPIuLyhmaHf5S7c9aWtft164zbhLOr4Um/iXc39eLwyPqz8/e8+hSP
+	NX4mtQW6qz01BwTyefsq2qcpVOKN9zcFyzN9YcINR7SVT2JuOt2K3hiyIvjMoHrt5vr3ZZuO
+	FC/xJZrKj+V1nWZjI87TcsGXxTrH5ewaQcEzeZbFK46qY08Y142hFTvmLJrxbNrTa963XKci
+	XUZXci05eiW6Ibrrquab7I+PtjszxvgxA0vnise1axK3Nm052BOWk53uZt5d01xuXhz2yQgz
+	EhgS+ij0Oxupbx2dtcw8tO9Gqq1t/wKLxjLPl695EbRpkTfr6fG7PM9mSjd+VURoYmWSEFyt
+	kf0DO6fsqMMEAAA=
+X-CMS-MailID: 20240315145833eucas1p213fce847384eb45d99b496e63aeef842
+X-Msg-Generator: CA
+X-RootMTR: 20240314224256eucas1p292b70c755674fe9311d190a8b50e1ce1
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240314224256eucas1p292b70c755674fe9311d190a8b50e1ce1
+References: <20240314-jag-sysctl_remset_net-v1-0-aa26b44d29d9@samsung.com>
+	<CGME20240314224256eucas1p292b70c755674fe9311d190a8b50e1ce1@eucas1p2.samsung.com>
+	<20240314154248.155d96a4@kernel.org>
 
-Florian Westphal <fw@strlen.de> wrote:
-> Eric Dumazet <edumazet@google.com> wrote:
-> > Thanks for taking a look Florian.
-> > 
-> > Perhaps not messing with truesize at all would help ?
-> >
-> > Something based on this POC :
-> > 
-> >                 spin_lock(&qp->q.lock);
-> > +               if (!qp->q.sk) {
-> > +                       struct sock *sk = skb->sk;
-> > 
-> > +                       if (sk && refcount_inc_not_zero(&sk->sk_refcnt))
-> > +                               qp->q.sk = sk;
-> 
-> Unfortunetely I did not get this to work.
-> 
-> sk_refcnt is 0.  sk is kept alive by sock_wfree destructor.
-> 
-> I don't know how to recover from this, refcnt cannot be "repaired"
-> anymore.
-> 
-> I could artificially inflate sk_wmem counter by 1, to prevent release,
-> but that needs yet another sock_wfree-like destructor.
-> 
-> I'm already not sure how this existing scheme works, there are
-> multiple places that check for skb->destructor == sock_wfree,
-> yet we have is_skb_wmem helper that checks __sock_wfree and tcp_wfree.
-> 
-> Removing defrag from output seems like best option, but it will
-> surely break some scenarios.
-> 
-> Or, I could just fail reasm if sk refcount is already 0, that would
-> likely work too?
+--onm3lc3zkynvura4
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I am going to test (and formally submit if no issues found):
+On Thu, Mar 14, 2024 at 03:42:48PM -0700, Jakub Kicinski wrote:
+> On Thu, 14 Mar 2024 20:20:40 +0100 Joel Granados via B4 Relay wrote:
+> > These commits remove the sentinel element (last empty element) from the
+> > sysctl arrays of all the files under the "net/" directory that register
+> > a sysctl array. The merging of the preparation patches [4] to mainline
+> > allows us to just remove sentinel elements without changing behavior.
+> > This is safe because the sysctl registration code (register_sysctl() and
+> > friends) use the array size in addition to checking for a sentinel [1].
+>=20
+> Thanks, but please resend after the merge window, we don't apply
+> code to -next until -rc1 is cut.
+of course. I'll resend after -rc1 hits kernel.org.
 
-inet: inet_defrag: prevent sk release while still in use
+Best
 
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 3023bc2be6a1..b1aeed510f24 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -753,8 +753,6 @@ typedef unsigned char *sk_buff_data_t;
-  *	@list: queue head
-  *	@ll_node: anchor in an llist (eg socket defer_list)
-  *	@sk: Socket we are owned by
-- *	@ip_defrag_offset: (aka @sk) alternate use of @sk, used in
-- *		fragmentation management
-  *	@dev: Device we arrived on/are leaving by
-  *	@dev_scratch: (aka @dev) alternate use of @dev when @dev would be %NULL
-  *	@cb: Control buffer. Free for use by every layer. Put private vars here
-@@ -875,10 +873,7 @@ struct sk_buff {
- 		struct llist_node	ll_node;
- 	};
- 
--	union {
--		struct sock		*sk;
--		int			ip_defrag_offset;
--	};
-+	struct sock		*sk;
- 
- 	union {
- 		ktime_t		tstamp;
-diff --git a/net/ipv4/inet_fragment.c b/net/ipv4/inet_fragment.c
-index 7072fc0783ef..fab1ea5df089 100644
---- a/net/ipv4/inet_fragment.c
-+++ b/net/ipv4/inet_fragment.c
-@@ -39,6 +39,7 @@ struct ipfrag_skb_cb {
- 	};
- 	struct sk_buff		*next_frag;
- 	int			frag_run_len;
-+	int			ip_defrag_offset;
- };
- 
- #define FRAG_CB(skb)		((struct ipfrag_skb_cb *)((skb)->cb))
-@@ -396,12 +397,12 @@ int inet_frag_queue_insert(struct inet_frag_queue *q, struct sk_buff *skb,
- 	 */
- 	if (!last)
- 		fragrun_create(q, skb);  /* First fragment. */
--	else if (last->ip_defrag_offset + last->len < end) {
-+	else if (FRAG_CB(last)->ip_defrag_offset + last->len < end) {
- 		/* This is the common case: skb goes to the end. */
- 		/* Detect and discard overlaps. */
--		if (offset < last->ip_defrag_offset + last->len)
-+		if (offset < FRAG_CB(last)->ip_defrag_offset + last->len)
- 			return IPFRAG_OVERLAP;
--		if (offset == last->ip_defrag_offset + last->len)
-+		if (offset == FRAG_CB(last)->ip_defrag_offset + last->len)
- 			fragrun_append_to_last(q, skb);
- 		else
- 			fragrun_create(q, skb);
-@@ -418,13 +419,13 @@ int inet_frag_queue_insert(struct inet_frag_queue *q, struct sk_buff *skb,
- 
- 			parent = *rbn;
- 			curr = rb_to_skb(parent);
--			curr_run_end = curr->ip_defrag_offset +
-+			curr_run_end = FRAG_CB(curr)->ip_defrag_offset +
- 					FRAG_CB(curr)->frag_run_len;
--			if (end <= curr->ip_defrag_offset)
-+			if (end <= FRAG_CB(curr)->ip_defrag_offset)
- 				rbn = &parent->rb_left;
- 			else if (offset >= curr_run_end)
- 				rbn = &parent->rb_right;
--			else if (offset >= curr->ip_defrag_offset &&
-+			else if (offset >= FRAG_CB(curr)->ip_defrag_offset &&
- 				 end <= curr_run_end)
- 				return IPFRAG_DUP;
- 			else
-@@ -438,7 +439,7 @@ int inet_frag_queue_insert(struct inet_frag_queue *q, struct sk_buff *skb,
- 		rb_insert_color(&skb->rbnode, &q->rb_fragments);
- 	}
- 
--	skb->ip_defrag_offset = offset;
-+	FRAG_CB(skb)->ip_defrag_offset = offset;
- 
- 	return IPFRAG_OK;
- }
-@@ -448,13 +449,29 @@ void *inet_frag_reasm_prepare(struct inet_frag_queue *q, struct sk_buff *skb,
- 			      struct sk_buff *parent)
- {
- 	struct sk_buff *fp, *head = skb_rb_first(&q->rb_fragments);
--	struct sk_buff **nextp;
-+	struct sk_buff **nextp = NULL;
-+	struct sock *sk = skb->sk;
- 	int delta;
- 
-+	if (sk) {
-+		if (!refcount_inc_not_zero(&sk->sk_refcnt))
-+			return NULL;
-+
-+		/* need to orphan now, both this function and
-+		 * inet_frag_reasm_finish alter skb->truesize, which
-+		 * messes up sk->sk_wmem accounting.
-+		 * skb->sk might have been passed as argument to dst->output
-+		 * and must remain valid until tx completes.
-+		 */
-+		skb_orphan(skb);
-+	}
-+
- 	if (head != skb) {
- 		fp = skb_clone(skb, GFP_ATOMIC);
--		if (!fp)
--			return NULL;
-+		if (!fp) {
-+			head = skb;
-+			goto out_restore_sk;
-+		}
- 		FRAG_CB(fp)->next_frag = FRAG_CB(skb)->next_frag;
- 		if (RB_EMPTY_NODE(&skb->rbnode))
- 			FRAG_CB(parent)->next_frag = fp;
-@@ -470,13 +487,14 @@ void *inet_frag_reasm_prepare(struct inet_frag_queue *q, struct sk_buff *skb,
- 		consume_skb(head);
- 		head = skb;
- 	}
--	WARN_ON(head->ip_defrag_offset != 0);
-+	WARN_ON(FRAG_CB(head)->ip_defrag_offset != 0);
-+	DEBUG_NET_WARN_ON_ONCE(head->sk);
- 
- 	delta = -head->truesize;
- 
- 	/* Head of list must not be cloned. */
- 	if (skb_unclone(head, GFP_ATOMIC))
--		return NULL;
-+		goto out_restore_sk;
- 
- 	delta += head->truesize;
- 	if (delta)
-@@ -492,7 +510,7 @@ void *inet_frag_reasm_prepare(struct inet_frag_queue *q, struct sk_buff *skb,
- 
- 		clone = alloc_skb(0, GFP_ATOMIC);
- 		if (!clone)
--			return NULL;
-+			goto out_restore_sk;
- 		skb_shinfo(clone)->frag_list = skb_shinfo(head)->frag_list;
- 		skb_frag_list_init(head);
- 		for (i = 0; i < skb_shinfo(head)->nr_frags; i++)
-@@ -509,6 +527,12 @@ void *inet_frag_reasm_prepare(struct inet_frag_queue *q, struct sk_buff *skb,
- 		nextp = &skb_shinfo(head)->frag_list;
- 	}
- 
-+out_restore_sk:
-+	if (sk) {
-+		head->sk = sk;
-+		head->destructor = sock_edemux;
-+	}
-+
- 	return nextp;
- }
- EXPORT_SYMBOL(inet_frag_reasm_prepare);
-diff --git a/net/ipv4/ip_fragment.c b/net/ipv4/ip_fragment.c
-index a4941f53b523..fb947d1613fe 100644
---- a/net/ipv4/ip_fragment.c
-+++ b/net/ipv4/ip_fragment.c
-@@ -384,6 +384,7 @@ static int ip_frag_queue(struct ipq *qp, struct sk_buff *skb)
- 	}
- 
- 	skb_dst_drop(skb);
-+	skb_orphan(skb);
- 	return -EINPROGRESS;
- 
- insert_error:
-@@ -487,7 +488,6 @@ int ip_defrag(struct net *net, struct sk_buff *skb, u32 user)
- 	struct ipq *qp;
- 
- 	__IP_INC_STATS(net, IPSTATS_MIB_REASMREQDS);
--	skb_orphan(skb);
- 
- 	/* Lookup (or create) queue header */
- 	qp = ip_find(net, ip_hdr(skb), user, vif);
-diff --git a/net/ipv6/netfilter/nf_conntrack_reasm.c b/net/ipv6/netfilter/nf_conntrack_reasm.c
-index 1a51a44571c3..d0dcbaca1994 100644
---- a/net/ipv6/netfilter/nf_conntrack_reasm.c
-+++ b/net/ipv6/netfilter/nf_conntrack_reasm.c
-@@ -294,6 +294,7 @@ static int nf_ct_frag6_queue(struct frag_queue *fq, struct sk_buff *skb,
- 	}
- 
- 	skb_dst_drop(skb);
-+	skb_orphan(skb);
- 	return -EINPROGRESS;
- 
- insert_error:
-@@ -469,7 +470,6 @@ int nf_ct_frag6_gather(struct net *net, struct sk_buff *skb, u32 user)
- 	hdr = ipv6_hdr(skb);
- 	fhdr = (struct frag_hdr *)skb_transport_header(skb);
- 
--	skb_orphan(skb);
- 	fq = fq_find(net, fhdr->identification, user, hdr,
- 		     skb->dev ? skb->dev->ifindex : 0);
- 	if (fq == NULL) {
+--=20
+
+Joel Granados
+
+--onm3lc3zkynvura4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmX0YhUACgkQupfNUreW
+QU8cEAv+M1Ewqt08SIopWKdreIIqD2kzMZ3Ql+7uN752tp2sVtVbFjjrO8sKICiz
+g6Oiqw0mocBQd7wjnGLc5+VxeYK+5VG4geP6jecNsNgGRdSaXdEqSzqf60Ri+nq5
+etfLQbWjO306ZcZGEitSwDxTJhoG00IwTZdu1zXhsypcNAW46xVEnSuT1tdx3wB9
+7CoVy5hYg+KrYrLGfAPbG2g9iOOTG4jNFL3SjiiqNb/1qhknf4D0CL8f0v/5yYM8
+J0ple4a3xlyODh5hiN7PBuOveQd7hLZMeK3/WhByQn9QSe3sc5J7Ue5I40jtQ+1p
+14ahVOh5+Dh9bxxKdVzjnx2FXbG7MF6ZdOw9LarYon3W2xx++UfLA9SF4X9f+Z+C
+WwPzCt7Yk/WmShpqM1KCOVAUwcNtdF2Jttyk2vKqWDB//02sqhtO+ndueWvLNgti
+3H427shFf9/ctykv2dQmthRviho30MSC9eB3BcjmUL8SE5G6WwMb/csBkkV+DG3d
+0widvqRM
+=vtM5
+-----END PGP SIGNATURE-----
+
+--onm3lc3zkynvura4--
 
