@@ -1,123 +1,130 @@
-Return-Path: <linux-hams+bounces-67-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-68-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7060688EEE6
-	for <lists+linux-hams@lfdr.de>; Wed, 27 Mar 2024 20:11:08 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1BF88F74D
+	for <lists+linux-hams@lfdr.de>; Thu, 28 Mar 2024 06:35:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E618EB235B0
-	for <lists+linux-hams@lfdr.de>; Wed, 27 Mar 2024 19:11:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF5E21C2699F
+	for <lists+linux-hams@lfdr.de>; Thu, 28 Mar 2024 05:35:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73C5E152169;
-	Wed, 27 Mar 2024 19:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R1Q1iO77"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 146B745944;
+	Thu, 28 Mar 2024 05:35:12 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4EE1514D8;
-	Wed, 27 Mar 2024 19:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1496C2E630;
+	Thu, 28 Mar 2024 05:35:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711566630; cv=none; b=LXXx+7W+MQWfJ5hR0BJGoFED3RMWG8zPlQsqaD29GSjRVeUx10SEUHEO3oLegEvr51rk3BpAYaNsOaFdzbhI77I93JTXx8isPS3dUlPtQ6TSUAcxl6wDSdbve8RS0DX0u1pcuGqawZMpIAnnSuXzPWweU1NqGg3kHpArcOALV/w=
+	t=1711604111; cv=none; b=GNjytftecE6PJ9tyLe2mgCbmCn7T7gCSnZtA5PpSgwkJ5KBmkAaRBkkAwWtM82M4URjGnTQWnw8oWWMd4Uplc3daHSdUoMUdbstl7SEdttH8Se+kwna6YPuLZcD3fsBWgJKKYhseMGjvDT6YwnMAgajurSAc92Ao0IWlCmX3Rao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711566630; c=relaxed/simple;
-	bh=ceAJBDJsMQ5sDuySRq7ldhrporPZTG7ZT1EpQXcXN1Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lUuu6kmhDEGaFrv1j7M/uNnetq0P7KqBD9lXaB60xim4dnDcr0RJt5WCV1TKZAtM+wOmfGTq05/aLBFG1PvtDEearaGIUbbdl9FKyuVeftAeqN9wOvZQPcQYGyqVL61+C5iX2aoHdf7wgrYfTKDrdn7SQbCeCmgwEky7Rbcqpj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R1Q1iO77; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D33E7C433F1;
-	Wed, 27 Mar 2024 19:10:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711566629;
-	bh=ceAJBDJsMQ5sDuySRq7ldhrporPZTG7ZT1EpQXcXN1Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R1Q1iO770PoO1j4FciX9Y5BU9kmYJujFc52pzkyG+BLJxx/CLBKAAVYC8Lt9REJDJ
-	 HpckABPRRQMoSyMxYM0p1Dv4Qi8flAq+1UXQhAVh5rKC0QHADZxp9GwXbp8IWoXTQA
-	 5f4/qnMydLfKJ3dMCIj2cgBUYE+CCuyNkB6AAhB8jv9Xd+ZdjqaK7hpormBBPSP+In
-	 wFrgpYsxVFyY48Va7RwjLqmZ/hgQOQEg+gLxCgg6+PtJ4mTvxXMXP214XILZM0HdyS
-	 sZy3JhkjTuROHpTWwwtLu11nXHKCWNHvX73CzzQyec4rdFXxAlZY4Jj2ea28lIrr+a
-	 l4JTADtsvGHyw==
-Date: Wed, 27 Mar 2024 19:10:25 +0000
-From: Simon Horman <horms@kernel.org>
-To: Duoming Zhou <duoming@zju.edu.cn>
+	s=arc-20240116; t=1711604111; c=relaxed/simple;
+	bh=Lgd4O19vrz5qqCNALb/TQFydB9SMVctddaeUCF0e9so=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=Mk3n9I4U2m+RwGhz/azC2R1RQvccC9UNlW0M5fT53Q+m7uvCrPAOwQq4ycpfb9lIE+iiZEmnFBCUXwm458BNpwZVMUSA6wl3EEsKb0ikzh02Q6rkV2Z4R6uOGsDVNiT+l7W9ZgIhh9ImDIJ+78Bt6AP5jFHi0LFu7UGaxtnNql8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=52.237.72.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from duoming$zju.edu.cn ( [218.12.18.152] ) by
+ ajax-webmail-mail-app3 (Coremail) ; Thu, 28 Mar 2024 13:34:48 +0800
+ (GMT+08:00)
+Date: Thu, 28 Mar 2024 13:34:48 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: duoming@zju.edu.cn
+To: "Simon Horman" <horms@kernel.org>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-hams@vger.kernel.org, pabeni@redhat.com, kuba@kernel.org,
 	edumazet@google.com, davem@davemloft.net, jreuter@yaina.de
 Subject: Re: [PATCH net] ax25: fix use-after-free bugs caused by
  ax25_ds_del_timer
-Message-ID: <20240327191025.GU403975@kernel.org>
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT5 build
+ 20231205(37e20f0e) Copyright (c) 2002-2024 www.mailtech.cn zju.edu.cn
+In-Reply-To: <20240327191025.GU403975@kernel.org>
 References: <20240326142542.118058-1-duoming@zju.edu.cn>
+ <20240327191025.GU403975@kernel.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240326142542.118058-1-duoming@zju.edu.cn>
+Message-ID: <7192041a.9d52.18e838dbf1b.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:cC_KCgCXvMd5AQVmOTZDAQ--.26395W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwUOAWYEJBkNNgAAst
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-On Tue, Mar 26, 2024 at 10:25:42PM +0800, Duoming Zhou wrote:
-> When the ax25 device is detaching, the ax25_dev_device_down()
-> calls ax25_ds_del_timer() to cleanup the slave_timer. When
-> the timer handler is running, the ax25_ds_del_timer() that
-> calls del_timer() in it will return directly. As a result,
-> the use-after-free bugs could happen, one of the scenarios
-> is shown below:
-> 
->       (Thread 1)          |      (Thread 2)
->                           | ax25_ds_timeout()
-> ax25_dev_device_down()    |
->   ax25_ds_del_timer()     |
->     del_timer()           |
->   ax25_dev_put() //FREE   |
->                           |  ax25_dev-> //USE
-> 
-> In order to mitigate bugs, when the device is detaching, use
-> timer_shutdown_sync() to stop the timer.
-
-FWIIW, in my reading of things there is another failure mode whereby
-ax25_ds_timeout may rearm the timer after the call to del_timer() but
-before the call to ax25_dev_put().
-
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-> ---
->  net/ax25/ax25_ds_timer.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/net/ax25/ax25_ds_timer.c b/net/ax25/ax25_ds_timer.c
-> index c4f8adbf814..5624c0d174c 100644
-> --- a/net/ax25/ax25_ds_timer.c
-> +++ b/net/ax25/ax25_ds_timer.c
-> @@ -43,7 +43,12 @@ void ax25_ds_setup_timer(ax25_dev *ax25_dev)
->  
->  void ax25_ds_del_timer(ax25_dev *ax25_dev)
->  {
-> -	if (ax25_dev)
-> +	if (!ax25_dev)
-> +		return;
-> +
-> +	if (!ax25_dev->device_up)
-> +		timer_shutdown_sync(&ax25_dev->dama.slave_timer);
-> +	else
->  		del_timer(&ax25_dev->dama.slave_timer);
->  }
-
-I think that a) it is always correct to call timer_shutdown_sync,
-and b) ax25_dev->device_up is always true. So a call to
-timer_shutdown_sync can simply replace the call to del_timer.
-
-Also, not strictly related, I think ax25_dev cannot be NULL,
-so that check could be dropped. But perhaps that is better left alone.
-
-
-Zooming out a bit, has removal of ax25 been considered.
-I didn't check the logs thoroughly, but I'm not convinced it's been
-maintained - other than clean-ups and by-inspection bug fixes - since git
-history began.
+T24gV2VkLCAyNyBNYXIgMjAyNCAxOToxMDoyNSArMDAwMCBTaW1vbiBIb3JtYW4gd3JvdGU6Cj4g
+PiBXaGVuIHRoZSBheDI1IGRldmljZSBpcyBkZXRhY2hpbmcsIHRoZSBheDI1X2Rldl9kZXZpY2Vf
+ZG93bigpCj4gPiBjYWxscyBheDI1X2RzX2RlbF90aW1lcigpIHRvIGNsZWFudXAgdGhlIHNsYXZl
+X3RpbWVyLiBXaGVuCj4gPiB0aGUgdGltZXIgaGFuZGxlciBpcyBydW5uaW5nLCB0aGUgYXgyNV9k
+c19kZWxfdGltZXIoKSB0aGF0Cj4gPiBjYWxscyBkZWxfdGltZXIoKSBpbiBpdCB3aWxsIHJldHVy
+biBkaXJlY3RseS4gQXMgYSByZXN1bHQsCj4gPiB0aGUgdXNlLWFmdGVyLWZyZWUgYnVncyBjb3Vs
+ZCBoYXBwZW4sIG9uZSBvZiB0aGUgc2NlbmFyaW9zCj4gPiBpcyBzaG93biBiZWxvdzoKPiA+IAo+
+ID4gICAgICAgKFRocmVhZCAxKSAgICAgICAgICB8ICAgICAgKFRocmVhZCAyKQo+ID4gICAgICAg
+ICAgICAgICAgICAgICAgICAgICB8IGF4MjVfZHNfdGltZW91dCgpCj4gPiBheDI1X2Rldl9kZXZp
+Y2VfZG93bigpICAgIHwKPiA+ICAgYXgyNV9kc19kZWxfdGltZXIoKSAgICAgfAo+ID4gICAgIGRl
+bF90aW1lcigpICAgICAgICAgICB8Cj4gPiAgIGF4MjVfZGV2X3B1dCgpIC8vRlJFRSAgIHwKPiA+
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgYXgyNV9kZXYtPiAvL1VTRQo+ID4gCj4gPiBJ
+biBvcmRlciB0byBtaXRpZ2F0ZSBidWdzLCB3aGVuIHRoZSBkZXZpY2UgaXMgZGV0YWNoaW5nLCB1
+c2UKPiA+IHRpbWVyX3NodXRkb3duX3N5bmMoKSB0byBzdG9wIHRoZSB0aW1lci4KPiAKPiBGV0lJ
+VywgaW4gbXkgcmVhZGluZyBvZiB0aGluZ3MgdGhlcmUgaXMgYW5vdGhlciBmYWlsdXJlIG1vZGUg
+d2hlcmVieQo+IGF4MjVfZHNfdGltZW91dCBtYXkgcmVhcm0gdGhlIHRpbWVyIGFmdGVyIHRoZSBj
+YWxsIHRvIGRlbF90aW1lcigpIGJ1dAo+IGJlZm9yZSB0aGUgY2FsbCB0byBheDI1X2Rldl9wdXQo
+KS4KCkkgdGhpbmsgdXNpbmcgdGltZXJfc2h1dGRvd25fc3luYygpIG9yIGRlbF90aW1lcl9zeW5j
+KCkgdG8gcmVwbGFjZSBkZWxfdGltZXIoKQpjb3VsZCBwcmV2ZW50IHRoZSByZWFybS4KCj4gPiBG
+aXhlczogMWRhMTc3ZTRjM2Y0ICgiTGludXgtMi42LjEyLXJjMiIpCj4gPiBTaWduZWQtb2ZmLWJ5
+OiBEdW9taW5nIFpob3UgPGR1b21pbmdAemp1LmVkdS5jbj4KPiA+IC0tLQo+ID4gIG5ldC9heDI1
+L2F4MjVfZHNfdGltZXIuYyB8IDcgKysrKysrLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2Vy
+dGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL25ldC9heDI1L2F4
+MjVfZHNfdGltZXIuYyBiL25ldC9heDI1L2F4MjVfZHNfdGltZXIuYwo+ID4gaW5kZXggYzRmOGFk
+YmY4MTQuLjU2MjRjMGQxNzRjIDEwMDY0NAo+ID4gLS0tIGEvbmV0L2F4MjUvYXgyNV9kc190aW1l
+ci5jCj4gPiArKysgYi9uZXQvYXgyNS9heDI1X2RzX3RpbWVyLmMKPiA+IEBAIC00Myw3ICs0Mywx
+MiBAQCB2b2lkIGF4MjVfZHNfc2V0dXBfdGltZXIoYXgyNV9kZXYgKmF4MjVfZGV2KQo+ID4gIAo+
+ID4gIHZvaWQgYXgyNV9kc19kZWxfdGltZXIoYXgyNV9kZXYgKmF4MjVfZGV2KQo+ID4gIHsKPiA+
+IC0JaWYgKGF4MjVfZGV2KQo+ID4gKwlpZiAoIWF4MjVfZGV2KQo+ID4gKwkJcmV0dXJuOwo+ID4g
+Kwo+ID4gKwlpZiAoIWF4MjVfZGV2LT5kZXZpY2VfdXApCj4gPiArCQl0aW1lcl9zaHV0ZG93bl9z
+eW5jKCZheDI1X2Rldi0+ZGFtYS5zbGF2ZV90aW1lcik7Cj4gPiArCWVsc2UKPiA+ICAJCWRlbF90
+aW1lcigmYXgyNV9kZXYtPmRhbWEuc2xhdmVfdGltZXIpOwo+ID4gIH0KPiAKPiBJIHRoaW5rIHRo
+YXQgYSkgaXQgaXMgYWx3YXlzIGNvcnJlY3QgdG8gY2FsbCB0aW1lcl9zaHV0ZG93bl9zeW5jLAo+
+IGFuZCBiKSBheDI1X2Rldi0+ZGV2aWNlX3VwIGlzIGFsd2F5cyB0cnVlLiBTbyBhIGNhbGwgdG8K
+PiB0aW1lcl9zaHV0ZG93bl9zeW5jIGNhbiBzaW1wbHkgcmVwbGFjZSB0aGUgY2FsbCB0byBkZWxf
+dGltZXIuCgpJIHRoaW5rIHRpbWVyX3NodXRkb3duKigpIGlzIHVzZWQgZm9yIHRoZSBjb2RlIHBh
+dGggdG8gY2xlYW4gdXAgdGhlCmRyaXZlciBvciBkZXRhY2ggdGhlIGRldmljZS4gSWYgdGltZXIg
+aXMgc2h1dCBkb3duIGJ5IHRpbWVyX3NodXRkb3duKigpLAppdCBjb3VsZCBub3QgYmUgcmUtYXJt
+ZWQgYWdhaW4gdW5sZXNzIHdlIHJlaW5pdGlhbGl6ZSB0aGUgdGltZXIuIFRoZQpzbGF2ZV90aW1l
+ciBzaG91bGQgb25seSBiZSBzaHV0IGRvd24gd2hlbiB0aGUgYXgyNSBkZXZpY2UgaXMgZGV0YWNo
+aW5nIG9yCnRoZSBkcml2ZXIgaXMgcmVtb3ZpbmcuIEFuZCBpdCBzaG91bGQgbm90IGJlIHNodXQg
+ZG93biBpbiBvdGhlciBzY2VuYXJpb3MsCnN1Y2ggYXMgY2FsbGVkIGluIGF4MjVfZHNfc3RhdGUy
+X21hY2hpbmUoKSBvciBheDI1X2RzX3N0YXRlM19tYWNoaW5lKCkuClNvIEkgdGhpbmsgY2FsbGlu
+ZyB0aW1lcl9zaHV0ZG93bl9zeW5jKCkgaXMgbm90IGFsd2F5cyBjb3JyZWN0LgoKV2hhdCdzIG1v
+cmUsIHRoZSBheDI1X2Rldi0+ZGV2aWNlX3VwIGlzIG5vdCBhbHdheXMgdHJ1ZS4gSXQgaXMgc2V0
+IHRvCmZhbHNlIGluIGF4MjVfa2lsbF9ieV9kZXZpY2UoKS4KCkluIGEgd29yZCwgdGhlIHRpbWVy
+X3NodXRkb3duX3N5bmMoKSBjb3VsZCBub3QgcmVwbGFjZSB0aGUgZGVsX3RpbWVyKCkKY29tcGxl
+dGVseS4KCj4gQWxzbywgbm90IHN0cmljdGx5IHJlbGF0ZWQsIEkgdGhpbmsgYXgyNV9kZXYgY2Fu
+bm90IGJlIE5VTEwsCj4gc28gdGhhdCBjaGVjayBjb3VsZCBiZSBkcm9wcGVkLiBCdXQgcGVyaGFw
+cyB0aGF0IGlzIGJldHRlciBsZWZ0IGFsb25lLgoKVGhlIGF4MjVfZGV2IGNhbm5vdCBub3QgYmUg
+TlVMTCwgYmVjYXVzZSB3ZSBvbmx5IHVzZSBheDI1X2Rldl9wdXQoKSB0bwpmcmVlIHRoZSBheDI1
+X2RldiBpbnN0ZWFkIG9mIHNldHRpbmcgaXMgdG8gTlVMTC4gU28gSSB0aGluayB0aGUgY2hlY2sK
+Y291bGQgYmUgZHJvcHBlZC4KCkRvIHlvdSB0aGluayB0aGUgZm9sbG93aW5nIHBsYW4gaXMgcHJv
+cGVyPwoKZGlmZiAtLWdpdCBhL25ldC9heDI1L2F4MjVfZHNfdGltZXIuYyBiL25ldC9heDI1L2F4
+MjVfZHNfdGltZXIuYwppbmRleCBjNGY4YWRiZjgxNDQuLmYxY2FiNGVmZmE0NCAxMDA2NDQKLS0t
+IGEvbmV0L2F4MjUvYXgyNV9kc190aW1lci5jCisrKyBiL25ldC9heDI1L2F4MjVfZHNfdGltZXIu
+YwpAQCAtNDMsOCArNDMsNyBAQCB2b2lkIGF4MjVfZHNfc2V0dXBfdGltZXIoYXgyNV9kZXYgKmF4
+MjVfZGV2KQoKIHZvaWQgYXgyNV9kc19kZWxfdGltZXIoYXgyNV9kZXYgKmF4MjVfZGV2KQogewot
+ICAgICAgIGlmIChheDI1X2RldikKLSAgICAgICAgICAgICAgIGRlbF90aW1lcigmYXgyNV9kZXYt
+PmRhbWEuc2xhdmVfdGltZXIpOworICAgICAgIGRlbF90aW1lcl9zeW5jKCZheDI1X2Rldi0+ZGFt
+YS5zbGF2ZV90aW1lcik7CiB9CgpUaGVyZSBpcyBubyBkZWFkbG9jayB3aWxsIGhhcHBlbi4KCj4g
+Wm9vbWluZyBvdXQgYSBiaXQsIGhhcyByZW1vdmFsIG9mIGF4MjUgYmVlbiBjb25zaWRlcmVkLgo+
+IEkgZGlkbid0IGNoZWNrIHRoZSBsb2dzIHRob3JvdWdobHksIGJ1dCBJJ20gbm90IGNvbnZpbmNl
+ZCBpdCdzIGJlZW4KPiBtYWludGFpbmVkIC0gb3RoZXIgdGhhbiBjbGVhbi11cHMgYW5kIGJ5LWlu
+c3BlY3Rpb24gYnVnIGZpeGVzIC0gc2luY2UgZ2l0Cj4gaGlzdG9yeSBiZWdhbi4KCkJlc3QgcmVn
+YXJkcywKRHVvbWluZyBaaG91
 
