@@ -1,180 +1,161 @@
-Return-Path: <linux-hams+bounces-74-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-75-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF0289080B
-	for <lists+linux-hams@lfdr.de>; Thu, 28 Mar 2024 19:13:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D13B8909B0
+	for <lists+linux-hams@lfdr.de>; Thu, 28 Mar 2024 20:50:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3022EB21298
-	for <lists+linux-hams@lfdr.de>; Thu, 28 Mar 2024 18:13:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDD5A1C22585
+	for <lists+linux-hams@lfdr.de>; Thu, 28 Mar 2024 19:50:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F2F3130AF3;
-	Thu, 28 Mar 2024 18:12:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2D2C13A244;
+	Thu, 28 Mar 2024 19:50:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dlcDQfqZ"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="kSsq3Ssw"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-fw-2101.amazon.com (smtp-fw-2101.amazon.com [72.21.196.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371D27E101;
-	Thu, 28 Mar 2024 18:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E48F13957C;
+	Thu, 28 Mar 2024 19:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=72.21.196.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711649575; cv=none; b=nApEtXLVen+7sfwLuFCONrWjjDsabyb6Xwp91Q9+At+WYpACXEii+skr/BR9G/XffvDsAVeSn82eHgadZ0BdGlDRsNWp/v0/6atD9A7n4ECjDhHMlmdsTLCa+0p2PYKgdrFaJWf9RB2jzkusD7AYqiNEaxTDsroUwACt1WjLfHs=
+	t=1711655406; cv=none; b=C2ZKThbQY0sbskjF85FLhOcCLFjW+MeI4k2t9p7CUyCVvA7Fwr6hIZ40yLOxxpOvBXn4Ewh/oZ06sBf3Sg7tmby00JeJpDb54qwebAkoBvnRIA8O/ac8cb+tKI5Xm7wIsoJdYQcYbE9RhMwklBYf5V3jYslxbeqgCg7xm8v/CZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711649575; c=relaxed/simple;
-	bh=SS4ILHIMnZROum7pziPlPCiUbOz/qiP5WKjXEHTgiUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QJUSTaouE+2ZCkDQMpqcp5G9FiNphbi6uPOGQbr5WjoY9Y2w6e/Kg4e7qZIw3VNuXr260/hCkuBIwLfp4n/iD9L8TcxhwxfG6Hfqih0T9Hn1gYW8L8YjlKuuTKmvh5fqGgVL+kGIhERObtK58mzY947ZJ9Pey70svyfmMdlQUec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dlcDQfqZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E010BC433F1;
-	Thu, 28 Mar 2024 18:12:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711649574;
-	bh=SS4ILHIMnZROum7pziPlPCiUbOz/qiP5WKjXEHTgiUI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dlcDQfqZ65A1PqbO9Rpv9NsuDCSwigXBlSLTdMxrCHXi2LF0PfJJjwerjXHVowvrM
-	 gmyXsTTIhutyl6amP962E1muMabGdc8AN9P5w6A/9icpY0AxG18rb7p0JvmYJWN4F+
-	 JKXVxAQFHh3WPXxyNW9XX+zOeZqv9nxVusOvDj1gfUBu/+IudNJ+3LsHp0mhwBw79T
-	 ffFKAipJuWXKzO4wZCxJv6MXEXrOr/kYKlRIFML2xdueUZlq4UDTR5rC2PavGBmZlq
-	 Rub2xv3gJlGHASWvYD/kkUH36/17cSeZNDi7PyOkLnkdq6ywLuRLm1N5U6oH+dv01A
-	 rSrhI1F390tow==
-Date: Thu, 28 Mar 2024 18:12:50 +0000
-From: Simon Horman <horms@kernel.org>
-To: duoming@zju.edu.cn
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hams@vger.kernel.org, pabeni@redhat.com, kuba@kernel.org,
-	edumazet@google.com, davem@davemloft.net, jreuter@yaina.de
-Subject: Re: [PATCH net] ax25: fix use-after-free bugs caused by
- ax25_ds_del_timer
-Message-ID: <20240328181250.GI651713@kernel.org>
-References: <20240326142542.118058-1-duoming@zju.edu.cn>
- <20240327191025.GU403975@kernel.org>
- <7192041a.9d52.18e838dbf1b.Coremail.duoming@zju.edu.cn>
+	s=arc-20240116; t=1711655406; c=relaxed/simple;
+	bh=jy7iDHuc6Ej+2jTP9CC2GUNMdvWMnjZbOjyyWldjqgM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pGlWSCU3hewS85fa+0fXK3PiWedXt3sC0SwKVMFgoa/xq/WNN6+LnunaADVYf/SVA1126JpvS5xxwZ8jdDxu0oETekzJTS8d1U0nja60g2HUHO323OOi0gQfRWWHsb+qggCs8wY0LTe9f8bJqhiO9mxfp0Aqf31j/3E4CI0JwqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=kSsq3Ssw; arc=none smtp.client-ip=72.21.196.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1711655404; x=1743191404;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=nJnwU1+gGS+NGNA2zseGcZeJ5QG2IPGlkTTsQ5KCHlw=;
+  b=kSsq3SswdfM+s5M8UqDDX85q+IN/9e+Z567+yJm/QP1kNGJtNRgrVEbl
+   odpo0TI25iXqMG4FHEkylvhcNAI6R2yWFlh9tcBfJJxN+t0/yvVjL+97g
+   tZFDglExU6sH72SoJanz1znpLauXX5knwVJVaV+VuU3Cxnnl9Os8Q5cbG
+   c=;
+X-IronPort-AV: E=Sophos;i="6.07,162,1708387200"; 
+   d="scan'208";a="391312047"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
+  by smtp-border-fw-2101.iad2.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 19:49:56 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [10.0.21.151:20037]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.47.83:2525] with esmtp (Farcaster)
+ id 73cfa33f-945b-445c-ba15-2d07ca3a8590; Thu, 28 Mar 2024 19:49:56 +0000 (UTC)
+X-Farcaster-Flow-ID: 73cfa33f-945b-445c-ba15-2d07ca3a8590
+Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Thu, 28 Mar 2024 19:49:56 +0000
+Received: from 88665a182662.ant.amazon.com.com (10.106.101.27) by
+ EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.28;
+ Thu, 28 Mar 2024 19:49:44 +0000
+From: Kuniyuki Iwashima <kuniyu@amazon.com>
+To: <devnull+j.granados.samsung.com@kernel.org>
+CC: <Dai.Ngo@oracle.com>, <alex.aring@gmail.com>, <alibuda@linux.alibaba.com>,
+	<allison.henderson@oracle.com>, <anna@kernel.org>, <bridge@lists.linux.dev>,
+	<chuck.lever@oracle.com>, <coreteam@netfilter.org>, <courmisch@gmail.com>,
+	<davem@davemloft.net>, <dccp@vger.kernel.org>, <dhowells@redhat.com>,
+	<dsahern@kernel.org>, <edumazet@google.com>, <fw@strlen.de>,
+	<geliang@kernel.org>, <guwen@linux.alibaba.com>,
+	<herbert@gondor.apana.org.au>, <horms@verge.net.au>,
+	<j.granados@samsung.com>, <ja@ssi.bg>, <jaka@linux.ibm.com>,
+	<jlayton@kernel.org>, <jmaloy@redhat.com>, <jreuter@yaina.de>,
+	<kadlec@netfilter.org>, <keescook@chromium.org>, <kolga@netapp.com>,
+	<kuba@kernel.org>, <linux-afs@lists.infradead.org>,
+	<linux-hams@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-nfs@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<linux-s390@vger.kernel.org>, <linux-sctp@vger.kernel.org>,
+	<linux-wpan@vger.kernel.org>, <linux-x25@vger.kernel.org>,
+	<lucien.xin@gmail.com>, <lvs-devel@vger.kernel.org>,
+	<marc.dionne@auristor.com>, <marcelo.leitner@gmail.com>,
+	<martineau@kernel.org>, <matttbe@kernel.org>, <mcgrof@kernel.org>,
+	<miquel.raynal@bootlin.com>, <mptcp@lists.linux.dev>, <ms@dev.tdt.de>,
+	<neilb@suse.de>, <netdev@vger.kernel.org>, <netfilter-devel@vger.kernel.org>,
+	<pabeni@redhat.com>, <pablo@netfilter.org>, <ralf@linux-mips.org>,
+	<razor@blackwall.org>, <rds-devel@oss.oracle.com>, <roopa@nvidia.com>,
+	<stefan@datenfreihafen.org>, <steffen.klassert@secunet.com>,
+	<tipc-discussion@lists.sourceforge.net>, <tom@talpey.com>,
+	<tonylu@linux.alibaba.com>, <trond.myklebust@hammerspace.com>,
+	<wenjia@linux.ibm.com>, <ying.xue@windriver.com>, <kuniyu@amazon.com>
+Subject: [PATCH v2 4/4] ax.25: Remove the now superfluous sentinel elements from ctl_table array
+Date: Thu, 28 Mar 2024 12:49:34 -0700
+Message-ID: <20240328194934.42278-1-kuniyu@amazon.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20240328-jag-sysctl_remset_net-v2-4-52c9fad9a1af@samsung.com>
+References: <20240328-jag-sysctl_remset_net-v2-4-52c9fad9a1af@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7192041a.9d52.18e838dbf1b.Coremail.duoming@zju.edu.cn>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D037UWC001.ant.amazon.com (10.13.139.197) To
+ EX19D004ANA001.ant.amazon.com (10.37.240.138)
 
-On Thu, Mar 28, 2024 at 01:34:48PM +0800, duoming@zju.edu.cn wrote:
-> On Wed, 27 Mar 2024 19:10:25 +0000 Simon Horman wrote:
-> > > When the ax25 device is detaching, the ax25_dev_device_down()
-> > > calls ax25_ds_del_timer() to cleanup the slave_timer. When
-> > > the timer handler is running, the ax25_ds_del_timer() that
-> > > calls del_timer() in it will return directly. As a result,
-> > > the use-after-free bugs could happen, one of the scenarios
-> > > is shown below:
-> > > 
-> > >       (Thread 1)          |      (Thread 2)
-> > >                           | ax25_ds_timeout()
-> > > ax25_dev_device_down()    |
-> > >   ax25_ds_del_timer()     |
-> > >     del_timer()           |
-> > >   ax25_dev_put() //FREE   |
-> > >                           |  ax25_dev-> //USE
-> > > 
-> > > In order to mitigate bugs, when the device is detaching, use
-> > > timer_shutdown_sync() to stop the timer.
-> > 
-> > FWIIW, in my reading of things there is another failure mode whereby
-> > ax25_ds_timeout may rearm the timer after the call to del_timer() but
-> > before the call to ax25_dev_put().
+From: Joel Granados via B4 Relay <devnull+j.granados.samsung.com@kernel.org>
+Date: Thu, 28 Mar 2024 16:40:05 +0100
+> This commit comes at the tail end of a greater effort to remove the
+> empty elements at the end of the ctl_table arrays (sentinels) which will
+> reduce the overall build time size of the kernel and run time memory
+> bloat by ~64 bytes per sentinel (further information Link :
+> https://lore.kernel.org/all/ZO5Yx5JFogGi%2FcBo@bombadil.infradead.org/)
 > 
-> I think using timer_shutdown_sync() or del_timer_sync() to replace del_timer()
-> could prevent the rearm.
+> When we remove the sentinel from ax25_param_table a buffer overflow
+> shows its ugly head. The sentinel's data element used to be changed when
+> CONFIG_AX25_DAMA_SLAVE was not defined.
 
-I think only timer_shutdown() and timer_shutdown_sync() will prevent a
-rearm. But I also think (but am not entirely sure) this is only important
-in the ax25_dev_device_down() case (there are others, as you mention
-below).
+I think it's better to define the relation explicitly between the
+enum and sysctl table by BUILD_BUG_ON() in ax25_register_dev_sysctl()
 
-> > > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> > > Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-> > > ---
-> > >  net/ax25/ax25_ds_timer.c | 7 ++++++-
-> > >  1 file changed, 6 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/net/ax25/ax25_ds_timer.c b/net/ax25/ax25_ds_timer.c
-> > > index c4f8adbf814..5624c0d174c 100644
-> > > --- a/net/ax25/ax25_ds_timer.c
-> > > +++ b/net/ax25/ax25_ds_timer.c
-> > > @@ -43,7 +43,12 @@ void ax25_ds_setup_timer(ax25_dev *ax25_dev)
-> > >  
-> > >  void ax25_ds_del_timer(ax25_dev *ax25_dev)
-> > >  {
-> > > -	if (ax25_dev)
-> > > +	if (!ax25_dev)
-> > > +		return;
-> > > +
-> > > +	if (!ax25_dev->device_up)
-> > > +		timer_shutdown_sync(&ax25_dev->dama.slave_timer);
-> > > +	else
-> > >  		del_timer(&ax25_dev->dama.slave_timer);
-> > >  }
-> > 
-> > I think that a) it is always correct to call timer_shutdown_sync,
-> > and b) ax25_dev->device_up is always true. So a call to
-> > timer_shutdown_sync can simply replace the call to del_timer.
-> 
-> I think timer_shutdown*() is used for the code path to clean up the
-> driver or detach the device. If timer is shut down by timer_shutdown*(),
-> it could not be re-armed again unless we reinitialize the timer. The
-> slave_timer should only be shut down when the ax25 device is detaching or
-> the driver is removing. And it should not be shut down in other scenarios,
-> such as called in ax25_ds_state2_machine() or ax25_ds_state3_machine().
-> So I think calling timer_shutdown_sync() is not always correct.
-> 
-> What's more, the ax25_dev->device_up is not always true. It is set to
-> false in ax25_kill_by_device().
-> 
-> In a word, the timer_shutdown_sync() could not replace the del_timer()
-> completely.
+  BUILD_BUG_ON(AX25_MAX_VALUES != ARRAY_SIZE(ax25_param_table));
 
-Yes, sorry. I missed that ax25_ds_del_timer() is not
-only called from ax25_dev_device_down().
+and guard AX25_VALUES_DS_TIMEOUT with #ifdef CONFIG_AX25_DAMA_SLAVE
+as done for other enum.
 
-> > Also, not strictly related, I think ax25_dev cannot be NULL,
-> > so that check could be dropped. But perhaps that is better left alone.
-> 
-> The ax25_dev cannot not be NULL, because we only use ax25_dev_put() to
-> free the ax25_dev instead of setting is to NULL. So I think the check
-> could be dropped.
-> 
-> Do you think the following plan is proper?
-> 
-> diff --git a/net/ax25/ax25_ds_timer.c b/net/ax25/ax25_ds_timer.c
-> index c4f8adbf8144..f1cab4effa44 100644
-> --- a/net/ax25/ax25_ds_timer.c
-> +++ b/net/ax25/ax25_ds_timer.c
-> @@ -43,8 +43,7 @@ void ax25_ds_setup_timer(ax25_dev *ax25_dev)
-> 
->  void ax25_ds_del_timer(ax25_dev *ax25_dev)
->  {
-> -       if (ax25_dev)
-> -               del_timer(&ax25_dev->dama.slave_timer);
-> +       del_timer_sync(&ax25_dev->dama.slave_timer);
->  }
-> 
-> There is no deadlock will happen.
 
-I'm actually getting to think that your original patch was correct.
-But perhaps a different approach would be to simply call
-timer_shutdown_sync() in ax25_dev_device_down(). And leave
-ax25_ds_del_timer() alone.
-
+> This did not have any adverse
+> effects as we still stopped on the sentinel because of its null
+> procname. But now that we do not have the sentinel element, we are
+> careful to check ax25_param_table's size.
 > 
-> > Zooming out a bit, has removal of ax25 been considered.
-> > I didn't check the logs thoroughly, but I'm not convinced it's been
-> > maintained - other than clean-ups and by-inspection bug fixes - since git
-> > history began.
+> Signed-off-by: Joel Granados <j.granados@samsung.com>
+> ---
+>  net/ax25/sysctl_net_ax25.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> Best regards,
-> Duoming Zhou
+> diff --git a/net/ax25/sysctl_net_ax25.c b/net/ax25/sysctl_net_ax25.c
+> index db66e11e7fe8..e55be8817a1e 100644
+> --- a/net/ax25/sysctl_net_ax25.c
+> +++ b/net/ax25/sysctl_net_ax25.c
+> @@ -141,8 +141,6 @@ static const struct ctl_table ax25_param_table[] = {
+>  		.extra2		= &max_ds_timeout
+>  	},
+>  #endif
+> -
+> -	{ }	/* that's all, folks! */
+>  };
+>  
+>  int ax25_register_dev_sysctl(ax25_dev *ax25_dev)
+> @@ -155,7 +153,7 @@ int ax25_register_dev_sysctl(ax25_dev *ax25_dev)
+>  	if (!table)
+>  		return -ENOMEM;
+>  
+> -	for (k = 0; k < AX25_MAX_VALUES; k++)
+> +	for (k = 0; k < AX25_MAX_VALUES && k < ARRAY_SIZE(ax25_param_table); k++)
+>  		table[k].data = &ax25_dev->values[k];
+>  
+>  	snprintf(path, sizeof(path), "net/ax25/%s", ax25_dev->dev->name);
+> 
+> -- 
+> 2.43.0
 
