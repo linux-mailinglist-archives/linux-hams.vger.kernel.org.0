@@ -1,159 +1,253 @@
-Return-Path: <linux-hams+bounces-85-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-86-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AFF899BC7
-	for <lists+linux-hams@lfdr.de>; Fri,  5 Apr 2024 13:21:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20445899E68
+	for <lists+linux-hams@lfdr.de>; Fri,  5 Apr 2024 15:35:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 284AC1C2253F
-	for <lists+linux-hams@lfdr.de>; Fri,  5 Apr 2024 11:21:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B4B6FB21E4D
+	for <lists+linux-hams@lfdr.de>; Fri,  5 Apr 2024 13:35:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4591516C680;
-	Fri,  5 Apr 2024 11:21:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C225716D9C4;
+	Fri,  5 Apr 2024 13:34:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="gWENtA0a"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="YKhX3vsr"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B99316C44C;
-	Fri,  5 Apr 2024 11:21:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1FE16D4FF;
+	Fri,  5 Apr 2024 13:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712316088; cv=none; b=q6hkNju1fBelQkjE04Wt0PnVD1BzK5h7RSAPiG8fSEa/no+hkzJ9/3e1Dbgip2L2SUrEY7CHuyuDf2aHWAXleQldqTyzUEI1d1YopzxH59mAznnu6ugeCei83lPDLyvmeTT5MhGn6/eQgk/YCTQPct1Zn/u5kdlf25yvTfzwR9M=
+	t=1712324052; cv=none; b=W+QcWlksg8NbOP19gT1zfwpZYBe1loxKUUY3eov7T1nLF/IF+GCjsQrj7x2BaQtIIB+rru5ncuItdHQZh2fH6uxRhMf5f8kxUcVzhhPiLoDTqMjwEZh2f365UEMfvpa88+c9Q1FQD3I1NMR5eEzv7g6ADtQHtHTAZGHUaboe3Sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712316088; c=relaxed/simple;
-	bh=uxdtZOYXhengGWwZXZonOk5LihR8NR7q33quXNXAvg8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=k4CLwg2dlFHkVK2bp17gPygLqpbYnebqyaVb7Q8LTMQoTR6+tkUOEcwUBDvyRdHaP7gCl6a+d+Z04GDTobJ9Mt/4KbhPP0ve8Um5/DeO/iBEAud7zcO83F+1ml6KbNxB6APSVnJzTtgvjIL6LAh/8jsZYFS7ldQxIjX8OF0vwbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=gWENtA0a; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 435AWREs001013;
-	Fri, 5 Apr 2024 11:21:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=+/DZazVdDgz9vkr7XNWWsXj9bzeEYUkuwtMjHCy5u7c=;
- b=gWENtA0axJNmBfu81NvsPNk0e3dPcFjIau8cBETrEGmPBf8jSq9OrvSNjA7rsOjoBM3e
- 1HnsYznIWWun87rcCkIrLgnJRcHj6Zvtplw7chQkUyu1OuhZfTfdaidXbbugn1zG/Q1l
- A3rTT+JKavD0e2Et5UtI8zqUH+7XsjDBuNtwgJZSAGc+gRmE5qpHzRh/K7blZNPIWnEN
- TNn5b/oY1QtV8AoihW9g5p1c1q/b1YXVKBGeV24toHOluuq9cbXhoucd6/oHbtRhsh1a
- cPH/YG23jMQSJDlcHA1dzTMSUi9uLhh0KSXcSw78hjOTlHvVCaMmqsenFXAdMgsEomsx kA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xaeakr8k5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Apr 2024 11:21:19 +0000
-Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 435BLI8i005845;
-	Fri, 5 Apr 2024 11:21:18 GMT
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xaeakr8k0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Apr 2024 11:21:18 +0000
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4359nPSP003711;
-	Fri, 5 Apr 2024 11:21:17 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3x9epyj6ab-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Apr 2024 11:21:17 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 435BLDcE45416818
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 5 Apr 2024 11:21:15 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B0A1020043;
-	Fri,  5 Apr 2024 11:21:13 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A19982004D;
-	Fri,  5 Apr 2024 11:21:12 +0000 (GMT)
-Received: from [9.171.37.225] (unknown [9.171.37.225])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  5 Apr 2024 11:21:12 +0000 (GMT)
-Message-ID: <2f6ca1375ac2ffdd2ac368e1d5c5221f6fbd427c.camel@linux.ibm.com>
-Subject: Re: [PATCH net-next 0/1] XYZ: Handle HAS_IOPORT dependencies
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>
-Cc: Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Marc Kleine-Budde
-	 <mkl@pengutronix.de>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>, netdev@vger.kernel.org,
-        linux-can@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-hams@vger.kernel.org, Arnd Bergmann
-	 <arnd@kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>, linux-kernel@vger.kernel.org
-Date: Fri, 05 Apr 2024 13:21:12 +0200
-In-Reply-To: <20240405111831.3881080-1-schnelle@linux.ibm.com>
-References: <20240405111831.3881080-1-schnelle@linux.ibm.com>
-Autocrypt: addr=schnelle@linux.ibm.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: MMRmpj8D8NKdYCsPaE6yic9FIbuFISZ1
-X-Proofpoint-GUID: P4v1SDgRl41l2tizrSWHrwjYBtTfzqfe
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	s=arc-20240116; t=1712324052; c=relaxed/simple;
+	bh=LJj/6K9S0mccLf8EzL0tHISHfup0kONjt4pdLG952wc=;
+	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:References; b=L+jkd/K7nSJIY7eKRSmcYMNDScK7m6nj3NiTEf5A5RqjpENk2u9NRpUgG91O2FZMkkMUeYH/5F450J6clGNFQJmF8aGNbifalj8uwU55Qs1V4eDCj6Lp9WG5J8kCA/lK3XNwlCq8DnIAnm4j9y2IHh9f4I6IzKrgmkKxZvSweoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=YKhX3vsr; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20240405133401euoutp0130e9bdebb3e41d400edfa9e541a3840a~DZaS-L9et0180601806euoutp01z;
+	Fri,  5 Apr 2024 13:34:01 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20240405133401euoutp0130e9bdebb3e41d400edfa9e541a3840a~DZaS-L9et0180601806euoutp01z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1712324041;
+	bh=i+a4M7yICQ2HnP92i8Uv6JJWR1edpPHj8jQXZpZYBH4=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=YKhX3vsrA71sZeueE+2+MgNpe71G3PLv4t4SN6kD8caKNpwMl0UBDtLeuO2mObwiD
+	 dwf35oPYrx7CMhrIrJ2KyMWZTpLXasIrnmh5Gj1fWMcyMHtpPj68JGhl01Ql4gy5i6
+	 gk/EctOtGYb6SPs3o1drGd49WVWPSiDlcygGXDoE=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20240405133401eucas1p180bf7886e5501a175873e1fa6d28381b~DZaSwD5pi2523125231eucas1p1e;
+	Fri,  5 Apr 2024 13:34:01 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id D6.83.09539.9CDFF066; Fri,  5
+	Apr 2024 14:34:01 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240405133400eucas1p17a657be41afd1be881bbb599e769968a~DZaSKzIvA2124621246eucas1p1f;
+	Fri,  5 Apr 2024 13:34:00 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240405133400eusmtrp15f4b2e2b477b0577c76ad47d2a727a34~DZaSJSYyi1386013860eusmtrp1Y;
+	Fri,  5 Apr 2024 13:34:00 +0000 (GMT)
+X-AuditID: cbfec7f2-515ff70000002543-54-660ffdc93c52
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 94.A3.09146.8CDFF066; Fri,  5
+	Apr 2024 14:34:00 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240405133400eusmtip2bf1c1d03faee0a07935c7405979e5cff~DZaR2giF20852408524eusmtip2m;
+	Fri,  5 Apr 2024 13:34:00 +0000 (GMT)
+Received: from localhost (106.210.248.212) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Fri, 5 Apr 2024 14:33:59 +0100
+Date: Fri, 5 Apr 2024 09:15:31 +0200
+From: Joel Granados <j.granados@samsung.com>
+To: Kuniyuki Iwashima <kuniyu@amazon.com>
+CC: <devnull+j.granados.samsung.com@kernel.org>, <Dai.Ngo@oracle.com>,
+	<alex.aring@gmail.com>, <alibuda@linux.alibaba.com>,
+	<allison.henderson@oracle.com>, <anna@kernel.org>, <bridge@lists.linux.dev>,
+	<chuck.lever@oracle.com>, <coreteam@netfilter.org>, <courmisch@gmail.com>,
+	<davem@davemloft.net>, <dccp@vger.kernel.org>, <dhowells@redhat.com>,
+	<dsahern@kernel.org>, <edumazet@google.com>, <fw@strlen.de>,
+	<geliang@kernel.org>, <guwen@linux.alibaba.com>,
+	<herbert@gondor.apana.org.au>, <horms@verge.net.au>, <ja@ssi.bg>,
+	<jaka@linux.ibm.com>, <jlayton@kernel.org>, <jmaloy@redhat.com>,
+	<jreuter@yaina.de>, <kadlec@netfilter.org>, <keescook@chromium.org>,
+	<kolga@netapp.com>, <kuba@kernel.org>, <linux-afs@lists.infradead.org>,
+	<linux-hams@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-nfs@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<linux-s390@vger.kernel.org>, <linux-sctp@vger.kernel.org>,
+	<linux-wpan@vger.kernel.org>, <linux-x25@vger.kernel.org>,
+	<lucien.xin@gmail.com>, <lvs-devel@vger.kernel.org>,
+	<marc.dionne@auristor.com>, <marcelo.leitner@gmail.com>,
+	<martineau@kernel.org>, <matttbe@kernel.org>, <mcgrof@kernel.org>,
+	<miquel.raynal@bootlin.com>, <mptcp@lists.linux.dev>, <ms@dev.tdt.de>,
+	<neilb@suse.de>, <netdev@vger.kernel.org>,
+	<netfilter-devel@vger.kernel.org>, <pabeni@redhat.com>,
+	<pablo@netfilter.org>, <ralf@linux-mips.org>, <razor@blackwall.org>,
+	<rds-devel@oss.oracle.com>, <roopa@nvidia.com>, <stefan@datenfreihafen.org>,
+	<steffen.klassert@secunet.com>, <tipc-discussion@lists.sourceforge.net>,
+	<tom@talpey.com>, <tonylu@linux.alibaba.com>,
+	<trond.myklebust@hammerspace.com>, <wenjia@linux.ibm.com>,
+	<ying.xue@windriver.com>
+Subject: Re: [PATCH v2 4/4] ax.25: Remove the now superfluous sentinel
+ elements from ctl_table array
+Message-ID: <20240405071531.fv6smp55znlfnul2@joelS2.panther.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-05_10,2024-04-04_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- priorityscore=1501 suspectscore=0 bulkscore=0 spamscore=0 mlxlogscore=999
- mlxscore=0 impostorscore=0 phishscore=0 clxscore=1015 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2404010000 definitions=main-2404050081
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="h65h3fnxnuqgv2vq"
+Content-Disposition: inline
+In-Reply-To: <20240328194934.42278-1-kuniyu@amazon.com>
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA2VTaVBTVxj1vi0BG/sExVt0uiA4rdpQHGf8aNVSu/BmOhbH6Q+rUys2T0Qg
+	KJG6UDuRRSQBZMQWiRAQbViiQCEN4FIRWUxAwKKFUlCJLIogaliESKjh2daZ/jvn3HPuPefH
+	FZMuqWJ3cbB8Nx8hDwz1YJwpY+1407umyVe3vfeXxRmqlCug64KKBmXsIQLiKqYoMJ5SEzDV
+	2UfAZEU8CdauPhqyckoZyGiKpWCyVc1AS2Y3AQ+jbRQUnosjoKfWIgJjkh6BPrqDgrK+MQbU
+	/Qsg5tcRBN1HLDTc0D1iYFxXIILbIxYKxpNnQroqhoAGdRiUd3ZT0GxMpkGXeJaBFLMP/FHW
+	SUDLuQwGmivraeitSqIg5WQMCT3ZD2joSNVRUHkxC4GlaIiAmKwnJMRY75IwkVdHQ2PSFAma
+	wgIS2lJ6EFyJ/42GhqJoEYxqr5JwMUtJQW22G6QUmikYrR9AkDZwk4TfL3iCeXiKgMZSKw3W
+	jLchNc9AwPmEpyIwNO0A84SZgLtjfQxMtX3ot4bLa1bRXLtlhOQeNpoQpz0TxZ1QXqe4ifHF
+	nCH/T4JTV/eTXIWmU8QZK7247JJI7lnVLyKupCCB4WryzxJcRZcvl5JTidZ5bHReKeNDg7/j
+	I7xXb3HenpRlInY+dNtrGotllCjHVYWcxJhdjq9eu4BUyFnswuYhPDqqfUGGET5qbmAEYkV4
+	vMFMq5B4OmK8EyLouQg3Dt5H/5rKDkYTAjEg3NtejByPUKwn1qa3TGOGXYqbBjpIB57DvoMP
+	FybSjgDJlkqwKaGVdhy4stvw01s90wEJ64ev3LxMCng2NqV3Uw5MsnvxTycNjKMSyc7HuXax
+	Q3ZiV+DLE1dfNF2IHxStFHYewGZD+3Q3zF57Bd8Z7iAEzyf4+OBGweOK++sMIgEvwPWpiZTg
+	T0X4kv2RSCB6hHUHRwjB9QGOvdH9IvERHrQeZIRLZ+G2wdlCzVn4qDGNFGQJPnzIRXAvwvpb
+	A1QKWqh5aZjmpWGa/4YJshS3/Xjs//ISrDv5gBTwKlxYOERlI1EBmsdHKsKCeIWPnN8jVQSG
+	KSLlQdJvw8NK0PO/Wm+ve1KOMvsfS6sQIUZVyPN52FKsb0bulDxcznvMkaj9JNtcJLLAffv5
+	iPBvIiJDeUUVmi+mPOZJvGRv8C5sUOBuPoTnd/IR/5wSYid3JTH3XrK0J/jr6vW2kXMxa8JP
+	H/c/Eaa3Sb12GDYHtLttjdd1bvBM2Fw5Kf7YL65r0zq9tzRf0hrVO7DB356hza1vOpaoeOux
+	XRTifcBW8ZpMvW7J+gDb6j2bZvhmBTyZ6T/zVLuxvDjc//aX93O+6nWupkprX5+x98YP9fsj
+	7YO7bJKoVa5vLpc1RLXKrGn93td3pJ5Z5f4Zu+XTn6X2zEdOh3WyZWO+z2ruVcbNqQs+v3C9
+	ZthkWfv92mpl36VivHGXZCihw3KnJ371ikixJWPLvRq6qKhh2HvJF76LLO9/HpBdoq2+NBdl
+	bGrW5S4VNZ/WrJka9twnXTw5FL5blb51WbW2RW31oBTbA30WkxGKwL8B0oUGfSYFAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA2WTe0yTZxTGfb9Lv4Jp/KSKn+AWUzHZQAtVLqeLMDTRfRqzuItb4txKI+Uy
+	LjUtJehmRkBEC2iNMYaKgM51QGdraQFRYAgOoVwH4i2UjVokQgNqQe4wsFlmsv9+73PO8+Sc
+	Nzlc3Osm5cONT06RKZKliQKOJ9G6cL9/a/P8qpigdudGaEgPg4EaNQnpJ09hkFW9SEDlzzkY
+	LNqGMJivzsbBNTBEQtE1MwcKOk8SMP8ohwM9VxwYjGbMEmC4nYXBYJOdgso8PQJ9Rh8BVUOT
+	HMgZ3gCZFRMIHOfsJDzQveTAtK6Mgr8m7ARMn10J+epMDNpykuCWzUFAV+VZEnS5NzigsYrg
+	YZUNg57bBRzoqm8l4XlDHgGaq5k4DBaPkNB3QUdAfW0RArtxDIPMotc4ZLqe4TBTcp+EjrxF
+	HLSGMhweawYRNGbXkdBmzKDgTWEzDrVF6QQ0FXuDxmAl4E2rE8ElZy8O3TV+YB1fxKDD7CLB
+	VfABXCixYHDnzBQFls7vwTpjxeDZ5BAHFh9/HLmLLelSk+xT+wTOjna0ILbwtx/Yy+l/EuzM
+	tD9rKX2CsTn3hnG2Wmuj2Mr6zWxxuYqdazBRbHnZGQ77R+kNjK0eELOaa/XogOCQcIdCrkqR
+	bYyTK1PCBd+IYJtQJAbhtmCxULQ97NuPtoUIAiN2RMsS41NlisCIKGFcj9ZMHHV6p+UZm6l0
+	VMxXIy6XoYOZyr8T1MiT60X/gpj+GjOlRh5L+gbGNN5LupnPzD1Uc9xNrxBTce4U5n5YEKPT
+	G992EbQfU5jfg5aZQ29hOp19+DKvoT9kThtyyWUDTpt4jFPf+bbAp2OYqf7BtwYeHck09t7F
+	3amtiGluHaHchdVMS76DWGacTmVsHU/I5blx2pf5dYG7LHvQYczdmWbSvc4mZsS4wz31CcY1
+	/xxpEF/7TpD2nSDtf0FueQtTXdHH+Z8cwOiujuBuDmcMhjGiGFFlaI1MpUyKTVKKhEppklKV
+	HCs8Ik8qR0vnUtk0bb6FCodfCRsQxkUNyG/Jab+p70I+RLI8WSZYw8uJ5MV48aKlx47LFHKJ
+	QpUoUzagkKVfPI/7rD0iX7q95BSJKDQoRBQcKg4KEYduF6zj7T16WupFx0pTZAky2VGZ4l8f
+	xvXwScdW54q7V3xCx2wNlkb47tvc2ysKj9e6Ht7BH3EDo8LKcwPfN+6J5Zu+POjTaZH46jcF
+	DHnu3//13cMV2kONA/YXPWPrAvhJT9OyS85JnZdgxXftLe/xHk2I7RfruxKuMD/yuUdqHgum
+	j2EoYmGmfXb0QZuJYAu/qnLNOrzF+etflBJ54VZV5tzE+i2afThluyepbynqCKBt/o7JE6mp
+	Duz1yGRjo393amSo12e75yjs89hVRtVxicgsnzuQldHktWvtzsUoiemnoZ3XLd1ZebVfNB2+
+	Hri9LcSSPfVSsqfG2lanTzO0rwzUjad+ahLX/W5OiK7oDw/wz927W375YNZ5AaGMk4r8cYVS
+	+g8887p5wwQAAA==
+X-CMS-MailID: 20240405133400eucas1p17a657be41afd1be881bbb599e769968a
+X-Msg-Generator: CA
+X-RootMTR: 20240328195008eucas1p2fc32577c64a80424c10f30e4f69fc11a
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240328195008eucas1p2fc32577c64a80424c10f30e4f69fc11a
+References: <20240328-jag-sysctl_remset_net-v2-4-52c9fad9a1af@samsung.com>
+	<CGME20240328195008eucas1p2fc32577c64a80424c10f30e4f69fc11a@eucas1p2.samsung.com>
+	<20240328194934.42278-1-kuniyu@amazon.com>
 
-On Fri, 2024-04-05 at 13:18 +0200, Niklas Schnelle wrote:
-> Hi networking maintainers,
->=20
-> This is a follow up in my ongoing effort of making inb()/outb() and
-> similar I/O port accessors compile-time optional. Previously I sent this
-> as a treewide series titled "treewide: Remove I/O port accessors for
-> HAS_IOPORT=3Dn" with the latest being its 5th version[0]. With a signific=
-ant
-> subset of patches merged I've changed over to per-subsystem series. These
-> series are stand alone and should be merged via the relevant tree such
-> that with all subsystems complete we can follow this up with the final
-> patch that will make the I/O port accessors compile-time optional.
->=20
-> The current state of the full series with changes to the remaining subsys=
-tems
-> and the aforementioned final patch can be found for your convenience on my
-> git.kernel.org tree in the has_ioport branch[1]. As for compile-time vs r=
-untime
-> see Linus' reply to my first attempt[2].
->=20
-> Thanks,
-> Niklas
->=20
-> [0] https://lore.kernel.org/all/20230522105049.1467313-1-schnelle@linux.i=
-bm.com/
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git/log/?h=
-=3Dhas_ioport
-> [2] https://lore.kernel.org/lkml/CAHk-=3Dwg80je=3DK7madF4e7WrRNp37e3qh6y1=
-0Svhdc7O8SZ_-8g@mail.gmail.com/
->=20
-> Niklas Schnelle (1):
->   net: handle HAS_IOPORT dependencies
->=20
+--h65h3fnxnuqgv2vq
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Obviously the subject of the cover letter should start with "net:" ;-(
+On Thu, Mar 28, 2024 at 12:49:34PM -0700, Kuniyuki Iwashima wrote:
+> From: Joel Granados via B4 Relay <devnull+j.granados.samsung.com@kernel.o=
+rg>
+> Date: Thu, 28 Mar 2024 16:40:05 +0100
+> > This commit comes at the tail end of a greater effort to remove the
+> > empty elements at the end of the ctl_table arrays (sentinels) which will
+> > reduce the overall build time size of the kernel and run time memory
+> > bloat by ~64 bytes per sentinel (further information Link :
+> > https://lore.kernel.org/all/ZO5Yx5JFogGi%2FcBo@bombadil.infradead.org/)
+> >=20
+> > When we remove the sentinel from ax25_param_table a buffer overflow
+> > shows its ugly head. The sentinel's data element used to be changed when
+> > CONFIG_AX25_DAMA_SLAVE was not defined.
+>=20
+> I think it's better to define the relation explicitly between the
+> enum and sysctl table by BUILD_BUG_ON() in ax25_register_dev_sysctl()
+>=20
+>   BUILD_BUG_ON(AX25_MAX_VALUES !=3D ARRAY_SIZE(ax25_param_table));
+>=20
+> and guard AX25_VALUES_DS_TIMEOUT with #ifdef CONFIG_AX25_DAMA_SLAVE
+> as done for other enum.
+
+When I remove AX25_VALUES_DS_TIMEOUT from the un-guarded build it
+complains in net/ax25/ax25_ds_timer.c (ax25_ds_set_timer). Here is the
+report https://lore.kernel.org/oe-kbuild-all/202404040301.qzKmVQGB-lkp@inte=
+l.com/.
+
+How best to address this? Should we just guard the whole function and do
+nothing when not set? like this:
+
+```
+void ax25_ds_set_timer(ax25_dev *ax25_dev)
+{
+#ifdef COFNIG_AX25_DAMA_SLAVE
+        if (ax25_dev =3D=3D NULL)        =B7=B7=B7/* paranoia */
+                return;
+
+        ax25_dev->dama.slave_timeout =3D
+                msecs_to_jiffies(ax25_dev->values[AX25_VALUES_DS_TIMEOUT]) =
+/ 10;
+        mod_timer(&ax25_dev->dama.slave_timer, jiffies + HZ);
+#else
+        return;
+#endif
+}
+
+```
+
+I'm not too familiar with this, so pointing me to the "correct" way to
+handle this would be helpfull.
+
+Thx in advance.
+
+Best
+
+--=20
+
+Joel Granados
+
+--h65h3fnxnuqgv2vq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmYPpRMACgkQupfNUreW
+QU+GdwwAk+SQw0o7uu63t5QC8II75UQQXXzD86NcnboVLtTTKuPbn2y+rcWUY7tu
+RfnrQvG2ui15fSX0cYv66um6AIlYtvOAjlKfh5wBAA3YZQdmnSTGuHW8vcu5B6Iu
+WdjX4C12SNI/7Y8S7yLZurWvE5QrS/RHQ5sHtDfNm/HUmIoylsHmbuNvwxrOdzFH
+xxfDDdCrT5jxjVmr0Ctx3tJEmAHnkUD5voVBT1p6bJNNUOdYK986gsCYlgJpYuqE
+J3hSfJnhAnMGJcmtfnTXwoaje7XN5opqF9qaSinY7HaEoidu6pRGCA/M8a6N+PT7
+wBYhl0umuMOOBkqS7o0HtadAx6yv2fO7sOiZl4ZXvA9fRWam40n2CvKGZmF2koPs
+KRllZIQ+Uh+pbfhN9g6w0Mbjb10W9sFaZdN7CsEKKk6nxmkmgH/2PmmNhwYkdgXG
+7SLMAqeOLP/ZtTEypd2LzGdpLvjZq54jgAcB2c3cQI8jb4eogkqaMeazsf247+zt
+i5D8SOSY
+=Yv9S
+-----END PGP SIGNATURE-----
+
+--h65h3fnxnuqgv2vq--
 
