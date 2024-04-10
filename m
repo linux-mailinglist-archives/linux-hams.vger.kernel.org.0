@@ -1,172 +1,151 @@
-Return-Path: <linux-hams+bounces-92-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-93-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A14D89E7A8
-	for <lists+linux-hams@lfdr.de>; Wed, 10 Apr 2024 03:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DFAF89E8D4
+	for <lists+linux-hams@lfdr.de>; Wed, 10 Apr 2024 06:26:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98E01282747
-	for <lists+linux-hams@lfdr.de>; Wed, 10 Apr 2024 01:19:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63CFC287307
+	for <lists+linux-hams@lfdr.de>; Wed, 10 Apr 2024 04:26:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A6EC64A;
-	Wed, 10 Apr 2024 01:19:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 985B6C133;
+	Wed, 10 Apr 2024 04:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b="hQgmdMPW"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from trinity3.trinnet.net (trinity.trinnet.net [96.78.144.185])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C538B38D
-	for <linux-hams@vger.kernel.org>; Wed, 10 Apr 2024 01:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.78.144.185
+Received: from smtp104.iad3a.emailsrvr.com (smtp104.iad3a.emailsrvr.com [173.203.187.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1017DBA50
+	for <linux-hams@vger.kernel.org>; Wed, 10 Apr 2024 04:26:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.203.187.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712711941; cv=none; b=Fcc2pljvNzjRUpyMXqWLX1S/wXNKYXBuxstDs8e+HVQfJmoTnXgVK6flO9o7POTxvDHB+RE5FhSc/QWeer04E5Tu7KAnusubzhRJlnjboYiBo5mb+2IpHi67d8YdQj0j9i9A5HxFQcWGfknm8EtMLgthomzxvyQBGAznpIW2z+U=
+	t=1712723213; cv=none; b=sL0NGo6m2BqJRurOclIZUIVdeafDcYyrdoTB6rIRmUgxrEl8L//grk3DKIUx16fHuqpi9oZUeWpBRuTbKSYI8Fa5l1tKPQanJeWDTe0eh/yWBB1YSrTMoS+K0sL4M7bbkDDyzjhDv1MPC1Zf9qEG+8Hav504JMcV1ELfrvbWynI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712711941; c=relaxed/simple;
-	bh=tdcd2ppPWgTtbNxpiBd/UuKD56B9kTcacroWWUbGepE=;
-	h=Subject:To:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=Vmmk5XMlSxUuXdZ5/WA1JRdW1Bhs8JoyomkzWgjrCUkPPtNKLK+qHMPiFZo/wrMNjg2czomEp6fy0GcR7xYqVcunH0DmZ/LD3N5ULFDfnau0KkjQ0xDG9/dSMQVLtmEyMBpNEtTM1Jr9pfNBNOelrOnG7LyZ3wUpG0hCey75MGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=trinnet.net; spf=pass smtp.mailfrom=trinnet.net; arc=none smtp.client-ip=96.78.144.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=trinnet.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trinnet.net
-Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
-	by trinity3.trinnet.net (TrinityOS hardened/TrinityOS Hardened) with ESMTP id 43A0KaQe031736;
-	Tue, 9 Apr 2024 17:20:36 -0700
-Subject: Re: unregister_netdevice: waiting for ax0 to become free
-To: Lars Kellogg-Stedman <lars@oddbit.com>, linux-hams@vger.kernel.org
-References: <CA+Q+rdzYUcfYF8CcX1WOWjVBYiZgidFAY1M0kR4J4KL73yN9yA@mail.gmail.com>
-From: David Ranch <linux-hams@trinnet.net>
-Message-ID: <ec2c8d79-2efa-3607-7cb6-f57b46c7fdae@trinnet.net>
-Date: Tue, 9 Apr 2024 17:20:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+	s=arc-20240116; t=1712723213; c=relaxed/simple;
+	bh=y3XIxi0G3U9zErle0dnvBGj9GJKaqZwUwLibkq9ozdE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UBWVjcZGgmtXnK4uHvcUUlNxJg6YVFEm+i4sKoCKDywfweRCMXYlNJPJBDV3Wp5xN3Am0+lVlYk5fq0HejfIOaq8trniuutlISzqLUwH7SflgHeoJOLlG5m4s92WdbllbGzPDwL0RLJk51QcTj24dMz/KJCE66AGaeZ2IfYytfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com; spf=pass smtp.mailfrom=oddbit.com; dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b=hQgmdMPW; arc=none smtp.client-ip=173.203.187.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oddbit.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=oddbit.com;
+	s=20180920-g2b7aziw; t=1712712118;
+	bh=y3XIxi0G3U9zErle0dnvBGj9GJKaqZwUwLibkq9ozdE=;
+	h=From:Date:Subject:To:From;
+	b=hQgmdMPWo4SwLKh+rooT2+kR9bh42xqM2JVYLNWGHLDMNxy4V0C9l8ZihC+30PtGK
+	 Eun8+uqkMbZunGOQzA0oE8z9HJH2ZRGEYBBZGtAs3Aze8v9CISU8hhSJqzp74x7Bbz
+	 7T4kePG8j/P4ybHrJ+e+dHE7GTuUaMZXK0BHLql8=
+X-Auth-ID: lars@oddbit.com
+Received: by smtp30.relay.iad3a.emailsrvr.com (Authenticated sender: lars-AT-oddbit.com) with ESMTPSA id 8AB546769
+	for <linux-hams@vger.kernel.org>; Tue,  9 Apr 2024 21:21:58 -0400 (EDT)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-55b5a37acb6so1469102a12.0
+        for <linux-hams@vger.kernel.org>; Tue, 09 Apr 2024 18:21:58 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwELeoz056zA3r3iuZMWCIa8JpAzioGkHhrn8mHwjJd/tVAcHeX
+	0rEVN5XfyUsO3PLhvF2cBwoavsVh4xura5sbW/ItRhxZOLr+pYQtd0mGqzmro8XaBDZOt9YuP9a
+	gGLmx5lm7h093wz+NL5iWU60kiUw=
+X-Google-Smtp-Source: AGHT+IHnFML2EqrtUULIMMnoPCQ1QS6Z7PYn50zYGETmIIUaRtXuR+MsFrnS3hno/uLMd5zEFZ8Tpjxtr/FtNUQ7FOg=
+X-Received: by 2002:a05:6a20:244f:b0:1a7:a645:a678 with SMTP id
+ t15-20020a056a20244f00b001a7a645a678mr1594634pzc.5.1712712117994; Tue, 09 Apr
+ 2024 18:21:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CA+Q+rdzYUcfYF8CcX1WOWjVBYiZgidFAY1M0kR4J4KL73yN9yA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Tue, 09 Apr 2024 17:20:37 -0700 (PDT)
+References: <CA+Q+rdzYUcfYF8CcX1WOWjVBYiZgidFAY1M0kR4J4KL73yN9yA@mail.gmail.com>
+ <ec2c8d79-2efa-3607-7cb6-f57b46c7fdae@trinnet.net>
+In-Reply-To: <ec2c8d79-2efa-3607-7cb6-f57b46c7fdae@trinnet.net>
+From: Lars Kellogg-Stedman <lars@oddbit.com>
+Date: Tue, 9 Apr 2024 21:21:45 -0400
+X-Gmail-Original-Message-ID: <CA+Q+rdx7+CAOoCcC1tdDN78zV70ZJf2AcEV1qBGvXoMgHOGqcg@mail.gmail.com>
+Message-ID: <CA+Q+rdx7+CAOoCcC1tdDN78zV70ZJf2AcEV1qBGvXoMgHOGqcg@mail.gmail.com>
+Subject: Re: unregister_netdevice: waiting for ax0 to become free
+To: linux-hams@trinnet.net
+Cc: linux-hams@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Classification-ID: 8de8f11a-6e45-46d6-812e-e8be0813f28a-1-1
 
+David,
 
-Hello Lars,
+Thanks for the reply; glad to know I'm in the right place.
 
-> First, apologies if this isn't the right place for this. I know this
-> is primarily a development list, but I'm trying to track down patches
-> for a kernel issue.
-This is the right place for this Linux AX.25 kernel bug
-
-
-> I'm running a kernel built from 2c71fdf02a9, which includes the recent
-> use-after-free patch from Duoming Zhou in fd819ad3ec.
-
-Few questions:
-
-   - Which specific kernel version does that commit go into?
-   - What distro and version of distro
-   - Which ax.25 lib/apps/tools are you using (distro provided, 
-official, ve7fet, other) and which versions?
-
-
-> After bringing
-> up ax.25 (see below), If I make a single ax.25 connection to the host
-> (to an ax25d hosted service), it will subsequently fail to reboot; the
-> kernel gets stuck waiting for an ax.25 interface:
+> > I'm running a kernel built from 2c71fdf02a9, which includes the recent
+> > use-after-free patch from Duoming Zhou in fd819ad3ec.
 >
->       3   [  217.717327] unregister_netdevice: waiting for ax0 to
-> become free. Usage count = 0
+> Few questions:
+>
+>    - Which specific kernel version does that commit go into?
 
-Yup.. I've seen that and if you have people making connections to you 
-that later time out, you will probably see stale sessions per "netstat 
--A ax25 -an".  Pay attention to the DESTINATION column.  I know Ubuntu 
-20.04 with both it's standard and ESM kernels being impacted.  I 
-recently started testing with the Raspberry Pi Bookworm 6.6.20 kernel 
-but have only been running it for a week.  The reality here is that 
-unless you know exactly what commits have been applied to a specific 
-vendor's kernel, the version number alone cannot tell you if the fix is 
-present.
+That's the head of `master` today; the Makefile builds 6.9.0-rc3.
 
+>    - What distro and version of distro
 
-> The kernel will get stuck here indefinitely (or until the watchdog
-> triggers). I know this isn't a new problem, but is it one for which
-> patches exist? There's a lot of older information out there
+This is Fedora 39.
 
-There are various threads about this very issue on various lists be it 
-this one, Pat (winlink client), etc.   Here is a sample of my running 
-list of issues:
---
-Last good known kernel version
------------------------------------------------------------
-02/04/24:
+>    - Which ax.25 lib/apps/tools are you using (distro provided,
+> official, ve7fet, other) and which versions?
 
-I know I am jumping in late here, but the AX.25 stuff mostly works on 
-kernel version 4.19, and does ok on 5.15 with some patches. Version 6 
-just seems to explode.  I am running my linux/AX.25 on an old version of 
-Slackware (13.37) that runs kernel version 2.6, and it is running 
-perfectly for all the stuff I am using.  It is kind of sad that this has 
-been neglected for that long.
+I'm using the distro-provided packages:
 
--Chris KQ6UP
+    [root@node1 ~]# rpm -qa '*ax25*'
+    libax25-1.1.1-8.fc39.x86_64
+    ax25-apps-2.0.0-10.fc39.x86_64
+    ax25-tools-1.0.4-8.fc39.x86_64
 
+Which appear to all come from https://github.com/ve7fet/linuxax25.git.
 
-Raspberry Pi OS specific:
-    - Bullseye, which should have the 5.15.xx kernel.
+> The reality here is that unless you know exactly what commits have been
+> applied to a specific vendor's kernel, the version number alone cannot tell
+> you if the fix is present.
 
-    - Buster has a release of 4.19 kernel I'll test also.
+In case it wasn't clear from my last email, I'm running an upstream kernel for
+exactly this reason.
 
+> Here is a sample of my running list of issues:
 
-2/2/24: ve1jot@eastlink.ca
-Ahh, well, there's been work done since kernel 5.15, I think it was 
-kernel 6.2 I was trying, and that was for a different reason than 
-crashing..there was an issue with axip/axudp links going dead and I 
-found that kernel 6.2 seemed to resolve this issue, but I'm not sure if 
-any of the recent patches address all problems, or just a few hi...
+Thanks; I'll take a look through those. I know I've come across a few of those
+links before (in particular, I've seen
+https://blog.habets.se/2021/11/AX25-user-space.html several times in
+my search results).
 
-2/5/23:  jon-bousselot@pacbell.net
-If I'm seeing this correctly, the stable kernel tree for rpi does NOT 
-have the ax25 patches applied.
-The ax25 patches do appear in 5.15.y and the 6.1.y.  The only two I 
-checked.
+> > website in the mailing list welcome message
+> > (https://radio.linux.org.au/) appears to have gone away.
+>
+> Where did you see that?  That site has been gone for years and whatever
+> is giving you that old link needs to be updated.
 
+That's in the welcome message for this mailing list. I joined in Oct. 2023, so
+not that long ago, and the welcome message (from majordomo@vger.kernel.org)
+includes this information:
 
+> Welcome to the linux-hams mailing list, hosted on vger.kernel.org.
+> This is for discussions and development of Radio Amateur protocol
+> and interface subsystems.
+>
+> Archives:
+>   http://hes.iki.fi/archive/linux-hams/
+>   http://www.spinics.net/lists/linux-hams/
+>   http://marc.info/?l=linux-hams
+> Broken archives:
+>   http://groups.google.com/groups?group=mlist.linux.hams
+>   http://www.geocrawler.com/lists/3/Linux/
+> Ham software index for Linux:
+>   http://radio.linux.org.au/
 
-Patches
------------------------------------------------------------
+It looks like several of those links are broken.
 
-Detailed 5.10.x fixes and a good kernel compile howto from Chris Madness:
-https://groups.io/g/KM4ACK-Pi/topic/howto_patch_the_kernel_for/95904470?p=,,,20,0,0,0::recentpostdate/sticky,,,20,0,0,95904470,previd%3D0,nextid%3D1691495389076951633&previd=0&nextid=1691495389076951633
+> While I don't see why it isn't legal, I've never seen people use socat
+> to link together kissttach'ed link.
 
+socat is useful for this because it can automatically create symlinks to the
+pty devices, so you have deterministic names you can use in your scripts (and
+in any case it shouldn't break the kernel).
 
-https://blog.habets.se/2021/11/AX25-user-space.html
-    - known issues
-    - proposed userspace solution
-
-1/8/24: known kernel issues
-https://groups.io/g/RaspberryPi-4-HamRadio/message/15430
-
-12/23/24: Other reports of kernel panics, bugs:
-https://groups.io/g/RaspberryPi-4-HamRadio/topic/103374879#15603
-
-5/22/22:  stale sessions
-https://github.com/la5nta/pat/issues/352
-
---
-
-
-> website in the mailing list welcome message
-> (https://radio.linux.org.au/) appears to have gone away.
-
-Where did you see that?  That site has been gone for years and whatever 
-is giving you that old link needs to be updated.
-
-
-> I'm running a test environment with a pair of AXUDP interfaces; I'm
-> configuring things like this:
-
-While I don't see why it isn't legal, I've never seen people use socat 
-to link together kissttach'ed link.
-
---David
-KI6ZHD
+-- 
+Lars Kellogg-Stedman <lars@oddbit.com> | larsks@{twitter, irc, github,
+...} | N1LKS
 
