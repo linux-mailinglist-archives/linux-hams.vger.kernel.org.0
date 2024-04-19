@@ -1,153 +1,126 @@
-Return-Path: <linux-hams+bounces-113-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-114-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306E88AA6CF
-	for <lists+linux-hams@lfdr.de>; Fri, 19 Apr 2024 04:05:31 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D67798AB483
+	for <lists+linux-hams@lfdr.de>; Fri, 19 Apr 2024 19:44:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6019F1C21E32
-	for <lists+linux-hams@lfdr.de>; Fri, 19 Apr 2024 02:05:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 60D55B2250F
+	for <lists+linux-hams@lfdr.de>; Fri, 19 Apr 2024 17:44:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D59615CB;
-	Fri, 19 Apr 2024 02:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FDCD13AD26;
+	Fri, 19 Apr 2024 17:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FEKH5txJ"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net [129.150.39.64])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BBC4137E;
-	Fri, 19 Apr 2024 02:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.150.39.64
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80741386C0;
+	Fri, 19 Apr 2024 17:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713492326; cv=none; b=LC+LEGEJFwyIxMZYe+3wFzsNLEkHX8ZDHPyd3705OVmlNYW29+B5gfnAa+XQ/tUg/MSe2y8whQBimBJEg6D//qXyMSj8cjZd3K3D7pM8BY0vF7KcWNUUjKxGP3WimKCcQNyovnXGMvuERFg/CXR2JOns21NXZBjHWbCVLi1D7Qc=
+	t=1713548647; cv=none; b=HvVZFu44QLp80Osg8gifSV4gEX33hR7dRsHvgCwD+X6Vk3BfccVFYjWz5RWZnAr2oEktUjbhbaBojUjJKBdqwlDj+hHz0KweG5ISz4vuUKxJCtAnLMPVZSwneFGixKCHZWVn9+A1wRkDEF4nsl+6xGseo5+SzPKGQtCpdkFfkeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713492326; c=relaxed/simple;
-	bh=lLaQL2AevUNbrcfqQNQZujhkG4RDyJvjEoqKhxXvtj4=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=qApVb3Wbwr7qrk3ZRvBLt199VeTSZVHAF34Ey3kNMBnAJefu6o5Csj5/I0V5UGIh7GGTRSMGWDAh7beMIeB82oOhveKvexYSR6z5N/CjcPqwhXIroV3nW9aNorfsQLsTO/R9xF2EtgpB59ihOMugX5TNwPVICLieajP319a0cho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=129.150.39.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from ubuntu.localdomain (unknown [221.192.178.244])
-	by mail-app2 (Coremail) with SMTP id by_KCgCHE4ZJ0SFmEBonAQ--.54658S2;
-	Fri, 19 Apr 2024 10:05:01 +0800 (CST)
-From: Duoming Zhou <duoming@zju.edu.cn>
-To: linux-hams@vger.kernel.org
-Cc: netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jreuter@yaina.de,
+	s=arc-20240116; t=1713548647; c=relaxed/simple;
+	bh=85Ii+8WtZG4Na/S19N75HT4zm3QuIWPvSPHzheuGau4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=BT1nYa0TrtRlq6KctoGk11i86L96FmXu0fectLb7/rjXpy/iyToXtD4dKcjMy0Ifb8UgdgfMG+mlR5YWV17Gr82RBKqqIJ5bxbyUaztngZhuEJ3Cr2jjC8vyqOOxoR2OgTaOxsljCo6yFuY84f1WFadHPAIZCLs2aivptRaZHoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FEKH5txJ; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6e46dcd8feaso1251113b3a.2;
+        Fri, 19 Apr 2024 10:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713548645; x=1714153445; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DYge8k8yiQNLUXp9tI3nUecGn5nWrAEYfDqzby5J/0Y=;
+        b=FEKH5txJss8CPw5ZWRmwZF8z3UTWV/WTIy78QDtN8iu//7kDRD9+H+k65mMwnytCbY
+         JhA4bofg9SgY+qPrKgKCfdz9xvymRXoHr2Pg4PqwDGIS6mpRZFgPnT8lxFqthwQQ+L1w
+         758MHaDbM7uv14uiZWMMFGYCQWqloBKt6UR6DqukviTXmEbhhxLnWYL7YyTiWUTZYHuL
+         UYtJyRDyvgY4RRpWBVZPJOj1qxuCQx/TvFLqod95v/PL1+CaPYAOb8mJ+R5GLRmOs5al
+         YVk0U46XEoqkmC7dPUolR2sf4+3ApCj0ygwSIBHrZf5GZGi8sYBUY1gmBuCB8YTRDbUn
+         YpGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713548645; x=1714153445;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DYge8k8yiQNLUXp9tI3nUecGn5nWrAEYfDqzby5J/0Y=;
+        b=jkdKOHJHNmU4jKFvkCoHsP1KBXiCsWaR8k4p7YdwhIgJ9StbTaYRClBgUyxiC7y7Fg
+         5OXbC2aKDkM3s/SF3URbkhzE8wauf1GHowFMWcZIW8sZvJmkOZFCOi0hLPqrljbj/LgS
+         Nv8JOXZy9EsnDQt3SoAS2NxOvWNzsgU/8JEaCmINFbsr/VuitzIgqEclbJ1YNCYmcBf1
+         YAyUV/1f9/G7qM/rkdqgHu5gUzQbHeP4Ou7QK7QwAMWNdOIJTkk/vzcTrxGIKz+iKdAx
+         U4pRd6Ah7EUWKq9TTy6ENIqyDCDmZLbbTtuo1YB1WkGU64/RPjLigDHFz4ZsfxIvjaes
+         6Aog==
+X-Forwarded-Encrypted: i=1; AJvYcCXWabY4uw6090c8Nnjz4JHH5pqiW6vvnlbd9znnUv90NMM11BMsZ0ISPi9S2ywbVR90ZRM6M/Nf1f60wukRPHRfpculXLwUAJJaFMRL9w2bbgWGg9dxW1wZCweKeMZvx6VylrcZ8Gdj1YMRqERNkwNsMMP3tkOA92EUhRCXEYyskg==
+X-Gm-Message-State: AOJu0Yw78XJHlmnv9pZfKnjPp6QFUXvWjfplcID+sgYGkgCJ9simcq+e
+	Mdq608+3Q2Evux6JCpHLiUYrIvLp7Qx+3WxI8eZbZva0KA/q1EA9
+X-Google-Smtp-Source: AGHT+IFKGFRUI0+Gv23iQkL5gzsAanvmwGAZnj6jAcNoHux3oyFG9MjAtMJWpluphkxTU2lIlPl3Cg==
+X-Received: by 2002:a05:6a00:3a1e:b0:6ed:5f66:602 with SMTP id fj30-20020a056a003a1e00b006ed5f660602mr3382726pfb.9.1713548644806;
+        Fri, 19 Apr 2024 10:44:04 -0700 (PDT)
+Received: from kernelexploit-virtual-machine.localdomain ([121.185.186.233])
+        by smtp.gmail.com with ESMTPSA id n56-20020a056a000d7800b006e6b7124b33sm3491511pfv.209.2024.04.19.10.44.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Apr 2024 10:44:04 -0700 (PDT)
+From: Jeongjun Park <aha310510@gmail.com>
+To: syzbot+8e03da5d64bc85098811@syzkaller.appspotmail.com
+Cc: ajk@comnets.uni-bremen.de,
 	davem@davemloft.net,
 	edumazet@google.com,
 	kuba@kernel.org,
+	linux-hams@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
 	pabeni@redhat.com,
-	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH net] ax25: Fix netdev refcount issue
-Date: Fri, 19 Apr 2024 10:04:56 +0800
-Message-Id: <20240419020456.29826-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:by_KCgCHE4ZJ0SFmEBonAQ--.54658S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGF48AFWktw1kury5ZF1kZrb_yoWrXF4UpF
-	y3AFs5GrWvqr1kta18t3Z5GryUCFs8Za4UZr1IvFyvk3W5Jw1Uta40ka1DKFyUWr98JF47
-	Xa4q93W8tr9rJaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
-	JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
-	tVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
-	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbGQ6JUUUU
-	U==
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwIQAWYhJRwF-AAbsM
+	syzkaller-bugs@googlegroups.com,
+	Jeongjun Park <aha310510@gmail.com>
+Subject: [PATCH v2] net: hams: Fix deadlock caused by unsafe-irq lock in sp_get()
+Date: Sat, 20 Apr 2024 02:43:21 +0900
+Message-Id: <20240419174319.28528-1-aha310510@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <0000000000005e18f00615207de6@google.com>
+References: <0000000000005e18f00615207de6@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The dev_tracker is added to ax25_cb in ax25_bind(). When the
-ax25 device is detaching, the dev_tracker of ax25_cb should be
-deallocated in ax25_kill_by_device() instead of the dev_tracker
-of ax25_dev. The log reported by ref_tracker is shown below:
 
-[   80.884935] ref_tracker: reference already released.
-[   80.885150] ref_tracker: allocated in:
-[   80.885349]  ax25_dev_device_up+0x105/0x540
-[   80.885730]  ax25_device_event+0xa4/0x420
-[   80.885730]  notifier_call_chain+0xc9/0x1e0
-[   80.885730]  __dev_notify_flags+0x138/0x280
-[   80.885730]  dev_change_flags+0xd7/0x180
-[   80.885730]  dev_ifsioc+0x6a9/0xa30
-[   80.885730]  dev_ioctl+0x4d8/0xd90
-[   80.885730]  sock_do_ioctl+0x1c2/0x2d0
-[   80.885730]  sock_ioctl+0x38b/0x4f0
-[   80.885730]  __se_sys_ioctl+0xad/0xf0
-[   80.885730]  do_syscall_64+0xc4/0x1b0
-[   80.885730]  entry_SYSCALL_64_after_hwframe+0x67/0x6f
-[   80.885730] ref_tracker: freed in:
-[   80.885730]  ax25_device_event+0x272/0x420
-[   80.885730]  notifier_call_chain+0xc9/0x1e0
-[   80.885730]  dev_close_many+0x272/0x370
-[   80.885730]  unregister_netdevice_many_notify+0x3b5/0x1180
-[   80.885730]  unregister_netdev+0xcf/0x120
-[   80.885730]  sixpack_close+0x11f/0x1b0
-[   80.885730]  tty_ldisc_kill+0xcb/0x190
-[   80.885730]  tty_ldisc_hangup+0x338/0x3d0
-[   80.885730]  __tty_hangup+0x504/0x740
-[   80.885730]  tty_release+0x46e/0xd80
-[   80.885730]  __fput+0x37f/0x770
-[   80.885730]  __x64_sys_close+0x7b/0xb0
-[   80.885730]  do_syscall_64+0xc4/0x1b0
-[   80.885730]  entry_SYSCALL_64_after_hwframe+0x67/0x6f
-[   80.893739] ------------[ cut here ]------------
-[   80.894030] WARNING: CPU: 2 PID: 140 at lib/ref_tracker.c:255 ref_tracker_free+0x47b/0x6b0
-[   80.894297] Modules linked in:
-[   80.894929] CPU: 2 PID: 140 Comm: ax25_conn_rel_6 Not tainted 6.9.0-rc4-g8cd26fd90c1a #11
-[   80.895190] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qem4
-[   80.895514] RIP: 0010:ref_tracker_free+0x47b/0x6b0
-[   80.895808] Code: 83 c5 18 4c 89 eb 48 c1 eb 03 8a 04 13 84 c0 0f 85 df 01 00 00 41 83 7d 00 00 75 4b 4c 89 ff 9
-[   80.896171] RSP: 0018:ffff888009edf8c0 EFLAGS: 00000286
-[   80.896339] RAX: 1ffff1100141ac00 RBX: 1ffff1100149463b RCX: dffffc0000000000
-[   80.896502] RDX: 0000000000000001 RSI: 0000000000000246 RDI: ffff88800a0d6518
-[   80.896925] RBP: ffff888009edf9b0 R08: ffff88806d3288d3 R09: 1ffff1100da6511a
-[   80.897212] R10: dffffc0000000000 R11: ffffed100da6511b R12: ffff88800a4a31d4
-[   80.897859] R13: ffff88800a4a31d8 R14: dffffc0000000000 R15: ffff88800a0d6518
-[   80.898279] FS:  00007fd88b7fe700(0000) GS:ffff88806d300000(0000) knlGS:0000000000000000
-[   80.899436] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   80.900181] CR2: 00007fd88c001d48 CR3: 000000000993e000 CR4: 00000000000006f0
-...
-[   80.935774] ref_tracker: sp%d@000000000bb9df3d has 1/1 users at
-[   80.935774]      ax25_bind+0x424/0x4e0
-[   80.935774]      __sys_bind+0x1d9/0x270
-[   80.935774]      __x64_sys_bind+0x75/0x80
-[   80.935774]      do_syscall_64+0xc4/0x1b0
-[   80.935774]      entry_SYSCALL_64_after_hwframe+0x67/0x6f
+read_lock() present in sp_get() is interrupt-vulnerable, so the function needs to be modified.
 
-Change ax25_dev->dev_tracker to the dev_tracker of ax25_cb
-in order to mitigate the bug.
 
-Fixes: feef318c855a ("ax25: fix UAF bugs of net_device caused by rebinding operation")
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+Reported-by: syzbot+8e03da5d64bc85098811@syzkaller.appspotmail.com
+Signed-off-by: Jeongjun Park <aha310510@gmail.com>
 ---
- net/ax25/af_ax25.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/net/hamradio/6pack.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-index 558e158c98d..9169efb2f43 100644
---- a/net/ax25/af_ax25.c
-+++ b/net/ax25/af_ax25.c
-@@ -103,7 +103,7 @@ static void ax25_kill_by_device(struct net_device *dev)
- 			s->ax25_dev = NULL;
- 			if (sk->sk_socket) {
- 				netdev_put(ax25_dev->dev,
--					   &ax25_dev->dev_tracker);
-+					   &s->dev_tracker);
- 				ax25_dev_put(ax25_dev);
- 			}
- 			ax25_cb_del(s);
+diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
+index 6ed38a3cdd73..fee583b1e59a 100644
+--- a/drivers/net/hamradio/6pack.c
++++ b/drivers/net/hamradio/6pack.c
+@@ -373,11 +373,11 @@ static struct sixpack *sp_get(struct tty_struct *tty)
+ {
+ 	struct sixpack *sp;
+ 
+-	read_lock(&disc_data_lock);
++	read_lock_irq(&disc_data_lock);
+ 	sp = tty->disc_data;
+ 	if (sp)
+ 		refcount_inc(&sp->refcnt);
+-	read_unlock(&disc_data_lock);
++	read_unlock_irq(&disc_data_lock);
+ 
+ 	return sp;
+ }
 -- 
-2.17.1
-
+2.34.1
 
