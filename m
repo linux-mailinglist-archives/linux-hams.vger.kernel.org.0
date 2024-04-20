@@ -1,127 +1,208 @@
-Return-Path: <linux-hams+bounces-115-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-116-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1B78AB578
-	for <lists+linux-hams@lfdr.de>; Fri, 19 Apr 2024 21:14:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 681358AB896
+	for <lists+linux-hams@lfdr.de>; Sat, 20 Apr 2024 03:57:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C9BFD1F2251C
-	for <lists+linux-hams@lfdr.de>; Fri, 19 Apr 2024 19:14:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 40FC51C20AA3
+	for <lists+linux-hams@lfdr.de>; Sat, 20 Apr 2024 01:57:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0B5F13C684;
-	Fri, 19 Apr 2024 19:14:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C20E310F7;
+	Sat, 20 Apr 2024 01:57:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bvsnn47s"
+	dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b="dw5a19Xr"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp68.iad3b.emailsrvr.com (smtp68.iad3b.emailsrvr.com [146.20.161.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F1E13C3F2;
-	Fri, 19 Apr 2024 19:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42B18F6E
+	for <linux-hams@vger.kernel.org>; Sat, 20 Apr 2024 01:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=146.20.161.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713554087; cv=none; b=sq0q72fBBHZjJtwi5emCTJfYiSjlWFqR2pp7eyYT9g4vVd//yzmXXHxnpXce7IojD+igE6rueaB6Ks/NO5dowytdD40FEUck9BKHB8yzJOg52eqXeY9CnnstNxITm4EQ34Fnm4MMVOl8st17kCv3X6+zyNjog9MQMBEq4FG1D2o=
+	t=1713578223; cv=none; b=hXbUVgSF4Ss+tUgHJ4+gOPU98gjgZeVkWkjEDmqWmyQtYbqjmLHrxOaVq0V0kEexuzhx3oEB473dQ60v+o3E2mtNYlnK1qjM9mlCQpXfTfnAkGAuwBIdoozAENnzRjM4gU7Lhq34Ttck+PR/YgcJBlJCqjXoVPDXHOAaibFVtkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713554087; c=relaxed/simple;
-	bh=0zQd6Z1nb61jyMOofmFcMVXaTEf+oph0Kg/rxSh8nuY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FwZYzpMRar6280PPLHoEtFqvtA+xlBsKuUH7Vk19lhhzZDbHAa86QB960uOrWTOniK6FLdDzAJ8POx3OaXyZ5po8W6mBMgEVye9rsSYxbSp1kUo6pzUrloQRwEWU0f7lG1KZBLA9Ztci4lN1pXM987AWINRtRK3L8HWPmhLFzYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bvsnn47s; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-36b309dd33bso9957245ab.1;
-        Fri, 19 Apr 2024 12:14:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713554085; x=1714158885; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VAPKT9XxoWrI/ZqTbx0y6wI55tS5z1hPfWNqmWG/4qc=;
-        b=Bvsnn47sAteqmNL2/7l+4d0+M21CohZtd7ZxOSGm2YbThGRWz2JojskGlexebr5Cjq
-         QTBn0Vs9IvY8HRQCaLmKliKyZdQdUUjDK6xCYPK4hNfN9owfRY32BtYcAZYq6eQgBj89
-         7l6LtUJM6bK21+L+6TYkUFR+CnHm/zaSCzLyMt85Azu+NY1d08kc2FpcHEdpCiFiQES9
-         ETgrVKUz5gizwrMjJ7NCUZYcY5cAj1BBWVajx0b+ZTwXy+RyKpDjIYkuEbUw7iARo05D
-         CHY1jDOLOhh7W6ZyrPDgMrivBrQ4lG3mw4P2FTfqDhUGCoNP5ZsosKw6xPycKvISmUtD
-         sigw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713554085; x=1714158885;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VAPKT9XxoWrI/ZqTbx0y6wI55tS5z1hPfWNqmWG/4qc=;
-        b=HzZZtrpQl/hN0TvTUe/sUJ8o4/7QJXj+t2kp0ZaWbWKX3S+EENMlC/pNckR0WIgXnI
-         rDCSfSnzZHx+q2pevksSiUgPu8NwHOEAH6U+/RgTtwXAtBBZt/g0wFTmS/0XhpWwq3gF
-         s2TYRfnfuA0Ft0BMaCl/2JFhIsAbuCYevsCVya0w5OKtZJC51j0pUODuUUQTW3LbuVj4
-         KqiPHAO3S0NfZZn6Ja4e6J+NstmHFwPz6yjR07VhL0ds3v3vO4T+ehxYXbroaN7pfDpu
-         Unmo739PuIFFIKMpsg6gZX+8af1Tqqp8iz8/TL+a2omo5QDpbZ9x3Id1SnU/L6SKUyOj
-         dR7g==
-X-Forwarded-Encrypted: i=1; AJvYcCUusW7D6DxxI8PrT44fc0JxbTfqZwrBuoJTCnqR+i2y/VGQJidx4mpF7jUAR5zoancG9/o5g6HF2Fnrlt36xmrBTJ0hSHCUn7AINF6jp8EBL4i9ny2oG92KNqSabq1YiSVw1A+RShfRncErU4eXcODkw/qB75jYSpnd/cmKPRy2Cg==
-X-Gm-Message-State: AOJu0YxmnO2qqaNGDQsMD8+fAyARIUYTEJBkRiGGufmCvy+ofDulV4KY
-	SzgqcH2X/mXYm7oIJQfCpfiwmPQS2ot38Mz9jC34zXKPecEoqGux
-X-Google-Smtp-Source: AGHT+IE2fSuywdttgS08bx7aen4kWDQc2gtWFh+YU9mG7WcPz8tudbaDjYH0e/5+HCP45f045WGfdg==
-X-Received: by 2002:a05:6e02:2169:b0:369:c0a3:2ad7 with SMTP id s9-20020a056e02216900b00369c0a32ad7mr4146859ilv.12.1713554085161;
-        Fri, 19 Apr 2024 12:14:45 -0700 (PDT)
-Received: from kernelexploit-virtual-machine.localdomain ([121.185.186.233])
-        by smtp.gmail.com with ESMTPSA id z25-20020a637e19000000b005f80aced5f3sm258846pgc.0.2024.04.19.12.14.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Apr 2024 12:14:44 -0700 (PDT)
-From: Jeongjun Park <aha310510@gmail.com>
-To: syzbot+8e03da5d64bc85098811@syzkaller.appspotmail.com
-Cc: ajk@comnets.uni-bremen.de,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	linux-hams@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	syzkaller-bugs@googlegroups.com,
-	Jeongjun Park <aha310510@gmail.com>
-Subject: [PATCH net,v3] net: hams: Fix deadlock caused by unsafe-irq lock in sp_get()
-Date: Sat, 20 Apr 2024 04:14:38 +0900
-Message-Id: <20240419191438.30724-1-aha310510@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <0000000000005e18f00615207de6@google.com>
-References: <0000000000005e18f00615207de6@google.com>
+	s=arc-20240116; t=1713578223; c=relaxed/simple;
+	bh=RLGhrBFyYBT7etQaeh1jAFcDRRfcnJlNegIkJ5yRD7U=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e1n3Mhum+ICxwL5IVKMvR9qTjoxM0SMJvF5jv9UcptDMc/5s2eroPxPIsKuS6pmVMXDcGo3kd8PkZoAetURZ8HSMaR99zGWExwD/huqWsUEua/lWbuv6KBGX7GA124usSN40K17JVbtWNXex5cYzKZ/GGrqpCveMsC9V4JV68Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com; spf=pass smtp.mailfrom=oddbit.com; dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b=dw5a19Xr; arc=none smtp.client-ip=146.20.161.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oddbit.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=oddbit.com;
+	s=20180920-g2b7aziw; t=1713577234;
+	bh=RLGhrBFyYBT7etQaeh1jAFcDRRfcnJlNegIkJ5yRD7U=;
+	h=Date:From:To:Subject:From;
+	b=dw5a19Xrw5kyT22VfT1r/oFnq0OWJSrTwsrSAhZg5ipOZbkivNWbyJIi0OyqBsZQ8
+	 vSE/uA8zKkNrJ/uWctzCy/TM9/karFlcrCXWzcuniiL6Zf/37iygVDzweYV+tD/fUn
+	 pzU3srTZDTrhEKLIVM+GAoNhin2cugxmZtrdFCN4=
+X-Auth-ID: lars@oddbit.com
+Received: by smtp17.relay.iad3b.emailsrvr.com (Authenticated sender: lars-AT-oddbit.com) with ESMTPSA id BFAF0A0344
+	for <linux-hams@vger.kernel.org>; Fri, 19 Apr 2024 21:40:34 -0400 (EDT)
+Date: Fri, 19 Apr 2024 21:40:34 -0400
+From: Lars Kellogg-Stedman <lars@oddbit.com>
+To: linux-hams@vger.kernel.org
+Subject: Re: unregister_netdevice: waiting for ax0 to become free
+Message-ID: <p6r6irutux5upw6fuauhczw6dedirm5tr26wnmyunlv44gzjtn@ev4nqkqdh2ip>
+References: <CA+Q+rdzYUcfYF8CcX1WOWjVBYiZgidFAY1M0kR4J4KL73yN9yA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+Q+rdzYUcfYF8CcX1WOWjVBYiZgidFAY1M0kR4J4KL73yN9yA@mail.gmail.com>
+X-Classification-ID: 41f6aee3-87a5-4e07-aba3-67deaf93bc65-1-1
 
+On Tue, Apr 09, 2024 at 05:05:40PM -0400, Lars Kellogg-Stedman wrote:
+> If I make a single ax.25 connection to the host
+> (to an ax25d hosted service), it will subsequently fail to reboot; the
+> kernel gets stuck waiting for an ax.25 interface:
+>
+>      3   [  217.717327] unregister_netdevice: waiting for ax0 to
+>          become free. Usage count = 0
 
-read_lock() present in sp_get() is interrupt-vulnerable, so the function needs to be modified.
+I'm still trying to track down these issues. I've built a minimal kernel
+for testing (from 2668e3ae2ef) with ax.25 support compiled in (that is,
+no modules), and that seems to have changed the nature of the tracebacks
+a bit.
 
+If bring up a couple of axudp ports and a minimal ax25d configuration
+and make a single connection and then attempt to reboot, I see:
 
-Reported-by: syzbot+8e03da5d64bc85098811@syzkaller.appspotmail.com
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Jeongjun Park <aha310510@gmail.com>
----
- drivers/net/hamradio/6pack.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+    refcount_t: underflow; use-after-free.
 
-diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
-index 6ed38a3cdd73..fee583b1e59a 100644
---- a/drivers/net/hamradio/6pack.c
-+++ b/drivers/net/hamradio/6pack.c
-@@ -373,11 +373,11 @@ static struct sixpack *sp_get(struct tty_struct *tty)
- {
- 	struct sixpack *sp;
- 
--	read_lock(&disc_data_lock);
-+	read_lock_irq(&disc_data_lock);
- 	sp = tty->disc_data;
- 	if (sp)
- 		refcount_inc(&sp->refcnt);
--	read_unlock(&disc_data_lock);
-+	read_unlock_irq(&disc_data_lock);
- 
- 	return sp;
- }
+The call trace looks like this:
+
+    Call Trace:
+    <TASK>
+    ? show_regs+0x5f/0x70
+    ? __warn+0x6c/0xd0
+    ? refcount_warn_saturate+0xb2/0x100
+    ? report_bug+0x166/0x1b0
+    ? prb_read_valid+0x1b/0x20
+    ? handle_bug+0x3e/0x70
+    ? exc_invalid_op+0x1c/0x70
+    ? asm_exc_invalid_op+0x1f/0x30
+    ? refcount_warn_saturate+0xb2/0x100
+    ? refcount_warn_saturate+0xb2/0x100
+    ax25_dev_device_down+0x16e/0x190
+    ax25_device_event+0x1a6/0x240
+    raw_notifier_call_chain+0x45/0x60
+    call_netdevice_notifiers_info+0x4f/0x90
+    dev_close_many+0xe1/0x140
+    unregister_netdevice_many_notify+0x139/0x7f0
+    ? __call_rcu_common.constprop.0+0x8a/0x220
+    unregister_netdevice_queue+0x8d/0xd0
+    unregister_netdev+0x1b/0x30
+    mkiss_close+0x74/0xb0
+    tty_ldisc_close+0x26/0x30
+    tty_ldisc_hangup+0xf5/0x210
+    __tty_hangup.part.0+0x1b2/0x2f0
+    tty_vhangup+0x14/0x20
+    pty_close+0x122/0x160
+    tty_release+0xe0/0x4d0
+    __fput+0x8c/0x2a0
+    ____fput+0xd/0x10
+    task_work_run+0x59/0x80
+    do_exit+0x2aa/0x8e0
+    ? handle_mm_fault+0xb5/0x300
+    do_group_exit+0x33/0x90
+    __x64_sys_exit_group+0x17/0x20
+    x64_sys_call+0x18c9/0x1aa0
+    do_syscall_64+0x55/0x110
+    entry_SYSCALL_64_after_hwframe+0x4b/0x53
+
+Stepping through ax25_dev_device_down with gdb, I noticed that there are
+two calls to ax25_dev_put (in net/ax25/ax25_dev.c):
+
+    unlock_put:
+      spin_unlock_bh(&ax25_dev_lock);
+      ax25_dev_put(ax25_dev);
+      dev->ax25_ptr = NULL;
+      netdev_put(dev, &ax25_dev->dev_tracker);
+      ax25_dev_put(ax25_dev);
+
+Is that valid? By the time the code reaches the second call to
+ax25_dev_put, ax25_dev->refcount is already 0. If I remove the second
+call to ax25_dev_put, that gets rid of the "refcount_t: underflow;
+use-after-free." error, but doesn't prevent the kernel from getting
+stuck at:
+
+    unregister_netdevice: waiting for ax0 to become free. Usage count = 0
+
+I've include the complete trace below:
+
+------------[ cut here ]------------
+refcount_t: underflow; use-after-free.
+WARNING: CPU: 0 PID: 269 at lib/refcount.c:28 refcount_warn_saturate+0xb2/0x100
+CPU: 0 PID: 269 Comm: ax25ipd Not tainted 6.9.0-rc4-ax25+ #36
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-1.fc39 04/01/2014
+RIP: 0010:refcount_warn_saturate+0xb2/0x100
+Code: d1 a5 9d 00 01 e8 5e 6b b4 ff 0f 0b 5d c3 80 3d be a5 9d 00 00 75 91 48 c7 c7 08 a1 dc 81 c6 05 ae a5 9d 00 01 e8 3e 6b b4 ff <0f> 0b 5d c3 80 3d 9f a5 9d 00 00 0f 85 6d ff ff ff 48 c7 c7 d8 a0
+RSP: 0018:ffffc9000182fb48 EFLAGS: 00010286
+RAX: 0000000000000026 RBX: ffff88810a1359c0 RCX: 0000000000000027
+RDX: ffff88817bc1bf48 RSI: 0000000000000001 RDI: ffff88817bc1bf40
+RBP: ffffc9000182fb48 R08: 00000000ffffefff R09: 00000000ffffefff
+R10: 0000000000000001 R11: ffffffff81e3a5e0 R12: ffff888109b6a000
+R13: ffff88810a135a50 R14: ffff88810372a400 R15: ffff88810372a460
+FS:  0000000000000000(0000) GS:ffff88817bc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005580c08ca8a0 CR3: 00000001017a0006 CR4: 0000000000770eb0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ ? show_regs+0x5f/0x70
+ ? __warn+0x6c/0xd0
+ ? refcount_warn_saturate+0xb2/0x100
+ ? report_bug+0x166/0x1b0
+ ? prb_read_valid+0x1b/0x20
+ ? handle_bug+0x3e/0x70
+ ? exc_invalid_op+0x1c/0x70
+ ? asm_exc_invalid_op+0x1f/0x30
+ ? refcount_warn_saturate+0xb2/0x100
+ ? refcount_warn_saturate+0xb2/0x100
+ ax25_dev_device_down+0x16e/0x190
+ ax25_device_event+0x1a6/0x240
+ raw_notifier_call_chain+0x45/0x60
+ call_netdevice_notifiers_info+0x4f/0x90
+ dev_close_many+0xe1/0x140
+ unregister_netdevice_many_notify+0x139/0x7f0
+ ? __call_rcu_common.constprop.0+0x8a/0x220
+ unregister_netdevice_queue+0x8d/0xd0
+ unregister_netdev+0x1b/0x30
+ mkiss_close+0x74/0xb0
+ tty_ldisc_close+0x26/0x30
+ tty_ldisc_hangup+0xf5/0x210
+ __tty_hangup.part.0+0x1b2/0x2f0
+ tty_vhangup+0x14/0x20
+ pty_close+0x122/0x160
+ tty_release+0xe0/0x4d0
+ __fput+0x8c/0x2a0
+ ____fput+0xd/0x10
+ task_work_run+0x59/0x80
+ do_exit+0x2aa/0x8e0
+ do_group_exit+0x33/0x90
+ __x64_sys_exit_group+0x17/0x20
+ x64_sys_call+0x18c9/0x1aa0
+ do_syscall_64+0x55/0x110
+ entry_SYSCALL_64_after_hwframe+0x4b/0x53
+RIP: 0033:0x7f140d27491d
+Code: Unable to access opcode bytes at 0x7f140d2748f3.
+RSP: 002b:00007ffc66356c28 EFLAGS: 00000202 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f140d370fa8 RCX: 00007f140d27491d
+RDX: 00000000000000e7 RSI: ffffffffffffff88 RDI: 0000000000000002
+RBP: 00007ffc66356c80 R08: 00007ffc66356bc8 R09: 00007ffc66356b4f
+R10: 00007ffc66356ac0 R11: 0000000000000202 R12: 0000000000000001
+R13: 0000000000000000 R14: 0000000000000002 R15: 00007f140d370fc0
+ </TASK>
+---[ end trace 0000000000000000 ]---
+
 -- 
-2.34.1
+Lars Kellogg-Stedman <lars@oddbit.com> | larsks @ {irc,twitter,github}
+http://blog.oddbit.com/                | N1LKS
 
