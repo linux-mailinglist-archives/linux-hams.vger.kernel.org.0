@@ -1,99 +1,119 @@
-Return-Path: <linux-hams+bounces-118-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-119-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D2BC8ABA3D
-	for <lists+linux-hams@lfdr.de>; Sat, 20 Apr 2024 10:21:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66B9D8ACD3A
+	for <lists+linux-hams@lfdr.de>; Mon, 22 Apr 2024 14:48:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6777F1F2168E
-	for <lists+linux-hams@lfdr.de>; Sat, 20 Apr 2024 08:21:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21EC72857AB
+	for <lists+linux-hams@lfdr.de>; Mon, 22 Apr 2024 12:48:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA86613FFC;
-	Sat, 20 Apr 2024 08:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2BF514F122;
+	Mon, 22 Apr 2024 12:47:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G7/14+jc"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QKVetmT4"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7BC125C7;
-	Sat, 20 Apr 2024 08:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2640714EC6B
+	for <linux-hams@vger.kernel.org>; Mon, 22 Apr 2024 12:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713601269; cv=none; b=HM8yN+muEehho2FOMc6oG2HFl9RjzVruMiO0pnnInN/kUQ7IsfYwJlB5DqOsqvsrW05VKv2QDS9qkG0OCiTCyC89QTll+rRMQ9CFd9DOIb6wH0SrE0vXN2qsjcJ4AZusz0PNHggZ2Q9sDxsxVDEDop4btnDH36jfasjOZ7gf3E4=
+	t=1713790046; cv=none; b=a0abvb9BiHfQyrJT+oI48r1Xsdt1Y+n4aMkciDLmQihSHUHU6hWvuO7CzyEowumy9Yt4tSe/PT62XgsQZ+NDO7/Y+Ci3ZRXWG6p79j7WaCKiYzDc5W4hu3uksZCTQA65vbaCLbDoI4jonqPXfrexU180L8qYJyykyMe+Hlaiqmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713601269; c=relaxed/simple;
-	bh=CM/+cAjyrx/umPb70TdQ6o0MIWdOkChhMn69jSOSbtE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pbcHnV1O36t3A4sv3X8wHf2Ut/KAT0eD+Hi90JHAo1Rd8/CESYBD8Un+FeapSvEzmJbatd8eahkUHHlN2aa4Fn3AvKvb6pCb/WgHRkjS+YHRRbZpx46pGVExa2PxdVIDvh62iI/dTwBD8pJCdXBycTid8IXqyGqdd5jPshyM1vQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G7/14+jc; arc=none smtp.client-ip=209.85.167.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3c70ef25e19so1318837b6e.3;
-        Sat, 20 Apr 2024 01:21:08 -0700 (PDT)
+	s=arc-20240116; t=1713790046; c=relaxed/simple;
+	bh=xK0xpJYoCLIITlC+CsYauUdtz62QeVeHRGmWzCiWf5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F+CdMQ9HriqsTkOnf0U7wm6VqGVVqEIR/+819EAUln35G/dbuwSUNiIOxSK6lN3a2dk6AstDgE8VhYOT8BUFZEOK5PMCyDw0GwRZbvHszT5TkVx8EtYfPhTpwJ8gpvWIy7JyI+TzLcXXtB82oNQLbeYmg5OSz3/5GxqATCwwqMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QKVetmT4; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-518a56cdc03so5292930e87.1
+        for <linux-hams@vger.kernel.org>; Mon, 22 Apr 2024 05:47:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713601267; x=1714206067; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SC8MGZH1e7UDE4rfEJ3W5P3/vWA2hHezrcq6mh7lqLA=;
-        b=G7/14+jcmtiVoLWTzOnEmPrVfT5fHQOcjZ+Cyp5NjQR00+T2DEdJi44+YTHuSFOuyA
-         hJXFqrWkJ+iNVOWZAWYcrxYf3ZjOYNPf2y6ExqSNsG7B4juzMZ2V3rkyhz3vjaHN1IWZ
-         Acx++SeBbnKRORMR+yZQRWnr/+Se/ZdQWmeicS9O+b74dQRoLGWcqas334PruZ9DZpjD
-         WoWMHFFfA+p97LDXkefMPbjK8DVIyghzM5glckh2hGBb0vH3b1JubWuR63HPa48CBt1M
-         9/lZE5gz3grDcbMHPCPOqxmcRjE7sMelhOMFe8DdK65Fnv1dT/pUXdYMWTzwTkNvuPOl
-         uxSQ==
+        d=linaro.org; s=google; t=1713790042; x=1714394842; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tAq2BIio/WgpUEPdT8jPUBANtNcgUg2oMhI7FrVaEB0=;
+        b=QKVetmT4Qiv2LzM5bk/Rk+DI4aimjEbt6joAxLnYRDLX/FzEMNGF8e7jXAlwsrauwA
+         c0xHKqmpHy76N/L5OvbNpQ9raifbYLglRIU6o0U0C47ElT+tlsLhwzs8RywixlGPoKoT
+         BG2v89BzOhSKDFCFBbnEZsljWgBsLovuefUO0IenfK5GCcq3ZLK0NxUPLRJ2oHoVVTua
+         YPBlZ9cyYeMVcpGP+TANdwTW7jxweUyLoKH3IonGyLckFiGZ1k2H6OF55duhqQWGq77g
+         iKxLlyouFq8MohJmDXXj9VIzCMVkDB9FcPmUxoRzOyvl/Xv4+rdFnN0L94sombBSJL9J
+         Diaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713601267; x=1714206067;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SC8MGZH1e7UDE4rfEJ3W5P3/vWA2hHezrcq6mh7lqLA=;
-        b=wvbhzoZhBQBXeDAXWrv2oqbFZs6Cms8bJOU4nC2QneXS8l7I5aARxNG58x9gwRl9pN
-         CJ5napsLHHCkJ3dSnP963sHnwjkOpyvtevmZwyK2/LI65qTgAnqHUfh12/Ubh2DdfoQN
-         w237ysHG4RuDBPwWd9KcwXO6VONImfKcmSr2Smad2+McgHE4iv3ExKX1K4P/q7aZcO8D
-         wTzeUgQMVjsDtPN6eXiojoGg8YGUgQjxrJ7+tle5hGfOwTWE36Pa8Kh/SQf4djyjEMR0
-         SiKAqaxQMaIhn5OZbpof14PPhI++TpnFbMAsMhgRIxDFrUxAw6WJB81i527G6iSnXVy5
-         0ehg==
-X-Forwarded-Encrypted: i=1; AJvYcCXSCZTidi2tsRocJeUWj5qYfDzTKALGgSsKfX5R8QaZIQyQTAm3nQqzLUO+doq1e6cG/hU6+BakAq3Ntna8RTEWFy8RLE6x+UurvJm8
-X-Gm-Message-State: AOJu0Yw80BTF6UX0yitpd2IC8+p94Zk4vFlh51EZyKeJs+4Xqz1YD+4F
-	nNnJzfOCRQWDwlv2xZkpNfmjjjqlBKCT0DEXYHsTnMhnh+6oR9cU
-X-Google-Smtp-Source: AGHT+IFCLWgrDQCTwzW6CervKDzR+V3n2iXrThMK3ZraLyVfDsExAQwHxZXlAYaf6AUPRB2arYfdlw==
-X-Received: by 2002:a05:6808:1c8:b0:3c7:44d5:3f34 with SMTP id x8-20020a05680801c800b003c744d53f34mr4607654oic.37.1713601267168;
-        Sat, 20 Apr 2024 01:21:07 -0700 (PDT)
-Received: from kernelexploit-virtual-machine.localdomain ([121.185.186.233])
-        by smtp.gmail.com with ESMTPSA id gm8-20020a056a00640800b006e740d23674sm4597506pfb.140.2024.04.20.01.21.05
+        d=1e100.net; s=20230601; t=1713790042; x=1714394842;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tAq2BIio/WgpUEPdT8jPUBANtNcgUg2oMhI7FrVaEB0=;
+        b=YQWBTwG7ka3tmyF4LiA2zrFNDsWLrB0cdyudmJ08o0fa2EI7T/aVhgMB4E6l9ihzZl
+         TuO5d47/3UIdDt64D9/80vx454VyC6XACHZuQojN1zX/nlj0kmnrjc+YZVrqfxmBUT+s
+         GAOWNDJV8UT8Y0wSZLA2fDzOqULvwlFDaEZvk29om2niVxsCnTuhF8DLdkH8k+6O8SlG
+         Qz8iv9JjH3+RYO+Umpg83jR2jn9H8jBq0I6yxZeEXNgkIXjXiT/YAMItq6mluBbFLeWN
+         ewn2686OVg/+wQUSenLhww7I9KiylrgYb9OaGp0AJfXG2bo91YUjfjvcgY5EmLQZqn8J
+         8T4w==
+X-Forwarded-Encrypted: i=1; AJvYcCXp5efxMbFqzZazG9VZ2GJNyd94oMY2wUXeOddPMNOYgZthvXqyusZ5t0s0+Pio4MZAAnGFDgtizQ+lKmWn1qx1jXaiPNtuTpG8KQ==
+X-Gm-Message-State: AOJu0Yxrj1DKKDxfL3BPgGZShPU1MemYVzh4kwhIAHcA7YUn7SKwN+zE
+	wqWEHFkf6Af4+Svp2TzF708HLZXBRQMPhHwLjxdHgaqufGzgFQaE/qdHpptG6Bc=
+X-Google-Smtp-Source: AGHT+IEMH8RihJNVGuEx0Di87sDBlhXnXygmj8MwWRwVHNTMdA9GYNd7ZTy8dfvJApZvwx5iiRjYLw==
+X-Received: by 2002:a05:6512:20c3:b0:51a:c3a6:9209 with SMTP id u3-20020a05651220c300b0051ac3a69209mr5156044lfr.68.1713790039896;
+        Mon, 22 Apr 2024 05:47:19 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id r25-20020a170906351900b00a55b5c365dfsm1248156eja.199.2024.04.22.05.47.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Apr 2024 01:21:06 -0700 (PDT)
-From: Jeongjun Park <aha310510@gmail.com>
-To: kuba@kernel.org
-Cc: linux-hams@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+8e03da5d64bc85098811@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH net,v3] net: hams: Fix deadlock caused by unsafe-irq lock in sp_get()
-Date: Sat, 20 Apr 2024 17:21:02 +0900
-Message-Id: <20240420082102.63841-1-aha310510@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240419200453.13301f29@kernel.org>
-References: <20240419200453.13301f29@kernel.org>
+        Mon, 22 Apr 2024 05:47:19 -0700 (PDT)
+Date: Mon, 22 Apr 2024 15:47:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jeongjun Park <aha310510@gmail.com>
+Cc: ajk@comnets.uni-bremen.de, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, linux-hams@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	syzbot+8e03da5d64bc85098811@syzkaller.appspotmail.com
+Subject: Re: [PATCH] hams: Fix deadlock caused by unsafe-irq lock in sp_get()
+Message-ID: <bac3fb0d-2810-496d-b3ef-26a7f208ec51@moroto.mountain>
+References: <20240418173037.6714-1-aha310510@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240418173037.6714-1-aha310510@gmail.com>
 
-After looking at this email and testing everything, I have confirmed 
-that both patches are running without any problems in my environment,
-and the patchwork test outputs an unknown error in the patch 
-in ap_get().
+On Fri, Apr 19, 2024 at 02:30:37AM +0900, Jeongjun Park wrote:
+> 
+> read_lock() present in sp_get() is interrupt-vulnerable, so the function needs to be modified.
+> 
+> 
+> Reported-by: syzbot+8e03da5d64bc85098811@syzkaller.appspotmail.com
+> Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+> ---
+>  drivers/net/hamradio/6pack.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
+> index 6ed38a3cdd73..f882682ff0c8 100644
+> --- a/drivers/net/hamradio/6pack.c
+> +++ b/drivers/net/hamradio/6pack.c
+> @@ -372,12 +372,13 @@ static DEFINE_RWLOCK(disc_data_lock);
+>  static struct sixpack *sp_get(struct tty_struct *tty)
+>  {
+>  	struct sixpack *sp;
+> +	unsigned long flags;
+>  
+> -	read_lock(&disc_data_lock);
+> +	flags = read_lock_irqsave(&disc_data_lock);
 
-But the patch for sp_get() is confirmed to have no problem,
-can you tell me more about the problem?
+This doesn't compile.  At least build test your patches.
 
-Thanks.
+regards,
+dan carpenter
+
 
