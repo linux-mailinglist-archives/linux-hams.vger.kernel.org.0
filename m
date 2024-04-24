@@ -1,143 +1,143 @@
-Return-Path: <linux-hams+bounces-121-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-122-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948E08AE14E
-	for <lists+linux-hams@lfdr.de>; Tue, 23 Apr 2024 11:50:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6529A8AFE52
+	for <lists+linux-hams@lfdr.de>; Wed, 24 Apr 2024 04:22:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 518132870F7
-	for <lists+linux-hams@lfdr.de>; Tue, 23 Apr 2024 09:50:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 979E31C22119
+	for <lists+linux-hams@lfdr.de>; Wed, 24 Apr 2024 02:22:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 128395B1FB;
-	Tue, 23 Apr 2024 09:50:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D15C1125D5;
+	Wed, 24 Apr 2024 02:22:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qI4iRclq"
+	dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b="LskPPg+d"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp93.iad3b.emailsrvr.com (smtp93.iad3b.emailsrvr.com [146.20.161.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1AB58AC4;
-	Tue, 23 Apr 2024 09:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B5910A1A
+	for <linux-hams@vger.kernel.org>; Wed, 24 Apr 2024 02:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=146.20.161.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713865829; cv=none; b=XYp7AVCyzQ8ph9OtOECtAtjeFsI8zRYUNZzq7cV0OcVpeJy3PZ5BdfUPd4VMIB0GIHVG4B5LQNbIApG9EfXucNIjVPnqAbxxdb5nrXOkX4KXVtEC9bfPNpI62sE7Xmu+rinG/oIith1M3cdlkZDw2O833YjAg3ipNq1XZJHLKkE=
+	t=1713925323; cv=none; b=sm2iczwJCVeHigBKVU0G8bhilkiKylPgQq3Oc3Ll3q6KWVfslHtX0VFuSVOmHczw8OptS433WpzJjOZ7DJYgDyhiQKZ4+G6C+g5FKh9sWzaQGz5PhNrliLXHQ3lZG4MTno5To6bQDzuzXR3MCkxKzN2UWaNfB+KtrjxQoyGsqQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713865829; c=relaxed/simple;
-	bh=kPWD0Aln6Li7YtPDXUBgfs7urIIZrnqALICTlXvMWEY=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=QXcS8zILDEt9HRI6qfOQftcKZ1zcCrrcyrO9rf6ZEClFCIe6aNidK7eV0XJvtSUWkMr/YVYNtzagyeCrQTF0zm6BM4CdrCWFOSRNrZ1Yl/LfumqA5suJuJgebvKQpSYyq9+WrbVeNaypaPj9roHiOqOsztaW3R0+xQAPpTnmoC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qI4iRclq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 51B05C116B1;
-	Tue, 23 Apr 2024 09:50:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713865829;
-	bh=kPWD0Aln6Li7YtPDXUBgfs7urIIZrnqALICTlXvMWEY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=qI4iRclq70VaMrxduvgh6xBsSe/Khvq4gnBb7d6wERn26zEoUvvizy7yc+yUdCn68
-	 WHCensD1SkESZBpjzry6rhNMRVq7Fow2FBlcpVgmAMQ8KDf95kts5jKXGA26zWxMe3
-	 G/p1BUN35hmfH7xfEzRDDRYzLrGoaZ7lIL7CN+E2frP7x1/8x+qsO3QVPdNl8cReWK
-	 wkc+H+GvaQt+aOp60XimyV0a9kLQOGJpnueY8l7qhwzZ85157Gh1KXYgk0LihNt/E4
-	 ACJsYiFlcz8qPhzmCoLzIJdtE9SaPzvdkDUWfyWBE5lLMMl0MWwLMzZSXDSD5grisY
-	 hHV4jecPpv8xg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 48650C595D1;
-	Tue, 23 Apr 2024 09:50:29 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1713925323; c=relaxed/simple;
+	bh=h18vntQOe84NHzUFr2dBg4jN+5aBeltgrHlchSJ/yMw=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SP8zwVYoZ6MvxH4Ed1eplXURK+Ywv2TVCCVxTyZqFkEw/b5UbAMQ/yKmMBi7ijKe4Qtn8EOPWtWN0LM4N3MwqAvYJNdDMp2m2WAufzabrAz9FYfis5IeBdtdEY1U6NgTqQMV+1T8VbMvvu8/VufPxjzppsXWT8r8NJsQ6pYgmQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com; spf=pass smtp.mailfrom=oddbit.com; dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b=LskPPg+d; arc=none smtp.client-ip=146.20.161.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oddbit.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=oddbit.com;
+	s=20180920-g2b7aziw; t=1713924405;
+	bh=h18vntQOe84NHzUFr2dBg4jN+5aBeltgrHlchSJ/yMw=;
+	h=Date:From:To:Subject:From;
+	b=LskPPg+d0ILTrd7rAOUN97PXfqFinreZgMOmM/gzjmXAXQJQ1Hpyc2339f8A0JiH0
+	 g9ljXyVt/1lyx3PYkDGN+bA2+lXAKX73JwDOGYduEfCCbhNqEdmiXodNsH2KEsuFzS
+	 7djablubdkqixWIjayN3I83ulTFkxIXVeFMFnF98=
+X-Auth-ID: lars@oddbit.com
+Received: by smtp4.relay.iad3b.emailsrvr.com (Authenticated sender: lars-AT-oddbit.com) with ESMTPSA id 30FDC202E7
+	for <linux-hams@vger.kernel.org>; Tue, 23 Apr 2024 22:06:45 -0400 (EDT)
+Date: Tue, 23 Apr 2024 22:06:44 -0400
+From: Lars Kellogg-Stedman <lars@oddbit.com>
+To: linux-hams@vger.kernel.org
+Subject: Re: unregister_netdevice: waiting for ax0 to become free
+Message-ID: <hkgoneb732pm7cqc2wisrrducn3pdcxaauoeli6u7tgdigovax@oattb6ovobyq>
+References: <CA+Q+rdzYUcfYF8CcX1WOWjVBYiZgidFAY1M0kR4J4KL73yN9yA@mail.gmail.com>
+ <p6r6irutux5upw6fuauhczw6dedirm5tr26wnmyunlv44gzjtn@ev4nqkqdh2ip>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] ax25: Fix netdev refcount issue
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <171386582929.14749.16152644239780177329.git-patchwork-notify@kernel.org>
-Date: Tue, 23 Apr 2024 09:50:29 +0000
-References: <20240419020456.29826-1-duoming@zju.edu.cn>
-In-Reply-To: <20240419020456.29826-1-duoming@zju.edu.cn>
-To: Duoming Zhou <duoming@zju.edu.cn>
-Cc: linux-hams@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, jreuter@yaina.de, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <p6r6irutux5upw6fuauhczw6dedirm5tr26wnmyunlv44gzjtn@ev4nqkqdh2ip>
+X-Classification-ID: 53be3af9-38f8-4ef9-b202-77f6d0ffe002-1-1
 
-Hello:
+To help figure out what's going on, I wrote an `ax-sockets` command [1]
+for gdb that iterates over the `ax25_list` variable to show active
+sockets. The output looks something like this:
 
-This patch was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+    0xffff888109fe9800 LISTEN       ax1 src:TEST-1     dst:<none>     cb:02 dev:03
+    0xffff888100860600 LISTEN       ax0 src:TEST-0     dst:<none>     cb:02 dev:03
 
-On Fri, 19 Apr 2024 10:04:56 +0800 you wrote:
-> The dev_tracker is added to ax25_cb in ax25_bind(). When the
-> ax25 device is detaching, the dev_tracker of ax25_cb should be
-> deallocated in ax25_kill_by_device() instead of the dev_tracker
-> of ax25_dev. The log reported by ref_tracker is shown below:
-> 
-> [   80.884935] ref_tracker: reference already released.
-> [   80.885150] ref_tracker: allocated in:
-> [   80.885349]  ax25_dev_device_up+0x105/0x540
-> [   80.885730]  ax25_device_event+0xa4/0x420
-> [   80.885730]  notifier_call_chain+0xc9/0x1e0
-> [   80.885730]  __dev_notify_flags+0x138/0x280
-> [   80.885730]  dev_change_flags+0xd7/0x180
-> [   80.885730]  dev_ifsioc+0x6a9/0xa30
-> [   80.885730]  dev_ioctl+0x4d8/0xd90
-> [   80.885730]  sock_do_ioctl+0x1c2/0x2d0
-> [   80.885730]  sock_ioctl+0x38b/0x4f0
-> [   80.885730]  __se_sys_ioctl+0xad/0xf0
-> [   80.885730]  do_syscall_64+0xc4/0x1b0
-> [   80.885730]  entry_SYSCALL_64_after_hwframe+0x67/0x6f
-> [   80.885730] ref_tracker: freed in:
-> [   80.885730]  ax25_device_event+0x272/0x420
-> [   80.885730]  notifier_call_chain+0xc9/0x1e0
-> [   80.885730]  dev_close_many+0x272/0x370
-> [   80.885730]  unregister_netdevice_many_notify+0x3b5/0x1180
-> [   80.885730]  unregister_netdev+0xcf/0x120
-> [   80.885730]  sixpack_close+0x11f/0x1b0
-> [   80.885730]  tty_ldisc_kill+0xcb/0x190
-> [   80.885730]  tty_ldisc_hangup+0x338/0x3d0
-> [   80.885730]  __tty_hangup+0x504/0x740
-> [   80.885730]  tty_release+0x46e/0xd80
-> [   80.885730]  __fput+0x37f/0x770
-> [   80.885730]  __x64_sys_close+0x7b/0xb0
-> [   80.885730]  do_syscall_64+0xc4/0x1b0
-> [   80.885730]  entry_SYSCALL_64_after_hwframe+0x67/0x6f
-> [   80.893739] ------------[ cut here ]------------
-> [   80.894030] WARNING: CPU: 2 PID: 140 at lib/ref_tracker.c:255 ref_tracker_free+0x47b/0x6b0
-> [   80.894297] Modules linked in:
-> [   80.894929] CPU: 2 PID: 140 Comm: ax25_conn_rel_6 Not tainted 6.9.0-rc4-g8cd26fd90c1a #11
-> [   80.895190] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qem4
-> [   80.895514] RIP: 0010:ref_tracker_free+0x47b/0x6b0
-> [   80.895808] Code: 83 c5 18 4c 89 eb 48 c1 eb 03 8a 04 13 84 c0 0f 85 df 01 00 00 41 83 7d 00 00 75 4b 4c 89 ff 9
-> [   80.896171] RSP: 0018:ffff888009edf8c0 EFLAGS: 00000286
-> [   80.896339] RAX: 1ffff1100141ac00 RBX: 1ffff1100149463b RCX: dffffc0000000000
-> [   80.896502] RDX: 0000000000000001 RSI: 0000000000000246 RDI: ffff88800a0d6518
-> [   80.896925] RBP: ffff888009edf9b0 R08: ffff88806d3288d3 R09: 1ffff1100da6511a
-> [   80.897212] R10: dffffc0000000000 R11: ffffed100da6511b R12: ffff88800a4a31d4
-> [   80.897859] R13: ffff88800a4a31d8 R14: dffffc0000000000 R15: ffff88800a0d6518
-> [   80.898279] FS:  00007fd88b7fe700(0000) GS:ffff88806d300000(0000) knlGS:0000000000000000
-> [   80.899436] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   80.900181] CR2: 00007fd88c001d48 CR3: 000000000993e000 CR4: 00000000000006f0
-> ...
-> [   80.935774] ref_tracker: sp%d@000000000bb9df3d has 1/1 users at
-> [   80.935774]      ax25_bind+0x424/0x4e0
-> [   80.935774]      __sys_bind+0x1d9/0x270
-> [   80.935774]      __x64_sys_bind+0x75/0x80
-> [   80.935774]      do_syscall_64+0xc4/0x1b0
-> [   80.935774]      entry_SYSCALL_64_after_hwframe+0x67/0x6f
-> 
-> [...]
+The two fields at the end (labeled `cb:` and `dev:`) show the value of
+the `refcount` attribute of the `ax25_cb` struct and the corresponding
+`ax25_cb->ax25_dev` struct.
 
-Here is the summary with links:
-  - [net] ax25: Fix netdev refcount issue
-    https://git.kernel.org/netdev/net/c/467324bcfe1a
+When the system first boots up and we create some listening sockets
+with ax25d, each ax.25 interface has a refcount of 3 (that's what we see
+in the above output). Every time we initiate a connection between the
+sockets...
 
-You are awesome, thank you!
+    axcall udp0 TEST-1
+
+...the refcount on the listening device drops by one when the connection closes.
+That is, after making one connection, we have:
+
+    0xffff888109fe9800 LISTEN       ax1 src:TEST-1     dst:<none>     cb:02 dev:02
+    0xffff888100860600 LISTEN       ax0 src:TEST-0     dst:<none>     cb:02 dev:03
+
+And after another connection:
+
+    0xffff888109fe9800 LISTEN       ax1 src:TEST-1     dst:<none>     cb:02 dev:01
+    0xffff888100860600 LISTEN       ax0 src:TEST-0     dst:<none>     cb:02 dev:03
+
+After a third connection:
+
+    0xffff888109fe9800 LISTEN       ax1 src:TEST-1     dst:<none>     cb:02 dev:00
+    0xffff888100860600 LISTEN       ax0 src:TEST-0     dst:<none>     cb:02 dev:03
+
+And then after a fourth connection, we get a kernel traceback with
+"refcount_t: underflow; use-after-free." and the following backtrace:
+
+    Call Trace:
+    <TASK>
+    ? show_regs+0x64/0x70
+    ? __warn+0x83/0x120
+    ? refcount_warn_saturate+0xb2/0x100
+    ? report_bug+0x158/0x190
+    ? prb_read_valid+0x20/0x30
+    ? handle_bug+0x3e/0x70
+    ? exc_invalid_op+0x1c/0x70
+    ? asm_exc_invalid_op+0x1f/0x30
+    ? refcount_warn_saturate+0xb2/0x100
+    ax25_dev_put+0x37/0x40
+    ax25_release+0x377/0x3b0
+    __sock_release+0x35/0xa0
+    sock_close+0x19/0x20
+    __fput+0x91/0x2a0
+    ____fput+0x12/0x20
+    task_work_run+0x5e/0x90
+    do_exit+0x2f5/0xa00
+    ? handle_mm_fault+0xba/0x300
+    do_group_exit+0x38/0x90
+    __x64_sys_exit_group+0x1c/0x20
+    x64_sys_call+0x18ce/0x1aa0
+    do_syscall_64+0x55/0x110
+    entry_SYSCALL_64_after_hwframe+0x4b/0x53
+
+If we look at things when a connection is established -- e.g., at the
+top of ax25_accept -- we see that refcount for the *source* interface
+(udp0/ax0 in this example) has incremented:
+
+    0xffff888103eb3a00 ESTABLISHED  ax1 src:TEST-1     dst:TEST-0     cb:02 dev:03
+    0xffff888103ea4400 SABM_SENT    ax0 src:TEST-0     dst:TEST-1     cb:02 dev:04
+    0xffff888103eb3600 LISTEN       ax1 src:TEST-1     dst:<none>     cb:02 dev:03
+    0xffff888103eb3400 LISTEN       ax0 src:TEST-0     dst:<none>     cb:02 dev:04
+
+It looks like we may be failing to increment the refcount on the
+*listening* socket when a connection is established...but we're
+decrementing it when the connection is closed, leading to problems.
+
+[1]: https://github.com/larsks/ax25-debugging
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Lars Kellogg-Stedman <lars@oddbit.com> | larsks @ {irc,twitter,github}
+http://blog.oddbit.com/                | N1LKS
 
