@@ -1,79 +1,54 @@
-Return-Path: <linux-hams+bounces-183-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-184-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB2F8B8F26
-	for <lists+linux-hams@lfdr.de>; Wed,  1 May 2024 19:43:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C688B931E
+	for <lists+linux-hams@lfdr.de>; Thu,  2 May 2024 03:29:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 666EA28379A
-	for <lists+linux-hams@lfdr.de>; Wed,  1 May 2024 17:43:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 055C6B2195F
+	for <lists+linux-hams@lfdr.de>; Thu,  2 May 2024 01:29:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77D7612FF97;
-	Wed,  1 May 2024 17:43:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A32B217997;
+	Thu,  2 May 2024 01:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eUPQZn5d"
+	dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b="QAshCVDo"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp90.iad3a.emailsrvr.com (smtp90.iad3a.emailsrvr.com [173.203.187.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997C314286
-	for <linux-hams@vger.kernel.org>; Wed,  1 May 2024 17:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1C1168B7;
+	Thu,  2 May 2024 01:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.203.187.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714585426; cv=none; b=QQEZwjIAFYoxwYEvHa18Fi1sad7D91AsUXEgdnU/eCzQ1fLOE97cXoB+KvnZt/ZQuhn4qYcOQek2Q3UIG0KFhGA1T3l6JNq0cB65Sjzq4MmPhDqcj1jgXgvm43UGmh1bf9IGDRniETngf4SYajAgNyEg+nKYBhXAt8EBTXtA/So=
+	t=1714613365; cv=none; b=iNQbhJD022Z3fXq/OlK9kMUo+kfLLS4o8WRE3Zf8Leb8TgMD6iek8zc9d70yR14IsObQh50eSxXZdGSpWuWRUYQVvqf012h94OgdqyatipP5ygYrKl1RnmzObau7iLwPUlw0O2oMd0tXgxZsTUzCZmVn+bz8m8p52+n4DNo0Mss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714585426; c=relaxed/simple;
-	bh=3bmTWYwRFWLcqerdJa5XqE+bQEiJYPRaVhoVBhWPBHU=;
+	s=arc-20240116; t=1714613365; c=relaxed/simple;
+	bh=WGSyM/4CiIMkm9hEyvJ3yVSuSPYcuGcmPHUWkohwB5Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y0NpOkiYpduRQWO0Z5VLh9U7h5DWENM8ZTzO2aw32GLWapSy3IvoGIT4nC7xJUpJRTIL5/3DHrXcYofUYdXGVUNOkSwT0E+qjRAWzg53DphxsWWEkDWniTkE9RpH3aOlhTy7rNUq+CA3kaoW3pq9Tpl/PEBLGy3ABZxfsRDMhcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eUPQZn5d; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5176f217b7bso12377958e87.0
-        for <linux-hams@vger.kernel.org>; Wed, 01 May 2024 10:43:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714585423; x=1715190223; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3bmTWYwRFWLcqerdJa5XqE+bQEiJYPRaVhoVBhWPBHU=;
-        b=eUPQZn5d7TaEoJSsjp25jtx5rg24DhMR4W3IErzep++MHMNOXuhjd6NvpVSKMnfD9h
-         rQKPXgZ2yTuLdTi/CfX5xCCDONQ1KaJ+r9cGfA6qQ8pI85hP878bIKTIGHLL54QUYtWj
-         7XbaotcFIBR9yID2Wt88+uenUlqXW4gZDVseFiShCE4ZXLFJ/hDMhuI9PjzQcFqBMv8W
-         jS6Ip9nsARfaCXNYnA2jTOt/8HH85VLcUIZkc4+KF6kFYLKyyqDPAOwEx6OWHS2AGP4P
-         s2CSq71js5XPP7h9FndO1C62XnEn0OwanCYV8LkX1SndpoQhSlEhy+fJiynNzHg+PL62
-         RXkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714585423; x=1715190223;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3bmTWYwRFWLcqerdJa5XqE+bQEiJYPRaVhoVBhWPBHU=;
-        b=nXsMne7cD2SOC+9XYhQ/YUmHwexgir23CJ7gf+3IY+NGjWN2IHME3tXWUK21XupqUp
-         BsgF4TvxCvy9mHqjOskEr0TyPzhkLJ8tuMoc3HR79yZMuMgXd1+WLbcd+kO7THVM18Wj
-         9rSFyGimePrYm8RzuqOnTF1Rc1QC9Z1K4pU5Tau4EgJfyVUU7aX65ZNrSu9IMYwjvQAm
-         G2Xtti6pV/LLW7gXOhzoPlG+5NdMznc0OVZnmSO1JBTClhQK5AT5aCqxlBXw8ghPtbkh
-         ZOeE4+Y67iKpnNMx+r/OBWTspEjAnZWW9As4RmrmlpSEGlgqF2HBXGaprkSjGgFcIH7J
-         uw+w==
-X-Gm-Message-State: AOJu0Yzna6b/vE3+Al3p0lavGhNeWLmxBHguJGuqVlFMVvRBKWE8O7CY
-	fUspG9Qfd/QZugRWfCQx2Exg3TkiMBiWCWQl8oSdWWbiOXF0kispmx2QtseNIaU=
-X-Google-Smtp-Source: AGHT+IEfCIWUVgqYXG41TceguPXTQ+LH1imEyNeUiPyIb+1mgoogJOusr6dty/3f0bMhz+BELrLJZQ==
-X-Received: by 2002:ac2:48a1:0:b0:51d:9e17:29f0 with SMTP id u1-20020ac248a1000000b0051d9e1729f0mr2326819lfg.24.1714585422462;
-        Wed, 01 May 2024 10:43:42 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id c15-20020a056512238f00b0051c76aff880sm2212482lfv.43.2024.05.01.10.43.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 10:43:42 -0700 (PDT)
-Date: Wed, 1 May 2024 20:43:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=jgPm0n5Tj2ywbgXVltyKkLY8b68gijGsOtdCls+iF2UZ+TVpUiPIrBRjbp77riCxen9mpf6YLRJPjkks7L+ci+VXvTZPVnWI92qnHgoi6lZHasD0l7piEPEr+r5bwYXUSufa7OY58bI3KGmD/4lLhKLQn2KjRBGKheCw89sezVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com; spf=pass smtp.mailfrom=oddbit.com; dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b=QAshCVDo; arc=none smtp.client-ip=173.203.187.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oddbit.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=oddbit.com;
+	s=20180920-g2b7aziw; t=1714613357;
+	bh=WGSyM/4CiIMkm9hEyvJ3yVSuSPYcuGcmPHUWkohwB5Y=;
+	h=Date:From:To:Subject:From;
+	b=QAshCVDo2Osp8lK+3FSZovXHrjJZX3BwGgK//GheKXXX7r8a4kr5k4t4Gfg+YH5rs
+	 cXUJwsqs7fxbdH36tYB3cjuEmuXI34wC5nOnf/LIeLipWafQEli1r8T0YZqcDWKBMw
+	 9MCAPCRz8wyJebKdeOM+3F9pRoCFDE3YUBvwaS4Y=
+X-Auth-ID: lars@oddbit.com
+Received: by smtp36.relay.iad3a.emailsrvr.com (Authenticated sender: lars-AT-oddbit.com) with ESMTPSA id E7FC35484;
+	Wed,  1 May 2024 21:29:16 -0400 (EDT)
+Date: Wed, 1 May 2024 21:29:16 -0400
+From: Lars Kellogg-Stedman <lars@oddbit.com>
 To: Duoming Zhou <duoming@zju.edu.cn>
-Cc: linux-hams@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, pabeni@redhat.com, kuba@kernel.org,
-	edumazet@google.com, davem@davemloft.net, jreuter@yaina.de,
-	lars@oddbit.com, Miroslav Skoric <skoric@uns.ac.rs>
+Cc: linux-hams@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, pabeni@redhat.com, kuba@kernel.org, edumazet@google.com, 
+	davem@davemloft.net, jreuter@yaina.de, dan.carpenter@linaro.org
 Subject: Re: [PATCH net] ax25: Fix refcount leak issues of ax25_dev
-Message-ID: <7fcfdc9a-e3f3-49a1-9373-39b5ad745799@moroto.mountain>
+Message-ID: <my4l7ljo35dnwxl33maqhyvw7666dmuwtduwtyhnzdlb6bbf5m@5sbp4tvg246f>
 References: <20240501060218.32898-1-duoming@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
@@ -84,17 +59,140 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20240501060218.32898-1-duoming@zju.edu.cn>
+X-Classification-ID: 65a8466f-308e-4519-ba13-d0b67ecdb47f-1-1
 
-I'm always happy to take credit for stuff but the Reported by should go
-to Lars and Miroslav.
+On Wed, May 01, 2024 at 02:02:18PM +0800, Duoming Zhou wrote:
+> There are two scenarios that might cause refcount leak
+> issues of ax25_dev.
 
-Reported-by: Lars Kellogg-Stedman <lars@oddbit.com>
-Reported-by: Miroslav Skoric <skoric@uns.ac.rs>
+This patch doesn't address the refcount leaks I reported earlier and
+resolved in the patch I posted [1] last week.
 
-Lars, could you test this please and let us know if it helps?
+Assume we have the following two interfaces configured on a system:
 
-regards,
-dan carpenter
+    $ cat /etc/ax25/axports
+    udp0 test0-0 9600 255 2 axudp0
+    udp1 test0-1 9600 255 2 axudp1
 
+And we have ax25d listening on both interfaces:
 
+    [udp0]
+    default  * * * * * *  - root  /usr/sbin/axwrapper axwrapper -- /bin/sh sh /etc/ax25/example-output.sh
+    [udp1]
+    default  * * * * * *  - root  /usr/sbin/axwrapper axwrapper -- /bin/sh sh /etc/ax25/example-output.sh
+
+Using the 'ax-devs' and 'ax-sockets' gdb commands shown at the end of
+this message, we start with:
+
+    (gdb) ax-devs
+    ax1 ax_refcnt:2 dev_refcnt:9 dev_untracked:1 dev_notrack:1
+    ax0 ax_refcnt:2 dev_refcnt:9 dev_untracked:1 dev_notrack:1
+    (gdb) ax-sockets
+    0xffff8881002b6800 if:ax1 state:0 refcnt:2 dev_tracker:0xffff888100ded200
+    0xffff888101ac4e00 if:ax0 state:0 refcnt:2 dev_tracker:0xffff888100dec4c0
+
+We initiate a connection from ax0 to ax1:
+
+    call -r udp0 test0-1
+
+When we first enter ax25_rcv, we have:
+
+    (gdb) ax-devs
+    ax1 ax_refcnt:2 dev_refcnt:9 dev_untracked:1 dev_notrack:1
+    ax0 ax_refcnt:3 dev_refcnt:10 dev_untracked:1 dev_notrack:1
+    (gdb) ax-sockets
+    0xffff888101ac8000 if:ax0 state:1 refcnt:2 dev_tracker:0xffff888100dedb80
+    0xffff8881002b6800 if:ax1 state:0 refcnt:2 dev_tracker:0xffff888100ded200
+    0xffff888101ac4e00 if:ax0 state:0 refcnt:2 dev_tracker:0xffff888100dec4c0
+
+After we reach line 413 (in net/ax25/ax25_in.c) and add a new control
+block:
+
+    ax25_cb_add(ax25)
+
+We have:
+
+    (gdb) ax-devs
+    ax1 ax_refcnt:2 dev_refcnt:9 dev_untracked:1 dev_notrack:1
+    ax0 ax_refcnt:3 dev_refcnt:10 dev_untracked:1 dev_notrack:1
+    (gdb) ax-sockets
+    0xffff88810245ac00 if:ax1 state:3 refcnt:2 dev_tracker:0x0 <fixed_percpu_data>
+    0xffff88810245ba00 if:ax0 state:1 refcnt:2 dev_tracker:0xffff88810136c800
+    0xffff888100c79e00 if:ax1 state:0 refcnt:2 dev_tracker:0xffff88810136c6e0
+    0xffff8881018e9800 if:ax0 state:0 refcnt:2 dev_tracker:0xffff88810170c860
+
+Note that (a) ax25->dev_tracker is NULL, and (b) we have incremeted the
+refcount on ax0 (the source interface), but not on ax1 (the destination
+interface). When we call ax25_release for this control block, we get to:
+
+    netdev_put(ax25_dev->dev, &ax25->dev_tracker);
+    ax25_dev_put(ax25_dev);
+
+With:
+
+    (gdb) ax-devs
+    ax1 ax_refcnt:2 dev_refcnt:9 dev_untracked:1 dev_notrack:1
+    ax0 ax_refcnt:3 dev_refcnt:10 dev_untracked:1 dev_notrack:1
+
+After the calls to netdev_put() and ax25_dev_put(), we have:
+
+    (gdb) ax-devs
+    ax1 ax_refcnt:1 dev_refcnt:8 dev_untracked:-1073741824 dev_notrack:1
+    ax0 ax_refcnt:2 dev_refcnt:9 dev_untracked:1 dev_notrack:1
+
+You can see that (a) ax25_dev->dev->refcnt_tracker->untracked is now
+invalid, and ax25_dev->dev->dev_refcnt is in trouble: it decrements by
+one for each closed connection, even though it was never incremented
+when we accepted the connection. The underflow in
+...refcnt_tracker->untracked yields the traceback with:
+
+    refcount_t: decrement hit 0; leaking memory.
+
+Additional connections will eventually trigger more problems; we will
+ultimately underflow ax25_dev->dev->dev_refcnt, but we may also run into
+memory corruption because of the invalid tracker data, resulting in:
+
+    BUG: unable to handle page fault for address: 00000010000003b0
+
+The patch I submitted last week resolves all of the above issues and has
+no refcount leaks for this particular code path. In order to avoid the
+refcount leaks, those _put() calls in ax25_release need to be balanced
+by _hold() calls when accepting a new connection (or we need to wrap
+them in a conditional so that they're not called when ax25->dev_tracker
+is NULL).
+
+GDB commands:
+
+    define ax-devs
+      set $x = ax25_dev_list
+      while ($x != 0)
+        printf "%s ax_refcnt:%d dev_refcnt:%d dev_untracked:%d dev_notrack:%d\n", $x->dev->name, \
+          $x->refcount->refs->counter, \
+          $x->dev->dev_refcnt->refs->counter, \
+          $x->dev->refcnt_tracker->untracked->refs->counter, \
+          $x->dev->refcnt_tracker->no_tracker->refs->counter
+        set $x = $x->next
+      end
+    end
+
+    define ax-sockets
+      set $x = ax25_list->first
+      while ($x != 0)
+        set $cb = (ax25_cb *)($x)
+
+        printf "%s if:%s state:%d refcnt:%d dev_tracker:%s\n", \
+          $_as_string($cb), \
+          $cb->ax25_dev->dev->name, \
+          $cb->state, \
+          $cb->refcount->refs->counter, \
+          $_as_string($cb->dev_tracker)
+        set $x = $x->next
+      end
+    end
+
+[1]: https://marc.info/?l=linux-hams&m=171447153903965&w=2
+
+--
+Lars Kellogg-Stedman <lars@oddbit.com> | larsks @ {irc,twitter,github}
+http://blog.oddbit.com/                | N1LKS
 
