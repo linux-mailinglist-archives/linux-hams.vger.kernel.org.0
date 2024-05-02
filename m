@@ -1,106 +1,92 @@
-Return-Path: <linux-hams+bounces-193-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-194-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF8CF8BA140
-	for <lists+linux-hams@lfdr.de>; Thu,  2 May 2024 22:01:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 501988BA417
+	for <lists+linux-hams@lfdr.de>; Fri,  3 May 2024 01:36:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC5551C21822
-	for <lists+linux-hams@lfdr.de>; Thu,  2 May 2024 20:01:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B28228104A
+	for <lists+linux-hams@lfdr.de>; Thu,  2 May 2024 23:36:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8CF7180A8E;
-	Thu,  2 May 2024 20:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Xu2xQqpE"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F47F51C2B;
+	Thu,  2 May 2024 23:36:45 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7661802BE;
-	Thu,  2 May 2024 20:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net [129.150.39.64])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 109DB4CDE0;
+	Thu,  2 May 2024 23:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.150.39.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714680095; cv=none; b=m/V8HIFnGFc2AlzjL0VJm3nlTWDP1N2jA9VZRvUsYnh30u5uBTPhtTAY0Q0j3NdDO3AiKHTEyV9fEq0ofHt4kQqNS8vygK/G5pH2M29CrpZy4itqs4EjBbScV85igkgQzEgzf2/0EUTBMRvVoxmPjJm7zXPUvbrgPCLM/o5QNtg=
+	t=1714693005; cv=none; b=U0w3F40v/2k84btsXcJzeO8ArJ95Jj3/7J8bUo28i2X+DPI0/h9r6/nUL4Q5MRhsikr9SmQvJDzFnrytKkg6Vmo/tcp2h5eE2/d2FMib/Ras3Dm5ssq3LxXz22xteJVY/WB8AzgLYGycXr2EtlTYHef5CzzFgF0qW8xpr9onR/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714680095; c=relaxed/simple;
-	bh=EM9PQ0+jpznznKXXf9DM0GjqB6Lbm2/vk2ex+XeL0sw=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=MKeic+HqBM5lLz0EO88zKiODorer3hP1E+X/iP8oafc2wR1LNd8ZYe82G/GNLXKaQ/b8gL4YhT5DVdvTDMChSqaB7kJBdAG/kwmeOP1Z88u2emzAUQnas5G70UmjtSrX18c+2kPOD2uq1voBD2ERvNsaSz2wyUEPkeHuU9ohjkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Xu2xQqpE; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1714680065; x=1715284865; i=markus.elfring@web.de;
-	bh=EM9PQ0+jpznznKXXf9DM0GjqB6Lbm2/vk2ex+XeL0sw=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Xu2xQqpEWCvUFCbbW0roNkMalj80dV3TYsg0xyiKFP/JnQYofxDKQ4Nkv/iFpcaT
-	 /+N5UUT1wn+5rhDlk2emkj3qhf283y/kN0cja5LFmNGISFk0cxGgKisrZPDKHWcxG
-	 7PNZaEW+4D/krASG8hil4VBsfQX01qZoyhrY/LhKuM1cwUQRh1Vhf9yaitPo7bHHt
-	 OE5hWg4w+VcRseB/2UNCZOSbxiBkGmuvlP2+YsKHEZlXIxbQ6b9dUnYG0lMH9u63H
-	 JbuK7Bay9IYV8R7YrJJUazCE64+fZLgQ1N7RJBpO/97yS7Zy/FT8TfWpm5d6WwZbk
-	 DuoGw3mFmW1zX6UZSA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mx0N5-1sqBGl3q8p-01319C; Thu, 02
- May 2024 22:01:04 +0200
-Message-ID: <068b6038-d784-451b-b43b-41b94c24fb29@web.de>
-Date: Thu, 2 May 2024 22:01:00 +0200
+	s=arc-20240116; t=1714693005; c=relaxed/simple;
+	bh=jBKOsSBivqS7F+fVGIJGAZ4bcnWxyd5ZWWtsFuLVYH4=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=Ez5ZAGZs7ChpB9hX6vx65YXVx3XbK/cOAvShxNafchra1/TObLNNgQygfBiac08uf8P9VZipGQbI/yFfyfAX5yZaG/9UD9wVvgMR+Kt2w4ZN7VL1wqNIKO+NSxl68PTlaDJ3kcU+34nESZrjep4B2frIyESTaLy97kOLf6LfS28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=129.150.39.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from ubuntu.localdomain (unknown [221.192.179.227])
+	by mail-app2 (Coremail) with SMTP id by_KCgC3ZqZwIzRm7PwDAA--.6463S2;
+	Fri, 03 May 2024 07:36:20 +0800 (CST)
+From: Duoming Zhou <duoming@zju.edu.cn>
+To: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-hams@vger.kernel.org,
+	pabeni@redhat.com,
+	kuba@kernel.org,
+	edumazet@google.com,
+	davem@davemloft.net,
+	jreuter@yaina.de,
+	horms@kernel.org,
+	Markus.Elfring@web.de,
+	dan.carpenter@linaro.org,
+	lars@oddbit.com,
+	Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH net v2 0/2] ax25: fix reference counting issue of ax25_dev
+Date: Fri,  3 May 2024 07:36:14 +0800
+Message-Id: <cover.1714690906.git.duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:by_KCgC3ZqZwIzRm7PwDAA--.6463S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYX7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
+	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
+	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8I
+	cVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aV
+	CY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAq
+	x4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6x
+	CaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwAC
+	I402YVCY1x02628vn2kIc2xKxwCY02Avz4vE14v_uwCF04k20xvY0x0EwIxGrwCF54CYxV
+	CY1x0262kKe7AKxVWUtVW8ZwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v2
+	6r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2
+	Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_
+	Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMI
+	IF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUFJP_UUUUU
+	=
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwUJAWYztgkCSgAIsk
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Duoming Zhou <duoming@zju.edu.cn>, linux-hams@vger.kernel.org,
- netdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, =?UTF-8?Q?J=C3=B6rg_Reuter?=
- <jreuter@yaina.de>, Paolo Abeni <pabeni@redhat.com>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Lars Kellogg-Stedman <lars@oddbit.com>
-References: <cover.1714660565.git.duoming@zju.edu.cn>
-Subject: Re: [PATCH net 0/2] ax25: fix reference counting issue of ax25_dev
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <cover.1714660565.git.duoming@zju.edu.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:mvbvX8/mivlMFaAOxEjDeoSrVy3J7goo3lJNTbo3VA2LZdwh5O0
- 6y0nBDxB48mgLVjPdzWMBrmCgLJ9yDEl3HLkYS2IepAhtnMLc2ocQogu9oPp3mkTwgtCJdo
- KdkG6PTkS7YPrP4x/RCmQgs2lRfW9rnm7hZlniNr5pfSv3+B6AoanvPUDF9WZFVECuyQQqe
- tFVP0+JVRPUK8LiqtFHEw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:JBpLSAZ04ic=;LgKLxYkfMEg6PdZW/tP4hxW9kYL
- miSii5dpI48R17cNPTXQswm4nIUlSIs/JFJHlBlaAKj3Bc8VEdHH1JJZ+S1x5tFBDdOhbuOhG
- s+pAUetGdKFCSbIjrtzzMsxYaAfiAuEsQh+enKuObKstyVyd1Aveb9sPa0MvDICxCIqVv2G4i
- FpuYkU8O7jGbpwzAs+QmKkINKkdsxH3KfVnJ89Wr7bRHf9x9/vL+UTFLJKSxpqqcJwplli4Wb
- E3Y0yyq0SODl2LEX5F3v97mGoUE48GadH5R4VcQHwjmmHos9QakEa3J4Bfbh40Xfjma6gLkMB
- oETiO1zqIiUxkL3F7ZTtWMs9gybsIaCBORiK5QcCUCz87IqpedMJDMnDLWs5/RIb5wpJ2v0fh
- 2oLktCqJG6loroEazfLkIw52J0sbwZKcaQ5n1iHd42z8f4fOfIW5zcQcE4qpto6lzJq44MkZK
- CUwmNCwbPSZRCYuJG+P/F7ggtWm7uvyGWgZkYAAaNjmphFBgZq8BlBQFrgEwwYc8AbMKfKIT6
- dsP6XXpnx0anbsFnhPi3nnlDQ5AccCPB5z6nxIUS8HnFLJ6xX63I1NPHIQ6R1E60rNFKMPhiA
- L32auVtE2AixCKZVWJLIAFEoeLevPu6ex2dPb1bNKnkWGCsicIR0je9NXofgH2zdAlUitFjFk
- zx+YaCBl6TrfPnOBIZj0xsjDRj+1W8S/5vIItMV2tkwKM/NTBCN+57IJ4izF4xE8rJbNeFFEg
- 0ezIxXlEmaC7IXlWzPc7aM2AP9DHcxTriq/yAMv603EBkLLA8533w0B7KUAIwmFEmnWGLKviK
- DIKr28TIKwCZgdDfwuDCPchNyxHm53cwq5PsLH2UmmTf0=
 
-> The first patch changes kfree in ax25_dev_free to ax25_dev_free,
+The first patch changes kfree in ax25_dev_free to ax25_dev_put,
+because the ax25_dev is managed by reference counting.
 
-I find this description confusing.
-Would you like to refer to a ax25_dev_put() call?
+The second patch fixes potential reference counting leak issue
+in ax25_addr_ax25dev.
 
+You can see the former discussion in the following link:
+https://lore.kernel.org/netdev/20240501060218.32898-1-duoming@zju.edu.cn/
 
-> because the ax25_dev is managed by reference counting.
+Duoming Zhou (2):
+  ax25: change kfree in ax25_dev_free to ax25_dev_free
+  ax25: fix potential reference counting leak in ax25_addr_ax25dev
 
-How do you think about to link also to previous change approaches?
+ net/ax25/ax25_dev.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Regards,
-Markus
+-- 
+2.17.1
+
 
