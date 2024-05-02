@@ -1,55 +1,80 @@
-Return-Path: <linux-hams+bounces-191-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-192-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E9B8BA0DB
-	for <lists+linux-hams@lfdr.de>; Thu,  2 May 2024 21:01:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A39CD8BA12A
+	for <lists+linux-hams@lfdr.de>; Thu,  2 May 2024 21:56:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 87066B22A4F
-	for <lists+linux-hams@lfdr.de>; Thu,  2 May 2024 19:01:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 69884283F4E
+	for <lists+linux-hams@lfdr.de>; Thu,  2 May 2024 19:56:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB9481635A2;
-	Thu,  2 May 2024 19:01:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EE98180A7D;
+	Thu,  2 May 2024 19:56:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b="nNIoF+Hp"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B9rGy0fe"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp89.ord1d.emailsrvr.com (smtp89.ord1d.emailsrvr.com [184.106.54.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37ED5F874
-	for <linux-hams@vger.kernel.org>; Thu,  2 May 2024 19:01:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=184.106.54.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E51179972
+	for <linux-hams@vger.kernel.org>; Thu,  2 May 2024 19:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714676508; cv=none; b=ph/BMcaCwbOtgNaFim+FsRqBDMQGdOZB5pMb67fpQutFno8+9XzTztehoXL5L+9XVdOZJZzFMM2HMkFRgx6pzM7kmemIpdXi0wyU4gfLbPqxg0qJGa0NAkzQ6ZtFXE5W586a5NUxxoj03KtVborPz/7fwYg8cbzyn85v+Z72qVw=
+	t=1714679795; cv=none; b=bpentJBYlhG/ZdKYgCr/pVYruaqG+sUcbxZss7RXjcXOVcd/s2l6lXAcPf3tdWZBZkpAu8OtRD0hN8prVftDRpaEQUjN/4F7ANICL9bsm4/i7XyrFbqKkf3v3mRDK78gvTsS1wDHQRWuQTIJucD3vVzqZTZMrZiWG5g1oFzipa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714676508; c=relaxed/simple;
-	bh=10QgoifWZIHsQYM4viNQAebY5RXKGshG/GWxuIdO2XE=;
+	s=arc-20240116; t=1714679795; c=relaxed/simple;
+	bh=NXC4ddXI6s466s+yE7pFTmOsbcHy1eK9kBtpIaQqUHY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hhEMVJlAKkax8JWPrWnqzPqttN/00P0FOBkQly4Xda6f/c1Qo/udpnlFlMVExUMU4lY22DuJxEmOjoDotlnSXkpH5Y4weAKl/kN68GdnxSqD7F7jMfF+e51gnmR6pkAfd2q+EvBKuLeMB3/J59RiYsfXcBADSiJwjb5lubPO0fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com; spf=pass smtp.mailfrom=oddbit.com; dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b=nNIoF+Hp; arc=none smtp.client-ip=184.106.54.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oddbit.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=oddbit.com;
-	s=20180920-g2b7aziw; t=1714676144;
-	bh=10QgoifWZIHsQYM4viNQAebY5RXKGshG/GWxuIdO2XE=;
-	h=Date:From:To:Subject:From;
-	b=nNIoF+HpJuRzKWliHOsw5wu6Gr3MXa5Rpj3/WR6MgGkBJ4z711YkWhyGirF8Oo48M
-	 E+7h678BXuClR2SEgnSh3fNeSjD8ej2qZjY3VGLQaFV25TaDRcvZO1OFH1VF+e2ilk
-	 5EPFMVC1wd5658USB6b7Rf96TsCGN91btGmOJu/A=
-X-Auth-ID: lars@oddbit.com
-Received: by smtp20.relay.ord1d.emailsrvr.com (Authenticated sender: lars-AT-oddbit.com) with ESMTPSA id 7B978C026F;
-	Thu,  2 May 2024 14:55:43 -0400 (EDT)
-Date: Thu, 2 May 2024 14:55:43 -0400
-From: Lars Kellogg-Stedman <lars@oddbit.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=LSq2pafxdCFXkzJA4Z2M61GJjusAjxwtzgxOMgliPuyWnhPjxt9BQtI90yk0ptyJYEisoo6Y94J0y6nuKQn8OBQmeu5P7waEamclR8Yp486dPL7INoZSR3tXnm177Si2meKUqE2c7BVPlw8JiWVNnZg3nzucFPUfDfDCv7/E4I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B9rGy0fe; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-41c7ac6f635so29859715e9.3
+        for <linux-hams@vger.kernel.org>; Thu, 02 May 2024 12:56:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714679790; x=1715284590; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=arPW5gD6qYspv+Dw5+o0jCoBQCRjes6FUELPaGgl7+A=;
+        b=B9rGy0feAhBCu/pR/uviC95h0BeUzl38dN/AGq9uaYj6tsdmGYJOIUgjUimWm3KsF7
+         mzfGWe505YbIONsIRdlsViwFJFWHjTHOaN4jD4/0Qc6lB/TM8jH4AWsxI06wrXrnW8bC
+         Yem/Pn+pUbsg7sUcRpokrk9LMn8YpqQNsfsk2xkjD4GgKYiui1+7bCPrQEQ54da0s/MT
+         /WciwEkeBPuGqZ7uCG+ue6P6TwhyVXmSxaflsBt58q9xgY/xSp61hThRzzdQJ/UMWdkO
+         5krAL8IFixUcM0V1G/ovjrsybo9/xltkipaQr43hxh2bacwupxltyuoaalA8ispToCzJ
+         0m+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714679790; x=1715284590;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=arPW5gD6qYspv+Dw5+o0jCoBQCRjes6FUELPaGgl7+A=;
+        b=OQ1va7+zC+kKYwswRKvHEPvZHqatUeuzws229FSTrx62HyuvZn4kNk55qzVU43Hv02
+         b/kHal9phzZVneHXoxyPZ6Yxs3ymiMGJG/AVBfrnE/cn2HwbcOEZynHt/3CT2U7XC5Zi
+         ZJw6pp1mZ9rqlsj0FZ9qgS0eXyXuZjyZxUJDu0WsZDCbM3MYVL8dDsOyyhS5+dbuW2sm
+         59mjzzEBmFE3JQ0P5BWPkNj8WQgV5xtrCO427Y67iv/vLbmXMOxGYYA8tLOnPmFu+8AN
+         vYKxwpD0sPnYQMdvDxN2iBCN/i5EPOcsGJTr2KNPOsq3q4GPgHPgINsl0XUOZPcTn7qw
+         XEZQ==
+X-Gm-Message-State: AOJu0YzwgpCHRq7Qc3QXB2FB2CNQR3xYQwsHXivBdWiXQUW+D3ZOGR3K
+	jsw7AmhjVaMkpvr17nTGOX5kXDfN6FWVOGVMfFhejR6/nyaZ8DNcFdVh6VceT14=
+X-Google-Smtp-Source: AGHT+IEpfOOOUYWpSzH/iyktCVwaYBF746jIRropE6T4t/9I6OMbyxfoAl8bqILYaWHHN0U1dtlnOg==
+X-Received: by 2002:a05:600c:1d8c:b0:41a:908c:b841 with SMTP id p12-20020a05600c1d8c00b0041a908cb841mr532673wms.32.1714679790129;
+        Thu, 02 May 2024 12:56:30 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id s20-20020a05600c45d400b0041bde8ddce9sm6741202wmo.36.2024.05.02.12.56.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 May 2024 12:56:29 -0700 (PDT)
+Date: Thu, 2 May 2024 22:56:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Duoming Zhou <duoming@zju.edu.cn>
-Cc: linux-hams@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, jreuter@yaina.de, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, dan.carpenter@linaro.org
+Cc: linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, jreuter@yaina.de, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	Lars Kellogg-Stedman <lars@oddbit.com>
 Subject: Re: [PATCH net 2/2] ax25: fix potential reference counting leak in
  ax25_addr_ax25dev
-Message-ID: <vvk5silsu6nvu3dpdeffk2vjocijebkevqvub7erd4sorvnllt@7yyjmrczbatf>
+Message-ID: <c32bd541-8242-4d4a-ab14-eff835bd38a6@moroto.mountain>
 References: <cover.1714660565.git.duoming@zju.edu.cn>
  <cb44ea91c0b7084079c3086d6d75e7984505cec7.1714660565.git.duoming@zju.edu.cn>
 Precedence: bulk
@@ -61,89 +86,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cb44ea91c0b7084079c3086d6d75e7984505cec7.1714660565.git.duoming@zju.edu.cn>
-X-Classification-ID: 17c51de0-41ab-40c1-8817-f4243cb35e3a-1-1
 
 On Thu, May 02, 2024 at 10:43:38PM +0800, Duoming Zhou wrote:
 > The reference counting of ax25_dev potentially increase more
 > than once in ax25_addr_ax25dev(), which will cause memory leak.
+> 
+> In order to fix the above issue, only increase the reference
+> counting of ax25_dev once, when the res is not null.
+> 
+> Fixes: d01ffb9eee4a ("ax25: add refcount in ax25_dev to avoid UAF bugs")
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+> ---
+>  net/ax25/ax25_dev.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/net/ax25/ax25_dev.c b/net/ax25/ax25_dev.c
+> index 07723095c60..945af92a7b6 100644
+> --- a/net/ax25/ax25_dev.c
+> +++ b/net/ax25/ax25_dev.c
+> @@ -37,8 +37,9 @@ ax25_dev *ax25_addr_ax25dev(ax25_address *addr)
+>  	for (ax25_dev = ax25_dev_list; ax25_dev != NULL; ax25_dev = ax25_dev->next)
+>  		if (ax25cmp(addr, (const ax25_address *)ax25_dev->dev->dev_addr) == 0) {
+>  			res = ax25_dev;
+> -			ax25_dev_hold(ax25_dev);
+>  		}
+> +	if (res)
+> +		ax25_dev_hold(ax25_dev);
+                              ^^^^^^^^
+It should be ax25_dev_hold(res);
 
-With this patch applied, I see a kernel panic as soon as something binds
-an ax.25 socket (e.g., starting ax25d):
+This is the NULL dereference that Lars saw.  Thanks for testing, by the
+way Lars.
 
-BUG: kernel NULL pointer dereference, address: 0000000000000098
-#PF: supervisor write access in kernel mode
-#PF: error_code(0x0002) - not-present page
-PGD 0 P4D 0
-Oops: 0002 [#1] SMP PTI
-CPU: 0 PID: 111 Comm: ax25d Not tainted 6.9.0-rc6-ax25+ #69
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-2.fc40 04/01/2014
-RIP: 0010:ax25_addr_ax25dev+0x5b/0xb0
-Code: 8b 43 08 4c 89 ef 48 8b b0 d0 03 00 00 e8 6d fb ff ff 85 c0 4c 0f 44 e3 48 8b 1b 48 85 db 75 df 4d 85 e4 74 19 b8 01 00 00 00 <f0> 0f c1 04 25 98 00 00 00 85 c0 74 21 8d 50 01 09 c2 78 2b 48 c7
-RSP: 0018:ffffc90000463e00 EFLAGS: 00010282
-RAX: 0000000000000001 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffff888101a5f728 RDI: ffffc90000463e6a
-RBP: ffffc90000463e18 R08: ffffc90000463e68 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: ffff888101523e40
-R13: ffffc90000463e6a R14: ffff88810111f200 R15: ffff8881004e4e00
-FS:  00007fb6a6d93b08(0000) GS:ffff88813bc00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000098 CR3: 0000000101bb4000 CR4: 00000000000006b0
-Call Trace:
- <TASK>
- ? show_regs.part.0+0x22/0x30
- ? __die+0x5b/0x99
- ? page_fault_oops+0xae/0x220
- ? search_extable+0x2e/0x40
- ? ax25_addr_ax25dev+0x5b/0xb0
- ? kernelmode_fixup_or_oops+0x9f/0x120
- ? __bad_area_nosemaphore+0x15f/0x1a0
- ? bad_area_nosemaphore+0x16/0x20
- ? exc_page_fault+0x2a8/0x6e0
- ? asm_exc_page_fault+0x2b/0x30
- ? ax25_addr_ax25dev+0x5b/0xb0
- ax25_bind+0x14c/0x260
- __sys_bind+0xc0/0xf0
- ? alloc_file_pseudo+0xae/0xe0
- __x64_sys_bind+0x1c/0x30
- x64_sys_call+0xfe3/0x1d00
- do_syscall_64+0x55/0x120
- entry_SYSCALL_64_after_hwframe+0x76/0x7e
-RIP: 0033:0x7fb6a6d2cfa4
-Code: 00 00 00 ba 01 00 00 00 0f 05 80 e7 08 74 c3 eb b0 48 83 ec 08 89 d2 48 63 ff 45 31 d2 45 31 c0 45 31 c9 b8 31 00 00 00 0f 05 <48> 89 c7 e8 da 3f fe ff 48 83 c4 08 c3 48 83 ec 10 48 89 f0 89 d1
-RSP: 002b:00007ffc1a5c7670 EFLAGS: 00000246 ORIG_RAX: 0000000000000031
-RAX: ffffffffffffffda RBX: 00007ffc1a5c7799 RCX: 00007fb6a6d2cfa4
-RDX: 0000000000000048 RSI: 00007ffc1a5c7750 RDI: 0000000000000005
-RBP: 00007fb6a6d94a80 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007fb6a6cebca0
-R13: 0000000000000048 R14: 0000561ff9f9e776 R15: 00007ffc1a5c8b00
- </TASK>
-CR2: 0000000000000098
----[ end trace 0000000000000000 ]---
-RIP: 0010:ax25_addr_ax25dev+0x5b/0xb0
-Code: 8b 43 08 4c 89 ef 48 8b b0 d0 03 00 00 e8 6d fb ff ff 85 c0 4c 0f 44 e3 48 8b 1b 48 85 db 75 df 4d 85 e4 74 19 b8 01 00 00 00 <f0> 0f c1 04 25 98 00 00 00 85 c0 74 21 8d 50 01 09 c2 78 2b 48 c7
-RSP: 0018:ffffc90000463e00 EFLAGS: 00010282
-RAX: 0000000000000001 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffff888101a5f728 RDI: ffffc90000463e6a
-RBP: ffffc90000463e18 R08: ffffc90000463e68 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: ffff888101523e40
-R13: ffffc90000463e6a R14: ffff88810111f200 R15: ffff8881004e4e00
-FS:  00007fb6a6d93b08(0000) GS:ffff88813bc00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000098 CR3: 0000000101bb4000 CR4: 00000000000006b0
-Kernel panic - not syncing: Fatal exception in interrupt
-Kernel Offset: disabled
----[ end Kernel panic - not syncing: Fatal exception in interrupt ]---
+regards,
+dan carpenter
 
-My kernel tree looks like this:
-
-d32d77d2b4a (HEAD -> ham-patches) ax25: fix potential reference counting leak in ax25_addr_ax25dev
-742ab0da09d ax25: change kfree in ax25_dev_free to ax25_dev_free
-e6357cafe3e ax25: fix reference counting issue of ax25_dev
-0106679839f (origin/master, origin/HEAD, master) Merge tag 'regulator-fix-v6.9-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/broonieer
-
-I don't see the kernel panic if I discard the top patch.
-
--- 
-Lars Kellogg-Stedman <lars@oddbit.com> | larsks @ {irc,twitter,github}
-http://blog.oddbit.com/                | N1LKS
 
