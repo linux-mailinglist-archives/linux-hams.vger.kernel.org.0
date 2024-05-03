@@ -1,56 +1,56 @@
-Return-Path: <linux-hams+bounces-199-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-200-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866AD8BA6AF
-	for <lists+linux-hams@lfdr.de>; Fri,  3 May 2024 07:38:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6D78BA7E5
+	for <lists+linux-hams@lfdr.de>; Fri,  3 May 2024 09:36:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 928FB1C21EF3
-	for <lists+linux-hams@lfdr.de>; Fri,  3 May 2024 05:38:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A53B282108
+	for <lists+linux-hams@lfdr.de>; Fri,  3 May 2024 07:36:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 881F7139CE0;
-	Fri,  3 May 2024 05:37:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CF4B1474D3;
+	Fri,  3 May 2024 07:36:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="UA4S3TaY"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="ZV92GoCD"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8151139586;
-	Fri,  3 May 2024 05:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC5D139D12;
+	Fri,  3 May 2024 07:36:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714714677; cv=none; b=o15nY1mSzNvRBDhe4at7eDdD3h7Np2cl/wU+GYgyAsc0xIg20xlG1AUuPCNg192b81cIr4aPCt8rVzg5kOgqv+wPuxu3lEAh8M9qt2/gfyu9jDjJdudLqEEqF3fvUTtNupnF2M0518uXLn9C0oSuxliWHokTI2ug9cFu6QhWIMU=
+	t=1714721795; cv=none; b=VxFK8KAkx8Guki0LofM695QO7+BRTIuvUGURf5001hc2yDiexvCrxzjzYV3TD5R5EwLpe4UM1UoLTBj0OFGaeBL3i7D3yWlyYtW7iu22LtXK9wVwuhMIv+F3L4wscSW5CXcmF8zWsDXIYt8WncLEABE4e8RdmMPAKeft6d1crDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714714677; c=relaxed/simple;
-	bh=22yr4JE/Jesym0pYV5K2emmGFHkQz07wrwb3qp9PgFU=;
+	s=arc-20240116; t=1714721795; c=relaxed/simple;
+	bh=7KoCLlZBSOFASgSu6MYjnBmP3h1VL0xbXZBQuWHgi5U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dEclMAPT1y0ffXZ1gOV1w9y2mrQET2LyoUyc18wpgr5Sqz1bNiSvZxLDXu6hSIwHl843p0QwK2yMJz4XFkog0rGA4DrL1VTOPbWOb4tLAInefl5vfhMUpDx/JnTL+B7K379hcW5qOdGEcCCarviA7pUN54xUurN2SOsfddz3LPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=UA4S3TaY; arc=none smtp.client-ip=212.227.17.12
+	 In-Reply-To:Content-Type; b=B4p9yA2hSnt+XixkVLMGnX/Otdu6eLNFRGOEpr5ZkXhHDLmKqbmb8fzVfgtZjZDYykSdFl0Pb8LBuuSAoUR+fsvO4tedyUeZWK9sXr8w5G968qj5L69rHKV5ygE/sa/aAzQ8OhS05AcrBAHlD+mRGBdamElP6DzLEBlDR0SfYxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=ZV92GoCD; arc=none smtp.client-ip=212.227.17.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1714714637; x=1715319437; i=markus.elfring@web.de;
-	bh=oOtFA4UEkaQZQ1lTyzIvZngv43cOzODmoGwEEoq2la4=;
+	s=s29768273; t=1714721789; x=1715326589; i=markus.elfring@web.de;
+	bh=tTc56wSSVJv4iZDOZUEc20yuwRleSTjh1lHhSpz3Qng=;
 	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
 	 References:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding:cc:content-transfer-encoding:
 	 content-type:date:from:message-id:mime-version:reply-to:subject:
 	 to;
-	b=UA4S3TaYm4fRVdRmIks5BAWnJ36HE8fL6gRMNBP1/4h8s2lU6CXaDyZN3lCn0Bxo
-	 NVVnv4RIlko/++PSFnDgBojyeWZDMnN+o43ONQhGcCyn80EX1kpGL8MKNRlMhTDuu
-	 Hs+ez28oExk9Xl/SdqWxrtmIDd+OkGNmT1oy6HQFffHKVOomXFbDKwJrJcju6zz5B
-	 hUJT4qKeI4ofidzSAzpIq1oBPYdKEimln8NY0TWopIQlU0HbmpuMUJaRohxATlO9i
-	 5e4zn2kh+4WkbKOhKSxP7jpJFAFcTOCJt37q7/1pM5qFK5Euis4tC94cW8nFf2ggF
-	 6GUf6FeqxQo7y8h8ag==
+	b=ZV92GoCDhbobZP4TPyEUBx8zDd41Ia5ocGweYzqZ6eV6ITNBiodnpQuAftw+umMn
+	 Megw/dceTCuiMpWGfbBW+M4UzNCwsHrQ3Q7DqVCZQEav2z6JoJCO2VF3EYoiK9xas
+	 niyH1SKv4nX69HKarMxLThK7k9JhaKRm/kYiEYhlNiEioG8B5MQqhPO/vfxmhJRAf
+	 pJDyJ0rp61GvRFcNscB1DP/TwG1SvBPy6JjdS+gPwmX/pWzzf0W4bSbB0mDEfpV9J
+	 PCKzZY1V2CD/jaV7y3pIiQy/ImIuJ72ZtlqJ9+SMgPUdlCFwUKDWBPYwRAunc8DTS
+	 1DTfFM+XTdxItegOeQ==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mtgyj-1svYaA1Y5P-00tWSo; Fri, 03
- May 2024 07:37:17 +0200
-Message-ID: <89f07a73-90c6-4a81-9cec-7a1b7d61ea6b@web.de>
-Date: Fri, 3 May 2024 07:36:54 +0200
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MnpGi-1sRQga3uzi-00prNa; Fri, 03
+ May 2024 09:30:35 +0200
+Message-ID: <6eac7fc4-9ade-41bb-a861-d7f339b388f6@web.de>
+Date: Fri, 3 May 2024 09:30:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
@@ -58,8 +58,8 @@ List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2 1/2] ax25: change kfree in ax25_dev_free to
- ax25_dev_free
+Subject: Re: [PATCH net v2 2/2] ax25: fix potential reference counting leak in
+ ax25_addr_ax25dev
 To: Duoming Zhou <duoming@zju.edu.cn>, linux-hams@vger.kernel.org,
  netdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
@@ -67,53 +67,62 @@ To: Duoming Zhou <duoming@zju.edu.cn>, linux-hams@vger.kernel.org,
  <jreuter@yaina.de>, Paolo Abeni <pabeni@redhat.com>
 Cc: LKML <linux-kernel@vger.kernel.org>,
  Dan Carpenter <dan.carpenter@linaro.org>,
- Lars Kellogg-Stedman <lars@oddbit.com>
+ Lars Kellogg-Stedman <lars@oddbit.com>, Simon Horman <horms@kernel.org>
 References: <cover.1714690906.git.duoming@zju.edu.cn>
- <81bc171fb2246201236c341e9b7d799f509d7dd4.1714690906.git.duoming@zju.edu.cn>
+ <74e840d98f2bfc79c6059993b2fc1ed3888faba4.1714690906.git.duoming@zju.edu.cn>
 Content-Language: en-GB
 From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <81bc171fb2246201236c341e9b7d799f509d7dd4.1714690906.git.duoming@zju.edu.cn>
+In-Reply-To: <74e840d98f2bfc79c6059993b2fc1ed3888faba4.1714690906.git.duoming@zju.edu.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:2G4b2DUHON8LbQ7M64u0z49A9zJHgVDnju2Aqmpy+hZ13onF16L
- sUDbvo4qvAYISGBFqGCsTU3N6O86PdtaaXMeK9RLunLpO9KNAUzZIEQ7xOVPio92bAvq2WW
- q7vlrz8WDaWhSKjM7qGOfl3GyXux1j9nWjNxh1gdpb5f9VwzbvEI8njH8Hsu/lZt+Mbpj8V
- FSFQy3YaJf6NOocuiSYJQ==
+X-Provags-ID: V03:K1:fyEaMnRrnNvXcfnnCsy95pUZQYP6d4iTVya14Y35u0lKhfCNXWH
+ sjb6AoMx6a27q2adKg/1eQDvJH4aHEKwGTLhXARxvdWUG1+Ud1cPRv7HqZNzk315/VCUaBH
+ B91xSUcToLX2iOdINlQXl363NaB6E3QUXOI/4HnkqX0auYxz3xCuwBUdF71kTsNpqYfz5Hp
+ e6E4An+24Z58olqplCVMA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ovAlsWP0Fnk=;Hkpc6Yy9FQkb8E3PpAoQFb7as34
- Y5fLGMAzq1qZcLpDOxNRg9Wv5zMb8nCATTX6gNCr17IrLB2o+zFVBWLlRGbWXpUGsbWBhVTAY
- GIF1VqPPp+gVgRnCfbqHFfkoTFhOkzgYjr/ZgOWBXfGmTOs+rQ37O3+A72cRepC5GOpLg04jg
- rCebK03XkioB3Diei/anLqhLBhCO8HdngrWek16fFcwrv8TlGTu6mVP9WrUrtfa+ZCbuysC81
- btJ8n/PynSPb6dHmSaKjh2FDZaMebDlPKUGlD2GnJUPBt9RzpNcgX0p4j9T+OdlhtsRqjHm79
- omn6IaxUyob46islDe4+TopceN9b3MGCSEW8P3svY47pdYa4mO8O0by4WSAjCdCrCHDolficm
- MxTmSFl9srWH4CkVLWMkB6dcdvaZ51scUfScAykEV/Ayi+qWxHiyg+T8vkLpbCQYUhNuDJLPP
- N5mYpKUueQ86VT/Djgi3RhSzyBcRJjHZYmSr/hd7N14sBtENl0KGpRpYrITljKFMky0vetULi
- 7M3Jzn8uUAnCEAO+8CU+wkbgInoFpTOE3hqOqgDK3rUwtN6EdBQjZFw1mxm5IqUeWYfTCCviI
- 5My6Dq/c99aMM8tsm9Abo6/HlAtnocqhugeP7N6hh7VOfy/53dhE5Vt56pYob2B82MSDf52FA
- wa9CTxlVAebKIP1uabewjuZ4LXuiGbGp3XAImMAxk3FqZ6blRYSwHKSeBQu6FZhTb3ekiAmsp
- efgFDA+8uD+GisXm9T8cMOCYBqFnwQ4FZKtccGyF/AE8hald8Wpfee+NzMDyhHZQShKeJp0HA
- 76EhGX8mEHw2H93+4VE1DH37YQPNmLSO6AxxXnkZxRF9p2jW7/6U3xDtf5j2paIVxb
+UI-OutboundReport: notjunk:1;M01:P0:Y5nGvnd2AQM=;6gXhRfyb2lyixwSuZj9IZk9twB1
+ yaS9x+tAjWeLsKgigaBdAMOnu7CQw9oTJ2zLqZzkiyOP93jpx8cEar+yIs+dxrqcsgfB9aosE
+ TXs57fmqKJU7fzaMVBHMn48VfyoDNoGm4JXXNUObpIjxwUP2vaADn52hsKhpzfwTZf18Sg33d
+ sTJrmZinGVUs86bSXIZdnnXfAz4pBzYRYNLF8ogyhm8otvbZnOJXp4raC/Mqe5Xau2s3TmLdX
+ 5NhB38usJFQvpfw1eXfsZ0JQFpTLF+tAufKwC9YFosWeUcaFRkipcQ43AqcHlt6WP/JEL61tB
+ /qTDumEVGpBo8JoFZD2pg6lthpteWyUMSJClT0PpGcHtNCTxMlpKqLw8q7Eva9Bxx5XFSAjrv
+ y6OHMlhfBfyE4hjg8hzQLzEsoYHErPm2TC3cQ5MbGREywOdM1aXA29ForvQWt4gdpHJz7pcvb
+ ecVIhgUHcgiMq9lSVL/D304oh7c/oAolEZNrEnvqyv0Xd5kuXEJgPwkiKB7YMhYXupOQqc5js
+ qqGXnyx7jrPGmTjpinQ3p0XR+/qK3RbQ7esOGW/xrtJQHONuvlywwU8yKfZsghYWfQvN8+JjL
+ kd00PZFFPQcA0aoVCELJr1Mw5fm3FFZkAepmqRpl8N8698N6pFmr1V5f0yj3thkkiGBoInDQF
+ Spo/BwBp15xl2dw3tlwNwJYENun6rFshOOGJ9O+t9f1RpiFFzWKQF7njcdk5tw076WtggnUP9
+ IRRvHGzQnPdgnICzHlhw08snhc7/fqRihSFDEkNy6vCk6RyfU3XQ1FizJePmev87v7NAENo8m
+ YEJ3671Am7umulyDXa5HwHHvLhZm5sGy9VVemku8REUBnD630OOdxqeyYLk94bFJ4r
 
-> The ax25_dev is managed by reference counting, so it should not be
-> deallocated directly by kfree() in ax25_dev_free(), replace it with
-> ax25_dev_put() instead.
+How do you think about to append parentheses to the function name
+in the summary phrase?
 
-You repeated a wording mistake in the summary phrase from a previous cover=
- letter.
-Please avoid confusion about desired code replacements.
-How do you think about to append parentheses to involved function names?
 
+> The reference counting of ax25_dev potentially increase more
+> than once in ax25_addr_ax25dev(), which will cause memory leak.
+>
+> In order to fix the above issue, only increase the reference
+> counting of ax25_dev once, when the res is not null.
 
 Would you find the following change description a bit nicer?
 
-   The object =E2=80=9Cax25_dev=E2=80=9D is managed by reference counting.
-   Thus it should not be directly released by a kfree() call in ax25_dev_f=
-ree().
-   Replace it with a ax25_dev_put() call instead.
+   The reference counter of the object =E2=80=9Cax25_dev=E2=80=9D can be i=
+ncreased multiple times
+   in ax25_addr_ax25dev(). This will cause a memory leak so far.
+
+   Thus move a needed function call behind a for loop
+   and increase the reference counter only when the local variable =E2=80=
+=9Cres=E2=80=9D
+   is not a null pointer.
 
 
-Would you like to extend patch version descriptions (or changelogs) accord=
-ingly?
+=E2=80=A6
+> +++ b/net/ax25/ax25_dev.c
+> @@ -37,8 +37,9 @@ ax25_dev *ax25_addr_ax25dev(ax25_address *addr)
+=E2=80=A6
+
+Would you like to omit curly brackets in the affected function implementat=
+ion?
 
 Regards,
 Markus
