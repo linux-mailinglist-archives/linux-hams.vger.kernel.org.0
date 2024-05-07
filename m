@@ -1,35 +1,35 @@
-Return-Path: <linux-hams+bounces-233-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-235-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D138BDC08
-	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 09:04:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D868C8BDC0E
+	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 09:05:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35F361C21BEA
-	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 07:04:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 156A31C21C89
+	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 07:05:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DFA67A141;
-	Tue,  7 May 2024 07:04:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95D3C7F465;
+	Tue,  7 May 2024 07:04:24 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 051BA79B99;
-	Tue,  7 May 2024 07:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
+Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1618F7D405;
+	Tue,  7 May 2024 07:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.181.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715065461; cv=none; b=PkFGmJFam8uLMaxkxcr8FKnDvEC0tn5jbT8YhP7y+s1Gylre0vBnPeYxmDYqff80fyiR+LGCcpFCa5t2iggYq/mZTTDbxCAP9UB06K1OfiSeUyNL8UA0HrulW/eEAIy0Ad2Fj2iwYG/wE0yJCTAzZwH5U/9oFGwa015SLoG7KWY=
+	t=1715065464; cv=none; b=KoV+lwBv6HRL5YHvdp4N3eImWMFk8kbu7vTGUwRoMPOnJsXIvtjCsDSrDo/3F8LIJLvRYk4Wq0v4t4mWLttqE0hAwFh0Ed7RGQnNyDWJvl50WGBDN56CKsmMa1UMC/iF7A/UJA3maIMY10zFBLsZl1+EC9H8cD6prM61Fe8Pw+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715065461; c=relaxed/simple;
-	bh=xlZ3unTTJkF+fFZFFfJaSDyBcV+aNJ+f8cbVuWwpTws=;
+	s=arc-20240116; t=1715065464; c=relaxed/simple;
+	bh=F5fEue2KW1xLe2h7uLs85+w3jp+150mjQm3BQOiRwnQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 In-Reply-To:References; b=IpK+FHaCcTbG1VrmoRv1kAS6JmqhMuXpuPC/0pRLXyIIJHCFC9Ni3oyFbBr5qH4VJuoKIKbF85cNJI347fzM99OEAFRTk8KDPjd8w9i1HMdnEJ4M0Ax5T+UOrH+UMqN/yCl4YASFGnpYBt8k9qtMq/wBioo/3xfjdMQTgCQk7sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=52.237.72.81
+	 In-Reply-To:References; b=TYlxSGf6YcMc9YrGmCOKJeRZW9j0DPZL0X7NPA77AwyfBQ5IpqEBU7QApkNc6QvHXx/GVtZFPOppFgUs4jmcizFTrfP3kVySgOLxoN7a1Vl/2PUuWVCe8CmgVIaebSzWOYKMDdKjopLM+qJVtopQHR+sgLl8QTL2FWTcPMlBIew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=209.97.181.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
 Received: from ubuntu.localdomain (unknown [221.192.179.90])
-	by mail-app4 (Coremail) with SMTP id cS_KCgCXJrRP0jlmbxo0AA--.51257S5;
-	Tue, 07 May 2024 15:04:03 +0800 (CST)
+	by mail-app4 (Coremail) with SMTP id cS_KCgCXJrRP0jlmbxo0AA--.51257S6;
+	Tue, 07 May 2024 15:04:05 +0800 (CST)
 From: Duoming Zhou <duoming@zju.edu.cn>
 To: netdev@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -40,76 +40,63 @@ Cc: linux-kernel@vger.kernel.org,
 	jreuter@yaina.de,
 	dan.carpenter@linaro.org,
 	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH net v5 3/4] ax25: Fix reference count leak issues of net_device
-Date: Tue,  7 May 2024 15:03:41 +0800
-Message-Id: <c1d18fcf1bf6ef65264ba992172ea1636dbf5431.1715065005.git.duoming@zju.edu.cn>
+Subject: [PATCH net v5 4/4] ax25: Change kfree() in ax25_dev_free() to ax25_dev_put()
+Date: Tue,  7 May 2024 15:03:42 +0800
+Message-Id: <5c61fea1b20f3c1596e4fb46282c3dedc54513a3.1715065005.git.duoming@zju.edu.cn>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1715065005.git.duoming@zju.edu.cn>
 References: <cover.1715065005.git.duoming@zju.edu.cn>
 In-Reply-To: <cover.1715065005.git.duoming@zju.edu.cn>
 References: <cover.1715065005.git.duoming@zju.edu.cn>
-X-CM-TRANSID:cS_KCgCXJrRP0jlmbxo0AA--.51257S5
-X-Coremail-Antispam: 1UD129KBjvJXoW7WFyxZry8AFy8Gry3XF18Xwb_yoW8JFyrpF
-	W2gFyfArZ7Jr1DJr4DWr97Wr1Fvryq93yrCr15u3WIk3s5X3sxJr1rKrWDXry7KrW3ZF18
-	u347Wrs8uF4kZaDanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQSb7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
-	8067AKxVWUWwA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF
-	64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcV
-	CY1x0267AKxVWxJr0_GcWl84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIE
-	c7CjxVAFwI0_GcCE3s1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I
-	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
-	xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zV
-	CS5cI20VAGYxC7MxkF7I0En4kS14v26rWY6Fy7MxkIecxEwVAFwVW8CwCF04k20xvY0x0E
-	wIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
-	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
-	I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04
-	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7Cj
-	xVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjTikR6nUUUUU
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwIOAWY4-AkN6wAUsX
+X-CM-TRANSID:cS_KCgCXJrRP0jlmbxo0AA--.51257S6
+X-Coremail-Antispam: 1UD129KBjvdXoWrZFy3Gr4DGFWrJw4kGFW3KFg_yoWfXFX_uF
+	ykuF47Ww4UXryUCw4rCF4rJrW7Ww1Yg3Z3GryfAFZ7t34YqayUXrWkWr18XF15XrW2krWS
+	qr1rZr1fCr43tjkaLaAFLSUrUUUUcb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbHxYjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Wr0E3s1l1xkIjI8I
+	6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7
+	IE14v26r126s0DM28IrcIa0xkI8VCY1x0267AKxVW5JVCq3wA2ocxC64kIII0Yj41l84x0
+	c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2
+	IY6xkF7I0E14v26F4UJVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280
+	aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_GFv_Wryle2I262IYc4CY6c8Ij28IcVAaY2xG8w
+	Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE
+	14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II
+	8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_GFyj6rW5JwCY02Avz4vE14v_GF4l42xK82IY
+	c2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
+	026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
+	0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42
+	IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280
+	aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0zR-zV7UUUUU=
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwIOAWY4-AkN6wAWsV
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 
-The ax25_dev_device_down() exists reference count leak issues of
-the object "net_device". When the ax25 device is shutting down.
-The ax25_dev_device_down() drops the reference count of net_device
-one or zero times depending on if we goto unlock_put or not, which
-will cause memory leak.
-
-In order to solve the above issue, decrease the reference count of
-net_device after dev->ax25_ptr is set to null.
+The object "ax25_dev" is managed by reference counting. Thus it should
+not be directly released by a kfree() call in ax25_dev_free(). Replace
+it with a ax25_dev_put() call instead.
 
 Fixes: d01ffb9eee4a ("ax25: add refcount in ax25_dev to avoid UAF bugs")
 Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
 Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 ---
- net/ax25/ax25_dev.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ net/ax25/ax25_dev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/net/ax25/ax25_dev.c b/net/ax25/ax25_dev.c
-index 66aa381af0e..c6ab9b0f0be 100644
+index c6ab9b0f0be..2a40c78f6a0 100644
 --- a/net/ax25/ax25_dev.c
 +++ b/net/ax25/ax25_dev.c
-@@ -121,15 +121,9 @@ void ax25_dev_device_down(struct net_device *dev)
- 	list_for_each_entry(s, &ax25_dev_list, list) {
- 		if (s == ax25_dev) {
- 			list_del(&s->list);
--			goto unlock_put;
-+			break;
- 		}
+@@ -195,7 +195,7 @@ void __exit ax25_dev_free(void)
+ 	list_for_each_entry_safe(s, n, &ax25_dev_list, list) {
+ 		netdev_put(s->dev, &s->dev_tracker);
+ 		list_del(&s->list);
+-		kfree(s);
++		ax25_dev_put(s);
  	}
--	dev->ax25_ptr = NULL;
--	spin_unlock_bh(&ax25_dev_lock);
--	ax25_dev_put(ax25_dev);
--	return;
--
--unlock_put:
- 	dev->ax25_ptr = NULL;
  	spin_unlock_bh(&ax25_dev_lock);
- 	netdev_put(dev, &ax25_dev->dev_tracker);
+ }
 -- 
 2.17.1
 
