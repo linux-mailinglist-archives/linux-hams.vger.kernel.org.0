@@ -1,144 +1,118 @@
-Return-Path: <linux-hams+bounces-250-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-251-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BCA78BDF72
-	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 12:11:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0E88BE590
+	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 16:18:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57E471C217A4
-	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 10:11:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7705B28369F
+	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 14:18:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA54614F10F;
-	Tue,  7 May 2024 10:11:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24966165FC1;
+	Tue,  7 May 2024 14:13:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L/QV+/dJ"
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="YiqL1bcj"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA7B2F2F
-	for <linux-hams@vger.kernel.org>; Tue,  7 May 2024 10:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E2416132A;
+	Tue,  7 May 2024 14:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715076668; cv=none; b=m10kkxzvOS1q6hgfUB5Pt8sNX0TUO6nDzj97fzSp3XKRQ7VWGxVRitnaImC7RyAU/aYuQXS1jYuyIgvfz5xgHOCOw0m5WJ1/VYfhYVBGqSw+bykvHvDbeFIF+rM4yILdBthqjp1rntmkZlZVkN5qAxpktRp2/ZMOzdXtXlSnCic=
+	t=1715091232; cv=none; b=BrVCwyEeQvkaaREyRQkxrGaMdJsKNTX+BQ//7oKVvniqFIJICTS2L4mAhjNfH2d8EF6PF0kPiWt1guo4PY++uuYeViYGeuYGY1bDHaQn/i/aVj9s6mtD0qCbrD+aZQFf2z031Fw8Id7vyusItF5+nmm8X5sAKAWvKkqgrL+3Gsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715076668; c=relaxed/simple;
-	bh=pzN0QEsi5vW51SAWCGgbkaOsqw5VvfmrBvJ7uOk7Djk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c/blJ00QBxUbAK3vAYB3O16uxpSTTUTbdmpvoNhomfQX3kGDBX1dXhA0rpCio5yIi0sJsHOKnthbDOrcrleotDNjXTv53p4O3ek2oLJwVb9oz/qpSYg/GXa0IU+fue7hhPejJe3Cb8XXxRuxjn+m/HQPLqMzmWP2IcHnM3Xa7nU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L/QV+/dJ; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-41c7ac73fddso31402675e9.3
-        for <linux-hams@vger.kernel.org>; Tue, 07 May 2024 03:11:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715076664; x=1715681464; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xRkoNOEv8gPHcq2P5UAKWS8B3jCr0cVjdP20g/cY62k=;
-        b=L/QV+/dJ7j42rpb8HLhc0HWVdxhS7FBN4FcTW8z4HzQMBAtZd12/MRDlMr+jaXVhzL
-         0gq/MQ7+jLEYc9cXq5ZI8qVm5dmGHd4lXhCx5oSmAD0wyZZQTsSuXF4gd404OL8BZBbU
-         NMNIDoHbQWmAD2yy3JzA91DkbwbwNVAbUX0r+L4MbGiVBI7s6a3ZUCMKxkp0+OxABgo8
-         zEx47alEjrFV90mEneAac+26I4rlI/tvAjw2gjNCdKnrV612+JYPFHP54nvbeNXLU/ko
-         if/JwpXjx7qxNClmWzw1EiUuY8ZdYzT6tnHBXmxbvyLUXLL9M9qQrmvW9b9uwssiE4zL
-         4CYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715076664; x=1715681464;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xRkoNOEv8gPHcq2P5UAKWS8B3jCr0cVjdP20g/cY62k=;
-        b=uunSEBiwkySnlDofJ3gyxSKeeBPCGbnNXIWH8Ze1zPUoSvX4SOgjEGmblSsSt1XXHH
-         vWRxTwk03F6H8etji0DFQWhrEhHd5KdqsCWfxHua+zJuCvN8ycLGYYyobSkZo4AQlBpR
-         cNq7E2mdvpSch3YcpGtxZjDj/Y+fzrXKiwDHdvZKWoI3olrXOkru5IeEzJ/gE8Q5ASOI
-         CB7GwKOYCte9Gt8BZM3BsrsxtAIszo665Vhzzr1w7K7nlkn1NXBem4vNTA3Wgu7AJv90
-         PxUS7irMxZ6Tu8TF/ryJzfMafibSnFvoS3WmWO+TPHk+qXYi8J1aGsrX13IUUjJuP3HI
-         rkIA==
-X-Forwarded-Encrypted: i=1; AJvYcCX9/CpRiI6iF8MUK6XJCRF02WZNakFQAhoeDFZEbbz6lGzXTVrG/YfROkC60Sm+/NZRJqFOW+6yyJWRan375VD1z8FRDoKL3BAAoA==
-X-Gm-Message-State: AOJu0YwEgXPc8fXhcC0QLHKYkWEv1B40+KC7JIOx0Mh15xRq+vVxwBz0
-	dJXl96fRwfzGXMWaj36MhnfgKX7Q9wmoPl+12Okt7xege5YMhbwltaFQExYrPOs=
-X-Google-Smtp-Source: AGHT+IHQFXd45hAfqA6n0d5ImUefQlbvL7vaRViI8Nu6Qp2CarjGeOlr7thOVlNJO6zr1Os/EEcwqg==
-X-Received: by 2002:a05:600c:1553:b0:41b:e94f:1e88 with SMTP id f19-20020a05600c155300b0041be94f1e88mr13064142wmg.24.1715076663825;
-        Tue, 07 May 2024 03:11:03 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id n19-20020a05600c4f9300b0041c14061c71sm18935780wmq.15.2024.05.07.03.11.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 03:11:03 -0700 (PDT)
-Date: Tue, 7 May 2024 12:52:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ratheesh Kannoth <rkannoth@marvell.com>
-Cc: Duoming Zhou <duoming@zju.edu.cn>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hams@vger.kernel.org,
-	pabeni@redhat.com, kuba@kernel.org, edumazet@google.com,
-	jreuter@yaina.de
-Subject: Re: [PATCH net v5 1/4] ax25: Use kernel universal linked list to
- implement ax25_dev_list
-Message-ID: <5863f2fc-ab8e-4f6e-873e-2667bc0a2e4b@moroto.mountain>
+	s=arc-20240116; t=1715091232; c=relaxed/simple;
+	bh=LbuUNo2s482mQRrIcVdTCP+fnZZxVYLbxTrPXeS+Ksg=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P0oM6R/jnHW5ySB6FmUMk3QjZPuY3VLgXj+yqx8owtsIJsJMO7HwCh07//wmcNAG6NketmONe/IG1ofXkUUNTbrKAiwOIX/n6zz3pO1w/tgf78RqBTtuHX4K53G6VKqBBBvxKKinl4QOKHT0CEB3vYPnl7WAo2dLH0DlZ47ThJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=YiqL1bcj; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4478bQdu006998;
+	Tue, 7 May 2024 07:13:32 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=pfpt0220; bh=MXQybSTqFGSVtkBn7jZOAr
+	GJgra1Vr2nPLrSYts8mXw=; b=YiqL1bcjPaRyYag5ICulirsXfRPJ1RXprA75W/
+	QCSOuLnUghs9qmhjdqM0vzBqKB1JRvsP7sH/4jtmQqx1bQ7qgh+29cXarT0zHHXG
+	XLi0YHWxJQjs2agw9kOV/fAEa02keG23NtMybJDuAej/I5m8j7CE0cx7xDsEeU1Y
+	gogC0GeMPqKboYXuey4ZokoHRSzksmVqikxy8eKFYeLx05vRkvALkY+g4qVLJUcA
+	xbvdPD60I0sJEFcs4PDXAVX1Db7Fut9NLbcbCZltNbKU7126cjvkx4r4zB5Fek0Z
+	FZ7WDlOmRDelM0a6DRhdDcR2/FJ+FD1PmcqA4AIdRT1uoTBg==
+Received: from dc5-exch05.marvell.com ([199.233.59.128])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3xwmhghj5w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 May 2024 07:13:31 -0700 (PDT)
+Received: from DC5-EXCH05.marvell.com (10.69.176.209) by
+ DC5-EXCH05.marvell.com (10.69.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Tue, 7 May 2024 07:13:30 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH05.marvell.com
+ (10.69.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Tue, 7 May 2024 07:13:30 -0700
+Received: from maili.marvell.com (unknown [10.28.36.165])
+	by maili.marvell.com (Postfix) with SMTP id B13823F7041;
+	Tue,  7 May 2024 07:13:27 -0700 (PDT)
+Date: Tue, 7 May 2024 19:43:26 +0530
+From: Ratheesh Kannoth <rkannoth@marvell.com>
+To: Duoming Zhou <duoming@zju.edu.cn>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-hams@vger.kernel.org>, <pabeni@redhat.com>, <kuba@kernel.org>,
+        <edumazet@google.com>, <jreuter@yaina.de>, <dan.carpenter@linaro.org>
+Subject: Re: [PATCH net v5 4/4] ax25: Change kfree() in ax25_dev_free() to
+ ax25_dev_put()
+Message-ID: <20240507141326.GA1050877@maili.marvell.com>
 References: <cover.1715065005.git.duoming@zju.edu.cn>
- <bd49e83817604e61a12c9bf688a0825f116e67c0.1715065005.git.duoming@zju.edu.cn>
- <20240507092917.GA1049473@maili.marvell.com>
+ <5c61fea1b20f3c1596e4fb46282c3dedc54513a3.1715065005.git.duoming@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240507092917.GA1049473@maili.marvell.com>
+In-Reply-To: <5c61fea1b20f3c1596e4fb46282c3dedc54513a3.1715065005.git.duoming@zju.edu.cn>
+X-Proofpoint-ORIG-GUID: ifxI65k7sibW2qbX6yaRP1jxGqMYbOvE
+X-Proofpoint-GUID: ifxI65k7sibW2qbX6yaRP1jxGqMYbOvE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-07_07,2024-05-06_02,2023-05-22_02
 
-On Tue, May 07, 2024 at 02:59:17PM +0530, Ratheesh Kannoth wrote:
-> On 2024-05-07 at 12:33:39, Duoming Zhou (duoming@zju.edu.cn) wrote:
-> > The origin ax25_dev_list implements its own single linked list,
-> > which is complicated and error-prone. For example, when deleting
-> > the node of ax25_dev_list in ax25_dev_device_down(), we have to
-> > operate on the head node and other nodes separately.
-> >
-> > This patch uses kernel universal linked list to replace original
-> > ax25_dev_list, which make the operation of ax25_dev_list easier.
-> > There are two points that need to notice:
-> >
-> > [1] We should add a check to judge whether the list is empty before
-> > INIT_LIST_HEAD in ax25_dev_device_up(), otherwise it will empty the
-> > list for each new ax25_dev added.
-> >
-> > [2] We should do "dev->ax25_ptr = ax25_dev;" and "dev->ax25_ptr = NULL;"
-> > while holding the spinlock, otherwise the ax25_dev_device_up() and
-> > ax25_dev_device_down() could race, we're not guaranteed to find a match
-> > ax25_dev in ax25_dev_device_down().
-> >
-> > Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-> > -ax25_dev *ax25_dev_list;
-> > +static struct list_head ax25_dev_list;
-> >  DEFINE_SPINLOCK(ax25_dev_lock);
-> >
-> >  ax25_dev *ax25_addr_ax25dev(ax25_address *addr)
-> > @@ -34,7 +35,7 @@ ax25_dev *ax25_addr_ax25dev(ax25_address *addr)
-> >  	ax25_dev *ax25_dev, *res = NULL;
-> >
-> >  	spin_lock_bh(&ax25_dev_lock);
-> > -	for (ax25_dev = ax25_dev_list; ax25_dev != NULL; ax25_dev = ax25_dev->next)
-> > +	list_for_each_entry(ax25_dev, &ax25_dev_list, list)
-> >  		if (ax25cmp(addr, (const ax25_address *)ax25_dev->dev->dev_addr) == 0) {
-> >  			res = ax25_dev;
-> >  			ax25_dev_hold(ax25_dev);
-> > @@ -52,6 +53,9 @@ void ax25_dev_device_up(struct net_device *dev)
-> >  {
-> >  	ax25_dev *ax25_dev;
-> >
-> > +	/* Initialized the list for the first entry */
-> > +	if (!ax25_dev_list.next)
-> > +		INIT_LIST_HEAD(&ax25_dev_list);
-> if you define ax25_dev_list using 'static LIST_HEAD(ax25_dev_list)', you need this conditional check and
-> initialization ?
-> 
+On 2024-05-07 at 12:33:42, Duoming Zhou (duoming@zju.edu.cn) wrote:
+> The object "ax25_dev" is managed by reference counting. Thus it should
+> not be directly released by a kfree() call in ax25_dev_free(). Replace
+> it with a ax25_dev_put() call instead.
+>
+> Fixes: d01ffb9eee4a ("ax25: add refcount in ax25_dev to avoid UAF bugs")
+> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+> ---
+>  net/ax25/ax25_dev.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/net/ax25/ax25_dev.c b/net/ax25/ax25_dev.c
+> index c6ab9b0f0be..2a40c78f6a0 100644
+> --- a/net/ax25/ax25_dev.c
+> +++ b/net/ax25/ax25_dev.c
+> @@ -195,7 +195,7 @@ void __exit ax25_dev_free(void)
+>  	list_for_each_entry_safe(s, n, &ax25_dev_list, list) {
+>  		netdev_put(s->dev, &s->dev_tracker);
+>  		list_del(&s->list);
+> -		kfree(s);
+> +		ax25_dev_put(s);
+The commit message "The object "ax25_dev" is managed by reference counting"
+seems be not making sense here.  in case ref > 0 after the ax25_dev_put().
+ax25_dev_put(s) is not initiating any mechanism to come back and recheck.
 
-Ah, yes.  That's the proper way to do it.
-
-regards,
-dan carpenter
-
+>  	}
+>  	spin_unlock_bh(&ax25_dev_lock);
+>  }
+> --
+> 2.17.1
+>
 
