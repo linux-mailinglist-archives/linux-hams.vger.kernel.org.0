@@ -1,83 +1,96 @@
-Return-Path: <linux-hams+bounces-220-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-221-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C822C8BD9C3
-	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 05:37:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 877208BDACC
+	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 07:52:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0513F1C22001
-	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 03:37:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 41E37282232
+	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 05:52:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C2253FB9F;
-	Tue,  7 May 2024 03:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b="gh5OC/nW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 612786BFB8;
+	Tue,  7 May 2024 05:52:27 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp71.iad3b.emailsrvr.com (smtp71.iad3b.emailsrvr.com [146.20.161.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FEE2A8DD
-	for <linux-hams@vger.kernel.org>; Tue,  7 May 2024 03:37:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=146.20.161.71
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 325EF6BB5C;
+	Tue,  7 May 2024 05:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715053023; cv=none; b=iYurHB7Tx10knELyr9nUOOjADtm8q/ODlel262s2kT7NRGIj3MJmwl3wONu/ORPYCV/CH0YhCosgYbNfteO/AxJMAUFsCZ0wojoyGHTcR2uw8c51V6hF4cI/dPdivy2rknopQn9mPv59dsjupIAAC+UbIddeD7sAXDN97ijyBrw=
+	t=1715061147; cv=none; b=WYL2qIJj6AAvOOy911WobFVolYzQ8kIjTDCBlSJUytCFUKEpfn1Zlx+4FcbDCZnzn65BtAS50zV3IPrkRmQtTtq1tRFoXHqTGJPA4o35PZTpC+5FBxl4ASfWbjN0U2kdCqeyYxtheCR4IyPMXYfuPWc5PJOjVubejd03rejh95U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715053023; c=relaxed/simple;
-	bh=cWMEq59X7zXzL3nJa3BLDmbI7tPBBw3giwZaDz3gBLI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QVr6WziMHGfRyvilfQ1QrL4PsEPhFImB5uKo645NuwOE4saQX1XwW6Yss9xOUFadDTovqXvrC3SBLdFej7G69WuIxrnagLhn/XUVQjLZAnQdWfFos7T0ykFSKuIrN2ZYhX6jcx4UWYUXEZk1bPpCHspf1B2JUaQCztOiaiR5YFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com; spf=pass smtp.mailfrom=oddbit.com; dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b=gh5OC/nW; arc=none smtp.client-ip=146.20.161.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oddbit.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=oddbit.com;
-	s=20180920-g2b7aziw; t=1715051887;
-	bh=cWMEq59X7zXzL3nJa3BLDmbI7tPBBw3giwZaDz3gBLI=;
-	h=Date:From:To:Subject:From;
-	b=gh5OC/nWu2m+qCk6m0PPZVQuqzfvydgDIjESDhRMMppqckZ/n5+QjiJhRy4hCYjND
-	 59EjcycsEBuXz4t8EnBMrx/7wNVNtkJSZcs+vaPEmElxiYNIXw8Slbu5ct7020lsLA
-	 IchtCetQlquQGfB2uJiffbK2EpbEY9NblZGnzfX8=
-X-Auth-ID: lars@oddbit.com
-Received: by smtp17.relay.iad3b.emailsrvr.com (Authenticated sender: lars-AT-oddbit.com) with ESMTPSA id B39DCA02AA;
-	Mon,  6 May 2024 23:18:06 -0400 (EDT)
-Date: Mon, 6 May 2024 23:18:06 -0400
-From: Lars Kellogg-Stedman <lars@oddbit.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Duoming Zhou <duoming@zju.edu.cn>, linux-hams@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, pabeni@redhat.com, kuba@kernel.org, 
-	edumazet@google.com, davem@davemloft.net, jreuter@yaina.de
-Subject: Re: [PATCH net] ax25: Fix refcount leak issues of ax25_dev
-Message-ID: <eb5oil2exor2bq5n3pn62575phxjdex6wdjwwjxjd3pd4je55o@4k4iu2xobel5>
-References: <20240501060218.32898-1-duoming@zju.edu.cn>
- <my4l7ljo35dnwxl33maqhyvw7666dmuwtduwtyhnzdlb6bbf5m@5sbp4tvg246f>
- <78ae8aa0-eac5-4ade-8e85-0479a22e98a3@moroto.mountain>
- <ekgwuycs3hioz6vve57e6z7igovpls6s644rvdxpxqqr7v7is6@u5lqegkuwcex>
- <1e14f4f1-29dd-4fe5-8010-de7df0866e93@moroto.mountain>
- <movur4qy7wwavdyw2ugwfsz6kvshrqlvx32ym3fyx5gg66llge@citxuw5ztgwc>
+	s=arc-20240116; t=1715061147; c=relaxed/simple;
+	bh=gC0kKWlfBsustWrnJXdLxPwQMLG6KOvg1mzJaAOLwhM=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=dJqm5D5b6KE0rPDg6JM1ggUuAmYMP/H3y+YABXQ5Nd9RrjGFeJPTBYemb5a0y2lj0IP7+AOTRaUp/TTu+ku7hOylca4gf3SK04gMYBgtYorVURg7wGYwpb+4727D/8DvgOYwXI98hwcUoKRrJqELC22QoNd4/S5tyJdncLNDZTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=206.189.79.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from ubuntu.localdomain (unknown [221.192.179.90])
+	by mail-app2 (Coremail) with SMTP id by_KCgAnIJ56wTlmGDBDAA--.3058S2;
+	Tue, 07 May 2024 13:51:57 +0800 (CST)
+From: Duoming Zhou <duoming@zju.edu.cn>
+To: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-hams@vger.kernel.org,
+	pabeni@redhat.com,
+	kuba@kernel.org,
+	edumazet@google.com,
+	davem@davemloft.net,
+	jreuter@yaina.de,
+	horms@kernel.org,
+	Markus.Elfring@web.de,
+	dan.carpenter@linaro.org,
+	lars@oddbit.com,
+	Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH net v4 0/4] ax25: Fix issues of ax25_dev and net_device
+Date: Tue,  7 May 2024 13:51:53 +0800
+Message-Id: <cover.1715059894.git.duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:by_KCgAnIJ56wTlmGDBDAA--.3058S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jr17CF4xCrWxAFyUArW8WFg_yoWfXFg_uF
+	ykAFWDZw18JFWDCa10ka1rXrZruF4jga1xXFyftFZ5Jry3Za4UJr4qgr4rXF18XFW7tr4k
+	t3Z5Gr1fAr17JjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbTkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr1j
+	6rxdM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxkIecxEwVAFwVW8WwCF04k20xvY0x0EwIxGrw
+	CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
+	14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
+	IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxK
+	x2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI
+	0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUBuWLUUUUU=
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwMOAWY4-AkEPQA6sn
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <movur4qy7wwavdyw2ugwfsz6kvshrqlvx32ym3fyx5gg66llge@citxuw5ztgwc>
-X-Classification-ID: 523c2de5-7003-4c0c-8800-1836014b2a10-1-1
 
-On Sat, May 04, 2024 at 06:16:14PM GMT, Lars Kellogg-Stedman wrote:
-> My original patch corrected this by adding the call to netdev_hold()
-> right next to the ax25_cb_add() in ax25_rcv(), which solves this
-> problem. If it seems weird to have this login in ax25_rcv, we could move
-> it to ax25_accept, right around line 1430 [3]; that would look
-> something like:
+The first patch use kernel universal linked list to implement
+ax25_dev_list, which makes the operation of the list easier.
+The second and third patch fix reference count leak issues of
+the object "ax25_dev" and "net_device". The last patch uses
+ax25_dev_put() to replace kfree() in ax25_dev_free().
 
-The same patch applies cleanly against the Raspberry Pi 6.6.30 kernel,
-and clears up the frequeny crashes I was experiencing in that
-environment as well.
+You can see the former discussion in the following link:
+https://lore.kernel.org/netdev/20240501060218.32898-1-duoming@zju.edu.cn/
+
+Duoming Zhou (4):
+  ax25: Use kernel universal linked list to implement ax25_dev_list
+  ax25: Fix reference count leak issues of ax25_dev
+  ax25: Fix reference count leak issues of net_device
+  ax25: Change kfree() in ax25_dev_free() to ax25_dev_put()
+
+ include/net/ax25.h  |  4 ++--
+ net/ax25/ax25_dev.c | 51 ++++++++++++++++-----------------------------
+ 2 files changed, 20 insertions(+), 35 deletions(-)
 
 -- 
-Lars Kellogg-Stedman <lars@oddbit.com> | larsks @ {irc,twitter,github}
-http://blog.oddbit.com/                | N1LKS
+2.17.1
+
 
