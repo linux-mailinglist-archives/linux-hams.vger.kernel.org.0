@@ -1,103 +1,109 @@
-Return-Path: <linux-hams+bounces-235-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-237-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D868C8BDC0E
-	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 09:05:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CCA48BDC70
+	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 09:31:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 156A31C21C89
-	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 07:05:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 39DFAB20EFF
+	for <lists+linux-hams@lfdr.de>; Tue,  7 May 2024 07:31:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95D3C7F465;
-	Tue,  7 May 2024 07:04:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90B1113B78A;
+	Tue,  7 May 2024 07:31:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="lYOeEOuq"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1618F7D405;
-	Tue,  7 May 2024 07:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.181.73
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191EC13C3C0;
+	Tue,  7 May 2024 07:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715065464; cv=none; b=KoV+lwBv6HRL5YHvdp4N3eImWMFk8kbu7vTGUwRoMPOnJsXIvtjCsDSrDo/3F8LIJLvRYk4Wq0v4t4mWLttqE0hAwFh0Ed7RGQnNyDWJvl50WGBDN56CKsmMa1UMC/iF7A/UJA3maIMY10zFBLsZl1+EC9H8cD6prM61Fe8Pw+o=
+	t=1715067066; cv=none; b=qCr4k7CWcP+xLByBEXAzjLoQfL7Fwg7xnJ//2+JJSjZtl8yYOC2rFZljWpCxiXVXAZXY43K698kctTA4gYu5/3H5xd4lalgoyZ7X1IviajFf96Hp/LOLObm7gfJAJGb9ElXySkaVZ/dEx0EaGmUDgrqRAfdlE5YEkY9R8rD/sJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715065464; c=relaxed/simple;
-	bh=F5fEue2KW1xLe2h7uLs85+w3jp+150mjQm3BQOiRwnQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 In-Reply-To:References; b=TYlxSGf6YcMc9YrGmCOKJeRZW9j0DPZL0X7NPA77AwyfBQ5IpqEBU7QApkNc6QvHXx/GVtZFPOppFgUs4jmcizFTrfP3kVySgOLxoN7a1Vl/2PUuWVCe8CmgVIaebSzWOYKMDdKjopLM+qJVtopQHR+sgLl8QTL2FWTcPMlBIew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=209.97.181.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from ubuntu.localdomain (unknown [221.192.179.90])
-	by mail-app4 (Coremail) with SMTP id cS_KCgCXJrRP0jlmbxo0AA--.51257S6;
-	Tue, 07 May 2024 15:04:05 +0800 (CST)
-From: Duoming Zhou <duoming@zju.edu.cn>
-To: netdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-hams@vger.kernel.org,
-	pabeni@redhat.com,
-	kuba@kernel.org,
-	edumazet@google.com,
-	jreuter@yaina.de,
-	dan.carpenter@linaro.org,
-	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH net v5 4/4] ax25: Change kfree() in ax25_dev_free() to ax25_dev_put()
-Date: Tue,  7 May 2024 15:03:42 +0800
-Message-Id: <5c61fea1b20f3c1596e4fb46282c3dedc54513a3.1715065005.git.duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1715065005.git.duoming@zju.edu.cn>
-References: <cover.1715065005.git.duoming@zju.edu.cn>
-In-Reply-To: <cover.1715065005.git.duoming@zju.edu.cn>
-References: <cover.1715065005.git.duoming@zju.edu.cn>
-X-CM-TRANSID:cS_KCgCXJrRP0jlmbxo0AA--.51257S6
-X-Coremail-Antispam: 1UD129KBjvdXoWrZFy3Gr4DGFWrJw4kGFW3KFg_yoWfXFX_uF
-	ykuF47Ww4UXryUCw4rCF4rJrW7Ww1Yg3Z3GryfAFZ7t34YqayUXrWkWr18XF15XrW2krWS
-	qr1rZr1fCr43tjkaLaAFLSUrUUUUcb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbHxYjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Wr0E3s1l1xkIjI8I
-	6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7
-	IE14v26r126s0DM28IrcIa0xkI8VCY1x0267AKxVW5JVCq3wA2ocxC64kIII0Yj41l84x0
-	c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2
-	IY6xkF7I0E14v26F4UJVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280
-	aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_GFv_Wryle2I262IYc4CY6c8Ij28IcVAaY2xG8w
-	Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE
-	14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II
-	8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_GFyj6rW5JwCY02Avz4vE14v_GF4l42xK82IY
-	c2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
-	026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
-	0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42
-	IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280
-	aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0zR-zV7UUUUU=
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwIOAWY4-AkN6wAWsV
+	s=arc-20240116; t=1715067066; c=relaxed/simple;
+	bh=hmx5YlR28Y43Dsm7EnmMfOwh+GjWWW2rcpB2wdOLYhk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=puezjBwNTlY2sjrwJuDJoYqaeDMh41icbzcInsUtbYfbH4K78ccKVmUdB/kjUM29mXBtol0h+5en1gXZUI+AXOtYbAyL5cauOOusuu2n1Kitdjs9A+zHXE3YblHSi32mmFk8Zn9Ia06bIXJ8NchLA0Z98yCz+lc1BeSaixIqioY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=lYOeEOuq; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1715067033; x=1715671833; i=markus.elfring@web.de;
+	bh=hmx5YlR28Y43Dsm7EnmMfOwh+GjWWW2rcpB2wdOLYhk=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=lYOeEOuqbEZHSXsC7xePzvU9QstYMyAtkmTziCxXiidg31b9ORH1/jvwG6+P4tBj
+	 roIu74BgeEmZH/vDZYYzGCS5UruDBaa/81KairCv99Q0BwtFvnBghxuXjpHp7KJsC
+	 LZhIgGRvuDd7GfKz0VFAZzVwagj6K6Pmek5Gj+F7P4B+dQDXRWfAf3ImsPDIxXQNc
+	 /dg2C9TzAtHf5dMmuXhH/vuHps4jW76u+366/QogDHyRRkQq821Sy55TYAoVFc2kb
+	 gN8Mvd191sguM5aM+T4ybjZAAgdlMSDOIMkJyBfu8qWsgQ3r8i2JeiuFnFiOQ9dkK
+	 +8WmeN2mUnvQSfOumA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.89.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mvbn2-1swUYw47eQ-00sfkN; Tue, 07
+ May 2024 09:30:33 +0200
+Message-ID: <0334480f-1545-455b-8d5f-0f7a804ad186@web.de>
+Date: Tue, 7 May 2024 09:30:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND net v4 0/4] ax25: Fix issues of ax25_dev and
+ net_device
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Duoming Zhou <duoming@zju.edu.cn>, linux-hams@vger.kernel.org,
+ netdev@vger.kernel.org, kernel-janitors@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ =?UTF-8?Q?J=C3=B6rg_Reuter?= <jreuter@yaina.de>,
+ Paolo Abeni <pabeni@redhat.com>, LKML <linux-kernel@vger.kernel.org>,
+ Lars Kellogg-Stedman <lars@oddbit.com>, Simon Horman <horms@kernel.org>
+References: <cover.1715062582.git.duoming@zju.edu.cn>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <cover.1715062582.git.duoming@zju.edu.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:59Z3T0+7kOChULTDQq4WStFF3BTShvGpkWwNkdTCMr5X15GDbxu
+ ib+CHx8O1VWr2jeEJLfM+hzOGlAqEaPDPrj1MwWjepqz8b/L/m9bvr5qugaSW4unlxtm3ED
+ fgKfCK1dUJQAWAB5QFFbKtryNQY4kvpS6rt0+edi/B1Z47yjiKfWpy9fBuuo7PmBGfYQitQ
+ Xco3djPc3qP3jUB8PCshw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:wp9FOU4EY3o=;NUy1Sm4Obbq0MFx+2V62dk+SmSO
+ 77SLi7jq+MGe0NyZez6HwAu91ZMO5pCRPDQ9b1zerBacTKalB7xVLJiWIYhh6gKo930q3KiQm
+ 9dgCDFOYV7+wTfFyHk/kXykJdFutHZb/kkHtd2ZhrIxYYLtuTStSswIyA7mzhvh0VPl/mozJ6
+ kmdmOD/u48hLUZVCoZx1ro4MOlTZa5vbjr033WC57xqLXZGVu6FLINCrOeP8VP7iquY2ugNyR
+ l1ezYtOcgc/ToQhto3CkQJJuplW93ZqCIb+kvTU95t32bxrKZ4co+h//e4f4Goeiyd8TIl0Vw
+ qPHKqtO1EVUdGpsEw8zLBUP2psL/nleMD0gqh19ovNgzitdd28xfxtKYuqWcd9L6lb9cX9/Bv
+ qbJPjmoFv9SjI6mn04BLqB1uBFtJxgSFCtBmodKpZEiGq44d9W3qqjyX9MqiLGOzorbtq7icU
+ XYF9L+R+vyX0zV0QVNZOBgCy5Tk/smrVjYn5qOdbq34u1Qcy8H3vRZw96vV3g0I1oigLq25Ca
+ M6/voT+WhDmCLX969DTVfoSHwwijzOblZfBAPMpKfn2BZq7kI1S8uHKuhyg1Ymoy9U2jusALr
+ gkVEwHiMvRi0U2+XHDgF9Hj8okhwcGwxwSDXgaojuDEIdMApWLj5n8FsKb3s11wgsWalkyYan
+ vDLNzCUfxk6bOOtTgdXeHQDDKXnsm9Go3fdH7Vq0T6PC+w2L8t2DGF4vBiAofFamHibfRK+t/
+ x9QTScrciTcG4yNyzBgvlmy2LXkPPw1IEr9OIA0FST5+rFtCAW5xi+nAR1Ijqnb15GhI2RxzV
+ SzaXqeAvAnSslm8afsPy6lSNY2NX4AAm0FjdDCIExmJk0=
 
-The object "ax25_dev" is managed by reference counting. Thus it should
-not be directly released by a kfree() call in ax25_dev_free(). Replace
-it with a ax25_dev_put() call instead.
+=E2=80=A6
+> You can see the former discussion in the following link:
+> https://lore.kernel.org/netdev/20240501060218.32898-1-duoming@zju.edu.cn=
+/
+=E2=80=A6
 
-Fixes: d01ffb9eee4a ("ax25: add refcount in ax25_dev to avoid UAF bugs")
-Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
----
- net/ax25/ax25_dev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Does this change approach represent another subsequent patch version
+instead of a =E2=80=9CRESEND=E2=80=9D?
 
-diff --git a/net/ax25/ax25_dev.c b/net/ax25/ax25_dev.c
-index c6ab9b0f0be..2a40c78f6a0 100644
---- a/net/ax25/ax25_dev.c
-+++ b/net/ax25/ax25_dev.c
-@@ -195,7 +195,7 @@ void __exit ax25_dev_free(void)
- 	list_for_each_entry_safe(s, n, &ax25_dev_list, list) {
- 		netdev_put(s->dev, &s->dev_tracker);
- 		list_del(&s->list);
--		kfree(s);
-+		ax25_dev_put(s);
- 	}
- 	spin_unlock_bh(&ax25_dev_lock);
- }
--- 
-2.17.1
+How do you think about to improve patch changelogs accordingly?
 
+Regards,
+Markus
 
