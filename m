@@ -1,82 +1,59 @@
-Return-Path: <linux-hams+bounces-256-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-257-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CDFA8BFD23
-	for <lists+linux-hams@lfdr.de>; Wed,  8 May 2024 14:31:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C24BC8C0030
+	for <lists+linux-hams@lfdr.de>; Wed,  8 May 2024 16:38:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1E32B226BF
-	for <lists+linux-hams@lfdr.de>; Wed,  8 May 2024 12:31:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2F1B1C23CE3
+	for <lists+linux-hams@lfdr.de>; Wed,  8 May 2024 14:38:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A73244C7A;
-	Wed,  8 May 2024 12:30:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A0B2127E0F;
+	Wed,  8 May 2024 14:36:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KSQ8HDtr"
+	dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b="dSCLPu9V"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp102.ord1d.emailsrvr.com (smtp102.ord1d.emailsrvr.com [184.106.54.102])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239FB8F40
-	for <linux-hams@vger.kernel.org>; Wed,  8 May 2024 12:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94438626F
+	for <linux-hams@vger.kernel.org>; Wed,  8 May 2024 14:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=184.106.54.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715171456; cv=none; b=e7YP4CZFZSCWZrhrAR3YcO3e1CjOBSQ+/enmHTBLIV7s6SfPb7X7D7qmS+JbLyNvdPOtq9bSHloYoD9oDHugzT9DKBNF7SXZJ8D2f14FraFZfDn9Hmxes0STwt4gRF6SenznqQkdmKeM+aI3uFov42gZfvP96nWnx/kk3r/QXgY=
+	t=1715179007; cv=none; b=q4oe4Pzl27aP90aZAS0za4zg6cFVI8bHunPrO8Lq8PJ+5yXeIA+adwGW+b3vZMdpOVRk6ZXop9tx6V3Lj10/LunO7+2g+Px040ujQk284cTLmMZjf3NQScG4TDRWHE3HVcCZQurw8JKQqoYc5rjIqwxThhhitW2AoJmM0aS5p2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715171456; c=relaxed/simple;
-	bh=udrSthju91iTTd/hCXwNP3ss8krjp5UgvP3u8l+CcY0=;
+	s=arc-20240116; t=1715179007; c=relaxed/simple;
+	bh=tW2Ka3LtJ3vuQo5sg1Kxam0pLpTMK7FI8wRB+1RlNW8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o6ImNshC09uf+8xSKorQkAP9P953798dz03QzeRIBgBGeCemvyQ+KYUlWIF8pWGvC3pPzXfPqBfW25O0JpjCVDx7MwDdJdLvzFOdEJiSi3lzdW4JF856tpK0lZCrIFtqvRs7w/YdnKk54Xe2qG6xqbWpYpoYRXMLwoiDGi7OupA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KSQ8HDtr; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a599a298990so1160120966b.2
-        for <linux-hams@vger.kernel.org>; Wed, 08 May 2024 05:30:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715171452; x=1715776252; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jlwyq/1IX/FSnmcUcEK3U0EwnE28fYISNssSS1mTjz8=;
-        b=KSQ8HDtrFyAk88KleYRRkuUgXhlfUosrH1/KhmZeaWCifVACkY/9XUEcA0IOzV7KK+
-         PAKtSuEs81GUo8yiBl8g8c+kN3zYtrvIyoZk8Lq32fvckdaWzhVz3qlXKGcfWT+UQ/9u
-         ID6ECfmZGgZhPfE9IBA5AkqI/O36J4oEQO1sCaWrk1xvx80jQjHx4QHf8vqlDb3j52Es
-         TH14xOT7cNJYlixAXlPJYBHo+c4Ll7f/MIbQxmYMHca1PsKtam6x5OgME2WjyWeEUnNe
-         ikB8Pms062BfsEhQqcFwL4bV4JpXmRbQ7AE1wBib43ahhy4PrUKtdOj9U/s6Sgx7dORI
-         dFAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715171452; x=1715776252;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jlwyq/1IX/FSnmcUcEK3U0EwnE28fYISNssSS1mTjz8=;
-        b=bnlE6LNKbs7m3mOmD5BTOLvdEFYWmzU8A2L2DcuVy7a8awllhQ3B1phX/QtkoT7fnD
-         2bviymWqaXrkHn2yISLeCC0r98kxRvq8K+2v+g8FEusDr9K9P3Kaw+80RyoykUTnVyrM
-         6/42aqD9d27BrYNVg1pFS1BA5GmxXI+7pMPNzcxdBXawwKz9Ps/zwTV7KbpIJ7wrQpYt
-         GLu+reJe9iqyMbXPoqvO04ZqSeBpCF8Agu5WyoEJK4bNkPsk2BZioP6E42nl2OtNDC66
-         s7mEW9SkK0cNgiPA4aXYRvYxpK9ZUKWRN62QfAl27EAfuBrp8SN9Go5ne4Z32PFv/0RW
-         iRoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVGZVYcU8lWX+mwAsjqviO2y387gojZrUmPHpMOrE9dyN0gVNSRPLHsesoiaITGKSvHLbv9bwRviHanlQpeBRZzV9UGGhDOzuGlmw==
-X-Gm-Message-State: AOJu0YzmJ4EUNGfMeWQWigrrYT6vAZ3Py4dYgY/6YfcWx3puxJsboScc
-	F7YaKqyNiGi79kWWBJRrjWVFknr2hWyUkpwAxri3/TU7ysZtcRFHimRboEEAmqI=
-X-Google-Smtp-Source: AGHT+IEUdN4yCjg1EbVceLNb47N7q/pu0Z2BPUoRd23kSGnOEvLg+0w5/+pbACD0wZIcVpIkUF8igg==
-X-Received: by 2002:a50:9345:0:b0:56e:2c34:cfec with SMTP id 4fb4d7f45d1cf-5731d9ce493mr1548917a12.7.1715171452073;
-        Wed, 08 May 2024 05:30:52 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id p9-20020a056402500900b005727b2ae25csm7535130eda.14.2024.05.08.05.30.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 05:30:51 -0700 (PDT)
-Date: Wed, 8 May 2024 15:30:47 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ratheesh Kannoth <rkannoth@marvell.com>
-Cc: Duoming Zhou <duoming@zju.edu.cn>, linux-hams@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=oParfE2igY0pLY+/RexUloN35Vbz/0YDRfvBv1C4MhLyiLVlExI2m5qY7yO9dwNQ2RYry8w4BmlXGR8mO0hF5MH/hmjeuMLzwb4CfwBkX7q6UjA/4OMGLoUUomIN5BMMHsgoog8vre+APL59eBKWwBbKhTqWQ4cQVW2qS7MougI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com; spf=pass smtp.mailfrom=oddbit.com; dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b=dSCLPu9V; arc=none smtp.client-ip=184.106.54.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oddbit.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=oddbit.com;
+	s=20180920-g2b7aziw; t=1715178685;
+	bh=tW2Ka3LtJ3vuQo5sg1Kxam0pLpTMK7FI8wRB+1RlNW8=;
+	h=Date:From:To:Subject:From;
+	b=dSCLPu9VCRQic6XkSYLVr/ufKldkJuONPjPrOn0i/fbs3124JgbrRb28hiifq3VGT
+	 CbCMYDd87ByOkYf6su03phpCzN6JqeWXjwxWyWK4enIDBDlJfKb6GIEtkOt92zdw42
+	 +xqD8YClJxOTV84aUoq5z0jiCZ3V7YbcOzYBRClw=
+X-Auth-ID: lars@oddbit.com
+Received: by smtp5.relay.ord1d.emailsrvr.com (Authenticated sender: lars-AT-oddbit.com) with ESMTPSA id 3A2EFA01C6;
+	Wed,  8 May 2024 10:31:25 -0400 (EDT)
+Date: Wed, 8 May 2024 10:31:24 -0400
+From: Lars Kellogg-Stedman <lars@oddbit.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Duoming Zhou <duoming@zju.edu.cn>, linux-hams@vger.kernel.org, 
 	jreuter@yaina.de
-Subject: Re: [PATCH net v5 4/4] ax25: Change kfree() in ax25_dev_free() to
- ax25_dev_put()
-Message-ID: <15eddaa4-5e6e-4b9e-9cf1-89527173c1a3@moroto.mountain>
+Subject: Re: [PATCH net v5 1/4] ax25: Use kernel universal linked list to
+ implement ax25_dev_list
+Message-ID: <5o3kmbi6sq3c36a2qufxcii7si6qbmbinplqwugncvzcqpuk33@jvrftug6332q>
 References: <cover.1715065005.git.duoming@zju.edu.cn>
- <5c61fea1b20f3c1596e4fb46282c3dedc54513a3.1715065005.git.duoming@zju.edu.cn>
- <20240507141326.GA1050877@maili.marvell.com>
+ <bd49e83817604e61a12c9bf688a0825f116e67c0.1715065005.git.duoming@zju.edu.cn>
+ <sijkuyypbnelg3w2shbxm3y6zu3qhfurvpvkoij5eluolnqr5w@y5dq74ycxzkm>
+ <z5l3dfardxqrwf2lzzpktuifqaxvv2clrgah5gnz4t6iphskeb@otrcl5cwyghx>
+ <e4751c30-b950-411b-aeab-5259915f649e@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
@@ -85,39 +62,44 @@ List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240507141326.GA1050877@maili.marvell.com>
+In-Reply-To: <e4751c30-b950-411b-aeab-5259915f649e@moroto.mountain>
+X-Classification-ID: e9de2cc1-e8db-4627-9dda-6371280745c9-1-1
 
-On Tue, May 07, 2024 at 07:43:26PM +0530, Ratheesh Kannoth wrote:
-> On 2024-05-07 at 12:33:42, Duoming Zhou (duoming@zju.edu.cn) wrote:
-> > The object "ax25_dev" is managed by reference counting. Thus it should
-> > not be directly released by a kfree() call in ax25_dev_free(). Replace
-> > it with a ax25_dev_put() call instead.
-> >
-> > Fixes: d01ffb9eee4a ("ax25: add refcount in ax25_dev to avoid UAF bugs")
-> > Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-> > ---
-> >  net/ax25/ax25_dev.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/net/ax25/ax25_dev.c b/net/ax25/ax25_dev.c
-> > index c6ab9b0f0be..2a40c78f6a0 100644
-> > --- a/net/ax25/ax25_dev.c
-> > +++ b/net/ax25/ax25_dev.c
-> > @@ -195,7 +195,7 @@ void __exit ax25_dev_free(void)
-> >  	list_for_each_entry_safe(s, n, &ax25_dev_list, list) {
-> >  		netdev_put(s->dev, &s->dev_tracker);
-> >  		list_del(&s->list);
-> > -		kfree(s);
-> > +		ax25_dev_put(s);
-> The commit message "The object "ax25_dev" is managed by reference counting"
-> seems be not making sense here.  in case ref > 0 after the ax25_dev_put().
-> ax25_dev_put(s) is not initiating any mechanism to come back and recheck.
+On Wed, May 08, 2024 at 12:26:59PM GMT, Dan Carpenter wrote:
+> Let's drop all the other netdev people from the CC list.
+> 
+> On Tue, May 07, 2024 at 07:46:51PM -0400, Lars Kellogg-Stedman wrote:
+> > On Tue, May 07, 2024 at 03:43:11PM GMT, Lars Kellogg-Stedman wrote:
+> > > On Tue, May 07, 2024 at 03:03:39PM GMT, Duoming Zhou wrote:
+> > > >  typedef struct ax25_dev {
+> > > > -	struct ax25_dev		*next;
+> > > > +	struct list_head	list;
+> > > 
+> > > Would it make sense to replace this with:
+> > >
+> > > LIST_HEAD(ax25_dev_list);
+> > 
+> > Sorry, *this*:
+> > 
+> > > +static struct list_head ax25_dev_list;
+> 
+> I'm not sure I understand.  The code is correct though...
 
-The other place where we have a reference is when it's saved as
-ax25->ax25_dev.
+I was suggested using:
 
-regards,
-dan carpenter
+    LIST_HEAD(list_name);
 
+Rather than:
+
+    static struct list_head list_name;
+
+...and then later on initializing the list using
+INIT_LIST_HEAD(list_name).
+
+There's not really a functional difference, but using LIST_HEAD saves us
+a couple of extra lines of initialization code.
+
+-- 
+Lars Kellogg-Stedman <lars@oddbit.com> | larsks @ {irc,twitter,github}
+http://blog.oddbit.com/                | N1LKS
 
