@@ -1,91 +1,87 @@
-Return-Path: <linux-hams+bounces-259-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-260-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 093A58C093B
-	for <lists+linux-hams@lfdr.de>; Thu,  9 May 2024 03:40:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B78378C096D
+	for <lists+linux-hams@lfdr.de>; Thu,  9 May 2024 03:56:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0B691F22027
-	for <lists+linux-hams@lfdr.de>; Thu,  9 May 2024 01:40:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 534C9B215A3
+	for <lists+linux-hams@lfdr.de>; Thu,  9 May 2024 01:56:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 245523D548;
-	Thu,  9 May 2024 01:40:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8A9A13C8FF;
+	Thu,  9 May 2024 01:56:18 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net [129.150.39.64])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A06510979;
-	Thu,  9 May 2024 01:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.150.39.64
+Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1D3B13C8E9;
+	Thu,  9 May 2024 01:56:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.181.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715218838; cv=none; b=QM+LeTde4rUpvNAawTioelN7Xuc4W7AR/GWSg+gvBnr2fgdau02QBeOJm0NYqbkAYwyKSIji953dluHAiPZ4CD6i+pyANik0NZuytA8XCuff7WZBt/IDF+e+bsjmKfllUzZ8yEKVN63ochzV2qgOciSmIY0VOJzTFughnRhvmYU=
+	t=1715219778; cv=none; b=hCrWZTyn2ZSR7jLlCqeUy3pCoqghV7JOgQiRQ+GBClAQIYwzikXn2fvsitpopSQPXIIHZVCnaBtdOkBzk14qEuptjegMufTKAX1DvcdkfD4q5KWpw/0a4FSEsQh0ZPZsD3hr6YvkkswwdjyOcHeuE0FY1lFhbbKOAUHYHryk7Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715218838; c=relaxed/simple;
-	bh=vypeUuzuRONIjZ7ZibBQrbY2ZXTNxfDGI+HhUXXdBN4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=NiIafw/TTINftVGfcWSDAd8ZC6P71+g8P+ETiBWkLtUPswzy8IuaZYtP4ldHe0HMcnGD3lbBZH4oADWKHm+bXNhvRRGfOS858ms23C2sDQcU02UUJtXxhItoAcWznQUeO0aCBAra7nbPy1wGt3EdbPoKwVWJNl7V3ZxF4DQIAww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=129.150.39.64
+	s=arc-20240116; t=1715219778; c=relaxed/simple;
+	bh=D0lEga4NzrSPnmmB5RQnDioLVs1XusUapUufvpV91n4=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=He+tFHV2rhYNt0SO6PE0mskhcKxBx5SIBYnJLgvYeYUQYpeaRdT5EC5bD9aaVNxh+vnj2uo8kJ/F/6hEWdTOjMQftISOKkYRdDLFQ+5ogaHrmK56/5hMirhOztJaF0IkCpduaLEMixeRzY8S8WekhfXwV4UJbuFd3suPqyIisqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=209.97.181.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from duoming$zju.edu.cn ( [221.192.180.131] ) by
- ajax-webmail-mail-app4 (Coremail) ; Thu, 9 May 2024 09:40:02 +0800
- (GMT+08:00)
-Date: Thu, 9 May 2024 09:40:02 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: duoming@zju.edu.cn
-To: "Dan Carpenter" <dan.carpenter@linaro.org>
-Cc: "Lars Kellogg-Stedman" <lars@oddbit.com>, linux-hams@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pabeni@redhat.com, kuba@kernel.org, edumazet@google.com,
-	davem@davemloft.net, jreuter@yaina.de
-Subject: Re: [PATCH net] ax25: Fix refcount leak issues of ax25_dev
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT5 build
- 20231205(37e20f0e) Copyright (c) 2002-2024 www.mailtech.cn zju.edu.cn
-In-Reply-To: <79dc1067-76dc-43b2-9413-7754f96fe08e@moroto.mountain>
-References: <20240501060218.32898-1-duoming@zju.edu.cn>
- <my4l7ljo35dnwxl33maqhyvw7666dmuwtduwtyhnzdlb6bbf5m@5sbp4tvg246f>
- <78ae8aa0-eac5-4ade-8e85-0479a22e98a3@moroto.mountain>
- <ekgwuycs3hioz6vve57e6z7igovpls6s644rvdxpxqqr7v7is6@u5lqegkuwcex>
- <1e14f4f1-29dd-4fe5-8010-de7df0866e93@moroto.mountain>
- <movur4qy7wwavdyw2ugwfsz6kvshrqlvx32ym3fyx5gg66llge@citxuw5ztgwc>
- <eb5oil2exor2bq5n3pn62575phxjdex6wdjwwjxjd3pd4je55o@4k4iu2xobel5>
- <79dc1067-76dc-43b2-9413-7754f96fe08e@moroto.mountain>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from ubuntu.localdomain (unknown [221.192.180.131])
+	by mail-app4 (Coremail) with SMTP id cS_KCgC3Q7EuLTxmaElMAA--.47540S2;
+	Thu, 09 May 2024 09:56:01 +0800 (CST)
+From: Duoming Zhou <duoming@zju.edu.cn>
+To: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-hams@vger.kernel.org,
+	pabeni@redhat.com,
+	kuba@kernel.org,
+	edumazet@google.com,
+	davem@davemloft.net,
+	jreuter@yaina.de,
+	dan.carpenter@linaro.org,
+	Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH net v6 0/3] ax25: Fix issues of ax25_dev and net_device
+Date: Thu,  9 May 2024 09:55:56 +0800
+Message-Id: <cover.1715219007.git.duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:cS_KCgC3Q7EuLTxmaElMAA--.47540S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYW7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
+	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
+	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8I
+	cVCY1x0267AKxVWxJr0_GcWl84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2js
+	IEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE
+	5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeV
+	CFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l
+	FIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK67AK6w4l42xK82IYc2Ij64vIr41l4c8EcI
+	0Ec7CjxVAaw2AFwI0_Jw0_GFyl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
+	xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrx
+	kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
+	6r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
+	CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUFVyIUUUU
+	U
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwIQAWY7nwoGrwAGs3
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Message-ID: <5a4e0ffa.6776.18f5b01e5e0.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:cS_KCgDHVLJyKTxmyi1MAA--.5246W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwIQAWY7nwoGrwABsw
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW7Jw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
 
-T24gVHVlLCA3IE1heSAyMDI0IDExOjA4OjE0ICswMzAwIERhbiBDYXJwZW50ZXIgd3JvdGU6Cj4g
-ZGlmZiAtLWdpdCBhL25ldC9heDI1L2FmX2F4MjUuYyBiL25ldC9heDI1L2FmX2F4MjUuYwo+IGlu
-ZGV4IDkxNjllZmIyZjQzYS4uNGQxYWIyOTZkNTJjIDEwMDY0NAo+IC0tLSBhL25ldC9heDI1L2Fm
-X2F4MjUuYwo+ICsrKyBiL25ldC9heDI1L2FmX2F4MjUuYwo+IEBAIC05Miw2ICs5Miw3IEBAIHN0
-YXRpYyB2b2lkIGF4MjVfa2lsbF9ieV9kZXZpY2Uoc3RydWN0IG5ldF9kZXZpY2UgKmRldikKPiAg
-CQkJCXNwaW5fdW5sb2NrX2JoKCZheDI1X2xpc3RfbG9jayk7Cj4gIAkJCQlheDI1X2Rpc2Nvbm5l
-Y3QocywgRU5FVFVOUkVBQ0gpOwo+ICAJCQkJcy0+YXgyNV9kZXYgPSBOVUxMOwo+ICsJCQkJYXgy
-NV9kZXZfcHV0KGF4MjVfZGV2KTsKPiAgCQkJCWF4MjVfY2JfZGVsKHMpOwo+ICAJCQkJc3Bpbl9s
-b2NrX2JoKCZheDI1X2xpc3RfbG9jayk7Cj4gIAkJCQlnb3RvIGFnYWluOwo+IEBAIC0xMDEsMTEg
-KzEwMiw4IEBAIHN0YXRpYyB2b2lkIGF4MjVfa2lsbF9ieV9kZXZpY2Uoc3RydWN0IG5ldF9kZXZp
-Y2UgKmRldikKPiAgCQkJbG9ja19zb2NrKHNrKTsKPiAgCQkJYXgyNV9kaXNjb25uZWN0KHMsIEVO
-RVRVTlJFQUNIKTsKPiAgCQkJcy0+YXgyNV9kZXYgPSBOVUxMOwo+IC0JCQlpZiAoc2stPnNrX3Nv
-Y2tldCkgewo+IC0JCQkJbmV0ZGV2X3B1dChheDI1X2Rldi0+ZGV2LAo+IC0JCQkJCSAgICZzLT5k
-ZXZfdHJhY2tlcik7Cj4gLQkJCQlheDI1X2Rldl9wdXQoYXgyNV9kZXYpOwo+IC0JCQl9Cj4gKwkJ
-CW5ldGRldl9wdXQoYXgyNV9kZXYtPmRldiwgJnMtPmRldl90cmFja2VyKTsKPiArCQkJYXgyNV9k
-ZXZfcHV0KGF4MjVfZGV2KTsKCldlIHNob3VsZCBub3QgZGVjcmVhc2UgdGhlIHJlZmNvdW50IHdp
-dGhvdXQgY2hlY2tpbmcgImlmIChzay0+c2tfc29ja2V0KSIsIGJlY2F1c2UgCnRoZXJlIGlzIGEg
-cmFjZSBjb25kaXRpb24gYmV0d2VlbiBheDI1X2tpbGxfYnlfZGV2aWNlKCkgYW5kIGF4MjVfcmVs
-ZWFzZSgpLCBpZiB3ZQpkZWNyZWFzZSB0aGUgcmVmY291bnQgaW4gYXgyNV9yZWxlYXNlKCksIHdl
-IHNob3VsZCBub3QgZGVjcmVhc2UgaXQgaGVyZSwgb3RoZXJ3aXNlIAp0aGUgcmVmY291bnQgdW5k
-ZXJmbG93IHdpbGwgaGFwcGVuLgoKQmVzdCByZWdhcmRzLApEdW9taW5nIFpob3UKCgo=
+The first patch uses kernel universal linked list to implement
+ax25_dev_list, which makes the operation of the list easier.
+The second and third patch fix reference count leak issues of
+the object "ax25_dev" and "net_device".
+
+Duoming Zhou (3):
+  ax25: Use kernel universal linked list to implement ax25_dev_list
+  ax25: Fix reference count leak issues of ax25_dev
+  ax25: Fix reference count leak issues of net_device
+
+ include/net/ax25.h  |  3 +--
+ net/ax25/ax25_dev.c | 50 ++++++++++++++++-----------------------------
+ 2 files changed, 19 insertions(+), 34 deletions(-)
+
+-- 
+2.17.1
+
 
