@@ -1,103 +1,89 @@
-Return-Path: <linux-hams+bounces-264-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-265-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF0A8C0A03
-	for <lists+linux-hams@lfdr.de>; Thu,  9 May 2024 05:13:17 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7940C8C0D8E
+	for <lists+linux-hams@lfdr.de>; Thu,  9 May 2024 11:36:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF085282F9D
-	for <lists+linux-hams@lfdr.de>; Thu,  9 May 2024 03:13:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D50E4B21C7B
+	for <lists+linux-hams@lfdr.de>; Thu,  9 May 2024 09:36:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51F7C13C9D9;
-	Thu,  9 May 2024 03:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="O87Cd2ap"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DCC714A618;
+	Thu,  9 May 2024 09:36:49 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700CDD517;
-	Thu,  9 May 2024 03:13:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.148.174
+Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6CC114A0BC;
+	Thu,  9 May 2024 09:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.181.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715224392; cv=none; b=ogwcolegQLjz487lBT0n4RuL7wxEzwsGN3QtYxbSQjoittF5mofn4cUxGzEP1H8Ib4CVC1cUTJOQiVsDdh4+M+8BauHuNZMoq8ywIZGVkV14iltaS7SIdoT/L3ECordqc8qSgN0PLcfkUtQHj7AEY8dMVLIu3+ocFkJHXYOWvfs=
+	t=1715247408; cv=none; b=vEUEGzdgMv5T4o4nIT8OkTh3f+FdSlWtrm6bVddtKe2maTx0zokd+ZWH7lgrDEqQLqy5LEYgN/yjKJEJtvPjed8Nwbg2VQQGBFl9FlzQFFry+CG4drhqJHEBtRzDjCU8p76gNPpgi7dUUIIy58aK2drx2ggVNfUqTfOdYZbiWfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715224392; c=relaxed/simple;
-	bh=7aBwxO2CipScIGLBEjHWmQgZZx67CZNWp8onHyyobcM=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p0zij9PbNsygCYCFZoQZKbYCGZ1bmlyoxbl4+G1rYS4kPBASp6gorTdIVpuxUrG0F6jl6eEhJ0d53cayCy2LGthUTaRCNTzfckdP+LuIS0c7n2jjfl8DwakSZjIWDoLIIiOgvSX8gSLlqwhdsdtACVlrdv85zQe/pd33dLLE7oI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=O87Cd2ap; arc=none smtp.client-ip=67.231.148.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-	by mx0a-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 448NOrbp003000;
-	Wed, 8 May 2024 20:12:59 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=pfpt0220; bh=NIN1SoqsKzzoR1CfLY8RZC
-	nwsAX8ymAGByQHK0QnZHA=; b=O87Cd2apgUI/luHEUjpzz7eLB5961pH5ddIQbP
-	vqQBGLla7b9C9Qh/7jeNVyWaURNz3Um5Egq3Id852F4gZkUDHor3JNQdBfa6dOT+
-	Q4HeaAOeiaxRtd4cKgYVP16kJxBSj5ZgfeKCvI89a7pQKgWxEVtN8MugAVvp/piB
-	RugysNPV7IIFR3tOURe2EGzIBiarQxPCvUuXvZEVhqZOvC3EqxRAY2IrbzZdGwFm
-	h/QDvopSvXLgIsG383jjOpbr/gwq/yBDf2+qtk/ZYMZNWoyWeEFxMHQo3liPZHAk
-	mCrHDyyhj4bm2WldGGKUAKRSHmxSBXgU1HFlY0U/ARvqoHbA==
-Received: from dc5-exch05.marvell.com ([199.233.59.128])
-	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3y0b2d321n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 May 2024 20:12:58 -0700 (PDT)
-Received: from DC5-EXCH05.marvell.com (10.69.176.209) by
- DC5-EXCH05.marvell.com (10.69.176.209) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Wed, 8 May 2024 20:12:58 -0700
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH05.marvell.com
- (10.69.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Wed, 8 May 2024 20:12:58 -0700
-Received: from maili.marvell.com (unknown [10.28.36.165])
-	by maili.marvell.com (Postfix) with SMTP id EC58F5B6D03;
-	Wed,  8 May 2024 20:12:54 -0700 (PDT)
-Date: Thu, 9 May 2024 08:42:53 +0530
-From: Ratheesh Kannoth <rkannoth@marvell.com>
-To: Duoming Zhou <duoming@zju.edu.cn>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-hams@vger.kernel.org>, <pabeni@redhat.com>, <kuba@kernel.org>,
-        <edumazet@google.com>, <davem@davemloft.net>, <jreuter@yaina.de>,
-        <dan.carpenter@linaro.org>
-Subject: Re: [PATCH net v6 1/3] ax25: Use kernel universal linked list to
- implement ax25_dev_list
-Message-ID: <20240509031253.GA1077013@maili.marvell.com>
-References: <cover.1715219007.git.duoming@zju.edu.cn>
- <d52c1f4dbd6e09769007233aa343010e98c85f0d.1715219007.git.duoming@zju.edu.cn>
+	s=arc-20240116; t=1715247408; c=relaxed/simple;
+	bh=r0c0ahyUWvezkT2rASO2cH1RBbFGC1x3V4yiqp/3QCY=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=n3pfdRZtxKZlQHDrHA2IEYcAOBF8zanW760jjXFQvpwGF5b2hVzZPmGrkNIUFfdC7RN+Sx+t+zIq+ZWNCPYwm8PaqkLodIWCWHbOHgoh0tTbbqJ0qTunpFASOPuDji3Nq6OM9deslp6q4prAHbWVneq2IhYNuer8tPAJCqzwnoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=209.97.181.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from ubuntu.localdomain (unknown [221.192.180.131])
+	by mail-app4 (Coremail) with SMTP id cS_KCgA3xLEBmTxmxsBPAA--.52084S2;
+	Thu, 09 May 2024 17:36:23 +0800 (CST)
+From: Duoming Zhou <duoming@zju.edu.cn>
+To: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-hams@vger.kernel.org,
+	pabeni@redhat.com,
+	kuba@kernel.org,
+	edumazet@google.com,
+	jreuter@yaina.de,
+	dan.carpenter@linaro.org,
+	rkannoth@marvell.com,
+	davem@davemloft.net,
+	lars@oddbit.com,
+	Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH net v7 0/3] ax25: Fix issues of ax25_dev and net_device
+Date: Thu,  9 May 2024 17:35:59 +0800
+Message-Id: <cover.1715247018.git.duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:cS_KCgA3xLEBmTxmxsBPAA--.52084S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYA7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
+	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
+	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8I
+	cVCY1x0267AKxVWxJr0_GcWl84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2js
+	IEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE
+	5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeV
+	CFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l
+	FIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK67AK6r4fMxAIw28IcxkI7VAKI48JMxAqzx
+	v26xkF7I0En4kS14v26r1q6r43MxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
+	wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
+	0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+	xVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
+	1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbnNVDUU
+	UUU==
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwIQAWY7nwoPXwAcsU
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <d52c1f4dbd6e09769007233aa343010e98c85f0d.1715219007.git.duoming@zju.edu.cn>
-X-Proofpoint-GUID: l2QN4S6jGK8w_e9CzPGmE2I-1-2mgNaB
-X-Proofpoint-ORIG-GUID: l2QN4S6jGK8w_e9CzPGmE2I-1-2mgNaB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-08_10,2024-05-08_01,2023-05-22_02
 
-On 2024-05-09 at 07:26:12, Duoming Zhou (duoming@zju.edu.cn) wrote:
->  		if (ax25cmp(addr, (const ax25_address *)ax25_dev->dev->dev_addr) == 0) {
->  			res = ax25_dev;
->  			ax25_dev_hold(ax25_dev);
-> @@ -52,6 +53,9 @@ void ax25_dev_device_up(struct net_device *dev)
->  {
->  	ax25_dev *ax25_dev;
->
-> +	/* Initialized the list for the first entry */
-> +	if (!ax25_dev_list.next)
-will there be any case where this condition is true ? LIST_HEAD() or list_del() will never
-make this condition true.
+The first patch uses kernel universal linked list to implement
+ax25_dev_list, which makes the operation of the list easier.
+The second and third patch fix reference count leak issues of
+the object "ax25_dev" and "net_device".
 
-> +		INIT_LIST_HEAD(&ax25_dev_list);
->  	ax25_dev = kzalloc(sizeof(*ax25_dev), GFP_KERNEL);
->
+Duoming Zhou (3):
+  ax25: Use kernel universal linked list to implement ax25_dev_list
+  ax25: Fix reference count leak issues of ax25_dev
+  ax25: Fix reference count leak issue of net_device
+
+ include/net/ax25.h  |  3 +--
+ net/ax25/ax25_dev.c | 48 +++++++++++++++------------------------------
+ 2 files changed, 17 insertions(+), 34 deletions(-)
+
+-- 
+2.17.1
+
 
