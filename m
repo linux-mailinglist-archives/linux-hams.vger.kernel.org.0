@@ -1,182 +1,142 @@
-Return-Path: <linux-hams+bounces-284-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-285-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E8F8CADD7
-	for <lists+linux-hams@lfdr.de>; Tue, 21 May 2024 14:04:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 820388CB067
+	for <lists+linux-hams@lfdr.de>; Tue, 21 May 2024 16:27:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ADC762839B5
-	for <lists+linux-hams@lfdr.de>; Tue, 21 May 2024 12:04:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 00739B23825
+	for <lists+linux-hams@lfdr.de>; Tue, 21 May 2024 14:26:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A77F757E4;
-	Tue, 21 May 2024 12:04:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D67712FF8E;
+	Tue, 21 May 2024 14:26:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gADypNQF"
+	dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b="Tyt0qQ+P"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp66.iad3a.emailsrvr.com (smtp66.iad3a.emailsrvr.com [173.203.187.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DD6524B4
-	for <linux-hams@vger.kernel.org>; Tue, 21 May 2024 12:04:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB73476410
+	for <linux-hams@vger.kernel.org>; Tue, 21 May 2024 14:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.203.187.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716293051; cv=none; b=gPD1yN1uZU0P9F9lK3wEJ20ao2zQFDHAw1yF30fcqzwB5/kwsNP8q3yPNwcYwZscKKaP20ucTyhxapN1/6A4cY+5F+MNKx5GtJTeisCYLQgLxuC9NvaBwNFNgIzhUBl+A+u0maqHhb6pidoDNXytgKc3uKYw0jD89MdYoDbx9wI=
+	t=1716301609; cv=none; b=RhvEzN3vMs3XbZR3V+9YGn8Q+YaCq5MRZWGEEH6YO1s2mMR7iKK/U/7S9y2uakZwXidvmfRpzIIDr0MwkTHXq44aNi9rAE1OBceSenE9sT12QbkmU/ylIsOHgFETMfWIYm5gDQKZAC9YXgpLtiFo8ibY0XmUl2C1mrICk0ohpZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716293051; c=relaxed/simple;
-	bh=Tj2rGuwo8jn8ALhZPSfU1+vVdGnBU3HdX4dnRpoeUPg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Kz353e39G+OqRZJkusv6qSSXmw1BMqpVBauY5HlWzWP1HsXzVjc4t0KJ6hUedDCXX+MW3+cqNkV8c6QF6XEfFQHDQSQZNkpgqQlkbxKG2ceSx2Krudkcav30d+QYgkKNs/njcPCa9shOyPzoS427FoIVTy17Pcbg1+bfYp+j3ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gADypNQF; arc=none smtp.client-ip=209.85.219.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-de6074a464aso3368362276.0
-        for <linux-hams@vger.kernel.org>; Tue, 21 May 2024 05:04:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716293049; x=1716897849; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hF9aiI+fmzs+r8IcUPhmj5yUbC9yvr+oUqqh7lr0OrM=;
-        b=gADypNQFAfyaouFnu04+XsEXjynLly/v1qLsNcnb+pQF1qAC2hoE+dMp43upLL6yk7
-         Ii01m/k0a8zclb02PbWAWvO65e8EBZ+yv6AB3v3k+ncgw/dNBUTiCVOYSyGlYCPEju6P
-         8iQb+HrP8mrly5rZACwpqRov+Y4AtcTaEoDfEdqcbi5LSlyGQt3cSW0WBKWovSWgdaFH
-         w/DT4IvSwOwra9JrW3vhtz/Q+x0jp9cIkQVqZfOf6HPyKBMWktgNHCus5orXsazyEukc
-         JFPZ3aPJkDj1OBiyRQJVg3YSB+x6ODZZXBzoDN8ht33YJZc21RZ3+WkJaV7zjTF4rf0b
-         Y0gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716293049; x=1716897849;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hF9aiI+fmzs+r8IcUPhmj5yUbC9yvr+oUqqh7lr0OrM=;
-        b=ZJaJcCTo3d9BdjZ7y/Y33U0EjBzLPFvooEZNf60xdfLJQIhFV0+m6yLhaFzyNKFObO
-         atyemLJZ/3IUQAzeCETZqtYRjtj1JTNHCFqBrrYkgE/2u72AJHOlmfia3Hm+SDsvjX7N
-         KmBB6gZShof7tSvacPbFV8cClHu5PRa+7F/7iLxHbskXdXNDPylU4WFQy8kVzsx/1wjo
-         jhEvXeDARpGtlNSogbL4K6YFpHLnmxjSf42mo5v8D+igveU1oWzmAuHoFUau8bR+7scJ
-         vhjFsqphEn1zHiV2uw4924rDPe0QkBZv4mcfzwD17YSxCbj6EUi7OZPSUinT3cik/VZ1
-         bxFw==
-X-Forwarded-Encrypted: i=1; AJvYcCVsJF7ihMThfXdjOC7fyiGEiHETUjZIGj+0RfrTmE+ZTYp0NA1wepM3SLboJrFPHNlLOHfvCJRrOzeEI7xTvLGxK+epiJqzCYnt8Q==
-X-Gm-Message-State: AOJu0YzsysjiriaIhJETGJ30ZfGJdCrJPNsGFKMGH7B0CuBkKcEauYE3
-	Hja8uNYHHisob5JZlHh10vzHYxSWtr2byj5H2D4y7k+t0xZ01lcFJUFkZL+EFZygbB/dHalD63F
-	hsYcSCOJZ8Y99t0mZY0h1mCa6/br6aA==
-X-Google-Smtp-Source: AGHT+IGx2BRvevkvcuvPgSby4uJMoqjSYx1Mtl1iaG9L8P69rQptSACmlZYpS2Ei4YsoaXZiUkPrlobNo9USHVX+F20=
-X-Received: by 2002:a25:8382:0:b0:deb:3b7c:5268 with SMTP id
- 3f1490d57ef6-dee4f2e8616mr32322722276.29.1716293049185; Tue, 21 May 2024
- 05:04:09 -0700 (PDT)
+	s=arc-20240116; t=1716301609; c=relaxed/simple;
+	bh=6rcao04hQeVno8yrfJmgCPkSPcV3baO7X1HxX+0vjs4=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qmg+WYylTkMC9mdlCcc1wEFrpFJMtPNgjLvEqZadCt8OWBYoeJ3uqdA7ulCJLJipgLVozHyoB7EbFEGdKjkglLrl1lxWi+eBqg3iAqeYk7MKzvUrqF0ydvYkU7KYr0wwq5+TaWbQiPBpFOs31d3zr3yNuWC5snOh9iVeJAlUv6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com; spf=pass smtp.mailfrom=oddbit.com; dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b=Tyt0qQ+P; arc=none smtp.client-ip=173.203.187.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oddbit.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=oddbit.com;
+	s=20180920-g2b7aziw; t=1716299325;
+	bh=6rcao04hQeVno8yrfJmgCPkSPcV3baO7X1HxX+0vjs4=;
+	h=Date:From:To:Subject:From;
+	b=Tyt0qQ+PZgzvyTNPpqncmAs8POYnCZBMURAdnFjdzgmI3Sn6D5BihHvznBWUK9IZ2
+	 XG5+2OXM7FPEsrgdE9RnGFpINRlK/yNjNtgSeAY/aLpFiXAQyFp+pWZ3TpJ3oJ9twR
+	 OyQGo+J5P6oSeuXnvlCM1Ine6sEIp+rNujS/G4ik=
+X-Auth-ID: lars@oddbit.com
+Received: by smtp17.relay.iad3a.emailsrvr.com (Authenticated sender: lars-AT-oddbit.com) with ESMTPSA id 7D1FC23C6D;
+	Tue, 21 May 2024 09:48:45 -0400 (EDT)
+Date: Tue, 21 May 2024 09:48:45 -0400
+From: Lars Kellogg-Stedman <lars@oddbit.com>
+To: netdev@vger.kernel.org, linux-hams@vger.kernel.org
+Subject: [PATCH v2] ax25: Fix refcount imbalance on inbound connections
+Message-ID: <46ydfjtpinm3py3zt6lltxje4cpdvuugaatbvx4y27m7wxc2hz@4wdtoq7yfrd5>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240501060218.32898-1-duoming@zju.edu.cn> <my4l7ljo35dnwxl33maqhyvw7666dmuwtduwtyhnzdlb6bbf5m@5sbp4tvg246f>
- <ac6f090.eaff.18f7baadb40.Coremail.duoming@zju.edu.cn> <y5pcz6v6wsn2vjlyyzyclnktfgo2yiwawcdu5jbzpava74y6yr@t7m6req4cwsq>
- <CANnsUMHTZ_P4-C2iGdbakcp_Xk5c-aCO5kYEvaBdOcsaSnK5Pg@mail.gmail.com>
- <4it3k7z5sylbv4agiztmwdhaudo2orccpm5pbi24bsu6fyajfm@k3zulkrpqaof>
- <CANnsUMEq5xZUFdZdmNd=wGz+RmjxGzGY_9eaqGcgCLxs55mr9w@mail.gmail.com>
- <r3hwkyx6os3eacimhqvrs4cv4ssqajpxp3zkiqqidu6pjkj2v6@slrtgnartz3f>
- <CAEoi9W7LN5MQPGKXZJOdtcaXvyK4PPU9yW7HWOBdq1AP3Fs7nA@mail.gmail.com>
- <CANnsUMF=ywvcmfLjXdz_hWLSo5jC2Z0K7Qe4Pcv7j3dr6K99Jg@mail.gmail.com> <a0890c99-0f42-44bb-b1f3-cdc66efdad50@app.fastmail.com>
-In-Reply-To: <a0890c99-0f42-44bb-b1f3-cdc66efdad50@app.fastmail.com>
-From: Chris Maness <christopher.maness@gmail.com>
-Date: Tue, 21 May 2024 05:03:57 -0700
-Message-ID: <CANnsUMGf744psJZCqKoKw4ysRuH4KjhTpjR1CZZNbPr2DPQ99g@mail.gmail.com>
-Subject: Re: Kernel 6.9.1 AX.25 Crash
-To: Dave Hibberd <hibby@debian.org>
-Cc: Dan Cross <crossd@gmail.com>, Lars Kellogg-Stedman <lars@oddbit.com>, Duoming Zhou <duoming@zju.edu.cn>, 
-	linux-hams@vger.kernel.org, dan.carpenter@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Classification-ID: c79c05b8-b80d-41a9-a40c-04b626f6090e-1-1
 
-netrom_call has not worked for ages.  I am using VE7FET's forked
-userspace, not the official.  I could build another
-system with the official userspace I suppose.  My understanding is
-that VE7FET fixed some bugs, and I have had
-better luck with it for the most part.
+The first version of this patch was posted only to the linux-hams
+mailing list. It has been difficult to get the patch reviewed, but the
+patch has now been tested successfully by three people (that includes
+me) who have all verified that it prevents the crashes that were
+previously plaguing inbound ax.25 connections.
 
--Chris KQ6UP
+Related discussions:
 
-On Tue, May 21, 2024 at 4:48=E2=80=AFAM Dave Hibberd <hibby@debian.org> wro=
-te:
->
-> Can you use other libax25 dependent packages or is it only Uronode?
->
-> axcall for netrom would be a reasonable starter to see if it's a libax25 =
-problem or not.
->
-> LinFBB, from what I remember, uses its own internal state machine/etc onc=
-e it's bound to the socket.
->
-> Cheers,
->
-> --
->   Hibby
->   Debian Developer
->   Packet Radioist
->   MM0RFN
->
-> On Tue, 21 May 2024, at 4:07 AM, Chris Maness wrote:
-> > Ok, the only thing not working so far is UROnode in this system.  I am
-> > thinking it needs to be updated to the newer kernel.  I am getting:
-> >
-> > ERROR; connect_to: bind: Cannot assign requested address
-> >
-> > When I try to connect to a NETROM node from UROnode (AX.25 only works t=
-ho).
-> >
-> > I can connect from LinFBB with NETROM directly to other nodes using my
-> > NETROM port in LinFBB.
-> >
-> > -Chris KQ6UP
-> >
-> >
-> > On Mon, May 20, 2024 at 7:12=E2=80=AFPM Dan Cross <crossd@gmail.com> wr=
-ote:
-> >>
-> >> On Mon, May 20, 2024 at 9:06=E2=80=AFPM Lars Kellogg-Stedman <lars@odd=
-bit.com> wrote:
-> >> > On Mon, May 20, 2024 at 05:11:39PM GMT, Chris Maness wrote:
-> >> > > Your patch seems to have fixed the issue so far.
-> >> >
-> >> > That's great! I'm glad it helped.
-> >> >
-> >> > > How come this patch is not included in the mainline source?
-> >> >
-> >> > Well, partly because you're the first person to confirm that it work=
-s
-> >> > for someone besides me :). Dan (Cross) has offered to test it out as
-> >> > well; if I can get a couple of confirmations that it's working, I'll
-> >> > probably go ahead and submit it to netdev.
-> >>
-> >> I am running this as of today, and so far so good.
-> >>
-> >> > The bigger issue has been that there are very few people interested =
-in
-> >> > the ax.25 support in the kernel; there's not a real maintainer, so i=
-t's
-> >> > difficult to get code approved. There were some concerns expressed t=
-hat
-> >> > maybe this isn't the *correct* fix, but I would argue that even if i=
-t's
-> >> > not the most correct fix we should try to get it in anyway, since
-> >> > otherwise ax.25 is completely broken.
-> >>
-> >> Agreed: what's there now is objectively broken. Please, let's not let
-> >> the perfect be the enemy of the good here.
-> >>
-> >>         - Dan C.
-> >
-> >
-> >
-> > --
-> > Thanks,
-> > Chris Maness
+- https://marc.info/?l=linux-hams&m=171629285223248&w=2
+- https://marc.info/?l=linux-hams&m=171270115728031&w=2
 
+>8------------------------------------------------------8<
 
+When releasing a socket in ax25_release(), we call netdev_put() to
+decrease the refcount on the associated ax.25 device. However, the
+execution path for accepting an incoming connection never calls
+netdev_hold(). This imbalance leads to refcount errors, and ultimately
+to kernel crashes.
 
---=20
-Thanks,
-Chris Maness
+A typical call trace for the above situation looks like this:
+
+    Call Trace:
+    <TASK>
+    ? show_regs+0x64/0x70
+    ? __warn+0x83/0x120
+    ? refcount_warn_saturate+0xb2/0x100
+    ? report_bug+0x158/0x190
+    ? prb_read_valid+0x20/0x30
+    ? handle_bug+0x3e/0x70
+    ? exc_invalid_op+0x1c/0x70
+    ? asm_exc_invalid_op+0x1f/0x30
+    ? refcount_warn_saturate+0xb2/0x100
+    ? refcount_warn_saturate+0xb2/0x100
+    ax25_release+0x2ad/0x360
+    __sock_release+0x35/0xa0
+    sock_close+0x19/0x20
+    [...]
+
+On reboot (or any attempt to remove the interface), the kernel gets
+stuck in an infinite loop:
+
+    unregister_netdevice: waiting for ax0 to become free. Usage count = 0
+
+This patch corrects these issues by ensuring that we call netdev_hold()
+and ax25_dev_hold() for new connections in ax25_accept(), balancing the
+calls to netdev_put() and ax25_dev_put() in ax25_release.
+
+Fixes: 7d8a3a477b
+Signed-off-by: Lars Kellogg-Stedman <lars@oddbit.com>
+---
+ net/ax25/af_ax25.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+index 8077cf2ee44..ff921272d40 100644
+--- a/net/ax25/af_ax25.c
++++ b/net/ax25/af_ax25.c
+@@ -1381,6 +1381,8 @@ static int ax25_accept(struct socket *sock, struct socket *newsock,
+ 	DEFINE_WAIT(wait);
+ 	struct sock *sk;
+ 	int err = 0;
++	ax25_cb *ax25;
++	ax25_dev *ax25_dev;
+ 
+ 	if (sock->state != SS_UNCONNECTED)
+ 		return -EINVAL;
+@@ -1434,6 +1436,10 @@ static int ax25_accept(struct socket *sock, struct socket *newsock,
+ 	kfree_skb(skb);
+ 	sk_acceptq_removed(sk);
+ 	newsock->state = SS_CONNECTED;
++	ax25 = sk_to_ax25(newsk);
++	ax25_dev = ax25->ax25_dev;
++	netdev_hold(ax25_dev->dev, &ax25->dev_tracker, GFP_ATOMIC);
++	ax25_dev_hold(ax25_dev);
+ 
+ out:
+ 	release_sock(sk);
+-- 
+2.45.1
+
+-- 
+Lars Kellogg-Stedman <lars@oddbit.com> | larsks @ {irc,twitter,github}
+http://blog.oddbit.com/                | N1LKS
 
