@@ -1,70 +1,70 @@
-Return-Path: <linux-hams+bounces-277-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-278-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7064E8C9F01
-	for <lists+linux-hams@lfdr.de>; Mon, 20 May 2024 16:50:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 439278CA552
+	for <lists+linux-hams@lfdr.de>; Tue, 21 May 2024 02:11:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 931101C2106B
-	for <lists+linux-hams@lfdr.de>; Mon, 20 May 2024 14:50:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E53F1C210F7
+	for <lists+linux-hams@lfdr.de>; Tue, 21 May 2024 00:11:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6085136669;
-	Mon, 20 May 2024 14:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B032C81E;
+	Tue, 21 May 2024 00:11:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G/7P63gF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KZddgNXs"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4FF1E878
-	for <linux-hams@vger.kernel.org>; Mon, 20 May 2024 14:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF0C23A9
+	for <linux-hams@vger.kernel.org>; Tue, 21 May 2024 00:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716216599; cv=none; b=klWVtCeC4Mw3QqbrKRdrko8M+WSgScOQ5o5Rvy99lzWn6rB8FFilGws0xByGJvruLlP8f/SQ//e5R7mq290KCRSfHf1Z3jvoH5Ydz6zw6mhdz5npiXgFUpu2eNq4RnyEhOjTbhR7E6zD+b/y/cl/K8p4x1TadR0UKg03+JMxJBY=
+	t=1716250313; cv=none; b=mZ9c/X2sInkMts1pmQsGXi7FTmwUTJE8Rj0d6YJwwW0SJtbDixoSx3+3zqKMokKs8m6CM34mgvFu9LXgSJpU6qzJf3oiEubvDOAFLlF+qlDpmO+Z1SffOkQDsAmv6O8mSmlf+mfBZAj2XYUFZkbfceG1PMVb56aeeMIugsq9+q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716216599; c=relaxed/simple;
-	bh=EAYvt9e9q9py08qSwewrTi5wAe3GVXJWn2erdneLuI0=;
+	s=arc-20240116; t=1716250313; c=relaxed/simple;
+	bh=NotbNlI6wu/8cpzGQq46hQA8ZSq/g56B2y/76KpjhU4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HzTHBjWyCQhmDpoxc5JS4vIrh/uAYHHW5BXTJlOyMo+S+RAhm+RfxVSOAg438E2Frxl5Hx6zEw7RiwO/+2FK7wupdvFszTLwTIe3xYlh3GQSQPEdetPA4El7sUPc663PyMgTj3pky39ALvHvR34SnFWolcpGCfdo2BJjDvt6BDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G/7P63gF; arc=none smtp.client-ip=209.85.219.171
+	 To:Cc:Content-Type; b=Xbsnm4moy+EjJt6iy86eU5k8EhJaqXjM5pDKqcU7XbmQvkEJH1nsJL1dCNQv1dxylictI9C+cWwQgL5QQbUSZbDtNDwo5j7n8MQRg9tczBETM2dtcPOqmjLPUO3DIXKsUchGGITQ6eEgyrKX2iqZu9Cd5JsKPArC77uP3kcJC2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KZddgNXs; arc=none smtp.client-ip=209.85.219.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-de462979e00so2882268276.3
-        for <linux-hams@vger.kernel.org>; Mon, 20 May 2024 07:49:57 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dbed0710c74so2427257276.1
+        for <linux-hams@vger.kernel.org>; Mon, 20 May 2024 17:11:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716216597; x=1716821397; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1716250311; x=1716855111; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jVBZzVurc7ik3enjJmuH210rGxQZlITd0DjWn/4QALk=;
-        b=G/7P63gFyRTH2uwbpp6h3PIBBODOJe0WmjT8yrWVutCh5/ZPVzEH6e3rlZ5VYW5oyR
-         goVBx8BeSoJj/2/FV05XBLqn0xokKBpHOe/8HSp+FbCwc4htjFSUgbfQqmEaoLOhOqMi
-         QuXTnKkN6y2OZITT9yGE8Zhr7NJgDmI54/ysmiWCQjUr+7AfYeAtXnar3MlpSCX33AgP
-         hkYWh79JLOZmUg79SR+1pI/JeYhxcdqNOIP5YyQ1Az1ye+TU2CB0jDQEIU0Wy+SjfKeW
-         RVr8e9UuEZqjPusgqKqxHrzkkfbR/aA2IH5g3h9JIshazVuONistlmg4daSiPnIceJgJ
-         gfSQ==
+        bh=qli0i+Hbv3NaLYGsbt7/EP5jqNLY/z0ezbm0FH01MYI=;
+        b=KZddgNXsASWeqelcBo+DjGzZGchPFZqhJm0l7mtbDZKptfAPEi9H8GBw3gszFcfwXy
+         w6qT9jbvqrc+8Z2APF3MKDvJw4R6dwMyPeTG/JopUJkEW+kfam/fXysWLlIcluNBYwuF
+         EKVsxJbxkWsndjE7SPzNs4Zi1aAv7pEhMKjzLqmu7Z9i44ZuEa6ouFKa9byiv4sM4rwo
+         IVPvxYVmsbzR8ZflUuOgm09aVBpK86veyO57qolBrOX3Qziigd5fwH6NppylF51NFE55
+         wnZDXQsRCiIZD1l/2tpAY2z06jGQbe7tJeU//qSfjXf6qViDvBHLbY3VdkDfeTVdoOpc
+         JByA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716216597; x=1716821397;
+        d=1e100.net; s=20230601; t=1716250311; x=1716855111;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jVBZzVurc7ik3enjJmuH210rGxQZlITd0DjWn/4QALk=;
-        b=P201Wl9T9XRRVWxZyWyenWGXdn/J3RN8bNsljkCMxe71nABMbypkV1q6B4iAKz9CA4
-         7MLztSt+c/RbyWPelrIoht5fMBFyZmHtYupK6IcV2ZvY6X63hQYKJTgy3wRow3dt2TOV
-         xQQ3p30BRAfkori5L0EpyjC6SArd72X1tTBDNVLKRkgWY/XhysKn39G8n0UtHwN+tcoW
-         Wn0kMrmWoEE/ehbW6UwZveRT0g1YiAMw2iRk+erkXiy+lQ4mpwySFUpGaSHVSBDvmGjJ
-         JDwhGGGMomP22B58ZZN/oXh8BLzh7Q+ezNwt+fo5EL4AlypYffnBl4kGiyWJ+K6dOW0h
-         S0Dg==
-X-Forwarded-Encrypted: i=1; AJvYcCULm/iFHhg9ZG/vkUKGqM+78GEOkwxK4a+SQw7ABRBE2kR2aFQLib0s65qeb1c3Ek2254aQ825Fu72lUDdM9FSRliSqTMQsQbbS5Q==
-X-Gm-Message-State: AOJu0YwMXXRAJOTo0WXzDGs+tv8zh+TXc6+/z7wTcPqqqn9gW/9fY+E0
-	tlKwWqCCvLm6gkWglqQ3V3576w3Kf51zM6sWOMLoGgGFiMj5YTtAcsKYnETEQrdj6MXwNUq+Cpg
-	2zRZHrVyY89GfWtG7/ZM5JO1DcuQ=
-X-Google-Smtp-Source: AGHT+IFgIb+h+j5tZBR4jdHsDNiyOuFkh5sGAFXAAfUY2SB7hSc8PHsLP3I3/qjcou6FaiKS+Ug71vL8MiXRrlACSPA=
-X-Received: by 2002:a25:df4c:0:b0:de6:1992:e633 with SMTP id
- 3f1490d57ef6-dee4f31a3d7mr30330534276.22.1716216597004; Mon, 20 May 2024
- 07:49:57 -0700 (PDT)
+        bh=qli0i+Hbv3NaLYGsbt7/EP5jqNLY/z0ezbm0FH01MYI=;
+        b=LxdpfPKQYQzoCaUHyTKrSc8OS4TzkddLwiTxX+Fc/oIssE6pbPtiFFzQ6KsTdq1aW9
+         CJSXng5sscD1RZc3BCzAs9+mNO2mh9B3WiAdqMLIWTD6CbA3dg6W7sjeNIP0qXs3t171
+         YxrTIvVFLqbh8lkB2l00k7JxKx+Q9yAIgDyRXs6qX6AP0AaZWS1awG18RuPaukrDBw1j
+         7BM436gDQuO/u0DusD8/bPFZQe4uYTZvXdZUeff9rwwvSrE8Tf1jkkU4WuVs1nS3N5Ww
+         CTzGNREFuUGgy+UB5VqwRSR5fvFnTVWlneQO3Mn8tuOakWhTxyaca04FE9o7uc+i2GQp
+         lrkg==
+X-Forwarded-Encrypted: i=1; AJvYcCW/WF3dLqCg0fxD9VOJJfJbJeLhLWq8DQ9/Uu7Exyhc+h/xmJ8FyBy6NLT876PH4UuRB88qdtGvnoIWuTBcpdUmajSxcOJLkEgbbA==
+X-Gm-Message-State: AOJu0YwrtiXKqxkilBsyFpv6eElxhm31wfCNc1ed5ilMzLXNel5Zd4G6
+	9SgBe7aCkdLjxT25EAcGA/MnZbsgrYqKPc2hj3RO6SeMMOFBnJAa9GTwMbGTM7PWi096FmOCckK
+	Yuxoi6iy+/fDRmVpZTswLKoBMxqE=
+X-Google-Smtp-Source: AGHT+IGLRDpWwUS/riv/xzCDRUhhonSkABBDFpD6aSswktaZhBXAQTNSXDRhfMABtL1oPKwO5o7gIAeJIQKJmIO/7ko=
+X-Received: by 2002:a25:7087:0:b0:de5:416a:f9ab with SMTP id
+ 3f1490d57ef6-dee4f31d935mr29639462276.25.1716250310865; Mon, 20 May 2024
+ 17:11:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
@@ -76,14 +76,21 @@ References: <20240501060218.32898-1-duoming@zju.edu.cn> <my4l7ljo35dnwxl33maqhyv
  <CANnsUMHTZ_P4-C2iGdbakcp_Xk5c-aCO5kYEvaBdOcsaSnK5Pg@mail.gmail.com> <4it3k7z5sylbv4agiztmwdhaudo2orccpm5pbi24bsu6fyajfm@k3zulkrpqaof>
 In-Reply-To: <4it3k7z5sylbv4agiztmwdhaudo2orccpm5pbi24bsu6fyajfm@k3zulkrpqaof>
 From: Chris Maness <christopher.maness@gmail.com>
-Date: Mon, 20 May 2024 07:49:44 -0700
-Message-ID: <CANnsUMF+mKTjrJA-FN_DnBRL4ckjQ_OG4AoVuH7_Sd44yhju-Q@mail.gmail.com>
+Date: Mon, 20 May 2024 17:11:39 -0700
+Message-ID: <CANnsUMEq5xZUFdZdmNd=wGz+RmjxGzGY_9eaqGcgCLxs55mr9w@mail.gmail.com>
 Subject: Re: Kernel 6.9.1 AX.25 Crash
 To: Lars Kellogg-Stedman <lars@oddbit.com>
 Cc: Duoming Zhou <duoming@zju.edu.cn>, linux-hams@vger.kernel.org, 
 	dan.carpenter@linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+
+Your patch seems to have fixed the issue so far.  It would require a
+longer stress test, but shot some pretty
+big bulletins at it, and so far so good.  How come this patch is not
+included in the mainline source?
+
+-Chris KQ6UP
 
 On Mon, May 20, 2024 at 7:42=E2=80=AFAM Lars Kellogg-Stedman <lars@oddbit.c=
 om> wrote:
@@ -202,15 +209,7 @@ socket *newsock, int flags,
 > Lars Kellogg-Stedman <lars@oddbit.com> | larsks @ {irc,twitter,github}
 > http://blog.oddbit.com/                | N1LKS
 
-That would make sense, because I triggered the crash by initiating a
-forward session from an external BBS connecting IN with my listening
-LinFBB BBS software instance running inside the Slackware-current
-(6.9.1) machine.  It crashed immediately.
 
-I will patch and rebuild the kernel.  Fortunately, that is easy to do
-with Slackware as they run a stock kernel.
-
--Chris KQ6UP
 
 --=20
 Thanks,
