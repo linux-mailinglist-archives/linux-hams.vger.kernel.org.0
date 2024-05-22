@@ -1,93 +1,73 @@
-Return-Path: <linux-hams+bounces-301-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-302-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E062F8CC550
-	for <lists+linux-hams@lfdr.de>; Wed, 22 May 2024 19:06:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 979BA8CC552
+	for <lists+linux-hams@lfdr.de>; Wed, 22 May 2024 19:07:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE2711C20F29
-	for <lists+linux-hams@lfdr.de>; Wed, 22 May 2024 17:06:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 53338282B9D
+	for <lists+linux-hams@lfdr.de>; Wed, 22 May 2024 17:07:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02171140E5C;
-	Wed, 22 May 2024 17:06:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41F991420A8;
+	Wed, 22 May 2024 17:07:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YwO47zU6"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from trinity3.trinnet.net (trinity.trinnet.net [96.78.144.185])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE99C1F17B
-	for <linux-hams@vger.kernel.org>; Wed, 22 May 2024 17:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.78.144.185
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31431F17B;
+	Wed, 22 May 2024 17:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716397602; cv=none; b=ihjpS7GeFTeAglyKpYWyb9b3ruPPdPXB0vSKzyXnihVIDgIEiUCjCSG8N+P04wqLtscHag7q9T0kEDIwcXmJSw9uHii2vzfpIKzMd0mad5Bx0LoEOch49Mpqf4yb+PJ8j9n90s2QwlgKQj5ySggEEQxQCnBX0S2ftsmzQvZmrMo=
+	t=1716397623; cv=none; b=rmXih3MK20Orws7K6vdOeeYvdLFp15NRd/aTSerHt0xPtZOsoXYrK3QVk3aENPhNEpiWV2b9PIUFbF5617EzvOpvLYS2MDsKBdy3P2WT43W90naj0UdSqVDQV8HWPu7vVPRbe54fY4nszm9AEiI7J3RPmla96VGZlnr8GPOmgiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716397602; c=relaxed/simple;
-	bh=W2CaKK9Kt0IlqusU8Az6Kv+Fdb4fJeRBg9rG5gtYIws=;
-	h=Subject:To:References:Cc:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=OFx+obOddS2H1OOnIH6iLkwmndrzpKlE7qSiRSRnm/54al6KLJBGmSDhemBkHft7roh0MM7QZWniAn1epPfVVEchX0uDQwdVyXRTpHQ03jwcY9GJZZ3jbhmJvLm6pGcJLahCSQ9ZX1k6y6nNG0t16Ls5wrUawVcyI0oWXtME0ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trinnet.net; spf=pass smtp.mailfrom=trinnet.net; arc=none smtp.client-ip=96.78.144.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trinnet.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trinnet.net
-Received: from trinity4.trinnet.net (trinity4.trinnet.net [192.168.0.11])
-	by trinity3.trinnet.net (TrinityOS hardened/TrinityOS Hardened) with ESMTP id 44MH6ZsI030119;
-	Wed, 22 May 2024 10:06:35 -0700
-Subject: Re: Kernel 6.9.1 AX.25 Crash
-To: Chris Maness <christopher.maness@gmail.com>, Dan Cross <crossd@gmail.com>
-References: <20240501060218.32898-1-duoming@zju.edu.cn>
- <my4l7ljo35dnwxl33maqhyvw7666dmuwtduwtyhnzdlb6bbf5m@5sbp4tvg246f>
- <ac6f090.eaff.18f7baadb40.Coremail.duoming@zju.edu.cn>
- <y5pcz6v6wsn2vjlyyzyclnktfgo2yiwawcdu5jbzpava74y6yr@t7m6req4cwsq>
- <CANnsUMHTZ_P4-C2iGdbakcp_Xk5c-aCO5kYEvaBdOcsaSnK5Pg@mail.gmail.com>
- <4it3k7z5sylbv4agiztmwdhaudo2orccpm5pbi24bsu6fyajfm@k3zulkrpqaof>
- <CANnsUMEq5xZUFdZdmNd=wGz+RmjxGzGY_9eaqGcgCLxs55mr9w@mail.gmail.com>
- <r3hwkyx6os3eacimhqvrs4cv4ssqajpxp3zkiqqidu6pjkj2v6@slrtgnartz3f>
- <f27710b7-253c-79ce-e214-2b8251aceead@trinnet.net>
- <c3infeyajl4hr2tuyfmmccdv4gjbhsulaxuetozigqwqtj4jga@42eucxtsfk2y>
- <CAEoi9W5cmv-mQAsKPYTfjAytfp9Mvf3WgRQ9Ni=sznrU0v+NDQ@mail.gmail.com>
- <CANnsUMG42uECBVKFAPrwprakAGd=+KPE-WOAgS47nzKjWKawuw@mail.gmail.com>
-Cc: Lars Kellogg-Stedman <lars@oddbit.com>, Duoming Zhou
- <duoming@zju.edu.cn>,
-        linux-hams@vger.kernel.org, dan.carpenter@linaro.org
-From: David Ranch <linux-hams@trinnet.net>
-Message-ID: <aaf87a7e-af08-4544-8c33-0e71396909cf@trinnet.net>
-Date: Wed, 22 May 2024 10:06:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+	s=arc-20240116; t=1716397623; c=relaxed/simple;
+	bh=VT/JBh3eDnFD11dqMnYx/UbHuUSPBomoQuwIbMCHTHU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YqSYD65tQ9siMkL65K2cqte6DNsdcUdpcOjLaUR0myH72PXlmlwooLFnlb+jzsKjrexyt57pOP+A/7bbEF64xMCioBh2EeXsJpx9d3zW9yZzYaxdfpr7kQKA2camB4eCUvD9Mpsyo7x3M3U7UTnjrLWx763SimzxNuUTLiEH/9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YwO47zU6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7481CC2BBFC;
+	Wed, 22 May 2024 17:07:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716397622;
+	bh=VT/JBh3eDnFD11dqMnYx/UbHuUSPBomoQuwIbMCHTHU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YwO47zU68N09SE0yuqseE9tBnDiXbQ1YIV332OZ1VBRsUpWb1vECX5iKMKg+Sj0OU
+	 63Xvr7KnEZogatJm78JyXQrkA7vH1qX+56vSWzN6npfPDPDKGAlxnHy/zAjlSh8zfT
+	 9gVWA8z+xmYUIk7YsNRn8R3neoUotBuE4jF6Hy1jm4DvKI7OHBZrDt6AOmGye3fuUD
+	 vhahbM0X9snkAbBqxc2+Zvhc4laqMX6QD+RSXQ6cwLn5A4ijcjZwu+OV/6G4aUlbCU
+	 Jb5gv9YFIl8P4WoscJFnzY7q0SnWtgXwqTV46qGnoO4vYcwDKM+BZb0erG5/UtkmQv
+	 kpNtOPmD8T4oA==
+Date: Wed, 22 May 2024 10:07:01 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: lars@oddbit.com
+Cc: linux-hams@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v3] ax25: Fix refcount imbalance on inbound connections
+Message-ID: <20240522100701.4d9edf99@kernel.org>
+In-Reply-To: <20240521182323.600609-3-lars@oddbit.com>
+References: <46ydfjtpinm3py3zt6lltxje4cpdvuugaatbvx4y27m7wxc2hz@4wdtoq7yfrd5>
+	<20240521182323.600609-3-lars@oddbit.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CANnsUMG42uECBVKFAPrwprakAGd=+KPE-WOAgS47nzKjWKawuw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-3.0 (trinity3.trinnet.net [192.168.0.1]); Wed, 22 May 2024 10:06:36 -0700 (PDT)
 
+On Tue, 21 May 2024 14:23:25 -0400 lars@oddbit.com wrote:
+> Fixes: 7d8a3a477b
 
-Hello Everyone,
+correct fixes tag for this hash would be:
 
-> I think in doing this you will orphan a lot of important software that
-> relies on the kernel space ax.25 stack.
+Fixes: 7d8a3a477b3e ("ax25: Fix ax25 session cleanup problems")
 
-I agree with Dan's idea that moving the Linux AX.25 stack out from 
-kernel space could help on the maintenance side but it would absolutely 
-neuter things when it comes to all the rich packet routing options that 
-the kernel offers today.
-
-One thing that could be considered is an alternative libax25 library 
-that could redirect ax25/netrom/rose packet I/O from going to the kernel 
-and instead, send that traffic to a userland program.  Maybe that could 
-be Direwolf or QtSoundmodem, etc.  I think this could work for most of 
-standard (more simplistic) packet radio use cases.  I've mentioned this 
-idea some time ago to both Thomas Osterried DL9SAU who is the maintainer 
-of the "Official" AX.25 userland tools as well as Lee Woldanski VE7FET 
-who maintains a fork of the AX.25 userland tools but there never has 
-been much interest.
-
-Maybe someone here on this list might be interested in taking a stab at 
-it?  I don't have the programming chops to write the code but I could 
-absolutely help on many other aspects (integration, testing, etc) if needed.
-
---David
-KI6ZHD
+Please post v4 as a new thread (not in reply to).
+Please CC maintainers (per script/get_maintainer.pl)
+-- 
+pw-bot: cr
 
