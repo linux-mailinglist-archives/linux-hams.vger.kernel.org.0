@@ -1,70 +1,70 @@
-Return-Path: <linux-hams+bounces-303-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-304-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 242F58CC5EA
-	for <lists+linux-hams@lfdr.de>; Wed, 22 May 2024 19:55:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB0C8CC602
+	for <lists+linux-hams@lfdr.de>; Wed, 22 May 2024 20:05:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C2A8A281F4F
-	for <lists+linux-hams@lfdr.de>; Wed, 22 May 2024 17:55:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ECEAFB21C79
+	for <lists+linux-hams@lfdr.de>; Wed, 22 May 2024 18:05:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F0F81419BA;
-	Wed, 22 May 2024 17:55:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3C83145B36;
+	Wed, 22 May 2024 18:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hu5AC4Ah"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wgv5vznE"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD8F57C8E
-	for <linux-hams@vger.kernel.org>; Wed, 22 May 2024 17:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A41145FF6
+	for <linux-hams@vger.kernel.org>; Wed, 22 May 2024 18:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716400537; cv=none; b=gc9P9rX9dKbe34z38KvDYbXotw6KnouVQbtRuS97saZXyYmbDaPQoIPkS3Og/N7+GcGh9a0DNHCMnAZXSXWtPTh98+ysG3vuzuGaadTIdGi1WGR2gKddREtLb2ngTv3fd125IOyCby4f0+G2Pykm0Aw2sryBUvf97y4TVeMfnUw=
+	t=1716401116; cv=none; b=IY8nG9QoItazyWGuAnMsHQZm48ODGGu+/TOz9PzML1bTm9Rt4IYqKGCbMaRxkAS7oBSg58j8yPTMqI5djKkxewJ9UcoFJozjaS0hQlZyuYYmvE56ejVi/55oR8JEBD3oFdtHYWofGKTSU6yrO/qn9MeAWznHe5+DtHXjm3H8ynE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716400537; c=relaxed/simple;
-	bh=dDW0tW1kFO/++Tv3K1ECx3MxrBc+OaSdgSwk5OtdjQg=;
+	s=arc-20240116; t=1716401116; c=relaxed/simple;
+	bh=BD+HHCj0IeR9mxMcod1mm+SNq9ZKpnc+K+fwZEqUtBM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GoEcedRou25ci/VLJSKADbKB00+IhuNj1WMqHI50hE9gWBMx7OAQ5RGjolWr6OmazN2/NZPC/CIjkhiHkdQaktkRo/66Kv7+BVGudhxjyys3enbXBh4vvf8fqjB12vEyc7LK5LZt+dY6Mklr/kmGNvu63vBczaPjj8aCOhyyZ4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hu5AC4Ah; arc=none smtp.client-ip=209.85.208.178
+	 To:Cc:Content-Type; b=jcoSmytKRAvg4UAyzz0v0mFA4MziJaBouk66zJRFWMqZSd8oaNZ7iMa9n+iLGjc8HpETGR+hBU54trO/kz7QhJh5xdnlek16jyx2KZPV/mZ9nIEgOMBKfDLhVQ8o7F7+SIOrVGqP4BWA2ZjJT7AtKAM59E3tho4sRsCXGrEW+SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wgv5vznE; arc=none smtp.client-ip=209.85.208.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2e576057c06so64497141fa.0
-        for <linux-hams@vger.kernel.org>; Wed, 22 May 2024 10:55:35 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2e3fa13f018so67824881fa.3
+        for <linux-hams@vger.kernel.org>; Wed, 22 May 2024 11:05:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716400533; x=1717005333; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1716401113; x=1717005913; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tUbh9N0CgOzVQjoQWBGWyLsz54gKjYY/MoX2eZT8GrA=;
-        b=hu5AC4Ah/vAae0XGQ5cT8PVjQkba/7lhrTvPZPQDhjTD3nQhNly235K5fxg+p5NPgR
-         J39/4TG6+3XY4JPRUNdsdLuO++HUoknmEYD5AA7DWc9JgMgKw6sJlBAs0wjkrDMl2LIM
-         y4W8kmLFO6M8oiYoK5MUYd2jotPoPIQp4mLmaAMvaIJ+NjaNB3jaqvUBvTzzgVEG40qp
-         CA+EZGw/HgBy7tPyVkdfIlrN5JQz4M8dc/NiiMucDEp4c4F+H0Q8Mbz04G6UzhBFdap8
-         aMpnfTEXj5t4JXs3im96EteZqAocvjjfNHEqn9/+kk/1idG5Iy7kSWgZxHmKUZpVAIrW
-         lfUQ==
+        bh=Zar/IF6d64YuAb+CrBYX/TegFBx3C+zNvo08qrevafw=;
+        b=Wgv5vznEfqe8F6DG0RZMqXbdYhWWT5tqlzAvt8HYlr51y8PHPYe4J38Pk+VtGmVIKR
+         lCorXWqcWqu7JdnNci/wapYZiKPK+9QhyYQnjwBR9JSlYyoIIZj+/FORUhzDOnwXktzX
+         ukohOBp6XvDYAsdl/pby7yCHriRAlOkySaRbBjFwv6SWjuJujjuJEfB6ghIGlnoIWSkg
+         /fFkqvkmzNqFUyDuWJnbvxeSI/qAa/7lbjbGyZ0vOr/uWbmw6TmozZWVBtrHKtbLy1e6
+         XJx//b3MjhrEpmoRLe820fUV6cITtHk0BZcpCaGT8neudzTuovmSKrnSkdAzsFFvVYKu
+         0edQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716400533; x=1717005333;
+        d=1e100.net; s=20230601; t=1716401113; x=1717005913;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tUbh9N0CgOzVQjoQWBGWyLsz54gKjYY/MoX2eZT8GrA=;
-        b=urjNZjZop2f5AD4pNQ1mLuOM/Axc1YhbjNVtjuSb54hR+6DNEKeNb9KHRoNt6C4wzn
-         4eWbb+A8Kr+qa9nMuIIplhZPzo/ZynpFoinbPL/EzzPY1hYmFxGjZgP6SFPMlpFh0UXR
-         +Y2CzQuAfkpCnWHnQD0TFr2f2hsfbKDT+Gb82n03RHEZJMdxDCpVoIdkA16lP/iANfRV
-         nV/jEbwZKL6fZ7btUT8LewYQ1EXvtx9fWnY+thWJl5AR5AJA8abJshQc6HKX5+9n/34e
-         iN2mPc09ZMqiuJ7qMiRNJ2wDe2T+5/VjsgcfLlbx3CCft+lLbGNgi45FoHm2eDPfEUj1
-         7yAg==
-X-Forwarded-Encrypted: i=1; AJvYcCWX06+qeaIamPteYzmdfkCLkm8/nja+WdGLXzVpggNwu6EvbUbJgygfoPaYSPhcXmCIc7ZW445Mig1m2As2+Uh2DK25WWZeSOKD/w==
-X-Gm-Message-State: AOJu0YxBlpdFgkyGZERYKJRjqVz0DW0U1qJHRpsdjQOSE+FTqAMi/hGy
-	do13rALX0DAo0vmL6IYLiCGgujUQ1Ii+4STv5xc2/eoriQpzOQY8P8seS4uuFvbxWsbWsDc0zE0
-	zUMjmXSk0alAuuHJVPqz+tXHET0Y=
-X-Google-Smtp-Source: AGHT+IF00HX2aCBnKIvCktPUwbCQ+rkBdDpdt6QDsQxvZALxMvyTCp9pNo8nyE2LF3RzUWmEeOw8L3PJaJHGFSWdBsg=
-X-Received: by 2002:a2e:9245:0:b0:2dc:bd75:41ba with SMTP id
- 38308e7fff4ca-2e9494f48b6mr19834991fa.27.1716400533176; Wed, 22 May 2024
- 10:55:33 -0700 (PDT)
+        bh=Zar/IF6d64YuAb+CrBYX/TegFBx3C+zNvo08qrevafw=;
+        b=uONFSHpAjPAYLiW1qfagKrCpfvavB+KzkjKwKR1VeOLOTRqjx+Cxm0lkj43hNXR+X/
+         qnbPzMiL10kN2RKbeHJaRMKFFDYicThIlDJs8GqcDz04UQ9gycpVsq1dHEjbl20V8omY
+         zK98e6lz+mbXddlRqVkcuf9dFMNujcttK5Y7KSGP1L2yXbfnR6u3Q6ZHdyV3GZgkj7N0
+         7ZA+du87+tcLK1k1xrFQur7POBbSUbd93JaWd4Tt3L8irrhIdhVzoJq8Lqm/2eHs2rEK
+         jJ3c9VbXgAEP4HPTSKOiGi6N4+yntmptkuKbXZ9Ma8KT91MR6BGSRF4hrQq5SclZnzlE
+         QdBg==
+X-Forwarded-Encrypted: i=1; AJvYcCXI5ZHgmMd2klkOpfqJI53IXmwKXUVhJnIod68WHnQFkfH604RpV20zxDeXkcHGJ9FdD52d/6d+UosfMTJEgpT/6oUkkr1nBhPjUA==
+X-Gm-Message-State: AOJu0YwznKaNgK10zlx4MgNe0Bzyoz7cpJbI0OVU6k1TC9XpDE0fVuc9
+	qKHj7zUXC9SolwvOf1RnQ1DfVPo3mLk1LxURqFmCF8f+NTpyYbDvP2qqoT0P76cEpH/zakzKY6y
+	zgzWA/ovIpKBccLDoo13JErYcg7g=
+X-Google-Smtp-Source: AGHT+IHGii6VTc8GeK+1FGG7+nUL2nvzyVvldUdNm/uGSIfMoypp7yNCRGyKvw+LqEzKBqZLwAj6K4wlbM994uXY18M=
+X-Received: by 2002:a2e:3e0e:0:b0:2e6:b36e:434 with SMTP id
+ 38308e7fff4ca-2e9494f7861mr18190951fa.31.1716401112851; Wed, 22 May 2024
+ 11:05:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
@@ -78,83 +78,53 @@ References: <20240501060218.32898-1-duoming@zju.edu.cn> <my4l7ljo35dnwxl33maqhyv
  <CANnsUMEq5xZUFdZdmNd=wGz+RmjxGzGY_9eaqGcgCLxs55mr9w@mail.gmail.com>
  <r3hwkyx6os3eacimhqvrs4cv4ssqajpxp3zkiqqidu6pjkj2v6@slrtgnartz3f>
  <f27710b7-253c-79ce-e214-2b8251aceead@trinnet.net> <c3infeyajl4hr2tuyfmmccdv4gjbhsulaxuetozigqwqtj4jga@42eucxtsfk2y>
- <CAEoi9W5cmv-mQAsKPYTfjAytfp9Mvf3WgRQ9Ni=sznrU0v+NDQ@mail.gmail.com> <CANnsUMG42uECBVKFAPrwprakAGd=+KPE-WOAgS47nzKjWKawuw@mail.gmail.com>
-In-Reply-To: <CANnsUMG42uECBVKFAPrwprakAGd=+KPE-WOAgS47nzKjWKawuw@mail.gmail.com>
+ <CAEoi9W5cmv-mQAsKPYTfjAytfp9Mvf3WgRQ9Ni=sznrU0v+NDQ@mail.gmail.com>
+ <CANnsUMG42uECBVKFAPrwprakAGd=+KPE-WOAgS47nzKjWKawuw@mail.gmail.com> <aaf87a7e-af08-4544-8c33-0e71396909cf@trinnet.net>
+In-Reply-To: <aaf87a7e-af08-4544-8c33-0e71396909cf@trinnet.net>
 From: Dan Cross <crossd@gmail.com>
-Date: Wed, 22 May 2024 13:54:56 -0400
-Message-ID: <CAEoi9W5ZPy2n0WasmZN47w6r2Bs-C1+GCbQRUV8PF5MbA_zTqw@mail.gmail.com>
+Date: Wed, 22 May 2024 14:04:36 -0400
+Message-ID: <CAEoi9W5QOg-qq_rM=nO3e9xONR6zrvKaCKPSikgbauxBvCCH_Q@mail.gmail.com>
 Subject: Re: Kernel 6.9.1 AX.25 Crash
-To: Chris Maness <christopher.maness@gmail.com>
-Cc: Lars Kellogg-Stedman <lars@oddbit.com>, David Ranch <linux-hams@trinnet.net>, 
+To: David Ranch <linux-hams@trinnet.net>
+Cc: Chris Maness <christopher.maness@gmail.com>, Lars Kellogg-Stedman <lars@oddbit.com>, 
 	Duoming Zhou <duoming@zju.edu.cn>, linux-hams@vger.kernel.org, dan.carpenter@linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 22, 2024 at 12:07=E2=80=AFPM Chris Maness
-<christopher.maness@gmail.com> wrote:
-> > My personal belief is that the best way forward is to rip AX.25,
-> > NETROM, and Rose out of the kernel and go with a pure user-space
-> > implementation. I can't really think of any use cases that benefit
-> > from being in-kernel; use cases like IP-over-AX.25 could be handled
-> > using TUN/TAP, for example (and I think that's probably the most
-> > obvious one where kernel integration is useful). At the speeds we're
-> > talking about here, crossing the user<->kernel boundary isn't a
-> > significant performance hit.
+On Wed, May 22, 2024 at 1:06=E2=80=AFPM David Ranch <linux-hams@trinnet.net=
+> wrote:
+> > I think in doing this you will orphan a lot of important software that
+> > relies on the kernel space ax.25 stack.
 >
-> I think in doing this you will orphan a lot of important software that
-> relies on the kernel space ax.25 stack.  A prime example would be
-> LinFBB.  LinFBB requires either an ax0 or a hostmode TNC.
+> I agree with Dan's idea that moving the Linux AX.25 stack out from
+> kernel space could help on the maintenance side but it would absolutely
+> neuter things when it comes to all the rich packet routing options that
+> the kernel offers today.
 
-I'm not entirely sure why.  All of those programs that currently
-expect the kernel stack are userspace programs, and all of them
-interact with the stack via a set of interface functions that are
-provided in the C library; of course, those functions are implemented
-in terms of the kernel system call interface, but to a first order
-approximation, practically nothing talks to the kernel _directly_;
-they all use a(n albeit thin) shim interface. Thus, if a compatibility
-library were created that implemented those interfaces, and those
-programs arranged to link that library dynamically when they started
-up, they could continue to operate unchanged. Of course they would no
-longer be using the kernel stack, but they'd neither know (nor, I
-argue, care). This is the essence of "the `LD_PRELOAD` trick" I
-mentioned earlier.
+I wonder why, and in what way? It's not clear to me that the kernel
+has any particular advantage for routing AX.25/netrom/rose packets
+over a userspace program. What does it currently do that could not be
+duplicated, or would be exceptionally difficult to duplicate,
+elsewhere?
 
-> Hostmode
-> TNC's are getting to be really long in the tooth by this point.  There
-> would be no way to implement direwolf as a radio port in that case as
-> FBB does not do KISS.  You would also lose netrom capabilities of this
-> BBS.  I feel that FBB has the best BBS user experience, BPQ32 copied
-> it, but FBB is still better in my opinion.  It also has features that
-> BPQ32 does not have.  A possible workaround is to revive NORD><LINK's
-> THENETNODE project that went to mothballs in 2006.  I am not sure on
-> the licensing, but the source code is still available.  TFKISS can
-> then emulate a hostmode TNC while TNN provides NETROM, KISS, AX.25,
-> INP, and Flexnet.  I think if that code was brought up to date, it
-> would be a good candidate to replace the kernel space code.  I have
-> not been able to get anyone to take me up on this project.  I am not a
-> programmer, or I would work on it myself.
+Indeed, I would think that a packet router of some kind would be an
+essential feature.
+
+> One thing that could be considered is an alternative libax25 library
+> that could redirect ax25/netrom/rose packet I/O from going to the kernel
+> and instead, send that traffic to a userland program.  Maybe that could
+> be Direwolf or QtSoundmodem, etc.  I think this could work for most of
+> standard (more simplistic) packet radio use cases.  I've mentioned this
+> idea some time ago to both Thomas Osterried DL9SAU who is the maintainer
+> of the "Official" AX.25 userland tools as well as Lee Woldanski VE7FET
+> who maintains a fork of the AX.25 userland tools but there never has
+> been much interest.
 >
-> There are other softwares out there that there is no full replacement
-> for.  linpac would be another example.  I think the bottom line is a
-> massive drop in the interest in packet radio as a whole since yr.
-> 2000.  There is not the userbase of packet radio in its heyday, and we
-> have far passed the high water mark.  There is some pretty amazing
-> code out there that was just left to languish.  If you have ever had a
-> chance to play with WinFBB, you would know.  That is such a refined
-> BBS with its own built in email editor.  Pretty neat setup, but
-> development stopped in 2001.  Many of the important German
-> contributors don't even seem to be hams anymore.
+> Maybe someone here on this list might be interested in taking a stab at
+> it?  I don't have the programming chops to write the code but I could
+> absolutely help on many other aspects (integration, testing, etc) if need=
+ed.
 >
-> I vote leave it in (even if it is limping along) because this last
-> patch seems to put my system back into a usable state as far as LinFBB
-> and NETROM, if you rip it out, I am back to using ancient distros.
-> Slackware 14.1 (Kernel version 3) for a rock stable AX.25 setup.
->
-> Those are my $.02
-
-I think it's important to explain that existing software wouldn't a
-priori stop working; indeed, a central goal of the effort would be to
-maintain compatibility! This is easily doable these days.
-
-        - Dan C.
+> --David
+> KI6ZHD
 
