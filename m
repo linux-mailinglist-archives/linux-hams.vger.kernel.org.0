@@ -1,105 +1,172 @@
-Return-Path: <linux-hams+bounces-328-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-329-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49828CF686
-	for <lists+linux-hams@lfdr.de>; Mon, 27 May 2024 00:26:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B778CF6CF
+	for <lists+linux-hams@lfdr.de>; Mon, 27 May 2024 01:26:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 482F71F21691
-	for <lists+linux-hams@lfdr.de>; Sun, 26 May 2024 22:26:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7C411F21903
+	for <lists+linux-hams@lfdr.de>; Sun, 26 May 2024 23:26:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65FBC84D30;
-	Sun, 26 May 2024 22:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E79E413A26E;
+	Sun, 26 May 2024 23:26:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WRUOANMC"
+	dkim=pass (2048-bit key) header.d=elite.uk.com header.i=@elite.uk.com header.b="kxB4FHFe";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oJCZn5nL"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC61C15D
-	for <linux-hams@vger.kernel.org>; Sun, 26 May 2024 22:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533341854
+	for <linux-hams@vger.kernel.org>; Sun, 26 May 2024 23:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716762362; cv=none; b=k3qWQBTSenJMU5vx0I8U4/kDe5DE6nFer8ggmHtK/tSXHk+jpH08ul8icOYc5zha65znm2w2OAsrYV99GNm7RMnd4OJg0b4u+t/XFAn3O5PCJh6P41XMY8cS6VGHpiMYwl5DbOueRaXtlAbUxYmZ8P0Cp2h/I/mp0aP/1pdN3I8=
+	t=1716765969; cv=none; b=bgsME44/bcpzUdGUSqbbC7z1UVMIzx5FRga+qbREa6PMYY/kSPmcL9/Qp6E24Gv7B3xss7qYR8rmBUzk9Jhb0CYbhcF+Ck7BPn+NOdO6uhyVdqdXQYzi69QNi1xzMvGQG1UK98QvBR8FJ07dO/VJoQKEQwHV4Fb4OhAB9wamI20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716762362; c=relaxed/simple;
-	bh=AXqEi9vXDD2UoQJ6E/IAG79y1r/YGcXEx7KBTKnE19o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=Z1CmlQzEiQVxpKWN39AM2zvCKy5FqOxJGFTnuEpuAZrDPEEIFwzFPM6r9pmBw3C5FWXo+L+hhkZJNUJNIbTGSn2PnbbQaidgr2UAz21KxgfbmnC5cA7vvkZGFEBvH0TzuxuTaX131jIG9kz7TLRaTqitLs6jHe4Iszz3CfccEwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WRUOANMC; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-62a080a171dso25639487b3.0
-        for <linux-hams@vger.kernel.org>; Sun, 26 May 2024 15:26:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716762360; x=1717367160; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GrNl4oj9qM9/RxC8JOjB/2TgfyD41JaivqcXM79oY+s=;
-        b=WRUOANMCqKFak6llwrH+GWYk7FaWzHJN9brjobRRuXLzqHWwzYCWCh0pjWVrbcwGQt
-         baB1h6LOl4zyyG+WLa2siZGfCMzETBpgED5GgtOlF7gam0LbSkW7T0jfsSW957tP9xdf
-         kDfQPZVZ5Fs0ZXUpU6mQgbieyrTDYIvw5VQVIRIZ8dF/YHMnKkdi06KeDEosO3TVpU8c
-         9G9uqXQLio4NB2Cn4fiTjRiKKc0uyW5JQ4eYHHJMqBpECzS/9ILeCvV75dZpbCs1JzwY
-         15uIfgW0NLAbgzlcR0Nv+its+cG89dFg74qQnPec/fmXYQRTQzpTnk3fObXERrhiMl+r
-         qcdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716762360; x=1717367160;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GrNl4oj9qM9/RxC8JOjB/2TgfyD41JaivqcXM79oY+s=;
-        b=VY9bmfIwJagKV9fmrQwVZQam+9qE/F5GW4qFU47aPVPK1kT4C4SoT1i7uZQWz2qf0x
-         vz11aJFIoq9FJTa52JKcTB7FjhuA7ZgWIgzBHcQxFFljFMw4q7JDiLEm1plLRPmVsYyq
-         rsuIlCUWRYeM9iFGBER65j8GvnGLtz3GdZYPCRqrrzRQCxCAt9p0PVxTpwd1nBl2zT+B
-         Wp2vWmpOwsIb72mHdayYroT5zIGvMHy9kqhB+E4DDOfrOA5//QNMBOLH+tdhBX1RNb3Q
-         E2MnLqvQWUZBarEuP4HvhKjJ14GrwWWC7zi5yDPWRI+KywMDN5WMeyohDl2taLs8scyY
-         5uew==
-X-Forwarded-Encrypted: i=1; AJvYcCVtVyTRwPYaJfQjcYFg1VrJ7w4vogXRjBfwJ0GbnumAEoCPUoaPjPMhLgdTf/vxq/lb1SjC89LZyY6AXNgWhieKuYuOGgFDp9Ls1g==
-X-Gm-Message-State: AOJu0YyNrVWsii5iZRMtrUBJe7DTv2xAzxozu297Eeoivgyv8PRKW/7Z
-	81GxM9N6jNwSAs2Kyw6B7/IsarAam4NlaPj4Y5m7YBc3tq5VQtSZPhi50oceKx8979GLY8uykFh
-	wVNqMxSjcBWp9UvOpZxGRvxddOGQ=
-X-Google-Smtp-Source: AGHT+IFeHIxhOt4/i8UaPYa+C+Y+PpUvdBThWb5u740REpH+fT6DYzpKTRmQVu+cE/9mjz+hnOtfU6ussA3PXWcvN5M=
-X-Received: by 2002:a25:abaf:0:b0:df4:4345:260b with SMTP id
- 3f1490d57ef6-df7721f6a2amr7877469276.36.1716762359747; Sun, 26 May 2024
- 15:25:59 -0700 (PDT)
+	s=arc-20240116; t=1716765969; c=relaxed/simple;
+	bh=Vn59AHEfFEhov8YarIBIwiYt52Wr5qKG0UICa5LDgnY=;
+	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:To; b=u4+N83chK/kKqDIZ4GpwInWQByrRyPhrWzybrub3DQSNivYsaNB4AL+HWbDcRsesOJR511Q15HtubUCbhEKu1FCwEVlGe4uLtBFOAIXXJtadyVzPCwcPgN3AAJ83i2a3aRt7iJuGGHSxR0sHzrXoLmuMnYNqKfyWfK2ILWDdvS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=elite.uk.com; spf=pass smtp.mailfrom=elite.uk.com; dkim=pass (2048-bit key) header.d=elite.uk.com header.i=@elite.uk.com header.b=kxB4FHFe; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oJCZn5nL; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=elite.uk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=elite.uk.com
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 5255A1380792
+	for <linux-hams@vger.kernel.org>; Sun, 26 May 2024 19:26:06 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Sun, 26 May 2024 19:26:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=elite.uk.com; h=
+	cc:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm2; t=1716765966; x=1716852366; bh=umL+i8VrWB
+	CC1PB/oqri357DM+lzu5BjSlJzYVjX/W4=; b=kxB4FHFe0eESP4dFMx/fv7xGvX
+	+j+85riF5crkNu3yvnj5uzH51X808MMQ4F12nY2c0577hQpGIQenvdhEK3TS0loK
+	mJPNqiDgDk4yB20ZGb33N2t3L/S1l+KW7TcHQrQ8E/NFExokkdWNmD4TPWZp4QC3
+	gMVRzKTU50YYAiDmbax38rp56rIVyXFdocYGTAod+sFdjfqBXqiPSCLlc6qZzD22
+	ygtJ+UtbZ5nGoMQJW3zPHuXnsERqXSwQQkywmSQRlGbXROS8mGnNWbGoobFD9KN5
+	YxP+JIbYZA+SZTn4xhMcXTDqRTWgxKiVNEmR0mYdkiR31/SjTWXnihaswzfQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1716765966; x=1716852366; bh=umL+i8VrWBCC1PB/oqri357DM+lz
+	u5BjSlJzYVjX/W4=; b=oJCZn5nL8JEcYP7D9FUGEqpDhyEjD5EM6HZ4cmo+88Nx
+	GjYqSmPwQoMludQtWabSL2WfwaQj+XrDK9iNRkVS/vbjfMpmfCTDtiGl7Zz0GG+V
+	PWH1apmwkj00N7vKBitDeTKLs8EKC2QkcP+8RTC+C5HgUSSdcxzTUgrsu5oldsIr
+	awvJOs9gT4aCjwBpjCGc2IC465n8JIIU9x6JJYMVpBXSuf+f+aox7gH/PnqpJHAW
+	KaRzWfp3omlGa3RrhO1VubRSclUhtqxVw/aRSdYmOMpLtqbqurDXwr2jBtrdJ6Qh
+	I3xBdW7eife3vZtqxHFpg7mVbgsX1Mel94g27RpvUg==
+X-ME-Sender: <xms:DsVTZh5WChr0k-eQJPRrg2VDDPb1jwr509GJSQ_dCwnWeakgaCKTwA>
+    <xme:DsVTZu66Yw-m0gsgYy8s5rRojxpfBYq1U-c2wypgVqWiRgYsfRjdTlPC-kK6pKeh8
+    UBlLnnwzPpCVrFqJPg>
+X-ME-Received: <xmr:DsVTZofDMNbZieycl6ax_nKZLhV8Auy0SM7z44teHrXjK0rL1_t21h5U6_MLbt8DH5JioYnUg9wIE4gnV0wqiZPJyd0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejfedgvddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhtgfgggfukfffvffosehtqhhmtd
+    hhtdejnecuhfhrohhmpefoihhkvgcusfhuihhnuceomhhikhgvsegvlhhithgvrdhukhdr
+    tghomheqnecuggftrfgrthhtvghrnheptddtjeegveevgfdvkedutdejfeeukeduheeuke
+    fgueegfeeltdekgffhheeuueehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+    pehmrghilhhfrhhomhepmhhikhgvsegvlhhithgvrdhukhdrtghomh
+X-ME-Proxy: <xmx:DsVTZqL2xZlTesmJ3AqQC0O6BRJjXDlYaGU0FJGf87pXIrBYgOjk5w>
+    <xmx:DsVTZlJTe2qReAjt1zIqY-fetoVgb3f4mT8TdyfR_Uy6gbhrX9Ll0g>
+    <xmx:DsVTZjzC3I_6lohcLXd3qlYt1TkXStpYJdsnQcY-Cah5oAakhPmJdg>
+    <xmx:DsVTZhItbiHbGOhezIRy468JvyDoMIVFeDPjLK2kegVMtwys8L4tuQ>
+    <xmx:DsVTZjh0dCXS2EDSUKYwHeWKMG_OF4g0WwXL1vuYQcB-xdFxPKvLb7qc>
+Feedback-ID: i55a1499f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA for
+ <linux-hams@vger.kernel.org>; Sun, 26 May 2024 19:26:05 -0400 (EDT)
+From: Mike Quin <mike@elite.uk.com>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <CANnsUMGJvG6Cs57_ar-iixCpyRKq_ScMZFNaq-SpdHX53ou6fQ@mail.gmail.com>
-In-Reply-To: <CANnsUMGJvG6Cs57_ar-iixCpyRKq_ScMZFNaq-SpdHX53ou6fQ@mail.gmail.com>
-From: Chris Maness <christopher.maness@gmail.com>
-Date: Sun, 26 May 2024 15:25:48 -0700
-Message-ID: <CANnsUMFWHd1kvbDubMnX4aS9La=0EpiCzee7NDNqkCMUwLXPaw@mail.gmail.com>
-Subject: Mainline Kernel Question
-To: David Ranch <linux-hams@trinnet.net>, linux-hams@vger.kernel.org, 
-	dan.carpenter@linaro.org, Duoming Zhou <duoming@zju.edu.cn>, 
-	Lars Kellogg-Stedman <lars@oddbit.com>, Dan Cross <crossd@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
+Subject: netrom and kiss port paclen
+Message-Id: <F0BD1D3A-5AD1-4CF4-AE71-EBEFE8BE82D7@elite.uk.com>
+Date: Mon, 27 May 2024 00:25:53 +0100
+To: linux-hams@vger.kernel.org
+X-Mailer: Apple Mail (2.3774.600.62)
 
-I am looking at the [view diff] in the mainline kernel, and I think I
-see the AX.25 patches that were going back and forth a couple of days
-ago (a good thing).  I imagine that I will have to wait for another
-stable fork (say 6.10.1) before I can expect to find this code in
-Slackware-current.   Slackware current is following the most recent
-stable fork of the mainline tree.  Does this sound correct?
+I=E2=80=99ve been doing some work on a system that acts as a router for =
+netrom traffic between two KISS ports.
 
-Now, when I see this new code can I simply update the net directory in
-say 5.15.145 or whatever is running at the time in Slackware15 and
-recompile?  Also, what can I/WE do to have all the deltas from the
-mainline (as far as the AX.25 stuff) backported to longterm branches?
-That way these updates will eventually trickle down into other
-distros.  Slackware-current works pretty well, but I am having some
-small problems with some softwares running bleeding edge Slackware
-(which is an oxymoron for Slackware :D ).  Therefore, I would prefer
-to use the longterm branch on Slack-15 where everything is working
-nicely.  The only bug so far is that if a connection is crashed out
-of, the socket stays busy for that callsign.  I can still connect, but
-I have to use a new call. I am going to send a separate email to this
-group on the subject.
+It works as expected provided the paclen on both ports is set to the =
+maximum value of 256.=20
 
--Chris KQ6UP
+If the paclen on one port is reduced, netrom packets arriving on the =
+other port that are larger than paclen-20 aren=E2=80=99t passed through =
+and a large number of
+
+kernel: mkiss: ax0: truncating oversized transmit packet!=20
+
+messages are logged.
+
+ax25_output() contains code to fragment packets that are larger than =
+paclen, but nr_route_frame() always calls ax25_send_frame() with paclen =
+set to 256.
+
+Setting paclen to to 0 in nr_route_frame() activates code in ax25_cb() =
+to set paclen to the contents of ax25_dev->values[AX25_VALUES_PACLEN], =
+which is initialised via AX25_DEF_PACLEN to 256, and as far as I can =
+figure out never changes.=20
+
+With a rough change to set paclen to the device MTU value in ax25_cb, =
+large netrom packets get fragmented down to the output device paclen =
+size.=20
+
+Another developer I discussed this with suggested that the current =
+arrangement may have been arrived at to avoid using fragmentation as it =
+wasn=E2=80=99t well understood by other net/rom systems.
+
+Patch for illustration, I don=E2=80=99t think this will be the best way =
+to solve this.
+
+
+diff --git a/net/ax25/ax25_out.c b/net/ax25/ax25_out.c
+index 3db76d247..36e0b0f44 100644
+--- a/net/ax25/ax25_out.c
++++ b/net/ax25/ax25_out.c
+@@ -42,7 +42,13 @@ ax25_cb *ax25_send_frame(struct sk_buff *skb, int =
+paclen, const ax25_address *sr
+                if ((ax25_dev =3D ax25_dev_ax25dev(dev)) =3D=3D NULL)
+                        return NULL;
+
+-               paclen =3D ax25_dev->values[AX25_VALUES_PACLEN];
++                if (ax25_dev->dev->mtu < =
+ax25_dev->values[AX25_VALUES_PACLEN]) {
++                       paclen =3D ax25_dev->dev->mtu;
++                       printk(KERN_WARNING "AX.25 mtu %d < dev paclen =
+%d, using mtu as paclen\n",
++                               ax25_dev->dev->mtu, =
+ax25_dev->values[AX25_VALUES_PACLEN]);
++               } else {
++                       paclen =3D ax25_dev->values[AX25_VALUES_PACLEN];
++               }
+        }
+
+        /*
+diff --git a/net/netrom/nr_route.c b/net/netrom/nr_route.c
+index 70480869a..895c2c663 100644
+--- a/net/netrom/nr_route.c
++++ b/net/netrom/nr_route.c
+@@ -824,7 +824,7 @@ int nr_route_frame(struct sk_buff *skb, ax25_cb =
+*ax25)
+        *dptr =3D AX25_P_NETROM;
+
+        ax25s =3D nr_neigh->ax25;
+-       nr_neigh->ax25 =3D ax25_send_frame(skb, 256,
++       nr_neigh->ax25 =3D ax25_send_frame(skb, 0,
+                                         (const ax25_address =
+*)dev->dev_addr,
+                                         &nr_neigh->callsign,
+                                         nr_neigh->digipeat, =
+nr_neigh->dev);
+
+
 
