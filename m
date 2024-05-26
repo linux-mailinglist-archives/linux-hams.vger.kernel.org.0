@@ -1,140 +1,105 @@
-Return-Path: <linux-hams+bounces-327-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-328-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75AE8CF47C
-	for <lists+linux-hams@lfdr.de>; Sun, 26 May 2024 16:13:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B49828CF686
+	for <lists+linux-hams@lfdr.de>; Mon, 27 May 2024 00:26:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 82C2B281366
-	for <lists+linux-hams@lfdr.de>; Sun, 26 May 2024 14:13:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 482F71F21691
+	for <lists+linux-hams@lfdr.de>; Sun, 26 May 2024 22:26:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E30D515E97;
-	Sun, 26 May 2024 14:13:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65FBC84D30;
+	Sun, 26 May 2024 22:26:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2gM/X6L"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WRUOANMC"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5156FDDCB
-	for <linux-hams@vger.kernel.org>; Sun, 26 May 2024 14:13:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC61C15D
+	for <linux-hams@vger.kernel.org>; Sun, 26 May 2024 22:26:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716732790; cv=none; b=kM6YJ9JgmMXLxaua9yIQrEMZNbYjpvPvCtIwOuvi55YVNjc0IWAx3TVSbCWejvMXHBcOMPl+smh9EmFnvPNmI1hxIYon86/4APewu07J0WfN1UzUNu4ln7tmaC5rwUuDZ/EIJi+VB0wqRoKRINuLvjdEYquP+SUF7qTgUrVL6RU=
+	t=1716762362; cv=none; b=k3qWQBTSenJMU5vx0I8U4/kDe5DE6nFer8ggmHtK/tSXHk+jpH08ul8icOYc5zha65znm2w2OAsrYV99GNm7RMnd4OJg0b4u+t/XFAn3O5PCJh6P41XMY8cS6VGHpiMYwl5DbOueRaXtlAbUxYmZ8P0Cp2h/I/mp0aP/1pdN3I8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716732790; c=relaxed/simple;
-	bh=PODYDsH2NXER0Q4hZ3ZFoJVUUcVj60xaK41NYs+GxYM=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=m2RYHCubvfreHCAFEcCNf/A4oA739pzpVyWPyiDkahefg4JxSuqmR2AcrVWWgAmOWM5XHutJft7gXZoP3d46wA8vqIZLXbfG+49T1FEkT/aKUJPi4x4FJ2B/6RzWDLzUCk/UsgjWhSPjtdrEx0AKI1zfB1upF2z9VIAySkOfUOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2gM/X6L; arc=none smtp.client-ip=209.85.219.170
+	s=arc-20240116; t=1716762362; c=relaxed/simple;
+	bh=AXqEi9vXDD2UoQJ6E/IAG79y1r/YGcXEx7KBTKnE19o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=Z1CmlQzEiQVxpKWN39AM2zvCKy5FqOxJGFTnuEpuAZrDPEEIFwzFPM6r9pmBw3C5FWXo+L+hhkZJNUJNIbTGSn2PnbbQaidgr2UAz21KxgfbmnC5cA7vvkZGFEBvH0TzuxuTaX131jIG9kz7TLRaTqitLs6jHe4Iszz3CfccEwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WRUOANMC; arc=none smtp.client-ip=209.85.128.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-df4eb08fd9eso4396717276.2
-        for <linux-hams@vger.kernel.org>; Sun, 26 May 2024 07:13:09 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-62a080a171dso25639487b3.0
+        for <linux-hams@vger.kernel.org>; Sun, 26 May 2024 15:26:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716732788; x=1717337588; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=AxXjWUwAQvANStsNyghXv4Sh4gsHriyeBoX+9KNiuuw=;
-        b=H2gM/X6LlSRungiXTafu6pOVjyNDapo5QqbfaTD5EjV47dSqMwnazNWz92GNInx4Jd
-         XHUfVZggC75B8+yIp8IY/QIYk+KqUFV6waRjFzflqFoWoSBIMBnAePJzokaWxQbpx2QS
-         bF1t96nUk7qeo1epemVpK3oNYWkjsmHMcClWiNQYGM2Qzwh5KikZBbLSOaMmuphnjkby
-         93xGHSWhWt6uXVG6sNJyyLDGC/2w2fRU5h1rnxcNRu7YR7+ZONlhiL00AGwCPuHiwgF4
-         yLo0nJUbEm5iJcEwvlDCv1Nvrce/Li1Acd9K+4wRQEgNaJge65TZ0PqLs3PyBLMkHG23
-         HoZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716732788; x=1717337588;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+        d=gmail.com; s=20230601; t=1716762360; x=1717367160; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=AxXjWUwAQvANStsNyghXv4Sh4gsHriyeBoX+9KNiuuw=;
-        b=FiydTodxh4ttf5XD1Tuu+dWMZh/Xfzvw4LRbjR5mQLrJES70O3yB0n55VaNQBL1xWi
-         cNLNKls+Xh1g/J/KDg5SCr5hxIBhwFQ6sGRjPBT+L9gfSis0XqHy8a+XrnT99BuYJUsM
-         bnJCTPnaXayoOvbi9iAAZFhVzEDxfpqJaLxB9sbQRhl8+iQ03xHgOA5Aif+7ixH22a+S
-         oC1msjjNcIWnyeMos7htdmm8OOyuYjQGVo2ATP3IBWbcI/yJauKd5KsuBKb82U8dyitJ
-         EM/HcTaKm2+UPEAQ/FpeyUy351PQiktIBA+7RIXfcemteNDFeX0JOK8VVx/0J5Rx+EeG
-         eO9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUMrpSWyhc0A1wVyv6LDntHV2MP4rc69hno1IwJRRErz6DKPGB2LQB74qiZQKm6NNPQNBlcUat2lNQJcmsYx22kUM0LYD6Hi/ZuXw==
-X-Gm-Message-State: AOJu0YyrDZqx3jh/Df07EJW+TPL6YyDP7MBdb7nEL3BPM+wiutbGTDjY
-	ePLbJQHMmO6WUgyG13QeQfDnqINodslaS4+gDI2aorKn3opw+4bm6s+MaSvrY+zKLQI7Ih4kkM+
-	BBLJGNbYASaULZ8CgtwOg7NLJPoU=
-X-Google-Smtp-Source: AGHT+IF7E2lhKth6jJ44jsp5d16UH2Yct1btLsC3N9phDvMj2RzD1XEyTyFn9oEBpBrrxxf5TpG5Ns8GUCWhgbh6IQc=
-X-Received: by 2002:a25:2f52:0:b0:df4:4571:d5ee with SMTP id
- 3f1490d57ef6-df772201798mr6198565276.56.1716732788117; Sun, 26 May 2024
- 07:13:08 -0700 (PDT)
+        bh=GrNl4oj9qM9/RxC8JOjB/2TgfyD41JaivqcXM79oY+s=;
+        b=WRUOANMCqKFak6llwrH+GWYk7FaWzHJN9brjobRRuXLzqHWwzYCWCh0pjWVrbcwGQt
+         baB1h6LOl4zyyG+WLa2siZGfCMzETBpgED5GgtOlF7gam0LbSkW7T0jfsSW957tP9xdf
+         kDfQPZVZ5Fs0ZXUpU6mQgbieyrTDYIvw5VQVIRIZ8dF/YHMnKkdi06KeDEosO3TVpU8c
+         9G9uqXQLio4NB2Cn4fiTjRiKKc0uyW5JQ4eYHHJMqBpECzS/9ILeCvV75dZpbCs1JzwY
+         15uIfgW0NLAbgzlcR0Nv+its+cG89dFg74qQnPec/fmXYQRTQzpTnk3fObXERrhiMl+r
+         qcdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716762360; x=1717367160;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GrNl4oj9qM9/RxC8JOjB/2TgfyD41JaivqcXM79oY+s=;
+        b=VY9bmfIwJagKV9fmrQwVZQam+9qE/F5GW4qFU47aPVPK1kT4C4SoT1i7uZQWz2qf0x
+         vz11aJFIoq9FJTa52JKcTB7FjhuA7ZgWIgzBHcQxFFljFMw4q7JDiLEm1plLRPmVsYyq
+         rsuIlCUWRYeM9iFGBER65j8GvnGLtz3GdZYPCRqrrzRQCxCAt9p0PVxTpwd1nBl2zT+B
+         Wp2vWmpOwsIb72mHdayYroT5zIGvMHy9kqhB+E4DDOfrOA5//QNMBOLH+tdhBX1RNb3Q
+         E2MnLqvQWUZBarEuP4HvhKjJ14GrwWWC7zi5yDPWRI+KywMDN5WMeyohDl2taLs8scyY
+         5uew==
+X-Forwarded-Encrypted: i=1; AJvYcCVtVyTRwPYaJfQjcYFg1VrJ7w4vogXRjBfwJ0GbnumAEoCPUoaPjPMhLgdTf/vxq/lb1SjC89LZyY6AXNgWhieKuYuOGgFDp9Ls1g==
+X-Gm-Message-State: AOJu0YyNrVWsii5iZRMtrUBJe7DTv2xAzxozu297Eeoivgyv8PRKW/7Z
+	81GxM9N6jNwSAs2Kyw6B7/IsarAam4NlaPj4Y5m7YBc3tq5VQtSZPhi50oceKx8979GLY8uykFh
+	wVNqMxSjcBWp9UvOpZxGRvxddOGQ=
+X-Google-Smtp-Source: AGHT+IFeHIxhOt4/i8UaPYa+C+Y+PpUvdBThWb5u740REpH+fT6DYzpKTRmQVu+cE/9mjz+hnOtfU6ussA3PXWcvN5M=
+X-Received: by 2002:a25:abaf:0:b0:df4:4345:260b with SMTP id
+ 3f1490d57ef6-df7721f6a2amr7877469276.36.1716762359747; Sun, 26 May 2024
+ 15:25:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <CANnsUMGJvG6Cs57_ar-iixCpyRKq_ScMZFNaq-SpdHX53ou6fQ@mail.gmail.com>
+In-Reply-To: <CANnsUMGJvG6Cs57_ar-iixCpyRKq_ScMZFNaq-SpdHX53ou6fQ@mail.gmail.com>
 From: Chris Maness <christopher.maness@gmail.com>
-Date: Sun, 26 May 2024 07:12:57 -0700
-Message-ID: <CANnsUMGJvG6Cs57_ar-iixCpyRKq_ScMZFNaq-SpdHX53ou6fQ@mail.gmail.com>
-Subject: Surprise, Surprise! Updated kernel on Slack15 works (5.15.145)
+Date: Sun, 26 May 2024 15:25:48 -0700
+Message-ID: <CANnsUMFWHd1kvbDubMnX4aS9La=0EpiCzee7NDNqkCMUwLXPaw@mail.gmail.com>
+Subject: Mainline Kernel Question
 To: David Ranch <linux-hams@trinnet.net>, linux-hams@vger.kernel.org, 
 	dan.carpenter@linaro.org, Duoming Zhou <duoming@zju.edu.cn>, 
 	Lars Kellogg-Stedman <lars@oddbit.com>, Dan Cross <crossd@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 
-5.15.145 in current security updated slack 15 (just updated no
-patches) works with incoming and outgoing connections.  Coming up on
-24hrs with LinFBB taking an evening's worth of bulletins being
-delivered over AX.25.  I can also simply shut it down with no issues.
-I think using LinFBB is a good way to test, if you have another BBS to
-forward Bulletins.  I am not sure if all the folks here working on the
-kernel are hams tho.  You can still set up a BBS so long as it is not
-forwarding over a radio I don't see an issue.  Also, if anyone that is
-working on the kernel needs help with setting up a test scenario, I
-would be happy to help setup something that will test it rigorously.
-LinFBB can be configured into a file server to request files sent over
-compressed as 7plus binaries.  Those
-would all go through the stack.
+I am looking at the [view diff] in the mainline kernel, and I think I
+see the AX.25 patches that were going back and forth a couple of days
+ago (a good thing).  I imagine that I will have to wait for another
+stable fork (say 6.10.1) before I can expect to find this code in
+Slackware-current.   Slackware current is following the most recent
+stable fork of the mainline tree.  Does this sound correct?
 
-This has to run a week to REALLY tell if it is stable.  I have had
-some systems that would
-run for a few days then hang.  But I am at nearly 24 hours and that is
-a good sign because the last 5.15.145 would crash after a couple of
-minutes.
+Now, when I see this new code can I simply update the net directory in
+say 5.15.145 or whatever is running at the time in Slackware15 and
+recompile?  Also, what can I/WE do to have all the deltas from the
+mainline (as far as the AX.25 stuff) backported to longterm branches?
+That way these updates will eventually trickle down into other
+distros.  Slackware-current works pretty well, but I am having some
+small problems with some softwares running bleeding edge Slackware
+(which is an oxymoron for Slackware :D ).  Therefore, I would prefer
+to use the longterm branch on Slack-15 where everything is working
+nicely.  The only bug so far is that if a connection is crashed out
+of, the socket stays busy for that callsign.  I can still connect, but
+I have to use a new call. I am going to send a separate email to this
+group on the subject.
 
-Here is my startup:
-
-
-#!/bin/sh
-#
-/usr/local/sbin/kissattach /dev/ttyS0 vhf
-#
-/usr/local/sbin/kissparms -p vhf -c 1 -t 250 -s 100 -r 63 -f n
-#
-/usr/local/sbin/ax25ipd
-#
-sleep 3
-#
-/usr/local/sbin/kissattach /dev/ttyq0 axudp
-#
-sleep 3
-#
-/sbin/modprobe netrom
-#
-sleep 3
-#
-/usr/local/sbin/nrattach netrom
-#
-/usr/local/sbin/nrattach netbbs
-#
-sleep 3
-#
-/usr/local/sbin/netromd -i -t 15
-#
-sleep 3
-#
-/usr/local/sbin/ax25d
-#
-/usr/local/sbin/fbb
-
--KQ6UP
-
--- 
-Thanks,
-Chris Maness
+-Chris KQ6UP
 
