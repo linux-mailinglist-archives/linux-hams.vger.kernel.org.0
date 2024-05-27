@@ -1,128 +1,218 @@
-Return-Path: <linux-hams+bounces-335-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-336-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DD48D0246
-	for <lists+linux-hams@lfdr.de>; Mon, 27 May 2024 15:58:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8958D09AA
+	for <lists+linux-hams@lfdr.de>; Mon, 27 May 2024 20:00:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 844C91C214EF
-	for <lists+linux-hams@lfdr.de>; Mon, 27 May 2024 13:58:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5963A1F2239F
+	for <lists+linux-hams@lfdr.de>; Mon, 27 May 2024 18:00:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37F2C15EFA7;
-	Mon, 27 May 2024 13:58:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9805E15A84A;
+	Mon, 27 May 2024 18:00:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="KTUzP/4J"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D/G7oaUm"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866001640B
-	for <linux-hams@vger.kernel.org>; Mon, 27 May 2024 13:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F9415EFC5
+	for <linux-hams@vger.kernel.org>; Mon, 27 May 2024 18:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716818283; cv=none; b=YBgwe9be6nKCQbrkoXS9wRr5tGD5k+MpXSvUf+8X3oZkLhCJ1uRKdzbk5R0s88wxjPnGOysBu4A84KrsjMI1EDVBJ0eW/RUehrRO6Bwzr1mCoxILLaCMzSa3XnLhxdMvjt8yJjmpcq5ZXkCmyLB1uLmS1lyRg1Vm0lqNPOxdVkQ=
+	t=1716832806; cv=none; b=SWlOvrU/HT49gUD1IYi4xnEqvYp8WzyltKEwZUgIBbUCwXGRkYWPe4B6vpRDTaf1enwkieP+SdDKgqAujqRokFkUeR2BQPgIY0OEN8ahqoBc6i4DEq1ldRjh0RKfsy4E5Vejv6cRFOBfRCEOhUY4yLuiEthgWy5bRn++mMG8QV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716818283; c=relaxed/simple;
-	bh=ls5FQ0pMMMNynB6gGOstfj3kn9x4lqCFeM2nDGaAk7g=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:
-	 Subject:Content-Type; b=MF79vdB/+i3WnOMc3du5go3F5rJBLdxWez+ghrSq/zKTWwQ1gjsebkLYrwTEKM6VLR3TNxDPpFSelEAqHNhS//67Y3AO72NHcYOh7trVqBAPrT9sGfYSv/ZCaaS306F1je6E8c/8W+leMNVaRqY1eePb4UZ6RTDunHpSDPLQpuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=KTUzP/4J; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Content-Transfer-Encoding:Content-Type
-	:Subject:To:From:Date:References:In-Reply-To:Message-Id:MIME-Version:Reply-To
-	:Cc:Content-ID:Content-Description;
-	bh=qKIWk7E0UCo+BdBQlRVvwAryvd0SEMQRW6GeEIfPJq8=; b=KTUzP/4JXSnddYc+1buT1ZPFvn
-	frF7NFNdob0uY63pyKAIL8z1cktWsmRgq+qf39Zrji3Te5ewKLbP9MkIqtHClMJrxww3VUuDBHu0d
-	THxTXAXdzu8DOs6do8oqILiLrZlVgDU0P1VJ+dgC2RT6rLtrn2+rnIRei3l/WUjmiwKUWc1VArsxD
-	2qjwTGPY8qGB2p6PgnvAZfvEFxbdexYzqzLE+027pF4svrm7VtgPSElUdXE04++NHn0NnukGryba9
-	4OVDPreoFOFQRCH8vMzIXLzqCls714nE6aXZACakxF9FtE9Xxtxf0rx0e/cZbcprevVTXNFCsJ7qI
-	ocZzUR5g==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <hibby@debian.org>)
-	id 1sBarJ-000bPW-1b
-	for linux-hams@vger.kernel.org; Mon, 27 May 2024 13:57:53 +0000
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailfauth.nyi.internal (Postfix) with ESMTP id 04BF31200066
-	for <linux-hams@vger.kernel.org>; Mon, 27 May 2024 09:57:50 -0400 (EDT)
-Received: from imap53 ([10.202.2.103])
-  by compute1.internal (MEProxy); Mon, 27 May 2024 09:57:51 -0400
-X-ME-Sender: <xms:XpFUZsB_KSnYWhF0p-d7GPng6vLgDxnP4NRan6UCqoEA4PG94rFf4Q>
-    <xme:XpFUZugAaFxfDSyUxf4CkCtzO72PpkBxD2cCeqNbdAKYYX-kayTimWosEUOuaFXGN
-    cVFsdIFXbDYwIdcRw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejgedgieelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucgoufhushhpvggtthffohhmrghinhculdegledmne
-    cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedfffgr
-    vhgvucfjihgssggvrhgufdcuoehhihgssgihseguvggsihgrnhdrohhrgheqnecuggftrf
-    grthhtvghrnhepfefflefgudfftdehkeefffeuieejffffhfeuteffjefhgedvffevfeek
-    tddvgeevnecuffhomhgrihhnpehgihhthhhusgdrihhonecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepugdomhgvshhmthhprghuthhhphgvrhhs
-    ohhnrghlihhthidqudeghedtudehvdejvddqudeifeefleefkeehqdhhihgssgihpeepug
-    gvsghirghnrdhorhhgsehvvghhihgssggvrhgurdgtohhm
-X-ME-Proxy: <xmx:XpFUZvkqWcaQofb2p6Hb1qz356GhrJcf3y-Fi0sSTqpwnDHTzGgDfw>
-    <xmx:XpFUZixuAmGKdXzLtY4ChtmciraxYzRFGG2RI-SIUFYEbMzzStxoKA>
-    <xmx:XpFUZhQ12HG2LO6A_KIxGS6CLEGIDVlvmJHrITdm3WXgdp2zyzAPmA>
-    <xmx:XpFUZtYtFYBl4M2ax-XBwd9mXVbQ8vwNZPSEzi7PX7_V6nCSA8PilA>
-    <xmx:XpFUZqRZGNjXsTmdhGAgeAvRjUaQxCRJ-yorYiXJ3euDgG2XUKhExcqt>
-Feedback-ID: if431490a:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id B444B364006F; Mon, 27 May 2024 09:57:50 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-491-g033e30d24-fm-20240520.001-g033e30d2
+	s=arc-20240116; t=1716832806; c=relaxed/simple;
+	bh=1n3d0qmPPWh/VcErjQlacpXA2ftPv3OmP5xra0QpO80=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BOIll+9UmoHbDY5rhmmunrB7an6q3BihBaBKjl8PdfsSYgDFs0MITRfK7c3B6tIKUIAYWSIVYJAPrgTzOVbtMfj1O98YN8kqfzdHdS8MYWw6qRss2lKuswHBYP3e5ohRbrhQ867Fzc/jGNQgzR3Vr7Q3AaM47k3qVWxr5OACjm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D/G7oaUm; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-62a0849f5a8so35088197b3.2
+        for <linux-hams@vger.kernel.org>; Mon, 27 May 2024 11:00:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716832804; x=1717437604; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qAhFce8jDW8c6h4ekHewBxG9q/l8WZjryc3Xl0XIjlY=;
+        b=D/G7oaUmfEj7n+Fnwp0hL7iPyikweZovfiJjxwKVq5ZofTQIHSLzv7K+UwBp3LgCk6
+         oGBudOgt10KixQRARXPBEUoGcEnNzLQHY+iLsjkerjy9vijtZAD7MuEPP9ETeTSI+gP6
+         AEowuH+9uOWwZG5WkNnPDZrKQYr9Vm+v7Peb34bSZDli4uLH4jMJbJio4kueun8/3+2f
+         6zsrglYITSOMQ9Nh2CIIe+ZQ8X4Ls26ZBWW1lZwq+iYegJ1ulporeq3zUWiU5Qt25WJr
+         FSIFPUTrtDhnWJaodU2Q4bUVWZBoFYGjlVUfkZQlrMgLFqubub4CTvXwPDWru423Kv4L
+         5zxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716832804; x=1717437604;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qAhFce8jDW8c6h4ekHewBxG9q/l8WZjryc3Xl0XIjlY=;
+        b=AlSDNOo+E/JWe1l883fi6rmjdiH1AX7l1Mhx2frtahvnLyX8gsMXVV1eqkmT9NRESI
+         zNiZyvJl81sAxJc0mm7zWa7lyA5XZ21VCY94yYNS+0Rgzk3HRIhf0htbd7t+Ip313s3E
+         LrhtR9lF+IFTv0GlDyIUh1MGD9R/IPguJvmkMqHUnVQ/PsmQomLzGBDghT5jS/jWSQih
+         5/uGdoSaB/n2wcPeZ2xmg5Tlo/SREfbeKmli2DkRSVFsvmpxHZEjEsxDgdqE1NiIIZwG
+         LtwZrny0Gq8hh4LrcCU8PnFghSDtjXyUaicn2m6pwGN42i137yYs++0gdCC09mjnHu+v
+         KA9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUp9CNFTJzfUUm503qAYU7YYA88ZMrQVGAK/OT+PQXPoOMzye7mKIS/SZuuvWqyLo6DMBemZrKryWknWnh1OSVQnZIeOTiHk/0bbA==
+X-Gm-Message-State: AOJu0YwV8iZJUXWDhidSjMQ3dwd/7o5X00OqqKllESM2ujQk9g1+nk9b
+	HGAvVxStxD/iA94N48Vk7mLSOMAQZ8X3jOTJ2fi85/ZnSvxrqrDM8tccqbLhqz0QpJ2YUEdQwp7
+	iyvsq61KOLL+WTEx5dhw9xkp7MKw=
+X-Google-Smtp-Source: AGHT+IFSaCCGnS9FaqpBe9wkic/FwVCM4QCuqrzhYNGO5iCLH68x0aBKEOtYmH1d+O3/FGY0mfAEM+FvjZNAZ5mr8/Q=
+X-Received: by 2002:a81:a154:0:b0:627:d23a:4505 with SMTP id
+ 00721157ae682-62a08d28b85mr96746367b3.3.1716832803800; Mon, 27 May 2024
+ 11:00:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <22ac3e39-191c-4b92-a72c-0802a301bef7@app.fastmail.com>
-In-Reply-To: 
- <CANnsUMH9Of7q4NyTnWPE6e-XdezTTxiQeRVDPWzofW82Smj+zg@mail.gmail.com>
-References: 
- <CANnsUMGJvG6Cs57_ar-iixCpyRKq_ScMZFNaq-SpdHX53ou6fQ@mail.gmail.com>
- <CANnsUMFWHd1kvbDubMnX4aS9La=0EpiCzee7NDNqkCMUwLXPaw@mail.gmail.com>
- <5d40d8ee-e4e6-41cb-a8d7-b2590b549494@moroto.mountain>
- <CANnsUMH9Of7q4NyTnWPE6e-XdezTTxiQeRVDPWzofW82Smj+zg@mail.gmail.com>
-Date: Mon, 27 May 2024 14:57:30 +0100
-From: "Dave Hibberd" <hibby@debian.org>
-To: linux-hams@vger.kernel.org
-Subject: Re: Mainline Kernel Question
-Content-Type: text/plain;charset=utf-8
+References: <20240501060218.32898-1-duoming@zju.edu.cn> <my4l7ljo35dnwxl33maqhyvw7666dmuwtduwtyhnzdlb6bbf5m@5sbp4tvg246f>
+ <ac6f090.eaff.18f7baadb40.Coremail.duoming@zju.edu.cn> <y5pcz6v6wsn2vjlyyzyclnktfgo2yiwawcdu5jbzpava74y6yr@t7m6req4cwsq>
+ <CANnsUMHTZ_P4-C2iGdbakcp_Xk5c-aCO5kYEvaBdOcsaSnK5Pg@mail.gmail.com> <4it3k7z5sylbv4agiztmwdhaudo2orccpm5pbi24bsu6fyajfm@k3zulkrpqaof>
+In-Reply-To: <4it3k7z5sylbv4agiztmwdhaudo2orccpm5pbi24bsu6fyajfm@k3zulkrpqaof>
+From: Chris Maness <christopher.maness@gmail.com>
+Date: Mon, 27 May 2024 10:59:51 -0700
+Message-ID: <CANnsUMEQ6+jERNk1pCToxAfutdcdQnMQgjz9UzYGBoXFkS89sw@mail.gmail.com>
+Subject: Re: Kernel 6.9.1 AX.25 Crash
+To: Lars Kellogg-Stedman <lars@oddbit.com>
+Cc: Duoming Zhou <duoming@zju.edu.cn>, linux-hams@vger.kernel.org, 
+	dan.carpenter@linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Debian-User: hibby
 
-I will update my private repo[1] to include kernels for users of Debian =
-Testing, Stable, Ubuntu 22.04 and 24.04 and set up another RF node near =
-me to get my own in-person testing running too.
+Now running this kernel on an otherwise stock Slackware-15 system.  It
+is working FB.  The stock kernel 5.15.145 works for incoming
+connections, but it does not release the socket if I make an outbound
+connection and crash out of the remote end leaving my outbound socket
+orphaned.  With the 6.9.1 kernel (with lars inbound patch), the
+orphaned socket clears after about 5minutes, and I would consider that
+a normal function.
 
-I can also support raspberry pi but I have found building and distriutin=
-g kernels for that platform particularly challenging!
+On Mon, May 20, 2024 at 7:42=E2=80=AFAM Lars Kellogg-Stedman <lars@oddbit.c=
+om> wrote:
+>
+> On Sun, May 19, 2024 at 07:52:41PM GMT, Chris Maness wrote:
+> > Since you guys have been working on this, I have started playing around
+> > with slackware-current to check on your progress.  I setup LinFBB with =
+one
+> > pseudo tty  port generated with ax25ipd.  It does release the socket af=
+ter
+> > connection, and worked for a couple of hours.  However, it crashed hard
+> > with no terminal dump when I was forwarding some bulls over AX.25 over =
+UDP
+> > to the ax25ipd.  This does involve the AX.25 stack as FBB needs an ax0 =
+port.
+>
+> Chris,
+>
+> At the moment, the Linux ax.25 stack is unusable for handling incoming
+> connections (outbound connections seem to be stable).
+>
+> I posted a patch to this list at the end of April that has completely
+> resolved the ax.25 crashing problems for me. I'm running it on x86_64
+> systems with kernel 6.9.0, and on Raspberry Pi systems running 6.6.30.
+>
+> Dan was unhappy with the patch, and Duoming has been silent on this
+> topic, so I'm not sure how to proceed. I am confident that there is a
+> "more correct" solution to this problem, but I am also confident that
+> this patch corrects a real issue; without a more experienced developer
+> either suggesting changes to this patch or submitting their own I don't
+> know if this will move forward. Duoming indicated some interest  in
+> the issue on 5/15 [1], but I haven't heard anything since then.
+>
+> I've included the current version of the patch in this email. If you
+> have the chance to try it out, I'm curious to know whether or not it
+> solves your problems.
+>
+> Cheers,
+>
+> -- Lars
+>
+> [1] https://marc.info/?l=3Dlinux-kernel&m=3D171576662414653&w=3D2
+>
+> >8------------------------------------------------------8<
+>
+> When closing a socket in ax25_release(), we call netdev_put() to decrease
+> the refcount on the ax.25 device. However, the execution path for accepti=
+ng
+> an incoming connection never calls ax25_hold(). This imbalance leads to
+> refcount errors, and ultimately to kernel crashes.
+>
+> A typical call trace for the above situation looks like this:
+>
+>     Call Trace:
+>     <TASK>
+>     ? show_regs+0x64/0x70
+>     ? __warn+0x83/0x120
+>     ? refcount_warn_saturate+0xb2/0x100
+>     ? report_bug+0x158/0x190
+>     ? prb_read_valid+0x20/0x30
+>     ? handle_bug+0x3e/0x70
+>     ? exc_invalid_op+0x1c/0x70
+>     ? asm_exc_invalid_op+0x1f/0x30
+>     ? refcount_warn_saturate+0xb2/0x100
+>     ? refcount_warn_saturate+0xb2/0x100
+>     ax25_release+0x2ad/0x360
+>     __sock_release+0x35/0xa0
+>     sock_close+0x19/0x20
+>     [...]
+>
+> On reboot (or any attempt to remove the interface), the kernel gets
+> stuck in an infinite loop:
+>
+>     unregister_netdevice: waiting for ax1 to become free. Usage count =3D=
+ 0
+>
+> The attached patch corrects these issues by ensuring that we call
+> netdev_hold() and ax25_dev_hold() in ax25_accept().
+>
+> Fixes: 7d8a3a477b
+> Signed-off-by: Lars Kellogg-Stedman <lars@oddbit.com>
+> ---
+>  net/ax25/af_ax25.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
+> index 9169efb2f43..5aa6e5c3495 100644
+> --- a/net/ax25/af_ax25.c
+> +++ b/net/ax25/af_ax25.c
+> @@ -1381,6 +1381,8 @@ static int ax25_accept(struct socket *sock, struct =
+socket *newsock, int flags,
+>         DEFINE_WAIT(wait);
+>         struct sock *sk;
+>         int err =3D 0;
+> +       ax25_cb *ax25;
+> +       ax25_dev *ax25_dev;
+>
+>         if (sock->state !=3D SS_UNCONNECTED)
+>                 return -EINVAL;
+> @@ -1434,6 +1436,10 @@ static int ax25_accept(struct socket *sock, struct=
+ socket *newsock, int flags,
+>         kfree_skb(skb);
+>         sk_acceptq_removed(sk);
+>         newsock->state =3D SS_CONNECTED;
+> +       ax25 =3D sk_to_ax25(newsk);
+> +       ax25_dev =3D ax25->ax25_dev;
+> +       netdev_hold(ax25_dev->dev, &ax25->dev_tracker, GFP_ATOMIC);
+> +       ax25_dev_hold(ax25_dev);
+>
+>  out:
+>         release_sock(sk);
+> --
+> 2.45.1
+>
+> --
+> Lars Kellogg-Stedman <lars@oddbit.com> | larsks @ {irc,twitter,github}
+> http://blog.oddbit.com/                | N1LKS
 
-Cheers,
-Hibby
 
-[1]  https://online-amateur-radio-club-m0ouk.github.io/oarc-packages/
 
 --=20
-  Hibby
-  Debian Developer
-  Packet Radioist
-  MM0RFN
-
-On Mon, 27 May 2024, at 2:30 PM, Chris Maness wrote:
-> I would be happy to.  I already have the system for it.
->
-> On Mon, May 27, 2024 at 2:30=E2=80=AFAM Dan Carpenter <dan.carpenter@l=
-inaro.org> wrote:
->
->
-> --=20
-> Thanks,
-> Chris Maness
+Thanks,
+Chris Maness
 
