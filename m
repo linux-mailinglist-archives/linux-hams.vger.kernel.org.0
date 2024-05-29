@@ -1,91 +1,83 @@
-Return-Path: <linux-hams+bounces-340-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-341-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055008D39FB
-	for <lists+linux-hams@lfdr.de>; Wed, 29 May 2024 16:54:57 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A65F8D3A38
+	for <lists+linux-hams@lfdr.de>; Wed, 29 May 2024 17:02:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4ACA28ABC9
-	for <lists+linux-hams@lfdr.de>; Wed, 29 May 2024 14:54:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B9097B24B32
+	for <lists+linux-hams@lfdr.de>; Wed, 29 May 2024 15:02:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41803D27E;
-	Wed, 29 May 2024 14:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b="GS4NmDpp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E009E16EBF0;
+	Wed, 29 May 2024 15:02:28 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp80.ord1d.emailsrvr.com (smtp80.ord1d.emailsrvr.com [184.106.54.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2F8159216
-	for <linux-hams@vger.kernel.org>; Wed, 29 May 2024 14:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=184.106.54.80
+Received: from zg8tmtu5ljy1ljeznc42.icoremail.net (zg8tmtu5ljy1ljeznc42.icoremail.net [159.65.134.6])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A439E15A861;
+	Wed, 29 May 2024 15:02:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.65.134.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716994489; cv=none; b=TRUiLcZVvX1yzNb47RrV0aGcdepQ5oiMhqpFmfTVYwCMl4SzWwP+JN6NvAYliKlSou04zlH2PcAnOuXLw36bbTYu190VqV7rNQL/XiACfXd7IotreaUPoeEodRxozaWx8X9THZUt++AmvZg94towfdDV1L6aC519wZUQD8LEJT4=
+	t=1716994948; cv=none; b=gXmIMYEbXZcQyi7yXxGSTe39RMAtJdBOighpBmTgm6mmVo6HLEtjczXXUrhELo+3acMZAZMB/oGo4nmw4VZjSPGS95xWiSo6XLATjGbOXFk7qIeFYMZvM9YN9UOADywMTFrz5XAsjquksygzBjn2lOQBjW0U0qoLDVkbcF1diGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716994489; c=relaxed/simple;
-	bh=TSfhHAiAhkZdYEAhFRcGd6VDPBN75N82iN2594O2A8M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E3UnzeQ9WGicm70o4En1JCBN4T1XwOGinzbwN20Xj4jZFiu6OrGyer2UBtZ7bo1YxuFn93JGKxRTOW7PUbsmwxO6nWe21Xa59ygvYy5jbYlBuPcPMo/sojl9wUpo3fwrig4f/kCVtKQBuS1WDhzZfZdzZ/sVIegkjy/D/bcz4+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com; spf=pass smtp.mailfrom=oddbit.com; dkim=pass (1024-bit key) header.d=oddbit.com header.i=@oddbit.com header.b=GS4NmDpp; arc=none smtp.client-ip=184.106.54.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oddbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oddbit.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=oddbit.com;
-	s=20180920-g2b7aziw; t=1716994486;
-	bh=TSfhHAiAhkZdYEAhFRcGd6VDPBN75N82iN2594O2A8M=;
-	h=Date:From:To:Subject:From;
-	b=GS4NmDpp4K8rkHiMiM5/ljnuDHtXFrEHORTSu4axRKa0JoXn6W7FC+vQGvyVB5/Tm
-	 8130eyG0JQVJZN7EJunCGycO7lIXU/TFvf2Shku1LE3H6PaNTBqtUW6HDEOnxQ5dmU
-	 iUouaxGuucfwkZ+vImQ9gynzG/OPYjnfjToO6M/I=
-X-Auth-ID: lars@oddbit.com
-Received: by smtp19.relay.ord1d.emailsrvr.com (Authenticated sender: lars-AT-oddbit.com) with ESMTPSA id 39B6060145;
-	Wed, 29 May 2024 10:54:46 -0400 (EDT)
-Date: Wed, 29 May 2024 10:54:45 -0400
-From: Lars Kellogg-Stedman <lars@oddbit.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Paolo Abeni <pabeni@redhat.com>, linux-hams@vger.kernel.org, 
-	netdev@vger.kernel.org, Duoming Zhou <duoming@zju.edu.cn>
+	s=arc-20240116; t=1716994948; c=relaxed/simple;
+	bh=5CTNvleq74hIkx7CigW+o84JuXSTBHkN2WN10Osf0s4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=fLTtY8VrSATQvc04tKGhHdRv8m67p5+4ID0f9Q0fT/wtRaschIKNOA/c5u5CtsQJSlcwbWampoUlrx5Ty+kJGQN+D7mOHwtYAB4fmOqwBM6QMdQB/opGw4xcPo4QcGh0TIvfvGEaDhZn/6GRriKX6N7Oq00SN/x9cjbDiqgPZU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=159.65.134.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from duoming$zju.edu.cn ( [61.242.135.222] ) by
+ ajax-webmail-mail-app2 (Coremail) ; Wed, 29 May 2024 23:01:52 +0800
+ (GMT+08:00)
+Date: Wed, 29 May 2024 23:01:52 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: duoming@zju.edu.cn
+To: "Dan Carpenter" <dan.carpenter@linaro.org>
+Cc: "Lars Kellogg-Stedman" <lars@oddbit.com>,
+	"Paolo Abeni" <pabeni@redhat.com>, linux-hams@vger.kernel.org,
+	netdev@vger.kernel.org
 Subject: Re: [PATCH v4] ax25: Fix refcount imbalance on inbound connections
-Message-ID: <7bfn3g46beatmbp3bzxauahdiitb67ncfixp6znjdc6e5gj6mc@ldmt3i2wnqpf>
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT5 build
+ 20231205(37e20f0e) Copyright (c) 2002-2024 www.mailtech.cn zju.edu.cn
+In-Reply-To: <962afcda-8f67-400f-b3eb-951bf2e46fb7@moroto.mountain>
 References: <20240522183133.729159-2-lars@oddbit.com>
  <8e9a1c59f78a7774268bb6defed46df6f3771cbc.camel@redhat.com>
  <rkln7v7e5qfcdee6rgoobrz7yzuv7yelzzo7omgsmnprtsplr5@q25qrue4op7e>
  <962afcda-8f67-400f-b3eb-951bf2e46fb7@moroto.mountain>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <962afcda-8f67-400f-b3eb-951bf2e46fb7@moroto.mountain>
-X-Classification-ID: 3dcf9346-471f-4221-a472-c556085dd322-1-1
+Message-ID: <3cf699c4.20d18.18fc4df304a.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:by_KCgCHEqFhQ1dmxtiJAQ--.33773W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwMQAWZXO0UKoAACs2
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-On Wed, May 29, 2024 at 05:34:20PM GMT, Dan Carpenter wrote:
-> 1) The Fixes tag points to the wrong commit, though, right?  The one
-> you have here doesn't make sense and it doesn't match the bisect.
-
-I'll double check that; thanks for checking.
-
-> 2) Can we edit the commitmessage a bit to say include what you wrote
-> about "but rather bind/accept" being paired.  We increment in bind
-> and we should increment in accept as well.  It's the same.
-
-I'll update the wording.
-
-> 3) The other thing that I notice is that Duoming dropped part of his
-> commit when he resent v6.
-> https://lore.kernel.org/all/5c61fea1b20f3c1596e4fb46282c3dedc54513a3.1715065005.git.duoming@zju.edu.cn/
-> That part of the commit was correct.  Maybe it wasn't necessary but it
-> feels right and it's more readable and it's obviously harmless.  I can
-> resend that.
-
-Just so that I'm clear, with that comment you're not suggesting any
-changes to my patch, right?
-
--- 
-Lars Kellogg-Stedman <lars@oddbit.com> | larsks @ {irc,twitter,github}
-http://blog.oddbit.com/                | N1LKS
+T24gV2VkLCAyOSBNYXkgMjAyNCAxNzozNDoyMCArMDMwMCBEYW4gQ2FycGVudGVyIHdyb3RlOgo+
+IDEpIFRoZSBGaXhlcyB0YWcgcG9pbnRzIHRvIHRoZSB3cm9uZyBjb21taXQsIHRob3VnaCwgcmln
+aHQ/ICBUaGUgb25lCj4geW91IGhhdmUgaGVyZSBkb2Vzbid0IG1ha2Ugc2Vuc2UgYW5kIGl0IGRv
+ZXNuJ3QgbWF0Y2ggdGhlIGJpc2VjdC4KCkkgYWxzbyBoYXZlIHRlc3RlZCBMYXJzIEtlbGxvZ2ct
+U3RlZG1hbmBzIHBhdGNoLCBpdCB3b3JrcyB3ZWxsLiBJIHRoaW5rIHRoZSBGaXhlcyAKdGFnIHNo
+b3VkIGJlIDlmZDc1YjY2YjhmNiAoImF4MjU6IEZpeCByZWZjb3VudCBsZWFrcyBjYXVzZWQgYnkg
+YXgyNV9jYl9kZWwoKSIpLgoKPiAyKSBDYW4gd2UgZWRpdCB0aGUgY29tbWl0bWVzc2FnZSBhIGJp
+dCB0byBzYXkgaW5jbHVkZSB3aGF0IHlvdSB3cm90ZQo+IGFib3V0ICJidXQgcmF0aGVyIGJpbmQv
+YWNjZXB0IiBiZWluZyBwYWlyZWQuICBXZSBpbmNyZW1lbnQgaW4gYmluZAo+IGFuZCB3ZSBzaG91
+bGQgaW5jcmVtZW50IGluIGFjY2VwdCBhcyB3ZWxsLiAgSXQncyB0aGUgc2FtZS4KPiAKPiAzKSBU
+aGUgb3RoZXIgdGhpbmcgdGhhdCBJIG5vdGljZSBpcyB0aGF0IER1b21pbmcgZHJvcHBlZCBwYXJ0
+IG9mIGhpcwo+IGNvbW1pdCB3aGVuIGhlIHJlc2VudCB2Ni4KPiBodHRwczovL2xvcmUua2VybmVs
+Lm9yZy9hbGwvNWM2MWZlYTFiMjBmM2MxNTk2ZTRmYjQ2MjgyYzNkZWRjNTQ1MTNhMy4xNzE1MDY1
+MDA1LmdpdC5kdW9taW5nQHpqdS5lZHUuY24vCj4gVGhhdCBwYXJ0IG9mIHRoZSBjb21taXQgd2Fz
+IGNvcnJlY3QuICBNYXliZSBpdCB3YXNuJ3QgbmVjZXNzYXJ5IGJ1dCBpdAo+IGZlZWxzIHJpZ2h0
+IGFuZCBpdCdzIG1vcmUgcmVhZGFibGUgYW5kIGl0J3Mgb2J2aW91c2x5IGhhcm1sZXNzLiAgSSBj
+YW4KPiByZXNlbmQgdGhhdC4KCkkgd2lsbCByZXNlbmQgaXQgbGF0dGVyLgoKQmVzdCByZWdhcmRz
+LApEdW9taW5nIFpob3UKCg==
 
