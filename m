@@ -1,80 +1,81 @@
-Return-Path: <linux-hams+bounces-345-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-347-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54778D44B7
-	for <lists+linux-hams@lfdr.de>; Thu, 30 May 2024 07:19:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 470308D44C2
+	for <lists+linux-hams@lfdr.de>; Thu, 30 May 2024 07:23:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3F42BB230F9
-	for <lists+linux-hams@lfdr.de>; Thu, 30 May 2024 05:19:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9E7BCB21DB4
+	for <lists+linux-hams@lfdr.de>; Thu, 30 May 2024 05:23:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB1A3143C40;
-	Thu, 30 May 2024 05:19:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5447143C4C;
+	Thu, 30 May 2024 05:23:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CSc+v21J"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z5ecP7pU"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCEC219EB
-	for <linux-hams@vger.kernel.org>; Thu, 30 May 2024 05:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E79F143878
+	for <linux-hams@vger.kernel.org>; Thu, 30 May 2024 05:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717046365; cv=none; b=IPCsOdDlBGmB+KPd9wCJroluV6Obp0AAtsCgWvKdhyBVgGJEqA/roMmIDLRB4WYT5tBlxYNBwpj7ltoS6kNghySaTLfgPhpStC6cwRyiKcxvubIK6f4xZmD8eBIpFUHxkbhb2WE1ZIR8T/eqvYyh4Xu6cI0o/GG/TrOAlnt39es=
+	t=1717046610; cv=none; b=Q7v7NWLKsYJuxfZ9SBdDxb8aVuc1BQq2tT6GcNlvEnelNMnahnpHJdZkKLYNv19gpAbwEH+ft1jn3iyDoR4QcVsS1T8c3bIb2guKZEaGBe1yoDk67Jwcht2UPzXTFynjuMlqiwbg2H7lvPA5AXRSPjKmjWY+0XRrIfrYbxdXm/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717046365; c=relaxed/simple;
-	bh=iQIHui2J8/VPCv4h0/uBwICkHTKgTVbNccBfXNS3tV0=;
+	s=arc-20240116; t=1717046610; c=relaxed/simple;
+	bh=TwgH/gtp7ud9+239CluIrGaOMiwBf3gKb2ExJUd3xZI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z/i1yiI9iVlQdzgMiuzP4EXyGH2emcWt11u181GVd4ciN06R2k0Pz6iJANIepXPt3AF3epXnvjtVP4zCW92hNWT1YR1HiAyGwzPKzGCnH1KkCA4tK8/jzR/6jw4zJ9RmkWxvkrwQLzD9Pdr/7QFR2WsxfMhVR1WAWzdkjokfugY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CSc+v21J; arc=none smtp.client-ip=209.85.218.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=UwPTeZIhHagGmzvgZxErMAHGn9p8um18jo1+feUkneLAt5GpUIpllQLWAsE+0270fR1pK6Ccs+GxnU2eAzegMHds9oCXIZ5XGY02kziSYG5849XQFbwcIlQMUyp2ZRz1zR+HU3qBwlWMjaLTeOplnKP/OwMtGeN4dfS6iLi4sgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z5ecP7pU; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a63036f2daaso32299466b.1
-        for <linux-hams@vger.kernel.org>; Wed, 29 May 2024 22:19:23 -0700 (PDT)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a626777f74eso29259666b.3
+        for <linux-hams@vger.kernel.org>; Wed, 29 May 2024 22:23:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717046362; x=1717651162; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1717046607; x=1717651407; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WGFDe5QFNJsbrwE6AO0wiiAwqVgYTFlbJkwt8ppYct0=;
-        b=CSc+v21JQlcsQ2qbSUUWSQJbzMv5eG+nkhKM8N3ZMAlngpZL9jJmWGsyTJRgH9plPC
-         v4c25M65jzydFKCr9jGuWe7SYWjkh2i+S+B/W+yaKem/Raa5eT9RvvT8H/D/etW1MaxR
-         qvp7D08ORDkg6Bzbl5F96rRxe6c77+9cvCWPbeVPaGmHHoIbiBZhYDQ0veJSNW5e55sP
-         DNHngxOLX5r+ltnK2gKtRO1amDUnN/VDm8KWIWt2TMgOkc04PZXHbTfFf09kg+/dyXGy
-         dPv5GWBMRjddrHE1uih1kEhYml9wvWj6TG46GWnKC0IknvJVCs4gtygf2F17mgzH9g6m
-         LXnQ==
+        bh=2iZM41/7mDcxSquoq9LoXz/QTVE6+9mFjNqtqD1bGyU=;
+        b=z5ecP7pUet8Rr5WmXPgJweB86JyLIUr1s1fduu59LwQ34njQGmHLc902a1FX10vocM
+         pHzFe+rITXMnN7CsO1qcn8+5KvPSDUBanGpwEvScTC917icqNJMgC5ToIswNIQgbzd+B
+         oQ705lR1d0bXV0fNZ+tgtSvUAGi72DP5UHbQ4hSkByrmGqplXNkEwa2M1KjXI6HsuFJ3
+         k6nsfuSmVBzKkm4d/VCv5dFbVzXxnd/SsDMjGfrK8MBFAFyfY4+78YIg10jVJURd6/5u
+         6Rfo2tUl9wnoVikfuqbSkJhKXRCtFj8oFWNb8L/9MqAVkHLc4YZkK8JZED6FfuH598IS
+         +Nog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717046362; x=1717651162;
+        d=1e100.net; s=20230601; t=1717046607; x=1717651407;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WGFDe5QFNJsbrwE6AO0wiiAwqVgYTFlbJkwt8ppYct0=;
-        b=ino0nEEcqGWP+dahLSFUqeMaOqCUL85eopkwL5bIbKIwPSJJ67c7ZmuWWzV43yt85Y
-         ia1yd/trbW+Bc9xSybvffS8LlmSAD9U53zNXK6BJaOatIKBwme5E/+d83n9ELXHTbNlj
-         m+qMGStXsJS/wbaUIgRau0YXx/Q4cyyRhjgyyTGekKb2qCbXikN8o0m8/a8DedjNVlDD
-         8lC7X5VdcSjqfn5h6SAusrxfiVolM8OMNKT+XlkFQBeSpp7NNjYhkSv0WJg5BCMVScV3
-         1xwpytU1OGZzbpa8SOsViZzGtKwWbQ+u0A6oZMXl3vOsPirRACEStnXDNO6JwiJa8mIa
-         4NuA==
-X-Forwarded-Encrypted: i=1; AJvYcCVd8YbhN5eyFzAjs8xT6sT0FuwRbZMV2tQ/vX4AkItsN6aWodj3xUT0Tl2AXhBl2dmBMEk14p6FOdgCdMtJ2Gtd1kP2yJMpHtPE+g==
-X-Gm-Message-State: AOJu0Yzezssc9yPhWPxW1VU3ufmpknAQpTTosVCh1aMGvyEkhfnTxLR2
-	ytjws8C14XaHzxuRGt8900q31SwFAGiz6zRJYq4AXybuJiv8E9ZpZSTtcz3xp9A=
-X-Google-Smtp-Source: AGHT+IFFcfKF0hEcVhzUyZFOwZU9f8o2yIB07vxIXzayhG8EF4HdTgzwGpRUNX0OOqVtr+jojzHHeQ==
-X-Received: by 2002:a17:906:655:b0:a59:a0c1:2624 with SMTP id a640c23a62f3a-a65e8f7b553mr68072466b.39.1717046361826;
-        Wed, 29 May 2024 22:19:21 -0700 (PDT)
+        bh=2iZM41/7mDcxSquoq9LoXz/QTVE6+9mFjNqtqD1bGyU=;
+        b=wt5SnQ9MxqL5EwKO48rb1IYRWFuz1N99QWlC8jyrnVRSqJsTsgbFgogtat0ckq3cWH
+         cysSQBQojnN5Sk3HaL2KC6vuUwxsT6XRScxKx1kmPIrJvpgU1AOWXxQ4tXEwLmT1sotx
+         IPgUlbenFA/F1M+QSzEgFI7PBQQl9OSNV2Wo2Ub2VJ1vzvFeHj3VJFV+/P53seadtBfQ
+         J27cZEvXT6ituAUu2H7bdP7ydGXWO2BJR/TmW1cjJfuWqOarBiONwYLtL9iyzwd6xynd
+         gfS8jieTW4D8nbnboLvoS/YwV5xVHmAIIXovUg97Mbzfz4MF4w0ZgtkkUJq2/HF8FpAm
+         LY7g==
+X-Forwarded-Encrypted: i=1; AJvYcCWiLXnW0Sptfws7zEt8t1HBAe6A4qrsFuVQnQoIndpB1PL+Dwhz9QWiisUFax+Oq5SzhgWAki5Y5yYX1KOy2aLRGi/ro5F3nLCZJQ==
+X-Gm-Message-State: AOJu0Yxu7/Zb+cnR+1BWOYQGEYb9U3oVi5wlW4Nr8UaDTvs9AQFbgNCF
+	6qqQp7yrI+zAuTmAZcsIa//KecVKYmwP+qGvBew2I40s4xTR6eSCUxh4fTrXWOI=
+X-Google-Smtp-Source: AGHT+IGiMaKK5C7BvwqxS4g/xaQp5YmZ3lVzVjOtS7XaVjrsTEqCqQs5N4b7kUks2zW4UQQDfV9kjw==
+X-Received: by 2002:a17:906:1319:b0:a5a:5b23:c150 with SMTP id a640c23a62f3a-a65e8e7a77cmr111535866b.41.1717046607193;
+        Wed, 29 May 2024 22:23:27 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a660947c20fsm11763466b.175.2024.05.29.22.19.19
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc4ff24sm788862066b.130.2024.05.29.22.23.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 May 2024 22:19:20 -0700 (PDT)
-Date: Thu, 30 May 2024 08:19:16 +0300
+        Wed, 29 May 2024 22:23:26 -0700 (PDT)
+Date: Thu, 30 May 2024 08:23:23 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: lars@oddbit.com
-Cc: netdev@vger.kernel.org, linux-hams@vger.kernel.org,
-	Duoming Zhou <duoming@zju.edu.cn>, Dan Cross <crossd@gmail.com>,
-	Chris Maness <christopher.maness@gmail.com>
-Subject: Re: [PATCH v5] ax25: Fix refcount imbalance on inbound connections
-Message-ID: <babd0f3a-a77a-4d6a-971b-30835bf0e2ff@moroto.mountain>
-References: <20240529210242.3346844-2-lars@oddbit.com>
+To: Duoming Zhou <duoming@zju.edu.cn>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hams@vger.kernel.org, pabeni@redhat.com, kuba@kernel.org,
+	edumazet@google.com, jreuter@yaina.de, davem@davemloft.net
+Subject: Re: [PATCH net] ax25: Replace kfree() in ax25_dev_free() with
+ ax25_dev_put()
+Message-ID: <69dee6e9-05c6-4d1e-9c69-a9b60125d7ab@moroto.mountain>
+References: <20240530051733.11416-1-duoming@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
@@ -83,59 +84,15 @@ List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240529210242.3346844-2-lars@oddbit.com>
+In-Reply-To: <20240530051733.11416-1-duoming@zju.edu.cn>
 
-On Wed, May 29, 2024 at 05:02:43PM -0400, lars@oddbit.com wrote:
-> From: Lars Kellogg-Stedman <lars@oddbit.com>
+On Thu, May 30, 2024 at 01:17:33PM +0800, Duoming Zhou wrote:
+> The object "ax25_dev" is managed by reference counting. Thus it should
+> not be directly released by kfree(), replace with ax25_dev_put().
 > 
-> When releasing a socket in ax25_release(), we call netdev_put() to
-> decrease the refcount on the associated ax.25 device. However, the
-> execution path for accepting an incoming connection never calls
-> netdev_hold(). This imbalance leads to refcount errors, and ultimately
-> to kernel crashes.
-> 
-> A typical call trace for the above situation will start with one of the
-> following errors:
-> 
->     refcount_t: decrement hit 0; leaking memory.
->     refcount_t: underflow; use-after-free.
-> 
-> And will then have a trace like:
-> 
->     Call Trace:
->     <TASK>
->     ? show_regs+0x64/0x70
->     ? __warn+0x83/0x120
->     ? refcount_warn_saturate+0xb2/0x100
->     ? report_bug+0x158/0x190
->     ? prb_read_valid+0x20/0x30
->     ? handle_bug+0x3e/0x70
->     ? exc_invalid_op+0x1c/0x70
->     ? asm_exc_invalid_op+0x1f/0x30
->     ? refcount_warn_saturate+0xb2/0x100
->     ? refcount_warn_saturate+0xb2/0x100
->     ax25_release+0x2ad/0x360
->     __sock_release+0x35/0xa0
->     sock_close+0x19/0x20
->     [...]
-> 
-> On reboot (or any attempt to remove the interface), the kernel gets
-> stuck in an infinite loop:
-> 
->     unregister_netdevice: waiting for ax0 to become free. Usage count = 0
-> 
-> This patch corrects these issues by ensuring that we call netdev_hold()
-> and ax25_dev_hold() for new connections in ax25_accept(). This makes the
-> logic leading to ax25_accept() match the logic for ax25_bind(): in both
-> cases we increment the refcount, which is ultimately decremented in
-> ax25_release().
-> 
-> Fixes: 9fd75b66b8f6 ("ax25: Fix refcount leaks caused by ax25_cb_del()")
-> Signed-off-by: Lars Kellogg-Stedman <lars@oddbit.com>
-> Tested-by: Duoming Zhou <duoming@zju.edu.cn>
-> Tested-by: Dan Cross <crossd@gmail.com>
-> Tested-by: Chris Maness <christopher.maness@gmail.com>
-> ---
+> Fixes: d01ffb9eee4a ("ax25: add refcount in ax25_dev to avoid UAF bugs")
+> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 
 Thanks!
 
