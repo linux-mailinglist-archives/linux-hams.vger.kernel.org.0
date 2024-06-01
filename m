@@ -1,140 +1,92 @@
-Return-Path: <linux-hams+bounces-354-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-355-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FEBB8D6DD9
-	for <lists+linux-hams@lfdr.de>; Sat,  1 Jun 2024 05:46:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3C98D72A2
+	for <lists+linux-hams@lfdr.de>; Sun,  2 Jun 2024 01:00:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5111D1C21783
-	for <lists+linux-hams@lfdr.de>; Sat,  1 Jun 2024 03:46:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 157BF1C2097A
+	for <lists+linux-hams@lfdr.de>; Sat,  1 Jun 2024 23:00:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 769A0A94B;
-	Sat,  1 Jun 2024 03:45:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 177E73A1BB;
+	Sat,  1 Jun 2024 23:00:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EPcsRNQc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gw2N/naR"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1BA6FBE
-	for <linux-hams@vger.kernel.org>; Sat,  1 Jun 2024 03:45:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6CB62032D;
+	Sat,  1 Jun 2024 23:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717213558; cv=none; b=KuewBfZFmuVIhLqlSiAzXogdDKr4ua8/tWURtZ4ll8EDb0jFFt3bx55jEfiVcVKlDupzAzsSaGQDbcWc0y0VJuaTPNBDJpeDiQf+SKVVQu45oZMnQqtDTEsfPR4W2A72Y1UYxqkPKIWm+VyRCL/FWti724862GlxRmspdySnnhY=
+	t=1717282830; cv=none; b=naQ0YkP+nf3V8viaTdkrwH+ifzxCegMT+341mtxp7T4KYhMhmaWFie/94etz071dlPNxwj0hXAP4gI3bRIuslHfWPT9I6aK3ujJD5V2QHXQeZHZMvw8o6/esFQ1H/1DEfOCu+54COd/yBv5xjHn/G4+SkX/mI29WEmzLU9mAx04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717213558; c=relaxed/simple;
-	bh=x8DvIoe/tIxRjLMunbnFeqmk97gILy9HThU8Ne+1qJs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LjpvKCTH9JeC9qLTbF4dwJaHrzMrOWfN7occEuvU28AGsEfB7lsDZMMin7ulB3RkvN0JQj8iNkbjMoVmLU2ecZiSX7AqId9bwKhE1dR2FZXbBLkBjfbmI1Xl482Jh4mFQjgydgEMLrZGLD5z9n2vzdXNeqD8vjZH5dhcJPnEcA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EPcsRNQc; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2e974862b00so28860741fa.0
-        for <linux-hams@vger.kernel.org>; Fri, 31 May 2024 20:45:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717213554; x=1717818354; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hhrBqj82UvsqTcUiZo7B8WX9t7q4Hkgp/GmqjHxpcTk=;
-        b=EPcsRNQcRxMpQj4+eqd9co40BJh7jvda/QweQIL2sq7A5NcZ0czrS5XCY434doheuO
-         uhMT/OwQL73HZ5PBU3rhoeVJCHsEP69dRzuNnJlCQBakLYe12r5D5z1gynRB427B2Txu
-         JTJmdS8jCnZSih+FrV0JnH2qNKLz3kthnEdrnpse1aF7CEbzQqy4luwBcOjQzO9rWQDo
-         t6XNn4WsNiLuI+JxVCX+8O3CWV/qpNGMHfwHAIj5E5X6D7GHrJICNWmvVea5FxPs6LIY
-         pLgplQyU5wJz4pKkkE4sZcKhrU6+2Me5TXk3Sqzac9DSdqv4fHMWR/eizKkcxc4db3uB
-         0NWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717213554; x=1717818354;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hhrBqj82UvsqTcUiZo7B8WX9t7q4Hkgp/GmqjHxpcTk=;
-        b=q3R7d9E+ZJaPW3erWUteuCQ/QQcoObUafR+sT25gufLIOKc7BS7nmmGZVxi0GwbGVG
-         A0J6nfeMmCYMr5iYjsdDHwLgsLTDg88Ya5xPc8f6Rn1HCrLWXYDjY72NJnyT7nCvFSRm
-         HnYMxk4Bbqv6FmbAXrZyfiXpK5ntETe+YxZUbsw3qTJ9UZypnfkNpcGbtlqzwaaxGW+S
-         8TYV1bY0peVPo6O80FzQhcPCli25Sym0JooitSxDWI7gdTVyKdZ+M5RWC4fwGJ6HEnri
-         4KQaDllCYt9DbxEKo4q5EeZpTANIF/hem2hrt1dzLtvhzR0WQi82lq4/5P6R+T0oMJol
-         fXeA==
-X-Gm-Message-State: AOJu0YzO7bfkhTUkeVmggR4zcDF/AvZegng44sD3UHv1Yd5ORMOfeyd9
-	Mebz9PnBvaAgUjn0x2Khvs0EZiESMp8Gc1V5nAXM/BREYtFWCz5bV++JPWJvlBQxnE3H6YKVO23
-	wjtHu0A5Fhny8r9S6+kEP/pXU5yvSwXI+
-X-Google-Smtp-Source: AGHT+IH5R1CbyLClBTc13vt0P+I5qwLg6sJicQspxe1VVGYUmT6IhQGisWupSBeFtqVygrcfnBM9IoOPi+ppe70i9B4=
-X-Received: by 2002:a05:651c:d:b0:2ea:807e:1d9f with SMTP id
- 38308e7fff4ca-2ea950bfe98mr26633201fa.10.1717213554202; Fri, 31 May 2024
- 20:45:54 -0700 (PDT)
+	s=arc-20240116; t=1717282830; c=relaxed/simple;
+	bh=dn7tHb0D8BYATJK0Urlct3wSl3oO4d5o7t54Y1CN7Zo=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=i+o5aA5YmUgN64TTXotN2fpVH0z4e5eAsPyg0zOd1+AZTUGr+LSPbgAT6d3UsgLitGUQ2ks9gPvwdWa5kU8ioit+2u1YibJ5iShJGQUD9nfLGI3EFyPacH2zN2ZORCyGwnrigw1XvNQCRwn7QRKtKxpGJ7JkaM/STtlpMTzZQEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gw2N/naR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 644B3C4AF07;
+	Sat,  1 Jun 2024 23:00:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717282830;
+	bh=dn7tHb0D8BYATJK0Urlct3wSl3oO4d5o7t54Y1CN7Zo=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Gw2N/naR7li3G+krL4DRvJ9PrwMmau1of+iFa3EMVRsBQS5Nt68Z7RLoZd3wdbpjl
+	 eCpc0M0fFNwqj63ACCJe0ruGwt0LkAXse/un2EVZbHqsXhymE7OhCxD450tai6qgCO
+	 XWuRGMj3ZrmCi56Gh54NIYB7/QNxBabIf1gIStaXeUGAi8Pqrz1M9+LrI8lN/vfgpn
+	 caKZL17LPWq/vrcwk+m+oQptzgkjS2ve7jg7bA605wctgW/Oy3bxzRKAOvHUqMBb2C
+	 PP+ZlBetYve0N2YYhaHNxM4GiIu3Z1jkQ6kNcuOpVPMeIHW5CIgaVh/3HNBnqt7SgJ
+	 32VLMY4/j9Qiw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 55FBADEA717;
+	Sat,  1 Jun 2024 23:00:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <5ev7x3gcf5sk53svnu7q2lfa2d3et4wy5luy43jz5wwaybmyzl@ztgjeqitelbv>
-In-Reply-To: <5ev7x3gcf5sk53svnu7q2lfa2d3et4wy5luy43jz5wwaybmyzl@ztgjeqitelbv>
-From: Dan Cross <crossd@gmail.com>
-Date: Fri, 31 May 2024 23:45:17 -0400
-Message-ID: <CAEoi9W6WkbdRKjtaXAqD7UiJhibgwdz2DuY24ryc+vx3EhcuQA@mail.gmail.com>
-Subject: Re: What is the "heartbeat" timer for?
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v5] ax25: Fix refcount imbalance on inbound connections
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171728283034.4092.12616353767873504629.git-patchwork-notify@kernel.org>
+Date: Sat, 01 Jun 2024 23:00:30 +0000
+References: <20240529210242.3346844-2-lars@oddbit.com>
+In-Reply-To: <20240529210242.3346844-2-lars@oddbit.com>
 To: Lars Kellogg-Stedman <lars@oddbit.com>
-Cc: linux-hams <linux-hams@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: netdev@vger.kernel.org, linux-hams@vger.kernel.org, duoming@zju.edu.cn,
+ crossd@gmail.com, christopher.maness@gmail.com
 
-On Fri, May 31, 2024 at 10:27=E2=80=AFPM Lars Kellogg-Stedman <lars@oddbit.=
-com> wrote:
-> After an ax25 connection closes, there is a period of approximately 5
-> seconds during which no new connection can be established to the same
-> listening callsign.
+Hello:
 
-I wonder: is that to the same callsign from any other callsign, or
-only from the same callsign that just disconnected?
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-> For example, if I have a listener and I make a connection to it
-> once/second, like this:
->
->     t_start=3D$SECONDS
->
->     for _ in {1..10}; do
->             echo -n "$((SECONDS-t_start)): "
->             timeout 1 call -SRr udp1 host0 && sleep 1
->     done
->
-> We see output like this:
->
-> 0: HELLO AX.25 CALLER
-> 1: Terminated
-> 2: Terminated
-> 3: Terminated
-> 4: Terminated
-> 5: Terminated
-> 6: HELLO AX.25 CALLER
-> 7: Terminated
-> 8: Terminated
-> 9: Terminated
->
-> This happens because once closed, a socket hangs around until the
-> heartbeat timer expires, and then in ax25_std_heartbeat_expiry() we
-> finally call ax25_destroy_socket(), which permits new connections.
->
-> Is there a reason for this behavior? Since the remote has already sent a
-> DISC packet we don't expect any additional packets on this connection.
-> I'm not clear on what this timer is for or why we don't simply destroy
-> the socket immediately upon receiving a DISC packet.
+On Wed, 29 May 2024 17:02:43 -0400 you wrote:
+> From: Lars Kellogg-Stedman <lars@oddbit.com>
+> 
+> When releasing a socket in ax25_release(), we call netdev_put() to
+> decrease the refcount on the associated ax.25 device. However, the
+> execution path for accepting an incoming connection never calls
+> netdev_hold(). This imbalance leads to refcount errors, and ultimately
+> to kernel crashes.
+> 
+> [...]
 
-So if a TNC receives the "DISC" command, it's supposed to respond with
-a UA frame and "enter the disconnected state" (AX.25 2.2-Jul-98, sec
-6.3.4: "Link Disconnection"). My guess is that the behavior you're
-observing is to account for uncertainty about whether the UA was
-received; 6.3.4 continues by saying that, "if a UA or DM response is
-not correctly received before T1 times out, the DISC frame is sent
-again and T1 is restarted." (this can happen up to "N2" times). That
-is, the distant end _may_ send more than one DISC, if it never
-receives the UA (or a DM).
+Here is the summary with links:
+  - [v5] ax25: Fix refcount imbalance on inbound connections
+    https://git.kernel.org/netdev/net/c/3c34fb0bd4a4
 
-6.3.5 seems to suggest that what you're seeing is ok: "In the
-disconnected state, a TNC may .... refuse the SABM(E) and send a DM
-instead."
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-        - Dan C.
+
 
