@@ -1,105 +1,145 @@
-Return-Path: <linux-hams+bounces-370-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-371-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD5C790EE08
-	for <lists+linux-hams@lfdr.de>; Wed, 19 Jun 2024 15:24:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B07009159EE
+	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 00:37:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4736BB22DA9
-	for <lists+linux-hams@lfdr.de>; Wed, 19 Jun 2024 13:24:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0DF501F22465
+	for <lists+linux-hams@lfdr.de>; Mon, 24 Jun 2024 22:37:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A8E2146A85;
-	Wed, 19 Jun 2024 13:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MyPv0jcU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64E571A0AFE;
+	Mon, 24 Jun 2024 22:37:26 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-io1-f77.google.com (mail-io1-f77.google.com [209.85.166.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4311E143757
-	for <linux-hams@vger.kernel.org>; Wed, 19 Jun 2024 13:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF51613664B
+	for <linux-hams@vger.kernel.org>; Mon, 24 Jun 2024 22:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718803486; cv=none; b=Js9pkb2GwB/xBHi4cXXT9gOdBcZvLHeMS3cgePnfp3QXUqfdhxhqrG4uyst3vxOdTJ2Mb7KYStmF55qwofxmiDMmuuFBbt4OQgDnErN/0RIlvuXrDJPhHtYkTa8Z02u8OqAjHMn+RQF094a7DMVa1MRPWMbFL43+5PKWuVNb6os=
+	t=1719268646; cv=none; b=FiM9w5+LqLYnAH33Dld7mmEIpjEqT6SL/RwIDQ5uMw4DdkwiKVeGgoX286+95fJeepIRZxdO3nqSRPA8sGtl5fwbld2KzWujtDQC+eKkYUWmcRGXZ8Mz2eOJCyrZZKO+OFPTieSl3ldE0crGZHUqUr0bU8Z4cOUpyJkQSBFbwF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718803486; c=relaxed/simple;
-	bh=+f0cAWkIrz4y9f+1eS8VaCwECTcuUvuRu1f/P3L78d8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VzTCccM6zjaYGSOChQSAvnvnbalwcpeuYYHtEs2P3TZCgJm6QPqUT2Im6mjf1AyjgT1rnTyjfuTSbuhXm4OquDNjtvPpbqFa2vu3GQdFa3n2ZKH05CyxjaN/IREZKCf9OOcrWNucqVLxM6m1jLYgiKZVNeM5zEDQUVNAuOiAdME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MyPv0jcU; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-57cbc66a0a6so405653a12.1
-        for <linux-hams@vger.kernel.org>; Wed, 19 Jun 2024 06:24:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718803483; x=1719408283; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/85lcKBJlO6Kb/QAyU6WAmh7WhaR+ej2sU7f5pYu5lk=;
-        b=MyPv0jcUTWrE4rG0sA+/PWuqFQ7EC0eDQtqyqOBmEm89k1jrrqhfWZ5AhKKLbwo16X
-         Qt6N4QpqMG3FISlAOtPB0MaKiP1eWY76J4MAIv4BLa3JDkOAe1Rl9OM+VZRRKS8oFtqY
-         D5ADn9uudVQ3onvFNQXzhOvRw4AmKnD0xs0cyMSqEleivwfzvc+zZdmphIpoyB4+iqLL
-         qsH93JDe/STN98PpVO7vkad+6ISVlf9/qd9xBS2k55fI1IaOnvc0VPCbVXwPXRRe9l37
-         grggaI+U0/5Z1le84m0TrPWhrgRQQuvS7S6uRagDe4y9h4RbZDPkvoSfqZe7RxdnPchW
-         7JZw==
+	s=arc-20240116; t=1719268646; c=relaxed/simple;
+	bh=JDkANpAzKfpwY21Y7NCdTNYTbCi8+eAWHQXouTPV7bA=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=qlwH5OkMTvMo+jbmBpBtfInlzb5JAELd9TvPSa5sTelUdkaBbYKidbA/O+Io/BcQdIqJXOBN/O2fD67xftelz9enKJVdm5UmdoiVXRH/fR3dPMiP5XTzbvrhz+v+RErBQ0fg4+rhf0WxmkIucUL2CsvCV8HDVpunio/l25mXV+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f77.google.com with SMTP id ca18e2360f4ac-7eafdb25dbbso614206039f.3
+        for <linux-hams@vger.kernel.org>; Mon, 24 Jun 2024 15:37:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718803483; x=1719408283;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/85lcKBJlO6Kb/QAyU6WAmh7WhaR+ej2sU7f5pYu5lk=;
-        b=KsYYHKO3msK3bKfzD6NZi1Ay6avdG2xxRzHLWsjJRYyGN7LRlZfHYWw/lFRXYryrIM
-         vq6MMcYeChhEWtBt1cNL3TKQe9NiCN0kWqxo02oMje+DV+oACB4kixAPzhieluku+prg
-         t3iYLFlOf1056CTIDmT5tG/5T5e1rPHgLcozc0r9Zjd8mk6xnFr8PYM0L90DU7dlYbcd
-         tTtuhP2alf8I6a1ClwvZqbwkmN9VUXECdMit8ShLeje4LCIPp/1mlK3bCvnMeY5o+ZXw
-         k38MelIY6hji5pYcrO+yxgBuVGDKHeAhvybbmnTY1L+P8cDuOy2soQjbp1SX9CU2+dc6
-         BBDw==
-X-Forwarded-Encrypted: i=1; AJvYcCUfN+udlI2/zlquvDzhoz8b1OBp6Iu34l94cbOKYL0XduX3QRc8PloM3K+GLYfLkcGAjh1EDHLhUY0sYcjooczMhkpbluWgg1NWRQ==
-X-Gm-Message-State: AOJu0YzlUeXlJ+qnOVNWkvA97ld96pQLDsf9xMpGQnJosnDs64pRQOUZ
-	RNWbmKwXEM+IeaX1b4i7I+XOeIfWhkvEs5LVuk/0CWQJ9RLCC+xGDjEvHak/QOA=
-X-Google-Smtp-Source: AGHT+IEL5Vd5aGtScDLTtECdw9s829zvfuQ5Bstaigh6QKACgLsd1Hengt+Bj1p8b4PMDcXLUnwCbw==
-X-Received: by 2002:aa7:d6c2:0:b0:57d:590:d106 with SMTP id 4fb4d7f45d1cf-57d0590d14dmr1856869a12.4.1718803483250;
-        Wed, 19 Jun 2024 06:24:43 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57cb743b026sm8321793a12.97.2024.06.19.06.24.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 06:24:42 -0700 (PDT)
-Date: Wed, 19 Jun 2024 16:24:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Lars Kellogg-Stedman <lars@oddbit.com>
-Cc: Chris Maness <christopher.maness@gmail.com>,
-	David Ranch <linux-hams@trinnet.net>, linux-hams@vger.kernel.org,
-	Duoming Zhou <duoming@zju.edu.cn>, Dan Cross <crossd@gmail.com>
-Subject: Re: Mainline Kernel Question
-Message-ID: <f761b615-7495-4455-a893-1d97015fb659@moroto.mountain>
-References: <CANnsUMGJvG6Cs57_ar-iixCpyRKq_ScMZFNaq-SpdHX53ou6fQ@mail.gmail.com>
- <CANnsUMFWHd1kvbDubMnX4aS9La=0EpiCzee7NDNqkCMUwLXPaw@mail.gmail.com>
- <5d40d8ee-e4e6-41cb-a8d7-b2590b549494@moroto.mountain>
- <CANnsUMH9Of7q4NyTnWPE6e-XdezTTxiQeRVDPWzofW82Smj+zg@mail.gmail.com>
- <putxyik6yrsixppkef6v4jqmy743bxqf5uupoh6biwnjdr2vrg@s7axcoh4rv3s>
+        d=1e100.net; s=20230601; t=1719268644; x=1719873444;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vhr9yhJD+Sp+Sh7U/H6JRx2Ajx13ocgLIDyrtpn2EFg=;
+        b=bfqSOgj7KsK9AYoEqLWAliU7bD26vMvuFNxqq/GaKgaeWzdPlmNq5UojUsgcRQz2r1
+         JEzMaDnlZh0U5/9eInRs58rycGCp0UpP4h2ZgDFIzOU8p///dsTJdM/wwDoEX5dvUBd8
+         U7jUYyrTUiohPxD952HS7p210zUKtuZ98erLkHajtUkbp+qbMFlLE6qn8WJSzCz4m2N1
+         lDJ+AfJDPFo4gVQ638rOAK/8o9GOsE9CqLb87dOs+xDVybmCqevRbEx6uBo3lvwdGLYx
+         8MpaPjujqwBzRz1ou/FqvGE6qqA4Ox9LjJwMzYfg8DVZI4raaOX/yrmPkbZI2s7rvU1U
+         blBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUXUskCxIFP3bOxiVS3ehjqzFK5aMWSlfRGoaegexC6WzskFKZpfq+YzDqTDO1lF2TJEpCYM83/XvOiBqOqLj1ZU30EsExglBL/tQ==
+X-Gm-Message-State: AOJu0YwlPh1N1NmocMooADDJtt5viBeR76KM1Cxx8ekZBQPfdkEC+MEJ
+	2LMFmvd2g26j4HBdiIrESUJ2Scwyw2T++NRwFtwhVv3N0OVUYVl8FCdopELSQlVKahTNsPB/FD+
+	qtyv8Rdujn5CLfcCEaVMT+EskWV0uoKCwcwuFl9rcw48GR8LfiSVuz8k=
+X-Google-Smtp-Source: AGHT+IFw5Hh+qqyrlBrJGjC5aFTYZw7im9QZBrBYbN8R0LtLxwwBcOTLmXpiv+k8uQ/iJRNRoH5aRMAwnZ+SsqP2GFkGPfDNc6A+
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <putxyik6yrsixppkef6v4jqmy743bxqf5uupoh6biwnjdr2vrg@s7axcoh4rv3s>
+X-Received: by 2002:a05:6e02:13a1:b0:376:46d5:6583 with SMTP id
+ e9e14a558f8ab-37646d56846mr5623545ab.5.1719268643971; Mon, 24 Jun 2024
+ 15:37:23 -0700 (PDT)
+Date: Mon, 24 Jun 2024 15:37:23 -0700
+In-Reply-To: <0000000000009ce262061963e5e4@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000cc372e061baa6cd6@google.com>
+Subject: Re: [syzbot] [hams?] WARNING: refcount bug in ax25_release (3)
+From: syzbot <syzbot+33841dc6aa3e1d86b78a@syzkaller.appspotmail.com>
+To: davem@davemloft.net, edumazet@google.com, jreuter@yaina.de, 
+	kuba@kernel.org, linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Greg is busy queuing some of these patches up for 6.6 and 6.9.
+syzbot has found a reproducer for the following issue on:
 
-https://lore.kernel.org/all/20240619125606.979500617@linuxfoundation.org/
+HEAD commit:    568ebdaba637 MAINTAINERS: adjust file entry in FREESCALE Q..
+git tree:       net-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=132d6dea980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e78fc116033e0ab7
+dashboard link: https://syzkaller.appspot.com/bug?extid=33841dc6aa3e1d86b78a
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=121324ae980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1607cdda980000
 
-I suspect he'll automatically queue them for older kernels as well.
-They'll hit this weekend or next weekend.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/1d754ea220a6/disk-568ebdab.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/232f2545fca4/vmlinux-568ebdab.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/6398bb41810d/bzImage-568ebdab.xz
 
-I've been meaning to figure out which all patches are necessary for the
-4.19 kernel but I've been busy with other stuff.  Sorrry for that.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+33841dc6aa3e1d86b78a@syzkaller.appspotmail.com
 
-regards,
-dan carpenter
+------------[ cut here ]------------
+refcount_t: decrement hit 0; leaking memory.
+WARNING: CPU: 0 PID: 5091 at lib/refcount.c:31 refcount_warn_saturate+0xfa/0x1d0 lib/refcount.c:31
+Modules linked in:
+CPU: 0 PID: 5091 Comm: syz-executor127 Not tainted 6.10.0-rc4-syzkaller-00875-g568ebdaba637 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/07/2024
+RIP: 0010:refcount_warn_saturate+0xfa/0x1d0 lib/refcount.c:31
+Code: b2 00 00 00 e8 37 51 e7 fc 5b 5d c3 cc cc cc cc e8 2b 51 e7 fc c6 05 d6 3f e9 0a 01 90 48 c7 c7 a0 97 1f 8c e8 67 81 a9 fc 90 <0f> 0b 90 90 eb d9 e8 0b 51 e7 fc c6 05 b3 3f e9 0a 01 90 48 c7 c7
+RSP: 0018:ffffc900033df9c8 EFLAGS: 00010246
+RAX: 9aea901d1711a200 RBX: ffff88807bf2c664 RCX: ffff8880287d9e00
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: 0000000000000004 R08: ffffffff81585822 R09: fffffbfff1c39994
+R10: dffffc0000000000 R11: fffffbfff1c39994 R12: ffff88807bf2c620
+R13: 0000000000000000 R14: ffff88807bf2c664 R15: dffffc0000000000
+FS:  0000000000000000(0000) GS:ffff8880b9400000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fa556961110 CR3: 0000000075faa000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ __refcount_dec include/linux/refcount.h:336 [inline]
+ refcount_dec include/linux/refcount.h:351 [inline]
+ ref_tracker_free+0x6af/0x7e0 lib/ref_tracker.c:236
+ netdev_tracker_free include/linux/netdevice.h:4056 [inline]
+ netdev_put include/linux/netdevice.h:4073 [inline]
+ ax25_release+0x368/0x950 net/ax25/af_ax25.c:1069
+ __sock_release net/socket.c:659 [inline]
+ sock_close+0xbc/0x240 net/socket.c:1421
+ __fput+0x406/0x8b0 fs/file_table.c:422
+ task_work_run+0x24f/0x310 kernel/task_work.c:180
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0xa27/0x27e0 kernel/exit.c:874
+ do_group_exit+0x207/0x2c0 kernel/exit.c:1023
+ __do_sys_exit_group kernel/exit.c:1034 [inline]
+ __se_sys_exit_group kernel/exit.c:1032 [inline]
+ __x64_sys_exit_group+0x3f/0x40 kernel/exit.c:1032
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fa5568e5c49
+Code: Unable to access opcode bytes at 0x7fa5568e5c1f.
+RSP: 002b:00007ffc83eaf9b8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fa5568e5c49
+RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000000
+RBP: 00007fa5569602b0 R08: ffffffffffffffb8 R09: 0000000000000006
+R10: 00000000200003c0 R11: 0000000000000246 R12: 00007fa5569602b0
+R13: 0000000000000000 R14: 00007fa556960d00 R15: 00007fa5568b6e90
+ </TASK>
 
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
