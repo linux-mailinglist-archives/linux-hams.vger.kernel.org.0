@@ -1,139 +1,173 @@
-Return-Path: <linux-hams+bounces-375-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-376-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BE2916D16
-	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 17:30:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 553D5916D44
+	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 17:39:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5991FB27E17
-	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 15:29:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0123D1F235E9
+	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 15:39:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 787C116FF3D;
-	Tue, 25 Jun 2024 15:29:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06FFA16F8E7;
+	Tue, 25 Jun 2024 15:39:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AdnWCFj3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ON4IlMmS"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890E516FF36
-	for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 15:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B684E16F859
+	for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 15:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719329374; cv=none; b=iNhoes8K8paEzgjmgJ4jGMkn/lHBXviCRaUQQ1DnqTcD7QYKO7qHw/GDe+PYFofQhqgWiQBGgkX6fvsAPU1PBsXM7lGUwmZeHpe9RCQnt9nZB3ogdILF2n5xZwCtStlitrPKxvRNum53F+pHZMJpoUtiD4F3lY30Vyf7ufDTYVE=
+	t=1719329966; cv=none; b=M3WlKoIEz9jTYqXK3EqUkcTf/UQS1USmcrjqYAbtRWPrn3EQeisAO9IYx4Zpogl+l5p2GqtJ4TJfuRS/afc7J4UZxE2jrHWX1XgDImXrnaftWKKOOAB4empFFdb9feMxFMxAEAO6hxLsq8rS2Mt3Z6iHDixn0QkPBKi0/f/jRbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719329374; c=relaxed/simple;
-	bh=RkwVWlj8Lh8b00GUIa49O4hABAs/caMkh0Q9L7j6lPA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EyENoa1Yg7ELeMUQv8M3gxzkgNR3D/j37jd/7NmRY5L579E796Byd+8MpSEH/hRjKrvSw44b/QKQfq28VTZuR8CU46vWuDwJdEhT9jvLJTpUpWpXTtQPOf3IaqTNpSMN7w4fw7SnY9h0CmJFatPzyUaYykh+fDi62uGq3C6NywY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AdnWCFj3; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2ebeefb9a6eso64872311fa.1
-        for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 08:29:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719329370; x=1719934170; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HMLO+RptLcQB8PHqNg9dYTh84W1kQBGDitIdoSf1TII=;
-        b=AdnWCFj3tSZhM8A8hTrn8/Jstwq4xYdbs9wfpJPIkKnmxMjNQvpjLd2/XQzu8+vJyf
-         o6iSfwPHL7p3H/S/Ybz1djQjklnG7KR5Zr8ulc7gaOy798172Dxi++JxNH/AZtQxBIAv
-         j/na1qR1f612CkRVt+4uR0fJ/r6YFLrHhMtGZeKda/i88QzVWDvsWvJp+ezQX/Ft44KD
-         hso+h+ryjdiuTC7ZyXbM+3N5MRMrsBmofsOSQGgnVfxCp2Wyvw9pxWwsMEaLlqatogoZ
-         GwngC6aT1i/z/3z/pW19gZvnRgFW5O4lFZSdFzQ4fvOOaytO9Rbk6RXOrV0PFq1h81fe
-         R1sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719329370; x=1719934170;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HMLO+RptLcQB8PHqNg9dYTh84W1kQBGDitIdoSf1TII=;
-        b=U/ng0Gk8HWVOgX6adVK4ACZE18uy2MPVTnh9rdAvQt8BgDWfB1OxgJbo9jVcqDo2DK
-         kvb4cIgjg0Fm5s/gwLSUCReSCGgM3onZVLNWE6yTMvq2meja679k1mZ2Q9ewGYNSFr7B
-         WiEHKxotoAgjyctVRcBG4xGlBg1EoQ3dzxEHdBo0wsWQwiE906R4t5hWHSw4U6uHqfhD
-         Ug1CzOps2JYCcTz+sBIqqqBcOU/Ae5Q8w1+E7elx2ZQbDaZh7fR0a04wXhpl9OlRnnzK
-         ebg8z6xSG3wHGWvmL60PaHnQIkJYpScGyC7NirWMBGoU7nNkv/CqlyHGubnm9OpkyYC2
-         s/bw==
-X-Forwarded-Encrypted: i=1; AJvYcCV4/J9cN99qg/+Oi/Km5TELmz1/bdWlwLLsIOQSqv8+GlACvME7BAJYshT+01T85pFa83WIAnMVPUEItMsr2QFxYVyPXdFUskqyow==
-X-Gm-Message-State: AOJu0Ywm6ZLnsbnu0/R2Q3wM+4OQ41UkW8copGLjozaRgN7cVQcfiZDk
-	hmusD101OpRSJ/e0JKP9Y4PKosQL4wZDvvBFc060ZxbQHfeTgTmIIfWBiItsDERwwK9B4AVwrdJ
-	fV69FHGoN5MxnVBNGvjnJUv8vd4tUgw==
-X-Google-Smtp-Source: AGHT+IHjUICwvSdPqZ7PtGVm3m50RPyoiuiE8W5g2t23i0RXkQ5kgLGIvp68Z+/LCgRVr2JCxTiTOD+VpWR6FLdrZuE=
-X-Received: by 2002:a2e:9dd8:0:b0:2ec:4fc3:a8c8 with SMTP id
- 38308e7fff4ca-2ec59312e0fmr54139861fa.0.1719329369265; Tue, 25 Jun 2024
- 08:29:29 -0700 (PDT)
+	s=arc-20240116; t=1719329966; c=relaxed/simple;
+	bh=Ig1IYtyboG3z1Ll+1Qxf+g5iZBgTEwx+eBj4OP7lAFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T9pCWTtRoyYotQvDOlVesj2jBt5tZUMBK4EshUxGZMuUkDBSzA4GGOx7y9JLWQ5YZ4aSTmogmqfwgsY2m5gpItyWe6kkrS5Zbswqf9NLwcfZ7fAClS/uE49ToB+AmcR7aZbusS58+oEG/zO5WW2YcBDs9VtGlTOXf3/rxj3HukM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ON4IlMmS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9007FC32781;
+	Tue, 25 Jun 2024 15:39:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719329966;
+	bh=Ig1IYtyboG3z1Ll+1Qxf+g5iZBgTEwx+eBj4OP7lAFI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ON4IlMmSNaw4wMmt6FXjj1kwEkCdvxPEMDci3imHO6oPV0isgD5vGkfRe3c5W3MFU
+	 02HaR1Vv3hHz+ogOmguocIVe3u6t+4L9XqySzpDdF2BXvgDWDHyCB9ik7DPTG5Sb9g
+	 uMqTbivvAKwc3uHhwFBDSbD3DnhBZ1WcRExptMZAdG8uGT4czJ8mLkm6NjMnXoGvOp
+	 ehQeaXytCNCOFsc0dISdPsXoapk/vI2dnnozspAZ8VzB7lRxZ81lwciRhF04G6tD89
+	 x+uLI5wwqUzt8Pz1DCeHsY6mCKsv+tSLcl2MjvoBeTBDwRLaS5CLphoUMBfWn9RUGm
+	 za9Y3ABiyK6Gw==
+Date: Tue, 25 Jun 2024 17:39:23 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Dan Cross <crossd@gmail.com>
+Cc: Joerg Reuter DL1BKE <jreuter@poboxes.com>, linux-hams@vger.kernel.org, 
+	Chris Hofstaedtler <zeha@debian.org>
+Subject: Re: remote login(1) (telnetd; innetgr(3))
+Message-ID: <xyilquq3zxmrnbjgxgtxtbxdngxswhpxyd6t3aas4psm4zuy6j@xzvr3h3bsvue>
+References: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
+ <CAEoi9W7YEkhYnNTmrG=NSuZLQhEXxqYid_J_BB5Wgn6gqoF=1A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
-In-Reply-To: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
-From: Dan Cross <crossd@gmail.com>
-Date: Tue, 25 Jun 2024 11:28:52 -0400
-Message-ID: <CAEoi9W7YEkhYnNTmrG=NSuZLQhEXxqYid_J_BB5Wgn6gqoF=1A@mail.gmail.com>
-Subject: Re: remote login(1) (telnetd; innetgr(3))
-To: Alejandro Colomar <alx@kernel.org>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="aja3g7oi52myv6xz"
+Content-Disposition: inline
+In-Reply-To: <CAEoi9W7YEkhYnNTmrG=NSuZLQhEXxqYid_J_BB5Wgn6gqoF=1A@mail.gmail.com>
+
+
+--aja3g7oi52myv6xz
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Dan Cross <crossd@gmail.com>
 Cc: Joerg Reuter DL1BKE <jreuter@poboxes.com>, linux-hams@vger.kernel.org, 
 	Chris Hofstaedtler <zeha@debian.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: remote login(1) (telnetd; innetgr(3))
+References: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
+ <CAEoi9W7YEkhYnNTmrG=NSuZLQhEXxqYid_J_BB5Wgn6gqoF=1A@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAEoi9W7YEkhYnNTmrG=NSuZLQhEXxqYid_J_BB5Wgn6gqoF=1A@mail.gmail.com>
 
-On Tue, Jun 25, 2024 at 4:09=E2=80=AFAM Alejandro Colomar <alx@kernel.org> =
-wrote:
-> We were discussing the possibility of removing support for remote login
-> in shadow utils' login(1) via telnetd or similar; that is, remove the
-> '-h' flag.
->
-> <https://github.com/shadow-maint/shadow/pull/1022>
->
-> And then Chris reported that ax25-tools uses that flag.
->
-> <https://sources.debian.org/src/ax25-tools/0.0.10-rc5+git20230513+d3e6d4f=
--2/ax25/axspawn.c/?hl=3D64#L1837>
->
-> Do you know if that code is actively used or if it's something from the
-> past?  Would it be possible to switch to something secure like SSH, or
-> is that not viable in the systems you use?
+Hi Dan,
 
-Variations of it are actively used. See, for example,
-https://kz2x.radio/posts/complex/
+On Tue, Jun 25, 2024 at 11:28:52AM GMT, Dan Cross wrote:
+> On Tue, Jun 25, 2024 at 4:09=E2=80=AFAM Alejandro Colomar <alx@kernel.org=
+> wrote:
+> > We were discussing the possibility of removing support for remote login
+> > in shadow utils' login(1) via telnetd or similar; that is, remove the
+> > '-h' flag.
+> >
+> > <https://github.com/shadow-maint/shadow/pull/1022>
+> >
+> > And then Chris reported that ax25-tools uses that flag.
+> >
+> > <https://sources.debian.org/src/ax25-tools/0.0.10-rc5+git20230513+d3e6d=
+4f-2/ax25/axspawn.c/?hl=3D64#L1837>
+> >
+> > Do you know if that code is actively used or if it's something from the
+> > past?  Would it be possible to switch to something secure like SSH, or
+> > is that not viable in the systems you use?
+>=20
+> Variations of it are actively used. See, for example,
+> https://kz2x.radio/posts/complex/
+>=20
+> However, looking at the linked code you pointed to, it appears that
+> the `-h` flag is only used to insert the _protocol_ a user uses to
+> connect with into the `ut_host` field of the utmp file; one of the
+> empty string, "AX.25", "NET/ROM" or "Rose". Presumably this is so that
+> if one runs `w` or `who` or `finger` or `last` something on a host
+> that a user has logged into using `axspawn`, one would know what
+> protocol they used. It's subjective, but I don't know how valuable
+> that information is; I suspect not very, given what's already a pretty
+> niche case.
+>=20
+> More to the point, one could remove the lines from `axspawn` that add
+> the `-h` option and its argument to `login` and `axspawn` would
+> continue to work for its intended purpose; just a small bit of
+> information would no longer be present about the connection itself.
+> For that matter, nothing prevents `axspawn` from logging that
+> information via other means (syslog, for instance).
 
-However, looking at the linked code you pointed to, it appears that
-the `-h` flag is only used to insert the _protocol_ a user uses to
-connect with into the `ut_host` field of the utmp file; one of the
-empty string, "AX.25", "NET/ROM" or "Rose". Presumably this is so that
-if one runs `w` or `who` or `finger` or `last` something on a host
-that a user has logged into using `axspawn`, one would know what
-protocol they used. It's subjective, but I don't know how valuable
-that information is; I suspect not very, given what's already a pretty
-niche case.
+Hmmm.  Thanks!  Would you mind reviewing the patches here:
+<https://github.com/shadow-maint/shadow/pull/1022> to make sure I can do
+it without breaking anything for you.
 
-More to the point, one could remove the lines from `axspawn` that add
-the `-h` option and its argument to `login` and `axspawn` would
-continue to work for its intended purpose; just a small bit of
-information would no longer be present about the connection itself.
-For that matter, nothing prevents `axspawn` from logging that
-information via other means (syslog, for instance).
+If there's any chance we can break stuff, just let me know and I'll drop
+my patches.
 
-Something like `ssh` won't work in this case, I'm afraid, but not only
-for the reason already listed about regulatory restrictions on
-encryption in the amateur radio service. Rather, `axspawn` is designed
-for use with one of the connected-mode amateur-specific protocols, not
-TCP/IP: though AX.25 is technically a link-layer protocol, it is based
-on X.25, which predates the OSI model and its categorization as layer
-2 is a bit of an approximation. In particular, it contains a
-semi-reliable "connected" mode that can be used for "keyboard to
-keyboard" communication, and that's the sort of thing that `axspawn`
-uses. NET/ROM and Rose are both protocols layered on top of AX.25 that
-provide something closer to what we'd recognize as a combination of
-network- and transport-layer protocols. Anyway, to my knowledge, no
-one has produced a version of `ssh` that can use AX.25 addresses, or
-any protocol other than TCP/IP.
+Have a lovely day!
+Alex
 
-        - Dan C.
+> Something like `ssh` won't work in this case, I'm afraid, but not only
+> for the reason already listed about regulatory restrictions on
+> encryption in the amateur radio service. Rather, `axspawn` is designed
+> for use with one of the connected-mode amateur-specific protocols, not
+> TCP/IP: though AX.25 is technically a link-layer protocol, it is based
+> on X.25, which predates the OSI model and its categorization as layer
+> 2 is a bit of an approximation. In particular, it contains a
+> semi-reliable "connected" mode that can be used for "keyboard to
+> keyboard" communication, and that's the sort of thing that `axspawn`
+> uses. NET/ROM and Rose are both protocols layered on top of AX.25 that
+> provide something closer to what we'd recognize as a combination of
+> network- and transport-layer protocols. Anyway, to my knowledge, no
+> one has produced a version of `ssh` that can use AX.25 addresses, or
+> any protocol other than TCP/IP.
+
+Ok; thanks.
+
+>=20
+>         - Dan C.
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--aja3g7oi52myv6xz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmZ65KsACgkQnowa+77/
+2zLWfxAAgiW1EVJk4n/qm2qq0+wwlZIp5tfsEAbEN28yaNPE2j54d+awT2CuytNy
+UD8C1nSTRC9FwU7Uq9np4vIptCVpLL0DiUMvKri4uawFz1UgM+g3JPaUbRyErcQ9
+aBYQbgG5mlqqaGtZBzmX4P5fDzb0Nne7nQkDxSeSwBI/lXRsoZPu3NG1j4qLslqm
+t4WhX/19rPuwxvL+L02+rO40mnm3HlmSkEmAy2qEqJt1aTri5G2ZQnd+NmikemxJ
+Q0siYR14FsjLDYTK0QOP1g3S2IPELpCSZJEJrY/3RvbVclH4Rolvg0uVWQDng+Rb
+nYCMMm0JY5RDUCk5m+s9H6MRFj8R3/t1yMqT8bEjEZoW0kpekV1JteQLINQEnCmY
+Ate6YGe8qeCK9ytYIZ42S4Mupd/mGRmtMXMyYGroVF2h8lF4vvV0zSuua2RWuMsL
+OUM6Nu36PhYptJPU+De+JTB4wpeK9+unntlioiiLu8NUz3WNWcC18+s2l+7058hQ
+4UISruQAyu9rCuEYf9urDiFZ6FYUJbROAKzGXuQCr3j/thVpLuzIE24WmTZyVpyR
+/YfuffYtry5YvFDUiKPk/Ldr7hcrxlH4djAdQXdg7HKUUgq88TWL3Ma73fcQ28sa
+JQlsNqBUcSUScKgSq5C/YeBTpaIR4vpb5EssW21p6NiVwcsWlUw=
+=NDU5
+-----END PGP SIGNATURE-----
+
+--aja3g7oi52myv6xz--
 
