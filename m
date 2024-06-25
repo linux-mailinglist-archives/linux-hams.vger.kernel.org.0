@@ -1,86 +1,115 @@
-Return-Path: <linux-hams+bounces-372-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-373-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43DB4915AD3
-	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 02:05:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1889160A8
+	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 10:09:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9C672830CC
-	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 00:05:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B38DFB22141
+	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 08:09:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41CDD7E9;
-	Tue, 25 Jun 2024 00:05:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 490E414600F;
+	Tue, 25 Jun 2024 08:09:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MDYL+D5e"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eaq2mBQO"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DA8184
-	for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 00:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8237344F
+	for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 08:09:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719273906; cv=none; b=lmdy9FOhn8tmdmIwiqTQwvS9dxeoKrOeNZGrRqUPraXefN01fHFPFG19gkOzqBmZ9uBKnpXUPIIriO2H7lW+GJYDrLW3kylwA7iEH0ePCmsxqwDLqcUCBt94CVOV1IoUcG0p8xDF+KnvCOj9Ju/qTiJigJDenxsELctr1D/51EI=
+	t=1719302951; cv=none; b=KCa9r0uWBYGiqNZEc2JPIW9ypF2644c6v99cPJVCaiQullblcdZsqLFrdeGUkWBDwXcieUsAkrhSYXqyRYUo/EEAPxeqWd5yxf5nWV5we/Ws8YkO18Hkc9PhsdUeA9900lDMgUiaL/zTP1wauStdMsendggp17ahkDdJ4ajGaQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719273906; c=relaxed/simple;
-	bh=prtNeu6mLcIHBJe2VhjX8RCHILjhta2XaxBCi849YTs=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=pvqh8paupAehVSYQofu9xyxt63YesZ2gLdxaQwA4HbDj5zaFyF4FBaFAOfvUtKDYKab1+EJ2DcX3me4PpMke3zBbMoTnHQQF6A2mUjzSrq9ptNHElQ0KMX2LvqyqoQIOeOLCkrMexhtCcZG/Y+2dGcIx9rhiGGQvMxkW/5gJt8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MDYL+D5e; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dfe1aa7cce2so4613086276.1
-        for <linux-hams@vger.kernel.org>; Mon, 24 Jun 2024 17:05:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719273903; x=1719878703; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bAFT+BRVJv7fiGMV2oADsYHunTQFRCc6xzc/0g71sUc=;
-        b=MDYL+D5eO3JZFHmUYQ7w9FREfeOFFFdEPycoY/YsmrUrtKCcOOCMRQnkzzOj9f7pfI
-         aQa6Fru+xzztllq0z9XuDQOrL/CWhxTHnZ9dwomSWInNOu1usFnNXgiUcUbGAaUmQ+eJ
-         4C7Y/sYZfR4LgtB5eAzGoy0D0rgjk5YYYL4N7DbdmLXjbaV/YjMAc4gpbUqjnRg7A5H5
-         bKEu48Loo84xZfy2gXm3EcnvR/uHdIoDjJ+ECGEgEdvuNEZqu6sHyMCRJHIC+4V0qic2
-         MgBNBXEWZCGZBQ+6Zj0lnZnnd8g701OuN4FTeSUerHcNqX/K/uGb+S1dzbTGdRKdO7Fz
-         E1lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719273903; x=1719878703;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bAFT+BRVJv7fiGMV2oADsYHunTQFRCc6xzc/0g71sUc=;
-        b=ViFZDlOYnW+r+Audni/2oE0eq8YUYEsZwBpuUT7Zd8IjpySgS3c9nJwQ3diy9L4xyH
-         Jv91yQcbAPfow+G3rWLbqkSDKX0n4Z20IQ2lWTZ+UVSvK7n+QpjLliiCeRX9G9TdDbna
-         HtJdMMVpOkqkMLeSUYlI+6nDe8x18t2cPMIKc40EAG5FhdYJURhqIIiZTHn3dVpEoGhf
-         zLBgUtAWWfusNeWdray4O0AhCwFREIJ4yEXTOxhFnfJNWd5GOKQe/SB12NLm7dopiGv8
-         0Sh9OogZoy4mAOQBq7bU86HA/IbC0O3WQJeIAQmZ25e7Wp5vUv4iTkw8F4U0o10xRxL4
-         FwsA==
-X-Forwarded-Encrypted: i=1; AJvYcCV2dhRdkG5rnKlvVhHwwQEoRsirZ7KKSpF4olu/rLYSmWr9e6U+fyViTk+h1u+dDsSCPP02g8Qcps6BtLtPAVy0GAd0MQWnTVde0g==
-X-Gm-Message-State: AOJu0YzVEoJllyUcd6lGoDlvOeWKzoBS5VCQHxZ1mtrYmb/9gQNcnGBV
-	Dr2VK6mSgI7Za/Uau8Cm/7Pw0QjCVT3i71pLbADRI88mz39PmG+IT66KXI2tEl+W0Vx/+pV06gL
-	2TZOg0Mq8JbnwuPiwyTSvB1/Hj8jRPg==
-X-Google-Smtp-Source: AGHT+IFtrciidI/M7k2NVlInXU1dUqzKWOGBUXmV+s9pawoJYSmpSyw9qID10Kf5k3e+T6mbUCtOrUB7+62GjZ6DvXE=
-X-Received: by 2002:a5b:7c3:0:b0:e02:9dd0:e637 with SMTP id
- 3f1490d57ef6-e0303f2c949mr5199972276.22.1719273903617; Mon, 24 Jun 2024
- 17:05:03 -0700 (PDT)
+	s=arc-20240116; t=1719302951; c=relaxed/simple;
+	bh=GgsPxZND9KhqVj7zyMftVvi+dxutgudRR31wCZZxI+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AuJy/gdhiD/ClK/751kB3Xd3deZM/1JNzfeKS2/ufKgYpO/ps+epC38sNcpCuDNhZYpCEX7tfq2riPHKEqXtpKJHrl5Myky+nqErkSsHSl1Ddw02msqFqqP2VDoNoGri/3+AvMAlTA2KDqZYod3go3gWDSuCG9OQaQsld4Pn/mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eaq2mBQO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5EF4C32782;
+	Tue, 25 Jun 2024 08:09:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719302950;
+	bh=GgsPxZND9KhqVj7zyMftVvi+dxutgudRR31wCZZxI+Y=;
+	h=Date:From:To:Cc:Subject:From;
+	b=Eaq2mBQOL1vxrCGbISMJuRd5w2Zot7SojcM0S0KU9zc/T93JhfniFPRIXYKYUDX7l
+	 5SPIlr6KksLLYcdo2HdIHJDAk1efYNzxf8knVtz3/iENtYxJ4wtZZqYvf2rFLT64Uc
+	 uMhnd0anQScbH8BjrVjAvdd1X5DRZGlT83NbUWRuvdWGt6JsK+m/GJCiGLZD7S6RIq
+	 Ct06s/MjyCo5xiUSg8FEDjdsV8lSWVTOJlX5fPfUzupPwDfWgGUAyYS5O5v0BGq12O
+	 ag4prqWzHbOa5apblLW8f5GsVSKb4XgnmFqPcG1gBk6Jhj90GNbeRtG1XKmtsybtqJ
+	 ysw+KF4CU2aWQ==
+Date: Tue, 25 Jun 2024 10:09:07 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Joerg Reuter DL1BKE <jreuter@poboxes.com>, linux-hams@vger.kernel.org
+Cc: Chris Hofstaedtler <zeha@debian.org>
+Subject: remote login(1) (telnetd; innetgr(3))
+Message-ID: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Chris Maness <christopher.maness@gmail.com>
-Date: Mon, 24 Jun 2024 17:04:52 -0700
-Message-ID: <CANnsUMFi2H+PK43cLdVE3vqwL5MqLqbkb=qgS4u-kUrP9rwG9w@mail.gmail.com>
-Subject: AX.25 Fix now in v6 kernel stable/longterm forks
-To: Lars Kellogg-Stedman <lars@oddbit.com>, David Ranch <dranch@trinnet.net>, linux-hams@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="a3ggl4l6ijilerbe"
+Content-Disposition: inline
 
-Thanks for the work again Lars.  I see that your deltas have been back
-ported to all the stable/longterm forks on Kernel version 6.
 
--Chris KQ6UP
+--a3ggl4l6ijilerbe
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Joerg Reuter DL1BKE <jreuter@poboxes.com>, linux-hams@vger.kernel.org
+Cc: Chris Hofstaedtler <zeha@debian.org>
+Subject: remote login(1) (telnetd; innetgr(3))
+MIME-Version: 1.0
 
--- 
-Thanks,
-Chris Maness
+Hi,
+
+We were discussing the possibility of removing support for remote login
+in shadow utils' login(1) via telnetd or similar; that is, remove the
+'-h' flag.
+
+<https://github.com/shadow-maint/shadow/pull/1022>
+
+And then Chris reported that ax25-tools uses that flag.
+
+<https://sources.debian.org/src/ax25-tools/0.0.10-rc5+git20230513+d3e6d4f-2=
+/ax25/axspawn.c/?hl=3D64#L1837>
+
+Do you know if that code is actively used or if it's something from the
+past?  Would it be possible to switch to something secure like SSH, or
+is that not viable in the systems you use?
+
+Have a lovely day!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--a3ggl4l6ijilerbe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmZ6eyMACgkQnowa+77/
+2zJ2zQ/6A91DSbNDJjUJ/yqFwV3847YGtgOEn3+v5VnSZMAaxV3vPzyZxUFP2Dw2
+6gAgtl6OKfVxgS646SKs1vNVr33ndyg5sSohMXo+zUS8TboEo+t/U9i95DTy+BgC
+qkVhv3Gvfw6qCm9Ce+Zs/AEXSwuO3+/0db5uL+Kbx+CmgrWY0PPI0zdY6cILD5uT
+fKjIC4dNIUjGfxDileZPm4siKgNMgMPqwJcz/3dG5Cp22GCtTjXGyMEyT2dsxGMK
+yYr++SC98MHngBKfZCXHVbHsDHsRA/wm0gppGYyL+Z6+uZiAXynB9TA3RpOx2paB
+GNKM9e17tFrQFqt4k86wxJmoVcIPqA28/yCPsrcN+ParlwDml6EujBzb89ljbhv6
+boidHMM7wSWfRpDC9yuQsBW0wa5msI8nMLr9HpzASn12ifSvGDGw/ydr+wNZ+FMb
+kCynE2PIvu5H/CIj1XnPKOEXmNpX8qeQ+F/lnY/s7A6laNPrdlRlQ0eH8rKE9nnL
+eMFxa/hdhpV+5MPJELZVstnf/MP+Z0QNiMjYeIg7NSweFCoS3+595OjK7e/GwuLU
+ruU/qaQIRbDIOnOhwg4MLzzHtEiyv4VxXwDX/eSOnKj380gfOuAK+PCKn1wis5gF
+ynamVjenJFVWONvF3jb0c4qQqx74n4nVjH/39vMw16dHVQv5mqs=
+=MHY6
+-----END PGP SIGNATURE-----
+
+--a3ggl4l6ijilerbe--
 
