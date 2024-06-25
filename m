@@ -1,115 +1,137 @@
-Return-Path: <linux-hams+bounces-373-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-374-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1889160A8
-	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 10:09:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C6B9161AB
+	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 10:51:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B38DFB22141
-	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 08:09:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65484285CD9
+	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 08:51:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 490E414600F;
-	Tue, 25 Jun 2024 08:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98B0B148832;
+	Tue, 25 Jun 2024 08:51:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eaq2mBQO"
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="wauh6+LP"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8237344F
-	for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 08:09:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07071474A0
+	for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 08:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719302951; cv=none; b=KCa9r0uWBYGiqNZEc2JPIW9ypF2644c6v99cPJVCaiQullblcdZsqLFrdeGUkWBDwXcieUsAkrhSYXqyRYUo/EEAPxeqWd5yxf5nWV5we/Ws8YkO18Hkc9PhsdUeA9900lDMgUiaL/zTP1wauStdMsendggp17ahkDdJ4ajGaQ8=
+	t=1719305509; cv=none; b=dWWIsorNi5XH+kJW9aA9HOa6SRRpUhIE2qzyqdAbRJT8EZVxbtvSIMbTiMfzXTe59dSBLhrXlCMtl+EkM/uZl14n4lVVfkDcvnu1Y3/FS2xv/IIZccDf0KD8MH3ab+/I0C4uQswiWNXcXc7VrEcSpw0dihyOTxz6Y8OjExS7z8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719302951; c=relaxed/simple;
-	bh=GgsPxZND9KhqVj7zyMftVvi+dxutgudRR31wCZZxI+Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AuJy/gdhiD/ClK/751kB3Xd3deZM/1JNzfeKS2/ufKgYpO/ps+epC38sNcpCuDNhZYpCEX7tfq2riPHKEqXtpKJHrl5Myky+nqErkSsHSl1Ddw02msqFqqP2VDoNoGri/3+AvMAlTA2KDqZYod3go3gWDSuCG9OQaQsld4Pn/mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eaq2mBQO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5EF4C32782;
-	Tue, 25 Jun 2024 08:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719302950;
-	bh=GgsPxZND9KhqVj7zyMftVvi+dxutgudRR31wCZZxI+Y=;
-	h=Date:From:To:Cc:Subject:From;
-	b=Eaq2mBQOL1vxrCGbISMJuRd5w2Zot7SojcM0S0KU9zc/T93JhfniFPRIXYKYUDX7l
-	 5SPIlr6KksLLYcdo2HdIHJDAk1efYNzxf8knVtz3/iENtYxJ4wtZZqYvf2rFLT64Uc
-	 uMhnd0anQScbH8BjrVjAvdd1X5DRZGlT83NbUWRuvdWGt6JsK+m/GJCiGLZD7S6RIq
-	 Ct06s/MjyCo5xiUSg8FEDjdsV8lSWVTOJlX5fPfUzupPwDfWgGUAyYS5O5v0BGq12O
-	 ag4prqWzHbOa5apblLW8f5GsVSKb4XgnmFqPcG1gBk6Jhj90GNbeRtG1XKmtsybtqJ
-	 ysw+KF4CU2aWQ==
-Date: Tue, 25 Jun 2024 10:09:07 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Joerg Reuter DL1BKE <jreuter@poboxes.com>, linux-hams@vger.kernel.org
-Cc: Chris Hofstaedtler <zeha@debian.org>
-Subject: remote login(1) (telnetd; innetgr(3))
-Message-ID: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
+	s=arc-20240116; t=1719305509; c=relaxed/simple;
+	bh=R1nsQPu5v96ItcezZ1eX9oe6ClPrOneabe61Pbycyfk=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=NXRnsrdMSLto8tuq/GQBK+xEvV0lEkmBoqoftJnf8yGnNEitqbgrc+G4seYCaK9rzi75g7Q0hE7VpOx2IJ/D76E8bPYh0FHY2qmr2Qs9ljdOAnkwKQVY6tIFIDTuM0mrOgnyvvOQ6Aht5ywYSabBK/dqFwc4PViY436hQ2xKwSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=wauh6+LP; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Content-Type:Subject:Cc:To:From:Date:
+	References:In-Reply-To:Message-Id:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=0Bjrm4+5ItstETSOpPsPL8YKIHdh9m/4ohAtiO+KIpQ=; b=wauh6+LPAbOsPramWd6qzmXsH2
+	2Z2/Y0YjyzM/1GzckYa71FSx6QqTmO5wIo/tq2GYlHeuN2hm4DriBLQn4HIIr9H7zVz07FlNvnzm3
+	LQZqDNE7vGwUlnqQ09FdGJdqlQycowa/3zJRDsX3tofL0/cO1iz3BZDws1bF5vJ/IoUipH9ocF+h5
+	/cabVverG3+CTxWhxGwxsnKt78WxlaPqXxdS+qyTHl5WSLoJFHZxkK62dSNgm+Qxyz4r0MMafG6EW
+	ATG8HT1injHtuKrut46PRlFtE2W0Y4eNr5IZH4wKL+n6PFPfCMoLqPVpSEjLPFtEcyP68YTBcSgQG
+	vEdxDj0g==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <hibby@debian.org>)
+	id 1sM1tf-001W7b-MN; Tue, 25 Jun 2024 08:51:28 +0000
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailfauth.nyi.internal (Postfix) with ESMTP id 418711200068;
+	Tue, 25 Jun 2024 04:51:25 -0400 (EDT)
+Received: from imap53 ([10.202.2.103])
+  by compute1.internal (MEProxy); Tue, 25 Jun 2024 04:51:25 -0400
+X-ME-Sender: <xms:DYV6ZsUeu0_VXMnzi53bYynKAXT6IfPFNUPrXqPXGo0sbaCPoDzciw>
+    <xme:DYV6Zgk044uF_AFG9fuxJ5Q94lG9zk7ZbWw8v04iwc3JIQ-cv28ixYwbJkbH2-4E5
+    RU1GFK0HCrpmbA_EA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeegfedgtdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfffgr
+    vhgvucfjihgssggvrhgufdcuoehhihgssgihseguvggsihgrnhdrohhrgheqnecuggftrf
+    grthhtvghrnhepvdfhieduueeigedvueehfeevhffhffejgeehvdekkeettdehhfelhfeh
+    hfdvieeknecuffhomhgrihhnpehgihhthhhusgdrtghomhdpuggvsghirghnrdhorhhgpd
+    grlhgvjhgrnhgurhhoqdgtohhlohhmrghrrdgvshenucevlhhushhtvghrufhiiigvpedt
+    necurfgrrhgrmhepmhgrihhlfhhrohhmpeguodhmvghsmhhtphgruhhthhhpvghrshhonh
+    grlhhithihqddugeehtdduhedvjedvqdduieeffeelfeekhedqhhhisggshieppeguvggs
+    ihgrnhdrohhrghesvhgvhhhisggsvghrugdrtghomh
+X-ME-Proxy: <xmx:DYV6ZgaWKW5ppilpVOZoRBcgQXnvhUii-fHtnoGszdIu0jCVrwnUxA>
+    <xmx:DYV6ZrWw6QrTUJOGfr2InpQOIvjL_rEKQ1B4bwPvU4HBsBKAFiXaog>
+    <xmx:DYV6ZmmfYrM6zQP8Q2xe7QWa7oijlEnG6sruV_9UxW2Cy7BUX2wOxg>
+    <xmx:DYV6ZgfS6H9k16rl6WgVUtLqN-9HPL8b93JD7dAPoD4qxfR11nJ8ag>
+    <xmx:DYV6ZoFI5cUxxHvBlhJzTuUxTxItmo18rTyJHCxku1zj-ZS05z_JGSin>
+Feedback-ID: if431490a:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 0195D3640070; Tue, 25 Jun 2024 04:51:24 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-538-g1508afaa2-fm-20240616.001-g1508afaa
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="a3ggl4l6ijilerbe"
-Content-Disposition: inline
+Message-Id: <916671b2-10a5-49f4-9a86-d2b31d5b961c@app.fastmail.com>
+In-Reply-To: 
+ <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
+References: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
+Date: Tue, 25 Jun 2024 09:50:56 +0100
+From: "Dave Hibberd" <hibby@debian.org>
+To: "Alejandro Colomar" <alx@kernel.org>,
+ "Joerg Reuter DL1BKE" <jreuter@poboxes.com>, linux-hams@vger.kernel.org
+Cc: "Chris Hofstaedtler" <zeha@debian.org>
+Subject: Re: remote login(1) (telnetd; innetgr(3))
+Content-Type: text/plain
+X-Debian-User: hibby
 
+Hello, I mostly maintain ax25-tools in Debian, although got beaten to fixing this week's related bug!
 
---a3ggl4l6ijilerbe
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Joerg Reuter DL1BKE <jreuter@poboxes.com>, linux-hams@vger.kernel.org
-Cc: Chris Hofstaedtler <zeha@debian.org>
-Subject: remote login(1) (telnetd; innetgr(3))
-MIME-Version: 1.0
+Sadly a switch to SSH/something encrypted won't be possible in most regions - it's quite a common amateur radio regulatory requirement to only transmit cleartext data over the air.
+I have experimented with the thought of a null cipher SSH in the past, but that's quite hard to do these days!
 
-Hi,
+I'd be surprised if it was anyone's primary remote access tool - there might be some of the emergency response and similar communities using axspawn as a last line of protection. Radio amateurs have a fantastic skill of regularly surprising me!
 
-We were discussing the possibility of removing support for remote login
-in shadow utils' login(1) via telnetd or similar; that is, remove the
-'-h' flag.
+Cheers,
 
-<https://github.com/shadow-maint/shadow/pull/1022>
+-- 
+  Hibby
+  Debian Developer
+  Packet Radioist
+  MM0RFN
 
-And then Chris reported that ax25-tools uses that flag.
-
-<https://sources.debian.org/src/ax25-tools/0.0.10-rc5+git20230513+d3e6d4f-2=
-/ax25/axspawn.c/?hl=3D64#L1837>
-
-Do you know if that code is actively used or if it's something from the
-past?  Would it be possible to switch to something secure like SSH, or
-is that not viable in the systems you use?
-
-Have a lovely day!
-Alex
-
---=20
-<https://www.alejandro-colomar.es/>
-
---a3ggl4l6ijilerbe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmZ6eyMACgkQnowa+77/
-2zJ2zQ/6A91DSbNDJjUJ/yqFwV3847YGtgOEn3+v5VnSZMAaxV3vPzyZxUFP2Dw2
-6gAgtl6OKfVxgS646SKs1vNVr33ndyg5sSohMXo+zUS8TboEo+t/U9i95DTy+BgC
-qkVhv3Gvfw6qCm9Ce+Zs/AEXSwuO3+/0db5uL+Kbx+CmgrWY0PPI0zdY6cILD5uT
-fKjIC4dNIUjGfxDileZPm4siKgNMgMPqwJcz/3dG5Cp22GCtTjXGyMEyT2dsxGMK
-yYr++SC98MHngBKfZCXHVbHsDHsRA/wm0gppGYyL+Z6+uZiAXynB9TA3RpOx2paB
-GNKM9e17tFrQFqt4k86wxJmoVcIPqA28/yCPsrcN+ParlwDml6EujBzb89ljbhv6
-boidHMM7wSWfRpDC9yuQsBW0wa5msI8nMLr9HpzASn12ifSvGDGw/ydr+wNZ+FMb
-kCynE2PIvu5H/CIj1XnPKOEXmNpX8qeQ+F/lnY/s7A6laNPrdlRlQ0eH8rKE9nnL
-eMFxa/hdhpV+5MPJELZVstnf/MP+Z0QNiMjYeIg7NSweFCoS3+595OjK7e/GwuLU
-ruU/qaQIRbDIOnOhwg4MLzzHtEiyv4VxXwDX/eSOnKj380gfOuAK+PCKn1wis5gF
-ynamVjenJFVWONvF3jb0c4qQqx74n4nVjH/39vMw16dHVQv5mqs=
-=MHY6
------END PGP SIGNATURE-----
-
---a3ggl4l6ijilerbe--
+On Tue, 25 Jun 2024, at 9:09 AM, Alejandro Colomar wrote:
+> Hi,
+>
+> We were discussing the possibility of removing support for remote login
+> in shadow utils' login(1) via telnetd or similar; that is, remove the
+> '-h' flag.
+>
+> <https://github.com/shadow-maint/shadow/pull/1022>
+>
+> And then Chris reported that ax25-tools uses that flag.
+>
+> <https://sources.debian.org/src/ax25-tools/0.0.10-rc5+git20230513+d3e6d4f-2/ax25/axspawn.c/?hl=64#L1837>
+>
+> Do you know if that code is actively used or if it's something from the
+> past?  Would it be possible to switch to something secure like SSH, or
+> is that not viable in the systems you use?
+>
+> Have a lovely day!
+> Alex
+>
+> -- 
+> <https://www.alejandro-colomar.es/>
+>
+> Attachments:
+> * signature.asc
 
