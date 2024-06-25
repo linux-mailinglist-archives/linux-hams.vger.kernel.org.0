@@ -1,117 +1,90 @@
-Return-Path: <linux-hams+bounces-374-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-375-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C6B9161AB
-	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 10:51:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BE2916D16
+	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 17:30:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65484285CD9
-	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 08:51:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5991FB27E17
+	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 15:29:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98B0B148832;
-	Tue, 25 Jun 2024 08:51:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 787C116FF3D;
+	Tue, 25 Jun 2024 15:29:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="wauh6+LP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AdnWCFj3"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07071474A0
-	for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 08:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890E516FF36
+	for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 15:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719305509; cv=none; b=dWWIsorNi5XH+kJW9aA9HOa6SRRpUhIE2qzyqdAbRJT8EZVxbtvSIMbTiMfzXTe59dSBLhrXlCMtl+EkM/uZl14n4lVVfkDcvnu1Y3/FS2xv/IIZccDf0KD8MH3ab+/I0C4uQswiWNXcXc7VrEcSpw0dihyOTxz6Y8OjExS7z8Y=
+	t=1719329374; cv=none; b=iNhoes8K8paEzgjmgJ4jGMkn/lHBXviCRaUQQ1DnqTcD7QYKO7qHw/GDe+PYFofQhqgWiQBGgkX6fvsAPU1PBsXM7lGUwmZeHpe9RCQnt9nZB3ogdILF2n5xZwCtStlitrPKxvRNum53F+pHZMJpoUtiD4F3lY30Vyf7ufDTYVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719305509; c=relaxed/simple;
-	bh=R1nsQPu5v96ItcezZ1eX9oe6ClPrOneabe61Pbycyfk=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=NXRnsrdMSLto8tuq/GQBK+xEvV0lEkmBoqoftJnf8yGnNEitqbgrc+G4seYCaK9rzi75g7Q0hE7VpOx2IJ/D76E8bPYh0FHY2qmr2Qs9ljdOAnkwKQVY6tIFIDTuM0mrOgnyvvOQ6Aht5ywYSabBK/dqFwc4PViY436hQ2xKwSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=wauh6+LP; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Content-Type:Subject:Cc:To:From:Date:
-	References:In-Reply-To:Message-Id:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0Bjrm4+5ItstETSOpPsPL8YKIHdh9m/4ohAtiO+KIpQ=; b=wauh6+LPAbOsPramWd6qzmXsH2
-	2Z2/Y0YjyzM/1GzckYa71FSx6QqTmO5wIo/tq2GYlHeuN2hm4DriBLQn4HIIr9H7zVz07FlNvnzm3
-	LQZqDNE7vGwUlnqQ09FdGJdqlQycowa/3zJRDsX3tofL0/cO1iz3BZDws1bF5vJ/IoUipH9ocF+h5
-	/cabVverG3+CTxWhxGwxsnKt78WxlaPqXxdS+qyTHl5WSLoJFHZxkK62dSNgm+Qxyz4r0MMafG6EW
-	ATG8HT1injHtuKrut46PRlFtE2W0Y4eNr5IZH4wKL+n6PFPfCMoLqPVpSEjLPFtEcyP68YTBcSgQG
-	vEdxDj0g==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <hibby@debian.org>)
-	id 1sM1tf-001W7b-MN; Tue, 25 Jun 2024 08:51:28 +0000
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailfauth.nyi.internal (Postfix) with ESMTP id 418711200068;
-	Tue, 25 Jun 2024 04:51:25 -0400 (EDT)
-Received: from imap53 ([10.202.2.103])
-  by compute1.internal (MEProxy); Tue, 25 Jun 2024 04:51:25 -0400
-X-ME-Sender: <xms:DYV6ZsUeu0_VXMnzi53bYynKAXT6IfPFNUPrXqPXGo0sbaCPoDzciw>
-    <xme:DYV6Zgk044uF_AFG9fuxJ5Q94lG9zk7ZbWw8v04iwc3JIQ-cv28ixYwbJkbH2-4E5
-    RU1GFK0HCrpmbA_EA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeegfedgtdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfffgr
-    vhgvucfjihgssggvrhgufdcuoehhihgssgihseguvggsihgrnhdrohhrgheqnecuggftrf
-    grthhtvghrnhepvdfhieduueeigedvueehfeevhffhffejgeehvdekkeettdehhfelhfeh
-    hfdvieeknecuffhomhgrihhnpehgihhthhhusgdrtghomhdpuggvsghirghnrdhorhhgpd
-    grlhgvjhgrnhgurhhoqdgtohhlohhmrghrrdgvshenucevlhhushhtvghrufhiiigvpedt
-    necurfgrrhgrmhepmhgrihhlfhhrohhmpeguodhmvghsmhhtphgruhhthhhpvghrshhonh
-    grlhhithihqddugeehtdduhedvjedvqdduieeffeelfeekhedqhhhisggshieppeguvggs
-    ihgrnhdrohhrghesvhgvhhhisggsvghrugdrtghomh
-X-ME-Proxy: <xmx:DYV6ZgaWKW5ppilpVOZoRBcgQXnvhUii-fHtnoGszdIu0jCVrwnUxA>
-    <xmx:DYV6ZrWw6QrTUJOGfr2InpQOIvjL_rEKQ1B4bwPvU4HBsBKAFiXaog>
-    <xmx:DYV6ZmmfYrM6zQP8Q2xe7QWa7oijlEnG6sruV_9UxW2Cy7BUX2wOxg>
-    <xmx:DYV6ZgfS6H9k16rl6WgVUtLqN-9HPL8b93JD7dAPoD4qxfR11nJ8ag>
-    <xmx:DYV6ZoFI5cUxxHvBlhJzTuUxTxItmo18rTyJHCxku1zj-ZS05z_JGSin>
-Feedback-ID: if431490a:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 0195D3640070; Tue, 25 Jun 2024 04:51:24 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-538-g1508afaa2-fm-20240616.001-g1508afaa
+	s=arc-20240116; t=1719329374; c=relaxed/simple;
+	bh=RkwVWlj8Lh8b00GUIa49O4hABAs/caMkh0Q9L7j6lPA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EyENoa1Yg7ELeMUQv8M3gxzkgNR3D/j37jd/7NmRY5L579E796Byd+8MpSEH/hRjKrvSw44b/QKQfq28VTZuR8CU46vWuDwJdEhT9jvLJTpUpWpXTtQPOf3IaqTNpSMN7w4fw7SnY9h0CmJFatPzyUaYykh+fDi62uGq3C6NywY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AdnWCFj3; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2ebeefb9a6eso64872311fa.1
+        for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 08:29:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719329370; x=1719934170; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HMLO+RptLcQB8PHqNg9dYTh84W1kQBGDitIdoSf1TII=;
+        b=AdnWCFj3tSZhM8A8hTrn8/Jstwq4xYdbs9wfpJPIkKnmxMjNQvpjLd2/XQzu8+vJyf
+         o6iSfwPHL7p3H/S/Ybz1djQjklnG7KR5Zr8ulc7gaOy798172Dxi++JxNH/AZtQxBIAv
+         j/na1qR1f612CkRVt+4uR0fJ/r6YFLrHhMtGZeKda/i88QzVWDvsWvJp+ezQX/Ft44KD
+         hso+h+ryjdiuTC7ZyXbM+3N5MRMrsBmofsOSQGgnVfxCp2Wyvw9pxWwsMEaLlqatogoZ
+         GwngC6aT1i/z/3z/pW19gZvnRgFW5O4lFZSdFzQ4fvOOaytO9Rbk6RXOrV0PFq1h81fe
+         R1sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719329370; x=1719934170;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HMLO+RptLcQB8PHqNg9dYTh84W1kQBGDitIdoSf1TII=;
+        b=U/ng0Gk8HWVOgX6adVK4ACZE18uy2MPVTnh9rdAvQt8BgDWfB1OxgJbo9jVcqDo2DK
+         kvb4cIgjg0Fm5s/gwLSUCReSCGgM3onZVLNWE6yTMvq2meja679k1mZ2Q9ewGYNSFr7B
+         WiEHKxotoAgjyctVRcBG4xGlBg1EoQ3dzxEHdBo0wsWQwiE906R4t5hWHSw4U6uHqfhD
+         Ug1CzOps2JYCcTz+sBIqqqBcOU/Ae5Q8w1+E7elx2ZQbDaZh7fR0a04wXhpl9OlRnnzK
+         ebg8z6xSG3wHGWvmL60PaHnQIkJYpScGyC7NirWMBGoU7nNkv/CqlyHGubnm9OpkyYC2
+         s/bw==
+X-Forwarded-Encrypted: i=1; AJvYcCV4/J9cN99qg/+Oi/Km5TELmz1/bdWlwLLsIOQSqv8+GlACvME7BAJYshT+01T85pFa83WIAnMVPUEItMsr2QFxYVyPXdFUskqyow==
+X-Gm-Message-State: AOJu0Ywm6ZLnsbnu0/R2Q3wM+4OQ41UkW8copGLjozaRgN7cVQcfiZDk
+	hmusD101OpRSJ/e0JKP9Y4PKosQL4wZDvvBFc060ZxbQHfeTgTmIIfWBiItsDERwwK9B4AVwrdJ
+	fV69FHGoN5MxnVBNGvjnJUv8vd4tUgw==
+X-Google-Smtp-Source: AGHT+IHjUICwvSdPqZ7PtGVm3m50RPyoiuiE8W5g2t23i0RXkQ5kgLGIvp68Z+/LCgRVr2JCxTiTOD+VpWR6FLdrZuE=
+X-Received: by 2002:a2e:9dd8:0:b0:2ec:4fc3:a8c8 with SMTP id
+ 38308e7fff4ca-2ec59312e0fmr54139861fa.0.1719329369265; Tue, 25 Jun 2024
+ 08:29:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <916671b2-10a5-49f4-9a86-d2b31d5b961c@app.fastmail.com>
-In-Reply-To: 
- <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
 References: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
-Date: Tue, 25 Jun 2024 09:50:56 +0100
-From: "Dave Hibberd" <hibby@debian.org>
-To: "Alejandro Colomar" <alx@kernel.org>,
- "Joerg Reuter DL1BKE" <jreuter@poboxes.com>, linux-hams@vger.kernel.org
-Cc: "Chris Hofstaedtler" <zeha@debian.org>
+In-Reply-To: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
+From: Dan Cross <crossd@gmail.com>
+Date: Tue, 25 Jun 2024 11:28:52 -0400
+Message-ID: <CAEoi9W7YEkhYnNTmrG=NSuZLQhEXxqYid_J_BB5Wgn6gqoF=1A@mail.gmail.com>
 Subject: Re: remote login(1) (telnetd; innetgr(3))
-Content-Type: text/plain
-X-Debian-User: hibby
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Joerg Reuter DL1BKE <jreuter@poboxes.com>, linux-hams@vger.kernel.org, 
+	Chris Hofstaedtler <zeha@debian.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello, I mostly maintain ax25-tools in Debian, although got beaten to fixing this week's related bug!
-
-Sadly a switch to SSH/something encrypted won't be possible in most regions - it's quite a common amateur radio regulatory requirement to only transmit cleartext data over the air.
-I have experimented with the thought of a null cipher SSH in the past, but that's quite hard to do these days!
-
-I'd be surprised if it was anyone's primary remote access tool - there might be some of the emergency response and similar communities using axspawn as a last line of protection. Radio amateurs have a fantastic skill of regularly surprising me!
-
-Cheers,
-
--- 
-  Hibby
-  Debian Developer
-  Packet Radioist
-  MM0RFN
-
-On Tue, 25 Jun 2024, at 9:09 AM, Alejandro Colomar wrote:
-> Hi,
->
+On Tue, Jun 25, 2024 at 4:09=E2=80=AFAM Alejandro Colomar <alx@kernel.org> =
+wrote:
 > We were discussing the possibility of removing support for remote login
 > in shadow utils' login(1) via telnetd or similar; that is, remove the
 > '-h' flag.
@@ -120,18 +93,47 @@ On Tue, 25 Jun 2024, at 9:09 AM, Alejandro Colomar wrote:
 >
 > And then Chris reported that ax25-tools uses that flag.
 >
-> <https://sources.debian.org/src/ax25-tools/0.0.10-rc5+git20230513+d3e6d4f-2/ax25/axspawn.c/?hl=64#L1837>
+> <https://sources.debian.org/src/ax25-tools/0.0.10-rc5+git20230513+d3e6d4f=
+-2/ax25/axspawn.c/?hl=3D64#L1837>
 >
 > Do you know if that code is actively used or if it's something from the
 > past?  Would it be possible to switch to something secure like SSH, or
 > is that not viable in the systems you use?
->
-> Have a lovely day!
-> Alex
->
-> -- 
-> <https://www.alejandro-colomar.es/>
->
-> Attachments:
-> * signature.asc
+
+Variations of it are actively used. See, for example,
+https://kz2x.radio/posts/complex/
+
+However, looking at the linked code you pointed to, it appears that
+the `-h` flag is only used to insert the _protocol_ a user uses to
+connect with into the `ut_host` field of the utmp file; one of the
+empty string, "AX.25", "NET/ROM" or "Rose". Presumably this is so that
+if one runs `w` or `who` or `finger` or `last` something on a host
+that a user has logged into using `axspawn`, one would know what
+protocol they used. It's subjective, but I don't know how valuable
+that information is; I suspect not very, given what's already a pretty
+niche case.
+
+More to the point, one could remove the lines from `axspawn` that add
+the `-h` option and its argument to `login` and `axspawn` would
+continue to work for its intended purpose; just a small bit of
+information would no longer be present about the connection itself.
+For that matter, nothing prevents `axspawn` from logging that
+information via other means (syslog, for instance).
+
+Something like `ssh` won't work in this case, I'm afraid, but not only
+for the reason already listed about regulatory restrictions on
+encryption in the amateur radio service. Rather, `axspawn` is designed
+for use with one of the connected-mode amateur-specific protocols, not
+TCP/IP: though AX.25 is technically a link-layer protocol, it is based
+on X.25, which predates the OSI model and its categorization as layer
+2 is a bit of an approximation. In particular, it contains a
+semi-reliable "connected" mode that can be used for "keyboard to
+keyboard" communication, and that's the sort of thing that `axspawn`
+uses. NET/ROM and Rose are both protocols layered on top of AX.25 that
+provide something closer to what we'd recognize as a combination of
+network- and transport-layer protocols. Anyway, to my knowledge, no
+one has produced a version of `ssh` that can use AX.25 addresses, or
+any protocol other than TCP/IP.
+
+        - Dan C.
 
