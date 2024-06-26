@@ -1,148 +1,94 @@
-Return-Path: <linux-hams+bounces-377-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-378-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B5A916F4E
-	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 19:33:42 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5698F91781C
+	for <lists+linux-hams@lfdr.de>; Wed, 26 Jun 2024 07:29:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51BB61C23013
-	for <lists+linux-hams@lfdr.de>; Tue, 25 Jun 2024 17:33:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D5AB3B21EF1
+	for <lists+linux-hams@lfdr.de>; Wed, 26 Jun 2024 05:29:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F22A17BB1A;
-	Tue, 25 Jun 2024 17:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RrynzdoA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41E6714534D;
+	Wed, 26 Jun 2024 05:29:05 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528D4179972
-	for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 17:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFCC13B78F
+	for <linux-hams@vger.kernel.org>; Wed, 26 Jun 2024 05:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719336734; cv=none; b=Y5gdVZD++jEwfmCjOFgv3CGzSvJwEbTrWXnS3/iRTwkGO6fcfDe7SxGJ8QevaRyUt4SSXnYrKPL9aaiINVrnIutpwmUYLJKRP9yvnSLHfMwX59hPWgaP1TrCG1fl1ZOU5o1MZ2eC4dour2tk2MEmSnevFQGG7nmsEtp1iEkGTMc=
+	t=1719379745; cv=none; b=Wpyx1p/N25GfSBEGdQmKlqCiVAgfvBd1NpvfcTam5wZEoosMS1nP5NYDx4VROn5QqdTyobAqp21hTy5NvK5T+FzvS/dpEg8FjKGHC74iZ0ligeVlQdwLFAQltjox7QdweLv9Jx2aHrYrVEkwhzg7t57YAc5BaVCv2zRpHPL0f8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719336734; c=relaxed/simple;
-	bh=w4L1QqmJ+vXq1To1N0cU0ACevgYvqR4UXWnAoINZcD8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Pm30wLf+IXQ9ldWJlvnGSnSP3HET5G/EN74HmoIwPKXfHcrGh96lDvb9BO43maaxtdFTFwGTZIoPFUSr1RhE2jzYhqvYdJK5rmi+XZwEGbmbZBCRR3doVQ9ZYdC9gzcnxtnhtVdm307UgpvpVRK5iRwhw7dYjo12KM+2zZRC04Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RrynzdoA; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2ec002caf3eso87240261fa.1
-        for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 10:32:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719336730; x=1719941530; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aXL5Pb8X/wXegEhI46mu8v5XdFJbQz2QC6iZj2j2Oaw=;
-        b=RrynzdoAuNtVuToH2U7Qv6aTUv3STLGiX46+1a0ECJcN2WUXhPZXJGoyu4cHvBO/rI
-         uEdO8+h/3USUBBlqfoL+sJPBwfHlMvN9p4BWFF/AChZQWbTbHbwyMPSxcfFVEIO/g1zo
-         sLh/jN+fMDzfIHNrWtUtZ4Os+G2Z7eV77VW9yAtK0vMM0IVQkVJE7QaYQHyiktVb+Z3z
-         Rb717Z/E9XfUrBpjWmofPGMJm8DbBCiIQJ4BjkRwWbduT9W0/zEoQuXHaKp438yDHGf8
-         TBdi0RsvbTHPWA6nbH1kWvZph+YHOy7cQLEtXFaogNQq9VZvqreELLpFa0ml8ZbquXo4
-         E2yA==
+	s=arc-20240116; t=1719379745; c=relaxed/simple;
+	bh=z46Img2M9tES2OAFsmy0WpYkrZexbG4QVHz5Vc5X7Zk=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=SlSSFNeoq5+jzHyM1Orz2V/+l1RFdfbEJS4dRj9aIsWlWdDfB1gFG7x3YxZPACmxXf8HPLHjbM4KmFrSKdU0yU6zCgqQO9/At18Ye5xLqEmqf1W3YXCWCG/hZkLDxJLtUBqRi9z1WlsvZm208DwD85zC+zLuzclBGuHjWU9drbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-3762363a522so103851655ab.1
+        for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 22:29:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719336730; x=1719941530;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aXL5Pb8X/wXegEhI46mu8v5XdFJbQz2QC6iZj2j2Oaw=;
-        b=VEszR37i2DKaUcQtCAOl2aODozZXkVFQlLZ1gy7t9Cc+qUN/Lz7cR69AqV/KTrIJAa
-         b0Ieeom61ryjJT1G7Sp5wCHhzvQrwdq07ZBOvUwI7WKCZMCQvvV8y6i57aWRwyNwv8UD
-         KL5v36ifnLGiHXKKyvr/0QVpHjK52wTG8o0QhoVGpNStnhoSnSYEvySmeaQZ0VRfmSZ0
-         YhDdOgFo5k1ZmJA8Uf9DlKSwtF5qHsfLvnVhP+1dbeZEfNsq0w79HyMFbqu/F6R0gq4Q
-         ZUfIpXYta+zjhWvavN7Z1VJgngf+YFEBzV3FpRmsncaiodwLjMUkfSKwTf0MqdyBDgQA
-         xpSA==
-X-Forwarded-Encrypted: i=1; AJvYcCUDWmDSumx1BphurEtUc/Gzw/WNxI8MFXPE4NxcjRqpIIHLkgC0OSK2krupd1VF9S+IfbKD5wXfe/Hz66z3TMq0LZ1HEr+atDHnRg==
-X-Gm-Message-State: AOJu0YyaRXvgquzcUoFJE6+EnW7d3WYchhndLJNj7LVFjeXUjEF3Ox/y
-	/kKFPFkYWSLoaUiSG+zSjQz7TA+ijR6DvSLUWcOG1+E9gq5jsnMvmdR19tGa45dTtPXftM4CMiO
-	Zp5O5LO/GNpF6OJ5VSaPgSlfJ4kw=
-X-Google-Smtp-Source: AGHT+IG//FN1GnrxtjkG2f+SQzY353bCYFfiPWaURGjmfZFvqWRKWMaqWMNSxkue6bz4pjGS4lRhJ/+HDYwhKeivYeY=
-X-Received: by 2002:a2e:bb81:0:b0:2ec:5d83:32d8 with SMTP id
- 38308e7fff4ca-2ec5d833305mr51895701fa.23.1719336730202; Tue, 25 Jun 2024
- 10:32:10 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719379742; x=1719984542;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o7jLFVxsran+Hxnl2Rjm/F6ukvXu6ukvDYfTlI6b4gg=;
+        b=YCLSkccbvbB5wnsqPnA68NE5TfyI1Ikxh5EM+B7yjQHiy8R0Ol83tfZMDp903L00mS
+         s0B2TWDr8Skh7aFRz0qkitY8rvn2G8BIAt7yZzX8lS+sgnJvNuTl9bBkmvRzJ33h8AOF
+         SafCi3IvdodjqWsq/hCCfwnhFTlnnTAzN6rvmfFPx4zAhGOMtbjIhy9ulrvMDwkFqUg0
+         ciWxDMUGxti4iSMCIzbyyxfdt31pJqX8RXvse3FmTXsswJUHExSjC5B3yxuRT4M1tIq4
+         p3YtpxfTSkNfqPwGYbHX/wnrPrLL792AcB4P542q1Ihhr781aG2QW7UX9te62deljWSt
+         FMVw==
+X-Forwarded-Encrypted: i=1; AJvYcCXOjFKHMPMNnrWlM1LWoip71srudRxzIpQrAX5Qr/wpEkXlxngMBWnjBH5oVDCBjRSa+CY/8BRlzDxabdAT52ro6jCQAFk5GTp42w==
+X-Gm-Message-State: AOJu0YynIkuFI/CX2IFDKqJtmyPMiTRF9SOeTo6SAnYYBVsZSu5Jzonf
+	e/jCHH3pWd9IEw7BBFP/ol7KxuvCTJI2F522CkIhl8+pLdjvCc6pfGCboowOk524aQFQ76SeMNy
+	6pEfegN58pVXJmGQ2hQUTkSuqNtpyYSkaJB65ub3fVkhdee2GZ90BkV4=
+X-Google-Smtp-Source: AGHT+IFlgf0qW4V2vp2uiO2LtpRA9jZ0J28yl5GlbXreZyyCGWbyKG3jnTZuA0un7Ca8uwcdDb/1n51YlQ8U33kMNYg94mF7vofE
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
- <CAEoi9W7YEkhYnNTmrG=NSuZLQhEXxqYid_J_BB5Wgn6gqoF=1A@mail.gmail.com> <xyilquq3zxmrnbjgxgtxtbxdngxswhpxyd6t3aas4psm4zuy6j@xzvr3h3bsvue>
-In-Reply-To: <xyilquq3zxmrnbjgxgtxtbxdngxswhpxyd6t3aas4psm4zuy6j@xzvr3h3bsvue>
-From: Dan Cross <crossd@gmail.com>
-Date: Tue, 25 Jun 2024 13:31:33 -0400
-Message-ID: <CAEoi9W6C4h-9StNJXQqv615xc9smM1rNGd6wALE=1ck4630tLA@mail.gmail.com>
-Subject: Re: remote login(1) (telnetd; innetgr(3))
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Joerg Reuter DL1BKE <jreuter@poboxes.com>, linux-hams@vger.kernel.org, 
-	Chris Hofstaedtler <zeha@debian.org>
+X-Received: by 2002:a05:6e02:1fe7:b0:375:e698:d0f3 with SMTP id
+ e9e14a558f8ab-3763f49d3dfmr7074855ab.0.1719379742684; Tue, 25 Jun 2024
+ 22:29:02 -0700 (PDT)
+Date: Tue, 25 Jun 2024 22:29:02 -0700
+In-Reply-To: <0000000000009ce262061963e5e4@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000cc087d061bc44a72@google.com>
+Subject: Re: [syzbot] [hams?] WARNING: refcount bug in ax25_release (3)
+From: syzbot <syzbot+33841dc6aa3e1d86b78a@syzkaller.appspotmail.com>
+To: davem@davemloft.net, duoming@zju.edu.cn, edumazet@google.com, 
+	jreuter@yaina.de, kuba@kernel.org, linux-hams@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
+	ralf@linux-mips.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 25, 2024 at 11:39=E2=80=AFAM Alejandro Colomar <alx@kernel.org>=
- wrote:
-> On Tue, Jun 25, 2024 at 11:28:52AM GMT, Dan Cross wrote:
-> > On Tue, Jun 25, 2024 at 4:09=E2=80=AFAM Alejandro Colomar <alx@kernel.o=
-rg> wrote:
-> > > We were discussing the possibility of removing support for remote log=
-in
-> > > in shadow utils' login(1) via telnetd or similar; that is, remove the
-> > > '-h' flag.
-> > >
-> > > <https://github.com/shadow-maint/shadow/pull/1022>
-> > >
-> > > And then Chris reported that ax25-tools uses that flag.
-> > >
-> > > <https://sources.debian.org/src/ax25-tools/0.0.10-rc5+git20230513+d3e=
-6d4f-2/ax25/axspawn.c/?hl=3D64#L1837>
-> > >
-> > > Do you know if that code is actively used or if it's something from t=
-he
-> > > past?  Would it be possible to switch to something secure like SSH, o=
-r
-> > > is that not viable in the systems you use?
-> >
-> > Variations of it are actively used. See, for example,
-> > https://kz2x.radio/posts/complex/
-> >
-> > However, looking at the linked code you pointed to, it appears that
-> > the `-h` flag is only used to insert the _protocol_ a user uses to
-> > connect with into the `ut_host` field of the utmp file; one of the
-> > empty string, "AX.25", "NET/ROM" or "Rose". Presumably this is so that
-> > if one runs `w` or `who` or `finger` or `last` something on a host
-> > that a user has logged into using `axspawn`, one would know what
-> > protocol they used. It's subjective, but I don't know how valuable
-> > that information is; I suspect not very, given what's already a pretty
-> > niche case.
-> >
-> > More to the point, one could remove the lines from `axspawn` that add
-> > the `-h` option and its argument to `login` and `axspawn` would
-> > continue to work for its intended purpose; just a small bit of
-> > information would no longer be present about the connection itself.
-> > For that matter, nothing prevents `axspawn` from logging that
-> > information via other means (syslog, for instance).
->
-> Hmmm.  Thanks!  Would you mind reviewing the patches here:
-> <https://github.com/shadow-maint/shadow/pull/1022> to make sure I can do
-> it without breaking anything for you.
+syzbot has bisected this issue to:
 
-Sure! I put some comments on that review. It won't affect me at all.
+commit 9fd75b66b8f68498454d685dc4ba13192ae069b0
+Author: Duoming Zhou <duoming@zju.edu.cn>
+Date:   Fri Mar 18 00:54:04 2022 +0000
 
-> If there's any chance we can break stuff, just let me know and I'll drop
-> my patches.
+    ax25: Fix refcount leaks caused by ax25_cb_del()
 
-Well, I can't speak to other folks, who are using the unmodified
-`axspawn` (assuming such people exist), but as far as I'm concerned,
-you're fine.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12f83301980000
+start commit:   568ebdaba637 MAINTAINERS: adjust file entry in FREESCALE Q..
+git tree:       net-next
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=11f83301980000
+console output: https://syzkaller.appspot.com/x/log.txt?x=16f83301980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e78fc116033e0ab7
+dashboard link: https://syzkaller.appspot.com/bug?extid=33841dc6aa3e1d86b78a
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=121324ae980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1607cdda980000
 
-`axspawn.c` should probably be updated to remove reference to the `-h`
-flag when it invokes `login`, but that's outside of the scope of your
-change.
+Reported-by: syzbot+33841dc6aa3e1d86b78a@syzkaller.appspotmail.com
+Fixes: 9fd75b66b8f6 ("ax25: Fix refcount leaks caused by ax25_cb_del()")
 
-        - Dan C.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
