@@ -1,94 +1,128 @@
-Return-Path: <linux-hams+bounces-378-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-379-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5698F91781C
-	for <lists+linux-hams@lfdr.de>; Wed, 26 Jun 2024 07:29:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 020EA91D091
+	for <lists+linux-hams@lfdr.de>; Sun, 30 Jun 2024 10:32:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D5AB3B21EF1
-	for <lists+linux-hams@lfdr.de>; Wed, 26 Jun 2024 05:29:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3506A1C20AAD
+	for <lists+linux-hams@lfdr.de>; Sun, 30 Jun 2024 08:32:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41E6714534D;
-	Wed, 26 Jun 2024 05:29:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFF213A267;
+	Sun, 30 Jun 2024 08:32:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pJ/Tv6lr"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFCC13B78F
-	for <linux-hams@vger.kernel.org>; Wed, 26 Jun 2024 05:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4883A1BF
+	for <linux-hams@vger.kernel.org>; Sun, 30 Jun 2024 08:32:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719379745; cv=none; b=Wpyx1p/N25GfSBEGdQmKlqCiVAgfvBd1NpvfcTam5wZEoosMS1nP5NYDx4VROn5QqdTyobAqp21hTy5NvK5T+FzvS/dpEg8FjKGHC74iZ0ligeVlQdwLFAQltjox7QdweLv9Jx2aHrYrVEkwhzg7t57YAc5BaVCv2zRpHPL0f8U=
+	t=1719736366; cv=none; b=B79KgRtEdlTICGs0v7xKrcZDbNHVkQ6FVaNzckBe+gqkmEwerf07+0folGxGRKmxfNUUT1sZ7et0OC4iFbyIroHX0p+kkfKRrM/aK02GlZRxeefCO/rIq4GiZr4dcyer/uRSk2gkUis0eiLmSP42GY0KWetdpbToAMFL+edW7Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719379745; c=relaxed/simple;
-	bh=z46Img2M9tES2OAFsmy0WpYkrZexbG4QVHz5Vc5X7Zk=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=SlSSFNeoq5+jzHyM1Orz2V/+l1RFdfbEJS4dRj9aIsWlWdDfB1gFG7x3YxZPACmxXf8HPLHjbM4KmFrSKdU0yU6zCgqQO9/At18Ye5xLqEmqf1W3YXCWCG/hZkLDxJLtUBqRi9z1WlsvZm208DwD85zC+zLuzclBGuHjWU9drbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-3762363a522so103851655ab.1
-        for <linux-hams@vger.kernel.org>; Tue, 25 Jun 2024 22:29:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719379742; x=1719984542;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o7jLFVxsran+Hxnl2Rjm/F6ukvXu6ukvDYfTlI6b4gg=;
-        b=YCLSkccbvbB5wnsqPnA68NE5TfyI1Ikxh5EM+B7yjQHiy8R0Ol83tfZMDp903L00mS
-         s0B2TWDr8Skh7aFRz0qkitY8rvn2G8BIAt7yZzX8lS+sgnJvNuTl9bBkmvRzJ33h8AOF
-         SafCi3IvdodjqWsq/hCCfwnhFTlnnTAzN6rvmfFPx4zAhGOMtbjIhy9ulrvMDwkFqUg0
-         ciWxDMUGxti4iSMCIzbyyxfdt31pJqX8RXvse3FmTXsswJUHExSjC5B3yxuRT4M1tIq4
-         p3YtpxfTSkNfqPwGYbHX/wnrPrLL792AcB4P542q1Ihhr781aG2QW7UX9te62deljWSt
-         FMVw==
-X-Forwarded-Encrypted: i=1; AJvYcCXOjFKHMPMNnrWlM1LWoip71srudRxzIpQrAX5Qr/wpEkXlxngMBWnjBH5oVDCBjRSa+CY/8BRlzDxabdAT52ro6jCQAFk5GTp42w==
-X-Gm-Message-State: AOJu0YynIkuFI/CX2IFDKqJtmyPMiTRF9SOeTo6SAnYYBVsZSu5Jzonf
-	e/jCHH3pWd9IEw7BBFP/ol7KxuvCTJI2F522CkIhl8+pLdjvCc6pfGCboowOk524aQFQ76SeMNy
-	6pEfegN58pVXJmGQ2hQUTkSuqNtpyYSkaJB65ub3fVkhdee2GZ90BkV4=
-X-Google-Smtp-Source: AGHT+IFlgf0qW4V2vp2uiO2LtpRA9jZ0J28yl5GlbXreZyyCGWbyKG3jnTZuA0un7Ca8uwcdDb/1n51YlQ8U33kMNYg94mF7vofE
+	s=arc-20240116; t=1719736366; c=relaxed/simple;
+	bh=V/XGtrWVHkRY+ZCVQ/BT50PZ5X272FOVcVmpbbOzlPE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m+IOHNBnIGjFANDy1A1YtZcn4C4Iy3e+WO7hK38BVEuWxtCP0DXcHzwn1DgNwPfmO3VAsGr9aJjLn3qElFiQlp2pAzSKv2xAnXz7R9wAWom8VhhzLDOthH+vXxgZETHcaiv7MZGOl/li+xWRiA6aaO7Q3xKS8kzyEmL/iHSNLis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pJ/Tv6lr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52B8DC2BD10;
+	Sun, 30 Jun 2024 08:32:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719736366;
+	bh=V/XGtrWVHkRY+ZCVQ/BT50PZ5X272FOVcVmpbbOzlPE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pJ/Tv6lrq+tN9Sby+skU5SDM3/CFRHo9jNG8U9dYKJvcAMxuYoTl/NysJdNlqguTJ
+	 RW1e0CcXkUQw6vIFMyJKJYjTXHbqCcOtQBRZy/WAypI1wouUD6+qg47+y7qGtlUUlC
+	 4Ff+P6gDi4u8Xf0rhZuaG3wxFQ/EL2385Ev+kWl2IUedxevvcZZ8XaFs0aAjN/7Y9H
+	 BnblHk7nAuRaaT9ogmsbqzFZOJawdoXu373v6CrXtuc65ZFfm6/Xnc0n5qWxS05ztg
+	 dfarCR6TnAZ70fTLOv4SORLnBfsDGdjypM1s99dMWMIhP7zUEI1c/XkIiesRhAi2Kd
+	 pRTdI7GoYhPaA==
+Date: Sun, 30 Jun 2024 10:32:43 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Joerg Reuter <jreuter@yaina.de>, linux-hams@vger.kernel.org
+Cc: Chris Hofstaedtler <zeha@debian.org>
+Subject: Re: remote login(1) (telnetd; innetgr(3))
+Message-ID: <y4bhmtci7ggpavky5jfogduyoqf6cwa6ky57wconv6yrpa4lu7@e66257rxezxm>
+References: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1fe7:b0:375:e698:d0f3 with SMTP id
- e9e14a558f8ab-3763f49d3dfmr7074855ab.0.1719379742684; Tue, 25 Jun 2024
- 22:29:02 -0700 (PDT)
-Date: Tue, 25 Jun 2024 22:29:02 -0700
-In-Reply-To: <0000000000009ce262061963e5e4@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000cc087d061bc44a72@google.com>
-Subject: Re: [syzbot] [hams?] WARNING: refcount bug in ax25_release (3)
-From: syzbot <syzbot+33841dc6aa3e1d86b78a@syzkaller.appspotmail.com>
-To: davem@davemloft.net, duoming@zju.edu.cn, edumazet@google.com, 
-	jreuter@yaina.de, kuba@kernel.org, linux-hams@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
-	ralf@linux-mips.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sxh7xz4eorpps2pm"
+Content-Disposition: inline
+In-Reply-To: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
 
-syzbot has bisected this issue to:
 
-commit 9fd75b66b8f68498454d685dc4ba13192ae069b0
-Author: Duoming Zhou <duoming@zju.edu.cn>
-Date:   Fri Mar 18 00:54:04 2022 +0000
+--sxh7xz4eorpps2pm
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Joerg Reuter <jreuter@yaina.de>, linux-hams@vger.kernel.org
+Cc: Chris Hofstaedtler <zeha@debian.org>
+Subject: Re: remote login(1) (telnetd; innetgr(3))
+References: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
+MIME-Version: 1.0
+In-Reply-To: <ai6stmqygczrav7dtojrxliexav24wi5qn324opvtgzengwb4a@jdbhx3lnaevu>
 
-    ax25: Fix refcount leaks caused by ax25_cb_del()
+The mail bounced from Joerg's other address.  I've changed it so that it
+arrives to him.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12f83301980000
-start commit:   568ebdaba637 MAINTAINERS: adjust file entry in FREESCALE Q..
-git tree:       net-next
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=11f83301980000
-console output: https://syzkaller.appspot.com/x/log.txt?x=16f83301980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e78fc116033e0ab7
-dashboard link: https://syzkaller.appspot.com/bug?extid=33841dc6aa3e1d86b78a
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=121324ae980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1607cdda980000
+On Tue, Jun 25, 2024 at 10:09:10AM GMT, Alejandro Colomar wrote:
+> Hi,
+>=20
+> We were discussing the possibility of removing support for remote login
+> in shadow utils' login(1) via telnetd or similar; that is, remove the
+> '-h' flag.
+>=20
+> <https://github.com/shadow-maint/shadow/pull/1022>
+>=20
+> And then Chris reported that ax25-tools uses that flag.
+>=20
+> <https://sources.debian.org/src/ax25-tools/0.0.10-rc5+git20230513+d3e6d4f=
+-2/ax25/axspawn.c/?hl=3D64#L1837>
+>=20
+> Do you know if that code is actively used or if it's something from the
+> past?  Would it be possible to switch to something secure like SSH, or
+> is that not viable in the systems you use?
+>=20
+> Have a lovely day!
+> Alex
+>=20
+> --=20
+> <https://www.alejandro-colomar.es/>
 
-Reported-by: syzbot+33841dc6aa3e1d86b78a@syzkaller.appspotmail.com
-Fixes: 9fd75b66b8f6 ("ax25: Fix refcount leaks caused by ax25_cb_del()")
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--sxh7xz4eorpps2pm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmaBGCoACgkQnowa+77/
+2zIw1Q//WUWVJ8YE9TqejnaaYlXHFKLS4tIsklpnRgTi0/E/rcXIGf8jwDvoOeC0
+gLEAxm1ib5BJNThLAeoXCrqTXidX42Ug7m9B82l9fJ6JmxrpGyCjjlF4vo+sVBur
+6pF2ReYQEl43pc/mebVzkRBbZSYYFamoBp7ZeUcGSqVIAnbG5cpkj0hm/ZkJ74VS
+b+4nRAyxHizoPDPGpyAlkJeioCOE9lowTf0sV3pPvcZ3hODZ4plvKmhqlIWrnoyI
+fEm3mRZ2qlKwMr2ccTUL8o+ND/LLId9dyw3hMkDzzVs1+w3qeCv3qW+eXEEBHYOW
+qpQlGnHSXVAib4e79gdulhPFBXGhsiJP/IYqEz7iz//50M+1tG2s7M1GHlLYKjN1
+RXbGZ1g2VGqglIHrzKG6HXLhLFOC753rcBbF1bb5Z3y82szZgOf+hmSq/k4egoBp
+o+aUtlPpMe1HpapiscEdcpTT+MuFNb3nw5BHdErR9X2VjYDBiEoJyQMQQBZz9ORn
+QEkdUrym07Ws6ptxbSabhmwcZrGBHldkBHWMUMuA215XwkoEHz4RL6vwtcB3EzGi
+XJzg6VRju7qZHzd6+cNwsofDiG7RcngKBqwMePn6XZbMeaSMVkkV4ESYa+BwDwan
+hWOaQZi34q6DOX+mWTosM5yJbgUBsCaTeC+EnctNEw1+b3uHIi8=
+=QmVv
+-----END PGP SIGNATURE-----
+
+--sxh7xz4eorpps2pm--
 
