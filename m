@@ -1,46 +1,46 @@
-Return-Path: <linux-hams+bounces-385-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-386-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B692947993
-	for <lists+linux-hams@lfdr.de>; Mon,  5 Aug 2024 12:26:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D3894799C
+	for <lists+linux-hams@lfdr.de>; Mon,  5 Aug 2024 12:26:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 158491F22054
-	for <lists+linux-hams@lfdr.de>; Mon,  5 Aug 2024 10:26:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B8727B20B5A
+	for <lists+linux-hams@lfdr.de>; Mon,  5 Aug 2024 10:26:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 236A315FA7C;
-	Mon,  5 Aug 2024 10:21:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B963165EFD;
+	Mon,  5 Aug 2024 10:21:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VEkg/8X2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WapI0yCn"
 X-Original-To: linux-hams@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE78015FA9E;
-	Mon,  5 Aug 2024 10:21:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50996165EF1;
+	Mon,  5 Aug 2024 10:21:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722853277; cv=none; b=IJt8bz/+OKUN4GoDG5xmjINv4nUJLaYnBG5wSJBhPEuBCWwDeGDxQxzfJPUymlrEdSGjiBPRg4Y9DPhLmkE241MddchI75LKttxS3Maak1s+ku3MwxPAelZuHWWJ5tPMCCT8KvmYSQOURnMqlEs/PWyXBFnU2y2uwK18jL1xIXw=
+	t=1722853280; cv=none; b=omAPqh3rsTpfD+osO5vgQOYLDQey7OaX3zWQYIMch/eYCCNQpY+aSVg5EoG+9HdIGp7FlfkzBudXiXXOft40AHoMaBDwL166BhRUJlRkd+LRAN/UH007eNHyACBJn5avR2I2iDOgPXCSA/WRoYLlWR06wqTUHXVjIcJ28APQY30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722853277; c=relaxed/simple;
-	bh=NHQzYLisZFxJp8w+mTR6u58VzbcedQc9/+93I90ZlQo=;
+	s=arc-20240116; t=1722853280; c=relaxed/simple;
+	bh=UTNt9b26mQWZHW0TPCLWfErk9+9NMWIJfFgYZHzW/Wc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V7KAiXmIpF1ZSUK5IN0XA6Rt08Kw+91i++NxuiEE9gUDemc4fp9CfmraagBXZEoSw9WG61HBCN6vQ6DrKHskruHC/OVrt/GyPPFMhQPXkmGf/dCtlBo4P+vm/MSUDNIO3QGfv56vjA+B6QMy9K/ZeHWOmxc1aFSoRMCHmGBKRHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VEkg/8X2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22800C32782;
-	Mon,  5 Aug 2024 10:21:14 +0000 (UTC)
+	 MIME-Version; b=n3m7mr7Lps+nFEQoiyR42x5fJ025oW3EQCktdMoXlkR8mrWqbv/9sNKf5i2uxNBX08TF1OU11B6b0Ca55ySPuBMQfIVjDkwEUXQzjMVaz1Wnwj9HQSBX6Q67D7DZMuCnxWeDvadKo168qEg+1E+ZjPhyhY8aYkFxDnuF12xy+Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WapI0yCn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5B38C4AF0D;
+	Mon,  5 Aug 2024 10:21:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722853277;
-	bh=NHQzYLisZFxJp8w+mTR6u58VzbcedQc9/+93I90ZlQo=;
+	s=k20201202; t=1722853280;
+	bh=UTNt9b26mQWZHW0TPCLWfErk9+9NMWIJfFgYZHzW/Wc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VEkg/8X22UM60oSoWfb6uLB8Vjy03nCCmNYhP1o0V+KZRtS9eattJAy0W78L+IM2z
-	 kBlimKONQVvJm5oEE5qwcrF+uinYDvQCONGe0XZ/g8lRvwdEa4Zh49JydUARb2FsEB
-	 Ey1KTRnSOeM5mCWWDt0M9xffGNs6a46vvsZzVeCPsqRGGRJVrG7PlgZ+Nv+8M3cFyM
-	 pgyFcX+C508Vv4skFtz3J/2sUnvtJrVAM/iyYF+rBDZIjZAOGmEPuLZ8gjCxcfJP8N
-	 cJlgx8G7j8ekK/tjBnwHGipn1IzFahVbg8P1KFDGC607WBN8A0eD/+cFaTd/jdOW/b
-	 ZiDYduaDmA14g==
+	b=WapI0yCngBCE5c2SNP9W/lPrqFLrVQ0ceeV4igrs5u8Semeb5mvQUaLid0mtRX4oP
+	 lct/25I9Dg7wVEF3ElCrvifB+dH+Dv4gG8lpGNIZuL0t81CHJY5H/Z7RpVpJrI1lLj
+	 urQqqML02c3GUVjuLyafJI9AeTeU5jqhxNvbqc9aatqdgeVuElHBNpbQOoOb8vHsYl
+	 FBPfIa0vvDoys4MG4zX0pMh3P8eOxg7oT0Lo6Nz4v97qtRuBLwMNTI2bid76is3nNE
+	 WNYTYTBs6weQiBzqMoTKDvQdgNXjI8XHO45ARk2Z9XQwbeHo6+DKIjgm6HX30u3OLz
+	 Q3d9n91pYrPjg==
 From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 To: gregkh@linuxfoundation.org
 Cc: linux-serial@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: linux-serial@vger.kernel.org,
 	Paolo Abeni <pabeni@redhat.com>,
 	linux-hams@vger.kernel.org,
 	netdev@vger.kernel.org
-Subject: [PATCH 12/13] 6pack: remove global strings
-Date: Mon,  5 Aug 2024 12:20:45 +0200
-Message-ID: <20240805102046.307511-13-jirislaby@kernel.org>
+Subject: [PATCH 13/13] 6pack: propagage new tty types
+Date: Mon,  5 Aug 2024 12:20:46 +0200
+Message-ID: <20240805102046.307511-14-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240805102046.307511-1-jirislaby@kernel.org>
 References: <20240805102046.307511-1-jirislaby@kernel.org>
@@ -67,15 +67,8 @@ List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-They are __init, so they are freed after init is done. But this
-obfuscates the code.
-
-Provided these days, we usually don't print anything if everything has
-gone fine, drop the info print completely (along with now unused and
-always artificial SIXPACK_VERSION).
-
-And move the other string into the printk proper (while converting from
-KERN_ERR to pr_err()).
+In tty, u8 is now used for data, ssize_t for sizes (with possible
+negative error codes). Propagate these types to 6pack.
 
 Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -87,45 +80,112 @@ Cc: Paolo Abeni <pabeni@redhat.com>
 Cc: linux-hams@vger.kernel.org
 Cc: netdev@vger.kernel.org
 ---
- drivers/net/hamradio/6pack.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ drivers/net/hamradio/6pack.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
-index 25d6d2308130..5c47730f5d58 100644
+index 5c47730f5d58..3bf6785f9057 100644
 --- a/drivers/net/hamradio/6pack.c
 +++ b/drivers/net/hamradio/6pack.c
-@@ -37,8 +37,6 @@
- #include <linux/semaphore.h>
- #include <linux/refcount.h>
+@@ -91,8 +91,8 @@ struct sixpack {
+ 	unsigned char		*xhead;         /* next byte to XMIT */
+ 	int			xleft;          /* bytes left in XMIT queue  */
  
--#define SIXPACK_VERSION    "Revision: 0.3.0"
--
- /* sixpack priority commands */
- #define SIXP_SEOF		0x40	/* start and end of a 6pack frame */
- #define SIXP_TX_URUN		0x48	/* transmit overrun */
-@@ -745,21 +743,14 @@ static struct tty_ldisc_ops sp_ldisc = {
+-	unsigned char		raw_buf[4];
+-	unsigned char		cooked_buf[400];
++	u8			raw_buf[4];
++	u8			cooked_buf[400];
  
- /* Initialize 6pack control device -- register 6pack line discipline */
+ 	unsigned int		rx_count;
+ 	unsigned int		rx_count_cooked;
+@@ -107,8 +107,8 @@ struct sixpack {
+ 	unsigned char		slottime;
+ 	unsigned char		duplex;
+ 	unsigned char		led_state;
+-	unsigned char		status;
+-	unsigned char		status1;
++	u8			status;
++	u8			status1;
+ 	unsigned char		status2;
+ 	unsigned char		tx_enable;
+ 	unsigned char		tnc_state;
+@@ -122,7 +122,7 @@ struct sixpack {
  
--static const char msg_banner[]  __initconst = KERN_INFO \
--	"AX.25: 6pack driver, " SIXPACK_VERSION "\n";
--static const char msg_regfail[] __initconst = KERN_ERR  \
--	"6pack: can't register line discipline (err = %d)\n";
--
- static int __init sixpack_init_driver(void)
+ #define AX25_6PACK_HEADER_LEN 0
+ 
+-static void sixpack_decode(struct sixpack *, const unsigned char[], int);
++static void sixpack_decode(struct sixpack *, const u8 *, size_t);
+ static int encode_sixpack(unsigned char *, unsigned char *, int, unsigned char);
+ 
+ /*
+@@ -327,7 +327,7 @@ static void sp_bump(struct sixpack *sp, char cmd)
  {
- 	int status;
+ 	struct sk_buff *skb;
+ 	int count;
+-	unsigned char *ptr;
++	u8 *ptr;
  
--	printk(msg_banner);
--
- 	/* Register the provided line protocol discipline */
- 	status = tty_register_ldisc(&sp_ldisc);
- 	if (status)
--		printk(msg_regfail, status);
-+		pr_err("6pack: can't register line discipline (err = %d)\n", status);
+ 	count = sp->rcount + 1;
  
- 	return status;
- }
+@@ -425,7 +425,7 @@ static void sixpack_receive_buf(struct tty_struct *tty, const u8 *cp,
+ 				const u8 *fp, size_t count)
+ {
+ 	struct sixpack *sp;
+-	int count1;
++	size_t count1;
+ 
+ 	if (!count)
+ 		return;
+@@ -800,9 +800,9 @@ static int encode_sixpack(unsigned char *tx_buf, unsigned char *tx_buf_raw,
+ 
+ /* decode 4 sixpack-encoded bytes into 3 data bytes */
+ 
+-static void decode_data(struct sixpack *sp, unsigned char inbyte)
++static void decode_data(struct sixpack *sp, u8 inbyte)
+ {
+-	unsigned char *buf;
++	u8 *buf;
+ 
+ 	if (sp->rx_count != 3) {
+ 		sp->raw_buf[sp->rx_count++] = inbyte;
+@@ -828,9 +828,9 @@ static void decode_data(struct sixpack *sp, unsigned char inbyte)
+ 
+ /* identify and execute a 6pack priority command byte */
+ 
+-static void decode_prio_command(struct sixpack *sp, unsigned char cmd)
++static void decode_prio_command(struct sixpack *sp, u8 cmd)
+ {
+-	int actual;
++	ssize_t actual;
+ 
+ 	if ((cmd & SIXP_PRIO_DATA_MASK) != 0) {     /* idle ? */
+ 
+@@ -878,9 +878,9 @@ static void decode_prio_command(struct sixpack *sp, unsigned char cmd)
+ 
+ /* identify and execute a standard 6pack command byte */
+ 
+-static void decode_std_command(struct sixpack *sp, unsigned char cmd)
++static void decode_std_command(struct sixpack *sp, u8 cmd)
+ {
+-	unsigned char checksum = 0, rest = 0;
++	u8 checksum = 0, rest = 0;
+ 	short i;
+ 
+ 	switch (cmd & SIXP_CMD_MASK) {     /* normal command */
+@@ -928,10 +928,10 @@ static void decode_std_command(struct sixpack *sp, unsigned char cmd)
+ /* decode a 6pack packet */
+ 
+ static void
+-sixpack_decode(struct sixpack *sp, const unsigned char *pre_rbuff, int count)
++sixpack_decode(struct sixpack *sp, const u8 *pre_rbuff, size_t count)
+ {
+-	unsigned char inbyte;
+-	int count1;
++	size_t count1;
++	u8 inbyte;
+ 
+ 	for (count1 = 0; count1 < count; count1++) {
+ 		inbyte = pre_rbuff[count1];
 -- 
 2.46.0
 
