@@ -1,130 +1,144 @@
-Return-Path: <linux-hams+bounces-389-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-390-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543D894BB3E
-	for <lists+linux-hams@lfdr.de>; Thu,  8 Aug 2024 12:36:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E4894BB51
+	for <lists+linux-hams@lfdr.de>; Thu,  8 Aug 2024 12:38:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 057CB1F22D37
-	for <lists+linux-hams@lfdr.de>; Thu,  8 Aug 2024 10:36:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7EF1028116C
+	for <lists+linux-hams@lfdr.de>; Thu,  8 Aug 2024 10:38:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 929B518A92A;
-	Thu,  8 Aug 2024 10:35:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F71518DF66;
+	Thu,  8 Aug 2024 10:36:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NtgrOA9O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mdXVePb6"
 X-Original-To: linux-hams@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCC018A6AB;
-	Thu,  8 Aug 2024 10:35:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CE918CC16;
+	Thu,  8 Aug 2024 10:36:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723113355; cv=none; b=sQl3EI0QEmlCl63OGfSre5c+lwgrRSJzq3igGyczQ+a6PEkjs4rS+uS6bzKyS4gAB/TCYmmWjCEqW5upKmXcvq97dDbjCpPjIqvRuxtzjYhV6ieMG3IUGJR1X22qDtJY1EsNTsBZcrb13ZVDVW2HvvcQzdT64ToDq1VMuWQMHec=
+	t=1723113369; cv=none; b=S2Jy8sZT4cZgPi7JKFIQxrE1BNnhIkr3v9eTgGPTFynJWeCfvQnMVnZlkacIZvYgx1rJbFYjFKEMDkexS2hwJFuGEi3O9Lxhrs3WwN4WOKI9aJpbMs+ZktryP4CaVAycFky1AiMcGTa+hC2WAGgkVsRmMhQ6Xr0qTitSA7ipmGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723113355; c=relaxed/simple;
-	bh=xgT1DTrtS2BTALYpnpNPT2qA7RzEiYYzMnGwhu3460I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CilIk1H67SfPGNg1bhsUaH1dYgO4ZZCSp3s/cu5UFQvZ4/MYd59IyL4YK6sUoy4tcGp7hxpJfxexOw9PggAILgPai2DLJvAqmCgbzERezJBbvsNz1fDTApBrMcz9fYbYfEKBwiYp5hCFDzPGaSWu4ueu9OLlGBysKnqPYUVukdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NtgrOA9O; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11096C32782;
-	Thu,  8 Aug 2024 10:35:50 +0000 (UTC)
+	s=arc-20240116; t=1723113369; c=relaxed/simple;
+	bh=/O2/TlWp3zMCUKUw2fsXXmxsmDVNGJDzCxv0rpypKf4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=D5UfK8X/rj+JEKXXkRP78Ito+4NAQIOQS6SeGxWYvdCkvO3s2QZHJj8ryv/HCZe4sDFWn4Wl7Vrvf1E8GlhoA+9HppQniklE00SK7+Vg4mEl3aCWT0ZIj+AK8Teg+SZUK5qJFkrpcyYSnyae1Yok/VyAA8oJ3lPWo9B3scsIUMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mdXVePb6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DD53C4AF0E;
+	Thu,  8 Aug 2024 10:36:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723113354;
-	bh=xgT1DTrtS2BTALYpnpNPT2qA7RzEiYYzMnGwhu3460I=;
-	h=From:To:Cc:Subject:Date:From;
-	b=NtgrOA9ORtqANBtpOLvL4sIBlnwGU2RFKIwD3bT0JuROWBRwZEfC5133Gsh5C8dAx
-	 jzeMh8+uMfIkfcY8SqWTFgDY1sYv8zXMVcn7dJUOtus16LLM8oh/xY9e8mhmor4SFH
-	 pF4T7BDjWZn6QT9g1QSH6g00Qpri0biOW1iWE96k/CAtduTpXvQXjSkuYGZCEuDpGt
-	 1ZCUPPRf9ofjIHBZqPYZI/Xe5sK6TNPrBVj4AfW4+Udbz7shOAt93PX4qgN2RHDjiZ
-	 I/iYxMMiHL5mdRYpIu68+/dtHxLTwf9ZnIySEpM7wC3MquStgfNSHYAEwCJOF5gonl
-	 jhTrUN0ea0Dgw==
+	s=k20201202; t=1723113368;
+	bh=/O2/TlWp3zMCUKUw2fsXXmxsmDVNGJDzCxv0rpypKf4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=mdXVePb6Di/RNjoDYR5nYcSdStYML/nClj+vPvH71JFE8fbx2mLJZxbvmXmj8z4AY
+	 HpKn3mjVAD8VdATVmE6XhMdVr5Ow2LEDt12Y6P3zj73fnMwd7expUInpUi1gm35PDj
+	 VEJNsUyvWDCbd33bFyqL2BVrqsqTyzoOJQBZKCqVLX1rIP4wfDBSM+txgQocIO99tS
+	 bV1tiQdnqag99+u1NySc+u/PdFheuot0f0XvVHMU8/d0I/k7YjTuFCL/G8N8GW8C34
+	 wPIoOb88vIHOQvAWGCpJJnjbV0RXTJ4HslocuTOpJ35W1GZGfPYa0d0LfS03WetjhQ
+	 NB0LwL0OGbJog==
 From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 To: gregkh@linuxfoundation.org
 Cc: linux-serial@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
 	Andreas Koensgen <ajk@comnets.uni-bremen.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	"David S. Miller" <davem@davemloft.net>,
-	Douglas Anderson <dianders@chromium.org>,
 	Eric Dumazet <edumazet@google.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	Jakub Kicinski <kuba@kernel.org>,
-	Jeremy Kerr <jk@codeconstruct.com.au>,
-	linux-hams@vger.kernel.org,
-	Matt Johnston <matt@codeconstruct.com.au>,
-	netdev@vger.kernel.org,
 	Paolo Abeni <pabeni@redhat.com>,
-	Peter Hurley <peter@hurleysoftware.com>,
-	linux-usb@vger.kernel.org,
-	Mathias Nyman <mathias.nyman@intel.com>
-Subject: [PATCH v2 00/11] tty: random fixes and cleanups
-Date: Thu,  8 Aug 2024 12:35:36 +0200
-Message-ID: <20240808103549.429349-1-jirislaby@kernel.org>
+	linux-hams@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: [PATCH v2 07/11] 6pack: remove sixpack::rbuff
+Date: Thu,  8 Aug 2024 12:35:43 +0200
+Message-ID: <20240808103549.429349-8-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240808103549.429349-1-jirislaby@kernel.org>
+References: <20240808103549.429349-1-jirislaby@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+It's unused (except allocation and free).
 
-this is a series of locally accumulated patches over past months.
-
-The series:
-* makes mctp and 6pack use u8s,
-* cleans up 6pack a bit,
-* fixes two coverity reports,
-* uses guard() to make some of the tty function easier to follow.
-
-Cc: Andreas Koensgen <ajk@comnets.uni-bremen.de>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Eric Dumazet <edumazet@google.com>
+Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+Cc: Andreas Koensgen <ajk@comnets.uni-bremen.de>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
 Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Jeremy Kerr <jk@codeconstruct.com.au>
-Cc: linux-hams@vger.kernel.org
-Cc: Matt Johnston <matt@codeconstruct.com.au>
-Cc: netdev@vger.kernel.org
 Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: Peter Hurley <peter@hurleysoftware.com>
-Cc: linux-usb@vger.kernel.org
-Cc: Mathias Nyman <mathias.nyman@intel.com>
+Cc: linux-hams@vger.kernel.org
+Cc: netdev@vger.kernel.org
+---
+ drivers/net/hamradio/6pack.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-[v2]
- * fixed "serial: use guards for simple mutex locks"
- * added also previously missed xhci dbgtty patches
-
-Jiri Slaby (SUSE) (11):
-  serial: use guards for simple mutex locks
-  mxser: remove stale comment
-  mxser: remove doubled sets of close times
-  xhci: dbgtty: remove kfifo_out() wrapper
-  xhci: dbgtty: use kfifo from tty_port struct
-  mctp: serial: propagage new tty types
-  6pack: remove sixpack::rbuff
-  6pack: drop sixpack::mtu
-  6pack: drop sixpack::buffsize
-  6pack: remove global strings
-  6pack: propagage new tty types
-
- drivers/net/hamradio/6pack.c     |  60 ++++++----------
- drivers/net/mctp/mctp-serial.c   |  23 ++++---
- drivers/tty/mxser.c              |   5 --
- drivers/tty/serial/serial_core.c | 113 +++++++++++++------------------
- drivers/usb/host/xhci-dbgcap.h   |   1 -
- drivers/usb/host/xhci-dbgtty.c   |  30 +++-----
- 6 files changed, 88 insertions(+), 144 deletions(-)
-
+diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
+index 6ed38a3cdd73..29906901a734 100644
+--- a/drivers/net/hamradio/6pack.c
++++ b/drivers/net/hamradio/6pack.c
+@@ -88,7 +88,6 @@ struct sixpack {
+ 	struct net_device	*dev;		/* easy for intr handling  */
+ 
+ 	/* These are pointers to the malloc()ed frame buffers. */
+-	unsigned char		*rbuff;		/* receiver buffer	*/
+ 	int			rcount;         /* received chars counter  */
+ 	unsigned char		*xbuff;		/* transmitter buffer	*/
+ 	unsigned char		*xhead;         /* next byte to XMIT */
+@@ -544,7 +543,7 @@ static inline int tnc_init(struct sixpack *sp)
+  */
+ static int sixpack_open(struct tty_struct *tty)
+ {
+-	char *rbuff = NULL, *xbuff = NULL;
++	char *xbuff = NULL;
+ 	struct net_device *dev;
+ 	struct sixpack *sp;
+ 	unsigned long len;
+@@ -574,10 +573,8 @@ static int sixpack_open(struct tty_struct *tty)
+ 
+ 	len = dev->mtu * 2;
+ 
+-	rbuff = kmalloc(len + 4, GFP_KERNEL);
+ 	xbuff = kmalloc(len + 4, GFP_KERNEL);
+-
+-	if (rbuff == NULL || xbuff == NULL) {
++	if (xbuff == NULL) {
+ 		err = -ENOBUFS;
+ 		goto out_free;
+ 	}
+@@ -586,7 +583,6 @@ static int sixpack_open(struct tty_struct *tty)
+ 
+ 	sp->tty = tty;
+ 
+-	sp->rbuff	= rbuff;
+ 	sp->xbuff	= xbuff;
+ 
+ 	sp->mtu		= AX25_MTU + 73;
+@@ -631,7 +627,6 @@ static int sixpack_open(struct tty_struct *tty)
+ 
+ out_free:
+ 	kfree(xbuff);
+-	kfree(rbuff);
+ 
+ 	free_netdev(dev);
+ 
+@@ -676,7 +671,6 @@ static void sixpack_close(struct tty_struct *tty)
+ 	del_timer_sync(&sp->resync_t);
+ 
+ 	/* Free all 6pack frame buffers after unreg. */
+-	kfree(sp->rbuff);
+ 	kfree(sp->xbuff);
+ 
+ 	free_netdev(sp->dev);
 -- 
 2.46.0
 
