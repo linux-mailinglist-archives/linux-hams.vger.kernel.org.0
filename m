@@ -1,53 +1,53 @@
-Return-Path: <linux-hams+bounces-405-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-406-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DFEE96089B
-	for <lists+linux-hams@lfdr.de>; Tue, 27 Aug 2024 13:27:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D6096089F
+	for <lists+linux-hams@lfdr.de>; Tue, 27 Aug 2024 13:28:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 084371F23AB1
-	for <lists+linux-hams@lfdr.de>; Tue, 27 Aug 2024 11:27:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BF6AE1F23AFD
+	for <lists+linux-hams@lfdr.de>; Tue, 27 Aug 2024 11:28:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1DA41A01BD;
-	Tue, 27 Aug 2024 11:27:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BC601A0730;
+	Tue, 27 Aug 2024 11:27:39 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD19215D5B6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A3019EEDC;
 	Tue, 27 Aug 2024 11:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724758058; cv=none; b=JMgKK4/mYfzzWxksw682eSdqcaPWTFIP+1qv8nrjOCUwuYSIrCpWF4qUvJ1J1yxn98Zon+5tMkb5SCuAdUuwgATQRV+UwqYuLECIb0BvyQCmJosAZ1Q2OtLMlXq8ieS2LGLTgQSKrteYRASd1yYMvC1FxonjUxo6nDK6R+ZbzrM=
+	t=1724758059; cv=none; b=tdkiER/RcW5PRKRaE7Ps92lEFLTMPnQKSkrKHmsr2YbfEpJatJB8RmODu8SlmSC8DIUCf+qx9p4TEkGWHHuvWYT0EEVT5OvzaBQjQAxeYFOeYHyLtC0QvKEVhnFVewvx1wBxzn7g/65jMm7TkCJI8BzvI2BirINzbYCx3xl3OXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724758058; c=relaxed/simple;
-	bh=oc1IHk3saXNkwAHJbOp8stezWZFf4PzZGuHh9QzYHgY=;
+	s=arc-20240116; t=1724758059; c=relaxed/simple;
+	bh=A+bz62SURqJ0evb7/+/XFnOmCo6+sJBPI7g1X0ozhQE=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PVlt+3W1iW9SKCAuYd5knhXVV7N28WXW1oxP47+kjZMHynUQL2aHuZkRFHpdFA+7/we/kicD3N67MSIHX1dNCRuVSLK3w6cOOvFD0u4aahTGN33W2NA+xwR5ah3iSIyFZHUX8kwSkqYScbW/bPCrYRsvU+nz0ENwWncexbdbPl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
+	 MIME-Version:Content-Type; b=T9mnog/GBpZvJcbP5pqJo/FtS0mBko01MSF+SSyKHshAxM6Fb8J/Ucl3trHVuSbsF3NmgAkg5FXdOtqpxTr1husy/1r+eVWlOO6Olqjo3cMlFqyg3dDTLwH6EnTF6ck37iiWU2K1OQCe4E3JR5/EbBp8fBqGJhE4Y6CBmRnQM7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4WtQFr6fJWz1xwLn;
-	Tue, 27 Aug 2024 19:25:36 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4WtQG95ZCmzpTcn;
+	Tue, 27 Aug 2024 19:25:53 +0800 (CST)
 Received: from dggpeml500022.china.huawei.com (unknown [7.185.36.66])
-	by mail.maildlp.com (Postfix) with ESMTPS id 27EBE140136;
+	by mail.maildlp.com (Postfix) with ESMTPS id 521AC180105;
 	Tue, 27 Aug 2024 19:27:34 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by dggpeml500022.china.huawei.com
  (7.185.36.66) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 27 Aug
- 2024 19:27:33 +0800
+ 2024 19:27:34 +0800
 From: Hongbo Li <lihongbo22@huawei.com>
 To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
 	<pabeni@redhat.com>, <dsahern@kernel.org>, <ralf@linux-mips.org>,
 	<jmaloy@redhat.com>, <ying.xue@windriver.com>
 CC: <netdev@vger.kernel.org>, <linux-hams@vger.kernel.org>,
 	<netfilter-devel@vger.kernel.org>
-Subject: [PATCH net-next 3/6] net/netrom: prefer strscpy over strcpy
-Date: Tue, 27 Aug 2024 19:35:24 +0800
-Message-ID: <20240827113527.4019856-4-lihongbo22@huawei.com>
+Subject: [PATCH net-next 4/6] net/netfilter: replace deprecated strcpy with strscpy
+Date: Tue, 27 Aug 2024 19:35:25 +0800
+Message-ID: <20240827113527.4019856-5-lihongbo22@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240827113527.4019856-1-lihongbo22@huawei.com>
 References: <20240827113527.4019856-1-lihongbo22@huawei.com>
@@ -71,31 +71,22 @@ Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strcpy [1]
 
 Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
 ---
- net/netrom/nr_route.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ net/netfilter/xt_recent.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/netrom/nr_route.c b/net/netrom/nr_route.c
-index bd2b17b219ae..e4e8c188cbc9 100644
---- a/net/netrom/nr_route.c
-+++ b/net/netrom/nr_route.c
-@@ -189,7 +189,7 @@ static int __must_check nr_add_node(ax25_address *nr, const char *mnemonic,
- 		}
+diff --git a/net/netfilter/xt_recent.c b/net/netfilter/xt_recent.c
+index 588a5e6ad899..06af3afa1d32 100644
+--- a/net/netfilter/xt_recent.c
++++ b/net/netfilter/xt_recent.c
+@@ -400,7 +400,7 @@ static int recent_mt_check(const struct xt_mtchk_param *par,
+ 	t->nstamps_max_mask = nstamp_mask;
  
- 		nr_node->callsign = *nr;
--		strcpy(nr_node->mnemonic, mnemonic);
-+		strscpy(nr_node->mnemonic, mnemonic, sizeof(nr_node->mnemonic));
- 
- 		nr_node->which = 0;
- 		nr_node->count = 1;
-@@ -214,7 +214,7 @@ static int __must_check nr_add_node(ax25_address *nr, const char *mnemonic,
- 	nr_node_lock(nr_node);
- 
- 	if (quality != 0)
--		strcpy(nr_node->mnemonic, mnemonic);
-+		strscpy(nr_node->mnemonic, mnemonic, sizeof(nr_node->mnemonic));
- 
- 	for (found = 0, i = 0; i < nr_node->count; i++) {
- 		if (nr_node->routes[i].neighbour == nr_neigh) {
+ 	memcpy(&t->mask, &info->mask, sizeof(t->mask));
+-	strcpy(t->name, info->name);
++	strscpy(t->name, info->name, sizeof(t->name));
+ 	INIT_LIST_HEAD(&t->lru_list);
+ 	for (i = 0; i < ip_list_hash_size; i++)
+ 		INIT_LIST_HEAD(&t->iphash[i]);
 -- 
 2.34.1
 
