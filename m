@@ -1,53 +1,53 @@
-Return-Path: <linux-hams+bounces-413-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-414-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE3C9626EC
-	for <lists+linux-hams@lfdr.de>; Wed, 28 Aug 2024 14:24:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 171519626F1
+	for <lists+linux-hams@lfdr.de>; Wed, 28 Aug 2024 14:24:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A8572812E7
-	for <lists+linux-hams@lfdr.de>; Wed, 28 Aug 2024 12:24:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4588D1C2116D
+	for <lists+linux-hams@lfdr.de>; Wed, 28 Aug 2024 12:24:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63D1A176AA1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B16E177982;
 	Wed, 28 Aug 2024 12:24:34 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D0BA16BE1D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0A8171E40;
 	Wed, 28 Aug 2024 12:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724847874; cv=none; b=O9jFxLAgd5lbXQf9tDaQkMYf7635L8Btd/CPrhu3Z9hqkSX25Nx83P5XWXwJMChAtPI5yrGrPSuJIgufy9HQxYCZqrp7kOhltfcXfg9UHtq+nqxTCfXRFcUBLbnsHkyLiJ6ofDXuwS7785bZXwDdKwfXtDRDsTmFWjaF1cpbnhE=
+	t=1724847874; cv=none; b=soTv3BElye9uGhRfNfhyd01EHtHyBaxxic6mYlvnKzaK5H67K3ntTfjYqfFtFoW80KfQSJ8kA8kv4EOoHzeR9zc9+u3ZHvSqwzqh1BYoUS4zvwwJ+NO91+F41HQF5eQkPN+r461y2hdYJ6DGxQTT5PrrnRh2YbGHMxiDBLtk/ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1724847874; c=relaxed/simple;
-	bh=tKs3ctn4sn3a+tT+No3I3xpMwFkE8BC0tyb1kL6BZ+k=;
+	bh=qYAFoQfx9FFxQ69I03wOJ1UUT/sKe3hcsz0+FUYZxSQ=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qeW9X5vbrb87jZBJ+W82L7SAVgY2oll6wexPRpksRUvyXx6nprq+jyMKU/tIoT364wsGvGRrzZ6Zjqj/EtizEqVbXU7LonP0zoWM1b7NE2UbTKw5ZVbsInFIYA0PleMZ4qTB3TuLHoP4ygQ35Ra3wdSQ9nsENw3q6h6DDXyulWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
+	 MIME-Version:Content-Type; b=Gzu/1mBSIH74sfcm6c1IZswrsr9laWqBQ/90dmoKKCA6c0L5rYtnSuhbsTXxRKwEOBTzsQcqbAxd0SOLQVBIi7E0gKZW0qCIG2RjTIm79YMhoepZBomXyGlEymwdB9mRnkHZTykOsJGDwppqsi7fvd+jRE2tE40gh21nB0e1Zx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.234])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Wv3W64skhz2DbZy;
-	Wed, 28 Aug 2024 20:24:18 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Wv3Vl67jTzyRCW;
+	Wed, 28 Aug 2024 20:23:59 +0800 (CST)
 Received: from dggpeml500022.china.huawei.com (unknown [7.185.36.66])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1BF091402CD;
+	by mail.maildlp.com (Postfix) with ESMTPS id 4734C180AE7;
 	Wed, 28 Aug 2024 20:24:30 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by dggpeml500022.china.huawei.com
  (7.185.36.66) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 28 Aug
- 2024 20:24:29 +0800
+ 2024 20:24:30 +0800
 From: Hongbo Li <lihongbo22@huawei.com>
 To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
 	<pabeni@redhat.com>, <dsahern@kernel.org>, <ralf@linux-mips.org>,
 	<jmaloy@redhat.com>, <ying.xue@windriver.com>, <dan.carpenter@linaro.org>
 CC: <netdev@vger.kernel.org>, <linux-hams@vger.kernel.org>,
 	<netfilter-devel@vger.kernel.org>, <lihongbo22@huawei.com>
-Subject: [PATCH net-next v2 4/6] net/netfilter: replace deprecated strcpy with strscpy
-Date: Wed, 28 Aug 2024 20:32:22 +0800
-Message-ID: <20240828123224.3697672-5-lihongbo22@huawei.com>
+Subject: [PATCH net-next v2 5/6] net/tipc: replace deprecated strcpy with strscpy
+Date: Wed, 28 Aug 2024 20:32:23 +0800
+Message-ID: <20240828123224.3697672-6-lihongbo22@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240828123224.3697672-1-lihongbo22@huawei.com>
 References: <20240828123224.3697672-1-lihongbo22@huawei.com>
@@ -71,22 +71,22 @@ Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strcpy [1]
 
 Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
 ---
- net/netfilter/xt_recent.c | 2 +-
+ net/tipc/bearer.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/netfilter/xt_recent.c b/net/netfilter/xt_recent.c
-index 588a5e6ad899..6b7d6978713f 100644
---- a/net/netfilter/xt_recent.c
-+++ b/net/netfilter/xt_recent.c
-@@ -400,7 +400,7 @@ static int recent_mt_check(const struct xt_mtchk_param *par,
- 	t->nstamps_max_mask = nstamp_mask;
+diff --git a/net/tipc/bearer.c b/net/tipc/bearer.c
+index 3c9e25f6a1d2..ae1ddbf71853 100644
+--- a/net/tipc/bearer.c
++++ b/net/tipc/bearer.c
+@@ -326,7 +326,7 @@ static int tipc_enable_bearer(struct net *net, const char *name,
+ 	if (!b)
+ 		return -ENOMEM;
  
- 	memcpy(&t->mask, &info->mask, sizeof(t->mask));
--	strcpy(t->name, info->name);
-+	strscpy(t->name, info->name);
- 	INIT_LIST_HEAD(&t->lru_list);
- 	for (i = 0; i < ip_list_hash_size; i++)
- 		INIT_LIST_HEAD(&t->iphash[i]);
+-	strcpy(b->name, name);
++	strscpy(b->name, name);
+ 	b->media = m;
+ 	res = m->enable_media(net, b, attr);
+ 	if (res) {
 -- 
 2.34.1
 
