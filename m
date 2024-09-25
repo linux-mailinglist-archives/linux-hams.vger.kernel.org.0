@@ -1,77 +1,106 @@
-Return-Path: <linux-hams+bounces-426-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-427-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BE09863A7
-	for <lists+linux-hams@lfdr.de>; Wed, 25 Sep 2024 17:33:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A28E98683D
+	for <lists+linux-hams@lfdr.de>; Wed, 25 Sep 2024 23:20:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 550A11C2610D
-	for <lists+linux-hams@lfdr.de>; Wed, 25 Sep 2024 15:33:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 17B7DB22974
+	for <lists+linux-hams@lfdr.de>; Wed, 25 Sep 2024 21:20:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D86F513D619;
-	Wed, 25 Sep 2024 15:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c1JJWwFC"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B506314C5BE;
+	Wed, 25 Sep 2024 21:20:02 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9740E13D89D;
-	Wed, 25 Sep 2024 15:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98E1C2AE6C;
+	Wed, 25 Sep 2024 21:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727278223; cv=none; b=QgX+R9ysv9rcN0o+GHW+irKyZs5kSuiIssCl7DlSaEJSY7SXXlPE4139KI7AJjXAxUh4DnVlTJiAh/CT//frC6NMK4lTTPCWb/rXEvMlG2U8nUchy06xcvbaE4DsXqO6iuVotRLVcG2/79PYthZWjrWlfqN3ponunZXlI0itOsY=
+	t=1727299202; cv=none; b=q707CHtk1nvpaCszl5PGLr2pNURbhKVPrF4RLf0ltY7ZGr3TEvpPRWfG3BKbjhbaBfP+ZMfT6rUd8K6/OrlFmjCC+//DvQ+E/PRG4AzUVS9GRer2V52irmoYSHHgqtjqHrrJMYxHxeJAlSJ7ijy+l3BoA3yePm1r6hLAl2XPlVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727278223; c=relaxed/simple;
-	bh=M7nNDeHfFLRSbJ/vO1+I1LN60u0f/QLFiJNFcAYTndw=;
-	h=MIME-Version:Content-Type:From:To:Message-ID:In-Reply-To:
-	 References:Subject:Date; b=BMWPH3XdZoMNd2F/YMS+qfYJ1GpfCdcYY4MaPl0D/sssaPHQZCA7v3+7Gl9UDQMFRJpdVOrcXIwAxqrsXN7GBWRLqeWMbo9+W4xj1EsRl29MsVS2nGay7SOtY9A7e0qCABefP6MmGSOjR9TJ0uusQtFCAdBUb1p2WW1j/XYW8Dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c1JJWwFC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41284C4CEC6;
-	Wed, 25 Sep 2024 15:30:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727278223;
-	bh=M7nNDeHfFLRSbJ/vO1+I1LN60u0f/QLFiJNFcAYTndw=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=c1JJWwFCMp/bVdKrynHu1Km23yhbSnX2uX2AGO7gF6J+TcGU1ooYIH1+5njiJ6Uh6
-	 Ran2/RW/on7TButd/EsBkClR9X+yZXjfyeJrBjzb6GgyUv3pcDyQo0Qf8UVCP+eB10
-	 Q77kHIYAN8ed8ZD1WA/5fABv+KOiP2rdVKU1tVZq3IZWFRyeWMiO8RP60n6LvBigzu
-	 i7Dh4O3SgH/pCxvcO8vdbYYcSmwrDxrbyhdMCWteXfxReeoxvr4iYZtk1BP1FJ942h
-	 M/SkKfwIHdB2EQOonOlnGz1iFxrrWWd/T9TYEecd85t1xIhqDMVJNMMSU3Gp4pROoj
-	 yILTs/GRkWESQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B51E23809A8F;
-	Wed, 25 Sep 2024 15:30:26 +0000 (UTC)
+	s=arc-20240116; t=1727299202; c=relaxed/simple;
+	bh=stYZviXEVeTqO5NCg3QLn5Ip1fBQFWbSQIgfr5LN2I8=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=eKrazT3iTmZpVbZVeodXhfeX/X/VIJKnRgKG3h9LjXKpe4Vu2GEY5lkJhxMwWeb/p+Abwc5jvbTJfLjxQp0ZW6oVZ2x6sd8N1VsJncVoELwOhI4mmhRyVGJpdmvG8y8v7AITNhDmjdNaHkU/i2p3tbRakXUZPWMabetNuF2bpjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id 3381892009C; Wed, 25 Sep 2024 23:19:51 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id 2742992009B;
+	Wed, 25 Sep 2024 22:19:51 +0100 (BST)
+Date: Wed, 25 Sep 2024 22:19:51 +0100 (BST)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
+    Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+cc: linux-mips@vger.kernel.org, linux-hams@vger.kernel.org, 
+    linux-edac@vger.kernel.org, helpdesk@kernel.org
+Subject: Re: Bouncing maintainer: Ralf Baechle
+In-Reply-To: <20240925-flashy-innocent-goat-afdbe8@lemur>
+Message-ID: <alpine.DEB.2.21.2409251733580.3358@angie.orcam.me.uk>
+References: <20240925-flashy-innocent-goat-afdbe8@lemur>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-From: Bugspray Bot <bugbot@kernel.org>
-To: linux-hams@vger.kernel.org, helpdesk@kernel.org, macro@orcam.me.uk, 
- konstantin@linuxfoundation.org, linux-mips@vger.kernel.org
-Message-ID: <20240925-b219325-df57a5dbcddf@bugzilla.kernel.org>
-In-Reply-To: <20240925-flashy-innocent-goat-afdbe8@lemur>
-References: <20240925-flashy-innocent-goat-afdbe8@lemur>
-Subject: Re: Bouncing maintainer: Ralf Baechle
-X-Bugzilla-Product: kernel.org
-X-Bugzilla-Component: Helpdesk
-X-Mailer: bugspray 0.1-dev
-Date: Wed, 25 Sep 2024 15:30:26 +0000 (UTC)
+Content-Type: text/plain; charset=US-ASCII
 
-Hello:
+On Wed, 25 Sep 2024, Konstantin Ryabitsev wrote:
 
-This conversation is now tracked by Kernel.org Bugzilla:
-https://bugzilla.kernel.org/show_bug.cgi?id=219325
+> Ralf Baechle is listed as the sole maintainer for several MIPS- and HAMS-
+> related subsystems:
+> 
+>   - EDAC-CAVIUM OCTEON
 
-There is no need to do anything else, just keep talking.
--- 
-Deet-doot-dot, I am a bot.
-Kernel.org Bugzilla (bugspray 0.1-dev)
+ Cc-ing <linux-edac@vger.kernel.org> for this subsystem to widen the 
+audience.
 
+>   - IOC3 ETHERNET DRIVER
+
+ Thomas, is this something you want to take?  I have no such hardware.
+
+>   - NETROM NETWORK LAYER
+>   - ROSE NETWORK LAYER
+> 
+> This subsystem lists a comaintainer:
+> 
+>   - TURBOCHANNEL SUBSYSTEM
+
+ I'll handle this subsystem and I'll submit a change to mark the other 
+subsystems as "Orphan" unless I hear otherwise by the beginning of next 
+week.
+
+ I note that Ralf is already listed in CREDITS, so there's nothing else to 
+do here.
+
+> I believe linux-mips.org went offline a few years ago and never recovered, and
+> by this point any mail sent to linux-mips.org is bouncing.
+
+ The site was restored back in 2021 and worked until early March this year 
+when DNS records expired that were owned by Ralf himself.  The machine is 
+still running and under control, though will eventually be decommissioned 
+as useless in this current situation, with some contents such as the git 
+repos and the wiki hopefully preserved elsewhere.
+
+> Please submit a patch to MAINTAINERS removing linux-mips.org references and
+> either:
+> 
+> - finding new maintainers for the affected subsystems
+> - marking these subsystems as "Orphan"
+> 
+> The goal is to not have any bouncing addresses in the MAINTAINERS file, so
+> please submit a fix as soon as the correct course of action is decided.
+
+ Absolutely.  I'll handle all the non-e-mail linux-mips.org references as 
+well as required with the upcoming change, possibly a small patch series.
+
+ Thank you for doing this clean-up, much appreciated!
+
+  Maciej
 
