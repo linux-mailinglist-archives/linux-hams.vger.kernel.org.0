@@ -1,78 +1,70 @@
-Return-Path: <linux-hams+bounces-429-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-430-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232BC9885FA
-	for <lists+linux-hams@lfdr.de>; Fri, 27 Sep 2024 15:00:32 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A164988618
+	for <lists+linux-hams@lfdr.de>; Fri, 27 Sep 2024 15:12:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0E07282BE8
-	for <lists+linux-hams@lfdr.de>; Fri, 27 Sep 2024 13:00:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D83B7B20DC6
+	for <lists+linux-hams@lfdr.de>; Fri, 27 Sep 2024 13:12:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5007A18E05B;
-	Fri, 27 Sep 2024 13:00:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6069F18D620;
+	Fri, 27 Sep 2024 13:12:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rlRmnIAq"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mpt16UpY"
 X-Original-To: linux-hams@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E82118E03B;
-	Fri, 27 Sep 2024 13:00:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CFE189502;
+	Fri, 27 Sep 2024 13:12:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727442014; cv=none; b=NRtkSOYPXRglhjkXfjnwkiayuNjCg1Ar60riLJlW9HsDFbPXMuFhT9aJfW6OfjNKzrV/liYrF2hEmA6Wtckj5YNJnmsetOhBkii2+e3Y4rqty+JDaEuD3Z8UWOQZ0t7QGcgOlvjMlDZbSLX6TgJlULEv4623luBT9sHnPYFvSFA=
+	t=1727442755; cv=none; b=OkXv8zhJsq5hSvDg34XfE6lFg/4xoKH0K+hiPZjaIFNcO6bs+BhdgI3v8CDUdVugEmbXl5xO3dkvW7tO1sTd9bjAeWhD3CZ6PwfQcdlvvIN0BdjnCqoHnyA62UvvjI0eL0OIoemqLtRXcPcFVohASTG4cuK+ZBwaIzmMpHM8DrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727442014; c=relaxed/simple;
-	bh=8ffG0XGN5QAI3Rj6SPj6yBv2d+VMVe5C/ENaRffYsQ4=;
-	h=MIME-Version:Content-Type:From:To:Message-ID:In-Reply-To:
-	 References:Subject:Date; b=QHLuHBlGmeIIK5ZAXYtRjxfdq1yNKAPtlY4X0DZ8ZEV8BGwo5JzZqjw0lb05y664LkEOMzEw6TIRrwFyTwH4CPBCSptF3Cl6r+rhllpgoIZTSBdtX0UMvwBNH+OwrMRGkyHdVMrM0M639h/yZtgGybCuSaBqN/xHApXf0jA19So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rlRmnIAq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C385AC4CEC4;
-	Fri, 27 Sep 2024 13:00:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727442013;
-	bh=8ffG0XGN5QAI3Rj6SPj6yBv2d+VMVe5C/ENaRffYsQ4=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=rlRmnIAqwq70DPQdgXF6jQju3Spn2CYQkbcCTHe0ArePJrTPFZfkwMrnxn/g4QK+f
-	 PJ6NlxZ0wgbjjT1fnEV1NFaagfN5WJYggbK22cVJJrswoA+mmVisIY8sk6H8+7lInF
-	 k+K+dy4VD+Lz6fqbIIl5nZYBOSXuVHNM1uNcdeskzaTAd+A0A0cPM7TATNlFnPNjvL
-	 jeLU9juJFTK/EM2G7HclCJTU1h0KROGay+YOdpyV/zE8Mdcp84kNIJ65MLaPIceSad
-	 kPdqI0Me1xxbQuQ1xMB0XYQt9XZzLZ7T7rp2n7yEEu5kFPL1e8e5u3TinktkXz0RKn
-	 F1BoksI4LWjXw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 75E153809A80;
-	Fri, 27 Sep 2024 13:00:17 +0000 (UTC)
+	s=arc-20240116; t=1727442755; c=relaxed/simple;
+	bh=3QXDNlI+LGdYuepCu4MhZ4vRJEd4Jssx3QXBl28GW3k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OM8kZpeBhrs5SGNt+lFoTZE6K9l0lR7cVdVxpwbDBd9f+8qp9jCBekSexAT4GEpddLhQttDKGMTfOfT7AkZp/KK7MfGwFacLr3wFLTA24vzAkWI8NKwbhgp0de0svC4ErN/aIHz1WuaGPz01TDTHqgxLrlLO+HZJlpPzBf6ZDis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mpt16UpY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F010C4CEC6;
+	Fri, 27 Sep 2024 13:12:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1727442754;
+	bh=3QXDNlI+LGdYuepCu4MhZ4vRJEd4Jssx3QXBl28GW3k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mpt16UpY+K5IGFkRJ+CVMnx3YZ6hZLT4mptD/mTGVCWXYhlflbOZSvLZ7tNrnvwiy
+	 y9ghoR7x9RWooXd66XjENespLxVOZuda9qiEPySAujhAOjR/veu/h3yq2HHNUvUiay
+	 esC9fFc6Tot7Nx6F2laPa6ng98ghbdesuhdZAMHM=
+Date: Fri, 27 Sep 2024 09:12:33 -0400
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Bugspray Bot <bugbot@kernel.org>
+Cc: helpdesk@kernel.org, linux-mips@vger.kernel.org, 
+	linux-hams@vger.kernel.org, macro@orcam.me.uk, dan.carpenter@linaro.org
+Subject: Re: Bouncing maintainer: Ralf Baechle
+Message-ID: <20240927-competent-sapphire-seahorse-a36f41@lemur>
+References: <f74c4234-a091-4cc3-b92b-469f506c16a5@stanley.mountain>
+ <20240927-b219329-030e69c334a2@bugzilla.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-From: Bugspray Bot <bugbot@kernel.org>
-To: helpdesk@kernel.org, linux-mips@vger.kernel.org, 
- linux-hams@vger.kernel.org, macro@orcam.me.uk, 
- konstantin@linuxfoundation.org, dan.carpenter@linaro.org
-Message-ID: <20240927-b219329-030e69c334a2@bugzilla.kernel.org>
-In-Reply-To: <f74c4234-a091-4cc3-b92b-469f506c16a5@stanley.mountain>
-References: <f74c4234-a091-4cc3-b92b-469f506c16a5@stanley.mountain>
-Subject: Re: Bouncing maintainer: Ralf Baechle
-X-Bugzilla-Product: kernel.org
-X-Bugzilla-Component: Helpdesk
-X-Mailer: bugspray 0.1-dev
-Date: Fri, 27 Sep 2024 13:00:17 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240927-b219329-030e69c334a2@bugzilla.kernel.org>
 
-Hello:
+On Fri, Sep 27, 2024 at 01:00:17PM GMT, Bugspray Bot wrote:
+> Hello:
+> 
+> This conversation is now tracked by Kernel.org Bugzilla:
+> https://bugzilla.kernel.org/show_bug.cgi?id=219329
 
-This conversation is now tracked by Kernel.org Bugzilla:
-https://bugzilla.kernel.org/show_bug.cgi?id=219329
+Clearly, bugbot still has some bugs. I'll see if we can silence him for
+certain components, too.
 
-There is no need to do anything else, just keep talking.
--- 
-Deet-doot-dot, I am a bot.
-Kernel.org Bugzilla (bugspray 0.1-dev)
-
+-K
 
