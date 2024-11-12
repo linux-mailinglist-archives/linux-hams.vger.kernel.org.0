@@ -1,94 +1,73 @@
-Return-Path: <linux-hams+bounces-439-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-442-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A25B9C597D
-	for <lists+linux-hams@lfdr.de>; Tue, 12 Nov 2024 14:48:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E249C5BD2
+	for <lists+linux-hams@lfdr.de>; Tue, 12 Nov 2024 16:27:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D54871F222B9
-	for <lists+linux-hams@lfdr.de>; Tue, 12 Nov 2024 13:48:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7688E288AA0
+	for <lists+linux-hams@lfdr.de>; Tue, 12 Nov 2024 15:27:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CF071FCC42;
-	Tue, 12 Nov 2024 13:47:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66865200C87;
+	Tue, 12 Nov 2024 15:27:21 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CB481FBF64;
-	Tue, 12 Nov 2024 13:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A430200BA5;
+	Tue, 12 Nov 2024 15:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.175.24.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731419249; cv=none; b=W9ux8P/GVSTqoiQEpFsu4J7EPnlS62VjHKE7r+FD4puposfWntxiH+VV/fwE9oPEncKHV0e3RcQGdc2DvIKCiAqW87vxCPL7wndVJaHo8KCirkrMoBrncZ8KjcmzUFxIlIWH7U32BYZJ//cXdMO9pc4WLZptDWCVtBYCuhJAoGc=
+	t=1731425241; cv=none; b=RIJgLodCLa5Vpltj3ifqGOcBSqW/vkpDZaYkTBY6wt/aPAH6y5N378mpumvzX+RNbILALJTUyNxU83m9amax1jjaj7Rqt6pSLcd1f+cV7808qqRGK1/xKYKO8/Pedtgaw24LBnVHsQ8dXLa4wYKx9R/XwAfNK8dNfrmQR2vlPBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731419249; c=relaxed/simple;
-	bh=5ArK71moMUz+0XzvtNm9YLk8hPSBH1lwzi7IBWPvmiA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=WmtI5Sef3+UX93I3Gcn7niad7nkCZD6xQ4RSxDbSzGT9ktfmBvOtw8lsJofOMI+i3xXgBXpK3YlbHAxUB9yAUYt625LPsyEV9QoAGC/5dKn++k44O0yJk+CPwICDaydn+PAhHeCAvAXLVh8tL3Kfr7bvoKItpZrPJRBaNNLVw28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-	id 189639200B3; Tue, 12 Nov 2024 14:47:26 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by angie.orcam.me.uk (Postfix) with ESMTP id 152E392009E;
-	Tue, 12 Nov 2024 13:47:26 +0000 (GMT)
-Date: Tue, 12 Nov 2024 13:47:25 +0000 (GMT)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
-    Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-cc: linux-edac@vger.kernel.org, linux-hams@vger.kernel.org, 
-    linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] MAINTAINERS: Remove linux-mips.org references
-In-Reply-To: <alpine.DEB.2.21.2411121327130.9262@angie.orcam.me.uk>
-Message-ID: <alpine.DEB.2.21.2411121344350.9262@angie.orcam.me.uk>
+	s=arc-20240116; t=1731425241; c=relaxed/simple;
+	bh=HNgfvtBVLWi2KlzOgkPTGH92XT5IEgf6spap8erVFQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=agi3tviQ3+M471Q99/lJIvlx3XkfO/EzB8Xnx79mt1cXVHKwUyAoepS9yHWDnH9s74rOZSF4c0FxnXsKxhpTkLzgFwggVeKKH+iRZkO8bFdBG0iRrGmjA+p4/Kf2yle8f5tM6hvhOAXrQidYECPZZb2SzoHrKyu/jqQOao0CWhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de; spf=pass smtp.mailfrom=alpha.franken.de; arc=none smtp.client-ip=193.175.24.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alpha.franken.de
+Received: from uucp by elvis.franken.de with local-rmail (Exim 3.36 #1)
+	id 1tAsnW-000536-00; Tue, 12 Nov 2024 16:27:18 +0100
+Received: by alpha.franken.de (Postfix, from userid 1000)
+	id E84ADC0110; Tue, 12 Nov 2024 16:10:40 +0100 (CET)
+Date: Tue, 12 Nov 2024 16:10:40 +0100
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	linux-edac@vger.kernel.org, linux-hams@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] MAINTAINERS: Deal with the linux-mips.org mess
+Message-ID: <ZzNv8PWzPsxiuPSN@alpha.franken.de>
 References: <alpine.DEB.2.21.2411121327130.9262@angie.orcam.me.uk>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.2411121327130.9262@angie.orcam.me.uk>
 
-The linux-mips.org site has gone down and no replacement is available at 
-the moment.  Remove/update references in MAINTAINERS accordingly.  There 
-are a bunch of Kconfig references still present; keep them around for a 
-possible future update or for people to refer to via archive.org.
+On Tue, Nov 12, 2024 at 01:47:17PM +0000, Maciej W. Rozycki wrote:
+> Hi,
+> 
+>  Here's v2 of the patch series to address Ralf Baechle to have stopped 
+> responding and linux-mips.org gone down, and Thomas stepping up as a 
+> replacement maintainer.  This has been regenerated against the current 
+> version of MAINTAINERS.  Please apply.
+> 
+>  Previous iterations:
+> 
+> - v1 at: <https://lore.kernel.org/r/alpine.DEB.2.21.2410131952550.40463@angie.orcam.me.uk/>.
 
-Signed-off-by: Maciej W. Rozycki <macro@orcam.me.uk>
----
- MAINTAINERS |    4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+I didn't see this mail, but the v2 series in patchwork...
+Applied to mips-next.
 
-linux-maintainers-lmo.diff
-Index: linux-macro/MAINTAINERS
-===================================================================
---- linux-macro.orig/MAINTAINERS
-+++ linux-macro/MAINTAINERS
-@@ -6301,7 +6301,6 @@ DECSTATION PLATFORM SUPPORT
- M:	"Maciej W. Rozycki" <macro@orcam.me.uk>
- L:	linux-mips@vger.kernel.org
- S:	Maintained
--W:	http://www.linux-mips.org/wiki/DECstation
- F:	arch/mips/dec/
- F:	arch/mips/include/asm/dec/
- F:	arch/mips/include/asm/mach-dec/
-@@ -15480,7 +15479,6 @@ MIPS
- M:	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
- L:	linux-mips@vger.kernel.org
- S:	Maintained
--W:	http://www.linux-mips.org/
- Q:	https://patchwork.kernel.org/project/linux-mips/list/
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mips/linux.git
- F:	Documentation/devicetree/bindings/mips/
-@@ -23555,7 +23553,7 @@ TURBOCHANNEL SUBSYSTEM
- M:	"Maciej W. Rozycki" <macro@orcam.me.uk>
- L:	linux-mips@vger.kernel.org
- S:	Maintained
--Q:	http://patchwork.linux-mips.org/project/linux-mips/list/
-+Q:	https://patchwork.kernel.org/project/linux-mips/list/
- F:	drivers/tc/
- F:	include/linux/tc.h
- 
+Thomas.
+
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
 
