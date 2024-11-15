@@ -1,206 +1,100 @@
-Return-Path: <linux-hams+bounces-443-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-444-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE31B9C6C57
-	for <lists+linux-hams@lfdr.de>; Wed, 13 Nov 2024 11:05:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7954E9CDCF7
+	for <lists+linux-hams@lfdr.de>; Fri, 15 Nov 2024 11:49:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 800471F22B2B
-	for <lists+linux-hams@lfdr.de>; Wed, 13 Nov 2024 10:05:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 256851F23773
+	for <lists+linux-hams@lfdr.de>; Fri, 15 Nov 2024 10:49:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A1461FB894;
-	Wed, 13 Nov 2024 10:05:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62CD21B532F;
+	Fri, 15 Nov 2024 10:49:26 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB411F9A8E;
-	Wed, 13 Nov 2024 10:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD60419308C
+	for <linux-hams@vger.kernel.org>; Fri, 15 Nov 2024 10:49:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731492346; cv=none; b=ByuJsB6HDrzwPSRdpMN0EaBciD7hccDKFN1W6qxwlO2x7SWlkx4ti5GWsWUgApF+BmFZlxXPpovb12yM7rr/7ShhRswZUQVhgUme0WMzG+w8gwm5Rx3+3r6eoCqThzyhqsDUXZnhUHUvKcuU82Bzw2jAfI6Ke+fFprRmG9ttFDQ=
+	t=1731667766; cv=none; b=FAOxdqMcNACOTXS38rzpSJfDW844dhVFBxOAbe0AIy21ZXAfeScQvWmKrQIfVZaG6Swpuz4REyAepp1RTO17HvE++NIS67+mBDCzQnz/hroZIUAmAWQqfLQcG+Ef2aBphNDKyvv5rJ44gUqZ9AJmfUU4yYjiw/sqF/lRhk1J9Es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731492346; c=relaxed/simple;
-	bh=hfBrQJvC8AN+nHLouReIxHBNH9WwzWBzRRgrwIvPnik=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u5WWYU0I/ZB1PBioUmoiqTYvNWRpHVkpuVgqOx7U+irqx0K/iEAt+dW4PHwXnMydpwJ83PxTiTnClLH2QYCgyBn7ngqs/MI/wB56QINmRRvB+BBU4AuWnbF7xP3OZVoqGEkSYrBJv9Jp6QDshF4ijj987AK8lU83DsxzmiONWYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6e9ba45d67fso62898787b3.1;
-        Wed, 13 Nov 2024 02:05:43 -0800 (PST)
+	s=arc-20240116; t=1731667766; c=relaxed/simple;
+	bh=YBWq//aMFNh7AbrBVww1FmxzHMu3uKd+Ddt5w5rf6MQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=u+c/3umIUwGPvx4tTfnKWYX2tt9DmbmhcXsSF2++VIzymH9wPyub+DILnWj3RNJ1xdvUKURkH6IOWDihqwjUpKP4VeplcMqaJe9Vu544vhuYNBaurYsGOVep/luS6op+nMoUydEwfFDBHImXMDt5dkn+k2Mw/HkvsRN2/vBplIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-3a4e80ccd1bso16874545ab.2
+        for <linux-hams@vger.kernel.org>; Fri, 15 Nov 2024 02:49:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731492342; x=1732097142;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+9Zu5f9a7YdmZdcq/cBwsvzywMKEtYbFdDVk0n7J6R0=;
-        b=sqw0pQePt1c1EvB1tI5lfHauQcVjpp/fA+yF589+PfLTarWwjhF7wdHwcMV0dQ3TNo
-         BFvgJi9etdQSCFU6yopzSPxp3AvEhLz5YWTwYb+TS9PPQ7wWdFh+TSMbPhymEL5VmGUE
-         v6AM0EEBx6KXcauXC2IbeX4ybUIiaLg/jAsMJQTMYI+KpbRPuh3K0/T8vXbc/pd9GOdF
-         eW+Np+ybyN6Hy7tyz+xzMVjCEsgze2ONrInZaJcD6bu6AqW2nHwzMf9DMh1X5xvOXNVE
-         fhuJSqfAXYIic6vNqmFvpo56O4ElY0J5AxuTQ96j/Sn1Bg1AeT4RBtykZV4DSPLJ1B8o
-         RM8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUx0pAjYL6hzGwRTRZWo6Ui1GADCEUTCcSjFxCHnaV2ZylxwKlQZlau4/B9v1mmWS6q4Umc8D9PdHzg6w==@vger.kernel.org, AJvYcCVu+/CRxdIMwqbLrnC+no1jdTovUKc8MYawfhyft1Ngz9mdZDZpaR2OKHmjFJnmduc7a0pnNA/johtV@vger.kernel.org, AJvYcCXkJ9vEsyMPNlyfzFXwfBsYImxQlK9EiVdRl3SxJfuk7kBJwobk9+6rYj6k1TpYJK47BFpkxRk7dawddoSs@vger.kernel.org, AJvYcCXmevQIpoNicSZV3C89UOUE70MM28pWE+pmmHNpkExM5elAXPHWaGe492N1v6tGyNQ6YaXmfaz0lOw+CQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTMiE9mpa4jG/7fewoS5vMQ0DxP6HdubxbTf1PM4d4rF663yXN
-	qTxT4A4MqIF6nkccikU2iCq2lYeOfSANPvxD0csmVyyu+Pf01zFBTphvUIay
-X-Google-Smtp-Source: AGHT+IEPYu69YGquKTx5EWTomsi+CORpAQ0x0W2MqSTPmmoPsANt62hyEupadhcsRaGMcGb3GtwauQ==
-X-Received: by 2002:a05:690c:243:b0:6ec:b194:efe7 with SMTP id 00721157ae682-6ecb194f106mr26014977b3.30.1731492342039;
-        Wed, 13 Nov 2024 02:05:42 -0800 (PST)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6eaceb7a6fdsm30793577b3.103.2024.11.13.02.05.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Nov 2024 02:05:41 -0800 (PST)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6e9ba45d67fso62898637b3.1;
-        Wed, 13 Nov 2024 02:05:41 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU+SiQvLzl4NW3tn2L0+1h8UVoj+vDwiF8sNvOIiVkJdI8R0Y9ZUFZn9u0aM8sVvwaen2z/uwREpjmEbjCQ@vger.kernel.org, AJvYcCUhfkF1zIZiXNd+sd4SMJJEW7BXCHqr/Ezi2PB2wAO11hSaHNZkFYXOybI510Q+1hy7CnDWqrMdw109/Q==@vger.kernel.org, AJvYcCUj824H4teq1n4uj+vTWA4c47KpawBnaSG3zL1BFn6ioWEAAqQ0GZGHtElNZywKYVs/mlNDxRUHI0of@vger.kernel.org, AJvYcCVcCqZSZoOUyiezOVZye1Yqf016YgkiEGxSBWd+GcWL+vdj3id8xlSzVIAGY1ldUzo8zbr3eqTT8jQKZQ==@vger.kernel.org
-X-Received: by 2002:a05:690c:6ac3:b0:6e2:12e5:35a2 with SMTP id
- 00721157ae682-6eca4643368mr59764137b3.4.1731492341087; Wed, 13 Nov 2024
- 02:05:41 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731667764; x=1732272564;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SgZi5loVeC2B/qYjithZ8jk/6eHuBMqIP1U9qENvnp4=;
+        b=BF3PG6PWS2bCKEciX1PXn6fQBiDlhIHgsfDWrdXj9SZ5OFqlJmJDe9N12XtGRJs9nO
+         xpa3iMSQ1pK4MWa9r54pDn/OsrNF3vnnuY+Z8z5McuiV9iXEHGJgCSD4V6EozikgQXSF
+         j+7GShXuNQaJRBZCaRw0n2VifIE2kfsM3Jum7jxrzqqOG/fPIoJHIOFki5H5dpd1Z8k1
+         sRXm/U9J5nJG7GNqQ6IBpSA6qpC/aus2UEroDPZqamuomvwHpmemF0XlEKpal/LvDTV4
+         7e/w9G3chxw1UNlp323aMiwFdYa+9QsdF+ohP2JzAsvUcB0NNEccnu5hV7/ZgyMMwYAa
+         P8HA==
+X-Gm-Message-State: AOJu0YyPEtjv8U85C2a1D0YW+rVB42WcKR1mDgraZc020mqFjMTNsjMI
+	C7P7cpcz3zZSAPKA4iSlRF1IE+3IORxwFizCdtwg9z252Ty0OcLG5JBQbHhmifca7SUKOpASuZ0
+	8iA+0ZNLcoT2uwfc7jnowjDPTF0Wr9m3K/cYMr+AviRfN6beban+4GPw=
+X-Google-Smtp-Source: AGHT+IGf8YOFsFfRlgu/78sYo9Xhztfmj2R8J7nD5wC4MTFFueOKVE0QcuSl/LSymva9Cyje0Zgo4i6QJbmE0JllsyQeC3UaPRmF
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <alpine.DEB.2.21.2411121327130.9262@angie.orcam.me.uk> <alpine.DEB.2.21.2411121342220.9262@angie.orcam.me.uk>
-In-Reply-To: <alpine.DEB.2.21.2411121342220.9262@angie.orcam.me.uk>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 13 Nov 2024 11:05:28 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdViAoHPnWUK3tvwP8VdPwHxfHjZY63zaVhCSWqk=SMkWw@mail.gmail.com>
-Message-ID: <CAMuHMdViAoHPnWUK3tvwP8VdPwHxfHjZY63zaVhCSWqk=SMkWw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] MAINTAINERS: Retire Ralf Baechle
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-edac@vger.kernel.org, 
-	linux-hams@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Ralf Baechle <ralf.baechle@gmail.com>, ralf@gnu.org
+X-Received: by 2002:a05:6e02:b43:b0:3a7:158d:63a2 with SMTP id
+ e9e14a558f8ab-3a748077d9cmr18832205ab.18.1731667763990; Fri, 15 Nov 2024
+ 02:49:23 -0800 (PST)
+Date: Fri, 15 Nov 2024 02:49:23 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67372733.050a0220.2a2fcc.0077.GAE@google.com>
+Subject: [syzbot] Monthly hams report (Nov 2024)
+From: syzbot <syzbot+listb3995cb5944bf0cec442@syzkaller.appspotmail.com>
+To: linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Maciej,
+Hello hams maintainers/developers,
 
-CC Ralf
+This is a 31-day syzbot report for the hams subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/hams
 
-On Tue, Nov 12, 2024 at 2:47=E2=80=AFPM Maciej W. Rozycki <macro@orcam.me.u=
-k> wrote:
-> Ralf Baechle has been inactive for years now and the linux-mips.org site
-> has gone down.  No replacement contact information is available.  Thomas
-> has been kind enough to step up as a maintainer for EDAC-CAVIUM OCTEON
-> and IOC3 ETHERNET DRIVER.
->
-> Update MAINTAINERS, CREDITS, and .get_maintainer.ignore accordingly.
->
-> Signed-off-by: Maciej W. Rozycki <macro@orcam.me.uk>
-> Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 6 issues are still open and 35 have already been fixed.
 
-Thanks for your patch, which is now commit 495cc28f8e6b5396
-("MAINTAINERS: Retire Ralf Baechle") in next-20241113.
+Some of the still happening issues:
 
-> Index: linux-macro/.get_maintainer.ignore
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --- linux-macro.orig/.get_maintainer.ignore
-> +++ linux-macro/.get_maintainer.ignore
-> @@ -3,3 +3,4 @@ Alan Cox <root@hraefn.swansea.linux.org.
->  Christoph Hellwig <hch@lst.de>
->  Jeff Kirsher <jeffrey.t.kirsher@intel.com>
->  Marc Gonzalez <marc.w.gonzalez@free.fr>
-> +Ralf Baechle <ralf@linux-mips.org>
-> Index: linux-macro/CREDITS
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --- linux-macro.orig/CREDITS
-> +++ linux-macro/CREDITS
-> @@ -185,6 +185,11 @@ P: 1024/AF7B30C1 CF 97 C2 CC 6D AE A7 FE
+Ref Crashes Repro Title
+<1> 1684    Yes   WARNING: refcount bug in ax25_release (3)
+                  https://syzkaller.appspot.com/bug?extid=33841dc6aa3e1d86b78a
+<2> 360     Yes   KMSAN: uninit-value in ax25cmp (3)
+                  https://syzkaller.appspot.com/bug?extid=74161d266475935e9c5d
+<3> 20      Yes   KMSAN: uninit-value in nr_route_frame
+                  https://syzkaller.appspot.com/bug?extid=f770ce3566e60e5573ac
+<4> 2       No    possible deadlock in nr_rt_device_down (3)
+                  https://syzkaller.appspot.com/bug?extid=ccdfb85a561b973219c7
 
-Actually there is another contact address above, out of context...
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
->  D: Linux/MIPS port
->  D: Linux/68k hacker
->  D: AX25 maintainer
-> +D: EDAC-CAVIUM OCTEON maintainer
-> +D: IOC3 ETHERNET DRIVER maintainer
-> +D: NETROM NETWORK LAYER maintainer
-> +D: ROSE NETWORK LAYER maintainer
-> +D: TURBOCHANNEL SUBSYSTEM maintainer
->  S: Hauptstrasse 19
->  S: 79837 St. Blasien
->  S: Germany
-> Index: linux-macro/MAINTAINERS
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --- linux-macro.orig/MAINTAINERS
-> +++ linux-macro/MAINTAINERS
-> @@ -8061,10 +8061,10 @@ S:      Maintained
->  F:     drivers/edac/highbank*
->
->  EDAC-CAVIUM OCTEON
-> -M:     Ralf Baechle <ralf@linux-mips.org>
-> +M:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
->  L:     linux-edac@vger.kernel.org
->  L:     linux-mips@vger.kernel.org
-> -S:     Supported
-> +S:     Maintained
->  F:     drivers/edac/octeon_edac*
->
->  EDAC-CAVIUM THUNDERX
-> @@ -11885,7 +11885,7 @@ F:      Documentation/devicetree/bindings/iio
->  F:     drivers/iio/gyro/mpu3050*
->
->  IOC3 ETHERNET DRIVER
-> -M:     Ralf Baechle <ralf@linux-mips.org>
-> +M:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
->  L:     linux-mips@vger.kernel.org
->  S:     Maintained
->  F:     drivers/net/ethernet/sgi/ioc3-eth.c
-> @@ -15993,9 +15993,8 @@ F:      net/netfilter/
->  F:     tools/testing/selftests/net/netfilter/
->
->  NETROM NETWORK LAYER
-> -M:     Ralf Baechle <ralf@linux-mips.org>
->  L:     linux-hams@vger.kernel.org
-> -S:     Maintained
-> +S:     Orphan
->  W:     https://linux-ax25.in-berlin.de
->  F:     include/net/netrom.h
->  F:     include/uapi/linux/netrom.h
-> @@ -20035,9 +20034,8 @@ F:      include/linux/mfd/rohm-generic.h
->  F:     include/linux/mfd/rohm-shared.h
->
->  ROSE NETWORK LAYER
-> -M:     Ralf Baechle <ralf@linux-mips.org>
->  L:     linux-hams@vger.kernel.org
-> -S:     Maintained
-> +S:     Orphan
->  W:     https://linux-ax25.in-berlin.de
->  F:     include/net/rose.h
->  F:     include/uapi/linux/rose.h
-> @@ -23555,7 +23553,6 @@ F:      drivers/net/tun.c
->
->  TURBOCHANNEL SUBSYSTEM
->  M:     "Maciej W. Rozycki" <macro@orcam.me.uk>
-> -M:     Ralf Baechle <ralf@linux-mips.org>
->  L:     linux-mips@vger.kernel.org
->  S:     Maintained
->  Q:     http://patchwork.linux-mips.org/project/linux-mips/list/
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-Gr{oetje,eeting}s,
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+You may send multiple commands in a single email message.
 
