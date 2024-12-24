@@ -1,114 +1,127 @@
-Return-Path: <linux-hams+bounces-454-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-455-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7EF9FB3D3
-	for <lists+linux-hams@lfdr.de>; Mon, 23 Dec 2024 19:10:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 331639FC10C
+	for <lists+linux-hams@lfdr.de>; Tue, 24 Dec 2024 18:40:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 32F6618847A2
-	for <lists+linux-hams@lfdr.de>; Mon, 23 Dec 2024 18:10:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA02D164FDD
+	for <lists+linux-hams@lfdr.de>; Tue, 24 Dec 2024 17:40:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E114C1C3BF8;
-	Mon, 23 Dec 2024 18:10:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CD7E212B22;
+	Tue, 24 Dec 2024 17:40:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gpKWtluU"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=n0nb.us header.i=@n0nb.us header.b="W6pSFEi7"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from www11.qth.com (www11.qth.com [72.52.250.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EE51C3BE7;
-	Mon, 23 Dec 2024 18:10:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C059A26ACB
+	for <linux-hams@vger.kernel.org>; Tue, 24 Dec 2024 17:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=72.52.250.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734977418; cv=none; b=rtmmx8JYZVRFbglAQxPqWTPRgE49UchAP5zhAYZ0TTgam0g0FgUHV+WaXM7YOfBbA9qjvGbXvhp1KfK2MqFz6s/UhwlD4QwCalnvtf8LRxJtsDu/XUmohjAyFBB6wwPC4ZgTWImusUpHXF8xpMpwaJwIw02O6xd1J5EScdnFJvM=
+	t=1735062033; cv=none; b=WDmbvvpxAzxpKgBRBr/LV6emS+mznfPZk685oXgVwrhry6YqZ0Uz6hwaFWLD39arWS5zocLe7ue5BOOUX2ilSQ9KgH59p0kLuDI23GCaSPJ9uT+UepizpD24xYFgA9ZFaJbC66bn7oMBKXGKURWsJUT91En8cJGIzreLrURE9Bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734977418; c=relaxed/simple;
-	bh=KJiNIh4OQ8lGKPrQdi0wcuPy97JBnl46/hHW1i4t3tY=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=uVEqW8B9h4zyq6f2Lf1ncSYxnUHQgJhCst0pNbds8WCGL1Cj/ruU4UKHQozI+VgVcORJytTX9QWcWgYoGfzYilICksYRMbE8vpWLW1l4e2eVuWMsaqNDWZqTBKQOz9Q2NESMKArfLEbt6eXXbuH08EZ6wBaWS0RounHtbEmH3XY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gpKWtluU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 794E8C4CED3;
-	Mon, 23 Dec 2024 18:10:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734977418;
-	bh=KJiNIh4OQ8lGKPrQdi0wcuPy97JBnl46/hHW1i4t3tY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=gpKWtluUlZGTHIrJPAmGB6U7rzyOHVeL/7+8jNTJR5TJk5+DSjc3wlD7SmqQQ/MR9
-	 jx3118rbCUufPPQ5XCcy20zPR+desvj+43nOn+SF3yUAswowI0Z7vec+Vhm3kOlysF
-	 qrFgd0OSVj6DAAS/SvAG4+mE4Qhh+1cJLXBDItyFuDxmofe4DsSsxgNTVquqGHUrj8
-	 QrVSv7AdqfuIETh1VqizuP8KmR6giW21JGhynWc2JNenJbfViqxBS7fvm8yYa0Tk0U
-	 mqPP9BDRqUNBHV0Qk8ADl2aCb/2uoQuEfSC4o1Y3GpI9uMgvlqa01tH9BEGPq8lkFN
-	 vAfpKCAzesZYg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33E0E3805DB2;
-	Mon, 23 Dec 2024 18:10:38 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1735062033; c=relaxed/simple;
+	bh=JQZwjXrT5iXVhyUhgvub4Zm+GzxZFP6HtgBIMfTxeGc=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Q6r2/ffHpsAVVuodOPSB59BLIHXhWUx2S31uBFVi5n0FWcBaJB+vEhBzIK3okFkRCtf7Zymi6GpLjDYqu/pOxSuPGMK7FeZV+4EA5UMDpZluFLXDgu9Rgp+1F3O9D1GD1Y8FAWGGTQzDg8h8kVRXWT9Q+5IgycyqOR9trXwoZdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=n0nb.us; spf=pass smtp.mailfrom=n0nb.us; dkim=pass (2048-bit key) header.d=n0nb.us header.i=@n0nb.us header.b=W6pSFEi7; arc=none smtp.client-ip=72.52.250.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=n0nb.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=n0nb.us
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=n0nb.us;
+	s=default; h=Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:Sender
+	:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=bdcGKcCfbt+ysoenIpfv3lqgT88w9c7VeTOYJi7svGY=; b=W6pSFEi7xo83130gC2YgUVfBBO
+	0phpEusXc7qbexcnBLWgcaLqCkOlsAIyC7KS5bk1txunm7JgpPytB+KWlsLIAw5nJi6TdjXsGdHRG
+	kwUzSQUM9Z/CkFr8WV2DUxoj91eq0+/9ICNgwkBQWUfZicRRozK0N5VYe/56DHJwgNRssYguwYmxP
+	ehGzAmzSFrRbbZPoZ+ML1sOCoM2KlxtrvG2kL0J0q+paogR6fLhtT0pwxUojDcxf4pFNn4eEez29A
+	TWwLr3j/CQzQWa3P1Nysd36U+WHnSoaI+iSjqUQQn5mh6/gbR12GTgxs3GzRCxgeluieN9nI/HNgx
+	NqblZooA==;
+Received: from [68.234.117.148] (port=36706 helo=merlin)
+	by www11.qth.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98)
+	(envelope-from <n0nb@n0nb.us>)
+	id 1tQ8d9-00000005ZHc-0HII
+	for linux-hams@vger.kernel.org;
+	Tue, 24 Dec 2024 11:23:38 -0600
+Received: from nate by merlin with local (Exim 4.96)
+	(envelope-from <n0nb@n0nb.us>)
+	id 1tQ8d7-00HVS6-2M
+	for linux-hams@vger.kernel.org;
+	Tue, 24 Dec 2024 11:23:37 -0600
+Date: Tue, 24 Dec 2024 11:23:37 -0600
+From: Nate Bargmann <n0nb@n0nb.us>
+To: Linux Hams <linux-hams@vger.kernel.org>
+Subject: Hamlib 4.6 released
+Message-ID: <d2235pqajgrifqamvmuseyt5jtx2z3ecw7hwevpf6pg6xkbmup@7y5fir2yit4w>
+Mail-Followup-To: Linux Hams <linux-hams@vger.kernel.org>
+X-Operating-System: Linux 6.1.0-28-amd64 x86_64
+Organization: Amateur Radio!
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] netrom: check buffer length before accessing it
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <173497743701.3921163.18071428597161743809.git-patchwork-notify@kernel.org>
-Date: Mon, 23 Dec 2024 18:10:37 +0000
-References: <20241219082308.3942-1-rabbelkin@mail.ru>
-In-Reply-To: <20241219082308.3942-1-rabbelkin@mail.ru>
-To: Ilya Shchipletsov <rabbelkin@mail.ru>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org, hfggklm@gmail.com
-
-Hello:
-
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Thu, 19 Dec 2024 08:23:07 +0000 you wrote:
-> Syzkaller reports an uninit value read from ax25cmp when sending raw message
-> through ieee802154 implementation.
-> 
-> =====================================================
-> BUG: KMSAN: uninit-value in ax25cmp+0x3a5/0x460 net/ax25/ax25_addr.c:119
->  ax25cmp+0x3a5/0x460 net/ax25/ax25_addr.c:119
->  nr_dev_get+0x20e/0x450 net/netrom/nr_route.c:601
->  nr_route_frame+0x1a2/0xfc0 net/netrom/nr_route.c:774
->  nr_xmit+0x5a/0x1c0 net/netrom/nr_dev.c:144
->  __netdev_start_xmit include/linux/netdevice.h:4940 [inline]
->  netdev_start_xmit include/linux/netdevice.h:4954 [inline]
->  xmit_one net/core/dev.c:3548 [inline]
->  dev_hard_start_xmit+0x247/0xa10 net/core/dev.c:3564
->  __dev_queue_xmit+0x33b8/0x5130 net/core/dev.c:4349
->  dev_queue_xmit include/linux/netdevice.h:3134 [inline]
->  raw_sendmsg+0x654/0xc10 net/ieee802154/socket.c:299
->  ieee802154_sock_sendmsg+0x91/0xc0 net/ieee802154/socket.c:96
->  sock_sendmsg_nosec net/socket.c:730 [inline]
->  __sock_sendmsg net/socket.c:745 [inline]
->  ____sys_sendmsg+0x9c2/0xd60 net/socket.c:2584
->  ___sys_sendmsg+0x28d/0x3c0 net/socket.c:2638
->  __sys_sendmsg net/socket.c:2667 [inline]
->  __do_sys_sendmsg net/socket.c:2676 [inline]
->  __se_sys_sendmsg net/socket.c:2674 [inline]
->  __x64_sys_sendmsg+0x307/0x490 net/socket.c:2674
->  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->  do_syscall_64+0x44/0x110 arch/x86/entry/common.c:83
->  entry_SYSCALL_64_after_hwframe+0x63/0x6b
-> 
-> [...]
-
-Here is the summary with links:
-  - netrom: check buffer length before accessing it
-    https://git.kernel.org/netdev/net/c/a4fd163aed2e
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="bybver7qcljy7awc"
+Content-Disposition: inline
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - www11.qth.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - n0nb.us
+X-Get-Message-Sender-Via: www11.qth.com: authenticated_id: n0nb@n0nb.us
+X-Authenticated-Sender: www11.qth.com: n0nb@n0nb.us
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
 
+--bybver7qcljy7awc
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Hamlib 4.6 released
+MIME-Version: 1.0
+
+Hi All.
+
+This morning I released Hamlib 4.6.
+
+The tarball can be downloaded from:
+
+https://sourceforge.net/projects/hamlib/files/hamlib/4.6/
+
+or:
+
+https://github.com/Hamlib/Hamlib/releases/tag/4.6
+
+73, Nate
+
+--=20
+"The optimist proclaims that we live in the best of all
+possible worlds.  The pessimist fears this is true."
+Web: https://www.n0nb.us
+Projects: https://github.com/N0NB
+GPG fingerprint: 82D6 4F6B 0E67 CD41 F689 BBA6 FB2C 5130 D55A 8819
+
+
+--bybver7qcljy7awc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQSC1k9rDmfNQfaJu6b7LFEw1VqIGQUCZ2ruGQAKCRD7LFEw1VqI
+GVx0AKCI1pEEX/KbVSj0+v/kYl66y7lUcACcDWxcEvG96Z1JMm4DIxjo2pk4pno=
+=9F5B
+-----END PGP SIGNATURE-----
+
+--bybver7qcljy7awc--
 
