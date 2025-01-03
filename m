@@ -1,89 +1,73 @@
-Return-Path: <linux-hams+bounces-459-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-460-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5157D9FE20D
-	for <lists+linux-hams@lfdr.de>; Mon, 30 Dec 2024 03:40:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2CAA00307
+	for <lists+linux-hams@lfdr.de>; Fri,  3 Jan 2025 04:06:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF12E1882307
-	for <lists+linux-hams@lfdr.de>; Mon, 30 Dec 2024 02:40:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 529AD1631DB
+	for <lists+linux-hams@lfdr.de>; Fri,  3 Jan 2025 03:06:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85DB913CA99;
-	Mon, 30 Dec 2024 02:40:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3DE418E764;
+	Fri,  3 Jan 2025 03:06:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="X45rSFzP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HvI1pGmX"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-10625.protonmail.ch (mail-10625.protonmail.ch [79.135.106.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1E77DA88
-	for <linux-hams@vger.kernel.org>; Mon, 30 Dec 2024 02:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600011537C6;
+	Fri,  3 Jan 2025 03:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735526414; cv=none; b=Pe7w/xnQ68e1iE7jSxSV6AZXF8h+0Dqkvt2xGg7Hr2uUehN6Jj9cc7CPgqDVGmYfsX14ZdpHWYkPhWfGDZK/wj5rmSGLKvSuSRKcxWs/6+MOYAetjh5y03SJ6jEnP+g9qNmERe6nsjj82ztDPXLt8Zm7RwUVITG5Cw9zAkxMfsA=
+	t=1735873579; cv=none; b=mcOcd7Pc1LHkTqn0mMscNxJrKNrpoDkmAIr+11ixGj72j16eEEdUM3kNq35J1rb9WLKSwYKq8mx2JZZMdlLHAd4/7ZeA2He+XuKSEWtnOkQ51FWbLluu6yUn2PEjcEz5R3w0emWP0M6W5wo6+9oGsWlc7XV4k6r+HhGsXnhUyh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735526414; c=relaxed/simple;
-	bh=JIcjDKA9qK0PY7AUI8KJkAQFsjxctQSEKWZiINnLzoU=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=oIFA2xNjzL7btpAdVkjt6QuAQUsGnfR7FgNqxCSpsDlBDb3gzriCzu4+gw9l4RvNlBLBrdkeoR8igpWoOr8MaeTQqOqOxUyWZ2D6XpI/27JTiZDygHwlOk6HeLibbb82qJJxXpLVVkrEZwE/NsywTihAyPQy16+0YudRV/N4+nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=X45rSFzP; arc=none smtp.client-ip=79.135.106.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
-	s=protonmail3; t=1735526402; x=1735785602;
-	bh=JIcjDKA9qK0PY7AUI8KJkAQFsjxctQSEKWZiINnLzoU=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
-	 List-Unsubscribe:List-Unsubscribe-Post;
-	b=X45rSFzP6mGfB3Q0Xj3o3p4ggMg7V/aGJjVI2pxtj/QjpVOD/mEzIKyYhF8RX2hvX
-	 7kAci35SfLdC1uGGYAd8QDXfRLJpR/kaIPGV/+LWQ91F3zAmjEuutfO0JU+kxkQr/k
-	 X8FKnhWbHX7qYbQQED9/XWfU0EQO/MwZFjmn1LQ4TsDK9O9V4iMR8b9CnTUoK9ylpy
-	 aEqnN4CoHuMWCOTqzwH8yLLA6THVgGUYI00TcO5c2YJ7I7zsSgrhYgcxSDfHiriMCx
-	 rqZeamyPOGzlWcycQjUZ3TJwyFyMkJzIwHxLEN7yDpePUIqwKcYMaMc1Rt7+yS/ZO0
-	 8zCc4O2eYCxKg==
-Date: Mon, 30 Dec 2024 02:39:59 +0000
-To: linux-hams@vger.kernel.org
-From: Ethan Carter Edwards <ethan@ethancedwards.com>
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH] MAINTAINERS: remove Thomas Sailer due to missing address
-Message-ID: <6gbmhswn47d7lxazh5fnqebujknuzmj6k5pghaxvnuhmjjyfuc@5g4uxhqcxnnv>
-Feedback-ID: 28410670:user:proton
-X-Pm-Message-ID: e0a32089cf96fc95dadaafa616409b88dd58a370
+	s=arc-20240116; t=1735873579; c=relaxed/simple;
+	bh=LuIItTH7CZowXK6ClDg78qR4z6nbS1CzA5lJSsMm23U=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kt+lmcczFwQkpfQ6DsGsRQey5pu4FW1nvguwEp+vHSGLtVIykIliGr6RYF4JTkV4BheTOx0NkfHw73zR2SNPqyipO+fsYvH6k+Z2Nfq8E+/5nF9BxV0i1v/wZ3+/lOIC4QI6j+99sraRPaegg4RYIChoRgjGw+3zFujJrpYx3YY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HvI1pGmX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA26C4CED0;
+	Fri,  3 Jan 2025 03:06:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735873578;
+	bh=LuIItTH7CZowXK6ClDg78qR4z6nbS1CzA5lJSsMm23U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HvI1pGmXC0ZsvHdeOc/A2XkUSsqjkr8HeB/ifkX2/2DXdjIx0wogtLno+r9BAdePq
+	 X06mIML2uKXzonxzn6NVyWq03zCvMw0DMZLrher97eFtavvsSTu7eSF744CDcT4gEU
+	 GzK14zOEuvlesSFyT8vekVxiV2r8HcjUNtDRkTSV/cH+g6AS3ZqjZ2GqNRUAw7c0Ju
+	 /9+HxIwdpJu6TJByjeo0olz7t07Yj4UPNZs623Sg4n2SU3JrtzenfaeztEJwV/oYZO
+	 nBHlujO/URXJat1ha7QC01aOqSjr7hMmGz4lpFhXvWWVrXklil10MBStpZy4TlJBpx
+	 anyPj3pEVvKhg==
+Date: Thu, 2 Jan 2025 19:06:17 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Ethan Carter Edwards <ethan@ethancedwards.com>
+Cc: "t.sailer@alumni.ethz.ch" <t.sailer@alumni.ethz.ch>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-hams@vger.kernel.org" <linux-hams@vger.kernel.org>,
+ "pabeni@redhat.com" <pabeni@redhat.com>
+Subject: Re: [PATCH] hamradio: baycom: replace strcpy() with strscpy()
+Message-ID: <20250102190617.6c9ad4d4@kernel.org>
+In-Reply-To: <bqKL4XKDGLWNih2jsEzZYpBSHG6Ux5mLZfDBIgHckEUxDq4l4pPgQPEXEqKRE7pUwMrXZBVeko9aYr1w_E5h5r_R_YFA46G8dGhV1id7zy4=@ethancedwards.com>
+References: <bqKL4XKDGLWNih2jsEzZYpBSHG6Ux5mLZfDBIgHckEUxDq4l4pPgQPEXEqKRE7pUwMrXZBVeko9aYr1w_E5h5r_R_YFA46G8dGhV1id7zy4=@ethancedwards.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Thomas Sailer's <t.sailer@alumni.ethz.ch> email address no longer
-exists. When I tried to email him I received a bounceback email from his
-mailserver.
+On Mon, 23 Dec 2024 15:13:42 +0000 Ethan Carter Edwards wrote:
+> The strcpy() function has been deprecated and replaced with strscpy().
+> There is an effort to make this change treewide:
+> https://github.com/KSPP/linux/issues/88.
 
-Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
----
- MAINTAINERS | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 910305c11e8a..7ea9b92e22f7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3886,9 +3886,8 @@ F:=09include/uapi/linux/batman_adv.h
- F:=09net/batman-adv/
-=20
- BAYCOM/HDLCDRV DRIVERS FOR AX.25
--M:=09Thomas Sailer <t.sailer@alumni.ethz.ch>
- L:=09linux-hams@vger.kernel.org
--S:=09Maintained
-+S:=09Orphan
- W:=09http://www.baycom.org/~tom/ham/ham.html
- F:=09drivers/net/hamradio/baycom*
-=20
---=20
-2.47.1
-
+Please rebase on net-next/main and repost.
+-- 
+pw-bot: cr
 
