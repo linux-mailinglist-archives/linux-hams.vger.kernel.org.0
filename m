@@ -1,192 +1,106 @@
-Return-Path: <linux-hams+bounces-466-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-467-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB5DA13464
-	for <lists+linux-hams@lfdr.de>; Thu, 16 Jan 2025 08:55:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 338DCA13787
+	for <lists+linux-hams@lfdr.de>; Thu, 16 Jan 2025 11:12:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A10D3A373E
-	for <lists+linux-hams@lfdr.de>; Thu, 16 Jan 2025 07:55:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC2A0165A12
+	for <lists+linux-hams@lfdr.de>; Thu, 16 Jan 2025 10:12:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A877194A67;
-	Thu, 16 Jan 2025 07:54:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 499C41DC9B8;
+	Thu, 16 Jan 2025 10:12:25 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1A11991BB
-	for <linux-hams@vger.kernel.org>; Thu, 16 Jan 2025 07:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A441DDA32
+	for <linux-hams@vger.kernel.org>; Thu, 16 Jan 2025 10:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737014095; cv=none; b=hiUyVL1JlaExSpZZH5k6/hOasdjL2qLfeF8hvCRclqO8cuIjIyw4wXh4duM/P2M1Ywlt2fciOT/PeFl0guxkLXaQWzpReJkk0Oq/7ZrtLih51uVnw7lmOkiP4kUiF+YADbZQXFyS4JePgeSHBZYdYRckQZVj2fgx89E4SvmLCdA=
+	t=1737022345; cv=none; b=jkC2M5IDDgOOk/LVnMjCIsnfMjtv+3lgg8PSVqkeDF5jmhUi5HZEGfCfllaLGAhgIqEJcbnGkyxqXifkVkhXBffvVzS5p+xiYi2g7JULQ9bUsNrxwBQS6pRP7E2TVLRyAJsCUZxMIeXeV8/JiyOYQK8c8QX719mceE4ccTABPTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737014095; c=relaxed/simple;
-	bh=7M65RmMX3Ry4OaGybSFFVt26wFFfaatRGurZ9wLro+M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gWpSht3Gdo7N2wNQthx+UkorzAL7VTV+vp2fEYXAtWeRHtkOvmbK7+6M0HaTVNexjgA+oN70EVtToeE0xMgeWcX51k0OXCsLAo6Tr4ojH4ANw1ml5RW/CBxvzGRJyRdOeM7ocOX4yVLA0lBqIwZM4xr2CJS33G8rXkd1aYXPTWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tYKhe-00075B-4S; Thu, 16 Jan 2025 08:54:10 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tYKhT-000DS3-0I;
-	Thu, 16 Jan 2025 08:53:59 +0100
-Received: from pengutronix.de (pd9e59fec.dip0.t-ipconnect.de [217.229.159.236])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 165233A99BF;
-	Thu, 16 Jan 2025 07:53:43 +0000 (UTC)
-Date: Thu, 16 Jan 2025 08:53:42 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Kees Cook <kees@kernel.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, 
-	Cheng Xu <chengyou@linux.alibaba.com>, Kai Shen <kaishen@linux.alibaba.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Christian Benvenuti <benve@cisco.com>, Nelson Escobar <neescoba@cisco.com>, 
-	Bernard Metzler <bmt@zurich.ibm.com>, Karsten Keil <isdn@linux-pingi.de>, 
-	Michal Ostrowski <mostrows@earthlink.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Lee Duncan <lduncan@suse.com>, Chris Leech <cleech@redhat.com>, 
-	Mike Christie <michael.christie@oracle.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Alexander Aring <aahringo@redhat.com>, 
-	David Teigland <teigland@redhat.com>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
-	Joseph Qi <joseph.qi@linux.alibaba.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Steve French <sfrench@samba.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Tom Talpey <tom@talpey.com>, Simon Horman <horms@kernel.org>, 
-	Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, Neil Brown <neilb@suse.de>, 
-	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, David Ahern <dsahern@kernel.org>, 
-	Joerg Reuter <jreuter@yaina.de>, Marcel Holtmann <marcel@holtmann.org>, 
-	Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Oliver Hartkopp <socketcan@hartkopp.net>, Robin van der Gracht <robin@protonic.nl>, 
-	Oleksij Rempel <o.rempel@pengutronix.de>, Alexandra Winter <wintera@linux.ibm.com>, 
-	Thorsten Winkler <twinkler@linux.ibm.com>, James Chapman <jchapman@katalix.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	Remi Denis-Courmont <courmisch@gmail.com>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Allison Henderson <allison.henderson@oracle.com>, Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
-	Xin Long <lucien.xin@gmail.com>, Wenjia Zhang <wenjia@linux.ibm.com>, 
-	Jan Karcher <jaka@linux.ibm.com>, "D. Wythe" <alibuda@linux.alibaba.com>, 
-	Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>, Jon Maloy <jmaloy@redhat.com>, 
-	Ying Xue <ying.xue@windriver.com>, Stefano Garzarella <sgarzare@redhat.com>, 
-	Martin Schiller <ms@dev.tdt.de>, Kentaro Takeda <takedakn@nttdata.co.jp>, 
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Guillaume Nault <gnault@redhat.com>, 
-	Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>, Andrew Morton <akpm@linux-foundation.org>, 
-	Wu Yunchuan <yunchuan@nfschina.com>, Max Gurtovoy <mgurtovoy@nvidia.com>, 
-	Maurizio Lombardi <mlombard@redhat.com>, David Howells <dhowells@redhat.com>, 
-	Atte =?utf-8?B?SGVpa2tpbMOk?= <atteh.mailbox@gmail.com>, Vincent Duvert <vincent.ldev@duvert.net>, 
-	Denis Kirjanov <kirjanov@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Thomas Huth <thuth@redhat.com>, 
-	Andrew Waterman <waterman@eecs.berkeley.edu>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Andrej Shadura <andrew.shadura@collabora.co.uk>, Ying Hsu <yinghsu@chromium.org>, 
-	Kuniyuki Iwashima <kuniyu@amazon.com>, Tom Parkin <tparkin@katalix.com>, 
-	Jason Xing <kernelxing@tencent.com>, Dan Carpenter <error27@gmail.com>, Hyunwoo Kim <v4bel@theori.io>, 
-	Bernard Pidoux <f6bvp@free.fr>, Sangsoo Lee <constant.lee@samsung.com>, 
-	Doug Brown <doug@schmorgal.com>, Ignat Korchagin <ignat@cloudflare.com>, 
-	Gou Hao <gouhao@uniontech.com>, Mina Almasry <almasrymina@google.com>, 
-	Abhishek Chauhan <quic_abchauha@quicinc.com>, Yajun Deng <yajun.deng@linux.dev>, Michal Luczaj <mhal@rbox.co>, 
-	Jiri Pirko <jiri@resnulli.us>, syzbot <syzkaller@googlegroups.com>, 
-	linux-kernel@vger.kernel.org, kernel@pengutronix.de, linux-rdma@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-nvme@lists.infradead.org, open-iscsi@googlegroups.com, 
-	linux-scsi@vger.kernel.org, linux-arm-msm@vger.kernel.org, target-devel@vger.kernel.org, 
-	gfs2@lists.linux.dev, linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev, 
-	linux-cifs@vger.kernel.org, linux-hams@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-can@vger.kernel.org, linux-s390@vger.kernel.org, rds-devel@oss.oracle.com, 
-	linux-sctp@vger.kernel.org, tipc-discussion@lists.sourceforge.net, 
-	virtualization@lists.linux.dev, linux-x25@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	syzbot+d7ce59b06b3eb14fd218@syzkaller.appspotmail.com, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] net: Convert proto_ops::getname to sockaddr_storage
-Message-ID: <20250116-light-panda-of-reverence-2f5da8-mkl@pengutronix.de>
-References: <20241217023417.work.145-kees@kernel.org>
+	s=arc-20240116; t=1737022345; c=relaxed/simple;
+	bh=9STRm1svxW5QUhegM8koQv5W+OAbJCN8Cvt/8n16Nfw=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=nx9Q1sehwo43QlOOO3t1i1o5NPcl2hLGwVBbV0lserOAzInvscYNmVjXH7eyCXCnbU7PLMQXI6Nv/MxNHvRatqTenKRjCkJmZ5AySegOCCjW8cbwe6Fmdnf24Wx2ZiQOmrImQhaO77AOL0PDmoRawyMv6zNYfOBX2XwXNr9i7Xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-3ce8db7c342so14276855ab.3
+        for <linux-hams@vger.kernel.org>; Thu, 16 Jan 2025 02:12:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737022343; x=1737627143;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Vi6bWHZ2WD4rDr2R+lz5qyb7iiwfSNFaHhCWQen1qOk=;
+        b=dd43gDhD16W+nJnPQFuBkdgkwLIoxHXD2QZBa0LYxfRlxF1bpoq8O/rVYMEVUgrBmN
+         G3hbsZxt9NEfVvwpHZ2cA3HC1NbCDQycDm8MTTheOMgfq33+TzdLj3B1t1jMsYstYOOM
+         mKAsN3gA+cU5Drr95AfmxnKXEDa67d5GLnU+r1PNbKkzxcKFyxt0IFNCyDr+5RQ6zscj
+         7yT5z9XDiFUAvQ4DP4eMC42ZV3q5uZILfSIeU+yBd5Udun6Rn0wuGUP4cQEi1BaNxEeE
+         pNH/fc8JQkwzokrLzA3hFOCCWz45Nj1DjwX9kfBKGGQ9AGK/TwAKpov8CwvTuDY9RJDW
+         eT6g==
+X-Gm-Message-State: AOJu0Ywdb7J9rrUnfa8gGLbv9qrMp3PUaLJqbksWtf0jqAYz6v2kIKSq
+	lJEFP+Shuoh1tA8mM/osY0DwsbA9G90gNz7jn0OtTSenJ1dtWo96soTFsQJMvDKbeOGoUB9Dodg
+	jdxS74Sm6y4Ca2KDqB/o0ra1SzQ2zrSyUowpTgDd6gBMz1zIzLKHXUR4=
+X-Google-Smtp-Source: AGHT+IEJxyjEqqj2BwsGzMBkjUF56+DFQz5Yavt3OdoaeYdBEfmkRGucBILJZutlcnBX+DPYbTzrtN32tw2zfYkCCfXJdTWr3pLS
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nbdyd5ky7ajuduf3"
-Content-Disposition: inline
-In-Reply-To: <20241217023417.work.145-kees@kernel.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-hams@vger.kernel.org
+X-Received: by 2002:a05:6e02:1c07:b0:3ce:7d23:34f with SMTP id
+ e9e14a558f8ab-3ce7d23048cmr99905335ab.15.1737022342858; Thu, 16 Jan 2025
+ 02:12:22 -0800 (PST)
+Date: Thu, 16 Jan 2025 02:12:22 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6788db86.050a0220.20d369.002c.GAE@google.com>
+Subject: [syzbot] Monthly hams report (Jan 2025)
+From: syzbot <syzbot+list6e764589c9e10496560e@syzkaller.appspotmail.com>
+To: linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
+Hello hams maintainers/developers,
 
---nbdyd5ky7ajuduf3
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] net: Convert proto_ops::getname to sockaddr_storage
-MIME-Version: 1.0
+This is a 31-day syzbot report for the hams subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/hams
 
-On 16.12.2024 18:34:28, Kees Cook wrote:
-> The proto_ops::getname callback was long ago backed by sockaddr_storage,
-> but the replacement of it for sockaddr was never done. Plumb it through
-> all the getname() callbacks, adjust prototypes, and fix casts.
->=20
-> There are a few cases where the backing object is _not_ a sockaddr_storage
-> and converting it looks painful. In those cases, they use a cast to
-> struct sockaddr_storage. They appear well bounds-checked, so the risk
-> is no worse that we have currently.
->=20
-> Other casts to sockaddr are removed, though to avoid spilling this
-> change into BPF (which becomes a much larger set of changes), cast the
-> sockaddr_storage instances there to sockaddr for the time being.
->=20
-> In theory this could be split up into per-caller patches that add more
-> casts that all later get removed, but it seemed like there are few
-> enough callers that it seems feasible to do this in a single patch. Most
-> conversions are mechanical, so review should be fairly easy. (Famous
-> last words.)
->=20
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
->  net/can/isotp.c                               |  3 +-
->  net/can/j1939/socket.c                        |  2 +-
->  net/can/raw.c                                 |  2 +-
+During the period, 1 new issues were detected and 0 were fixed.
+In total, 9 issues are still open and 36 have already been fixed.
 
-Acked-by: Marc Kleine-Budde <mkl@pengutronix.de> # for net/can
+Some of the still happening issues:
 
-regards,
-Marc
+Ref Crashes Repro Title
+<1> 3145    Yes   WARNING: refcount bug in ax25_release (3)
+                  https://syzkaller.appspot.com/bug?extid=33841dc6aa3e1d86b78a
+<2> 517     Yes   possible deadlock in nr_rt_device_down (3)
+                  https://syzkaller.appspot.com/bug?extid=ccdfb85a561b973219c7
+<3> 505     Yes   KMSAN: uninit-value in ax25cmp (3)
+                  https://syzkaller.appspot.com/bug?extid=74161d266475935e9c5d
+<4> 63      No    KASAN: slab-use-after-free Read in rose_get_neigh
+                  https://syzkaller.appspot.com/bug?extid=e04e2c007ba2c80476cb
+<5> 50      No    possible deadlock in serial8250_handle_irq
+                  https://syzkaller.appspot.com/bug?extid=5fd749c74105b0e1b302
+<6> 27      No    possible deadlock in nr_remove_neigh (2)
+                  https://syzkaller.appspot.com/bug?extid=8863ad36d31449b4dc17
+<7> 7       No    KASAN: slab-use-after-free Read in ax25_release
+                  https://syzkaller.appspot.com/bug?extid=a5716c7fb89dcd7205d8
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
---nbdyd5ky7ajuduf3
-Content-Type: application/pgp-signature; name="signature.asc"
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
------BEGIN PGP SIGNATURE-----
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
-iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmeIuv8ACgkQKDiiPnot
-vG/tCQgAnoYMQthE5qhN4islXZibYx3HOEVpQp20V/CdVVRH56MNpoQvsjN0F5I9
-Pe8FiGuyUR9fNqhHJPDV5qTZfzq6vRSoc7PpwLTwF9ReyzpbKcMrYcmv/Wkbso1k
-faQaG0U/F/5wp2/nsK1h/PUHRvlwFfLs41wCCmlXQDks5vvt1U+8F/0mUiM/L0yT
-SQG9iudLNDMEv22xlkR1e90s94ARgRIKcBcOZ9LudgYLwGmT8I3JAenyHET3Q8d2
-GWVaepqliLBxoq7pfWcJm1yFL8DFp2xSUy/gP7BqrfKIJoJhRqOR2EXGSgAZ6rek
-c/YmUBVaGDu2ZBkxhzlB6NKXFu9dBA==
-=LAEY
------END PGP SIGNATURE-----
-
---nbdyd5ky7ajuduf3--
+You may send multiple commands in a single email message.
 
