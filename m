@@ -1,183 +1,142 @@
-Return-Path: <linux-hams+bounces-468-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-469-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE59A13A07
-	for <lists+linux-hams@lfdr.de>; Thu, 16 Jan 2025 13:38:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C565A164A0
+	for <lists+linux-hams@lfdr.de>; Mon, 20 Jan 2025 01:35:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E908B3A5935
-	for <lists+linux-hams@lfdr.de>; Thu, 16 Jan 2025 12:38:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B24D93A555D
+	for <lists+linux-hams@lfdr.de>; Mon, 20 Jan 2025 00:35:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E407C1DE893;
-	Thu, 16 Jan 2025 12:38:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7042728F3;
+	Mon, 20 Jan 2025 00:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="T3608k7A"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D211E50B;
-	Thu, 16 Jan 2025 12:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B70184E;
+	Mon, 20 Jan 2025 00:34:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737031091; cv=none; b=RLZjp5fp6tBXcCKNMaHzE2nS33YDP3DtKeQkfYGALDeWr660EkxnXH4Z5t+QFvysjBvsUycfYgeKfWTaP97dbepI5Fs/xH6emwlafxQihRs99dJBAkvVIbN2oVRJ+gjjP/DIFOMd8v6gIk4X7WpYFXoj1bWjxg8pBOPlpa+rNGM=
+	t=1737333301; cv=none; b=nyAC4uzR49Hxvt9xn2ozoJaOT6kq4zeKlTYECnmE7Gz9Jl690j6m3XvTFb0IJThcmgoMTW/+2YSrJ7HC+rAey9PyABEc22mzTuXiv5xSv+NaNC84LFtztwTe5Ir1Ao2IKJR3iOr+8rYXN+q3dnYcf+vHI4H5th2pcb/f8lkVIUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737031091; c=relaxed/simple;
-	bh=jonUW3dEfOtfI8lihvuawd6C1cWCqfdoW81F2sROXnk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=e0aKh4T521DBxSNnninRVVEFGPiJyL1QJY2bGwsRY6fp/Ztw0NSQCvQL510mh+ymhJU/PKob+oyIkr3ld6Z4EyoLcOYy3PfGDg6C2W+xzqUggLFLK0Vih2ljDkSLsYCPBG46VyTnmEdrx1lKm/Iw9NF8IjBX+p3j5suou61WUos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Thu, 16 Jan
- 2025 15:38:02 +0300
-Received: from [192.168.211.130] (10.0.253.138) by Ex16-01.fintech.ru
- (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Thu, 16 Jan
- 2025 15:38:02 +0300
-Message-ID: <f5a76ca2-33cd-471d-8997-797a9a070804@fintech.ru>
-Date: Thu, 16 Jan 2025 04:37:59 -0800
+	s=arc-20240116; t=1737333301; c=relaxed/simple;
+	bh=uTVb5PI3sUxl/Q412ghoFBi0GmRU1GH6oxah4iNUwPI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GXV7ZfYJIBRss/5CusX4f8r6ClrstAn30l84cxkmQcu/TcCSR1061R5FkJC1Dupruul/F0kp1OF8H+yfVVpBY8cVOCDhMw3j/10eSLVGR8wy/DDFi765bNzEj29LgBDOo2iZc98yYyJxcl5ER5sOK39jDmFSmacVH5rjYNdujgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=T3608k7A; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Ybrvf4gJdz9sS2;
+	Mon, 20 Jan 2025 01:34:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
+	s=MBO0001; t=1737333294;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=EwJtTnflXHUSbGJotGFu68+FD/DKXKQNynalWFcALLI=;
+	b=T3608k7AZD/hnEsphHsmbFYCfmxkqgEK3w2nlvcBhMGu+9Uft26M4QTumWAo+/KCIHsS1Q
+	Gmd4KbIe2rKnDI8uyUxib+K2vnCR9FDgNlN68rt4DCGQsGvns7qz4RM5UdAl2uNCBSwqN6
+	OoqRe3IPNG7PIIZZ43gbM2Z4VUrA3BteOfbNUj2iCxsWOMJ3cA8GA/ijBOlATFwbL8aD/G
+	S+WuAsg5qVDzO9Y8i/vXlnhLTHWobPtIyTDr4sjhP0/mw9CgCWGoUjZPFSflbNxKN/ldvv
+	foUAAiWtLzd/XjZXyL+QNIKdTvPbQbfoJgdfjV2vUZucrL3bTiUeOa1yYzso4w==
+Date: Sun, 19 Jan 2025 19:34:51 -0500
+From: Ethan Carter Edwards <ethan@ethancedwards.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: "t.sailer@alumni.ethz.ch" <t.sailer@alumni.ethz.ch>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+	"linux-hams@vger.kernel.org" <linux-hams@vger.kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>, 
+	Dan Carpenter <dan.carpenter@linaro.org>
+Subject: [PATCH v2] hamradio: baycom: replace strcpy() with strscpy()
+Message-ID: <62yrwnnvqtwv4etjeaatms5xwiixirkbm6f7urmijwp7kk7bio@r2ric7eqhsvf>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net] net/rose: prevent integer overflows in
- rose_setsockopt()
-To: Su Hui <suhui@nfschina.com>, David Laight <david.laight.linux@gmail.com>
-CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
-	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-	<linux-hams@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>,
-	<stable@vger.kernel.org>, <kernel-janitors@vger.kernel.org>
-References: <6f79c23a-7acb-5faf-5e8d-104ca37dbb08@nfschina.com>
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Content-Language: en-US, ru-RU
-In-Reply-To: <6f79c23a-7acb-5faf-5e8d-104ca37dbb08@nfschina.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Rspamd-Queue-Id: 4Ybrvf4gJdz9sS2
 
-Hello,
+The strcpy() function has been deprecated and replaced with strscpy().
+There is an effort to make this change treewide:
+https://github.com/KSPP/linux/issues/88.
 
-On 1/15/25 18:04, Su Hui wrote:
-> On 2025/1/16 07:29, David Laight wrote:
->> On Wed, 15 Jan 2025 08:42:20 -0800
->> Nikita Zhandarovich <n.zhandarovich@fintech.ru> wrote:
->>
->>> In case of possible unpredictably large arguments passed to
->>> rose_setsockopt() and multiplied by extra values on top of that,
->>> integer overflows may occur.
->>>
->>> Do the safest minimum and fix these issues by checking the
->>> contents of 'opt' and returning -EINVAL if they are too large. Also,
->>> switch to unsigned int and remove useless check for negative 'opt'
->>> in ROSE_IDLE case.
->>>
->>> Found by Linux Verification Center (linuxtesting.org) with static
->>> analysis tool SVACE.
->>>
->>> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
->>> ---
->>>   net/rose/af_rose.c | 16 ++++++++--------
->>>   1 file changed, 8 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/net/rose/af_rose.c b/net/rose/af_rose.c
->>> index 59050caab65c..72c65d938a15 100644
->>> --- a/net/rose/af_rose.c
->>> +++ b/net/rose/af_rose.c
->>> @@ -397,15 +397,15 @@ static int rose_setsockopt(struct socket *sock,
->>> int level, int optname,
->>>   {
->>>       struct sock *sk = sock->sk;
->>>       struct rose_sock *rose = rose_sk(sk);
->>> -    int opt;
->>> +    unsigned int opt;
->>>         if (level != SOL_ROSE)
->>>           return -ENOPROTOOPT;
->>>   -    if (optlen < sizeof(int))
->>> +    if (optlen < sizeof(unsigned int))
->>>           return -EINVAL;
->>>   -    if (copy_from_sockptr(&opt, optval, sizeof(int)))
->>> +    if (copy_from_sockptr(&opt, optval, sizeof(unsigned int)))
->> Shouldn't all those be 'sizeof (opt)' ?
->>
->>     David
->>
+Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
+---
+ v2: reduce verbosity
+ Link to v1: https://lore.kernel.org/lkml/bqKL4XKDGLWNih2jsEzZYpBSHG6Ux5mLZfDBIgHckEUxDq4l4pPgQPEXEqKRE7pUwMrXZBVeko9aYr1w_E5h5r_R_YFA46G8dGhV1id7zy4=@ethancedwards.com/
+ drivers/net/hamradio/baycom_par.c     | 4 ++--
+ drivers/net/hamradio/baycom_ser_fdx.c | 2 +-
+ drivers/net/hamradio/baycom_ser_hdx.c | 4 ++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-Agreed, but my thinking was to keep it somewhat symmetrical to other
-similar checks in XXX_setsockopt(). For instance, in net/ax25/af_ax25.c,
-courtesy of commit 7b75c5a8c41 ("net: pass a sockptr_t into
-->setsockopt") an explicit type is used.
+diff --git a/drivers/net/hamradio/baycom_par.c b/drivers/net/hamradio/baycom_par.c
+index 00ebc25d0b22..47bc74d3ad8c 100644
+--- a/drivers/net/hamradio/baycom_par.c
++++ b/drivers/net/hamradio/baycom_par.c
+@@ -427,7 +427,7 @@ static int baycom_ioctl(struct net_device *dev, void __user *data,
+ 		break;
+ 
+ 	case HDLCDRVCTL_GETMODE:
+-		strcpy(hi->data.modename, bc->options ? "par96" : "picpar");
++		strscpy(hi->data.modename, bc->options ? "par96" : "picpar");
+ 		if (copy_to_user(data, hi, sizeof(struct hdlcdrv_ioctl)))
+ 			return -EFAULT;
+ 		return 0;
+@@ -439,7 +439,7 @@ static int baycom_ioctl(struct net_device *dev, void __user *data,
+ 		return baycom_setmode(bc, hi->data.modename);
+ 
+ 	case HDLCDRVCTL_MODELIST:
+-		strcpy(hi->data.modename, "par96,picpar");
++		strscpy(hi->data.modename, "par96,picpar");
+ 		if (copy_to_user(data, hi, sizeof(struct hdlcdrv_ioctl)))
+ 			return -EFAULT;
+ 		return 0;
+diff --git a/drivers/net/hamradio/baycom_ser_fdx.c b/drivers/net/hamradio/baycom_ser_fdx.c
+index 799f8ece7824..3dda6b215fe3 100644
+--- a/drivers/net/hamradio/baycom_ser_fdx.c
++++ b/drivers/net/hamradio/baycom_ser_fdx.c
+@@ -531,7 +531,7 @@ static int baycom_ioctl(struct net_device *dev, void __user *data,
+ 		return baycom_setmode(bc, hi->data.modename);
+ 
+ 	case HDLCDRVCTL_MODELIST:
+-		strcpy(hi->data.modename, "ser12,ser3,ser24");
++		strscpy(hi->data.modename, "ser12,ser3,ser24");
+ 		if (copy_to_user(data, hi, sizeof(struct hdlcdrv_ioctl)))
+ 			return -EFAULT;
+ 		return 0;
+diff --git a/drivers/net/hamradio/baycom_ser_hdx.c b/drivers/net/hamradio/baycom_ser_hdx.c
+index 5d1ab4840753..4f058f61659e 100644
+--- a/drivers/net/hamradio/baycom_ser_hdx.c
++++ b/drivers/net/hamradio/baycom_ser_hdx.c
+@@ -570,7 +570,7 @@ static int baycom_ioctl(struct net_device *dev, void __user *data,
+ 		break;
+ 
+ 	case HDLCDRVCTL_GETMODE:
+-		strcpy(hi->data.modename, "ser12");
++		strscpy(hi->data.modename, "ser12");
+ 		if (bc->opt_dcd <= 0)
+ 			strcat(hi->data.modename, (!bc->opt_dcd) ? "*" : (bc->opt_dcd == -2) ? "@" : "+");
+ 		if (copy_to_user(data, hi, sizeof(struct hdlcdrv_ioctl)))
+@@ -584,7 +584,7 @@ static int baycom_ioctl(struct net_device *dev, void __user *data,
+ 		return baycom_setmode(bc, hi->data.modename);
+ 
+ 	case HDLCDRVCTL_MODELIST:
+-		strcpy(hi->data.modename, "ser12");
++		strscpy(hi->data.modename, "ser12");
+ 		if (copy_to_user(data, hi, sizeof(struct hdlcdrv_ioctl)))
+ 			return -EFAULT;
+ 		return 0;
+-- 
+2.47.1
 
-I don't mind sending v2, as it would be a bit neater.
-
->>>           return -EFAULT;
->>>         switch (optname) {
->>> @@ -414,31 +414,31 @@ static int rose_setsockopt(struct socket *sock,
->>> int level, int optname,
->>>           return 0;
->>>         case ROSE_T1:
->>> -        if (opt < 1)
->>> +        if (opt < 1 || opt > UINT_MAX / HZ)
-> 
-> 'rose->t1' is unsigned long, how about 'opt > ULONG_MAX / HZ' ?
-> 
-> BTW, I think only in 32bit or 16bit machine when 'sizeof(int) ==
-> sizeof(unsigned long)',
-> this integer overflows may occur..
-> 
-> Su Hui
-> 
-
-Here I was influenced by commits dc35616e6c29 ("netrom: fix api breakage
-in nr_setsockopt()") and 9371937092d5 ("ax25: uninitialized variable in
-ax25_setsockopt()") that essentially state that we only copy 4 bytes
-from userspace so opt being ulong is not desired. Even if the result of
-* HZ ends up stored in ulong 'XXX->t1'.
-
-I may be wrong but I think same principle applies to rose_setsockopt().
-
-All we need to do here is to enable a sanity check that there is no
-int/uint overflow in right hand expression before the result gets stored
-in ulong.
-
->>>               return -EINVAL;
->>>           rose->t1 = opt * HZ;
->>>           return 0;
->>>         case ROSE_T2:
->>> -        if (opt < 1)
->>> +        if (opt < 1 || opt > UINT_MAX / HZ)
->>>               return -EINVAL;
->>>           rose->t2 = opt * HZ;
->>>           return 0;
->>>         case ROSE_T3:
->>> -        if (opt < 1)
->>> +        if (opt < 1 || opt > UINT_MAX / HZ)
->>>               return -EINVAL;
->>>           rose->t3 = opt * HZ;
->>>           return 0;
->>>         case ROSE_HOLDBACK:
->>> -        if (opt < 1)
->>> +        if (opt < 1 || opt > UINT_MAX / HZ)
->>>               return -EINVAL;
->>>           rose->hb = opt * HZ;
->>>           return 0;
->>>         case ROSE_IDLE:
->>> -        if (opt < 0)
->>> +        if (opt > UINT_MAX / (60 * HZ))
->>>               return -EINVAL;
->>>           rose->idle = opt * 60 * HZ;
->>>           return 0;
->>>
-
-Regards,
-Nikita
 
