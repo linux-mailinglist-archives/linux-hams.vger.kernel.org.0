@@ -1,100 +1,95 @@
-Return-Path: <linux-hams+bounces-471-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-472-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0ABA1678A
-	for <lists+linux-hams@lfdr.de>; Mon, 20 Jan 2025 08:43:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AADECA17567
+	for <lists+linux-hams@lfdr.de>; Tue, 21 Jan 2025 02:10:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB0D41884BA0
-	for <lists+linux-hams@lfdr.de>; Mon, 20 Jan 2025 07:43:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0B273AA031
+	for <lists+linux-hams@lfdr.de>; Tue, 21 Jan 2025 01:10:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1345D18FC84;
-	Mon, 20 Jan 2025 07:43:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A71238DD3;
+	Tue, 21 Jan 2025 01:10:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="QpYehyG4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nY5Uusms"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBE018FC92;
-	Mon, 20 Jan 2025 07:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3D48831;
+	Tue, 21 Jan 2025 01:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737359013; cv=none; b=iJum+k1E22km4FbuFOVk1dpkx+Fj0tXrSbWzlAzczsQ7B9QS7qy0Me4oRuKCNnkiX8/xpfxpPOZmQFeQgMoFlnYDAxbzgFbw97jIFv/oBJoJl8ufFrnfzKSpAimyoVKSBUq0cAyDa/yv0acOk+fRX2P+iaxJHuExRlo2Vr1vAXM=
+	t=1737421807; cv=none; b=j6lb1lELACZKwHK8i8+UyMEhqFzxh9MoYF8AkQHfufvvhU9CZipolpa0QmdZltFVCEsRF1/sjNqftduMweb8IRgvs+CMFb4ZAqNdDyTrJszZsVAi5ozcM2WglZ1eHLilkRv46LjWNtxGue7q8UVaRE4xfJtRr/gpJVVOlsJJlnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737359013; c=relaxed/simple;
-	bh=LQNzZpYdYVJJOrWJwoU9T+maxwRLdMU1JC29N3sisuA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eESLu83TzVFQIegvSkOEBXxg8YmDplwah6JYU5t+qLXV68TuDZe6+7X33C40ZNAK5/jm2VBNGx9UF9RpYmhaSSF3/+VRTCqHnhY/CpXv+h05VsYHKZzagXQPacd+RAf8dfOPBa3KdrYWLJhv6URBiJ2G8xN45EG+KUrDbXFbRVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=QpYehyG4; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Yc2Q71dNHz9sQb;
-	Mon, 20 Jan 2025 08:43:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
-	s=MBO0001; t=1737359007;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LbOqci+Y+1n+DVwByFP/6eLO3g5cf2zoepibzS/0joQ=;
-	b=QpYehyG4nuZFnNv9REp6eA6YF0t4QxCCujQRuQR4NLKtgS1migUo6GWNMzo5gJRL1FxDbe
-	MnVWPPbqNXTKRyH/FXJ7oJCjjSI9rrfYe/uBExTmMDvnkrIXRNsMtMcXmvWH+44mzKGL7P
-	ppAF71QDw0EAzBL0AmTAP6QGOuwKvqCqIde+3N9Nc2Y/wBTAXHzFkvFcuD4Zo0hZ3sKJjI
-	X45Utky3uVOx4agtan2/j/K9At5XmkdjhnUW1ogtuSuBWr/HNzG89fUEgnmepGp8CpY1sc
-	GN06zo01Ic/C0N/vzhgRRRfTEEgJ5v2D7vxWyWnhDjHK5ehCY5MCOU0D5LkPeg==
-Date: Mon, 20 Jan 2025 02:43:23 -0500
-From: Ethan Carter Edwards <ethan@ethancedwards.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, 
-	"t.sailer@alumni.ethz.ch" <t.sailer@alumni.ethz.ch>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, "linux-hams@vger.kernel.org" <linux-hams@vger.kernel.org>, 
-	"pabeni@redhat.com" <pabeni@redhat.com>
-Subject: Re: [PATCH v2] hamradio: baycom: replace strcpy() with strscpy()
-Message-ID: <uhggj2ghv63akhsuxpwmrjabkbhzotpwepogguxjvxt7ilmzeq@q3prlwntbr72>
-References: <62yrwnnvqtwv4etjeaatms5xwiixirkbm6f7urmijwp7kk7bio@r2ric7eqhsvf>
- <92b603cb-a007-4f02-bc81-34a113a04e7d@stanley.mountain>
+	s=arc-20240116; t=1737421807; c=relaxed/simple;
+	bh=zPO4duhBKb6fFaXj2aXHiDNik7bn4YYaXv62DXkF+Ro=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=smjkkWs3GHXy0Ag0zM6nFDFMltOqhqYRD10WxZSVt3YiqQtxVqU9pvm8lJjdYCXDe1TFOtuoWOespyXRvCiutEY2fTYPCgnaa3i+aKvhw7V1JmpGX47Xw72Xji91bV6wSzBT+zfdcUT6geqW1jy5otsPotV0+MRcjwOs2sxgtcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nY5Uusms; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A504C4CEDD;
+	Tue, 21 Jan 2025 01:10:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737421807;
+	bh=zPO4duhBKb6fFaXj2aXHiDNik7bn4YYaXv62DXkF+Ro=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=nY5UusmsQAlzzlqhg/4AnYFc+0GqPU9NRpJLYMryRBegON2yl9Z1rCboh3lUwbD5k
+	 bkrv3mk4fyklwLsexHEG5/dh//8CzFwnyeL7oJINVrPkRACg/NyVwfjRM1m9mTBhMi
+	 UdnfGYRbT9VqtuPvp/D8BNJCoN6aD+lir3E0zp4o+XRvMD0hdCrOsNho9wm7d9FtHE
+	 tyAQXrm6hbLlamqlc2fPvyp799u9sEzrgW9pncS4uxqRRoljGJRLQT22G+G2HSGK3y
+	 ED+LArzss19JPfLcHWKKf28p9Nip2HGyYA9uN9KTFz0ggR+vCAduH9usbS2rPuIG8L
+	 3LSNXqYCfqxpg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70D13380AA62;
+	Tue, 21 Jan 2025 01:10:32 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <92b603cb-a007-4f02-bc81-34a113a04e7d@stanley.mountain>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] net/rose: prevent integer overflows in rose_setsockopt()
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <173742183130.3698671.13583555893820567462.git-patchwork-notify@kernel.org>
+Date: Tue, 21 Jan 2025 01:10:31 +0000
+References: <20250115164220.19954-1-n.zhandarovich@fintech.ru>
+In-Reply-To: <20250115164220.19954-1-n.zhandarovich@fintech.ru>
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, linux-hams@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org, stable@vger.kernel.org
 
-On 25/01/20 10:40AM, Dan Carpenter wrote:
-> On Sun, Jan 19, 2025 at 07:34:51PM -0500, Ethan Carter Edwards wrote:
-> > The strcpy() function has been deprecated and replaced with strscpy().
-> > There is an effort to make this change treewide:
-> > https://github.com/KSPP/linux/issues/88.
-> > 
-> > Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
-> > ---
-> >  v2: reduce verbosity
-> 
-> If you had resent this patch a week ago we would have happily merged it.
-> But now you've hit the merge window and you'll need to wait until
-> 6.14-rc1 or -rc2 have been released and then rebase it on net-next again
-> and resend it.
-I see. My apologies. High school started back for me last week, so I was
-busy getting situated with my classes and all. I'll keep this in mind
-and send it back out in a week or two.
+Hello:
 
-Thanks,
-Ethan
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Wed, 15 Jan 2025 08:42:20 -0800 you wrote:
+> In case of possible unpredictably large arguments passed to
+> rose_setsockopt() and multiplied by extra values on top of that,
+> integer overflows may occur.
 > 
-> Anyway, if you do resend it feel free to add a:
+> Do the safest minimum and fix these issues by checking the
+> contents of 'opt' and returning -EINVAL if they are too large. Also,
+> switch to unsigned int and remove useless check for negative 'opt'
+> in ROSE_IDLE case.
 > 
-> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-> 
-> regards,
-> dan carpenter
-> 
+> [...]
+
+Here is the summary with links:
+  - [net] net/rose: prevent integer overflows in rose_setsockopt()
+    https://git.kernel.org/netdev/net/c/d640627663bf
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
