@@ -1,180 +1,220 @@
-Return-Path: <linux-hams+bounces-473-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-474-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99DF1A2558A
-	for <lists+linux-hams@lfdr.de>; Mon,  3 Feb 2025 10:13:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B1DA260EE
+	for <lists+linux-hams@lfdr.de>; Mon,  3 Feb 2025 18:08:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CE863A2EE2
-	for <lists+linux-hams@lfdr.de>; Mon,  3 Feb 2025 09:12:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3084A3A350F
+	for <lists+linux-hams@lfdr.de>; Mon,  3 Feb 2025 17:07:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76D411FC7FF;
-	Mon,  3 Feb 2025 09:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="P125CUKK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB82120D509;
+	Mon,  3 Feb 2025 17:06:24 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from ksmg02.maxima.ru (ksmg02.maxima.ru [81.200.124.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f77.google.com (mail-io1-f77.google.com [209.85.166.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1506288B1;
-	Mon,  3 Feb 2025 09:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E7320B814
+	for <linux-hams@vger.kernel.org>; Mon,  3 Feb 2025 17:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738573973; cv=none; b=io6yGr/220+WIEdtfFHdAjLIMbIms/j1AK9RWOmcSSQHfRxFR4qA+BLkqNEkM+qssTTyHJ/NoWpeQMFg57bUgak25cUHGHw+mm86bcqWbgLFtyIHo77epseHw6U1geCS7VKdf691yZACxUUUEwfqmizh1iVL42yMHMz0v7n61Bk=
+	t=1738602384; cv=none; b=NHq6ma1yGv58zOy0MYpBtva2NNHgbFWHg55/pIHEpOq9zsWjDCnkGwiC0/Wwt0IHE/zPuyzDd5HmMQCh99OcmfAUZ8EYHOpsKqHBSqj9GGlauThEVUU5g6UYN2K7eDzC748Sqk04bHEUV19EhDsadWddc5kDv/nyCQjD2p4nuWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738573973; c=relaxed/simple;
-	bh=qU9KXRq+H2Z1sv2iZph3rQ1H/PzmLspdXPrOSKfyQ5A=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hL9vAAInPhT2PFOKQetoaZkTAUxMU4M89M+9jAkWnBoXTdnBlWN3pwV9QC7YXag1DnhKdmETUvld1QH9wXtnK5BCu4Xye+x49y8hOvj4siA0ne+2rWExKD7XHPywSCYxItUKV9T3MS+CI7c0XsMLf3wzVsAs+LeNWYJfaGy8FWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=P125CUKK; arc=none smtp.client-ip=81.200.124.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt-integration.ru
-Received: from ksmg02.maxima.ru (localhost [127.0.0.1])
-	by ksmg02.maxima.ru (Postfix) with ESMTP id B1F3B1E0006;
-	Mon,  3 Feb 2025 12:12:39 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg02.maxima.ru B1F3B1E0006
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
-	s=sl; t=1738573959; bh=daXqeLp8l6RQ2s3+98xXPxQ0X3qczwkmRnhtEpYSICY=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=P125CUKKGzyoh4PE3QieGXX0BAVtED5hSL8VPxkD0yYdWgAcNwdwKX+OOkzr7r3Yg
-	 RThqFjVMmZt2C54WSkK2DJcHT2WWNhciu9D24nPYM6DCUuJoeWYttQAzGmEbOMZdry
-	 V51CpTsWcaKV2xt/nKiDkwWi3Mv9whtttg6PX5Ylo4xDqxFxq+MRDbi8JB66CIPfw8
-	 yibGP7mJuKQ78MYQo01HknF4PJvkpymdeV6KJgi2HBeLTedkOD/NEYmq2QX0+daW0s
-	 PR/Zc8M+KhCNAqmcstQumv0rcH6AHvl2UuKLV+gBYyejgo+edDp1Ci3l9AC9JebQoX
-	 5rNkR6mChrAHA==
-Received: from ksmg02.maxima.ru (autodiscover.maxima.ru [81.200.124.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "*.maxima.ru", Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
-	by ksmg02.maxima.ru (Postfix) with ESMTPS;
-	Mon,  3 Feb 2025 12:12:39 +0300 (MSK)
-Received: from GS-NOTE-190.mt.ru (10.0.247.120) by mmail-p-exch02.mt.ru
- (81.200.124.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Mon, 3 Feb 2025
- 12:12:37 +0300
-From: Murad Masimov <m.masimov@mt-integration.ru>
-To: Joerg Reuter <jreuter@yaina.de>
-CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
-	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Duoming Zhou
-	<duoming@zju.edu.cn>, <linux-hams@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>, Murad Masimov
-	<m.masimov@mt-integration.ru>, <stable@vger.kernel.org>,
-	<syzbot+33841dc6aa3e1d86b78a@syzkaller.appspotmail.com>
-Subject: [PATCH] ax25: Fix refcount leak caused by setting SO_BINDTODEVICE sockopt
-Date: Mon, 3 Feb 2025 12:12:03 +0300
-Message-ID: <20250203091203.1744-1-m.masimov@mt-integration.ru>
-X-Mailer: git-send-email 2.46.0.windows.1
+	s=arc-20240116; t=1738602384; c=relaxed/simple;
+	bh=BrCxbpYcd+JnXrPkcfr6lCs/aTPwdnfGgVrzCmZxKnQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=m7Vk/vLb2RGpEGd6fnR+ye6Ky+JA8iWdEAzxaSErenfnlMF/Pkv7guHl8xhK+PIzSkMHL90xkEvdhA1cTumdKiwx5ZpC5OsCITkDVLQtQ4AV8/yMsHDGOde0XnKpen+n0zBgJYlQCRaHPu87zxWTfr0W6UXj8VZZAQd4XAwbCNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f77.google.com with SMTP id ca18e2360f4ac-851a991cf8bso328794839f.0
+        for <linux-hams@vger.kernel.org>; Mon, 03 Feb 2025 09:06:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738602382; x=1739207182;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EvIJAMDztJTBQDqmwsIIAqNRRzmhnnKPFMl2MQnHWFs=;
+        b=vbM1oX0dsBfk9lM0xm/98becIc/j0rsPYwI6v4JkAsoQjw3MSEMIAQ3KjYrykuaT2k
+         M8Tp9RYAW7YiotQM87MVFZj2mLADtzyzMUZRtfKG4tJV5P0WA93K09llfaS77J3LIqZX
+         +gXMoa91dcg8Jc9Bn/IPEN07IY+cRhlhAjsRm7cEDNlZvwULqP45hnDT8Kau0MsbcVYc
+         uduEa0kaQIuH7yi6z5sBgd3kDS2bwbx9u7nCkVRW7Wz/Z0xWfrUoaYsl9wBlXMRDl3oP
+         Kfbt9mfKzSxg8nDvUNo8GH9ekNNOQ3H9pcIQ7AYuMV7TaQRru0ZpUPsN2Dsrm5jdVyup
+         Hq3g==
+X-Forwarded-Encrypted: i=1; AJvYcCV0xIt98+zWDOBoRDgBbaCI9eE9HpSdrOSYmZgbMWYUizDFZDymZI8NzXUHfY/Y9FAG+N1sIyYgr4GU@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUhELbMruzCZyrpwq3aCQOyogzPXfDC4vTjZIWLOQR6QQ/obnK
+	zIM3kI2xc32RRJ8jof2GTOHOI6YOvmWd/dIo1F9ERGWQLkWQQgaSSWbtzu1s7iasegi9ZsgtLyf
+	GF65wqMPAi9ft9K0FIkS0KnT+2FKFwaANV0zXpgY/QNaJyMaEnaNwyt0=
+X-Google-Smtp-Source: AGHT+IFK9hAgpJhY7Jr0yXxf8XJkawng8GwmfeYpkqFFGFi7+/+QAD3e0sWxk3BAQvw4z/PjcMzqIARG48F19gP7ndd1WRd81iLh
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch02.mt.ru
- (81.200.124.62)
-X-KSMG-AntiPhishing: NotDetected, bases: 2025/02/03 08:24:00
-X-KSMG-AntiSpam-Auth: dmarc=none header.from=mt-integration.ru;spf=none smtp.mailfrom=mt-integration.ru;dkim=none
-X-KSMG-AntiSpam-Envelope-From: m.masimov@mt-integration.ru
-X-KSMG-AntiSpam-Info: LuaCore: 50 0.3.50 df4aeb250ed63fd3baa80a493fa6caee5dd9e10f, {rep_avail}, {Tracking_one_url, url3}, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, mt-integration.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;81.200.124.62:7.1.2;ksmg02.maxima.ru:7.1.1;syzkaller.appspot.com:5.0.1,7.1.1, FromAlignment: s, ApMailHostAddress: 81.200.124.62
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 190746 [Feb 03 2025]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.7
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/02/03 07:33:00 #27201296
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected, bases: 2025/02/03 08:24:00
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 7
+X-Received: by 2002:a05:6e02:a0:b0:3cf:ba90:6ad9 with SMTP id
+ e9e14a558f8ab-3d03f4fc490mr222185ab.9.1738602381964; Mon, 03 Feb 2025
+ 09:06:21 -0800 (PST)
+Date: Mon, 03 Feb 2025 09:06:21 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67a0f78d.050a0220.d7c5a.00a0.GAE@google.com>
+Subject: [syzbot] [hams?] BUG: soft lockup in rose_loopback_timer
+From: syzbot <syzbot+7ff41b5215f0c534534e@syzkaller.appspotmail.com>
+To: davem@davemloft.net, edumazet@google.com, horms@kernel.org, 
+	kuba@kernel.org, linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-If an AX25 device is bound to a socket by setting the SO_BINDTODEVICE
-socket option, a refcount leak will occur in ax25_release().
+Hello,
 
-Commit 9fd75b66b8f6 ("ax25: Fix refcount leaks caused by ax25_cb_del()")
-added decrement of device refcounts in ax25_release(). In order for that
-to work correctly the refcounts must already be incremented when the
-device is bound to the socket. An AX25 device can be bound to a socket
-by either calling ax25_bind() or setting SO_BINDTODEVICE socket option.
-In both cases the refcounts should be incremented, but in fact it is done
-only in ax25_bind().
+syzbot found the following issue on:
 
-This bug leads to the following issue reported by Syzkaller:
+HEAD commit:    573067a5a685 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=1189ff30580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=cd7202b56d469648
+dashboard link: https://syzkaller.appspot.com/bug?extid=7ff41b5215f0c534534e
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15f4ffe8580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1663aadf980000
 
-================================================================
-refcount_t: decrement hit 0; leaking memory.
-WARNING: CPU: 1 PID: 5932 at lib/refcount.c:31 refcount_warn_saturate+0x1ed/0x210 lib/refcount.c:31
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/9d3b5c855aa0/disk-573067a5.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0c06fc1ead83/vmlinux-573067a5.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/3390e59b9e4b/Image-573067a5.gz.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7ff41b5215f0c534534e@syzkaller.appspotmail.com
+
+watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [swapper/0:0]
 Modules linked in:
-CPU: 1 UID: 0 PID: 5932 Comm: syz-executor424 Not tainted 6.13.0-rc4-syzkaller-00110-g4099a71718b0 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-RIP: 0010:refcount_warn_saturate+0x1ed/0x210 lib/refcount.c:31
-Call Trace:
- <TASK>
- __refcount_dec include/linux/refcount.h:336 [inline]
- refcount_dec include/linux/refcount.h:351 [inline]
- ref_tracker_free+0x710/0x820 lib/ref_tracker.c:236
- netdev_tracker_free include/linux/netdevice.h:4156 [inline]
- netdev_put include/linux/netdevice.h:4173 [inline]
- netdev_put include/linux/netdevice.h:4169 [inline]
- ax25_release+0x33f/0xa10 net/ax25/af_ax25.c:1069
- __sock_release+0xb0/0x270 net/socket.c:640
- sock_close+0x1c/0x30 net/socket.c:1408
- ...
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
- ...
- </TASK>
-================================================================
+irq event stamp: 232963
+hardirqs last  enabled at (232962): [<ffff80008b69c960>] __el1_irq arch/arm64/kernel/entry-common.c:565 [inline]
+hardirqs last  enabled at (232962): [<ffff80008b69c960>] el1_interrupt+0x58/0x68 arch/arm64/kernel/entry-common.c:575
+hardirqs last disabled at (232963): [<ffff80008b69c92c>] __el1_irq arch/arm64/kernel/entry-common.c:557 [inline]
+hardirqs last disabled at (232963): [<ffff80008b69c92c>] el1_interrupt+0x24/0x68 arch/arm64/kernel/entry-common.c:575
+softirqs last  enabled at (228290): [<ffff80008030e7b4>] softirq_handle_end kernel/softirq.c:407 [inline]
+softirqs last  enabled at (228290): [<ffff80008030e7b4>] handle_softirqs+0xb44/0xd34 kernel/softirq.c:589
+softirqs last disabled at (228401): [<ffff800080020db4>] __do_softirq+0x14/0x20 kernel/softirq.c:595
+CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.13.0-rc3-syzkaller-g573067a5a685 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
+pstate: 40400005 (nZcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : preempt_count arch/arm64/include/asm/preempt.h:13 [inline]
+pc : in_softirq_really kernel/kcov.c:171 [inline]
+pc : check_kcov_mode kernel/kcov.c:183 [inline]
+pc : write_comp_data kernel/kcov.c:246 [inline]
+pc : __sanitizer_cov_trace_cmp4+0x38/0xa0 kernel/kcov.c:288
+lr : rose_find_socket+0x7c/0x130 net/rose/af_rose.c:309
+sp : ffff800080007b60
+x29: ffff800080007b70 x28: 1ffff00012f27be0 x27: 0000000000000000
+x26: 00000000000003e7 x25: dfff800000000000 x24: 0000000000000033
+x23: dfff800000000000 x22: 0000000000000000 x21: ffff0000c2c8e000
+x20: 0000000000000033 x19: ffff0000d2670400 x18: ffff800080007840
+x17: 0000000000015d97 x16: ffff80008069d55c x15: ffff700010000f54
+x14: 1ffff00010000f54 x13: 0000000000000004 x12: ffffffffffffffff
+x11: ffff700010000f54 x10: 0000000000ff0100 x9 : 0000000000000302
+x8 : ffff80008f9c67c0 x7 : 0000000000000000 x6 : 0000000000000000
+x5 : ffff8000935a9f90 x4 : 0000000000000008 x3 : ffff80008047cdcc
+x2 : 0000000000000001 x1 : 0000000000000033 x0 : 0000000000000000
+Call trace:
+ in_softirq_really kernel/kcov.c:171 [inline] (P)
+ check_kcov_mode kernel/kcov.c:183 [inline] (P)
+ write_comp_data kernel/kcov.c:246 [inline] (P)
+ __sanitizer_cov_trace_cmp4+0x38/0xa0 kernel/kcov.c:288 (P)
+ rose_loopback_timer+0x1bc/0x4bc net/rose/rose_loopback.c:91
+ call_timer_fn+0x1b4/0x8b8 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1844 [inline]
+ __run_timers kernel/time/timer.c:2418 [inline]
+ __run_timer_base+0x56c/0x7b4 kernel/time/timer.c:2430
+ run_timer_base kernel/time/timer.c:2439 [inline]
+ run_timer_softirq+0xcc/0x194 kernel/time/timer.c:2449
+ handle_softirqs+0x320/0xd34 kernel/softirq.c:561
+ __do_softirq+0x14/0x20 kernel/softirq.c:595
+ ____do_softirq+0x14/0x20 arch/arm64/kernel/irq.c:81
+ call_on_irq_stack+0x24/0x4c arch/arm64/kernel/entry.S:891
+ do_softirq_own_stack+0x20/0x2c arch/arm64/kernel/irq.c:86
+ invoke_softirq kernel/softirq.c:442 [inline]
+ __irq_exit_rcu+0x1d8/0x544 kernel/softirq.c:662
+ irq_exit_rcu+0x14/0x84 kernel/softirq.c:678
+ __el1_irq arch/arm64/kernel/entry-common.c:561 [inline]
+ el1_interrupt+0x38/0x68 arch/arm64/kernel/entry-common.c:575
+ el1h_64_irq_handler+0x18/0x24 arch/arm64/kernel/entry-common.c:580
+ el1h_64_irq+0x6c/0x70 arch/arm64/kernel/entry.S:596
+ __daif_local_irq_enable arch/arm64/include/asm/irqflags.h:26 [inline] (P)
+ arch_local_irq_enable+0x8/0xc arch/arm64/include/asm/irqflags.h:48 (P)
+ cpuidle_idle_call kernel/sched/idle.c:185 [inline]
+ do_idle+0x1ec/0x4e0 kernel/sched/idle.c:325
+ cpu_startup_entry+0x5c/0x74 kernel/sched/idle.c:423
+ rest_init+0x2dc/0x2f4 init/main.c:747
+ start_kernel+0x3f4/0x4f4 init/main.c:1102
+ __primary_switched+0x8c/0x94 arch/arm64/kernel/head.S:246
+Sending NMI from CPU 0 to CPUs 1:
+NMI backtrace for cpu 1
+CPU: 1 UID: 0 PID: 6586 Comm: syz-executor306 Not tainted 6.13.0-rc3-syzkaller-g573067a5a685 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
+pstate: 00400005 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : queued_spin_lock_slowpath+0x15c/0xd04 kernel/locking/qspinlock.c:380
+lr : queued_spin_lock_slowpath+0x168/0xd04 kernel/locking/qspinlock.c:380
+sp : ffff8000a3887920
+x29: ffff8000a38879e0 x28: 1ffff00012545d44 x27: dfff800000000000
+x26: 1ffff00014710f50 x25: ffff8000a3887960 x24: dfff800000000000
+x23: ffff8000a38879a0 x22: ffff700014710f2c x21: 0000000000000001
+x20: 1ffff00014710f34 x19: ffff800092a2ea20 x18: 0000000000000000
+x17: 0000000000000000 x16: ffff800080bf1494 x15: 0000000000000001
+x14: 1ffff00012545d44 x13: 0000000000000000 x12: 0000000000000000
+x11: ffff700012545d45 x10: 1ffff00012545d44 x9 : 0000000000000000
+x8 : 0000000000000001 x7 : ffff80008a73b3a4 x6 : 0000000000000000
+x5 : 0000000000000000 x4 : 0000000000000001 x3 : ffff80008b6c1928
+x2 : 0000000000000000 x1 : 0000000000000001 x0 : 0000000000000001
+Call trace:
+ __cmpwait_case_8 arch/arm64/include/asm/cmpxchg.h:229 [inline] (P)
+ __cmpwait arch/arm64/include/asm/cmpxchg.h:257 [inline] (P)
+ queued_spin_lock_slowpath+0x15c/0xd04 kernel/locking/qspinlock.c:380 (P)
+ queued_spin_lock include/asm-generic/qspinlock.h:114 [inline]
+ do_raw_spin_lock+0x2ec/0x334 kernel/locking/spinlock_debug.c:116
+ __raw_spin_lock_bh include/linux/spinlock_api_smp.h:127 [inline]
+ _raw_spin_lock_bh+0x50/0x60 kernel/locking/spinlock.c:178
+ spin_lock_bh include/linux/spinlock.h:356 [inline]
+ rose_insert_socket+0x2c/0x15c net/rose/af_rose.c:261
+ rose_bind+0x490/0x640 net/rose/af_rose.c:753
+ __sys_bind_socket net/socket.c:1827 [inline]
+ __sys_bind+0x1ac/0x248 net/socket.c:1858
+ __do_sys_bind net/socket.c:1863 [inline]
+ __se_sys_bind net/socket.c:1861 [inline]
+ __arm64_sys_bind+0x7c/0x94 net/socket.c:1861
+ __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+ invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
+ el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
+ do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
+ el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:744
+ el0t_64_sync_handler+0x84/0x108 arch/arm64/kernel/entry-common.c:762
+ el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
 
-Fix the implementation of ax25_setsockopt() by adding increment of
-refcounts for the new device bound, and decrement of refcounts for
-the old unbound device.
 
-Found by Linux Verification Center (linuxtesting.org) with Syzkaller.
-
-Fixes: 9fd75b66b8f6 ("ax25: Fix refcount leaks caused by ax25_cb_del()")
-Cc: stable@vger.kernel.org
-Reported-by: syzbot+33841dc6aa3e1d86b78a@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=33841dc6aa3e1d86b78a
-Signed-off-by: Murad Masimov <m.masimov@mt-integration.ru>
 ---
- net/ax25/af_ax25.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/net/ax25/af_ax25.c b/net/ax25/af_ax25.c
-index aa6c714892ec..9f3b8b682adb 100644
---- a/net/ax25/af_ax25.c
-+++ b/net/ax25/af_ax25.c
-@@ -685,6 +685,15 @@ static int ax25_setsockopt(struct socket *sock, int level, int optname,
- 			break;
- 		}
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-+		if (ax25->ax25_dev) {
-+			if (dev == ax25->ax25_dev->dev) {
-+				rcu_read_unlock();
-+				break;
-+			}
-+			netdev_put(ax25->ax25_dev->dev, &ax25->dev_tracker);
-+			ax25_dev_put(ax25->ax25_dev);
-+		}
-+
- 		ax25->ax25_dev = ax25_dev_ax25dev(dev);
- 		if (!ax25->ax25_dev) {
- 			rcu_read_unlock();
-@@ -692,6 +701,8 @@ static int ax25_setsockopt(struct socket *sock, int level, int optname,
- 			break;
- 		}
- 		ax25_fillin_cb(ax25, ax25->ax25_dev);
-+		netdev_hold(dev, &ax25->dev_tracker, GFP_ATOMIC);
-+		ax25_dev_hold(ax25->ax25_dev);
- 		rcu_read_unlock();
- 		break;
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
---
-2.39.2
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
