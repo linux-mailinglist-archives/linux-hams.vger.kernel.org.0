@@ -1,156 +1,136 @@
-Return-Path: <linux-hams+bounces-540-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-541-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0B5B0206D
-	for <lists+linux-hams@lfdr.de>; Fri, 11 Jul 2025 17:29:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC62BB04713
+	for <lists+linux-hams@lfdr.de>; Mon, 14 Jul 2025 20:04:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5029547AFD
-	for <lists+linux-hams@lfdr.de>; Fri, 11 Jul 2025 15:28:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E5B33AF561
+	for <lists+linux-hams@lfdr.de>; Mon, 14 Jul 2025 18:03:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77DA52EAB97;
-	Fri, 11 Jul 2025 15:28:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DF4926B090;
+	Mon, 14 Jul 2025 18:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z9F92bNP"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-io1-f80.google.com (mail-io1-f80.google.com [209.85.166.80])
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31B12EAB77
-	for <linux-hams@vger.kernel.org>; Fri, 11 Jul 2025 15:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C752D26AA85
+	for <linux-hams@vger.kernel.org>; Mon, 14 Jul 2025 18:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752247717; cv=none; b=S8duooSeuGFw+ypcjaGtOnd9LBV57UcrDLZLsVenzi3Tsc5O3MXtCZbJfS5K7IegHlAGWEX+95mBcCXb1mhmguitUlorhSud0iZbnK4zlRndv0Vf8588gXZPff9kQKU7+RXZaLzm3tMJ8rPQ+IaAITfhhQAdcxrTRhOKUHxTYQ4=
+	t=1752516238; cv=none; b=sUjhcSiH0RZuUiImx53S7IYiw1hKcyxZ9BfuUigdTleuU+b6gtGV9RS/5GRgXg7vEK0QpkUBxiR+NTOd5LrfyGHL4wNCdz9nub1v5Q3/xjaT9q7gq5AIzZNv6cjWOzwWJKwfNXF6Si8bu2FDpRxbOr0K/9dxizRFumgfeIfnzUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752247717; c=relaxed/simple;
-	bh=R8bzj8BnA7xeu1Ejvt/BsrBAhec9/uuK7hWClDnpXTk=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=fHhUfCYuV4Dgswrwu/a0GOiMTrLs20nGoyZAXh3XzCOhtDVAxPlT4lE4ZrOkt0EZMTyMzrz/2LTgULAkZDcUaPDi8JBkRO3+X6MiASEDuqoabUSTsUGN0cVw4OsxKWRFmfXyZlA6SaL7EYflHZOMINu+HvXsXLbxdmbfJA9SqBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f80.google.com with SMTP id ca18e2360f4ac-86d0aa2dc99so237704539f.1
-        for <linux-hams@vger.kernel.org>; Fri, 11 Jul 2025 08:28:35 -0700 (PDT)
+	s=arc-20240116; t=1752516238; c=relaxed/simple;
+	bh=xKnjXWOY2IrRzosXfQB3Bpso/mm2u4JxGSYgZGdZjIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E/9INy177IjPnesnxE3Mvp/kJLKvNIG7pr1JKoPlXD+fdNov17uGsVWM22FRWwMChzVpUiezKcavZghfVRKfedRcWZcdOJtM0cF7hIaHj2omQIfz4rbi6ihTi5etGhzebGbhSLdRduHRYzkPqJOKiF0/vr5oe6m0Ac+1VpqASTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z9F92bNP; arc=none smtp.client-ip=209.85.160.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-2e9a38d2a3aso4050204fac.3
+        for <linux-hams@vger.kernel.org>; Mon, 14 Jul 2025 11:03:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752516236; x=1753121036; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kUc//PEDPwGX6GKHFUnDylrVbmV9/GKD9WpLyzBk2E0=;
+        b=Z9F92bNPvUvzoOh9o+Tc/v+cCBf2+qu2MWe2G+RnjWD3C5x+s5lLbCFMjjA6bZZHKa
+         W84FRIVVuaQVJ2pqMnhdhw0dQ3pF4LOsc3XrVXolQ6aJ34SCadHwhMOMfQOJAULm48QY
+         OUHlIO8OIR6r5SZqjPuKKb2awKYWSxP9R4yVFTA59l7TkKPMj0wCHwV7sgywmQT9hgpk
+         ldT9xZUimI5KStO+hW3gwxTtS7p7ud+7upXQkYXbhVwVYA2zQ+YA8BBLAcBV5QdIjhHv
+         5FpaNP+G7k6nzJWFPnAKSC1L1uSWICCdR6vRbM98oluqvyDIvrmxKU+aNO1LnzLMerx4
+         DtGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752247715; x=1752852515;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qUNjYbfnIGUDJ+fH4l34rKGE25OHoqzo1g6K2n9c1ag=;
-        b=GtkoyVEhKVljrqidLJE7AUqZaoHF9RtKwCDv+Z6QHutRu72ZCKcWd1GE+29M1MNnjT
-         d8UG3B0fYrDW0C82vra/tR77IFDWyC7vnZnzVek2lfFz/pOezBiDRb5kguInH4R6hH2j
-         2pwfKfqM/MQj7Kz72Y+dQwhTh6l0HyHEqkpjz3lZb/HPbLwspvxRa7QJAD/mAzujQBGJ
-         DFPX2LWvNPv7zRrgBlrXk2TbiS2gnxh5b7gwLdeP3qUhiUkQuFAHqtapH40NBJWwn6wM
-         zrjK8RyWtlVLP0s5Rvt/teraO+1FC0ptrp0WavPo/lezN6UbWRLQRnYctJnCN0u8kyCr
-         94zw==
-X-Forwarded-Encrypted: i=1; AJvYcCWmC+69LMp7RbzqUm0NvLhHb3oAm9SHPdEh/fX9weZYQp9QKrLBB5FlahH7KSr5dP/WtEEGGd9F8JsU@vger.kernel.org
-X-Gm-Message-State: AOJu0YyK3da9eyprdnTljD7HhBfUS6XEXGbCnKyOY0vBrrBXBceRXA92
-	SrwMobboE9Z23QLqd7cETQCj45pLTTpELhYYSR/1Khwx9IgaAQfnd0xwmbOiBKbOf7VsvD/nYUb
-	BjB9qMyCe/Cukf0XGT+YDGPeuexditCWyV0yeugtmWhPpOzCVPwwFVW7I7Pc=
-X-Google-Smtp-Source: AGHT+IGYZn4X48OCo8kCHHADiKQ5Dln3PDwFXiplHCO//8GCHwE1OHJRDwnBPZ6U8h8w0sqyFj7hWoJrDVyjppe8t0yks4IxL3sv
+        d=1e100.net; s=20230601; t=1752516236; x=1753121036;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kUc//PEDPwGX6GKHFUnDylrVbmV9/GKD9WpLyzBk2E0=;
+        b=UQml6ct2cXxQHg79419bN7bPOJN+pqmD2LHZob5YasBE9Kl5tiR6/Fs/THj0nNLFUG
+         Ux3aox9xgRKhxNh4exFCJQ5Lxk7ROYk70KMYh+DTS7ZQ8AMMfuz64W/P4U84zhCDrW2A
+         UFsRl8L4abS0GiMgRtVYgOAuna11fW4wV51Dkofp92pTyjirk6DoVinRqfZiN5l8DvSv
+         kYaBzr/u80ZViKFKBu/6Jtvh3jNmZtVrIcow7RX4agaa946X6V9jxb6SaqYRMXOGI0vK
+         B1uPRXx+AAZnf2uzsmmlEVF57rq1NEOKEj61Px8uuSRVscPQJkcf0F+q12nG17WaUSF7
+         ANaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWzBkVfrIL52A5xmKMEzeVOCnBjAXEWmrmMJilSn6GpsquVwsbJMk1q+fSIV1cOhjqiNRYWQHTdMkfE@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgqYXhfAARP3YWojNE4rxrNgeg1DZjOF4LH38NL74Q5jMAX9if
+	BJaz5bAhsMSqqgfl43wWBvvpBPop+0l2ci+HXwjyy+BRA/iqWPLSgNMKWxmM9GUwf3M=
+X-Gm-Gg: ASbGncsZ60M+BAgjvo/fvxUaTrJmpq2rE9nLdD2HZTShCGCJOjOwWfdggWT7Rb8/O1r
+	JvIgwAyxhE0RMg39bl/lghgjbIPJRXlrWte76hi7KvRckfB4dVYFGhA1t4TsJE01uQ1Pu93r90V
+	hNpToLkCDaNZXyKubZzLkVtXH8JpnkrYaHq4fTORByJ0ZqwI5rVQu3pguMj9CCWGGJD+5lyA5nL
+	9wY455EMRojm7ADFzgadSnyWQ5b5bnJ4LhXVmShuvUwgnrtmbz+VCIP5RwJJmDxz9fC+ocpA9+S
+	9iWJdRDSMCIcV+3OSqHpjrK6QPtJAs1qP9F212B5N9Mt3/su5SIL9tg7qmrpvdnV7qB/+/EU3DW
+	FQvrOeKj+lLc5Lv8LR8qr3ib0gHSrDQ==
+X-Google-Smtp-Source: AGHT+IHTpGx6mV7WMwP1pIKs1b9CdmfJ9vEn7hc8jx+5sU/Mj67Y+rDomjPaMvowTYcY4XUtpdxDwA==
+X-Received: by 2002:a05:687c:2001:20b0:2ff:8822:2912 with SMTP id 586e51a60fabf-2ff88223f6cmr1071480fac.5.1752516235811;
+        Mon, 14 Jul 2025 11:03:55 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:6bb2:d90f:e5da:befc])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ff8dea112bsm84240fac.43.2025.07.14.11.03.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jul 2025 11:03:55 -0700 (PDT)
+Date: Mon, 14 Jul 2025 21:03:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+	Kohei Enju <enjuk@amazon.com>, Thomas Gleixner <tglx@linutronix.de>,
+	linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] net/rose: Remove unnecessary if check in
+ rose_dev_first()
+Message-ID: <96fbe379-cf8e-44e9-aeaf-a8beee2eda9c@suswa.mountain>
+References: <20250704083309.321186-3-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:1589:b0:86d:60:702f with SMTP id
- ca18e2360f4ac-87977e8b783mr477224139f.0.1752247714648; Fri, 11 Jul 2025
- 08:28:34 -0700 (PDT)
-Date: Fri, 11 Jul 2025 08:28:34 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <68712da2.a00a0220.26a83e.0052.GAE@google.com>
-Subject: [syzbot] [hams?] WARNING: refcount bug in ax25_setsockopt
-From: syzbot <syzbot+0ee4da32f91ae2a3f015@syzkaller.appspotmail.com>
-To: davem@davemloft.net, edumazet@google.com, horms@kernel.org, 
-	jreuter@yaina.de, kuba@kernel.org, linux-hams@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250704083309.321186-3-thorsten.blum@linux.dev>
 
-Hello,
+On Fri, Jul 04, 2025 at 10:33:08AM +0200, Thorsten Blum wrote:
+> dev_hold() already checks if its argument is NULL.
+> 
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+> ---
+>  net/rose/rose_route.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/net/rose/rose_route.c b/net/rose/rose_route.c
+> index b72bf8a08d48..35e21a2bec9c 100644
+> --- a/net/rose/rose_route.c
+> +++ b/net/rose/rose_route.c
+> @@ -608,8 +608,7 @@ struct net_device *rose_dev_first(void)
+>  			if (first == NULL || strncmp(dev->name, first->name, 3) < 0)
+>  				first = dev;
+>  	}
+> -	if (first)
+> -		dev_hold(first);
+> +	dev_hold(first);
 
-syzbot found the following issue on:
+I'm not a fan of these sorts of "remove the NULL check" patches in
+general.  Sure it removes a line of code, but does it really improve
+readability?  I feel like someone reading this code might think a NULL
+check was required.
 
-HEAD commit:    faeefc173be4 sock: Correct error checking condition for (a..
-git tree:       net-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=157b9c04580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=eecd7902e39d7933
-dashboard link: https://syzkaller.appspot.com/bug?extid=0ee4da32f91ae2a3f015
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15875398580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=137b9c04580000
+I guess there is also an argument that this is a tiny speedup.  That
+could be a valid argument especially if we had benchmarking data to back
+it up.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/25a813551e04/disk-faeefc17.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/06484bfac01b/vmlinux-faeefc17.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/df48cbb45ee8/bzImage-faeefc17.xz
+Of course, if you're planning to take over this code and be the
+maintainer of it, then you get to do whatever you feel is best.  So if
+this change were part of a larger change where you were taking over then
+that's fine.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0ee4da32f91ae2a3f015@syzkaller.appspotmail.com
+regards,
+dan carpenter
 
-------------[ cut here ]------------
-refcount_t: addition on 0; use-after-free.
-WARNING: CPU: 1 PID: 6151 at lib/refcount.c:25 refcount_warn_saturate+0x13a/0x1d0 lib/refcount.c:25
-Modules linked in:
-CPU: 1 UID: 0 PID: 6151 Comm: syz-executor223 Not tainted 6.15.0-rc1-syzkaller-00209-gfaeefc173be4 #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
-RIP: 0010:refcount_warn_saturate+0x13a/0x1d0 lib/refcount.c:25
-Code: 00 6b a1 8c e8 17 87 7d fc 90 0f 0b 90 90 eb b9 e8 0b 65 be fc c6 05 94 dc 44 0b 01 90 48 c7 c7 60 6b a1 8c e8 f7 86 7d fc 90 <0f> 0b 90 90 eb 99 e8 eb 64 be fc c6 05 75 dc 44 0b 01 90 48 c7 c7
-RSP: 0018:ffffc900046afc68 EFLAGS: 00010246
-RAX: 975256fdc5619000 RBX: ffff888034835ac8 RCX: ffff888078041e00
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
-RBP: 0000000000000002 R08: ffffffff81828a12 R09: fffffbfff1d7a978
-R10: dffffc0000000000 R11: fffffbfff1d7a978 R12: 1ffff110069bac05
-R13: ffff888034835a00 R14: ffff888013018000 R15: ffff888034dd6028
-FS:  000055556b9c9380(0000) GS:ffff888125093000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffdd88feca8 CR3: 0000000029122000 CR4: 00000000003526f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- ax25_setsockopt+0xbb7/0xf00 net/ax25/af_ax25.c:705
- do_sock_setsockopt+0x3b1/0x710 net/socket.c:2296
- __sys_setsockopt net/socket.c:2321 [inline]
- __do_sys_setsockopt net/socket.c:2327 [inline]
- __se_sys_setsockopt net/socket.c:2324 [inline]
- __x64_sys_setsockopt+0x1ee/0x280 net/socket.c:2324
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f59be6f7969
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 31 1a 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffdd88feda8 EFLAGS: 00000246 ORIG_RAX: 0000000000000036
-RAX: ffffffffffffffda RBX: 0000200000000000 RCX: 00007f59be6f7969
-RDX: 0000000000000019 RSI: 0000000000000101 RDI: 0000000000000004
-RBP: 0000000000000000 R08: 0000000000000010 R09: 00007f59be745214
-R10: 0000200000000000 R11: 0000000000000246 R12: 00007ffdd88fedcc
-R13: 00007ffdd88fee00 R14: 00007ffdd88fede0 R15: 0000000000000036
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
 
