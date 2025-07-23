@@ -1,181 +1,102 @@
-Return-Path: <linux-hams+bounces-543-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-544-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73EF3B0AABD
-	for <lists+linux-hams@lfdr.de>; Fri, 18 Jul 2025 21:33:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D33EB0EF71
+	for <lists+linux-hams@lfdr.de>; Wed, 23 Jul 2025 12:11:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 515B416F33D
-	for <lists+linux-hams@lfdr.de>; Fri, 18 Jul 2025 19:33:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8FABC7BB52D
+	for <lists+linux-hams@lfdr.de>; Wed, 23 Jul 2025 10:08:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1397D207DFE;
-	Fri, 18 Jul 2025 19:33:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=n0nb.us header.i=@n0nb.us header.b="haDDQmRU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C476128D8FF;
+	Wed, 23 Jul 2025 10:08:31 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from www11.qth.com (www11.qth.com [72.52.250.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4ADF20E334
-	for <linux-hams@vger.kernel.org>; Fri, 18 Jul 2025 19:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=72.52.250.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3A228C037
+	for <linux-hams@vger.kernel.org>; Wed, 23 Jul 2025 10:08:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752867195; cv=none; b=oRPeVO4fGIUEnLapdgWqT3E9dLDI8WYhkd/XisDNwC6kINCaXVg9/gMpsxai6hLNmupixRRq1JNICDnOJNhiXHj7HGu0v8bYyYBn9tG5Vt4fgpVBfMcOYUEk1BWzOlBEXO3C0sG1krQHcLMzpYXDsMLOuiR3BK64SNQNdPZmU3I=
+	t=1753265311; cv=none; b=njX1ADRtzQEtG5Sp/N23Xp36Lt+m38NkS642jVIbELDkpMas24fILjkQChUMje9n814/zWjEF11Ps1KzmF9pnOO8rtwwlBgA9c+MQ70TVIY0bNpBVqFJndSFL95dowQ1Ht0N7bI4o7pLMdNn/LVU71S/FfulrVxTYMWqOeZJnTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752867195; c=relaxed/simple;
-	bh=npviOHki4LOFvJdMTKCSclNH/WHAgOIPM+iSr9gRkEs=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hd9wEWBTY8HZ5Wn+7yaQKqdLKY1IRgE8zntVKlzaBe7KQEgZi8RDMzARjUTZelwdWke0rDctY2OIGdPBFhnlqXETKkfyAwVCrAd6XVRh4Pe8ShNTVy6N3KvEr1xeDZ6EzWndj7gOrhQKdm9iW9/Om7ohv3rnhtc1eH02p1RAkMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=n0nb.us; spf=pass smtp.mailfrom=n0nb.us; dkim=pass (2048-bit key) header.d=n0nb.us header.i=@n0nb.us header.b=haDDQmRU; arc=none smtp.client-ip=72.52.250.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=n0nb.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=n0nb.us
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=n0nb.us;
-	s=default; h=Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:Sender
-	:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=hWXy48DbweJlOTQYYpbmqPVZsYp0fscyVUoCDE0Z8ys=; b=haDDQmRU0QkzUFeLSECaRqJMcK
-	1zaRV09Tqp3FOyXL7UPLFAayg4bj6vyscmuaGHX8YdDDqcMAEPeaoNlMSc+uBkrbiYOv3GYvH0NSZ
-	YSNVBjEF0Y7w04N4dv6y3ks3PpVXReH2nZGRnciXOCvmVX9QRlCLLoKT4yyUqeSD0pci7PWO49meR
-	Q6BSIk2eDoUWqQX+muIRPX+sIQcgaa2obmYmTTDeWOoXUV+LIDOAOXaR86iJuxIG48SSczakkjo+c
-	0rvWCcEXjIGMZE8UVkRJZWa7aLDHRcIFNJUQhIXO8feNpNCmstAcJjcW1IdgRc2MtscTnyKhUJEaZ
-	e0omxCZg==;
-Received: from [68.234.117.171] (port=55280 helo=merlin.lan)
-	by www11.qth.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <n0nb@n0nb.us>)
-	id 1ucqa3-0000000FwKM-1KYG;
-	Fri, 18 Jul 2025 14:17:14 -0500
-Received: from nate by merlin.lan with local (Exim 4.96)
-	(envelope-from <n0nb@n0nb.us>)
-	id 1ucqa2-00GSzX-0o;
-	Fri, 18 Jul 2025 14:17:14 -0500
-Date: Fri, 18 Jul 2025 14:17:14 -0500
-From: Nate Bargmann <n0nb@n0nb.us>
-To: Linux Hams <linux-hams@vger.kernel.org>, 
-	Debian Hams <debian-hams@lists.debian.org>
-Subject: [Fwd: [Hamlib-developer] Hamlib 4.6.4 release]
-Message-ID: <qj6bm2dsvjdz3xmltjriyh4tikxqmzi2u6pdjuvargknrf6yia@bos2jhsa3qtg>
-Mail-Followup-To: Linux Hams <linux-hams@vger.kernel.org>, 
-	Debian Hams <debian-hams@lists.debian.org>
-X-Operating-System: Linux 6.1.0-37-amd64 x86_64
-Organization: Amateur Radio!
+	s=arc-20240116; t=1753265311; c=relaxed/simple;
+	bh=kKJQaGhBElhQ20uA93eAYsEevl1YP025Ukp6RiYXQOo=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=MbzURQtNJz1V6rKnw9oPuWoedP3SLgCmWclZmutHZ2VSX1xpb1vSa3kuoaK/GISVvDC5yo8jXzUN1T6VlPDYnvythBbScAOcqQWJylCTVOq+iHaFA5byjUvL8q8Jtuy70e5JfWup8Guz0nyXVMCtIYU8oP4TOf3EnPZGkIOmJyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-87c13b0a7ffso982636339f.2
+        for <linux-hams@vger.kernel.org>; Wed, 23 Jul 2025 03:08:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753265309; x=1753870109;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Xa262BFzbymM4aCqSeO/zKmpLThSI/29qjkAS1Z9TrU=;
+        b=YECV0P2ClMkAPJEFIXTZ1pI49X9jGYcykmeLxTd2TCC6ZUOyGyqm17cKBpCQgIy6Mb
+         sR6YGOQaoSq78CGX7t6AzHUGUL/isozKhK2A/jL8j6k/oEPjNIQJUmJgUSz5BVI7nOsY
+         Xn3TfJZqAH5/tnUD8AkzaEd3QvTYG3DhoRGrq+3n0VlRtUKGOdUOXNY6P8cfI/g1aw9p
+         qdoMKLMcrUJn5YHkyeZx3quLgV9Nkbaq7wwfgJnT+dcXcVYTjT9Oqv+Dr9/BlssaoB97
+         Jj/L7qmrhdEUxthEzRPv3VQaeSeET8FamsCTv8v0uPStzqkYMKjqxAwFv0O++Fqw9BOk
+         m/Ow==
+X-Gm-Message-State: AOJu0YzKXRy+DIwHi/4eX/e5xwjFda0B2prohqIoWjw1bKCfgeKIlp9n
+	J8ROr6iHcw2YQE6O2ISFBvKrGZEufwFOUIgbqrJLLFAfSR8cNf4jc5XixVE4RwqvqM/M0kVMFvd
+	AZPvZPxQ1EEmuIVKTN+tq3nOjtCoVpJaqveO98aEdQn5ouCEsDHndPMSrsOo=
+X-Google-Smtp-Source: AGHT+IFcrhHvTGBz1zdoqCV8kRY2Cm0a5LrAOsbdYDWNMhblZGINElXWEkXposOemC7ppVKx+C7Ql8XUnfFzTc05jT3KXSTNW+p6
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="uuky5ib2lq25555k"
-Content-Disposition: inline
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - www11.qth.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - n0nb.us
-X-Get-Message-Sender-Via: www11.qth.com: authenticated_id: n0nb@n0nb.us
-X-Authenticated-Sender: www11.qth.com: n0nb@n0nb.us
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-Received: by 2002:a05:6e02:b4a:b0:3e2:dc2e:85d8 with SMTP id
+ e9e14a558f8ab-3e33556e315mr43529655ab.19.1753265309091; Wed, 23 Jul 2025
+ 03:08:29 -0700 (PDT)
+Date: Wed, 23 Jul 2025 03:08:29 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6880b49d.050a0220.40ccf.0003.GAE@google.com>
+Subject: [syzbot] Monthly hams report (Jul 2025)
+From: syzbot <syzbot+list5a87a1528a3f47c76f8a@syzkaller.appspotmail.com>
+To: linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
+Hello hams maintainers/developers,
 
---uuky5ib2lq25555k
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: [Fwd: [Hamlib-developer] Hamlib 4.6.4 release]
-MIME-Version: 1.0
+This is a 31-day syzbot report for the hams subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/hams
 
-Download links are:
+During the period, 0 new issues were detected and 1 were fixed.
+In total, 8 issues are still open and 41 have already been fixed.
 
-https://github.com/Hamlib/Hamlib/releases/tag/4.6.4
+Some of the still happening issues:
 
-https://sourceforge.net/projects/hamlib/files/hamlib/4.6.4/
+Ref Crashes Repro Title
+<1> 4423    Yes   possible deadlock in nr_rt_device_down (3)
+                  https://syzkaller.appspot.com/bug?extid=ccdfb85a561b973219c7
+<2> 1359    No    KASAN: slab-use-after-free Read in rose_timer_expiry (3)
+                  https://syzkaller.appspot.com/bug?extid=942297eecf7d2d61d1f1
+<3> 787     Yes   possible deadlock in nr_rt_ioctl (2)
+                  https://syzkaller.appspot.com/bug?extid=14afda08dc3484d5db82
+<4> 279     Yes   possible deadlock in nr_remove_neigh (2)
+                  https://syzkaller.appspot.com/bug?extid=8863ad36d31449b4dc17
+<5> 131     No    possible deadlock in serial8250_handle_irq
+                  https://syzkaller.appspot.com/bug?extid=5fd749c74105b0e1b302
 
------ Forwarded message from Nate Bargmann <n0nb@n0nb.us> -----
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Date: Fri, 18 Jul 2025 14:10:25 -0500
-=46rom: Nate Bargmann <n0nb@n0nb.us>
-To: Hamlib Developers <hamlib-developer@lists.sourceforge.net>
-Subject: [Hamlib-developer] Hamlib 4.6.4 release
-Organization: Amateur Radio!
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-Hi All.
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
-Realizing that today is Hamlib's 25th birthday, I thought it would be
-nice to just release 4.6.4 as a present to everyone!
-
-This is a bug fix release with no new device support.
-
-Changes are:
-
-Version 4.6.4
-        * 2025-07-18--Hamlib's 25th birthday!!!
-        * Fix handling of unprintable characters in kenwood.c that broke ra=
-dios
-          such as the TM-D710/TM-V71 that use EOM_TH (\r) as the command te=
-rminator.
-          (TNX, Lars Kellogg-Stedman and George Baltz).
-        * Fixed jrc_set_chan. (TNX Mark Fine).
-        * Fix memory leak in rigctl_parse.c and use unique separator charac=
-ter
-          for each rigctld connection--closes GitHub #1748. (TNX George Bal=
-tz).
-        * Fix powerstat check for Icom R75 which rejects the command.  (TNX=
- Mark Fine).
-        * Restore TS-590S/SG RIG_LEVEL_RFPOWER_METER, Fix rotctl \dump_caps=
- output
-          (TNX, George Baltz).
-        * Add CW sending capability to Flex SmartSDR.  (TNX Michael Morgan)
-        * Handle spaces correctly for Fles SmartSDR.  (TNX Michael Morgan)
-
-There may be a few more bugs that can be squashed in this branch leading
-to 4.6.5, but right now that seems some time off.  Otherwise development
-is moving toward the 4.7.0 release later this year.
-
-73, Nate
-
---=20
-"The optimist proclaims that we live in the best of all
-possible worlds.  The pessimist fears this is true."
-Web: https://www.n0nb.us
-Projects: https://github.com/N0NB
-GPG fingerprint: 82D6 4F6B 0E67 CD41 F689 BBA6 FB2C 5130 D55A 8819
-
-
-
-
-
-_______________________________________________
-Hamlib-developer mailing list
-Hamlib-developer@lists.sourceforge.net
-https://lists.sourceforge.net/lists/listinfo/hamlib-developer
-
-
------ End forwarded message -----
-
---=20
-"The optimist proclaims that we live in the best of all
-possible worlds.  The pessimist fears this is true."
-Web: https://www.n0nb.us
-Projects: https://github.com/N0NB
-GPG fingerprint: 82D6 4F6B 0E67 CD41 F689 BBA6 FB2C 5130 D55A 8819
-
-
---uuky5ib2lq25555k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSC1k9rDmfNQfaJu6b7LFEw1VqIGQUCaHqduQAKCRD7LFEw1VqI
-GZdKAKCiTzTD557ewSLaM84BjfOP+AnedQCeL7Smd+e3KxyG/nl2vSv3T56dR/E=
-=5Wv7
------END PGP SIGNATURE-----
-
---uuky5ib2lq25555k--
+You may send multiple commands in a single email message.
 
