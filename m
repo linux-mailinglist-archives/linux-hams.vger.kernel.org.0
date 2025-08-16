@@ -1,122 +1,89 @@
-Return-Path: <linux-hams+bounces-557-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-558-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB9BB281EA
-	for <lists+linux-hams@lfdr.de>; Fri, 15 Aug 2025 16:34:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B4BB28FAE
+	for <lists+linux-hams@lfdr.de>; Sat, 16 Aug 2025 19:03:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A6350BA1F51
-	for <lists+linux-hams@lfdr.de>; Fri, 15 Aug 2025 14:32:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 83F22AE4443
+	for <lists+linux-hams@lfdr.de>; Sat, 16 Aug 2025 17:03:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3500233159;
-	Fri, 15 Aug 2025 14:32:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C8042F659D;
+	Sat, 16 Aug 2025 17:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j8f2SJbM"
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="k62k6qI8"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275C7225791
-	for <linux-hams@vger.kernel.org>; Fri, 15 Aug 2025 14:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+Received: from smtpfb2-g21.free.fr (smtpfb2-g21.free.fr [212.27.42.10])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCD512F8BE0
+	for <linux-hams@vger.kernel.org>; Sat, 16 Aug 2025 17:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755268334; cv=none; b=NeKuygfWpXxNQuLfIPN+dyezCBU29s7JA1FJ4CsIdQulwBNXSUW0nz/dT/wm0s61WFKixz14WmEWlthgqVacgww1osKbbfU7qusBpY8YgFktkTcBd8oYy+z0g1GxcFE6CHFZzCqFpfmL0WSZbwPHDRjsuma5EAKraK2PDIDFpEQ=
+	t=1755363798; cv=none; b=EMxtU4iP2xo+tBT18PG0NEorT7MKc5ymbsfQXAQs3RZct+V37MedlXhhDEhc7vX7wr6WCC4WHlidUrfmvIuPSS45BgM0FS8pPSth5cWf6e0fOOZky1QvFEgiwxzldqWgW12biFQ4izfXLHq2uYyzVQC6wVf3U5Cu1X/b6cv9f60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755268334; c=relaxed/simple;
-	bh=+IjxaBubN6EXaKj6+uryDj8Ai6HBl14BYzJL2OCSXNw=;
-	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:To; b=JfRp5qN2lLtysJP/ojryRDgTu8aIBcXZVil5Pf8F9MxyrxCIpROO2XZ5IQ/OPYJWq5TfIH68UjFfx4OPasbdNtU1DPQySzMhNKAgJQE6wTANTM6+mTgFIXyPwkn44Bd4G1tnh7wcPNOSIl2bgcj8iInHjA6ETtXooCTrKt5mejQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j8f2SJbM; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-32326e5a623so1829896a91.3
-        for <linux-hams@vger.kernel.org>; Fri, 15 Aug 2025 07:32:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755268332; x=1755873132; darn=vger.kernel.org;
-        h=to:date:message-id:subject:mime-version:content-transfer-encoding
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+IjxaBubN6EXaKj6+uryDj8Ai6HBl14BYzJL2OCSXNw=;
-        b=j8f2SJbMDgN22AX76z48xf7ad4egs49RpfBhe3qHuTVEHdqBFTvCB5bwwr7pl+nFHQ
-         83vSXR59MSsMtIiJz3W7r/7WL9yXuAEnQPQolZpMPhPuhczI4ge0J53ej5TKF2ocD2fa
-         NM5BIDHWR9fyLrAoW1V4EtP40Lx8HL9CuJurQ5zBuG4HPOuUjgWme9AQSsY8L0+2teys
-         GNotpCoZQD9Ukin6QaPK/639Ms8Spb7XdQxF3M+T3+EN9RaC5hVYcv3qqDblS1jAx91V
-         T8evZ4VmKtvyCzOjdwOTTi5dcWK0RDJSCmecyTYOp1Mo6163PMKyTNBItar+ZkNeb6n2
-         Uidw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755268332; x=1755873132;
-        h=to:date:message-id:subject:mime-version:content-transfer-encoding
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+IjxaBubN6EXaKj6+uryDj8Ai6HBl14BYzJL2OCSXNw=;
-        b=vtRdNapLcSZTSV2jmoqkjIkWEHJqJCbA7vvQV3vi46lHjMpqAhbYE1piYEYAUa6ExM
-         hafnlEbKYNFLimMQfSRGKMpFI8vlBG26Q6i4LnNgd7bwVvPQUrncmBjK647Y5mVXF6so
-         JhWgycw+qscb7fYmAGWk4Ii1uIWxgPgha84oB1LGTHV95yaiowUQ/12UnxVDfZ6mtoQB
-         yq145fAaN3/lqyYupYZU/foyUkfTaJhOElmyIPbsSfkm3bMoPe1rbxuEZeMkVlI1uQpy
-         wzdHHFzcV33TKwAKj+SuUeazREeqJ/LmpdprwdqzatMitqz+sJZCOkGbpFWX+IF0YCEs
-         eG7w==
-X-Gm-Message-State: AOJu0YxXmmaRIDOkFlTZ70dX2TLu4CFuV0EKlUmUbgMu0UsRBQgqTQEf
-	7MxQuFRc6zlzq7TDy5RIBZOmFDu7b8gsAFfb7Xl5im2GBIEbMQDS9vDt6ol7abUQ
-X-Gm-Gg: ASbGncuxSHD0fZtFS23e+zRRVMF0x224ieFge6M+W54sjG2slQO4T9QOMGiJCEti3LH
-	HRDUYwF3s/JasUqcHAjO87bHpHbaojBrSe/lA1mPT86xW5vo8UYK2uyjeoJzWWO7/3Q/zN0iSLs
-	C0Qy1eDViZYnR4ZQU7cGh9xgdIBvt/efnoFpFZy+HVf/wbWzfPApgL0ndaNVTtloWwyq09jgD6G
-	jwyopRRGxM53IQHEpoCn0FkmO0KO6+KW2iTHHG+DhEC+sxJlP26jevvLflncFgF+ww2Jce68FkV
-	OPiRh17DzSbjON3JBn7AA0bTEv2Xt9keoaExBDiDojFPhhUj0v0R8rjjRWK7oy4YMO0jr21DucS
-	U8ADHtY2DN+xjhyhHKfDkb0/KOXdNCkFuGDegRlkXDd1fDqwEZzV+zesBgi/OB5vK
-X-Google-Smtp-Source: AGHT+IHWHc85Gn6I7sQEBatEKY+vUmyvX591PM+AeKxHnrTgvS8jSXSjzIuHSUVaFrXjOB1JC1b0bw==
-X-Received: by 2002:a17:90b:3e48:b0:321:2b8a:430a with SMTP id 98e67ed59e1d1-32341eef44emr3636903a91.28.1755268332020;
-        Fri, 15 Aug 2025 07:32:12 -0700 (PDT)
-Received: from smtpclient.apple ([177.189.100.201])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b472d76df62sm1410329a12.41.2025.08.15.07.32.10
-        for <linux-hams@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 15 Aug 2025 07:32:11 -0700 (PDT)
-From: Guilherme Novaes Lima <acc.guilhermenl@gmail.com>
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1755363798; c=relaxed/simple;
+	bh=gFibgT+U8iv6Ihgm81A9bDvoOzuCbx/QZGk979K2G1Q=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=j6pczIX64/b4KWMByTG2OQIhf5Gd9wOVqmRZuzjK/EiHcg9CZ11333acj6NqIl2g7qtW99dql30XrVs2jU4B2wNr7sCN6EjgtlBQqMSu+GBuPRRPEPICYttFtnPT/wk5SnOqXc5xqugimjtE+8/2HoadeKEbdUfI2+DTVayLzI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=k62k6qI8; arc=none smtp.client-ip=212.27.42.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+Received: from smtp4-g21.free.fr (smtp4-g21.free.fr [212.27.42.4])
+	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 66D714CD61
+	for <linux-hams@vger.kernel.org>; Sat, 16 Aug 2025 19:03:05 +0200 (CEST)
+Received: from [44.168.19.11] (unknown [86.195.82.193])
+	(Authenticated sender: bernard.pidoux@free.fr)
+	by smtp4-g21.free.fr (Postfix) with ESMTPSA id A8A0719F5A5;
+	Sat, 16 Aug 2025 19:02:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1755363777;
+	bh=gFibgT+U8iv6Ihgm81A9bDvoOzuCbx/QZGk979K2G1Q=;
+	h=Date:To:From:Subject:From;
+	b=k62k6qI8B1NmhF6XJcIQX2SUK6IBDaMKtMp39UA9CSMs2HVyF6ZPRJQTBhPLCravk
+	 2n5y5910IPCC7JESSMfdAY4VjHk/rD19uftsxTj7Nig7Fy7e6hg57jLBYOFi+DZRdK
+	 h/vBrzWUQXHA+mUoZo6csyCbmlpwOnz26bwDdKgx6MyyCJQ1ACyP12EtiHmmCYhn+K
+	 N89WwtPVoEgb/XBUHgwgAHW90vTP+cB+9G13u7HZWFQ950ntNmYA/3rrMSdxlpG/L8
+	 bkPoMm5OobNMssujhqH1/nKbwauAoCp0c4Zf8tupuCNiHIgTepf9Brc1d/xd2P0yWc
+	 NW253wHKwPDgA==
+Message-ID: <57258a4d-50bd-47a1-b83a-c47051c54876@free.fr>
+Date: Sat, 16 Aug 2025 19:02:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
-Subject: Follow-up: Seeking guidance on Rust porting for network driver as a
- learning project
-Message-Id: <5EF4DC53-5CFC-4912-AD90-EE86D7F51B30@gmail.com>
-Date: Fri, 15 Aug 2025 11:31:58 -0300
-To: linux-hams@vger.kernel.org
-X-Mailer: Apple Mail (2.3826.600.51.1.1)
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: linux-hams@vger.kernel.org, David Ranch <dranch@trinnet.net>
+From: Bernard Pidoux <bernard.pidoux@free.fr>
+Subject: [ROSE] [AX25] 6.15.10 long term stable kernel oops
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
-Hello,
+I am continuously working on AX25 ROSE/FPAC node since decades, running 
+a number of RaspBerry Pi (Raspi OS 64bit) plus Ubuntu LTS on a mini PC.
 
-Apologies for the earlier message being sent in rich text format. I=E2=80=99=
-m resending the same message here in plain text to comply with the =
-list=E2=80=99s guidelines.
+Stable FPAC version 4.1.4 is performing packet switch quite well 
+although some improvements are underway.
 
-=E2=80=94
-Hello everyone,
+FPAC runs flawlessly with kernel 6.14.11.
 
-I=E2=80=99m a computer science student working on a graduation project =
-focused on learning more about the Linux kernel and Rust. I understand =
-that the kernel maintainers have been cautious about integrating Rust, =
-and my intention is not to push for any immediate changes, but rather to =
-explore Rust porting as a learning exercise.
+However, trying FPAC under stable kernel 6.15.10 experienced a frozen 
+system when issuing some commands like connect request.
 
-Specifically, I=E2=80=99m interested in working with a network driver to =
-get hands-on experience. My goal is to comply fully with the =
-community=E2=80=99s expectations and guidelines, and to better =
-understand the technical and cultural aspects before considering any =
-real contributions in the future.
+Investigations seem to show that ax25 connect is fine and that the bug 
+is probably in ROSE module .
 
-If there are any maintainers or experienced folks willing to offer =
-guidance or suggest a suitable driver for this kind of project, I=E2=80=99=
-d be very grateful. I=E2=80=99m not asking anyone to do the work, just =
-hoping to learn and engage respectfully with the community.
+I am presently trying to find the faulty bug that triggers the kernel 
+oops by compiling and installing previous kernel versions starting with 
+6.15.1.
 
-Thanks for your time and any advice you can share.
-=E2=80=94
+73s de Bernard, f6bvp / ai7bg
 
-Thanks for your understanding!
+http://f6bvp.org
+
 
 
