@@ -1,52 +1,61 @@
-Return-Path: <linux-hams+bounces-568-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-569-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA21AB2CEB3
-	for <lists+linux-hams@lfdr.de>; Tue, 19 Aug 2025 23:48:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36321B2D710
+	for <lists+linux-hams@lfdr.de>; Wed, 20 Aug 2025 10:50:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94A261C244D9
-	for <lists+linux-hams@lfdr.de>; Tue, 19 Aug 2025 21:49:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CB6925A6E79
+	for <lists+linux-hams@lfdr.de>; Wed, 20 Aug 2025 08:50:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41EAB2609C5;
-	Tue, 19 Aug 2025 21:48:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 873162D9ED5;
+	Wed, 20 Aug 2025 08:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="dbS5rnzJ"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from newsmtp.uns.ac.rs (smtp.uns.ac.rs [147.91.173.6])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F6D725A2DA;
-	Tue, 19 Aug 2025 21:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=147.91.173.6
+Received: from smtp4-g21.free.fr (smtp4-g21.free.fr [212.27.42.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3DC2D979F;
+	Wed, 20 Aug 2025 08:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755640115; cv=none; b=JiS0ICIFVeRo/3R4sZyvQ3QuR4Tgthjuq0ITH/ogR8ZFT4Sr+KhZEXJSeNVmVbKBlw1Sht4h+8RbXWjYWG5Uz+NBUy2dZRAl11IV1DOEa5MVqKUP81QuPhq3dr49CiBX0exDWY5szW7PBS0zm34MllCyn6RaJglfl7FQvjDoRDc=
+	t=1755679832; cv=none; b=tu89OhxCa5Sb5PSulwBpH6wQLx2tX/jHMfdcoE8xDo77sss4M5zeHrkd3LPWLArHPd3+gLyvts47YhCtXlAILx8mbdf2IoOuZnNcm0bcRRzp4Kb9FIko9nlcnhXTmZ0dhDPTNMorb3/qOw38D2ErC3Awj5vpoSaeCm2htrpKVGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755640115; c=relaxed/simple;
-	bh=F46LWby5n9zQSfOV6XgHq7tjvhMPB2oEX5bCs3mw8E4=;
+	s=arc-20240116; t=1755679832; c=relaxed/simple;
+	bh=bsBTzh7CFA6FK/Obva841yhuCSQBcVsRUbVv9X82xQU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UngtTqx5WkM5LZjbVYVoBAuRVvtU8JKi2Y7lJoRb470LRfCqh0X/RT0SEvrgjTVGLfd+stayI3zhWPynRnONRIUsoXeqDtXH+rTG4PUWk549QGCDOyz8O4mwqGWi8UbPGqpfcvXUaMEzFTdBIhepPqXQKrwdU0rfnugNd7gdeJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uns.ac.rs; spf=pass smtp.mailfrom=uns.ac.rs; arc=none smtp.client-ip=147.91.173.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uns.ac.rs
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uns.ac.rs
-Received: from newsmtp.uns.ac.rs (localhost.localdomain [127.0.0.1])
-	by localhost (Postfix) with ESMTP id ED46A259CD2;
-	Tue, 19 Aug 2025 23:25:51 +0200 (CEST)
-Received: from [147.91.175.7] (unknown [147.91.175.7])
-	by smtp.uns.ac.rs (Postfix) with ESMTP id DD0E3259CD0;
-	Tue, 19 Aug 2025 23:25:49 +0200 (CEST)
-Message-ID: <8cacd186-c95c-c5a3-a341-c67b9e55a13c@uns.ac.rs>
-Date: Tue, 19 Aug 2025 23:17:37 +0200
+	 In-Reply-To:Content-Type; b=dyPf6GE27/Mj5iOZBJWuxq9areX74iewySFmk1IJGgH2Qh5A6Qxpp710eItMopmfnJP3hU1dqsSosT25oSvZDZ+53GQjN2QkFibUyCwc3O/INFYHdn8FWWmSUArQQFIytEXewHF5AzA0wcWUi4ruyE0KCNwmq86tbQfye1hImck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=dbS5rnzJ; arc=none smtp.client-ip=212.27.42.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+Received: from [44.168.19.11] (unknown [86.195.82.193])
+	(Authenticated sender: f6bvp@free.fr)
+	by smtp4-g21.free.fr (Postfix) with ESMTPSA id 614C819F734;
+	Wed, 20 Aug 2025 10:50:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1755679821;
+	bh=bsBTzh7CFA6FK/Obva841yhuCSQBcVsRUbVv9X82xQU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dbS5rnzJKUthY6oWY7hGIH1eWTwtEyDxfbuGWATTnHlohPhyDsFyESI8hOQHVY1CN
+	 DGrQEbwOHcqZ04YPoNrDjibX0b+YXWNTCVXRLHAijg7MfPD/LlSIH4tvyp+uVvv0qL
+	 7Rh4YnehFRLhxZZH87UWm0AuPyhBIVf/Vguf1yfWf7lF7iqeAmycuaFs2zm0MUzGHJ
+	 EQIVzGmU1i99qOprFEtXdMYd4iyiPKgc8plyEazc036RWaUS/vhACBf3Ht+rSdFHio
+	 LuZ2DVoDkiUOmbXIFhYVobrzBz8Y6oHBQXLI7kM5/xYnY/9pXm905ZK7pZ5hOH1vFT
+	 /VDlQK859k97g==
+Message-ID: <847a7cd7-c17c-4aa7-824d-22768ff9775d@free.fr>
+Date: Wed, 20 Aug 2025 10:50:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: [OT] Re: [ROSE] [AX25] 6.15.10 long term stable kernel oops
-Content-Language: en-GB
-To: F6BVP <f6bvp@free.fr>, Dan Cross <crossd@gmail.com>,
- Bernard Pidoux <bernard.pidoux@free.fr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [ROSE] [AX25] 6.15.10 long term stable kernel oops
+To: Dan Cross <crossd@gmail.com>, Bernard Pidoux <bernard.pidoux@free.fr>
 Cc: David Ranch <dranch@trinnet.net>, linux-hams@vger.kernel.org,
  netdev <netdev@vger.kernel.org>
 References: <11c5701d-4bf9-4661-ad8a-06690bbe1c1c@free.fr>
@@ -55,38 +64,59 @@ References: <11c5701d-4bf9-4661-ad8a-06690bbe1c1c@free.fr>
  <acd04154-25a5-4721-a62b-36827a6e4e47@free.fr>
  <CAEoi9W6kb0jZXY_Tu27CU7jkyx5O1ne5FOgvYqCk_GFBvnseiw@mail.gmail.com>
  <11212ddf-bf32-4b11-afee-e234cdee5938@free.fr>
-From: Miroslav Skoric <skoric@uns.ac.rs>
-In-Reply-To: <11212ddf-bf32-4b11-afee-e234cdee5938@free.fr>
+ <4e4c9952-e445-41af-8942-e2f1c24a0586@free.fr>
+Content-Language: en-US
+From: F6BVP <f6bvp@free.fr>
+In-Reply-To: <4e4c9952-e445-41af-8942-e2f1c24a0586@free.fr>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: ClamAV using ClamSMTP
 
-On 8/18/25 8:28 PM, F6BVP wrote:
-> Hi Dan,
-> 
-> I agree that it must be the same bug and mkiss module is involved in 
-> both cases although the environment is quite different.
-> I am using ROSE/FPAC nodes on different machines for AX25 messages 
-> routing with LinFBB BBS.
-> Nowadays I do not have radio anymore and all are interconnected via 
-> Internet using IP over AX25 encapsulation with ax25ipd (UDP ports).
-> 
+Hi All,
 
-Hi Bernard, et al.
+As linux-6.15.1 came with the same Oops kernel panic I jummped into 6.14 
+branch resulting in no issue up to 6.14.4
 
-Sorry for hijacking the thread. I have a question: As an experimental 
-station based on Ubuntu 18.04 LTS (not connected to the Internet for 
-several years, using kernel Linux ubuntu 4.15.0-212-generic #223-Ubuntu 
-SMP Tue May 23 13:08:22 UTC 2023 i686 i686 i686 GNU/Linux), I run a 
-rather old FPAC-Node v 4.0.3 (built Jan  3 2016), and on top of it an 
-FBB bbs V7.0.10 (Feb 28 2021).
+I observed that kworker/u16 was always cited in the panic report.
 
-All works well for my basic packet needs. However it makes me wonder 
-whether it would be of any use to try upgrading FPAC and FBB, having in 
-mind that upgrading the distro is not possible.
+Grep -r kworker/u16 found the following report in
 
-Best regards, 73
+~.drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt
 
-Misko YT7MPB
+I am not sure if it is relevant to our present problem.
+.....................
+
+# Whole machine hangs
+kms_cursor_legacy@all-pipes-torture-move
+
+# Skip driver specific tests
+^amdgpu.*
+nouveau_.*
+^panfrost.*
+^v3d.*
+^vc4.*
+^vmwgfx*
+
+# Skip intel specific tests
+gem_.*
+i915_.*
+tools_test.*
+
+# Currently fails and causes coverage loss for other tests
+# since core_getversion also fails.
+core_hotunplug.*
+
+# gpu fault
+# [IGT] msm_mapping: executing
+# [IGT] msm_mapping: starting subtest shadow
+# *** gpu fault: ttbr0=00000001030ea000 iova=0000000001074000 dir=WRITE 
+type=PERMISSION source=1f030000 (0,0,0,0)
+# msm_mdp 901000.display-controller: RBBM | ME master split | 
+status=0x701000B0
+# watchdog: BUG: soft lockup - CPU#0 stuck for 26s! [kworker/u16:3:46]
+msm/msm_mapping@shadow
+.........................
+
+
+Bernard
 
 
