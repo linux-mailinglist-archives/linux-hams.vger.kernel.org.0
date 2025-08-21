@@ -1,87 +1,114 @@
-Return-Path: <linux-hams+bounces-575-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-576-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCE2B2E906
-	for <lists+linux-hams@lfdr.de>; Thu, 21 Aug 2025 01:51:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 344ABB2EB4D
+	for <lists+linux-hams@lfdr.de>; Thu, 21 Aug 2025 04:38:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09ECC5E2965
-	for <lists+linux-hams@lfdr.de>; Wed, 20 Aug 2025 23:51:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73F5B7B080C
+	for <lists+linux-hams@lfdr.de>; Thu, 21 Aug 2025 02:37:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C26712E1753;
-	Wed, 20 Aug 2025 23:50:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A563248878;
+	Thu, 21 Aug 2025 02:38:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="K03PU2yH"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mTT1nHvG"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp4-g21.free.fr (smtp4-g21.free.fr [212.27.42.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A2227816B
-	for <linux-hams@vger.kernel.org>; Wed, 20 Aug 2025 23:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1092224466C
+	for <linux-hams@vger.kernel.org>; Thu, 21 Aug 2025 02:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755733843; cv=none; b=OkjnipvdOC7G7X5DgU552DmoqsknwKUb9rUBmFeIF83nEpVorvU9zV4X7YNgE5yoA8/5hz+1thzeKQ0AoyMQQvUEXXSsBuosD6p+5C+KbR9O9PcZroxW4oHbeKTvObNoi327P4mempibzP7oejks2MqjU2oyy+IzjlfR6GYtcNk=
+	t=1755743906; cv=none; b=fE1vm5Li744ogLode6et0su6UHaxrX0lvhsqURCS3TebVkzc+K2008xBA1pQa/jqHTP4i2B49Y9YU3jAsUIpFSLZnzoLNvj+Tt0mGiGyRs+k7wwsWOXKlikHwkP8kz9ihiCttIn9u64Q1lAwiXMJ6Dv6BalU++X7x5oBIk7xfcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755733843; c=relaxed/simple;
-	bh=80Tn/LvtDWaPkxLGsvzHqThC9OLDcyQloaCIGdZYvk4=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=HpqjeI712vXpK7NigXmzNWFdwoPWa/igOPAyUNzpQtKF+PgEzRvvR0TDRNrMEOLNnQXeGTnnoEF/owNrhFgZ7ogmRRWZLK5+DALIb8pq/fhZQTjxCV1l4V6HvhVdrR9k7pUyNPBA+FPabUNveqLWd4exqLAHxfcMQxyx8NrBn1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=K03PU2yH; arc=none smtp.client-ip=212.27.42.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
-Received: from [44.168.19.11] (unknown [86.195.82.193])
-	(Authenticated sender: f6bvp@free.fr)
-	by smtp4-g21.free.fr (Postfix) with ESMTPSA id 9AC0719F522
-	for <linux-hams@vger.kernel.org>; Thu, 21 Aug 2025 01:50:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1755733836;
-	bh=80Tn/LvtDWaPkxLGsvzHqThC9OLDcyQloaCIGdZYvk4=;
-	h=Date:To:From:Subject:From;
-	b=K03PU2yHu/W0NQR7808NQ6xBsYj5/YDS6dMBH8n/k4ybmg2kpOSGAzZQCihyGdpYY
-	 I+rD3GY5bKp8u8dibV4nlAqEE0AZww8YZnIknPtt81QWGfmADSdL+dTBfQBh6K//7z
-	 LLGhmlx5jzQ3cZ2Bi+FAc65Imu/vMPy+rcw2Q8bWgoE5fmTb/iAJGXAUclVf3Okoo3
-	 my7HoGv+XnHAcDmNX2LqEBVwFxWTpRnznxKeSCmn8k0kERZyIGqTmrMSEQNdb1anLq
-	 4yWrLahzBXV1lQ16hpbTnHWOfaP2i+i9alwg/+zbOqCSbrJKeuj1SCNhJJi050rjMM
-	 wdf/a2Hgas3CA==
-Message-ID: <7974d84e-8ecb-48fd-8b1c-67850ae874bc@free.fr>
-Date: Thu, 21 Aug 2025 01:50:35 +0200
+	s=arc-20240116; t=1755743906; c=relaxed/simple;
+	bh=KsjIV1/2ffYaz0hJfNDVfMd7CKSxa6EV2XwVrwAxZ4E=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=uwFCIKRfQskoOuYNE3FFmrOM5S0efQQsCVGiKs1Du3OdZZRUEhMpP+tgXUsHH+PBX7zM3VH90sKVzlUU5y6lKUx2iLU2JmXAcS+iLc9BHKtHShmaCcQfoMBfMVlm9Gr5WcGLD95M+tKBP3bOJ0/+Wp0Qw37MHg0rJRIzlFO0oBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mTT1nHvG; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-76e2e5fde8fso570706b3a.0
+        for <linux-hams@vger.kernel.org>; Wed, 20 Aug 2025 19:38:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1755743904; x=1756348704; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4ejQYYMpApIp8takWWTTEX4NKCk+aESE9rdeLB1U6ec=;
+        b=mTT1nHvGpYA7BysQVZ4ke+HfaxtQFHpwBMYFw5fuz/g7RpqWMEraRj0tluDK4+21Zk
+         YR5MWxNbqZDfHZl1VtphrrRm/OIHBc0dmr0EsHyyzgGRpsEAzD3gXYIpEiuFRIW6y9Tn
+         mDQCKlmubyNbfAWioYRRU/3G8CZ8dqytJfcvGU2npI482htxrDdADxn/csWobl1Uxajl
+         P5QtRq6StDAETcqSL7vy+MeblZzK9sW1W7qoFo1Vuz0BBB1ZZRnOVZd/ablIhEf72sNj
+         Ct6JFMVeM0ss3wkMn8uqn8ahBjgGEuPW0fV8Q0nfDV0+LXmDkWdQpWbUOzHe+3ARM4NI
+         vFgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755743904; x=1756348704;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4ejQYYMpApIp8takWWTTEX4NKCk+aESE9rdeLB1U6ec=;
+        b=SJ2/EhyogpiHdFlnzsyPiOb/QAXKn3UsvQFH1bcCXJSnb6SmsX4+4nHe7chpcB87m2
+         faOwgzDLb7UnzxFLlKRovOupGP3Hmndnu4csERqJVc1ISSfJKWvAvi1W+IJvpzqXiwuc
+         txy+KtqGr8gwzMs/5Y9EsxEKh9S5egFTMXAiaUaGbZyZoh0BtdplDdeGoL1SLW1bPUqu
+         SIAAP9AUkGgitR5JwcyH6na3WAAbJ0lAXXsa0yrlsI/IEcjHtmUNG5MU161gX8pfEhQh
+         bWtHYRm/sdW1aMj9a5qROfwnPDhx3zIl/M+GXwlJBc6rpKhw9Ce+F6jtkwtu2F2XOeXZ
+         me8w==
+X-Forwarded-Encrypted: i=1; AJvYcCXfKZcWMN6Nh1XZcABXeWTeWDUgQwkJNbR+M52BmiJzkYP3cQL9pS9YJxZpERf8CIYsOxCTSO6XrhIV@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzt4pmR8kw+Bn/VH/Owy8gFqlLY7+Oyma/ZfSzN8rXT3zJLNirj
+	vtYtqPNvs5992OjAodWYLzVe2+GTBHjmvfZy2t3NAsZtfknrvheCKUlsqFERBlAH7SdomBYpX+9
+	HOl2sTQ==
+X-Google-Smtp-Source: AGHT+IGPSm8s1qklyNWYrVBIjUvwJMNjYyV6tksvmWGvYuUNfdk/A/0UMMr2HBVxhLeFwG0+FUD0anr+dQs=
+X-Received: from pfbbu4.prod.google.com ([2002:a05:6a00:4104:b0:76e:7b1b:137d])
+ (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:2da8:b0:76e:885a:c338
+ with SMTP id d2e1a72fcca58-76ea328cae8mr866640b3a.30.1755743904297; Wed, 20
+ Aug 2025 19:38:24 -0700 (PDT)
+Date: Thu, 21 Aug 2025 02:37:37 +0000
+In-Reply-To: <20250820174707.83372-3-takamitz@amazon.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-hams@vger.kernel.org
-From: F6BVP <f6bvp@free.fr>
-Subject: [PATCH v1 net 0/3] net: rose: introduce refcount_t for reference
- counting of rose_neigh
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20250820174707.83372-3-takamitz@amazon.co.jp>
+X-Mailer: git-send-email 2.51.0.rc1.193.gad69d77794-goog
+Message-ID: <20250821023822.2820797-1-kuniyu@google.com>
+Subject: Re: [PATCH v1 net 2/3] net: rose: convert 'use' field to refcount_t
+From: Kuniyuki Iwashima <kuniyu@google.com>
+To: takamitz@amazon.co.jp
+Cc: davem@davemloft.net, edumazet@google.com, enjuk@amazon.com, 
+	horms@kernel.org, kuba@kernel.org, linux-hams@vger.kernel.org, 
+	mingo@kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
+	tglx@linutronix.de, kuniyu@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-3 patchs applied to net-next
+From: Takamitsu Iwai <takamitz@amazon.co.jp>
+Date: Thu, 21 Aug 2025 02:47:06 +0900
+> @@ -874,8 +874,6 @@ static int rose_connect(struct socket *sock, struct sockaddr *uaddr, int addr_le
+>  
+>  	rose->state = ROSE_STATE_1;
+>  
+> -	rose->neighbour->use++;
+> -
 
-Could not find functions rose_neigh_put() and rose_neigh_hold()
+This is replaced by rose_neigh_hold() in rose_get_neigh(),
+then rose_neigh_put() needs to be placed in error paths in
+rose_connect() (and rose_route_frame()).
 
 
-make modules error:
-
-   CALL    scripts/checksyscalls.sh
-   DESCEND objtool
-   INSTALL libsubcmd_headers
-   CC [M]  net/rose/rose_in.o
-net/rose/rose_in.c: In function ‘rose_state1_machine’:
-net/rose/rose_in.c:59:16: error: implicit declaration of function 
-‘rose_neigh_put’ [-Werror=implicit-function-declaration]
-    59 |                rose_neigh_put(rose->neighbour);
-       |                ^~~~~~~~~~~~~~
-cc1: some warnings being treated as errors
-make[4]: *** [scripts/Makefile.build:287 : net/rose/rose_in.o] Erreur 1
-make[3]: *** [scripts/Makefile.build:556 : net/rose] Erreur 2
-make[2]: *** [scripts/Makefile.build:556 : net] Erreur 2
-make[1]: *** [/media/udisk/net-next/Makefile:2011 : .] Erreur 2
-make: *** [Makefile:248 : __sub-make] Erreur 2
-
+>  	rose_write_internal(sk, ROSE_CALL_REQUEST);
+>  	rose_start_heartbeat(sk);
+>  	rose_start_t1timer(sk);
+[...]
+> @@ -680,6 +679,7 @@ struct rose_neigh *rose_get_neigh(rose_address *addr, unsigned char *cause,
+>  			for (i = 0; i < node->count; i++) {
+>  				if (node->neighbour[i]->restarted) {
+>  					res = node->neighbour[i];
+> +					rose_neigh_hold(node->neighbour[i]);
+>  					goto out;
+>  				}
+>  			}
+> 
 
