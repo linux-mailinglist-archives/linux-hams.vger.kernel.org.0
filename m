@@ -1,188 +1,104 @@
-Return-Path: <linux-hams+bounces-587-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-588-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0B5B3304A
-	for <lists+linux-hams@lfdr.de>; Sun, 24 Aug 2025 16:05:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF887B339AD
+	for <lists+linux-hams@lfdr.de>; Mon, 25 Aug 2025 10:43:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0739B17A8C6
-	for <lists+linux-hams@lfdr.de>; Sun, 24 Aug 2025 14:05:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B27571B23B5B
+	for <lists+linux-hams@lfdr.de>; Mon, 25 Aug 2025 08:43:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE01C2652B2;
-	Sun, 24 Aug 2025 14:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="dZ0ipGiS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5987E28B3EB;
+	Mon, 25 Aug 2025 08:40:46 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp4-g21.free.fr (smtp4-g21.free.fr [212.27.42.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E421D90DF;
-	Sun, 24 Aug 2025 14:04:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5690259CA5
+	for <linux-hams@vger.kernel.org>; Mon, 25 Aug 2025 08:40:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756044297; cv=none; b=KoVtfzNsp3ykeaSlSvLoH5kkliK2MfkAjGf5NitkPZPjMW7jZqrAZSmfTajxZLUcHQEkD8EOlBwBpzyD2d9RRcq2DN25DxbsG0vtmqW5VwnkbDtiwvDFIrFNuesPAExNHTEY6MX3+qnS3+3qXzk24DqpI5p2mTE8cldwg1hE8FI=
+	t=1756111246; cv=none; b=ixxYRd76C0gwQEqs58TueAjKCQs9bCzRd+DR/Z0Ckii3LtsKlvIXKTb6+/ZP+BK1PyJWWz0+Cqy3USjH9tPogdrjBqKv2cLnGxSk3ZGAH3d3QEGtUdb2gnNLHgAm2DN120hQ7dhYwagtSYEQwWFX8KLsXDI44MJU0jyeAK4Dm28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756044297; c=relaxed/simple;
-	bh=A13fB2Ee3SXl8R+pZaQxFmInqJUHANagrNRefvt5RY0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c+c6bATJsyKFvbLE0S6Lxu7uuXbWU0sERY8/kTideIajfLWClu69fLggSszOvsfSaSsSLYh9foDGIKOlEwDQLUGScDiGNVmJgcdKymJ0UGmvcrNesY3UMyc+OqH/srqIbTx3b50nYQZi/ELmrhRRcMyfz2/nQ59N27/mW/8BTQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=dZ0ipGiS; arc=none smtp.client-ip=212.27.42.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
-Received: from [44.168.19.11] (unknown [86.195.82.193])
-	(Authenticated sender: f6bvp@free.fr)
-	by smtp4-g21.free.fr (Postfix) with ESMTPSA id DE3AA19F749;
-	Sun, 24 Aug 2025 16:04:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1756044287;
-	bh=A13fB2Ee3SXl8R+pZaQxFmInqJUHANagrNRefvt5RY0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dZ0ipGiSdbEOmpT3erlJGhlaju0W3LTMPsiiL6QT0gxyk8WdLglX5/Xqr7gx0PW/F
-	 M1tGJQnLVrQsvpIiuTH5dZWOt+OPacWW+FvDxF1qnIYe3mS5ztLpRonJrmRY9z/jfK
-	 EiG0pbToZxQ20U3e/EC1UApPwH78B7xmTIe0ysqxa32lewA7xq0JSR4SSYbmowVhI6
-	 HmzRIbtwJVFioZsX1Ip9jmMS5cZ8EeAktbEaD0R8kjkf9/Gebij5ut1eSjcoSrESfi
-	 2nrgnGoiUoa3tuSdogVuk+U/RUsQMDL14G0xzCxtPgOOceIiVZLxk5ES5sSR527tzZ
-	 4Ik9EVNW26kig==
-Message-ID: <6a5cf9cf-9984-4e1b-882f-b9b427d3c096@free.fr>
-Date: Sun, 24 Aug 2025 16:04:40 +0200
+	s=arc-20240116; t=1756111246; c=relaxed/simple;
+	bh=X+2Fbj6S8nuzTyz+2ZgkfPG0CBKFKbl5r8jvD7hPPYw=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ecFw8DVvg1H8LMe5jzlLtuIhszmhlLgmyWZ0fRShrkH8T2gw5N0RrcGKRr/hmVEukXmgacBN05xbgAF6gCelCk0F7EjEflb/ZEuuSPmibGD5XY6GEqpOD3I7P/sAmqmjCNqWfAfrUScVEyXkF1O/SqJMjUXheCSrrOCZZlMTuiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-88432cb7627so363270839f.0
+        for <linux-hams@vger.kernel.org>; Mon, 25 Aug 2025 01:40:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756111244; x=1756716044;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=e8Hdg78udQncgEx19zGqlBrSwHXLvMSvhZx9CS0nBD8=;
+        b=BEdWEFkR9WMcPJNl2tERWzpdDb+JcORxD1wPSbZYM1lH14H5zRpYY0fGSu1+KuoSm8
+         oQf+0OdIEMTZ2udFovNhTl/TiBIrT12QrCkC51GsKMWuLZdqfQeWImwcBG735HlF2H39
+         /eAqO1d0Lys4ABGb4/2AGCg5rWgQRyQ+IjZzoLUuLw9cbQr2dbCQRGMUMMq1+yjzEd+t
+         EvI52bsDmZ9T/uK2BfgIdXt58r8VNmBO0hQ2wKCEJTuqANzjGBbWvF8oJwEQ0YJ69Qi4
+         9yNbM6kfWXYu2mwOSAaIZWpqg5GB6hd4fj77CpAYUeNTjbxJoS9YeCgMbG7Touwy1GAY
+         YZRw==
+X-Gm-Message-State: AOJu0YzB+C1uq3oe8tlQTsNpinapGJr5nhP8Sziv/78mYPKwhejdShcF
+	KU2uI1c717PjV5G/Jl7ckSCTid9chmYTdP2evtuiXNpiZdeL7bQGxPC5DyAfD4qxsN4mrKI+e5C
+	im/RRbFS11Yj8l72oueqj5lotqe5sQ3ZPfdBHcgk1Q7fX3nO4HtQVELjMMdU=
+X-Google-Smtp-Source: AGHT+IEQfoxqhW0ZEVExh/MHqvkydluHD+eOCLUCHY06tn4EmF6hVh3z9SaoiIVaJjMovJ0zERaluIe6O4SZp8xXKp0EnsfuGvQT
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [ROSE] [AX25] 6.15.10 long term stable kernel oops
-To: linux-hams@vger.kernel.org, netdev <netdev@vger.kernel.org>
-Cc: Dan Cross <crossd@gmail.com>, David Ranch <dranch@trinnet.net>,
- Eric Dumazet <edumazet@google.com>,
- Folkert van Heusden <folkert@vanheusden.com>
-References: <11c5701d-4bf9-4661-ad8a-06690bbe1c1c@free.fr>
- <fff0b3eb-ea42-4475-970d-30622dc25dca@free.fr>
- <e92e23a7-1503-454f-a7a2-cedab6e55fe2@free.fr>
- <acd04154-25a5-4721-a62b-36827a6e4e47@free.fr>
- <CAEoi9W6kb0jZXY_Tu27CU7jkyx5O1ne5FOgvYqCk_GFBvnseiw@mail.gmail.com>
- <11212ddf-bf32-4b11-afee-e234cdee5938@free.fr>
- <4e4c9952-e445-41af-8942-e2f1c24a0586@free.fr>
- <90efee88-b9dc-4f87-86f2-6ab60701c39f@free.fr>
- <6c525868-3e72-4baf-8df4-a1e5982ef783@free.fr>
- <d073ac34a39c02287be6d67622229a1e@vanheusden.com>
-Content-Language: en-US
-From: F6BVP <f6bvp@free.fr>
-In-Reply-To: <d073ac34a39c02287be6d67622229a1e@vanheusden.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:148c:b0:3e5:5269:89be with SMTP id
+ e9e14a558f8ab-3e921a5d80dmr165890935ab.15.1756111243758; Mon, 25 Aug 2025
+ 01:40:43 -0700 (PDT)
+Date: Mon, 25 Aug 2025 01:40:43 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68ac218b.a00a0220.33401d.0401.GAE@google.com>
+Subject: [syzbot] Monthly hams report (Aug 2025)
+From: syzbot <syzbot+listc5aabc82846dc8bee53a@syzkaller.appspotmail.com>
+To: linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi All,
+Hello hams maintainers/developers,
 
-I suspect I finally found the bug that triggered a kernel panic since 
-linux-15.1 version up to net-next.
+This is a 31-day syzbot report for the hams subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/hams
 
-Actually I found a report from
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 9 issues are still open and 41 have already been fixed.
 
-syzbot+dca31068cff20d2ad44d@syzkaller.appspotmail.com
+Some of the still happening issues:
 
-that directed me to the solution.
+Ref Crashes Repro Title
+<1> 5358    Yes   possible deadlock in nr_rt_device_down (3)
+                  https://syzkaller.appspot.com/bug?extid=ccdfb85a561b973219c7
+<2> 1111    Yes   possible deadlock in nr_rt_ioctl (2)
+                  https://syzkaller.appspot.com/bug?extid=14afda08dc3484d5db82
+<3> 327     Yes   possible deadlock in nr_remove_neigh (2)
+                  https://syzkaller.appspot.com/bug?extid=8863ad36d31449b4dc17
+<4> 155     No    possible deadlock in serial8250_handle_irq
+                  https://syzkaller.appspot.com/bug?extid=5fd749c74105b0e1b302
+<5> 28      Yes   KMSAN: kernel-infoleak in move_addr_to_user (7)
+                  https://syzkaller.appspot.com/bug?extid=346474e3bf0b26bd3090
+<6> 7       Yes   WARNING: refcount bug in ax25_setsockopt
+                  https://syzkaller.appspot.com/bug?extid=0ee4da32f91ae2a3f015
 
-A pointer *p to a buffer was declared in tty_buffer_alloc() buf not 
-initialized.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Explanation :
-- Sometime AX25 can perform connexions via a kissattached Ethernet port.
-- In that case when an application sends a connect request from a 
-console, tty_port is used by mkiss.
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-All kernel panic reports I sent earlier show that mkiss_receive_buf was 
-involved together with tty_port_default and tty_ldisc_receive_buf.
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
-It was sysbot detailed reporting KMSAN uninit value in mkiss_receive_buf 
-that led me to the solution. Although it took me a while to understand 
-the report for this is totally new for me...
-
-Looking at the code I found :
-
-static struct tty_buffer *tty_buffer_alloc(struct tty_port *port, size_t 
-size)
-  {
-  	struct llist_node *free;
-	struct tty_buffer *p;
-
-I first introduced a call to kmalloc in order to initialize pointer p 
-like it is done elsewhere in the function.
-
-This performed well and Oops disappeared.
-
-Then I tried to first initialize *p to NULL when it is declared :
-
-struct tty_buffer *p=NULL;
-
-When added it also performed correctly.
-
-And finally I removed the kmalloc early instruction and only kept the 
-*p=NULL initialization.
-
-Since then, I checked this simple initialization on both 6.15.2 and 
-6.17-rc2 and there was no more Oops.
-
-I will provide the following patch against net-next in due form if there 
-is no objection.
-
-diff --git a/drivers/tty/tty_buffer.c b/drivers/tty/tty_buffer.c
-index 67271fc0b223..33e7f675b06d 100644
---- a/drivers/tty/tty_buffer.c
-+++ b/drivers/tty/tty_buffer.c
-@@ -159,7 +159,7 @@ void tty_buffer_free_all(struct tty_port *port)
-  static struct tty_buffer *tty_buffer_alloc(struct tty_port *port, 
-size_t size)
-  {
-  	struct llist_node *free;
--	struct tty_buffer *p;
-+	struct tty_buffer *p=NULL;
-
-  	/* Round the buffer size out */
-  	size = __ALIGN_MASK(size, TTYB_ALIGN_MASK);
-
-
-Bernard
-
-
-Le 22/08/2025 à 05:10, Folkert van Heusden a écrit :
-> Bernard,
-> 
-> I skimmed over the diff between the latest 6.14.y and latest 6.15.y tags 
-> of the raspberry pi linux kernel and didn't saw anything relevant 
-> changed. Altough changes in 'arch' could in theory affect everything.
-> 
-> 
-> On 2025-08-22 00:39, F6BVP wrote:
->> As I already reported mkiss never triggered any Oops kernel panic up 
->> to linux-6.14.11.
->>
->> In that version I put a number of printk inside of mkiss.c in order to 
->> follow the normal behaviour and content outside and during FPAC 
->> functionning especially when issuing a connect request.
->>
->> On the opposite an FPAC connect request systematically triggers a 
->> kernel panic with linux-6.15.2 and following kernels.
->>
->> In 6.14.11 I observe that when mkiss runs core/dev is never activated 
->> i.e. neither __netif_receive_skb nor __netif_receive_skb_one_core.
->>
->> These functions appear in kernel 6.15.2 panics after mkiss_receive_buf.
->>
->> One can guess that mkiss_receive_buf() is triggering something wrong 
->> in kernel 6.15.2 and all following kernels up to net-next.
->>
->> The challenge to locate the bug is quite difficult as I did not find 
->> the way to find relevant code differences between both kernels in 
->> absence of inc patch...
->>
->> I sincerely regret not knowing how to go further.
->>
->> Bernard,
->> hamradio f6bvp /ai7bg
-> 
-
+You may send multiple commands in a single email message.
 
