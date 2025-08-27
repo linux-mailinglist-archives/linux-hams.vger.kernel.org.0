@@ -1,121 +1,113 @@
-Return-Path: <linux-hams+bounces-591-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-592-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7169EB36562
-	for <lists+linux-hams@lfdr.de>; Tue, 26 Aug 2025 15:47:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4442B37A3D
+	for <lists+linux-hams@lfdr.de>; Wed, 27 Aug 2025 08:22:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DAEEF566422
-	for <lists+linux-hams@lfdr.de>; Tue, 26 Aug 2025 13:37:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 561E0201BA7
+	for <lists+linux-hams@lfdr.de>; Wed, 27 Aug 2025 06:22:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C89233A010;
-	Tue, 26 Aug 2025 13:37:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E22832BE05B;
+	Wed, 27 Aug 2025 06:22:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="K/p4mXQu"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rnaPAuAU"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E042FDC5C
-	for <linux-hams@vger.kernel.org>; Tue, 26 Aug 2025 13:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6B82857C7
+	for <linux-hams@vger.kernel.org>; Wed, 27 Aug 2025 06:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756215433; cv=none; b=tlrRs66djz9H6HM8S5TG7r+HsLD7ELu+6dwL3Ngu8J10+JbtL86v/7Dq19ZpVF/1h0tCzppD+j5SCb2n7/8Au+361HkjkH7Jn1ASvgwzLJxYAjl80p2tOOMSMdThr8YHD7uwvhR25+/G/HqkhwLKF7M6bTrx2emtfIhsTyWh4BU=
+	t=1756275723; cv=none; b=ZNNZSDARLhpnBlq3akB0NGayKaQNMTgVNV5l+F6pdBwR1RXZIZyqSiVahfCsUaESssFwr0OA3pl2a3I02gzeqMWwQST6F4yEEwJDj/KB00mAbMth6qYFKbU2jZjLutMjNndEylAtfiFtavRas+uc7eHpeAjGcXsAQmsP2U43d5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756215433; c=relaxed/simple;
-	bh=UWKcaQet9GG4coXO/bspCLJgGio5qNvxiIgBeW1qqtI=;
+	s=arc-20240116; t=1756275723; c=relaxed/simple;
+	bh=qLTy5C2dGEjAw/4OL8eYtf366J2gpBTkVIFNNML1MGM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fOPOrKK19zQgEwfc5U5IUDDhDdbuFIozieqWcErUGGgogUcAmxEZ3UcMtryG/reuuhOYoNho/EmlCHeq9c4JNI0Sq8TFwbqZHu6AO8zvRg2SWJpxPYRN3nvH/2aUFQEoIMQG79qEPnPA2CzELOOMrw9MeNZScW8zSu4Y669BGBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=K/p4mXQu; arc=none smtp.client-ip=209.85.160.173
+	 To:Cc:Content-Type; b=M/QUaNXcNZp5q568Lz0DWKOUIuSQVOh821n+RiUVrQtafQdQ+Uox0ysF/arRHandHGyvBUwdB9K1xt/ilY+gyVe0KUO2i+FygKD1M6qHXu1CRx2aSE9tnIQ5OzkUiMN6Dwt+p3uP4Wb3mcQAL8SYP38CtNwHT5SZ7/K6U9Bzrs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rnaPAuAU; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4b2d1c1c81dso27464961cf.1
-        for <linux-hams@vger.kernel.org>; Tue, 26 Aug 2025 06:37:12 -0700 (PDT)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-248a638dbbeso997105ad.2
+        for <linux-hams@vger.kernel.org>; Tue, 26 Aug 2025 23:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1756215431; x=1756820231; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1756275722; x=1756880522; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UWKcaQet9GG4coXO/bspCLJgGio5qNvxiIgBeW1qqtI=;
-        b=K/p4mXQuGOFQHci8xWo4hdz13MOF+8fmXVvCiDYi1cyGJAjhID0n/3jEoLzZV2Bese
-         Ezm3yLuuH0y4jKNKKAUbjJEiq9Z4r+u/0TSDgl7iqsYwZjDaqrv9ZCNKFGhwSCJrzwfa
-         a5nPahhWb29H/wJ4AlD72fS3f/P41qT2v7BnBwsms8yogVQDfYcXYGYdk3NKVfsfTf5C
-         3KzT1WeiCc8vWfTQwFTd5Ixn2yJqlBOSTCKQT4WP2pX2EQn0eKV0vQFy+QrWHpUb3Rp6
-         3/jSJy+Jf5eI9V41b+bsv5WimvETqzPzwpapCOqDepyicjWThskjUnDMvri2ZnSBxuun
-         +toA==
+        bh=qLTy5C2dGEjAw/4OL8eYtf366J2gpBTkVIFNNML1MGM=;
+        b=rnaPAuAUU7dG9EbtS8wLKDvdzUkCMryBoAUVjWpvkdvraK9lsEx83LBZ4DI/o/JCWI
+         5r54Pf2JTFRxsltTsGW87mqqpxwUuplt07gabqk3ipsnzzPrr9spIRa84Blx8XMIg8Bm
+         YMwRJfIMA2f+dRGhEJfZibvjIW8XoKCeyr26nxbKfjwWIMNGqzdg45OtqSg6l+W9m4RW
+         78tYu12mPTkIhKnuEF2KaXWkEhrhkJO+GSEypWZ8AMHNhSX3oQNB2BnuVgRctPpG44tz
+         PPD9AkT5dw9hI8iMxzwhpyDOPWYty0GvE08y2GC57yXewD/+ce6hu92WJva6GeKTBmM1
+         kfQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756215431; x=1756820231;
+        d=1e100.net; s=20230601; t=1756275722; x=1756880522;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UWKcaQet9GG4coXO/bspCLJgGio5qNvxiIgBeW1qqtI=;
-        b=Fd7ByULba5q1CMBoZw5e3FxuO9EsRpIQBQ1v+h3qjUSiD9i+OVUOwKHRjIOYBOB7Gm
-         zi+IfwWmMLLXmjLmc1v8szYWbgcX78jsMrI1sK3pPJrH/FkgtV2oU7CJopawLHpP3Vms
-         XHESiNyfSQ3CthCpwMlUJl2NIbNIri/9zmovCa4UzZ+4w8+eUtJrjeq8kL9BlWtR9KOO
-         Ug7F7Y2bJCvtGTzuU7pPUCCsCSt12Mct7nSAYZVKI10gH1b74XK2TqQZFH0VqAvXD+kq
-         aeTq5Y2OMevR+EHdc/dn8l1TQgGKXdTYauxig7Y1Hk0qxBqedEDSf8j2aitlJq0tzkra
-         ROYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU7WurVa23C/Mm3eqHKJUtvYEX3ss147LqojsZ54TtXzHmxNli3KbvIEoiq19ZrpTh2/sRDsV47TZUZ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyyc1e+sYsK28RLUKxxxFNYAnFLJdCWj9hErwrEaqxmQ+im82VN
-	R3fm6bIEbG2bRfo/Mu0TBKzx7RUpQ62OtL1fa2R3Af2TpWD+8BC2rvUqb+YjcNAR7LLbF37OqYE
-	sDd81HO/r8ZutNmuceNRK1tduo7KCWFbTdtLMK7e/
-X-Gm-Gg: ASbGncvxTX9NBqZPfrpKSnqicHmpgoBSuvSW9Re/UEttbhOF3dDm4tGB/wKhdQs+gYe
-	1j+UfTsP/DYq+sXNp7XII82zbi4eullcQnI7nKm/U9zxaFLOA29/MDzcnl4Xo8TXQO+9Ad4aVsI
-	Y6vah0cW9f59flfQn9wO8MQ+fCrNTlQEOi24elyqpTwYI5demP+wqNfBgHh3wILZSap1a0TZStY
-	VVqno5RWhmk
-X-Google-Smtp-Source: AGHT+IHrqOk5SmffLvdK/bqJjBp80w2upAJzBf78+g6wJP/zWkCTzR7bBDn1IaMjULRpq6wErimmbZnDFHc4midNifE=
-X-Received: by 2002:a05:622a:1ccd:b0:4b2:8ac5:2584 with SMTP id
- d75a77b69052e-4b2aab78871mr169722741cf.75.1756215430791; Tue, 26 Aug 2025
- 06:37:10 -0700 (PDT)
+        bh=qLTy5C2dGEjAw/4OL8eYtf366J2gpBTkVIFNNML1MGM=;
+        b=XlDKmkZN5M5KjKZoOFU03u4naRJCSwNGEsdWM0d7HboUSPFb2Ql9xUbx6Dl9SXa0ZO
+         n5e1LXtb7yleqToopytdQQ73cMY4Ngvao/wiR3w7A2DrdJOQgRmQwkY1adaZuk7FZV7z
+         2Jiwx6ol66QVU3l1fpSKe5IIQ90gilBZWS43ejPjjg9VrOrxlA+sECV/e8f9khIDEGEW
+         ZVciI7+c0d1LdAWpd6wVEKw6Wzyjl5PIJAiVGIYYumNaancHxO5+bMT4Jh55IESnPO5E
+         wCdGFF61b60OG/sYWaw2rP3zMhWmtZLyZ/KbcC+3C/UtHF+9iAja+idUd+9m+LQpxysT
+         v08w==
+X-Gm-Message-State: AOJu0YxVPTPAfA20Kg0tiBA5N/jkay/ZzIsb4J500ZZcY4R3ZF2kcmEX
+	BV1XPvGTu1b6mSKYS2L1+kb8MWpWkwCRDxirUkIOP6guQ6DvIN9q6Q7G1tEoHNcCwr+2jboSNNs
+	r3nz4/IRUndahaHC2+Ldp3c5eDz4Xm8VrJSLPOsKa
+X-Gm-Gg: ASbGnctc/ZzoQEEpKDvZjVYBA9N3jTaSrBC5/LSF8gEwugkgqIynN32BnnXa7OO1G/E
+	OcXWTHfYsYDO2jAhd97ZHa6IRNWwyChLmLXaIxI+Kb5YR2xE3zMcPUHODc2IJ0X61+W8RZUiuKa
+	iQ1V19aoDq/hdbpXRJhx46aZMBRi2O4b+ikNfPINabdtlk80Y7LEM/qbinKkTIQNh9jIkDe8of7
+	908Xe+tk3Aqag8wZ6Gc/2sxHH1poXgSpx4KoPA9CeUh5nj03KQEHc8x8bxtEUhgrHmw/Ywd6GZF
+	w2c=
+X-Google-Smtp-Source: AGHT+IF7jzGKwhBs3pL9OuYd7gtObX8p++nn1QWf6ESVamZva6AHRWA5C4h1KdRnHeraZ0FOsbdKT9twMzVlH+RX+Z4=
+X-Received: by 2002:a17:902:dad1:b0:246:2eb1:9c09 with SMTP id
+ d9443c01a7336-2462efad608mr216159465ad.52.1756275721423; Tue, 26 Aug 2025
+ 23:22:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <fff0b3eb-ea42-4475-970d-30622dc25dca@free.fr> <e92e23a7-1503-454f-a7a2-cedab6e55fe2@free.fr>
- <acd04154-25a5-4721-a62b-36827a6e4e47@free.fr> <CAEoi9W6kb0jZXY_Tu27CU7jkyx5O1ne5FOgvYqCk_GFBvnseiw@mail.gmail.com>
- <11212ddf-bf32-4b11-afee-e234cdee5938@free.fr> <4e4c9952-e445-41af-8942-e2f1c24a0586@free.fr>
- <90efee88-b9dc-4f87-86f2-6ab60701c39f@free.fr> <6c525868-3e72-4baf-8df4-a1e5982ef783@free.fr>
- <d073ac34a39c02287be6d67622229a1e@vanheusden.com> <6a5cf9cf-9984-4e1b-882f-b9b427d3c096@free.fr>
- <aKxZy7XVRhYiHu7c@stanley.mountain> <0c694353-2904-40c2-bf65-181fe4841ea0@free.fr>
-In-Reply-To: <0c694353-2904-40c2-bf65-181fe4841ea0@free.fr>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 26 Aug 2025 06:36:58 -0700
-X-Gm-Features: Ac12FXyf89HBHm7imLexRw9jKiyzhTuYmW54Ay61Lj-JdQeGJGH0d8xxujuA8Dk
-Message-ID: <CANn89iJ6QYYXhzuF1Z3nUP=7+u_-GhKmCbBb4yr15q-it4rrUA@mail.gmail.com>
-Subject: Re: [ROSE] [AX25] 6.15.10 long term stable kernel oops
-To: F6BVP <f6bvp@free.fr>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-hams@vger.kernel.org, 
-	netdev <netdev@vger.kernel.org>, Dan Cross <crossd@gmail.com>, 
-	David Ranch <dranch@trinnet.net>, Folkert van Heusden <folkert@vanheusden.com>
+References: <20250823085857.47674-1-takamitz@amazon.co.jp> <20250823085857.47674-2-takamitz@amazon.co.jp>
+In-Reply-To: <20250823085857.47674-2-takamitz@amazon.co.jp>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Tue, 26 Aug 2025 23:21:50 -0700
+X-Gm-Features: Ac12FXxGlXiuIICtDl2pUKJYc29VkTGFl6RVAVQ5m9yhCpp_rN0yUWRt5x0jzhQ
+Message-ID: <CAAVpQUBhyRevCUqAjLYEFFqfDTZT42KHUEjRpARbNzn3V_cYbQ@mail.gmail.com>
+Subject: Re: [PATCH v2 net 1/3] net: rose: split remove and free operations in rose_remove_neigh()
+To: Takamitsu Iwai <takamitz@amazon.co.jp>
+Cc: linux-hams@vger.kernel.org, netdev@vger.kernel.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Kohei Enju <enjuk@amazon.com>, Ingo Molnar <mingo@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Nikita Zhandarovich <n.zhandarovich@fintech.ru>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 26, 2025 at 6:31=E2=80=AFAM F6BVP <f6bvp@free.fr> wrote:
+On Sat, Aug 23, 2025 at 2:00=E2=80=AFAM Takamitsu Iwai <takamitz@amazon.co.=
+jp> wrote:
 >
-> Dan, I thank you for explaining why the patch actually did not prevent
-> the bug to be still present.
+> The current rose_remove_neigh() performs two distinct operations:
+> 1. Removes rose_neigh from rose_neigh_list
+> 2. Frees the rose_neigh structure
 >
-> I captured via netconsole two occurence of kernel panic that did not
-> follow exactly the same chain.
+> Split these operations into separate functions to improve maintainability
+> and prepare for upcoming refcount_t conversion. The timer cleanup remains
+> in rose_remove_neigh() because free operations can be called from timer
+> itself.
 >
-> I hope these files may help to find where things go bad.
+> This patch introduce rose_neigh_put() to handle the freeing of rose_neigh
+> structures and modify rose_remove_neigh() to handle removal only.
 >
-> Bug is systematically triggered when running netromd daemon and
-> performing a connexion using ax25_call()
->
-> [syzbot] mail reported KMSAN found uinit-value both in kiss_unesc
-> (mkiss.c:303) and in mkiss_receive_buf() (mkiss.c:901).
->
-> However I did not identified the bug.
->
-> Regards,
->
+> Signed-off-by: Takamitsu Iwai <takamitz@amazon.co.jp>
 
-Make sure to add symbols to these logs, otherwise we can not really help.
-
-cat CRASH | scripts/decode_stacktrace.sh ./vmlinux
+Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
 
