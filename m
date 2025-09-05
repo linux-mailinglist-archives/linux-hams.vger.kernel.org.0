@@ -1,116 +1,140 @@
-Return-Path: <linux-hams+bounces-624-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-625-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DB6B45543
-	for <lists+linux-hams@lfdr.de>; Fri,  5 Sep 2025 12:48:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26FDDB46752
+	for <lists+linux-hams@lfdr.de>; Sat,  6 Sep 2025 01:52:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 542973A39F1
-	for <lists+linux-hams@lfdr.de>; Fri,  5 Sep 2025 10:48:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD7AC1CC0F32
+	for <lists+linux-hams@lfdr.de>; Fri,  5 Sep 2025 23:53:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5593530DD29;
-	Fri,  5 Sep 2025 10:47:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07B94259CB3;
+	Fri,  5 Sep 2025 23:52:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WYaKJiyi"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=n0nb.us header.i=@n0nb.us header.b="MtuZIrwa"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www11.qth.com (www11.qth.com [72.52.250.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809783164B4
-	for <linux-hams@vger.kernel.org>; Fri,  5 Sep 2025 10:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB201FBEA2
+	for <linux-hams@vger.kernel.org>; Fri,  5 Sep 2025 23:52:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=72.52.250.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757069237; cv=none; b=FdzDe3KJsWC+2yu0XV6uV7VcZaUwWeUibrr+q5pzJxs21tRYvWDaqa9hiSRiOPCzfuirZP9N98CecM4GKnuZFnBOtM0SyWCpHIPvatQlMYFRE/tZg09aNLfqG7SDcLkWDbZsF4SDXXdLiMufB6BMlttEtxVghLvoFag2psUX7uc=
+	t=1757116363; cv=none; b=X0CMdpoKGwyN+yI5r+cuaA7SeA4ylLVY2YKuKhiYW7vYpqZ2yym+FUaiNh1YUilnihO8I/Sgwh4DHIoDY5ikuR9PurAi1n1A4sFnqz8ySty9iGDwIcmpYn6p8QjfJlmqnw/NgrNOAVzQhiy1lhG71EKJpjJhSpa30pFOEr75c8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757069237; c=relaxed/simple;
-	bh=tqiu3s9zFltkSv11AxpsXkUUUkqMUieGxD3BL7JwWec=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nRYPdjaFHhwUCTKaGzzcjXVbc5oMhmkbnJzD4zihOFslogpzmFqCbX2N9qJLW/iuO8RTHeflRttSLu7HQ6sggwhZUazK3hm5W8jn+ZcP7h1TWePD65dl9f/gyrKLcWgmo2Kt6UDs4SkLMuUZBX08prVuRUHzicsEOUdsEajbgxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WYaKJiyi; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-80e2c527010so105058985a.1
-        for <linux-hams@vger.kernel.org>; Fri, 05 Sep 2025 03:47:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1757069234; x=1757674034; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zy3M+/QDMFTe34OIV0nD0yl53yFOocCSebdPGEJFkD0=;
-        b=WYaKJiyimC59PycZD+Wl6RgPGCNG7VhTffk98C//szr3/mhYdc2yP1J4kJGcsCetyQ
-         vvCwhkNCkv6am91orhrcgj6yl4ZrjyjrOscI2xnBEO9HnYrxnTGpLma/VJqKGF52BLSA
-         usEdJDTV8nHIU9bk6LzpAOUWMUztse7/SQaOHUT+ic3xjE3bJxkhUlh3UI6Ugeeiwi3w
-         IC816SC8yC1QhfgtKs6WWiBJ2pI+N4BKPIv6UWeEsQxgfbTDZZh0N3ULBKxrWpmI7FSk
-         vdxJpwGXIYz+D9oTUeq6YHgtoRuqb8UwFAd5mPryJ41W7CnWw47hfQiTzsjQitVjq8D6
-         tbNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757069234; x=1757674034;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zy3M+/QDMFTe34OIV0nD0yl53yFOocCSebdPGEJFkD0=;
-        b=uvrJRc7CSVClVT/e0MkkytZFcMrO2V3Z4SpVY+SLiQ5mkkAWoKtsWdpqo1A2qYW4GS
-         GcDFFz4znCkE/Q+2OwyLh4tiM7JdbJO6hSWvChhJnK4M+aPPymtj3MqGJlI7J+Lg4wr1
-         f8B2s4qScW4RPVY7yz/Bmkfs5NqOZWkOW35MaW0c53yZ3dEzFrgnr/sCAt+VMCzvjCZp
-         zpv+Bo3oawHTVu2yP0rdbsKlgmz1Zz/7+E3WsD46UjwjQf3JbzRXWp4LhMsYilOyw2wR
-         Uc959qSdKvrBSpBZvJmisCYqBkFcvEnt3WCRLM3qvR8IMGa8GPPeXmUfB60FsSkw+Vrw
-         Q4hg==
-X-Forwarded-Encrypted: i=1; AJvYcCUKx4Yd69Ee/E/XgVHuoe4XghoGXCaCs6Ffn1Nr4DN+poHLlQSGbXGjw90fbR9kmMjvmaS6QptbJsRq@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+sdICb18Bto1q4JeiJcQkjn6R47hhXdbbh/qgRelo55rpWuGX
-	Sue+AV85K7rPo4TJ1KAZ2/s6MflN4r08LUItl1s5VamK8TxmbbtHnrWVB/4ZgMN8MYUR3YQamic
-	gp7odutWsH1A/8WZrFc/M1vbeIs9HYillhSkTwVY6
-X-Gm-Gg: ASbGncuaXckxoRcZ/MJ1ZtTiae7iGROQF2ZvYQfcD6AyPEkHbEVD5pSBWUDFTu+LCDW
-	72EfPH4fzieNcjYq0HsaQP2CmA0g6NGzxwF2NxZtFJRwA4Lf4qK5rRRR3YGhGXlnYNtwv6Cc2nS
-	ZJ8ClyZWsOtZpbGpZPuyrl8/iFI0jcDVjyU1L8sLVzs5LEfFAVg8401/8Fl2/OR8PQRRl+ZFw8J
-	RA141jc+cA/b/Z0RcJBg87t
-X-Google-Smtp-Source: AGHT+IEf/phnrXIkufCTZk4sFshrIxsZkHhdjyS4/aEGRW+A2spzOP7s35tJPyhD8Xp2ObBAoTmD8NeiPLucXfyQr3w=
-X-Received: by 2002:a05:620a:4016:b0:7e7:fe1e:80ce with SMTP id
- af79cd13be357-7ff27b20314mr2475069885a.19.1757069233923; Fri, 05 Sep 2025
- 03:47:13 -0700 (PDT)
+	s=arc-20240116; t=1757116363; c=relaxed/simple;
+	bh=Z/emCZkjNq7OBSI9TL82nh9dWTCiYl2I9Gy9k3ltguQ=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GgPPjBCjeC/GdFoVDGCfoU0pY/QjsZlND6Lk1cEg/yMMNfbhZC0XEv9A2XZz4Us9ULkIVOzI82Bf+NRBWv1WWppOxoiZ6zoyvvR++V/aoSUUUuudXUz01SUYoyzBgncJQWrjPSrGruFKrS5zhOcm9RAoeGjL2nn1nipyVvGKBeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=n0nb.us; spf=pass smtp.mailfrom=n0nb.us; dkim=pass (2048-bit key) header.d=n0nb.us header.i=@n0nb.us header.b=MtuZIrwa; arc=none smtp.client-ip=72.52.250.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=n0nb.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=n0nb.us
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=n0nb.us;
+	s=default; h=Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:Sender
+	:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=rWk9RRpm/VZAJk9BjYcRw/e0nmU9s8IPiu7icZtjsNE=; b=MtuZIrwau44pXVel8Ulo4Y/rw9
+	NF0ag7Y0HqJ832Ay9BTKe7FDR0QHRV68kuVAV3NBQqbwNTee0dWmzMBHgN73XtT0BcxoSafYxkn7K
+	4Eilo5c4dOMM0h0QpgP8xp5d2nABG5vXdj5Kr18kQcefzGNxp0v5CRnMXDYA5XcduK9YW9r6F0/9V
+	aWA3gdv8XZG4VM4gOMUTQB0ihtbJLlQZ2H3+M/Kg4gqyNQRYGJlq0R9WaTZ7QdCwlfyAcvL6YFn+w
+	/C5oucls7JQ764nz2TmLIQPFfLnYUvC9PFS65DMspHlfe7qLil3NZZaGr4JgHBpfE1i2LpaUNoCXv
+	vc6oQatw==;
+Received: from [68.234.117.171] (port=33570 helo=merlin.lan)
+	by www11.qth.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <n0nb@n0nb.us>)
+	id 1uuft1-0000000D5X3-05cW;
+	Fri, 05 Sep 2025 18:30:31 -0500
+Received: from nate by merlin.lan with local (Exim 4.96)
+	(envelope-from <n0nb@n0nb.us>)
+	id 1uuft0-000juj-0x;
+	Fri, 05 Sep 2025 18:30:30 -0500
+Date: Fri, 5 Sep 2025 18:30:30 -0500
+From: Nate Bargmann <n0nb@n0nb.us>
+To: Hamlib Developers <hamlib-developer@lists.sourceforge.net>, 
+	Debian Hams <debian-hams@lists.debian.org>, Linux Hams <linux-hams@vger.kernel.org>
+Subject: Hamlib 4.6.5 release
+Message-ID: <sdxfczhgemq4pfntydazogkxuv67ywxsxotmsbotu44szmaqu5@53dlyyzvcwl6>
+Mail-Followup-To: Hamlib Developers <hamlib-developer@lists.sourceforge.net>, 
+	Debian Hams <debian-hams@lists.debian.org>, Linux Hams <linux-hams@vger.kernel.org>
+X-Operating-System: Linux 6.1.0-38-amd64 x86_64
+Organization: Amateur Radio!
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250902112652.26293-1-disclosure@aisle.com> <20250903181915.6359-1-disclosure@aisle.com>
-In-Reply-To: <20250903181915.6359-1-disclosure@aisle.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Fri, 5 Sep 2025 03:47:02 -0700
-X-Gm-Features: Ac12FXzy0Cy-WdhGEnYslQBiaE0zk7uzikMaUzSMrpzivq_gHWsb4MyLhAXuOfI
-Message-ID: <CANn89iJKZCfsNzM8D=JQqQ=vyaun38oXfcC77AC6BTC0MWvUog@mail.gmail.com>
-Subject: Re: [PATCH net v3] netrom: linearize and validate lengths in nr_rx_frame()
-To: Stanislav Fort <stanislav.fort@aisle.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org, 
-	pabeni@redhat.com, horms@kernel.org, linux-hams@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, security@kernel.org, 
-	Stanislav Fort <disclosure@aisle.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="5wmw4pl5rlbuymm2"
+Content-Disposition: inline
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - www11.qth.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - n0nb.us
+X-Get-Message-Sender-Via: www11.qth.com: authenticated_id: n0nb@n0nb.us
+X-Authenticated-Sender: www11.qth.com: n0nb@n0nb.us
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+
+
+--5wmw4pl5rlbuymm2
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Hamlib 4.6.5 release
+MIME-Version: 1.0
 
-On Wed, Sep 3, 2025 at 11:19=E2=80=AFAM Stanislav Fort <stanislav.fort@aisl=
-e.com> wrote:
->
-> Linearize skb and add targeted length checks in nr_rx_frame() to avoid ou=
-t-of-bounds reads and potential use-after-free when processing malformed NE=
-T/ROM frames.
->
-> - Linearize skb and require at least NR_NETWORK_LEN + NR_TRANSPORT_LEN (2=
-0 bytes) before reading network/transport fields.
-> - For existing sockets path, ensure NR_CONNACK includes the window byte (=
->=3D 21 bytes).
-> - For CONNREQ handling, ensure window (byte 20) and user address (bytes 2=
-1-27) are present (>=3D 28 bytes).
-> - Maintain existing BPQ extension handling:
->   - NR_CONNACK len =3D=3D 22 implies 1 extra byte (TTL)
->   - NR_CONNREQ len =3D=3D 37 implies 2 extra bytes (timeout)
->
-> Suggested-by: Eric Dumazet <edumazet@google.com>
-> Reported-by: Stanislav Fort <disclosure@aisle.com>
-> Signed-off-by: Stanislav Fort <disclosure@aisle.com>
-> ---
+On behalf of the Hamlib project and its contributors I am pleased to
+release version 4.6.5.  This is a bug fix only release with no new
+device support.
 
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+Noted changes are:
+
+Version 4.6.5
+        * 2025-09-05
+        * Update Kenwood CW buffer max message size, fix one byte buffer
+          overrun in icom.c.  (TNX George Baltz).
+        * Fix Segmentation Fault in rigs/dummy/netrigctl.c. (TNX Daniele Fo=
+rsi)
+        * Fix segfault with set_parm KEYERTYPE in rigctl_parse.c. (TNX Dani=
+ele
+          Forsi)
+
+This is expected to be the last release of the 4.6.x series.
+
+Development continues on the 4.7 series with an eye toward Hamlib 5 as a
+major release.  Plan is for 4.7.0 to be released by the end of 2025 and
+Hamlib 5 toward the end of 2026, if all goes well.  Hamlib 5 will be an
+API and ABI breaking release which will impact programs that directly
+link to the library.  Programs that utilize the *ctld daemons will
+likely be minimally impacted.
+
+73, Nate
+
+--=20
+"The optimist proclaims that we live in the best of all
+possible worlds.  The pessimist fears this is true."
+Web: https://www.n0nb.us
+Projects: https://github.com/N0NB
+GPG fingerprint: 82D6 4F6B 0E67 CD41 F689 BBA6 FB2C 5130 D55A 8819
+
+
+--5wmw4pl5rlbuymm2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQSC1k9rDmfNQfaJu6b7LFEw1VqIGQUCaLtylQAKCRD7LFEw1VqI
+GburAKCOsonTbgvtUQKyiPf9oBPrYKqbuACdHFSc4oCw6c51lHJErh1LYq751Eg=
+=l0Z+
+-----END PGP SIGNATURE-----
+
+--5wmw4pl5rlbuymm2--
 
