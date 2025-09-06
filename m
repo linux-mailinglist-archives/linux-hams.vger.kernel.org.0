@@ -1,140 +1,94 @@
-Return-Path: <linux-hams+bounces-625-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-626-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FDDB46752
-	for <lists+linux-hams@lfdr.de>; Sat,  6 Sep 2025 01:52:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EEBEB467A3
+	for <lists+linux-hams@lfdr.de>; Sat,  6 Sep 2025 02:44:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD7AC1CC0F32
-	for <lists+linux-hams@lfdr.de>; Fri,  5 Sep 2025 23:53:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C848566C10
+	for <lists+linux-hams@lfdr.de>; Sat,  6 Sep 2025 00:44:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07B94259CB3;
-	Fri,  5 Sep 2025 23:52:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D5F515667D;
+	Sat,  6 Sep 2025 00:44:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=n0nb.us header.i=@n0nb.us header.b="MtuZIrwa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nFAwc2h1"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from www11.qth.com (www11.qth.com [72.52.250.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB201FBEA2
-	for <linux-hams@vger.kernel.org>; Fri,  5 Sep 2025 23:52:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=72.52.250.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C04A55;
+	Sat,  6 Sep 2025 00:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757116363; cv=none; b=X0CMdpoKGwyN+yI5r+cuaA7SeA4ylLVY2YKuKhiYW7vYpqZ2yym+FUaiNh1YUilnihO8I/Sgwh4DHIoDY5ikuR9PurAi1n1A4sFnqz8ySty9iGDwIcmpYn6p8QjfJlmqnw/NgrNOAVzQhiy1lhG71EKJpjJhSpa30pFOEr75c8g=
+	t=1757119492; cv=none; b=CR15/KMT0z6PHS248HoaJFSfTbgvtabMe8+QIPL42O351Z1C2klP7n5b7x+bs2ZtkkUCuky9AgN3C3YwbXKkXXqklSpDQq3Kdy0mM9VZqoaStZ3ToCXk25hCCusIc0wxufy2Ft9KWRRKGjfnnlXtf4j/UfcW86+46diI/bx3kyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757116363; c=relaxed/simple;
-	bh=Z/emCZkjNq7OBSI9TL82nh9dWTCiYl2I9Gy9k3ltguQ=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GgPPjBCjeC/GdFoVDGCfoU0pY/QjsZlND6Lk1cEg/yMMNfbhZC0XEv9A2XZz4Us9ULkIVOzI82Bf+NRBWv1WWppOxoiZ6zoyvvR++V/aoSUUUuudXUz01SUYoyzBgncJQWrjPSrGruFKrS5zhOcm9RAoeGjL2nn1nipyVvGKBeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=n0nb.us; spf=pass smtp.mailfrom=n0nb.us; dkim=pass (2048-bit key) header.d=n0nb.us header.i=@n0nb.us header.b=MtuZIrwa; arc=none smtp.client-ip=72.52.250.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=n0nb.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=n0nb.us
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=n0nb.us;
-	s=default; h=Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:Sender
-	:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=rWk9RRpm/VZAJk9BjYcRw/e0nmU9s8IPiu7icZtjsNE=; b=MtuZIrwau44pXVel8Ulo4Y/rw9
-	NF0ag7Y0HqJ832Ay9BTKe7FDR0QHRV68kuVAV3NBQqbwNTee0dWmzMBHgN73XtT0BcxoSafYxkn7K
-	4Eilo5c4dOMM0h0QpgP8xp5d2nABG5vXdj5Kr18kQcefzGNxp0v5CRnMXDYA5XcduK9YW9r6F0/9V
-	aWA3gdv8XZG4VM4gOMUTQB0ihtbJLlQZ2H3+M/Kg4gqyNQRYGJlq0R9WaTZ7QdCwlfyAcvL6YFn+w
-	/C5oucls7JQ764nz2TmLIQPFfLnYUvC9PFS65DMspHlfe7qLil3NZZaGr4JgHBpfE1i2LpaUNoCXv
-	vc6oQatw==;
-Received: from [68.234.117.171] (port=33570 helo=merlin.lan)
-	by www11.qth.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <n0nb@n0nb.us>)
-	id 1uuft1-0000000D5X3-05cW;
-	Fri, 05 Sep 2025 18:30:31 -0500
-Received: from nate by merlin.lan with local (Exim 4.96)
-	(envelope-from <n0nb@n0nb.us>)
-	id 1uuft0-000juj-0x;
-	Fri, 05 Sep 2025 18:30:30 -0500
-Date: Fri, 5 Sep 2025 18:30:30 -0500
-From: Nate Bargmann <n0nb@n0nb.us>
-To: Hamlib Developers <hamlib-developer@lists.sourceforge.net>, 
-	Debian Hams <debian-hams@lists.debian.org>, Linux Hams <linux-hams@vger.kernel.org>
-Subject: Hamlib 4.6.5 release
-Message-ID: <sdxfczhgemq4pfntydazogkxuv67ywxsxotmsbotu44szmaqu5@53dlyyzvcwl6>
-Mail-Followup-To: Hamlib Developers <hamlib-developer@lists.sourceforge.net>, 
-	Debian Hams <debian-hams@lists.debian.org>, Linux Hams <linux-hams@vger.kernel.org>
-X-Operating-System: Linux 6.1.0-38-amd64 x86_64
-Organization: Amateur Radio!
+	s=arc-20240116; t=1757119492; c=relaxed/simple;
+	bh=lK+W7jIcDQz4jEABqbetY8xzxzI16JlOdIpsjBqZg+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=n5/MswwZArcevAFXKsuOkgmEMpW/ovbEQAP7KOe/Ub+DfThgD0gkns0BjzLeISDV3GJipixxz0fGbIy7x5tW5auDUJE8c8+6hrckzDYz5ubqPFedBIXLUyG8woPhCqeZ78PZGnZDt4xEdemgHf5mgdrB8DR1WJXNjP3p+TwYZuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nFAwc2h1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6548C4CEF1;
+	Sat,  6 Sep 2025 00:44:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757119492;
+	bh=lK+W7jIcDQz4jEABqbetY8xzxzI16JlOdIpsjBqZg+U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=nFAwc2h1ZCdY+tUw+X2TLRQ57btdxSWvNp3dPrpRQnIFJA0l64+Vy1IQ+J9ZRrcL7
+	 asEbHHzeeX5xqHB97+yp0MCfaZoGi61QBUMHGO7LJ8u7VZAX4CKcOZpagSRRUUHhhl
+	 LCYtcw/IRdnLSOyEWxZ/YnTPAz7sC2JpNMR5ZKQrju5211Xrz5rZxiWWCcsJ3Nx6b/
+	 qvbhqgJuNW7dk7PcyuPtlsZzizYsVjMnw7D/O1XUwb9DlxDPVXZotO/43fH+EYAiO9
+	 Bw9M9KSivHasUnYn0auIoDj8jc/TmUEnS5Am1xJ0Drpo14Uk8RZUSK7hlFbOD8CZmB
+	 pxmaka5uFBiMQ==
+Date: Fri, 5 Sep 2025 17:44:50 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Stanislav Fort <stanislav.fort@aisle.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, horms@kernel.org, linux-hams@vger.kernel.org,
+ linux-kernel@vger.kernel.org, security@kernel.org, Stanislav Fort
+ <disclosure@aisle.com>
+Subject: Re: [PATCH net v3] netrom: linearize and validate lengths in
+ nr_rx_frame()
+Message-ID: <20250905174450.3953023d@kernel.org>
+In-Reply-To: <20250903181915.6359-1-disclosure@aisle.com>
+References: <20250902112652.26293-1-disclosure@aisle.com>
+	<20250903181915.6359-1-disclosure@aisle.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="5wmw4pl5rlbuymm2"
-Content-Disposition: inline
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - www11.qth.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - n0nb.us
-X-Get-Message-Sender-Via: www11.qth.com: authenticated_id: n0nb@n0nb.us
-X-Authenticated-Sender: www11.qth.com: n0nb@n0nb.us
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Wed,  3 Sep 2025 21:19:15 +0300 Stanislav Fort wrote:
+> Linearize skb and add targeted length checks in nr_rx_frame() to avoid out-of-bounds reads and potential use-after-free when processing malformed NET/ROM frames.
+> 
+> - Linearize skb and require at least NR_NETWORK_LEN + NR_TRANSPORT_LEN (20 bytes) before reading network/transport fields.
+> - For existing sockets path, ensure NR_CONNACK includes the window byte (>= 21 bytes).
+> - For CONNREQ handling, ensure window (byte 20) and user address (bytes 21-27) are present (>= 28 bytes).
+> - Maintain existing BPQ extension handling:
+>   - NR_CONNACK len == 22 implies 1 extra byte (TTL)
+>   - NR_CONNREQ len == 37 implies 2 extra bytes (timeout)
+> 
+> Suggested-by: Eric Dumazet <edumazet@google.com>
+> Reported-by: Stanislav Fort <disclosure@aisle.com>
+> Signed-off-by: Stanislav Fort <disclosure@aisle.com>
 
---5wmw4pl5rlbuymm2
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Hamlib 4.6.5 release
-MIME-Version: 1.0
+Thanks for the fix! The commit message needs a bit of touching up..
 
-On behalf of the Hamlib project and its contributors I am pleased to
-release version 4.6.5.  This is a bug fix only release with no new
-device support.
+Please wrap it at 74 chars.
 
-Noted changes are:
+Please add a Fixes tag pointing to the commit which introduced the
+bugs. Quite possibly Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2") in area
+of the code base.
 
-Version 4.6.5
-        * 2025-09-05
-        * Update Kenwood CW buffer max message size, fix one byte buffer
-          overrun in icom.c.  (TNX George Baltz).
-        * Fix Segmentation Fault in rigs/dummy/netrigctl.c. (TNX Daniele Fo=
-rsi)
-        * Fix segfault with set_parm KEYERTYPE in rigctl_parse.c. (TNX Dani=
-ele
-          Forsi)
+Please remove the Reported-by:, it's implicit that the author discovered
+the bug if no explicit reported-by tag is provided.
 
-This is expected to be the last release of the 4.6.x series.
-
-Development continues on the 4.7 series with an eye toward Hamlib 5 as a
-major release.  Plan is for 4.7.0 to be released by the end of 2025 and
-Hamlib 5 toward the end of 2026, if all goes well.  Hamlib 5 will be an
-API and ABI breaking release which will impact programs that directly
-link to the library.  Programs that utilize the *ctld daemons will
-likely be minimally impacted.
-
-73, Nate
-
---=20
-"The optimist proclaims that we live in the best of all
-possible worlds.  The pessimist fears this is true."
-Web: https://www.n0nb.us
-Projects: https://github.com/N0NB
-GPG fingerprint: 82D6 4F6B 0E67 CD41 F689 BBA6 FB2C 5130 D55A 8819
-
-
---5wmw4pl5rlbuymm2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSC1k9rDmfNQfaJu6b7LFEw1VqIGQUCaLtylQAKCRD7LFEw1VqI
-GburAKCOsonTbgvtUQKyiPf9oBPrYKqbuACdHFSc4oCw6c51lHJErh1LYq751Eg=
-=l0Z+
------END PGP SIGNATURE-----
-
---5wmw4pl5rlbuymm2--
+Please add the review tag from Eric when reposting.
+-- 
+pw-bot: cr
 
