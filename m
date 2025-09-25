@@ -1,261 +1,124 @@
-Return-Path: <linux-hams+bounces-641-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-642-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE3EB9D6CF
-	for <lists+linux-hams@lfdr.de>; Thu, 25 Sep 2025 07:11:31 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B78AB9D8A8
+	for <lists+linux-hams@lfdr.de>; Thu, 25 Sep 2025 08:12:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B9294A5493
-	for <lists+linux-hams@lfdr.de>; Thu, 25 Sep 2025 05:11:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 613F07A5C31
+	for <lists+linux-hams@lfdr.de>; Thu, 25 Sep 2025 06:10:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0B932E7F1A;
-	Thu, 25 Sep 2025 05:11:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 438C52E8DEA;
+	Thu, 25 Sep 2025 06:12:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cvRoG9vS"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qqkzfmjy"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697DA21ADA7
-	for <linux-hams@vger.kernel.org>; Thu, 25 Sep 2025 05:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332822E8B7F
+	for <linux-hams@vger.kernel.org>; Thu, 25 Sep 2025 06:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758777077; cv=none; b=O6H/+OdkGQBzFvJqAothh1AwuL62Um+3MqIMHBnAFNYtHztJBZbD0tpckAcaO0LWUP46U5Rd4GBSdP/A6zZ43mNlS0W93+n+2KIcKp97mEhAsMruFw0b1M+NdzxhCf4JWtaQewnOXQqpcLvIXNSHXUKR5uNuUhbvhSdjdjIVCH4=
+	t=1758780726; cv=none; b=ZoHanfX6ojKuBaNdbCvCQ/ys+Z9kBypw0GopJlT6SUllOc0ZLby+ADCvIRBEjW1b8N7aSJ9MWFxYcYBOqhZZQfAoyb26Mt7HHBUT9HGH9bqdP40VFu0xM8OMPYbMTkwJXD38Hg4o6dQsZZ4JpXF92GnD37fTWxkkduTKbK9gUNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758777077; c=relaxed/simple;
-	bh=c4FMzRewIIokmtK1pzb0jNUAZ4tb4g9x531AbMNIMmw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XUyux5Cma2fWaFUro7IvvZBoLqL/mGoU0wDp/HOWhPJmFVgs/n0cB2dwhZW0yr5Y583TofMKMEBjec9aUor4HBrQPMaG9esc+WbfyeLFX5G6LXyCMqknc1aJorIgNy8EXNEIPDnYTuNs5OTwTqw9NyVmfsGaSagKjjN1H8ekHf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cvRoG9vS; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b4ee87cc81eso550692a12.1
-        for <linux-hams@vger.kernel.org>; Wed, 24 Sep 2025 22:11:14 -0700 (PDT)
+	s=arc-20240116; t=1758780726; c=relaxed/simple;
+	bh=uSFb8MHXwLqA9OKwUwZ9qPfEDx9KKhVW9XfP9kuC53s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cr3gX7H5pDgSZpYOxVr94+NzNlSU5mEtAeUK7PSiC6A14w8sMIGQNCMVLwDJHfrfULj2T+21VqImbrybPjaG1/uUnRb0P3hBZUu9onu4XCTjdD+8EKEkaCcTbCRfOGbsQZtyXGw9kNIk+m+nIBm5u1DYpENeeR4J046L8IDBHcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qqkzfmjy; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3ece0e4c5faso573185f8f.1
+        for <linux-hams@vger.kernel.org>; Wed, 24 Sep 2025 23:12:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758777074; x=1759381874; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=33wRSADo0EqeMuRwMq4UeTMskNZ+kzlt8hrZMx5KCMA=;
-        b=cvRoG9vSsLjsv1V3NrP/9rqoUKOx1oC7Mf5PepYmU37KOg97nRZJ83o/eXCVsVK4NB
-         Fgvtozp4siOWW9IWgy6bDhx1pUhMj7sghSjtWDIpcapnareycvC0/60LehNMFCAAb3Nf
-         BgIAw3x1rSt8vPQASSc9YNvfA5FQwbhnYDeaQ5+/0tB7O4EQ+4J+DSKPzWardBvqYxcl
-         /2Isoq/gEFlL8lqJ2RfQr/6oK6r6y14bjZtMVxwwdz1UiEBr8Ortk7A1TXlx2WCcRcxA
-         MOAs+AqKb4sOimkOz5iDqaO96n8WofU7BzCn0OR81Wm2XyTlJH/NRvtUF6B7/Ag7C8qm
-         R/lA==
+        d=linaro.org; s=google; t=1758780722; x=1759385522; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yEYWGfF11/g3FTMFlorTwEZrbGBIs3tO9z9pPNiHJAo=;
+        b=qqkzfmjyigSpLUoNqAMuAQPl/zPXizRaJfpLiXhw2cfQSwVL8u7D95BnPvpPfPoA04
+         c7DPuIq+tHha0AqLofEqBwuLohznbyQTmFnioXKf18DW04Tma9rsEaqu67ZxtHuW1YTh
+         SEK+jdgVOgwOdcUUudwlrEk0K6tqdtiSgdFO3IR8N+KoEe/C8V9Nque9V3Jv/Xb3yNeB
+         Gro94cqz5bWoY5+kR2qM1bVW6F41cM5/NlgqWbNlrN4E0uQ9Hy4BWBktjrMiCXWr82iB
+         iIg3aGdJ586DTiy+EhmAXH+NVFYsSsAhMFOZPsE1NTTdlMOOZvEVlsgRFd82pyXpAxlP
+         qQJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758777074; x=1759381874;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=33wRSADo0EqeMuRwMq4UeTMskNZ+kzlt8hrZMx5KCMA=;
-        b=Bj6SGloVgoGZ+Du38ID35g+YBItKF8GTsZXdZCCubd+TX9GyLSW+BwudasrUwusBpG
-         JuptmAEsffQYDSqifJT/0Pv+MOcfkQUazTc9NpdZOPm6deRSxNeuKgFwescSz26kkiTq
-         vnIC1Uy/DgTT9bXqJxi8FPYdWSmwQhm0UNpyr0w5jhIcIwrrR9rmsY6J10m/VuD77XL+
-         ZMKgq8N8/FiERaoHbcVYT0TwjiFxV3BpdClHQYckxMQFuGu1KNppVJItc7xclKepz/GC
-         fJ+ChSnxq6CaHSATFDtyvcZ0JpzLsA0UYdrSDGZ8sJNqJPQVId13bhYPkA1J6VFJOjMk
-         lwQA==
-X-Forwarded-Encrypted: i=1; AJvYcCXoHSegKFYX4snHN6mMBHiBM9RzeQX97FdcBFULPKL0e7p/e3DOadNpvFLdCjJltxHyPXW/vTj+LQlc@vger.kernel.org
-X-Gm-Message-State: AOJu0YxR2ipALjc1Ps9PQstfg7nSMzrMtDwGthiYosXFBvrZrSK6iAEb
-	/OGs9sqfMYC0g15DVecOiaHd1ckRlhUGTg2r8Nq1JhlYecJQ8N3B/BL+
-X-Gm-Gg: ASbGnctVdGokqB+UYh03Kwe5wDjK/A8YaAUz253ayqbFnM234Sm8Wi3GmjUpMi+t6KJ
-	Lbz3MmY1O3WjCZE4uKVvs/g4T0sGHRbdBGuEl/j+iRpGovyLNTK7mlyCc0BQgt1xIS/VhLCWe3N
-	zZHuABEjLdwCBevRDnQpCKlAmtMxHTRst0L1uIo5w1MJFMKRXfyb9myIb0xq7tPItBdqGswcTQk
-	nXqsJXcQaePG4HoTo9UR08TghIxS9lHVdcCegqxiB+7jbB0dJ14i6m7ksWBRTAAVP71tWpfcjxS
-	7mV45O6xyKnZ9+isA+w83EnFMC2PiBKb6Yn5KW2N0oMLgymN26H6j6JQTnx+EhRL+Xal/v4Jb1S
-	cTTaFXjp/Z4U7dg==
-X-Google-Smtp-Source: AGHT+IE12SqFhdSDrT0EvYFuxMNRzaowH2gL0IZazbv1RzBMsx+ZdUDsi8mFp5LXQkIQ5duLkIfVEQ==
-X-Received: by 2002:a17:902:c402:b0:25c:d4b6:f119 with SMTP id d9443c01a7336-27ed49df307mr26839895ad.12.1758777073528;
-        Wed, 24 Sep 2025 22:11:13 -0700 (PDT)
-Received: from gmail.com ([223.166.84.15])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d6523sm10904825ad.11.2025.09.24.22.11.06
+        d=1e100.net; s=20230601; t=1758780722; x=1759385522;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yEYWGfF11/g3FTMFlorTwEZrbGBIs3tO9z9pPNiHJAo=;
+        b=Qei5MObOx97u48kqDg2u1lziIdbVAscrxpoB21IZpiY6xgd2fGtgWEzAzP15na0b3X
+         ohuh4HMh2+IYUlFVChdqY9jDsP/OBFPD3n7Huu5n7gxwLxgbqC7HHsrzNOY1RR7OcgTn
+         rYdDsyouzJXhP1W9Ah8/BokNMFogbLeRJCjQpXfhG6J+3ExxuLTQMp8dz/YovFx5E1cd
+         w3SFLUXFeUe5u8klDBC+Tx9HwsdGptnvB8ls7PM1IVXlLEBJD5TNGmxV2jnREge0NVrC
+         cVNkJY3Ynw5wIvKjwhiO0TMBBNN3/xxBLR7fgEOVNNBr8nH45R4fdSPNsdGqfAhJYxpm
+         PExw==
+X-Forwarded-Encrypted: i=1; AJvYcCWTtk5LM+tZizH7nIpe2yO+D2YyyNX6K1nLQnOHmdLYOFJro9xaLurj3hmCIa0IqXPCeSuTeQ2VtKzp@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7zTLF4Kw7mp+gzxTwom26iFH1abR1dj2KrCk2jaIQxgHkVQKJ
+	6Lu3R0lypeypuBEqSwv3R9kSYcz30kHnynrlAKCW4OuShGWcpVcIcmAg990V/vossMQ=
+X-Gm-Gg: ASbGncsr3uhh7ImWs/Ehs67JsgvhrkUMSGmCQSoCNK98jA9aa4AdG4eViQpxKPY5I1k
+	PKneR63VnZx2JGHWJnXprXdfsqPRUGLaDzVl1Rkgw38/7f8TNc9t7i/zAt+mX9vRazAe+H0QZWu
+	/TTj/NuJ0MZmL/J/LMqu+BIJmpguNjqWwexHwv7KqcWkQq7DoMqUFtYPgBxKYmcb7bJA9g4sLcM
+	Kh/xrjOS/L403G0DOngp8EvhWr2AG4Fh69DFxXCWjWrQO+7WpFAUnRIXXKOkyHUxRo3gR3j+Hoc
+	NxgvXR5DSefeCx6zIWKl0Nqw101EjEeSJ5Pi+Ujlav1DIUFxn8FoAhxPxfTcEmgihWfAzkSrWxO
+	iEYU6d48NMZzUG7x8bi8QFU/Msus=
+X-Google-Smtp-Source: AGHT+IFRkpqclsNYUNbGMkAuZhXHS3Qv2yCkSEuPjzYXQeiL3SAyG+ATQky02YBh1lI/bsu4q3uPPA==
+X-Received: by 2002:a05:6000:2381:b0:3e5:47a9:1c7a with SMTP id ffacd0b85a97d-40e4a52475bmr1878562f8f.62.1758780722328;
+        Wed, 24 Sep 2025 23:12:02 -0700 (PDT)
+Received: from localhost ([41.210.143.179])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-40fc5602f15sm1453105f8f.39.2025.09.24.23.12.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 22:11:13 -0700 (PDT)
-From: Qingfang Deng <dqfext@gmail.com>
-To: Andreas Koensgen <ajk@comnets.uni-bremen.de>,
+        Wed, 24 Sep 2025 23:12:02 -0700 (PDT)
+Date: Thu, 25 Sep 2025 09:11:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Qingfang Deng <dqfext@gmail.com>
+Cc: Andreas Koensgen <ajk@comnets.uni-bremen.de>,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	linux-hams@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	syzbot+5fd749c74105b0e1b302@syzkaller.appspotmail.com
-Subject: [PATCH net-next v2] 6pack: drop redundant locking and refcounting
-Date: Thu, 25 Sep 2025 13:10:59 +0800
-Message-ID: <20250925051059.26876-1-dqfext@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Subject: Re: [PATCH net-next v2] 6pack: drop redundant locking and refcounting
+Message-ID: <aNTdLU7amoq0bCnS@stanley.mountain>
+References: <20250925051059.26876-1-dqfext@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250925051059.26876-1-dqfext@gmail.com>
 
-The TTY layer already serializes line discipline operations with
-tty->ldisc_sem, so the extra disc_data_lock and refcnt in 6pack
-are unnecessary.
+On Thu, Sep 25, 2025 at 01:10:59PM +0800, Qingfang Deng wrote:
+> The TTY layer already serializes line discipline operations with
+> tty->ldisc_sem, so the extra disc_data_lock and refcnt in 6pack
+> are unnecessary.
+> 
+> Removing them simplifies the code and also resolves a lockdep warning
+> reported by syzbot. The warning did not indicate a real deadlock, since
+> the write-side lock was only taken in process context with hardirqs
+> disabled.
+> 
+> Reported-by: syzbot+5fd749c74105b0e1b302@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/all/68c858b0.050a0220.3c6139.0d1c.GAE@google.com/
+> Signed-off-by: Qingfang Deng <dqfext@gmail.com>
+> ---
+> v2: add Closes tag
+>  - https://lore.kernel.org/netdev/20250923060706.10232-1-dqfext@gmail.com/
+> 
 
-Removing them simplifies the code and also resolves a lockdep warning
-reported by syzbot. The warning did not indicate a real deadlock, since
-the write-side lock was only taken in process context with hardirqs
-disabled.
+Thanks!
 
-Reported-by: syzbot+5fd749c74105b0e1b302@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/68c858b0.050a0220.3c6139.0d1c.GAE@google.com/
-Signed-off-by: Qingfang Deng <dqfext@gmail.com>
----
-v2: add Closes tag
- - https://lore.kernel.org/netdev/20250923060706.10232-1-dqfext@gmail.com/
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
- drivers/net/hamradio/6pack.c | 57 ++++--------------------------------
- 1 file changed, 5 insertions(+), 52 deletions(-)
-
-diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
-index c5e5423e1863..885992951e8a 100644
---- a/drivers/net/hamradio/6pack.c
-+++ b/drivers/net/hamradio/6pack.c
-@@ -115,8 +115,6 @@ struct sixpack {
- 
- 	struct timer_list	tx_t;
- 	struct timer_list	resync_t;
--	refcount_t		refcnt;
--	struct completion	dead;
- 	spinlock_t		lock;
- };
- 
-@@ -353,42 +351,13 @@ static void sp_bump(struct sixpack *sp, char cmd)
- 
- /* ----------------------------------------------------------------------- */
- 
--/*
-- * We have a potential race on dereferencing tty->disc_data, because the tty
-- * layer provides no locking at all - thus one cpu could be running
-- * sixpack_receive_buf while another calls sixpack_close, which zeroes
-- * tty->disc_data and frees the memory that sixpack_receive_buf is using.  The
-- * best way to fix this is to use a rwlock in the tty struct, but for now we
-- * use a single global rwlock for all ttys in ppp line discipline.
-- */
--static DEFINE_RWLOCK(disc_data_lock);
--                                                                                
--static struct sixpack *sp_get(struct tty_struct *tty)
--{
--	struct sixpack *sp;
--
--	read_lock(&disc_data_lock);
--	sp = tty->disc_data;
--	if (sp)
--		refcount_inc(&sp->refcnt);
--	read_unlock(&disc_data_lock);
--
--	return sp;
--}
--
--static void sp_put(struct sixpack *sp)
--{
--	if (refcount_dec_and_test(&sp->refcnt))
--		complete(&sp->dead);
--}
--
- /*
-  * Called by the TTY driver when there's room for more data.  If we have
-  * more packets to send, we send them here.
-  */
- static void sixpack_write_wakeup(struct tty_struct *tty)
- {
--	struct sixpack *sp = sp_get(tty);
-+	struct sixpack *sp = tty->disc_data;
- 	int actual;
- 
- 	if (!sp)
-@@ -400,7 +369,7 @@ static void sixpack_write_wakeup(struct tty_struct *tty)
- 		clear_bit(TTY_DO_WRITE_WAKEUP, &tty->flags);
- 		sp->tx_enable = 0;
- 		netif_wake_queue(sp->dev);
--		goto out;
-+		return;
- 	}
- 
- 	if (sp->tx_enable) {
-@@ -408,9 +377,6 @@ static void sixpack_write_wakeup(struct tty_struct *tty)
- 		sp->xleft -= actual;
- 		sp->xhead += actual;
- 	}
--
--out:
--	sp_put(sp);
- }
- 
- /* ----------------------------------------------------------------------- */
-@@ -430,7 +396,7 @@ static void sixpack_receive_buf(struct tty_struct *tty, const u8 *cp,
- 	if (!count)
- 		return;
- 
--	sp = sp_get(tty);
-+	sp = tty->disc_data;
- 	if (!sp)
- 		return;
- 
-@@ -446,7 +412,6 @@ static void sixpack_receive_buf(struct tty_struct *tty, const u8 *cp,
- 	}
- 	sixpack_decode(sp, cp, count1);
- 
--	sp_put(sp);
- 	tty_unthrottle(tty);
- }
- 
-@@ -561,8 +526,6 @@ static int sixpack_open(struct tty_struct *tty)
- 
- 	spin_lock_init(&sp->lock);
- 	spin_lock_init(&sp->rxlock);
--	refcount_set(&sp->refcnt, 1);
--	init_completion(&sp->dead);
- 
- 	/* !!! length of the buffers. MTU is IP MTU, not PACLEN!  */
- 
-@@ -638,19 +601,11 @@ static void sixpack_close(struct tty_struct *tty)
- {
- 	struct sixpack *sp;
- 
--	write_lock_irq(&disc_data_lock);
- 	sp = tty->disc_data;
--	tty->disc_data = NULL;
--	write_unlock_irq(&disc_data_lock);
- 	if (!sp)
- 		return;
- 
--	/*
--	 * We have now ensured that nobody can start using ap from now on, but
--	 * we have to wait for all existing users to finish.
--	 */
--	if (!refcount_dec_and_test(&sp->refcnt))
--		wait_for_completion(&sp->dead);
-+	tty->disc_data = NULL;
- 
- 	/* We must stop the queue to avoid potentially scribbling
- 	 * on the free buffers. The sp->dead completion is not sufficient
-@@ -673,7 +628,7 @@ static void sixpack_close(struct tty_struct *tty)
- static int sixpack_ioctl(struct tty_struct *tty, unsigned int cmd,
- 		unsigned long arg)
- {
--	struct sixpack *sp = sp_get(tty);
-+	struct sixpack *sp = tty->disc_data;
- 	struct net_device *dev;
- 	unsigned int tmp, err;
- 
-@@ -725,8 +680,6 @@ static int sixpack_ioctl(struct tty_struct *tty, unsigned int cmd,
- 		err = tty_mode_ioctl(tty, cmd, arg);
- 	}
- 
--	sp_put(sp);
--
- 	return err;
- }
- 
--- 
-2.43.0
+regards,
+dan carpenter
 
 
