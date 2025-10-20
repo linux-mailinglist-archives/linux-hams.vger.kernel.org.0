@@ -1,173 +1,128 @@
-Return-Path: <linux-hams+bounces-661-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-663-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D96DBF1600
-	for <lists+linux-hams@lfdr.de>; Mon, 20 Oct 2025 14:57:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88220BF18EC
+	for <lists+linux-hams@lfdr.de>; Mon, 20 Oct 2025 15:36:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AD7214F40E7
-	for <lists+linux-hams@lfdr.de>; Mon, 20 Oct 2025 12:57:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC9DC421F89
+	for <lists+linux-hams@lfdr.de>; Mon, 20 Oct 2025 13:35:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 352B731280D;
-	Mon, 20 Oct 2025 12:57:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEA5C314A78;
+	Mon, 20 Oct 2025 13:35:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fnrN3EMb"
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="i7BdrJY3"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192442F9DBE
-	for <linux-hams@vger.kernel.org>; Mon, 20 Oct 2025 12:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D32D2F8BDA;
+	Mon, 20 Oct 2025 13:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760965061; cv=none; b=U4M+kTGdKiwdHp+nvTEEoA7nQOkrs6wfxQ7etr3RU5rus5Nw6tREC/R2aTaR/apH0BbHqqPkm0lfOOUliZTMfs45J0CKvHHk/Kq/zl1608RcjQXl21rJ5ZQFNHB4Iq80SSkKBf6zsToq06DuwGSg5DnVvtppf/A5HsXlmLbuFIM=
+	t=1760967316; cv=none; b=se/lRjELWV5ahIG8yofdjaABwhV2Ihw+wSiA8Idn2wtJFSyAurwtLtBwWbQanH9U2+RViLKVikpfDEXr1DgJ6+WaR9BaxSaRZnFMbbh1olY+gy0ozCe7RED7C/aFv2WWKoMk9Ss2OxOwRv+6blhbEIWrRppM2FdmP6/kouFckJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760965061; c=relaxed/simple;
-	bh=7sUddBToXRDuVpOAdbh5+EOipFsXxszIriq7XYYoywE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p3OB6ojDUPLajREjE5DbrLT4+ho9zT2PMgIBQIFu4BSxOgQyz5k8qVbK/ewbghGhTbpYYe5VesFoE/j1D/IBF3UR5QrEON2m8yAOZ+c/OlG/YWB8dlGlGNHfb4MNqT9t8ciS1Oz0pZ8+e9KGN/qD9jHPWpqoLmmhifYCYYX0FRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fnrN3EMb; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-46e6a6a5e42so23332955e9.0
-        for <linux-hams@vger.kernel.org>; Mon, 20 Oct 2025 05:57:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760965058; x=1761569858; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eXAZo9QKBPHm6dHDU8Xx+AOp+3XH61eqHfx+Vq3xM9I=;
-        b=fnrN3EMb2lDaS/rRAMvI/yge+4d8oOuzal1q+ZhATLzbDHuKSQdimSiTIMhuchctkW
-         HHtj/eMESZtru312iCNA/aAGmHIR+4fAOkmOkjNzw5BB0Q3plAEnkueGBigUGAynE/Iu
-         yisJ40wKDDsKf6jSnxdacvamnCKKf8W656mx+JAgOFWI2S9+O6A2moRd9T0z3KqvEDEl
-         BizIyViy42SqZ3EAnWZR7LAp7vaW6g5bX2sJ+B2uUScAgBlbOSq5NRAJMzyOmyat2oad
-         bzJ/KWYNaKCy7/3ijNQ/UosAEmQoIC5OIoYta/URzPW7c0SwVTd8AXxfLlZaSZhc43qt
-         P40w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760965058; x=1761569858;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eXAZo9QKBPHm6dHDU8Xx+AOp+3XH61eqHfx+Vq3xM9I=;
-        b=X5lEB9rqLBxyJRgwO4Btbb1ROqOkP9GXTNrL2uMfFkKPfcMxfRra8huj6kGvYx86J0
-         ZRkKHYs/CrC+w514VlNcYACvezaEaZCE4J0gUssNbu6I/3LTuohQkiauQZ6RNwQizLha
-         RYA4pBdAkqOs5gGfCNCAALNRLOO+oKACrapEWT9W5YGAbNBX9LQ9cE33WDPvitjccwYv
-         z7ndxIia/F1TX/YsclzKLm/4IRD6BVO1JEV46Y/WwZKM30xqnazDWX0Y8P/pzw3ZngJO
-         9Rq5ps/1a5XrXq47J+iRtKzWNFoAZ8BqzSjKT6EN2BS7kvXVLVOrNPqqObDhOKLoB9R3
-         OWdA==
-X-Forwarded-Encrypted: i=1; AJvYcCXStp/lhD8EJ8aZ6M7jaxaKQi3FL5Zqy4eeUJf6acgmgtlBwUh2jLswVKnHZ81KvvASpRy4FMm/LUbm@vger.kernel.org
-X-Gm-Message-State: AOJu0Yza65VJiXhkNfI2dmmd+z+SR1FJgbzg76ot299iZZ5yr59MgoTQ
-	QgLsfOFgJY7H9WLXLmK1/yUZdStM1XdprWB3udyRqTwtreQbTbbn1EXvu2TGoJs62O0=
-X-Gm-Gg: ASbGnct5xWrDDVJY9+U8UCh9MZ4AuVeIsgZV5raOmTgIlAS2WurMav2NPnbIHf2yCXU
-	fRa3Hbo0UwNy60zijOIijI35uMaNZWr0zAjeaqWW0HWXVJm+TZQJR03AV519yj/L+lO9KFaWeeq
-	NFubCViGF/9dRuzs49f+H+c3tNltKZRbRPhMuSA6ZRAuUDWAL8LgdXFoSnOfy6j70KJZ+A2rjOf
-	f5ZtBQnO4TzmNPXcsH9sGIBkeaDFUl1Vkx3s27ZVVFrcWjUI356sOkwrHpV94TuZ1kWbU6nPksh
-	V+VvFXufJm4MSRKHS/9l7ytWHNdtOPSR2tnzWwY8rsnvA6HcVxSKzyghzLPtedjUJm+ssUD+Dzv
-	bF6HrYvKN9JIveFg9JFvNwmvmHvUDTuXDXvFax2Hzt5B1ccPb28oFNvgVedQbR5/OVSo/TyheE+
-	uJZ1Wj36wbjMnvLfIWSELy2cg1iA==
-X-Google-Smtp-Source: AGHT+IHM395rDiD5CS+0467HtGNOVSysUdUFMEFD/wDZ4ikUr6eXNC1u5lSYEQ5rloxVyaeKMi9hbA==
-X-Received: by 2002:a05:600c:5287:b0:471:7a:7922 with SMTP id 5b1f17b1804b1-47117874a26mr111763615e9.6.1760965058269;
-        Mon, 20 Oct 2025 05:57:38 -0700 (PDT)
-Received: from localhost ([41.210.143.179])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427ea5a0e9csm15431843f8f.5.2025.10.20.05.57.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 05:57:37 -0700 (PDT)
-Date: Mon, 20 Oct 2025 15:57:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Lizhi Xu <lizhi.xu@windriver.com>
-Cc: davem@davemloft.net, edumazet@google.com, horms@kernel.org,
-	kuba@kernel.org, linux-hams@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	syzbot+2860e75836a08b172755@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH V2] netrom: Prevent race conditions between multiple add
- route
-Message-ID: <aPYxvdLFjjduK28o@stanley.mountain>
-References: <aPYKgFTIroUhJAJA@stanley.mountain>
- <20251020110244.3200311-1-lizhi.xu@windriver.com>
- <aPYqRJXGhCNws4d3@stanley.mountain>
+	s=arc-20240116; t=1760967316; c=relaxed/simple;
+	bh=ucu/MEjAdi6pmWs46yVfUvYL1HyEffGD/qz2i/G6+p8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VYLjsDnK5Amb5lD69l8RRpNkAldD5yW6QxTT2FZ7pIHhr0eSDjDvmxRBGnSl1maVkRLCJFSV80tsprjWe3UfoNdd1M7UnyA2YzLSgtPS8LWeUX0BSj0lO0vRhQgBub2hc+S4oxJjRYKptuKJN5uq5N7bIqFwKHj/FXc4LVBqFoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=i7BdrJY3; arc=none smtp.client-ip=205.220.178.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59K5WBcU2112730;
+	Mon, 20 Oct 2025 13:35:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=9uGXyVAMB5KWc9aTemb30vveby9Xb/lQVPneonf9zHU=; b=
+	i7BdrJY3Wqcb5I9nGgd4vwRYUXnxeHoc8Vd59XYigK+uSywqswaSYq3W4M3SdnK8
+	vQILduarUNDavunfI0r6VPyLIWT/ftTAdjKZHzEUcAd5VlyF01PUeG2JYkoCxnpg
+	TwQcfk9kgUxmWDSSEW1iKLxXe8RTMPdAE07yCc85WMAHJoZmteufQPbcXbhJykbX
+	rIS9r3uQZ1fx/wkEmhttUiTNRpoN2Xg+q4vVYP1ORRqupTiaMgEEeArTeBNMUTbK
+	+6xBQjhbp6vTpLyE9KEw5+cmTCv6cpKyo/j7Agj4N4YR/OFcjtp5VSyfjVpOS0wf
+	bEF+4m/MDErdss/OH0jZSg==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49v03y1xhd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 20 Oct 2025 13:35:01 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.59; Mon, 20 Oct 2025 06:35:00 -0700
+Received: from pek-lpd-ccm6.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.59 via Frontend Transport; Mon, 20 Oct 2025 06:34:57 -0700
+From: Lizhi Xu <lizhi.xu@windriver.com>
+To: <dan.carpenter@linaro.org>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <horms@kernel.org>,
+        <kuba@kernel.org>, <linux-hams@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <lizhi.xu@windriver.com>,
+        <netdev@vger.kernel.org>, <pabeni@redhat.com>,
+        <syzbot+2860e75836a08b172755@syzkaller.appspotmail.com>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: [PATCH V2] netrom: Prevent race conditions between multiple add route
+Date: Mon, 20 Oct 2025 21:34:56 +0800
+Message-ID: <20251020133456.3564833-1-lizhi.xu@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <aPYqRJXGhCNws4d3@stanley.mountain>
+References: <aPYqRJXGhCNws4d3@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aPYqRJXGhCNws4d3@stanley.mountain>
-
-On Mon, Oct 20, 2025 at 03:25:40PM +0300, Dan Carpenter wrote:
-> netrom/nr_route.c
->    214          nr_node_lock(nr_node);
-
-I guess nr_node is different for each thread?
-
->    215  
->    216          if (quality != 0)
->    217                  strscpy(nr_node->mnemonic, mnemonic);
->    218  
->    219          for (found = 0, i = 0; i < nr_node->count; i++) {
->    220                  if (nr_node->routes[i].neighbour == nr_neigh) {
->    221                          nr_node->routes[i].quality   = quality;
->    222                          nr_node->routes[i].obs_count = obs_count;
->    223                          found = 1;
->    224                          break;
->    225                  }
->    226          }
->    227  
->    228          if (!found) {
->    229                  /* We have space at the bottom, slot it in */
->    230                  if (nr_node->count < 3) {
->    231                          nr_node->routes[2] = nr_node->routes[1];
->    232                          nr_node->routes[1] = nr_node->routes[0];
->    233  
->    234                          nr_node->routes[0].quality   = quality;
->    235                          nr_node->routes[0].obs_count = obs_count;
->    236                          nr_node->routes[0].neighbour = nr_neigh;
->    237  
->    238                          nr_node->which++;
->    239                          nr_node->count++;
->    240                          nr_neigh_hold(nr_neigh);
->    241                          nr_neigh->count++;
->    242                  } else {
->    243                          /* It must be better than the worst */
->    244                          if (quality > nr_node->routes[2].quality) {
->    245                                  nr_node->routes[2].neighbour->count--;
->    246                                  nr_neigh_put(nr_node->routes[2].neighbour);
->    247  
->    248                                  if (nr_node->routes[2].neighbour->count == 0 && !nr_node->routes[2].neighbour->locked)
->    249                                          nr_remove_neigh(nr_node->routes[2].neighbour);
-
-Does neighbour->count means how many nr_node pointers have it in ->routes[]?
-I wish this code had comments.
-KTDOO: add comments explaining all the counters in netrom/nr_route.c
-
->    250  
->    251                                  nr_node->routes[2].quality   = quality;
->    252                                  nr_node->routes[2].obs_count = obs_count;
->    253                                  nr_node->routes[2].neighbour = nr_neigh;
->    254  
->    255                                  nr_neigh_hold(nr_neigh);
->    256                                  nr_neigh->count++;
-
-Could we just add some locking to this if statement only?  I had thought
-that nr_node_lock() serialized it but now I think maybe not?  Or maybe we
-could increment the counters before assigning it?
-
-			nr_neigh->count++;
-			nr_neigh_hold(nr_neigh);
-			nr_node->routes[2].neighbour = nr_neigh;
-
-I'm not an expert in concerency.  Does calling nr_neigh_hold() mean th
-that the nr_neigh->count++ will happen before the assignment?
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 5Tz-xckAP7A_CoA36wyirgX0sxBDqwpz
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIwMDExMiBTYWx0ZWRfX7jYUAPKXAm0J
+ H91y8PzqKW+203dY71ZCoI05iNbhhI0yDUcPrc5fxOv4x2C1UDFsZPBNmnB72wEGJifphGCtDJ1
+ PoSI3aMbHr62X2iQfTD/OKU8M3+dDi+RiG9et5+wZb5o6plBc3dZB88C7JinXj9EcRUBSlZb92e
+ e1II3kXaTf7cMwlaUhucuOrJr+14xwKVl96WAzTgP6QDIo0mG9V+MOS0DhH5RQFMSR788tkMr/M
+ ECmEUzShyNEbfmrOtAX0JBwpg59HR7T2Zm/P8HTu7ZSYnaidT1frrRUDvM5n9ejs2EBtU/YepJs
+ FxOVMEPnGYmx2yaBQrtFLBMTIxIddPI1Y+gp4xV69+gSFmHLI0QdaJBIrmZz02fVEAi2ziHAaNM
+ 9qk7mjdycBUj2bWLC7/vL9gIUYldkQ==
+X-Proofpoint-ORIG-GUID: 5Tz-xckAP7A_CoA36wyirgX0sxBDqwpz
+X-Authority-Analysis: v=2.4 cv=Uolu9uwB c=1 sm=1 tr=0 ts=68f63a85 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=LKzG_j_Es1a0USQ6zj0A:9
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-20_04,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 malwarescore=0 adultscore=0 priorityscore=1501
+ phishscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510200112
 
 
->    257                          }
->    258                  }
->    259          }
+On Mon, 20 Oct 2025 15:25:40 +0300, Dan Carpenter wrote:
+> Task0					Task1						Task2
+> =====					=====						=====
+> [97] nr_add_node()
+> [113] nr_neigh_get_dev()		[97] nr_add_node()
+> 					[214] nr_node_lock()
+> 					[245] nr_node->routes[2].neighbour->count--
+> 					[246] nr_neigh_put(nr_node->routes[2].neighbour);
+> 					[248] nr_remove_neigh(nr_node->routes[2].neighbour)
+> 					[283] nr_node_unlock()
+> [214] nr_node_lock()
+> [253] nr_node->routes[2].neighbour = nr_neigh
+> [254] nr_neigh_hold(nr_neigh);							[97] nr_add_node()
+> 											[XXX] nr_neigh_put()
+>                                                                                         ^^^^^^^^^^^^^^^^^^^^
+> 
+> These charts are supposed to be chronological so [XXX] is wrong because the
+> use after free happens on line [248].  Do we really need three threads to
+> make this race work?
+The UAF problem occurs in Task2. Task1 sets the refcount of nr_neigh to 1,
+then Task0 adds it to routes[2]. Task2 releases routes[2].neighbour after
+executing [XXX]nr_neigh_put().
 
-regards,
-dan carpenter
+BR,
+Lizhi
 
