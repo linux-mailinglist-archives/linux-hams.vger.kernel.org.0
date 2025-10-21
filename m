@@ -1,161 +1,159 @@
-Return-Path: <linux-hams+bounces-666-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-667-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB186BF2D64
-	for <lists+linux-hams@lfdr.de>; Mon, 20 Oct 2025 19:59:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 579DEBF4269
+	for <lists+linux-hams@lfdr.de>; Tue, 21 Oct 2025 02:32:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F5B34235A6
-	for <lists+linux-hams@lfdr.de>; Mon, 20 Oct 2025 17:59:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DC51718A51A1
+	for <lists+linux-hams@lfdr.de>; Tue, 21 Oct 2025 00:32:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E70E13328F7;
-	Mon, 20 Oct 2025 17:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78DD01F03D7;
+	Tue, 21 Oct 2025 00:32:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ckMa2meL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R21UTIxD"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7DE332EC7
-	for <linux-hams@vger.kernel.org>; Mon, 20 Oct 2025 17:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E471E231E
+	for <linux-hams@vger.kernel.org>; Tue, 21 Oct 2025 00:32:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760983172; cv=none; b=pljUuBPN0crIonpzbMvNYyGYyxu26entf6q00CcA8TIpnxFsWs6g3+bjo06jcuziBQ/YpVim94YDdndX1RVjzELUvUNxI0EecLQflWbgv+BJnxx4glTgzAZ4clY2JVQPgaBZqxPT1wQh5zxLFZHKO+1vQykDi/gDItf/hurjJ/k=
+	t=1761006728; cv=none; b=C5S6J0Bs13/lyGvjR2Jdr1qYM0wSPfzzpDeGiFln2oB2qzFBNhV/I0gn/mRH1n/vRDUIuQ+QEs8FS+PwXyNLwg5Jbj22OXsNkgL3DtAsX2YfwDmX3lzpf38bpkvk0xungcOSEMXPZF20bJwjZwf7j5OrlCPdIgbSDUqgjlYrPoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760983172; c=relaxed/simple;
-	bh=KSaItg7owfwMA4E/6gJC21JmHwkSPxOVuYXpwaVH8eM=;
+	s=arc-20240116; t=1761006728; c=relaxed/simple;
+	bh=+Stx3Yos3Zj4FpodRRmLagmV52djBLh7XEfBTjgyG68=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YdqHinJsUeZsuQeeG2wLR79L0vwlSk84zCwg4fiV4Ib3L0IHsqzUADuM/Uyg4wHwHpGQynOsmNbHzf4rNaJFv4CxeyPZQRslFDEK9zR1ojJjm7yjLU397GQrhzVjENqtPp7knaR9c4gACzaEpJLFgvVzZggBqYqCLJWL4UqwGH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ckMa2meL; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42557c5cedcso2576054f8f.0
-        for <linux-hams@vger.kernel.org>; Mon, 20 Oct 2025 10:59:30 -0700 (PDT)
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q2uKCOXlpuF3I9QpLz2n3Zul/9hxYFe/2y6L2LXyA4RzeOPLBT1a+QWcoRU7x4+Ggc/fT8GwYSmhlIbngBj1nqo/hjU6yaWKYjCg93I7vTmKOC2tXwl9Xgkler82Rxw4mpsrNbXTB76KcWca5cDG+RPRyQbAqIBqwHZhSdasgJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R21UTIxD; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7a1603a098eso3058009b3a.1
+        for <linux-hams@vger.kernel.org>; Mon, 20 Oct 2025 17:32:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760983169; x=1761587969; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1761006726; x=1761611526; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BBIpzP5plYQbXfXPYKWyaixauHg0jqN/NWqmZVZnNC0=;
-        b=ckMa2meL3YPvWDcGwBK+YxZErpGCddB46OFWhK2kz//Y7OXWaoplOQkNAUnmuUlwhT
-         UwUO6qTztXkgLnBUOXTeLpklIcjZRjsDO3IEU+AFS+JJqIA+a7HDyMCYG9HvBLEydabR
-         /4o4ZqrEgoLWcIok+8h01A1f9lIWHwlSzU3eTBwV+uSlRlLscuKyMxK5QJ0ybL50ZE1+
-         +gOWFTSqXucUWRMvQP8qZKVsNowus5gAKTCoJlW/pXj56ZH3kR4aqo9AaAS6HdWjr3DJ
-         TOwLL3ppprrSfziX5fJ85idP8N87tMXbhB9xh/CYvHlmiLKf7uFZ8bD4plCSecztaNnJ
-         zCDA==
+        bh=v/cpiZvdnPNi45E0SRBN32Ra3TMzhvL+cs3dmR0W4Tg=;
+        b=R21UTIxDJYopFIaaGEXEOLgBYWWmCI1PcUR8eF/oplFCKbzIWEDN8E2ApPU2yrTMfK
+         5MbYDQ34eCYgNtK3TIfUc9G79wP3QGJE2hkncymQJUzvGUji628rQTwE5j0akM3Xpo/f
+         YlaJKYUSjjcv9NyEzOqLUyGo7YV9/BkdqUHes8aI7mUh18EjpKQag5edT66dmjFxkb0C
+         9cutgdyoS52OvhbJwMeR+Y3GzmyIUJy4pGbL48J/RUy15MGCmdrpDu3OAcMau07LBINn
+         v/tCBo3QWGqOeSsT2iNaQCjv7NP12BHRqIeDFxCfmGeRgVUT3iXwyih7fwCE7KWhDuEE
+         l8WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760983169; x=1761587969;
+        d=1e100.net; s=20230601; t=1761006726; x=1761611526;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BBIpzP5plYQbXfXPYKWyaixauHg0jqN/NWqmZVZnNC0=;
-        b=QgWLI0EwnC+WchM3uwPDMQnvlbRNRbY4DWdvvH6IK/XTmOyKdLqRbG/m+65g2KC31C
-         NvCYX7FEPOJVH8UUOd7PkADlMinSWnQVSCTqO/dcmqNutfy3dypDxW5Z7xSojpLZIn4C
-         KuOOUOa8ooVhvf3XFEaNJH96FMju8X8b3yVPCAEq/LxZACrWNJuFzmBscJgH9Yhgq0mb
-         ti87gz2n+YmvfJfyKMT0peJN4snxKv8ypcOkDUZ6lKYIkLXyflQK3yZotje/SMyk4YEK
-         n6DOa+0tEmcycslOx1xXBp5bHJiXLKVi+gOj+TdZWw7eDgp0NTlQ9UoU2cYRCvAl2/gN
-         lPcg==
-X-Forwarded-Encrypted: i=1; AJvYcCVwKqaB1GP7nNm2FLG8FOohBuyRCyBMG73nAR0n/xcRBZw0mZ7e+rBEQ9GSntuWB5+YtXwpOaR33Q1i@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUv1OC3e4+RZjWfhvoo5RRzw1M2+U8mlvOnOtM3xXukVhxo0cR
-	7R0vp91JqDIC/fbSUiQxMkhYQK0ws+UGEnatCARJrzd+igxndrxxgvgGHn0wVOH+34w=
-X-Gm-Gg: ASbGncu1LAPdMVEqnI6laos7qJ0z88+9wzcWd1k1dpNaFmnP7t1rtTgvQSavO2j4Wx9
-	7k07/aIPrKjXNoxJbn2sACLKZzEKkhiccd9PgcXlnbBSNxHECsxWUKb0LsqmtQi0JSSBbkJg/QL
-	92GjYzk6thAwuNhe0y+mHOuhI7zmC83Sq2KPwsyemWpX45P0wQbO1mr53/HkTO6zL5CL3O+4DIH
-	X2B0ZGcmtj/tKA/tF+TFkxMETQNnlkCmfMIf3pejRce/duG44bbLgKVorBTYVOdkFKX2GZ3fT+5
-	GAR4E6JZpqkLOwKleQNqWzCBuqWCgcS1ISQOb+nmzcpyrIvWPaQ5qfW77feLUgA4kmXFmc9YY7G
-	SGplG1w4A4R014wSrCBbY1RGrJY8K5WY93chhSlgg0NCqFwiS3K8kqRe89cGdYVgc1RBZvSn0kO
-	h/+ab4l+VE/Pd+5wk=
-X-Google-Smtp-Source: AGHT+IEve3rptaTxAGdVVvZ3C2zYTFALcxP2rlbTlJDOAnuR0ODFvI8Ya+F1oDNmVuli022ySOULYw==
-X-Received: by 2002:a05:6000:2881:b0:427:1ba4:de9e with SMTP id ffacd0b85a97d-4271ba4dfdemr7326245f8f.63.1760983168883;
-        Mon, 20 Oct 2025 10:59:28 -0700 (PDT)
-Received: from localhost ([41.210.143.179])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427f00ce06bsm16113493f8f.45.2025.10.20.10.59.27
+        bh=v/cpiZvdnPNi45E0SRBN32Ra3TMzhvL+cs3dmR0W4Tg=;
+        b=f17bRp1yIARaC195SFo/rLR2dP2sMIxVvxgcRMzn+oxMCwvKjBJ209jDDFqVR3CyTT
+         sYmaJFusJtU+TCFi8QpjCu9xpPfI8y94ggWP/y8E756a6h4OWgDMZMHin1T+KOPsc+Io
+         kz+A4pCRPcF3Zj7dNX7lZB2y9+tmlqreM46Oh3OB0tNKxMDsY5DVNioRii0YcETvdXZC
+         tG1FJCoKKICW7sz5x4Dj0jhvcLANVGe1OKdNGanM4wCKaKoLT05R920Tds7EyPSnYk1m
+         Th446vK+jbbFBjRY+LRtB5TE34BP4HxbRYGEKnoVwZQPtJ5Xja+rwC1wJVeA5JEXyO41
+         VlGg==
+X-Gm-Message-State: AOJu0Yw/IOK2WcgtferR6EyhkX7khQ2Xa8oDj3qNyqpYt0j9oORaHxa5
+	bWshOLJlyahKi7AnRiMqOtjS4yz/MsVUF+QJDTtG77xxV1gJCvxmLRH+
+X-Gm-Gg: ASbGnct4oz3cn3wA/e78GtS4gfh4//+q9mZ/VewJOKYAqNQpaaI33hko78upFbOxCfZ
+	Majn8HeK7+bW2iTqDfVXsrkSBbqGmt+IgYOoVUo/w+htCmDTtJQ7go6hNSd3R1NrmTvNlmvJ9ha
+	klHSH1cNjQlYWpmppln/Y+P9z18cNx8yF3naY2kHDImu0+pgqzxFgOV783yiaCfR6+P9KZWu2qH
+	DjS/QwBmAbZp7vUhF5YzqsWD11lbxuZ5HgXGQsq5DTU+3MHu5oclxvsIwjVgkD32vHw3GsBWxE6
+	D0COHyvVruiRXgEkhOraWZLiXWQQzSFs8CceTJsaMynNOBn0hchU9aYdc2KQnZzUcx8tGVWizqq
+	gg1RURo0C7a6Vd2PclsyhShfi5rDw1939e8z+Anggqlbxa8TQWSp5uZDR/rSIF++71pbRjFdoCm
+	VhnMZd04l6Fo+r0w==
+X-Google-Smtp-Source: AGHT+IEsUPJvzG8we/lPr0Ah4Byy7131lhTqUy6IYRR/KgOr9A5mhJJoZH9DBN/+obua52bJEsmONw==
+X-Received: by 2002:a17:902:e944:b0:290:b14c:4f36 with SMTP id d9443c01a7336-290cba4edaemr170898085ad.31.1761006725838;
+        Mon, 20 Oct 2025 17:32:05 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-292471d5971sm91702065ad.56.2025.10.20.17.32.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 10:59:28 -0700 (PDT)
-Date: Mon, 20 Oct 2025 20:59:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Lizhi Xu <lizhi.xu@windriver.com>
-Cc: davem@davemloft.net, edumazet@google.com, horms@kernel.org,
-	kuba@kernel.org, linux-hams@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	syzbot+2860e75836a08b172755@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH V2] netrom: Prevent race conditions between multiple add
- route
-Message-ID: <aPZ4fLKBiCCIGr9e@stanley.mountain>
-References: <20251020133456.3564833-1-lizhi.xu@windriver.com>
- <20251020134912.3593047-1-lizhi.xu@windriver.com>
+        Mon, 20 Oct 2025 17:32:04 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 2E36D412B0A6; Tue, 21 Oct 2025 07:32:02 +0700 (WIB)
+Date: Tue, 21 Oct 2025 07:32:02 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org
+Cc: linux-hams@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: networking: ax25: update the mailing list
+ info.
+Message-ID: <aPbUghAytyXEZAra@archie.me>
+References: <20251020052716.3136773-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="GkTDwKgTYWZMUyjt"
 Content-Disposition: inline
-In-Reply-To: <20251020134912.3593047-1-lizhi.xu@windriver.com>
+In-Reply-To: <20251020052716.3136773-1-rdunlap@infradead.org>
 
-On Mon, Oct 20, 2025 at 09:49:12PM +0800, Lizhi Xu wrote:
-> On Mon, 20 Oct 2025 21:34:56 +0800, Lizhi Xu wrote:
-> > > Task0					Task1						Task2
-> > > =====					=====						=====
-> > > [97] nr_add_node()
-> > > [113] nr_neigh_get_dev()		[97] nr_add_node()
-> > > 					[214] nr_node_lock()
-> > > 					[245] nr_node->routes[2].neighbour->count--
-> > > 					[246] nr_neigh_put(nr_node->routes[2].neighbour);
-> > > 					[248] nr_remove_neigh(nr_node->routes[2].neighbour)
-> > > 					[283] nr_node_unlock()
-> > > [214] nr_node_lock()
-> > > [253] nr_node->routes[2].neighbour = nr_neigh
-> > > [254] nr_neigh_hold(nr_neigh);							[97] nr_add_node()
-> > > 											[XXX] nr_neigh_put()
-> > >                                                                                         ^^^^^^^^^^^^^^^^^^^^
-> > > 
-> > > These charts are supposed to be chronological so [XXX] is wrong because the
-> > > use after free happens on line [248].  Do we really need three threads to
-> > > make this race work?
-> > The UAF problem occurs in Task2. Task1 sets the refcount of nr_neigh to 1,
-> > then Task0 adds it to routes[2]. Task2 releases routes[2].neighbour after
-> > executing [XXX]nr_neigh_put().
-> Execution Order:
-> 1 -> Task0
-> [113] nr_neigh_get_dev() // After execution, the refcount value is 3
-> 
-> 2 -> Task1
-> [246] nr_neigh_put(nr_node->routes[2].neighbour);   // After execution, the refcount value is 2
-> [248] nr_remove_neigh(nr_node->routes[2].neighbour) // After execution, the refcount value is 1
-> 
-> 3 -> Task0
-> [253] nr_node->routes[2].neighbour = nr_neigh       // nr_neigh's refcount value is 1 and add it to routes[2]
-> 
-> 4 -> Task2
-> [XXX] nr_neigh_put(nr_node->routes[2].neighbour)    // After execution, neighhour is freed
-> if (nr_node->routes[2].neighbour->count == 0 && !nr_node->routes[2].neighbour->locked)  // Uaf occurs this line when accessing neighbour->count
 
-Let's step back a bit and look at the bigger picture design.  (Which is
-completely undocumented so we're just guessing).
+--GkTDwKgTYWZMUyjt
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-When we put nr_neigh into nr_node->routes[] we bump the nr_neigh_hold()
-reference count and nr_neigh->count++, then when we remove it from
-->routes[] we drop the reference and do nr_neigh->count--.
+On Sun, Oct 19, 2025 at 10:27:16PM -0700, Randy Dunlap wrote:
+> Update the mailing list subscription information for the linux-hams
+> mailing list.
+>=20
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> Cc: linux-hams@vger.kernel.org
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: Simon Horman <horms@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/networking/ax25.rst |    7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>=20
+> --- linux-next-20251016.orig/Documentation/networking/ax25.rst
+> +++ linux-next-20251016/Documentation/networking/ax25.rst
+> @@ -11,6 +11,7 @@ found on https://linux-ax25.in-berlin.de
+> =20
+>  There is a mailing list for discussing Linux amateur radio matters
+>  called linux-hams@vger.kernel.org. To subscribe to it, send a message to
+> -majordomo@vger.kernel.org with the words "subscribe linux-hams" in the b=
+ody
+> -of the message, the subject field is ignored.  You don't need to be
+> -subscribed to post but of course that means you might miss an answer.
+> +linux-hams+subscribe@vger.kernel.org or use the web interface at
+> +https://vger.kernel.org. The subject and body of the message are
+> +ignored.  You don't need to be subscribed to post but of course that
+> +means you might miss an answer.
 
-If it's the last reference (and we are not holding ->locked) then we
-remove it from the &nr_neigh_list and drop the reference count again and
-free it.  So we drop the reference count twice.  This is a complicated
-design with three variables: nr_neigh_hold(), nr_neigh->count and
-->locked.  Why can it not just be one counter nr_neigh_hold().  So
-instead of setting locked = true we would just take an extra reference?
-The nr_neigh->count++ would be replaced with nr_neigh_hold() as well.
+vger mailing lists has been moved to subspace infrastructure though (and
+so does subscribing information [1]).
 
-Because that's fundamentally the problem, right?  We call
-nr_neigh_get_dev() so we think we're holding a reference and we're
-safe, but we don't realize that calling neighbour->count-- can
-result in dropping two references.
+[1]: https://subspace.kernel.org/subscribing.html
 
-regards,
-dan carpenter
+--=20
+An old man doll... just what I always wanted! - Clara
 
+--GkTDwKgTYWZMUyjt
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaPbUgQAKCRD2uYlJVVFO
+oxZzAQDVOGnv/ATVv5w6QV/t85wZvi3c09MTXjDU04j04yxQpAEAkxwHtFWG0Kb9
+I7AC36LLnSDWXI5ugl6JsU/TUeE3FgA=
+=WAqV
+-----END PGP SIGNATURE-----
+
+--GkTDwKgTYWZMUyjt--
 
