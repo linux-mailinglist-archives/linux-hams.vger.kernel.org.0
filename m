@@ -1,139 +1,183 @@
-Return-Path: <linux-hams+bounces-687-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-688-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1E62C05A6D
-	for <lists+linux-hams@lfdr.de>; Fri, 24 Oct 2025 12:46:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A321C0617F
+	for <lists+linux-hams@lfdr.de>; Fri, 24 Oct 2025 13:50:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9CC683B0794
-	for <lists+linux-hams@lfdr.de>; Fri, 24 Oct 2025 10:45:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6985E19A2F3A
+	for <lists+linux-hams@lfdr.de>; Fri, 24 Oct 2025 11:50:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 084BE30DD34;
-	Fri, 24 Oct 2025 10:45:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75DD22C2345;
+	Fri, 24 Oct 2025 11:50:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HtNoeQp9"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="THBKORSJ"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B0927AC5C
-	for <linux-hams@vger.kernel.org>; Fri, 24 Oct 2025 10:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8333C2C21FB
+	for <linux-hams@vger.kernel.org>; Fri, 24 Oct 2025 11:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761302724; cv=none; b=Yo6jrs3VeDk5EpflwziDeaTb8kZv5NTZQn5xh7+wwlFFId2++5AIG9T3zElZFZhn21HYzXhVIZ9WuNVFDe0mNR6rVeSV0fiKr2sXrKxeJLNBkWxfAKyxN6LQyQ50GnbL+k8pMQSkG3gVE0rkbaCgor8bsiqGMMfZ0Fea0SaoCYM=
+	t=1761306610; cv=none; b=JSJ1gw9k5Ku9AR5YPhnGHzT5leIlesJIcCbcT9hhmXf0USbvbyLLTa3AZA6GpG7DK08X3S0h4iCPiLvYTDdr4kLHzYyP7XH9aZEZKjPs32wmh7s4soF5NDoWfqpzpZT6/n4yvODKwOjggwDyIJzlDCmtrzQnHxbHNm4q7uKwCe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761302724; c=relaxed/simple;
-	bh=zitpUfd02mHfmWmKbxxXVMFAcuXxYP9GCRpf0oeD/9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZHl76Gfyt4vnCbGOGNZ0sP3UdMjwlYlD+L3iFaOj6piSf3YFSYtgPV9nM56AlFEedbZsp72HuDhSAdYTodjNOuqpfk7FMUEixUTJ64nD1o2GnpbXri8t5y+O9i+N7nxoExJ6samqLJh0XIpzjG3NcJ7o8cp5LqR711954Jv105U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HtNoeQp9; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3ecdf2b1751so1383203f8f.0
-        for <linux-hams@vger.kernel.org>; Fri, 24 Oct 2025 03:45:22 -0700 (PDT)
+	s=arc-20240116; t=1761306610; c=relaxed/simple;
+	bh=JyNPoOflrd09KImJzGn+Oa6R2et+UXAyI1HgrMWnlrg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=emzo+q+2UdlBOmtMr310vy9FNFDm6eInAyZ6zp2TYPm5MfCpCOffU1WmGGcUPVmGLKq+05zAbxmj5KZdWth4QYbSS2uTv/V5ZE4z2M/HJuiIwKMFzLXSzs7IJ3htpc4ywHxHm6cmK93RFNbhP7WXme6jbnYgvVnUBEFDDXw8cZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=THBKORSJ; arc=none smtp.client-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-63e19642764so2066057d50.1
+        for <linux-hams@vger.kernel.org>; Fri, 24 Oct 2025 04:50:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761302721; x=1761907521; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0LzYC4CXNtIhbU33+vNcLU3UwFYwR0NDqLzt3aZXlS8=;
-        b=HtNoeQp9JLCTH6rHZfTLnO3p7RnUjvCDk6KwZQYZ4/QbVbWV6WlMXpvXCiEAOsRVbm
-         LlXw8hekf3XHIYP2b//FxrTwO5g1Xu8g7v49t10Uzut4M2WCL3Q8TZgdH3X8n39wisQd
-         3Au6JfXCk2+cbtBaSYAo54+ujmQn3bCjyWEGNFXbRQcbZ0Afunq9mhN0FZBSc65DmtCV
-         IQbbk4ptLbpZroXzLhxN/vDCWGnClKNef1kj5GXR2X58DbbwzWfeAH8QWIa+re86tdfS
-         q8a1CknnjTyvy4pJGqRkZFdxx5yK1Vyiam7K5k27AzbBaIusDRHwmPUKQf/N/HHjPpZa
-         bybA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761302721; x=1761907521;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1761306607; x=1761911407; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0LzYC4CXNtIhbU33+vNcLU3UwFYwR0NDqLzt3aZXlS8=;
-        b=F78NzwqflhPLdkkEcyxl5X4Sov76oTXPEYjuDXVB71mKdZu7kgwxsb9dwW52cPiifY
-         ingrSapZCMoNPeED0S+yDBumLwF6VW87+Ivcphy+7eWEmJAB+2LyXUHgfQ7IPFUN96Cl
-         Oiry5Gqq/7hkKcbi9Q1O/KkgcDBOEYVn/iYrgHo1f7O46OWPnwElE8Tciu3rBzOYbmnQ
-         gP7fQQUPLH79UmU1BBhqbAowQnIFsFZhVJg63wsb6p/6ntanUgMPPp+pxpcapVu4G6Sn
-         Ejn3c4PbHNHOoKRUCQM2gKPh4JC1b1CwUnC3EfO/AnLbE3mwu5Mi1xRNY50ChrZu9vdF
-         6HlA==
-X-Forwarded-Encrypted: i=1; AJvYcCVTdrIn+bX0M4F4hOHkUXpHT2kByshFGaDfqGh0Sl+vtHOSxa3CK69kFeYnvZ/yN1X9yFFnNi2iqKLZ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7v7wWLGa+bQEaPeEiHNqHXIHV3PLeE6mvowd9YJLBs4Xx/lcw
-	YQz79oOsuddNInDaxoxb9DAvZvNyNzpPieUag66UUEnXzd+/eM4eCROTJkSlmKV6JXLoTzCX3fX
-	/bjmi
-X-Gm-Gg: ASbGnctKaE/6+CH5dYOLOOCyRsv/P7Nb8J49dXlFXIOZlmhx5aCh8s5x4dFlh1W3JRV
-	tAtJBBovB3MVEkETx4m2p6NlncXGId/PZuo0Dc4U1P/D2fAIPMPDPHXrbtY//vJxcaHaD7jsaPc
-	RgpY9TkWocWGIwV7Gxfq9QKDeRgKgJ/31bkelgh9aoP3TO6Jl+TanltkKcgmFKnKLsmdrAS47g2
-	vnZyz8SMvLykgZje6ujB5Ie0ncD62uxzEV/xYH4uL2knF3xE198ilGchL/R5dpyVemN/B9A08El
-	e/4b/LbZil0WgNLMCFhhG0MEjzR0LWzaYa72atVzGOqTiiChACCwU7Qtqk3kUAP8n3Xpd3aXpZ2
-	mVGu7EeFhUAhOtM5Y03YVw3C0nygOhpRBrMpPlP+mI2u/DuDdmchmlbfm+Xk+eNAH6k+IzmiRuU
-	jaIUVGE/wz5C/77Ydz
-X-Google-Smtp-Source: AGHT+IFndIZtTS7LJDDfqCt6ZeNmFhEZyimvvM4KVVCj0BAZcLMsAD53m+FlpSvkb1XScbIdB5nUsw==
-X-Received: by 2002:a05:6000:2888:b0:3ec:dd12:54d3 with SMTP id ffacd0b85a97d-42704d9396fmr20083040f8f.35.1761302721251;
-        Fri, 24 Oct 2025 03:45:21 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429897e75a0sm8916219f8f.5.2025.10.24.03.45.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Oct 2025 03:45:20 -0700 (PDT)
-Date: Fri, 24 Oct 2025 13:45:16 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Lizhi Xu <lizhi.xu@windriver.com>, davem@davemloft.net,
-	edumazet@google.com, horms@kernel.org, kuba@kernel.org,
-	linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	syzbot+2860e75836a08b172755@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH V3] netrom: Prevent race conditions between neighbor
- operations
-Message-ID: <aPtYvPq12Txu9JCG@stanley.mountain>
-References: <aPcp_xemzpDuw-MW@stanley.mountain>
- <20251021083505.3049794-1-lizhi.xu@windriver.com>
- <7232849d-cf15-47e1-9ffb-ed0216358be8@redhat.com>
+        bh=LPu7vN1calUWS9Gz7jrsKnKSCyFmaW2kq8XMxDii/Ww=;
+        b=THBKORSJHmb2r0wEkEg4vLDxBhzZNXJ06lh/v4ndf7RrKUw6f7FFFU5n+wbq7o+ONa
+         lyR3opdpVcoz34/rnDcpAHwd+ovhsoxjbIXgyfp0zWu0chNnDxPnKmt8Pa2rGPoxGFM3
+         S9tKWGvPHRex65AJ7zDwUQR18+Or/TDmtLbvcXrqUrxXMZTdcVASJ8MNZm+cPisyrGt8
+         ymsZwaVkrdBtVWn6Z+nTb+L2p2qxsoBgxUQpR2FHhBLR5+1llqVV3Q/d+8n5bJAThEWZ
+         wDqY/TigG7de52PcbeFDWcri0KF2ngxwd5+Sm3sCDVfGCbbNs34MKsvxQDaRmy2GnOY5
+         psOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761306607; x=1761911407;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LPu7vN1calUWS9Gz7jrsKnKSCyFmaW2kq8XMxDii/Ww=;
+        b=OKvIgkBePBRn2kLQOlsG4okNH2VjardV3n0oSzHbrikFNeGSn2pNzD8Dm8LcFKwyTq
+         DSnf/nxgidRxOoJ0aEKnXCN1RvJq5Euz6MBx1pYlm/jK4GmdZ2VTw28IWrHqB4mJQWH6
+         gUZbHzpNTgvXnH9od6txP6It/SnDdAVr2OlVGVs1EYldVFhyfzINRQGopBQYoo098uD3
+         AAYZv2g9+S7k3jrHZwk04t+lUIdrgyhG+ULYp87eNb7zNIRoftA93HzxJ9tGNz9TGyXe
+         USE/JImzhNO2ZLZkkccWRc/jO3b1ZzVL232Jbik+eZAC4UTd4WEDVlSbGvYSTVYeJWUT
+         nx8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVzTRE9WQbJvU7v9bX/L8bu/i26HFVuzBqgfQCn/DQlFjkCC+V6VvWk3reGrzB3QUPEZxxSStPq86Df@vger.kernel.org
+X-Gm-Message-State: AOJu0YyyMb0m/2KWu+UkWNviycmMT7KhWUozIvbNc6dazQEomZh4npg0
+	0pkzGVVf1gwkFAWj8P32NUXM1G8epyDAsz5D989GVZyBGT1ZHBJItuyWbQXuejh3mCrq+2E3+yO
+	NdxKhXkYbZqNpYtOcCV4oH1EOqq7FV7ADyizQCseG
+X-Gm-Gg: ASbGncsTHOjxsoPZ2o2kOr5i5D6lATneT4IUiRZuG+1q/UIqYEdTH99wxTuhwV7nue8
+	AAQAxK6iAgdhf+sYt0HR2cp+9aBPhi6YtRRC/HJRVJNN+VWmuEfaaPy8XXrde3gtT8iL5DrHGEo
+	LsDadMKIDkBTGumHXzLO8Zm6r8h8AucDBKoOmTbWF8eUy2+E8+G/avm9we6PDDGzfKVbiaP+P9H
+	QRU6iM9UAgizphBQ25/2/W3rqw2QARWYNVy1LWy1P8aLb8vq9dDpCIbcArqfXIswrQggQ==
+X-Google-Smtp-Source: AGHT+IFiXZPFoW3XumCylfcB7j13+foGPrt/PBXHdC1d5im6TR7Pl10kLZ/EEoKE1RNBjalMg75qFAT+YfmAMkkUFZ0=
+X-Received: by 2002:a05:690e:1c08:b0:63e:4150:4a0b with SMTP id
+ 956f58d0204a3-63e41504b4cmr12608126d50.64.1761306607028; Fri, 24 Oct 2025
+ 04:50:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7232849d-cf15-47e1-9ffb-ed0216358be8@redhat.com>
+References: <20251024093901.1202924-1-lizhi.xu@windriver.com>
+In-Reply-To: <20251024093901.1202924-1-lizhi.xu@windriver.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Fri, 24 Oct 2025 04:49:55 -0700
+X-Gm-Features: AS18NWCyXWglYAph4MhDJQMx_rCfCfaeUc5A_R94Ms8hmdKV9GKUS6s1Tfgfq_I
+Message-ID: <CANn89iKxjOPyP7h-8bCtx1SwCM1FaXDAXfcdCW7uXxKsy49L3w@mail.gmail.com>
+Subject: Re: [PATCH V3] net: rose: Prevent the use of freed digipeat
+To: Lizhi Xu <lizhi.xu@windriver.com>
+Cc: davem@davemloft.net, horms@kernel.org, jreuter@yaina.de, kuba@kernel.org, 
+	kuniyu@google.com, linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, 
+	syzbot+caa052a0958a9146870d@syzkaller.appspotmail.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 23, 2025 at 01:44:18PM +0200, Paolo Abeni wrote:
-> Why reordering the statements as:
-> 
-> 	if (nr_node->routes[2].neighbour->count == 0 &&
-> !nr_node->routes[2].neighbour->locked)
-> 		nr_remove_neigh(nr_node->routes[2].neighbour);
-> 	nr_neigh_put(nr_node->routes[2].neighbour);
-> 
-> is not enough?
+On Fri, Oct 24, 2025 at 2:39=E2=80=AFAM Lizhi Xu <lizhi.xu@windriver.com> w=
+rote:
+>
+> There is no synchronization between the two timers, rose_t0timer_expiry
+> and rose_timer_expiry.
+> rose_timer_expiry() puts the neighbor when the rose state is ROSE_STATE_2=
+.
+> However, rose_t0timer_expiry() does initiate a restart request on the
+> neighbor.
+> When rose_t0timer_expiry() accesses the released neighbor member digipeat=
+,
+> a UAF is triggered.
+>
+> To avoid this UAF, defer the put operation to rose_t0timer_expiry() and
+> stop restarting t0timer after putting the neighbor.
+>
+> When putting the neighbor, set the neighbor to NULL. Setting neighbor to
+> NULL prevents rose_t0timer_expiry() from restarting t0timer.
+>
+> syzbot reported a slab-use-after-free Read in ax25_find_cb.
+> BUG: KASAN: slab-use-after-free in ax25_find_cb+0x3b8/0x3f0 net/ax25/af_a=
+x25.c:237
+> Read of size 1 at addr ffff888059c704c0 by task syz.6.2733/17200
+> Call Trace:
+>  ax25_find_cb+0x3b8/0x3f0 net/ax25/af_ax25.c:237
+>  ax25_send_frame+0x157/0xb60 net/ax25/ax25_out.c:55
+>  rose_send_frame+0xcc/0x2c0 net/rose/rose_link.c:106
+>  rose_transmit_restart_request+0x1b8/0x240 net/rose/rose_link.c:198
+>  rose_t0timer_expiry+0x1d/0x150 net/rose/rose_link.c:83
+>
+> Freed by task 17183:
+>  kfree+0x2b8/0x6d0 mm/slub.c:6826
+>  rose_neigh_put include/net/rose.h:165 [inline]
+>  rose_timer_expiry+0x537/0x630 net/rose/rose_timer.c:183
+>
+> Fixes: d860d1faa6b2 ("net: rose: convert 'use' field to refcount_t")
+> Reported-by: syzbot+caa052a0958a9146870d@syzkaller.appspotmail.com
+> Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
+> ---
+> V1 -> V2: Putting the neighbor stops t0timer from automatically starting
+> V2 -> V3: add rose_neigh_putex for set rose neigh to NULL
+>
+>  include/net/rose.h   | 12 ++++++++++++
+>  net/rose/rose_link.c |  5 +++++
+>  2 files changed, 17 insertions(+)
+>
+> diff --git a/include/net/rose.h b/include/net/rose.h
+> index 2b5491bbf39a..33de310ba778 100644
+> --- a/include/net/rose.h
+> +++ b/include/net/rose.h
+> @@ -167,6 +167,18 @@ static inline void rose_neigh_put(struct rose_neigh =
+*rose_neigh)
+>         }
+>  }
+>
+> +static inline void rose_neigh_putex(struct rose_neigh **roseneigh)
+> +{
+> +       struct rose_neigh *rose_neigh =3D *roseneigh;
+> +       if (refcount_dec_and_test(&rose_neigh->use)) {
+> +               if (rose_neigh->ax25)
+> +                       ax25_cb_put(rose_neigh->ax25);
+> +               kfree(rose_neigh->digipeat);
+> +               kfree(rose_neigh);
+> +               *roseneigh =3D NULL;
+> +       }
+> +}
 
-There are so many unfortunate things like this:
+You have not even compiled this patch.
 
-net/netrom/nr_route.c
-   243                          /* It must be better than the worst */
-   244                          if (quality > nr_node->routes[2].quality) {
-   245                                  nr_node->routes[2].neighbour->count--;
+Also please carefully read Documentation/process/maintainer-netdev.rst
 
-++/-- are not atomic.
+Resending after review
+~~~~~~~~~~~~~~~~~~~~~~
 
-   246                                  nr_neigh_put(nr_node->routes[2].neighbour);
-   247  
-   248                                  if (nr_node->routes[2].neighbour->count == 0 && !nr_node->routes[2].neighbour->locked)
-   249                                          nr_remove_neigh(nr_node->routes[2].neighbour);
-   250  
-   251                                  nr_node->routes[2].quality   = quality;
-   252                                  nr_node->routes[2].obs_count = obs_count;
-   253                                  nr_node->routes[2].neighbour = nr_neigh;
+Allow at least 24 hours to pass between postings. This will ensure reviewer=
+s
+from all geographical locations have a chance to chime in. Do not wait
+too long (weeks) between postings either as it will make it harder for revi=
+ewers
+to recall all the context.
 
-This line should come after the next two lines.
+Make sure you address all the feedback in your new posting. Do not post a n=
+ew
+version of the code if the discussion about the previous version is still
+ongoing, unless directly instructed by a reviewer.
 
-   254  
-   255                                  nr_neigh_hold(nr_neigh);
-   256                                  nr_neigh->count++;
-   257                          }
-
-regards,
-dan carpenter
+The new version of patches should be posted as a separate thread,
+not as a reply to the previous posting. Change log should include a link
+to the previous posting (see :ref:`Changes requested`).
 
