@@ -1,60 +1,58 @@
-Return-Path: <linux-hams+bounces-683-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-684-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D265C053D0
-	for <lists+linux-hams@lfdr.de>; Fri, 24 Oct 2025 11:06:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 688D8C054A6
+	for <lists+linux-hams@lfdr.de>; Fri, 24 Oct 2025 11:18:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 171DA1A08639
-	for <lists+linux-hams@lfdr.de>; Fri, 24 Oct 2025 09:06:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 01042401BEE
+	for <lists+linux-hams@lfdr.de>; Fri, 24 Oct 2025 09:06:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88480308F23;
-	Fri, 24 Oct 2025 09:05:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FC38308F0B;
+	Fri, 24 Oct 2025 09:06:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="ctniuQxm"
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="H26klUfk"
 X-Original-To: linux-hams@vger.kernel.org
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBEAF3081DD;
-	Fri, 24 Oct 2025 09:05:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A095B302162;
+	Fri, 24 Oct 2025 09:06:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761296743; cv=none; b=R93Fica7J0IBECTVdvAtfRQLUqONx1CSHoCAqyfEykw5G+VuzcOWahFlfwOR/owzzyyL+a6FsvU2GrEr9XxP2Haj6qCtUgcSjKMFzcGGMz0fGFeWls0OZ1KaJuLqS86+HDqROzYLEG7wYm6x1aRxgK5QUQzRKvc2ZY1cz/bqNrs=
+	t=1761296810; cv=none; b=ssP8jex6NiGln2NJBiWm6gbaQZcMRDt1f6cggaw/RvCEk6fpddPMtsADYzC2Bm5Nh9s/cUVDyupumq02kqKg1Snn8mraUJwvKkEJ6YdD36LjngTTulzTqTrLgKWh9Z8rQEWiqoOx1/8rmjH+OxonbtMTPsgpjVRFHM0H/OsUlpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761296743; c=relaxed/simple;
+	s=arc-20240116; t=1761296810; c=relaxed/simple;
 	bh=UDrxfbNfMuvmybT6v67yaBFGtzSgDdt7UdublW9CJes=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZNQdSJ0zNjGCWPWeDNDBdIjC4fqiWtVzPxmoU/2GnkTEBmfSwIdnF581SOqHidIt62bnCx1Fkhc97TznyKaYKAmyz4e2P1uvSNAWkjzev4i1rsKJQ39bWn9LhpTTFK/wz7IgAVacMOFlPDixnFTD4xtD4qT5vr6yL6UchPL84rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=ctniuQxm; arc=none smtp.client-ip=205.220.166.238
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=htqUksOVZOlEWx/J6MjwD/ma2nXGtF++0OZldj2eqNNFyzd6BLjUlHheobBxKbGZVLqprPFlgatXeeaRakLhK68IqwNlLRDvmVzdv8AJ2XBSDVh8/S+2sxxsvZUkkv3uCYqUeWpKDBONJHwhy7P8htjDmupTrtRJk0krMkWSN8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=H26klUfk; arc=none smtp.client-ip=205.220.166.238
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59O50hRt1354560;
-	Fri, 24 Oct 2025 02:05:26 -0700
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59O6ASuf2312247;
+	Fri, 24 Oct 2025 02:06:34 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=3k4BlGQ5x9MSwGyg0juXo0Qv3aQ5Xy11JMlksnMjaYQ=; b=
-	ctniuQxmGx7UEc3/y5Y55IlEqHslLaQGk1Z1FDfNLcYF9VazVMXFz6YeORYOw9v/
-	KHIkNVt4MPSYaQOFyq4b04d0yvZhm3i4IgQFRPJA4bP/4GvLCY39e/htT3yIUj4u
-	7muWfoULL4WETc3kbrS+MxD1GAXewsq3WFpPlllr36BGNLv+JPFXWYb12wkchLII
-	5ybkIAOHDHA9hIf0mPy6m4u4vuHc1E80aNacUc5+JlaNLZ8Zwq0r9DyS1sxlMMOA
-	375LiSuaiCrE6Fwx5uzMMvnjafpSDVsMUrld6awDuveK/ju3QKGvJ/C4wM0Gx21G
-	bZno6jVCgw6WaKp6QINzVg==
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=3k4BlGQ5x
+	9MSwGyg0juXo0Qv3aQ5Xy11JMlksnMjaYQ=; b=H26klUfk0x3+12vespgdu/RO4
+	L5OZVx+4iBTs3MHvk0y7xhr+uJmQhycNrYVPT1Uiyy8mr7DxdRmc5JsvIcXjRRZU
+	lUcT1UFw3GlFPxZMXHZFe03UdfzbdyQBX+/0EprZQZyOhZELe6MbglPP89fKklpU
+	7miakoXupDHGg7JkprWtYXCfKLNqNyM4R15zZb7sJYyzJbCwvRjiUvBI+zHdvgPa
+	pxfrG72jVrAuWYdRZTjY8xBi47ZLVbNY1RepuT32fACXZ2d01/z7cRyBZ1THsYcJ
+	jVrob/j1ncuEFzCZAQLfCZ2MJGv2UFryO3YtpkasOMpk57JYErOetkD52XbYw==
 Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49ys00gnmk-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49v660ey8p-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 24 Oct 2025 02:05:26 -0700 (PDT)
+	Fri, 24 Oct 2025 02:06:34 -0700 (PDT)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
  ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Fri, 24 Oct 2025 02:05:25 -0700
+ 15.1.2507.59; Fri, 24 Oct 2025 02:06:34 -0700
 Received: from pek-lpd-ccm6.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.59 via Frontend Transport; Fri, 24 Oct 2025 02:05:22 -0700
+ 15.1.2507.59 via Frontend Transport; Fri, 24 Oct 2025 02:06:31 -0700
 From: Lizhi Xu <lizhi.xu@windriver.com>
 To: <kuniyu@google.com>
 CC: <davem@davemloft.net>, <edumazet@google.com>, <horms@kernel.org>,
@@ -63,12 +61,10 @@ CC: <davem@davemloft.net>, <edumazet@google.com>, <horms@kernel.org>,
         <netdev@vger.kernel.org>, <pabeni@redhat.com>,
         <syzbot+caa052a0958a9146870d@syzkaller.appspotmail.com>,
         <syzkaller-bugs@googlegroups.com>
-Subject: [PATCH] net: rose: Prevent the use of freed digipeat
-Date: Fri, 24 Oct 2025 17:05:21 +0800
-Message-ID: <20251024090521.1049558-1-lizhi.xu@windriver.com>
+Subject: [PATCH V2] net: rose: Prevent the use of freed digipeat
+Date: Fri, 24 Oct 2025 17:06:30 +0800
+Message-ID: <20251024090630.1053294-1-lizhi.xu@windriver.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251024031801.35583-1-kuniyu@google.com>
-References: <20251024031801.35583-1-kuniyu@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
@@ -77,29 +73,28 @@ List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI0MDA3OSBTYWx0ZWRfX1uXN8Tsbb+du
- vaeG0gNLCMroeNKBbdINoya2+mg+TFbDMiQtD7TEVtAIFGwWIPoRSUw0CneSwDX4ITeVUCHsVav
- v+Ax0Wx/ZSBG2zQJSGIv83Qu1rwOWBvmrwkVsJjP0GWw+0TzBpkhed8WYj4KCHfuzTeJFLdMQax
- UcnXyxQt3hCchLJF8X61UqVkspdApTj/LmyE3pu0wqPl0AMfEne3RL5zdzuoUXeE/gbXKQ8UlLk
- MRZe1BSbyJT+lWBkxW98bNnCOn1RzShLNcXNFswL7VDCAndUIsRCFUIPuW4HXhcPfK8shkBfMpK
- 30C52IPbwgko0+xmbl8NS5dyoy3MG9/aTTU74ILBiGg77xpK1PX1U/3ZKkmp4PqCEkIhL8ButdJ
- NzdQfQz8/xH9VtDoLjdmCLBJm7U5GQ==
-X-Proofpoint-ORIG-GUID: OGIWkOzJod8E7h8k2dCTxdIB7_K-IwJh
-X-Proofpoint-GUID: OGIWkOzJod8E7h8k2dCTxdIB7_K-IwJh
-X-Authority-Analysis: v=2.4 cv=N/8k1m9B c=1 sm=1 tr=0 ts=68fb4156 cx=c_pps
+X-Authority-Analysis: v=2.4 cv=VN3QXtPX c=1 sm=1 tr=0 ts=68fb419a cx=c_pps
  a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
  a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8
  a=YldpWyYv74S14SR9DysA:9 a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22
  a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-ORIG-GUID: zJS42X9AF1vCOeMa_9GF9Ehd8jt1NmFa
+X-Proofpoint-GUID: zJS42X9AF1vCOeMa_9GF9Ehd8jt1NmFa
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI0MDA3OSBTYWx0ZWRfXycDl0DGDHzQx
+ bLIRbQRu4aJb+O2Q6TcKIgymFoZbFzBk25WmJ6YekVJtKV7Won6TCZmQoovrbW6pXBAVv9nWKrY
+ ZbEDM1/aCXbZCsPKxPJ0RCjt8Bkg/Fm1W0bR4B7wcM6xV5uQh+4q4x8cUFu41sEvjRhvAQBmZoi
+ L67Spjal0eoheftLCz5589XYwR3AdC+QbNVdoC3iW22udDDddPygPYBzA4Aay9Yu4yuzu8s3x5d
+ zxYosA0XLEkmCwPCowyS8UFLxaK14XvF8ONaboQZWwW01E6YlgpOi9UEDPvDXjvIdKYOp7bR+8g
+ eU7wV39dC7O7YvTYNajh1zisQZe6XGaNhSU3EGRE6AbEs+UTuvsvwhLbq/bVKHgElglyBN/uHXI
+ GocgrOG4BUMHa18y3qjMlxa4VAaVYg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-23_03,2025-10-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 priorityscore=1501 impostorscore=0
- suspectscore=0 bulkscore=0 malwarescore=0 adultscore=0 spamscore=0
- clxscore=1011 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
- definitions=main-2510240079
+ malwarescore=0 clxscore=1011 adultscore=0 spamscore=0 lowpriorityscore=0
+ bulkscore=0 suspectscore=0 impostorscore=0 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510240079
 
 There is no synchronization between the two timers, rose_t0timer_expiry
 and rose_timer_expiry.
