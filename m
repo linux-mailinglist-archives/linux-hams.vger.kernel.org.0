@@ -1,278 +1,270 @@
-Return-Path: <linux-hams+bounces-698-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-699-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925D4C08D9F
-	for <lists+linux-hams@lfdr.de>; Sat, 25 Oct 2025 09:54:01 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED8CC09BB1
+	for <lists+linux-hams@lfdr.de>; Sat, 25 Oct 2025 18:50:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9F1E61A62F6C
-	for <lists+linux-hams@lfdr.de>; Sat, 25 Oct 2025 07:54:22 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E4BE54F8228
+	for <lists+linux-hams@lfdr.de>; Sat, 25 Oct 2025 16:39:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EA74286D53;
-	Sat, 25 Oct 2025 07:53:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99BCB322C7F;
+	Sat, 25 Oct 2025 16:29:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="mVOEc9it"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pwh/i1eT"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB74277C98;
-	Sat, 25 Oct 2025 07:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A104322C7B;
+	Sat, 25 Oct 2025 16:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761378831; cv=none; b=TdoZldjezhnlR+UjB9SraOuWhTSSxCsO3ycgPMa3xjCd3HdTvVq5DoJrxPQUlgspeXoZxWom00m/FGBgF4GDf1/UwQO5F7sTg0Y1jWPtL+VG98hcLGv5kD4+pDFnT49EX3Zx67q241/GXc0MwOgq7oTVfrji+YQg4SXlP1aqbPg=
+	t=1761409749; cv=none; b=A7WxaiTAqZecE0tzx0CBSVE0ZdA7AY/dXV6WOITAbgwv5co+1gvYVNfA4oZfuWN9R2eiZgYfEi6q14kacGyhOAfzS7tYJt5Jni76dQIfU8mBRR01az9A5lZI+xBGexMIG509Q2yvSBM6/WtCw9PhZo7HbChvFBUqxrY4e3qCK1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761378831; c=relaxed/simple;
-	bh=jg1+qkdhSwKS5qrLon3684aZfiA4cs2YyAL6IeIhTyA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AXtrdXitCZgQzwZMSnFXLRNTVCsvjNgxGyW9sHKU4LmO9nDMBJM5wyVYbdRTpK0hii58zrM8T5C9+C1vYKMSJYcEolnPgOBGdw6m6/6KN8HNbWszIhZzIw/JZW6DmUF4TT1ApcZnMGQDl9CjjjPlgP9W3rSESDycs2X/PhymA24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=mVOEc9it; arc=none smtp.client-ip=205.220.178.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59P7iXid1218455;
-	Sat, 25 Oct 2025 07:53:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=ICtETx2Z8AVHEoPymap7RM0JQ8qMYAURXImZ9HBoS3U=; b=
-	mVOEc9itJE/sUITOccH5W6QbMwfI9Mir+JBnAbmrG/CqyNly9d2mMMaom+fL7oe3
-	l/ZlntugsQujGUFgXQJJE0axHbN2fu2g4YPNvpGFhchJBnJFTtzowpSD0PbnmAmF
-	Bd0VmzADMjXi8MK9DSORSjua4EFf3RWNJTxtXBTQE3B2Nb9EidonMb2JZdgsgKYr
-	JO9TURlF08xhzuE8JoUyY2hBvBOwb4YPf1nyFHl4xCrODfZmzpJGQHNBMUz8G0xR
-	ZwCvh+c8DFOawl/HQsxiNJkj798vU36fXGkB4OoTxmGFfGC2lWA95t0cV/OI+nI3
-	yifA++VBPrQPDUomsxz30g==
-Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a0nh5r59m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 25 Oct 2025 07:53:20 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Sat, 25 Oct 2025 00:53:17 -0700
-Received: from pek-lpd-ccm6.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Sat, 25 Oct 2025 00:53:14 -0700
-From: Lizhi Xu <lizhi.xu@windriver.com>
-To: <kuniyu@google.com>
-CC: <davem@davemloft.net>, <edumazet@google.com>, <horms@kernel.org>,
-        <jreuter@yaina.de>, <kuba@kernel.org>, <linux-hams@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <lizhi.xu@windriver.com>,
-        <netdev@vger.kernel.org>, <pabeni@redhat.com>,
-        <syzbot+caa052a0958a9146870d@syzkaller.appspotmail.com>,
-        <syzkaller-bugs@googlegroups.com>
-Subject: Re: [PATCH V3] net: rose: Prevent the use of freed digipeat
-Date: Sat, 25 Oct 2025 15:53:14 +0800
-Message-ID: <20251025075314.3275350-1-lizhi.xu@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CAAVpQUAEBgTZF5GMvRgZybC0pHUuaN-4JBaff79L6AABNKSNWw@mail.gmail.com>
-References: <CAAVpQUAEBgTZF5GMvRgZybC0pHUuaN-4JBaff79L6AABNKSNWw@mail.gmail.com>
+	s=arc-20240116; t=1761409749; c=relaxed/simple;
+	bh=Vu+wD33d1YlGxDkl7HpSd6DylFyUTaEPLabn+LJ72NU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LyrWF1ay4DsmxiVZpNS4iIOTcaaYArc3UIV1oJhBioI44uAfXpVEoDxQb3J2FzwvqY6O4xzTXvWIkXPN0UWETeZKqEPnRKznltu5IWYHTWGQCaSMNz7p6LN7S6Vr+yvxv26gLhkGFvp19PbCQPE1ZYZbJ8ez1oPKnTDUJf+i/ZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pwh/i1eT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A27EC4CEFB;
+	Sat, 25 Oct 2025 16:29:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761409749;
+	bh=Vu+wD33d1YlGxDkl7HpSd6DylFyUTaEPLabn+LJ72NU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Pwh/i1eTLQ2buPI7odlOaTHqCi9yQKKKawWBsuBvN4k8iVTqukd7XIqXzwr4gB6nq
+	 6+I5gzvxOBkStpYe1MEBS4FGIR7X+jRrVXIICMzDY+3yZ5l39a9yPhufNO5LlWnAuc
+	 JsMVrTzqxSm0QIOm0oB9v4nzCG+rTiD9NvlcGoQ5tCzUgJjOdQlYXArCARr9Ss3K2Q
+	 OFfaOVfEfODzW/rudnUaWbo3JsVDy1Bnc+9aiIkDQIA+glj31bym+1AEHC5dZ8DviB
+	 q6QikycSaWtmHjPI94Qg2nL+crY1rFv8zunuEuQcU25kdrGjk9t06OSui2oR/nP2qc
+	 dyV+mhwjzS4/w==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Qingfang Deng <dqfext@gmail.com>,
+	syzbot+5fd749c74105b0e1b302@syzkaller.appspotmail.com,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Sasha Levin <sashal@kernel.org>,
+	ajk@comnets.uni-bremen.de,
+	linux-hams@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.17-6.1] 6pack: drop redundant locking and refcounting
+Date: Sat, 25 Oct 2025 12:01:19 -0400
+Message-ID: <20251025160905.3857885-448-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
+References: <20251025160905.3857885-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.17.5
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: nWfN72PwxcKdipTathcNAHXEIqLhYbwE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI1MDA3MCBTYWx0ZWRfX8lalfdMngfpE
- QtTVn0jn8ZFB58jd9IFx8zniL5t9luJNszsVSyjqbuGmJfhf+2LQg97i0gRGsp1Z6xXMP0cPq6T
- yHqUkzWTKnu0Untcql+SyQDy1u1U2wA0Vkh0QeocQKT6zRhlk0xg8uNm7SuHSUb9jlcLxt/JZuK
- 0mWKlm3gjFK0LGcp9UM488z5guIXZJ/e1q8ZmIDruNVaJOVxcNZw4F/ET0etMdejnfyAv1b3OfY
- EBYrw0T2PMFJeCWLBUztB96vCZs0s25RsOhbl7+PNaozXufnXi6ZmDTi1DOWXwtzna4HkHUSyne
- QDWtkg6yTw9Azl1yaV7757nhohQyLdLjK/zn5PD2LbNrXQg2rmrGZRUrvfQDU1ZMbHVAF6SEnpu
- ZhK4b3A7TtMf6r6KcOIQ1Vk99aq+eQ==
-X-Authority-Analysis: v=2.4 cv=FOoWBuos c=1 sm=1 tr=0 ts=68fc81f0 cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=edf1wS77AAAA:8 a=1XWaLZrsAAAA:8
- a=t7CeM3EgAAAA:8 a=hSkVLCK3AAAA:8 a=F4dupCkMKLVTJLQvDq8A:9
- a=DcSpbTIhAlouE1Uv7lRv:22 a=FdTzh2GWekK77mhwV6Dw:22 a=cQPPKAXgyycSBL8etih5:22
- a=cPQSjfK2_nFv0Q5t_7PE:22 a=poXaRoVlC6wW9_mwW8W4:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22
- a=SsAZrZ5W_gNWK9tOzrEV:22
-X-Proofpoint-ORIG-GUID: nWfN72PwxcKdipTathcNAHXEIqLhYbwE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-25_02,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0 phishscore=0
- malwarescore=0 clxscore=1015 spamscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510250070
 
-On Sat, 25 Oct 2025 00:15:51 -0700, Kuniyuki Iwashima <kuniyu@google.com> wrote:
-> On Fri, Oct 24, 2025 at 11:46 PM Lizhi Xu <lizhi.xu@windriver.com> wrote:
-> >
-> > On Fri, 24 Oct 2025 21:25:20 -0700, Kuniyuki Iwashima <kuniyu@google.com> wrote:
-> > > On Fri, Oct 24, 2025 at 8:51 PM Lizhi Xu <lizhi.xu@windriver.com> wrote:
-> > > >
-> > > > On Fri, 24 Oct 2025 19:18:46 -0700, Kuniyuki Iwashima <kuniyu@google.com> wrote:
-> > > > > On Fri, Oct 24, 2025 at 2:39 AM Lizhi Xu <lizhi.xu@windriver.com> wrote:
-> > > > > >
-> > > > > > There is no synchronization between the two timers, rose_t0timer_expiry
-> > > > > > and rose_timer_expiry.
-> > > > > > rose_timer_expiry() puts the neighbor when the rose state is ROSE_STATE_2.
-> > > > > > However, rose_t0timer_expiry() does initiate a restart request on the
-> > > > > > neighbor.
-> > > > > > When rose_t0timer_expiry() accesses the released neighbor member digipeat,
-> > > > > > a UAF is triggered.
-> > > > > >
-> > > > > > To avoid this UAF, defer the put operation to rose_t0timer_expiry() and
-> > > > > > stop restarting t0timer after putting the neighbor.
-> > > > > >
-> > > > > > When putting the neighbor, set the neighbor to NULL. Setting neighbor to
-> > > > > > NULL prevents rose_t0timer_expiry() from restarting t0timer.
-> > > > > >
-> > > > > > syzbot reported a slab-use-after-free Read in ax25_find_cb.
-> > > > > > BUG: KASAN: slab-use-after-free in ax25_find_cb+0x3b8/0x3f0 net/ax25/af_ax25.c:237
-> > > > > > Read of size 1 at addr ffff888059c704c0 by task syz.6.2733/17200
-> > > > > > Call Trace:
-> > > > > >  ax25_find_cb+0x3b8/0x3f0 net/ax25/af_ax25.c:237
-> > > > > >  ax25_send_frame+0x157/0xb60 net/ax25/ax25_out.c:55
-> > > > > >  rose_send_frame+0xcc/0x2c0 net/rose/rose_link.c:106
-> > > > > >  rose_transmit_restart_request+0x1b8/0x240 net/rose/rose_link.c:198
-> > > > > >  rose_t0timer_expiry+0x1d/0x150 net/rose/rose_link.c:83
-> > > > > >
-> > > > > > Freed by task 17183:
-> > > > > >  kfree+0x2b8/0x6d0 mm/slub.c:6826
-> > > > > >  rose_neigh_put include/net/rose.h:165 [inline]
-> > > > > >  rose_timer_expiry+0x537/0x630 net/rose/rose_timer.c:183
-> > > > > >
-> > > > > > Fixes: d860d1faa6b2 ("net: rose: convert 'use' field to refcount_t")
-> > > > > > Reported-by: syzbot+caa052a0958a9146870d@syzkaller.appspotmail.com
-> > > > > > Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
-> > > > > > ---
-> > > > > > V1 -> V2: Putting the neighbor stops t0timer from automatically starting
-> > > > > > V2 -> V3: add rose_neigh_putex for set rose neigh to NULL
-> > > > > >
-> > > > > >  include/net/rose.h   | 12 ++++++++++++
-> > > > > >  net/rose/rose_link.c |  5 +++++
-> > > > > >  2 files changed, 17 insertions(+)
-> > > > > >
-> > > > > > diff --git a/include/net/rose.h b/include/net/rose.h
-> > > > > > index 2b5491bbf39a..33de310ba778 100644
-> > > > > > --- a/include/net/rose.h
-> > > > > > +++ b/include/net/rose.h
-> > > > > > @@ -167,6 +167,18 @@ static inline void rose_neigh_put(struct rose_neigh *rose_neigh)
-> > > > > >         }
-> > > > > >  }
-> > > > > >
-> > > > > > +static inline void rose_neigh_putex(struct rose_neigh **roseneigh)
-> > > > > > +{
-> > > > > > +       struct rose_neigh *rose_neigh = *roseneigh;
-> > > > > > +       if (refcount_dec_and_test(&rose_neigh->use)) {
-> > > > > > +               if (rose_neigh->ax25)
-> > > > > > +                       ax25_cb_put(rose_neigh->ax25);
-> > > > > > +               kfree(rose_neigh->digipeat);
-> > > > > > +               kfree(rose_neigh);
-> > > > > > +               *roseneigh = NULL;
-> > > > > > +       }
-> > > > > > +}
-> > > > > > +
-> > > > > >  /* af_rose.c */
-> > > > > >  extern ax25_address rose_callsign;
-> > > > > >  extern int  sysctl_rose_restart_request_timeout;
-> > > > > > diff --git a/net/rose/rose_link.c b/net/rose/rose_link.c
-> > > > > > index 7746229fdc8c..334c8cc0876d 100644
-> > > > > > --- a/net/rose/rose_link.c
-> > > > > > +++ b/net/rose/rose_link.c
-> > > > > > @@ -43,6 +43,9 @@ void rose_start_ftimer(struct rose_neigh *neigh)
-> > > > > >
-> > > > > >  static void rose_start_t0timer(struct rose_neigh *neigh)
-> > > > > >  {
-> > > > > > +       if (!neigh)
-> > > > > > +               return;
-> > > > > > +
-> > > > > >         timer_delete(&neigh->t0timer);
-> > > > > >
-> > > > > >         neigh->t0timer.function = rose_t0timer_expiry;
-> > > > > > @@ -80,10 +83,12 @@ static void rose_t0timer_expiry(struct timer_list *t)
-> > > > > >  {
-> > > > > >         struct rose_neigh *neigh = timer_container_of(neigh, t, t0timer);
-> > > > > >
-> > > > >
-> > > > > What prevents rose_timer_expiry() from releasing the
-> > > > > last refcnt here ?
-> > > > The issue reported by syzbot is that rose_t0timer_expiry() is triggered
-> > > > first, followed by rose_timer_expiry().
-> > >
-> > > I don't see how you read that ordering from the report.
-> > > https://syzkaller.appspot.com/bug?extid=caa052a0958a9146870d
-> > Here's my understanding: See the two calltraces below.
-> 
-> The same question still applies.
-> 
-> What prevents rose_timer_expiry() from releasing the last
-> refcnt before [1] ?
-@@ -80,10 +83,12 @@ static void rose_t0timer_expiry(struct timer_list *t)
+From: Qingfang Deng <dqfext@gmail.com>
+
+[ Upstream commit 38b04ed7072e54086102eae2d05d03ffcdb4b695 ]
+
+The TTY layer already serializes line discipline operations with
+tty->ldisc_sem, so the extra disc_data_lock and refcnt in 6pack
+are unnecessary.
+
+Removing them simplifies the code and also resolves a lockdep warning
+reported by syzbot. The warning did not indicate a real deadlock, since
+the write-side lock was only taken in process context with hardirqs
+disabled.
+
+Reported-by: syzbot+5fd749c74105b0e1b302@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/68c858b0.050a0220.3c6139.0d1c.GAE@google.com/
+Signed-off-by: Qingfang Deng <dqfext@gmail.com>
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Link: https://patch.msgid.link/20250925051059.26876-1-dqfext@gmail.com
+Signed-off-by: Paolo Abeni <pabeni@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+YES
+- The patch only touches the 6pack line discipline: it drops the private
+  rwlock/refcount machinery from `drivers/net/hamradio/6pack.c` (see the
+  struct changes at lines 101-118 and the updated consumers at 358-379,
+  390-415, 600-683). Those sites now read `tty->disc_data` directly, but
+  every entry point already executes under the TTY core’s
+  `tty->ldisc_sem` read lock—`tty_port_default_receive_buf()` grabs it
+  via `tty_ldisc_ref()` (`drivers/tty/tty_port.c:23-41`), `tty_wakeup()`
+  does the same before calling `write_wakeup`
+  (`drivers/tty/tty_io.c:507-517`), and `tty_ioctl()` surrounds
+  `ld->ops->ioctl` with `tty_ldisc_ref_wait()`/`tty_ldisc_deref()`
+  (`drivers/tty/tty_io.c:2796-2805`).
+- `sixpack_close()` is invoked with the write side of that semaphore
+  held (`drivers/tty/tty_ldisc.c:449-455`), so removing the
+  refcount/`completion` still guarantees all in-flight readers finish
+  before the netdev teardown in `sixpack_close()`
+  (`drivers/net/hamradio/6pack.c:600-624`). Timers continue to be shut
+  down with `timer_delete_sync()`, so there are no other async users
+  left racing with the free.
+- This is a pure locking cleanup that fixes a syzbot lockdep warning
+  without changing behaviour or adding dependencies. Stable kernels
+  already provide the same `tty_ldisc_*` lifetime rules, so the backport
+  is mechanically straightforward and low risk.
+- I looked through the remaining call sites and found no paths that
+  access `tty->disc_data` without the TTY helpers, so the behavioural
+  surface is unchanged aside from the warning disappearing.
+
+ drivers/net/hamradio/6pack.c | 57 ++++--------------------------------
+ 1 file changed, 5 insertions(+), 52 deletions(-)
+
+diff --git a/drivers/net/hamradio/6pack.c b/drivers/net/hamradio/6pack.c
+index c5e5423e18633..885992951e8a6 100644
+--- a/drivers/net/hamradio/6pack.c
++++ b/drivers/net/hamradio/6pack.c
+@@ -115,8 +115,6 @@ struct sixpack {
+ 
+ 	struct timer_list	tx_t;
+ 	struct timer_list	resync_t;
+-	refcount_t		refcnt;
+-	struct completion	dead;
+ 	spinlock_t		lock;
+ };
+ 
+@@ -353,42 +351,13 @@ static void sp_bump(struct sixpack *sp, char cmd)
+ 
+ /* ----------------------------------------------------------------------- */
+ 
+-/*
+- * We have a potential race on dereferencing tty->disc_data, because the tty
+- * layer provides no locking at all - thus one cpu could be running
+- * sixpack_receive_buf while another calls sixpack_close, which zeroes
+- * tty->disc_data and frees the memory that sixpack_receive_buf is using.  The
+- * best way to fix this is to use a rwlock in the tty struct, but for now we
+- * use a single global rwlock for all ttys in ppp line discipline.
+- */
+-static DEFINE_RWLOCK(disc_data_lock);
+-                                                                                
+-static struct sixpack *sp_get(struct tty_struct *tty)
+-{
+-	struct sixpack *sp;
+-
+-	read_lock(&disc_data_lock);
+-	sp = tty->disc_data;
+-	if (sp)
+-		refcount_inc(&sp->refcnt);
+-	read_unlock(&disc_data_lock);
+-
+-	return sp;
+-}
+-
+-static void sp_put(struct sixpack *sp)
+-{
+-	if (refcount_dec_and_test(&sp->refcnt))
+-		complete(&sp->dead);
+-}
+-
+ /*
+  * Called by the TTY driver when there's room for more data.  If we have
+  * more packets to send, we send them here.
+  */
+ static void sixpack_write_wakeup(struct tty_struct *tty)
  {
- 	struct rose_neigh *neigh = timer_container_of(neigh, t, t0timer);
-
-+	rose_neigh_hold(neigh); // [3] This prevents rose_timer_expiry() from putting neigh.
- 	rose_transmit_restart_request(neigh);
-
- 	neigh->dce_mode = 0;
-
-+	rose_neigh_putex(&neigh); // [4] This prevents t0timer from restarting by setting neigh to NULL.
- 	rose_start_t0timer(neigh);
+-	struct sixpack *sp = sp_get(tty);
++	struct sixpack *sp = tty->disc_data;
+ 	int actual;
+ 
+ 	if (!sp)
+@@ -400,7 +369,7 @@ static void sixpack_write_wakeup(struct tty_struct *tty)
+ 		clear_bit(TTY_DO_WRITE_WAKEUP, &tty->flags);
+ 		sp->tx_enable = 0;
+ 		netif_wake_queue(sp->dev);
+-		goto out;
++		return;
+ 	}
+ 
+ 	if (sp->tx_enable) {
+@@ -408,9 +377,6 @@ static void sixpack_write_wakeup(struct tty_struct *tty)
+ 		sp->xleft -= actual;
+ 		sp->xhead += actual;
+ 	}
+-
+-out:
+-	sp_put(sp);
  }
-> 
-> For example, why is accessing neigh->dev in rose_send_frame()
-> safe then ?
-> 
-> The commit message mentions that two timers are not
-> synchronised, but the diff adds no such synchronisation.
-> 
-> 
-> > [1] Line 111 occurs after rose_neigh_put(). Otherwise, accessing
-> > neigh->digipeat would result in a UAF. Therefore, rose_t0timer_expiry()
-> > must be triggered before rose_timer_expiry().
-> >
-> > [2] syzbot reports that line 237 generates a UAF when accessing digi->ndigi.
-> >
-> > UAF Task1:
-> > rose_t0timer_expiry()->
-> >   rose_transmit_restart_request()->
-> >     rose_send_frame(.., neigh->digipeat, ..)-> // [1] line 111
-> >       ax25_find_cb()->
-> >         if (digi != NULL && digi->ndigi != 0)  // [2] line 237
-> >
-> > Freed neigh Task2:
-> >  rose_timer_expiry()->
-> >    rose_neigh_put(neigh)->
-> >      kfree(neigh)
-> > >
-> > > The only ordering I can find is that kfree() in rose_timer_expiry()
-> > > happened before ax25_find_cb () in rose_t0timer_expiry().
-> > >
-> > > > Therefore, in rose_t0timer_expiry(), the reference count of neigh is
-> > > > increased before entering rose_transmit_restart_request() to prevent
-> > > > neigh from being put in rose_timer_expiry(). Then, in rose_t0timer_expiry(),
-> > > > neigh is put before executing rose_start_t0timer() and the neigh value is
-> > > > set to NULL to prevent t0timer restarts.
-> > > >
-> > > > The case where rose_timer_expiry() is triggered before rose_t0timer_expiry()
-> > > > is not considered at this time.
-> > >
-> > > So this change just papers over the root cause.
-> > >
-> > >
-> > > > >
-> > > > > The t0timer could be triggered even after that happens.
-> > > > >
-> > > > >
-> > > > > > +       rose_neigh_hold(neigh);
-> > > > > >         rose_transmit_restart_request(neigh);
-> > > > > >
-> > > > > >         neigh->dce_mode = 0;
-> > > > > >
-> > > > > > +       rose_neigh_putex(&neigh);
-> > > > > >         rose_start_t0timer(neigh);
-> > > > > >  }
-> > > > > >
-> > > > > > --
-> > > > > > 2.43.0
-> > > > > >
+ 
+ /* ----------------------------------------------------------------------- */
+@@ -430,7 +396,7 @@ static void sixpack_receive_buf(struct tty_struct *tty, const u8 *cp,
+ 	if (!count)
+ 		return;
+ 
+-	sp = sp_get(tty);
++	sp = tty->disc_data;
+ 	if (!sp)
+ 		return;
+ 
+@@ -446,7 +412,6 @@ static void sixpack_receive_buf(struct tty_struct *tty, const u8 *cp,
+ 	}
+ 	sixpack_decode(sp, cp, count1);
+ 
+-	sp_put(sp);
+ 	tty_unthrottle(tty);
+ }
+ 
+@@ -561,8 +526,6 @@ static int sixpack_open(struct tty_struct *tty)
+ 
+ 	spin_lock_init(&sp->lock);
+ 	spin_lock_init(&sp->rxlock);
+-	refcount_set(&sp->refcnt, 1);
+-	init_completion(&sp->dead);
+ 
+ 	/* !!! length of the buffers. MTU is IP MTU, not PACLEN!  */
+ 
+@@ -638,19 +601,11 @@ static void sixpack_close(struct tty_struct *tty)
+ {
+ 	struct sixpack *sp;
+ 
+-	write_lock_irq(&disc_data_lock);
+ 	sp = tty->disc_data;
+-	tty->disc_data = NULL;
+-	write_unlock_irq(&disc_data_lock);
+ 	if (!sp)
+ 		return;
+ 
+-	/*
+-	 * We have now ensured that nobody can start using ap from now on, but
+-	 * we have to wait for all existing users to finish.
+-	 */
+-	if (!refcount_dec_and_test(&sp->refcnt))
+-		wait_for_completion(&sp->dead);
++	tty->disc_data = NULL;
+ 
+ 	/* We must stop the queue to avoid potentially scribbling
+ 	 * on the free buffers. The sp->dead completion is not sufficient
+@@ -673,7 +628,7 @@ static void sixpack_close(struct tty_struct *tty)
+ static int sixpack_ioctl(struct tty_struct *tty, unsigned int cmd,
+ 		unsigned long arg)
+ {
+-	struct sixpack *sp = sp_get(tty);
++	struct sixpack *sp = tty->disc_data;
+ 	struct net_device *dev;
+ 	unsigned int tmp, err;
+ 
+@@ -725,8 +680,6 @@ static int sixpack_ioctl(struct tty_struct *tty, unsigned int cmd,
+ 		err = tty_mode_ioctl(tty, cmd, arg);
+ 	}
+ 
+-	sp_put(sp);
+-
+ 	return err;
+ }
+ 
+-- 
+2.51.0
+
 
