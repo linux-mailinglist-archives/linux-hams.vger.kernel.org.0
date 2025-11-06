@@ -1,163 +1,265 @@
-Return-Path: <linux-hams+bounces-703-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-704-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F95C181B5
-	for <lists+linux-hams@lfdr.de>; Wed, 29 Oct 2025 03:59:42 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id A77FEC39DFE
+	for <lists+linux-hams@lfdr.de>; Thu, 06 Nov 2025 10:45:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6A4274E6A3B
-	for <lists+linux-hams@lfdr.de>; Wed, 29 Oct 2025 02:59:41 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2C1AB350864
+	for <lists+linux-hams@lfdr.de>; Thu,  6 Nov 2025 09:45:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F7C52EC562;
-	Wed, 29 Oct 2025 02:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="sBl827Su"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 736DC2C0F8E;
+	Thu,  6 Nov 2025 09:45:33 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f79.google.com (mail-io1-f79.google.com [209.85.166.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C1817A310;
-	Wed, 29 Oct 2025 02:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B422652B2
+	for <linux-hams@vger.kernel.org>; Thu,  6 Nov 2025 09:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761706777; cv=none; b=SOqc2cuA4COEjeTrCLmAO2yBl2lxQs7xxNvNGGXbcs3Qbq8A4BVhvTJQ2a9qfW82SxBoKfZGRZUvZpwflzzQpzr+k/v2+c4Pwh2ogHmAfmq+yBJYU0svE7UC/n3dnhad+RmSJHY8OrL54s5XBHEOWyPrMmX/PJHOQmPMM0/y8o0=
+	t=1762422333; cv=none; b=bOnQYlChrAw+a2ykwMWGa2iLSOYFaHrJyftRx9rkfC4WkN1aUif1pV6x2fqvungxtuHsazLL8AOeWT4MFplT4DUeTSNwmQWTFVpcRi8XtgMf2XGJ7WmSYXILNHWlU1Cydsgx5/PF+GHMc1Gx0wh9JM9CrTwfMvI9stsSgqUa/Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761706777; c=relaxed/simple;
-	bh=3C4LK3yhmTxdX/lbtOU2wNo/rvyXok5BkicTvWpPRiM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FGA0vTYKcYjcLyfmPwvZmqhYutEPWa+9VkonZzHU0/hB+Daq1co0EGUrSx5t7A90syjvSOuPjWiATC0F44avdeJ4kAace57Jw8kwmJZDJMN/rqeYD4SbnwIqYqlUbyU2Mz+uQaJ3haHwWXd/+2VXpsDgyuuitVpHB5UQBGJ/nHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=sBl827Su; arc=none smtp.client-ip=205.220.178.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59T1vjWq2567042;
-	Wed, 29 Oct 2025 02:59:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=orvursf417qpdmLDGFURg5es0bnAKOClQ3zlkzfPbMk=; b=
-	sBl827SuBXPAP9R31QUsWhh48Qqo1juED9NyAAOtXDBKrjcG4f/4mA199zb6Uw6b
-	BcQljI8H5D/uO5YSTsRyQ2BOO2a0m7TK3Sw/7R8gNHLUZ8MRAbZHdx2GomEFfzBj
-	UUhz6gi2WOTTP4m3I1BhMfR1NM3ol0c2wfsOVYjgWGj7hvVFDrM+cdzWEXZpmoZ8
-	dKuNsl9T4L5N1fREHdAkf8zw8vp25gK1Q1Xtghk+cwDrpz19uyno/WUGpk95a5jV
-	RhrOTX+35Gz51xwClEnbShyxTMHV01gE4H1/E+GCo3u5KGUBkYFb8cNaD7ccCeZz
-	pTX4d0FP08atCuhPK/Ldbw==
-Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a3489gaxu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 29 Oct 2025 02:59:09 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Tue, 28 Oct 2025 19:59:07 -0700
-Received: from pek-lpd-ccm6.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Tue, 28 Oct 2025 19:59:05 -0700
-From: Lizhi Xu <lizhi.xu@windriver.com>
-To: <pabeni@redhat.com>
-CC: <dan.carpenter@linaro.org>, <davem@davemloft.net>, <edumazet@google.com>,
-        <horms@kernel.org>, <kuba@kernel.org>, <linux-hams@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <lizhi.xu@windriver.com>,
-        <netdev@vger.kernel.org>,
-        <syzbot+2860e75836a08b172755@syzkaller.appspotmail.com>,
-        <syzkaller-bugs@googlegroups.com>
-Subject: Re: [PATCH V4] netrom: Preventing the use of abnormal neighbor
-Date: Wed, 29 Oct 2025 10:59:04 +0800
-Message-ID: <20251029025904.63619-1-lizhi.xu@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <785c8add-ab09-47b2-94bf-a4bfe8c13388@redhat.com>
-References: <785c8add-ab09-47b2-94bf-a4bfe8c13388@redhat.com>
+	s=arc-20240116; t=1762422333; c=relaxed/simple;
+	bh=T1JG3gRzFohCXeutxQ1/hQSof93zQqaQskwwtXst5fI=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=k6QSithpy0FYtW8t/5qMfyLV0tXSo9BgiG28Duun2OHfHRJn7DSL3IVahcF6OY4bZpRdJOJuGSGEMK98iVz7wwAln40nBiWY4+hGbW5w5y1KLRH+NKjy7V1WPDwRNb2p2X702TOp5pH+vaYVadFByb7SMvQyexd6ByHSvWsAS3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f79.google.com with SMTP id ca18e2360f4ac-94866b3853cso8678139f.3
+        for <linux-hams@vger.kernel.org>; Thu, 06 Nov 2025 01:45:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762422330; x=1763027130;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZTcgL6H5oY5FCjggOzmzN/zMv4D73ZQd/MUlTuqioEA=;
+        b=K2hJY1Fmm5Ec24NbVBHRgaHMUQFklxYkmlMgIGZRNV45lsWgMpkvB1rQYj27gVJDdj
+         0C70cMb1chUuvO+Lvo1IzIwaXlXcuH2iQgJDtrm6jayog4JBIEyNtUgpfOP5u+gCLBXS
+         CT/cNpv7iDk+sgYDe6PIelVmQ/Buxd854eK9Jy3qyfsd1QP0BMkRZtk6XFyIzBkNooEQ
+         /BZC35nWn7L0ty3vIolJv26Ks4N9wBJJq6hYMW4CnevXcm6wwk9F4UGboa4CQvLHSqiE
+         Pd7XMnRe6yJEPz1Ho37m9Kpv5iRdrrU1KEpOPlHJyXIbvZfXhRuZLDpG5J+XFWpTpBSL
+         tb0g==
+X-Forwarded-Encrypted: i=1; AJvYcCUilfCg2Ok65VWzO3uJGqaEGswEHyogVB27CL563EVbAHAtREi0izsxRYVBL8/8TozwR+ZOKU3C8Pmd@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlD42CYN7Vlg/ITsCw3y6Zu5aU8X2qT+Gqobi3NxMDnqIrp7Eb
+	1j8sGmnSRsiA8fc1LQ2qEj0ZBHRIpcD/89U009JeQrAhlRR10ykmXk9a1oUrqI2VCXakSrjZatB
+	76Xk4FVnQuzHtn5LTFCykiDxdO2CWaF1FIasVgqMMylxhtEi9wwmQTXDDRh4=
+X-Google-Smtp-Source: AGHT+IG0cB2j9bryLBdBpOtLE59pe4+E5rx7ZQ1JMEg73jOxwVU5mtzuatZQPVVXpnM3zAoO92cxRI9GgLGlEkV958n2FokGzRRi
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: Qle8lwbp3_mE3r4qzFcLBoM2_DByylm7
-X-Proofpoint-ORIG-GUID: Qle8lwbp3_mE3r4qzFcLBoM2_DByylm7
-X-Authority-Analysis: v=2.4 cv=E83AZKdl c=1 sm=1 tr=0 ts=690182fd cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=U1BIhdE-NrZgBzzozqwA:9
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI5MDAyMiBTYWx0ZWRfX8NiZpAPpJ0kE
- OyuQrvyW2k95RzHJ7+045dpCsNvrqha9RVty0Xmpgu4FFgJ9I2j2Nzr7fpg90zVfonHO8KgKh0o
- xh/iOMVz6hvRoS32IblrE56m6FsTDComHjNNZ5EdkDLZ9h47D6gAZHjy+hgmkDGvYBIdp/aBXcN
- Z0gLQV5XXxXvMo/vliksVRfWFrriXAFxbdjQpbwdp9BIxP6nA2Ppa8/O0UCOEQwQAJ2bFWU0aaF
- W+038DlYHCk/pnAHfLQI+3YVd/k4iMj1kewXxlZFwNlM7f5TogYUBNDkXIkS3jlfzi+Ww14kxi/
- UB5KZ+AR0qnKWuZKbhuY/+tu8QN9Mf86vvAo8fcqXVsd6RDZ3xoRLQg9AqobMmnRnAubnZnfWx7
- BHqSD3WUI/TVWdFsFL+1siibuqAztQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-29_01,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 phishscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 malwarescore=0 spamscore=0 clxscore=1015 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510290022
+X-Received: by 2002:a05:6602:6b08:b0:943:5c83:d68e with SMTP id
+ ca18e2360f4ac-94869cb498bmr905272739f.1.1762422330444; Thu, 06 Nov 2025
+ 01:45:30 -0800 (PST)
+Date: Thu, 06 Nov 2025 01:45:30 -0800
+In-Reply-To: <685d4c2a.a00a0220.2e5631.028c.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <690c6e3a.050a0220.3d0d33.0123.GAE@google.com>
+Subject: Re: [syzbot] [hams?] possible deadlock in nr_rt_ioctl (2)
+From: syzbot <syzbot+14afda08dc3484d5db82@syzkaller.appspotmail.com>
+To: davem@davemloft.net, eadavis@qq.com, edumazet@google.com, hdanton@sina.com, 
+	horms@kernel.org, kuba@kernel.org, linux-hams@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 28 Oct 2025 15:13:37 +0100, Paolo Abeni wrote:
-> > The root cause of the problem is that multiple different tasks initiate
-> > SIOCADDRT & NETROM_NODE commands to add new routes, there is no lock
-> > between them to protect the same nr_neigh.
-> >
-> > Task0 can add the nr_neigh.refcount value of 1 on Task1 to routes[2].
-> > When Task2 executes nr_neigh_put(nr_node->routes[2].neighbour), it will
-> > release the neighbour because its refcount value is 1.
-> >
-> > In this case, the following situation causes a UAF on Task2:
-> >
-> > Task0					Task1						Task2
-> > =====					=====						=====
-> > nr_add_node()
-> > nr_neigh_get_dev()			nr_add_node()
-> > 					nr_node_lock()
-> > 					nr_node->routes[2].neighbour->count--
-> > 					nr_neigh_put(nr_node->routes[2].neighbour);
-> > 					nr_remove_neigh(nr_node->routes[2].neighbour)
-> > 					nr_node_unlock()
-> > nr_node_lock()
-> > nr_node->routes[2].neighbour = nr_neigh
-> > nr_neigh_hold(nr_neigh);								nr_add_node()
-> > 											nr_neigh_put()
-> > 											if (nr_node->routes[2].neighbour->count
-> > Description of the UAF triggering process:
-> > First, Task 0 executes nr_neigh_get_dev() to set neighbor refcount to 3.
-> > Then, Task 1 puts the same neighbor from its routes[2] and executes
-> > nr_remove_neigh() because the count is 0. After these two operations,
-> > the neighbor's refcount becomes 1. Then, Task 0 acquires the nr node
-> > lock and writes it to its routes[2].neighbour.
-> > Finally, Task 2 executes nr_neigh_put(nr_node->routes[2].neighbour) to
-> > release the neighbor. The subsequent execution of the neighbor->count
-> > check triggers a UAF.
-> 
-> I looked at the code quite a bit and I think this could possibly avoid
-> the above mentioned race, but this whole area looks quite confusing to me.
-> 
-> I think it would be helpful if you could better describe the relevant
-> scenario starting from the initial setup (no nodes, no neighs).
-OK. Let me fill in the origin of neigh.
+syzbot has found a reproducer for the following issue on:
 
-Task3
-=====
-nr_add_node()
-[146]if ((nr_neigh = kmalloc(sizeof(*nr_neigh), GFP_ATOMIC)) == NULL)
-[253]nr_node->routes[2].neighbour = nr_neigh;
-[255]nr_neigh_hold(nr_neigh);
-[256]nr_neigh->count++;
+HEAD commit:    dc77806cf3b4 Merge tag 'rust-fixes-6.18' of git://git.kern..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14c0e114580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=609c87dcb0628493
+dashboard link: https://syzkaller.appspot.com/bug?extid=14afda08dc3484d5db82
+compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17feb812580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15fb5812580000
 
-neigh is created on line 146 in nr_add_node(), and added to node on
-lines 253-256. It occurs before all Task0, Task1, and Task2.
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-dc77806c.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/eef2d5e8c3fb/vmlinux-dc77806c.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/e6323f5f18c6/bzImage-dc77806c.xz
 
-Note:
-1. [x], x is line number.
-2. During my debugging process, I didn't pay attention to where the node
-was created, and I apologize that I cannot provide the relevant creation
-process.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+14afda08dc3484d5db82@syzkaller.appspotmail.com
 
-BR,
-Lizhi
+bond0: (slave rose0): Error: Device is in use and cannot be enslaved
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+syz.0.18/6086 is trying to acquire lock:
+ffffffff9033ef98 (nr_neigh_list_lock){+...}-{3:3}, at: spin_lock_bh include/linux/spinlock.h:356 [inline]
+ffffffff9033ef98 (nr_neigh_list_lock){+...}-{3:3}, at: nr_remove_neigh net/netrom/nr_route.c:307 [inline]
+ffffffff9033ef98 (nr_neigh_list_lock){+...}-{3:3}, at: nr_del_node net/netrom/nr_route.c:342 [inline]
+ffffffff9033ef98 (nr_neigh_list_lock){+...}-{3:3}, at: nr_rt_ioctl+0x2007/0x29b0 net/netrom/nr_route.c:678
+
+but task is already holding lock:
+ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: spin_lock_bh include/linux/spinlock.h:356 [inline]
+ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: nr_node_lock include/net/netrom.h:152 [inline]
+ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: nr_del_node net/netrom/nr_route.c:335 [inline]
+ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: nr_rt_ioctl+0x29d/0x29b0 net/netrom/nr_route.c:678
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #2 (&nr_node->node_lock){+...}-{3:3}:
+       __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
+       _raw_spin_lock_bh+0x33/0x40 kernel/locking/spinlock.c:178
+       spin_lock_bh include/linux/spinlock.h:356 [inline]
+       nr_node_lock include/net/netrom.h:152 [inline]
+       nr_del_node net/netrom/nr_route.c:335 [inline]
+       nr_rt_ioctl+0x29d/0x29b0 net/netrom/nr_route.c:678
+       nr_ioctl+0x19a/0x2d0 net/netrom/af_netrom.c:1254
+       sock_do_ioctl+0x118/0x280 net/socket.c:1254
+       sock_ioctl+0x227/0x6b0 net/socket.c:1375
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:597 [inline]
+       __se_sys_ioctl fs/ioctl.c:583 [inline]
+       __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xcd/0xfa0 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (nr_node_list_lock){+...}-{3:3}:
+       __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
+       _raw_spin_lock_bh+0x33/0x40 kernel/locking/spinlock.c:178
+       spin_lock_bh include/linux/spinlock.h:356 [inline]
+       nr_rt_device_down+0xd3/0x810 net/netrom/nr_route.c:517
+       nr_device_event+0x126/0x170 net/netrom/af_netrom.c:126
+       notifier_call_chain+0xbc/0x410 kernel/notifier.c:85
+       call_netdevice_notifiers_info+0xbe/0x140 net/core/dev.c:2229
+       call_netdevice_notifiers_extack net/core/dev.c:2267 [inline]
+       call_netdevice_notifiers net/core/dev.c:2281 [inline]
+       netif_close_many+0x319/0x630 net/core/dev.c:1784
+       netif_close net/core/dev.c:1797 [inline]
+       netif_close+0x17f/0x230 net/core/dev.c:1791
+       dev_close+0xaa/0x240 net/core/dev_api.c:220
+       bpq_device_event+0x6a9/0x910 drivers/net/hamradio/bpqether.c:528
+       notifier_call_chain+0xbc/0x410 kernel/notifier.c:85
+       call_netdevice_notifiers_info+0xbe/0x140 net/core/dev.c:2229
+       call_netdevice_notifiers_extack net/core/dev.c:2267 [inline]
+       call_netdevice_notifiers net/core/dev.c:2281 [inline]
+       netif_close_many+0x319/0x630 net/core/dev.c:1784
+       netif_close net/core/dev.c:1797 [inline]
+       netif_close+0x17f/0x230 net/core/dev.c:1791
+       dev_close+0xaa/0x240 net/core/dev_api.c:220
+       bond_setup_by_slave drivers/net/bonding/bond_main.c:1567 [inline]
+       bond_enslave+0x1e42/0x5de0 drivers/net/bonding/bond_main.c:1972
+       bond_do_ioctl+0x601/0x6c0 drivers/net/bonding/bond_main.c:4615
+       dev_siocbond net/core/dev_ioctl.c:516 [inline]
+       dev_ifsioc+0xe9c/0x1f70 net/core/dev_ioctl.c:666
+       dev_ioctl+0x223/0x10e0 net/core/dev_ioctl.c:838
+       sock_do_ioctl+0x19d/0x280 net/socket.c:1268
+       sock_ioctl+0x227/0x6b0 net/socket.c:1375
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:597 [inline]
+       __se_sys_ioctl fs/ioctl.c:583 [inline]
+       __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xcd/0xfa0 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (nr_neigh_list_lock){+...}-{3:3}:
+       check_prev_add kernel/locking/lockdep.c:3165 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+       validate_chain kernel/locking/lockdep.c:3908 [inline]
+       __lock_acquire+0x126f/0x1c90 kernel/locking/lockdep.c:5237
+       lock_acquire kernel/locking/lockdep.c:5868 [inline]
+       lock_acquire+0x179/0x350 kernel/locking/lockdep.c:5825
+       __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
+       _raw_spin_lock_bh+0x33/0x40 kernel/locking/spinlock.c:178
+       spin_lock_bh include/linux/spinlock.h:356 [inline]
+       nr_remove_neigh net/netrom/nr_route.c:307 [inline]
+       nr_del_node net/netrom/nr_route.c:342 [inline]
+       nr_rt_ioctl+0x2007/0x29b0 net/netrom/nr_route.c:678
+       nr_ioctl+0x19a/0x2d0 net/netrom/af_netrom.c:1254
+       sock_do_ioctl+0x118/0x280 net/socket.c:1254
+       sock_ioctl+0x227/0x6b0 net/socket.c:1375
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:597 [inline]
+       __se_sys_ioctl fs/ioctl.c:583 [inline]
+       __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xcd/0xfa0 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  nr_neigh_list_lock --> nr_node_list_lock --> &nr_node->node_lock
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&nr_node->node_lock);
+                               lock(nr_node_list_lock);
+                               lock(&nr_node->node_lock);
+  lock(nr_neigh_list_lock);
+
+ *** DEADLOCK ***
+
+2 locks held by syz.0.18/6086:
+ #0: ffffffff9033eff8 (nr_node_list_lock){+...}-{3:3}, at: spin_lock_bh include/linux/spinlock.h:356 [inline]
+ #0: ffffffff9033eff8 (nr_node_list_lock){+...}-{3:3}, at: nr_del_node net/netrom/nr_route.c:334 [inline]
+ #0: ffffffff9033eff8 (nr_node_list_lock){+...}-{3:3}, at: nr_rt_ioctl+0x221/0x29b0 net/netrom/nr_route.c:678
+ #1: ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: spin_lock_bh include/linux/spinlock.h:356 [inline]
+ #1: ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: nr_node_lock include/net/netrom.h:152 [inline]
+ #1: ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: nr_del_node net/netrom/nr_route.c:335 [inline]
+ #1: ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: nr_rt_ioctl+0x29d/0x29b0 net/netrom/nr_route.c:678
+
+stack backtrace:
+CPU: 3 UID: 0 PID: 6086 Comm: syz.0.18 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+ print_circular_bug+0x275/0x350 kernel/locking/lockdep.c:2043
+ check_noncircular+0x14c/0x170 kernel/locking/lockdep.c:2175
+ check_prev_add kernel/locking/lockdep.c:3165 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+ validate_chain kernel/locking/lockdep.c:3908 [inline]
+ __lock_acquire+0x126f/0x1c90 kernel/locking/lockdep.c:5237
+ lock_acquire kernel/locking/lockdep.c:5868 [inline]
+ lock_acquire+0x179/0x350 kernel/locking/lockdep.c:5825
+ __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
+ _raw_spin_lock_bh+0x33/0x40 kernel/locking/spinlock.c:178
+ spin_lock_bh include/linux/spinlock.h:356 [inline]
+ nr_remove_neigh net/netrom/nr_route.c:307 [inline]
+ nr_del_node net/netrom/nr_route.c:342 [inline]
+ nr_rt_ioctl+0x2007/0x29b0 net/netrom/nr_route.c:678
+ nr_ioctl+0x19a/0x2d0 net/netrom/af_netrom.c:1254
+ sock_do_ioctl+0x118/0x280 net/socket.c:1254
+ sock_ioctl+0x227/0x6b0 net/socket.c:1375
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl fs/ioctl.c:583 [inline]
+ __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xcd/0xfa0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5a58b8f6c9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fff0134ba58 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f5a58de5fa0 RCX: 00007f5a58b8f6c9
+RDX: 0000200000000680 RSI: 000000000000890c RDI: 000000000000000a
+RBP: 00007f5a58c11f91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f5a58de5fa0 R14: 00007f5a58de5fa0 R15: 0000000000000003
+ </TASK>
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
