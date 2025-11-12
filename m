@@ -1,261 +1,186 @@
-Return-Path: <linux-hams+bounces-704-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-705-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77FEC39DFE
-	for <lists+linux-hams@lfdr.de>; Thu, 06 Nov 2025 10:45:36 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 297BDC5090E
+	for <lists+linux-hams@lfdr.de>; Wed, 12 Nov 2025 05:53:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2C1AB350864
-	for <lists+linux-hams@lfdr.de>; Thu,  6 Nov 2025 09:45:36 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 84A974EC29F
+	for <lists+linux-hams@lfdr.de>; Wed, 12 Nov 2025 04:52:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 736DC2C0F8E;
-	Thu,  6 Nov 2025 09:45:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1B402D2384;
+	Wed, 12 Nov 2025 04:52:29 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-io1-f79.google.com (mail-io1-f79.google.com [209.85.166.79])
+Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B422652B2
-	for <linux-hams@vger.kernel.org>; Thu,  6 Nov 2025 09:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E103923E330
+	for <linux-hams@vger.kernel.org>; Wed, 12 Nov 2025 04:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762422333; cv=none; b=bOnQYlChrAw+a2ykwMWGa2iLSOYFaHrJyftRx9rkfC4WkN1aUif1pV6x2fqvungxtuHsazLL8AOeWT4MFplT4DUeTSNwmQWTFVpcRi8XtgMf2XGJ7WmSYXILNHWlU1Cydsgx5/PF+GHMc1Gx0wh9JM9CrTwfMvI9stsSgqUa/Fk=
+	t=1762923149; cv=none; b=JiFUDfeP/Stda9Ub2olKDS4rcnqwH3ojIl/edO3eu5FrDuv3gqcvN8GNVkd434EuwjLhk8tnuTpHP2FV+gxg8cMxYzb1+zdPCXQ7RO1aKyCYErpyF6bfTTlxaLzCuncwKpCDqtnHy3ecIIb41cmPGJahesDJAgvfBwEjcppnZkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762422333; c=relaxed/simple;
-	bh=T1JG3gRzFohCXeutxQ1/hQSof93zQqaQskwwtXst5fI=;
+	s=arc-20240116; t=1762923149; c=relaxed/simple;
+	bh=CIvLkOUS047TucL7cgNJmviXjqebQR1vjTOiVoJgcGA=;
 	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=k6QSithpy0FYtW8t/5qMfyLV0tXSo9BgiG28Duun2OHfHRJn7DSL3IVahcF6OY4bZpRdJOJuGSGEMK98iVz7wwAln40nBiWY4+hGbW5w5y1KLRH+NKjy7V1WPDwRNb2p2X702TOp5pH+vaYVadFByb7SMvQyexd6ByHSvWsAS3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.79
+	 Content-Type; b=Vmd+UTCjIwz8g3BvfespyG62Pzr8c+onwu0DXVH3PkvhfzPQEHcqb0PDeNsbS4quXT63UDjv9RNDchOUi5m2CznBUPOWpXquAADBbwDHQByIBJHGyeIP61DEKpHzZDyoMIDiBrdgSOldmAv4BbldtXyo/esGSL2FIAD1eWK8koA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f79.google.com with SMTP id ca18e2360f4ac-94866b3853cso8678139f.3
-        for <linux-hams@vger.kernel.org>; Thu, 06 Nov 2025 01:45:31 -0800 (PST)
+Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-433199c7fb4so4443865ab.3
+        for <linux-hams@vger.kernel.org>; Tue, 11 Nov 2025 20:52:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762422330; x=1763027130;
+        d=1e100.net; s=20230601; t=1762923147; x=1763527947;
         h=to:from:subject:message-id:in-reply-to:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZTcgL6H5oY5FCjggOzmzN/zMv4D73ZQd/MUlTuqioEA=;
-        b=K2hJY1Fmm5Ec24NbVBHRgaHMUQFklxYkmlMgIGZRNV45lsWgMpkvB1rQYj27gVJDdj
-         0C70cMb1chUuvO+Lvo1IzIwaXlXcuH2iQgJDtrm6jayog4JBIEyNtUgpfOP5u+gCLBXS
-         CT/cNpv7iDk+sgYDe6PIelVmQ/Buxd854eK9Jy3qyfsd1QP0BMkRZtk6XFyIzBkNooEQ
-         /BZC35nWn7L0ty3vIolJv26Ks4N9wBJJq6hYMW4CnevXcm6wwk9F4UGboa4CQvLHSqiE
-         Pd7XMnRe6yJEPz1Ho37m9Kpv5iRdrrU1KEpOPlHJyXIbvZfXhRuZLDpG5J+XFWpTpBSL
-         tb0g==
-X-Forwarded-Encrypted: i=1; AJvYcCUilfCg2Ok65VWzO3uJGqaEGswEHyogVB27CL563EVbAHAtREi0izsxRYVBL8/8TozwR+ZOKU3C8Pmd@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlD42CYN7Vlg/ITsCw3y6Zu5aU8X2qT+Gqobi3NxMDnqIrp7Eb
-	1j8sGmnSRsiA8fc1LQ2qEj0ZBHRIpcD/89U009JeQrAhlRR10ykmXk9a1oUrqI2VCXakSrjZatB
-	76Xk4FVnQuzHtn5LTFCykiDxdO2CWaF1FIasVgqMMylxhtEi9wwmQTXDDRh4=
-X-Google-Smtp-Source: AGHT+IG0cB2j9bryLBdBpOtLE59pe4+E5rx7ZQ1JMEg73jOxwVU5mtzuatZQPVVXpnM3zAoO92cxRI9GgLGlEkV958n2FokGzRRi
+        bh=/xR/S0akTM9IizGbyH/pcTSsfCiAbNA5aO/SzN0S+qc=;
+        b=AL0R2NE+RBOmdeu+ZX1juKLxpmRCytvaaxNcfbykL6qPglzchMS3/CQhLhejuJdjcp
+         yjF6nOaYbQLTLR7tqcU9/9dYQl79QS72I3wtVtbBTC+i2/KGXVG2BYfot53QKtZh9HZZ
+         FnN4uW42Vv/2y9Em5nVwt8EDxYKKW+9FN5jQjizzoE56jzlxSUyZrAF2M5DkvRCWHbJu
+         xEPD/69budyWAkBOUJiTZZC0+0iWaPAq+nnlbBF5/yo6oz/buepC72fB+YqCzVbMHznt
+         xRasdqy1kzc96zsi+BepjZ0mZVBsgsDQirIUACrDuqpBM33ihpBVD2A5YXSAZ8z+3fBB
+         bGzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUKYWKcytRDJSzwWcgoXdYM0e/7QnviBN0YvLGQ/cQa2IxHYHDuoqGo8ct399Xyi3jPmXa+kKrDE5/V@vger.kernel.org
+X-Gm-Message-State: AOJu0Yypc+c0wLuTUumpwRlAaTUBQUnhBNGxOrD1PvGLl3uMbdBWNKKd
+	DLXxEPcYu8hXJaGtcCME9TheG66nI8DNULAGPrwjhGUqvVA3Ggo7UVoKbMcsaAJZYZy1xPK8Ym0
+	C9t+5DQ5PLC1SIMdL0bucEXhQftHRyYLn5fcBpcLbynr93DNV7qFtimrVDCc=
+X-Google-Smtp-Source: AGHT+IEalNLm4nKk8fLi4y0xYX+5Nao4o3HK0geVhuKlrQfqUMB7hx94C8r2EruYYup9yM47XvRjz6EN4BkpAlS+Fzf0/eO5s8G7
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:6b08:b0:943:5c83:d68e with SMTP id
- ca18e2360f4ac-94869cb498bmr905272739f.1.1762422330444; Thu, 06 Nov 2025
- 01:45:30 -0800 (PST)
-Date: Thu, 06 Nov 2025 01:45:30 -0800
-In-Reply-To: <685d4c2a.a00a0220.2e5631.028c.GAE@google.com>
+X-Received: by 2002:a05:6e02:1fcc:b0:433:7a2f:a40a with SMTP id
+ e9e14a558f8ab-43473cff396mr21170735ab.4.1762923147120; Tue, 11 Nov 2025
+ 20:52:27 -0800 (PST)
+Date: Tue, 11 Nov 2025 20:52:27 -0800
+In-Reply-To: <68af39ae.a70a0220.3cafd4.002c.GAE@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <690c6e3a.050a0220.3d0d33.0123.GAE@google.com>
-Subject: Re: [syzbot] [hams?] possible deadlock in nr_rt_ioctl (2)
-From: syzbot <syzbot+14afda08dc3484d5db82@syzkaller.appspotmail.com>
-To: davem@davemloft.net, eadavis@qq.com, edumazet@google.com, hdanton@sina.com, 
+Message-ID: <6914128b.050a0220.417c2.0004.GAE@google.com>
+Subject: Re: [syzbot] [hams?] WARNING: ODEBUG bug in handle_softirqs
+From: syzbot <syzbot+60db000b8468baeddbb1@syzkaller.appspotmail.com>
+To: andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org, 
+	daniel@iogearbox.net, davem@davemloft.net, edumazet@google.com, 
 	horms@kernel.org, kuba@kernel.org, linux-hams@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
-	syzkaller-bugs@googlegroups.com
+	peterz@infradead.org, syzkaller-bugs@googlegroups.com, tglx@linutronix.de
 Content-Type: text/plain; charset="UTF-8"
 
 syzbot has found a reproducer for the following issue on:
 
-HEAD commit:    dc77806cf3b4 Merge tag 'rust-fixes-6.18' of git://git.kern..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14c0e114580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=609c87dcb0628493
-dashboard link: https://syzkaller.appspot.com/bug?extid=14afda08dc3484d5db82
-compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17feb812580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15fb5812580000
+HEAD commit:    2666975a8905 Add linux-next specific files for 20251111
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=13748212580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e82ba9dc816af74c
+dashboard link: https://syzkaller.appspot.com/bug?extid=60db000b8468baeddbb1
+compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10646b42580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=133eec12580000
 
 Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-dc77806c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/eef2d5e8c3fb/vmlinux-dc77806c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/e6323f5f18c6/bzImage-dc77806c.xz
+disk image: https://storage.googleapis.com/syzbot-assets/26ac789d9bdd/disk-2666975a.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/fabfe7978a23/vmlinux-2666975a.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/82f010d50b37/bzImage-2666975a.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+14afda08dc3484d5db82@syzkaller.appspotmail.com
+Reported-by: syzbot+60db000b8468baeddbb1@syzkaller.appspotmail.com
 
-bond0: (slave rose0): Error: Device is in use and cannot be enslaved
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Not tainted
-------------------------------------------------------
-syz.0.18/6086 is trying to acquire lock:
-ffffffff9033ef98 (nr_neigh_list_lock){+...}-{3:3}, at: spin_lock_bh include/linux/spinlock.h:356 [inline]
-ffffffff9033ef98 (nr_neigh_list_lock){+...}-{3:3}, at: nr_remove_neigh net/netrom/nr_route.c:307 [inline]
-ffffffff9033ef98 (nr_neigh_list_lock){+...}-{3:3}, at: nr_del_node net/netrom/nr_route.c:342 [inline]
-ffffffff9033ef98 (nr_neigh_list_lock){+...}-{3:3}, at: nr_rt_ioctl+0x2007/0x29b0 net/netrom/nr_route.c:678
-
-but task is already holding lock:
-ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: spin_lock_bh include/linux/spinlock.h:356 [inline]
-ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: nr_node_lock include/net/netrom.h:152 [inline]
-ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: nr_del_node net/netrom/nr_route.c:335 [inline]
-ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: nr_rt_ioctl+0x29d/0x29b0 net/netrom/nr_route.c:678
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #2 (&nr_node->node_lock){+...}-{3:3}:
-       __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
-       _raw_spin_lock_bh+0x33/0x40 kernel/locking/spinlock.c:178
-       spin_lock_bh include/linux/spinlock.h:356 [inline]
-       nr_node_lock include/net/netrom.h:152 [inline]
-       nr_del_node net/netrom/nr_route.c:335 [inline]
-       nr_rt_ioctl+0x29d/0x29b0 net/netrom/nr_route.c:678
-       nr_ioctl+0x19a/0x2d0 net/netrom/af_netrom.c:1254
-       sock_do_ioctl+0x118/0x280 net/socket.c:1254
-       sock_ioctl+0x227/0x6b0 net/socket.c:1375
-       vfs_ioctl fs/ioctl.c:51 [inline]
-       __do_sys_ioctl fs/ioctl.c:597 [inline]
-       __se_sys_ioctl fs/ioctl.c:583 [inline]
-       __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0xcd/0xfa0 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (nr_node_list_lock){+...}-{3:3}:
-       __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
-       _raw_spin_lock_bh+0x33/0x40 kernel/locking/spinlock.c:178
-       spin_lock_bh include/linux/spinlock.h:356 [inline]
-       nr_rt_device_down+0xd3/0x810 net/netrom/nr_route.c:517
-       nr_device_event+0x126/0x170 net/netrom/af_netrom.c:126
-       notifier_call_chain+0xbc/0x410 kernel/notifier.c:85
-       call_netdevice_notifiers_info+0xbe/0x140 net/core/dev.c:2229
-       call_netdevice_notifiers_extack net/core/dev.c:2267 [inline]
-       call_netdevice_notifiers net/core/dev.c:2281 [inline]
-       netif_close_many+0x319/0x630 net/core/dev.c:1784
-       netif_close net/core/dev.c:1797 [inline]
-       netif_close+0x17f/0x230 net/core/dev.c:1791
-       dev_close+0xaa/0x240 net/core/dev_api.c:220
-       bpq_device_event+0x6a9/0x910 drivers/net/hamradio/bpqether.c:528
-       notifier_call_chain+0xbc/0x410 kernel/notifier.c:85
-       call_netdevice_notifiers_info+0xbe/0x140 net/core/dev.c:2229
-       call_netdevice_notifiers_extack net/core/dev.c:2267 [inline]
-       call_netdevice_notifiers net/core/dev.c:2281 [inline]
-       netif_close_many+0x319/0x630 net/core/dev.c:1784
-       netif_close net/core/dev.c:1797 [inline]
-       netif_close+0x17f/0x230 net/core/dev.c:1791
-       dev_close+0xaa/0x240 net/core/dev_api.c:220
-       bond_setup_by_slave drivers/net/bonding/bond_main.c:1567 [inline]
-       bond_enslave+0x1e42/0x5de0 drivers/net/bonding/bond_main.c:1972
-       bond_do_ioctl+0x601/0x6c0 drivers/net/bonding/bond_main.c:4615
-       dev_siocbond net/core/dev_ioctl.c:516 [inline]
-       dev_ifsioc+0xe9c/0x1f70 net/core/dev_ioctl.c:666
-       dev_ioctl+0x223/0x10e0 net/core/dev_ioctl.c:838
-       sock_do_ioctl+0x19d/0x280 net/socket.c:1268
-       sock_ioctl+0x227/0x6b0 net/socket.c:1375
-       vfs_ioctl fs/ioctl.c:51 [inline]
-       __do_sys_ioctl fs/ioctl.c:597 [inline]
-       __se_sys_ioctl fs/ioctl.c:583 [inline]
-       __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0xcd/0xfa0 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (nr_neigh_list_lock){+...}-{3:3}:
-       check_prev_add kernel/locking/lockdep.c:3165 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
-       validate_chain kernel/locking/lockdep.c:3908 [inline]
-       __lock_acquire+0x126f/0x1c90 kernel/locking/lockdep.c:5237
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x179/0x350 kernel/locking/lockdep.c:5825
-       __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
-       _raw_spin_lock_bh+0x33/0x40 kernel/locking/spinlock.c:178
-       spin_lock_bh include/linux/spinlock.h:356 [inline]
-       nr_remove_neigh net/netrom/nr_route.c:307 [inline]
-       nr_del_node net/netrom/nr_route.c:342 [inline]
-       nr_rt_ioctl+0x2007/0x29b0 net/netrom/nr_route.c:678
-       nr_ioctl+0x19a/0x2d0 net/netrom/af_netrom.c:1254
-       sock_do_ioctl+0x118/0x280 net/socket.c:1254
-       sock_ioctl+0x227/0x6b0 net/socket.c:1375
-       vfs_ioctl fs/ioctl.c:51 [inline]
-       __do_sys_ioctl fs/ioctl.c:597 [inline]
-       __se_sys_ioctl fs/ioctl.c:583 [inline]
-       __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0xcd/0xfa0 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  nr_neigh_list_lock --> nr_node_list_lock --> &nr_node->node_lock
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&nr_node->node_lock);
-                               lock(nr_node_list_lock);
-                               lock(&nr_node->node_lock);
-  lock(nr_neigh_list_lock);
-
- *** DEADLOCK ***
-
-2 locks held by syz.0.18/6086:
- #0: ffffffff9033eff8 (nr_node_list_lock){+...}-{3:3}, at: spin_lock_bh include/linux/spinlock.h:356 [inline]
- #0: ffffffff9033eff8 (nr_node_list_lock){+...}-{3:3}, at: nr_del_node net/netrom/nr_route.c:334 [inline]
- #0: ffffffff9033eff8 (nr_node_list_lock){+...}-{3:3}, at: nr_rt_ioctl+0x221/0x29b0 net/netrom/nr_route.c:678
- #1: ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: spin_lock_bh include/linux/spinlock.h:356 [inline]
- #1: ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: nr_node_lock include/net/netrom.h:152 [inline]
- #1: ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: nr_del_node net/netrom/nr_route.c:335 [inline]
- #1: ffff88802acfc870 (&nr_node->node_lock){+...}-{3:3}, at: nr_rt_ioctl+0x29d/0x29b0 net/netrom/nr_route.c:678
-
-stack backtrace:
-CPU: 3 UID: 0 PID: 6086 Comm: syz.0.18 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+------------[ cut here ]------------
+ODEBUG: free active (active state 0) object: ffff888028ee8090 object type: timer_list hint: rose_t0timer_expiry+0x0/0x350 net/rose/rose_link.c:-1
+WARNING: lib/debugobjects.c:615 at debug_print_object+0x16b/0x1e0 lib/debugobjects.c:612, CPU#1: syz.2.1147/9544
+Modules linked in:
+CPU: 1 UID: 0 PID: 9544 Comm: syz.2.1147 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
+RIP: 0010:debug_print_object+0x16b/0x1e0 lib/debugobjects.c:612
+Code: 4c 89 ff e8 d7 19 86 fd 4d 8b 0f 48 c7 c7 80 1b e1 8b 48 8b 34 24 4c 89 ea 89 e9 4d 89 f0 41 54 e8 0a 38 e2 fc 48 83 c4 08 90 <0f> 0b 90 90 ff 05 47 22 1e 0b 48 83 c4 08 5b 41 5c 41 5d 41 5e 41
+RSP: 0018:ffffc90000a08a00 EFLAGS: 00010296
+RAX: cfc2b002eab41900 RBX: dffffc0000000000 RCX: ffff888031311e80
+RDX: 0000000000000100 RSI: 0000000000000000 RDI: 0000000000000002
+RBP: 0000000000000000 R08: 0000000000000003 R09: 0000000000000004
+R10: dffffc0000000000 R11: fffffbfff1c3a744 R12: ffffffff8a5327d0
+R13: ffffffff8be11d00 R14: ffff888028ee8090 R15: ffffffff8b8cf8e0
+FS:  00007fda22dbb6c0(0000) GS:ffff888125b82000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000020000000d000 CR3: 0000000078a42000 CR4: 00000000003526f0
 Call Trace:
+ <IRQ>
+ __debug_check_no_obj_freed lib/debugobjects.c:1099 [inline]
+ debug_check_no_obj_freed+0x3a2/0x470 lib/debugobjects.c:1129
+ slab_free_hook mm/slub.c:2470 [inline]
+ slab_free mm/slub.c:6661 [inline]
+ kfree+0x10c/0x6e0 mm/slub.c:6869
+ rose_neigh_put include/net/rose.h:166 [inline]
+ rose_timer_expiry+0x4cb/0x600 net/rose/rose_timer.c:183
+ call_timer_fn+0x16e/0x600 kernel/time/timer.c:1747
+ expire_timers kernel/time/timer.c:1798 [inline]
+ __run_timers kernel/time/timer.c:2372 [inline]
+ __run_timer_base+0x61a/0x860 kernel/time/timer.c:2384
+ run_timer_base kernel/time/timer.c:2393 [inline]
+ run_timer_softirq+0xb7/0x180 kernel/time/timer.c:2403
+ handle_softirqs+0x27d/0x880 kernel/softirq.c:626
+ __do_softirq kernel/softirq.c:660 [inline]
+ invoke_softirq kernel/softirq.c:496 [inline]
+ __irq_exit_rcu+0xca/0x1f0 kernel/softirq.c:727
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:743
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1055 [inline]
+ sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1055
+ </IRQ>
  <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
- print_circular_bug+0x275/0x350 kernel/locking/lockdep.c:2043
- check_noncircular+0x14c/0x170 kernel/locking/lockdep.c:2175
- check_prev_add kernel/locking/lockdep.c:3165 [inline]
- check_prevs_add kernel/locking/lockdep.c:3284 [inline]
- validate_chain kernel/locking/lockdep.c:3908 [inline]
- __lock_acquire+0x126f/0x1c90 kernel/locking/lockdep.c:5237
- lock_acquire kernel/locking/lockdep.c:5868 [inline]
- lock_acquire+0x179/0x350 kernel/locking/lockdep.c:5825
- __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
- _raw_spin_lock_bh+0x33/0x40 kernel/locking/spinlock.c:178
- spin_lock_bh include/linux/spinlock.h:356 [inline]
- nr_remove_neigh net/netrom/nr_route.c:307 [inline]
- nr_del_node net/netrom/nr_route.c:342 [inline]
- nr_rt_ioctl+0x2007/0x29b0 net/netrom/nr_route.c:678
- nr_ioctl+0x19a/0x2d0 net/netrom/af_netrom.c:1254
- sock_do_ioctl+0x118/0x280 net/socket.c:1254
- sock_ioctl+0x227/0x6b0 net/socket.c:1375
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl fs/ioctl.c:583 [inline]
- __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:697
+RIP: 0010:lock_release+0x2ac/0x3d0 kernel/locking/lockdep.c:5893
+Code: 51 48 c7 44 24 20 00 00 00 00 9c 8f 44 24 20 f7 44 24 20 00 02 00 00 75 56 f7 c3 00 02 00 00 74 01 fb 65 48 8b 05 64 98 1b 11 <48> 3b 44 24 28 0f 85 8b 00 00 00 48 83 c4 30 5b 41 5c 41 5d 41 5e
+RSP: 0018:ffffc90004e8f918 EFLAGS: 00000206
+RAX: cfc2b002eab41900 RBX: 0000000000000283 RCX: cfc2b002eab41900
+RDX: 0000000000000000 RSI: ffffffff8dc71e5c RDI: ffffffff8be111e0
+RBP: ffff8880313129b0 R08: 0000000000000000 R09: ffffffff820eec00
+R10: dffffc0000000000 R11: fffffbfff1f7eeef R12: 0000000000000000
+R13: 0000000000000000 R14: ffff888034a18ca0 R15: ffff888031311e80
+ _inline_copy_from_user include/linux/uaccess.h:169 [inline]
+ _copy_from_user+0x28/0xb0 lib/usercopy.c:18
+ copy_from_user include/linux/uaccess.h:219 [inline]
+ snd_rawmidi_kernel_write1+0x3ab/0x650 sound/core/rawmidi.c:1560
+ snd_rawmidi_write+0x5a8/0xbc0 sound/core/rawmidi.c:1629
+ do_loop_readv_writev fs/read_write.c:850 [inline]
+ vfs_writev+0x4b6/0x960 fs/read_write.c:1059
+ do_writev+0x14d/0x2d0 fs/read_write.c:1103
  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xcd/0xfa0 arch/x86/entry/syscall_64.c:94
+ do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f5a58b8f6c9
+RIP: 0033:0x7fda21f8f6c9
 Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff0134ba58 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007f5a58de5fa0 RCX: 00007f5a58b8f6c9
-RDX: 0000200000000680 RSI: 000000000000890c RDI: 000000000000000a
-RBP: 00007f5a58c11f91 R08: 0000000000000000 R09: 0000000000000000
+RSP: 002b:00007fda22dbb038 EFLAGS: 00000246 ORIG_RAX: 0000000000000014
+RAX: ffffffffffffffda RBX: 00007fda221e5fa0 RCX: 00007fda21f8f6c9
+RDX: 0000000000000002 RSI: 0000200000000840 RDI: 0000000000000004
+RBP: 00007fda22011f91 R08: 0000000000000000 R09: 0000000000000000
 R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f5a58de5fa0 R14: 00007f5a58de5fa0 R15: 0000000000000003
+R13: 00007fda221e6038 R14: 00007fda221e5fa0 R15: 00007ffd404da6b8
  </TASK>
+----------------
+Code disassembly (best guess):
+   0:	51                   	push   %rcx
+   1:	48 c7 44 24 20 00 00 	movq   $0x0,0x20(%rsp)
+   8:	00 00
+   a:	9c                   	pushf
+   b:	8f 44 24 20          	pop    0x20(%rsp)
+   f:	f7 44 24 20 00 02 00 	testl  $0x200,0x20(%rsp)
+  16:	00
+  17:	75 56                	jne    0x6f
+  19:	f7 c3 00 02 00 00    	test   $0x200,%ebx
+  1f:	74 01                	je     0x22
+  21:	fb                   	sti
+  22:	65 48 8b 05 64 98 1b 	mov    %gs:0x111b9864(%rip),%rax        # 0x111b988e
+  29:	11
+* 2a:	48 3b 44 24 28       	cmp    0x28(%rsp),%rax <-- trapping instruction
+  2f:	0f 85 8b 00 00 00    	jne    0xc0
+  35:	48 83 c4 30          	add    $0x30,%rsp
+  39:	5b                   	pop    %rbx
+  3a:	41 5c                	pop    %r12
+  3c:	41 5d                	pop    %r13
+  3e:	41 5e                	pop    %r14
 
 
 ---
