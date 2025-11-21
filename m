@@ -1,166 +1,150 @@
-Return-Path: <linux-hams+bounces-706-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-707-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF758C55EEC
-	for <lists+linux-hams@lfdr.de>; Thu, 13 Nov 2025 07:33:59 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F98C78231
+	for <lists+linux-hams@lfdr.de>; Fri, 21 Nov 2025 10:25:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48CF73AD269
-	for <lists+linux-hams@lfdr.de>; Thu, 13 Nov 2025 06:33:57 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9D8F5343DC4
+	for <lists+linux-hams@lfdr.de>; Fri, 21 Nov 2025 09:23:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78142320A04;
-	Thu, 13 Nov 2025 06:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="rIUar83v"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC4C3431E7;
+	Fri, 21 Nov 2025 09:20:34 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f78.google.com (mail-io1-f78.google.com [209.85.166.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081E72D3A72;
-	Thu, 13 Nov 2025 06:33:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27EFF342C80
+	for <linux-hams@vger.kernel.org>; Fri, 21 Nov 2025 09:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763015634; cv=none; b=RQHVx1khtbBHA140MmoVy8ZWZESK5sWKhrWadW38mD8tI5ZyGSNAadtmoedepG9F8XKCaMb0xS0k0ptC+V8z8nWCU96j30ModdwzIyszeUlxbW5yB+H2XZj1pddia9Aihf16YjMIAM/6cJlFU3s7VQS3Ee0ycDD67N7hOX42R/U=
+	t=1763716833; cv=none; b=GCgJzrHD2Nvf0/GgzgrJsxhMZIKEbldmmK3Q5Rmody6NKy5Ldeqd+AALSSAaE5lwVvPmbTbH5i9eoGusbRKgdYrLC3Ilnbuw/s/MC+bL9V9/zN6dw5vofg721t1wU/OaxFt3XzZ7RvoipC5PGCQz4CPOAjSRdVVpUzOQo2qpAMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763015634; c=relaxed/simple;
-	bh=rCLe+hr2Yusg3D9SBfWtSb9zi44W4nHl8ejnPsndC0E=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=vBHVTEZYx2WDSI15DwcsXDMNfM9Wncpnu+2PTSekTB/fe+Rmgur3O4eBbzWHxrQyqE0S5nOy+ftZoqV7kpr8zY6twM86YV6z+nGSVfFvFYi5CRcIlopXEY7MAUTRnxfJZw58xQao2h69afGIoQdVaa7cERbImL3MFg8bCiUJ/X8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=rIUar83v; arc=none smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AD0Xp1f4073532;
-	Wed, 12 Nov 2025 22:33:29 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=CK9qGSXpWvfZuDgGicN0rtlYZMBHXlyWGYkxgH85G2g=; b=
-	rIUar83vqWyAXG8ZSCt2ZB/DPBqN/+U/vAbRf34EaYfhD4Dw+0sj+FZMNwMoM4Ic
-	/vDW/LYwdKXOG16dL6/GkagLEBubP8OVjpO2DCqsBJ48X1Eo3E8NQwRTy427cWK4
-	iL055KXu16laQQH9gZth6+54HxICXmHYqTeDrxXApYjUCOB/K32JEa8WfDUM4LEl
-	Px93/Mn9hscRNgyamXdvaJmSY2BVxVFpZkdZnL0EpRvr0V5UGyjaZJkdZ64MSiR1
-	vQHNDbteMrjZGSOXIqg4soERAk/hgFhatCT8mOgMVuIos17orblrxpZjJzvAtw0l
-	RDROQhL+PC2i0+dAiiHs0g==
-Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4aa2136sqm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 12 Nov 2025 22:33:29 -0800 (PST)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 12 Nov 2025 22:33:28 -0800
-Received: from pek-lpd-ccm6.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 12 Nov 2025 22:33:26 -0800
-From: Lizhi Xu <lizhi.xu@windriver.com>
-To: <lizhi.xu@windriver.com>
-CC: <dan.carpenter@linaro.org>, <davem@davemloft.net>, <edumazet@google.com>,
-        <horms@kernel.org>, <kuba@kernel.org>, <linux-hams@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <syzbot+2860e75836a08b172755@syzkaller.appspotmail.com>,
-        <syzkaller-bugs@googlegroups.com>
-Subject: Re: [PATCH V4] netrom: Preventing the use of abnormal neighbor
-Date: Thu, 13 Nov 2025 14:33:25 +0800
-Message-ID: <20251113063325.1138331-1-lizhi.xu@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251029025904.63619-1-lizhi.xu@windriver.com>
-References: <20251029025904.63619-1-lizhi.xu@windriver.com>
+	s=arc-20240116; t=1763716833; c=relaxed/simple;
+	bh=cL1RS04Vlbg5/isdthq1+y1Pb3yMmqLyOIAoOc+x41Q=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=f5GurzJBnNFLwA54nfu+y7QNOmKLuQcnaSOW9km45LQaxYt66neCTByzJ7wdO4O4CoKH6iufJzp/lBol81YEhjPlXSkLJYpfopFKfPFSXqFWKNm6L2RTk/BdQHmgtPnRnOKr6g/0q0X71QV7Q66Kr1f3oi8fgqyL7hwLX6bGgjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f78.google.com with SMTP id ca18e2360f4ac-94908fb82e0so154180239f.3
+        for <linux-hams@vger.kernel.org>; Fri, 21 Nov 2025 01:20:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763716831; x=1764321631;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y57Wj2emBMA0I4GdDAAg7azio1mhTOb6C4GKyshX+cY=;
+        b=ZfrnxviujwaU5i4VZaX30ybI4goaye0EMrQLcajCkAJzfSvDGSS7EMe9NnJU4YhXqL
+         0KxzrfzVPg6Ib3cV2x4GesRIfyxXxmNeO7H63kD0aEvEu62RiQaHO1Ol7811XwQC4dIW
+         Ddlsm5HE3DavliBgjsR5NTZmY3a+wtTjN5qAvPvMNYzq6qEDr2eZElqwgd7+23Y7sT4G
+         Pi0WIzmxIc4EuFHH8mVmMNBBiH7BIomgA5NLNQHAuhdkZCPa3KV++UXnCHY19qokkcyB
+         yieAJWvs3mlTuauqFnsNqTCgTFddLTy4EJfztq4+cO8PAbaXZ2Q8xbtdyD2+xAmdLF0W
+         DEig==
+X-Forwarded-Encrypted: i=1; AJvYcCWXhurXPa0rwwPYDVDn36Q2rVVWkHdkAmIVg9eYy0JtfWyMpWaQKe6VGpEUh7KY6cP/AlvzyjRs//8Y@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXH/AlJrGBBG2qsnYX7cafklnuVJJeoTOGvKcEfPneYyOVHMN+
+	Pb8HYOvdOgJ972V48AXp6TFrkQD6CKz4g9ZQYapNuc8P4DB6RGyGypa4i/paCagdC2nWEMo/Q45
+	ZRBmX9CNZREoPKb2qMsN3ReTVqGNjMb+4b+tSsmvB43boEp9enj1e7z5ZLkk=
+X-Google-Smtp-Source: AGHT+IEac/g/gQ2aIQk1kyITjzB+Ny9W97Qb1XEBlpBiMdpCj5JGgoWXsiWSPhL9UBO6t5j28HdwCKBQ/U0+5yIxQpUE1U/X72h0
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEzMDA0MyBTYWx0ZWRfX31wMgDQZ78gZ
- +G/QlkeQfhrCKQEA4aYpRhlGPxN0eZUrppG9wl24HVTXpdwVo53z8LwcvfCMYOaWOlwGlUxHy6j
- obMs6tSpRvFmt//LysnoynM1sj+zWs6oJhmyQ9iqwl2rHQpXuAyBwjHQ/S0xm2qt2v0PEY9NSo9
- tC6AQEGq8DczsShQjmiAE0zReYDGGQpy2J9yBbThqlq2rEGPzekbIPs9JJ2kBmsQJf13toY6pQH
- Uh1C58t2pZPboFyV9hmCb6J7c61bxyojYx/gzmruj9lGIT9scMjUJ9rXm0DZX/U2z6Qng4st6WP
- 5nzYW2sGPj92qxhtnWk7LSXoIHIyQmnsvh5xlyuH6jDvWfWLjOeegxsRGSzq3xF36eCQd1rru/3
- mPuarR9CuRZOw1EKVyOIU3lWevqReA==
-X-Proofpoint-ORIG-GUID: FbHNTj-2p3VHIkuMwxWdA5NdTSBoVSUX
-X-Authority-Analysis: v=2.4 cv=XPA9iAhE c=1 sm=1 tr=0 ts=69157bb9 cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8 a=dZbOZ2KzAAAA:8
- a=f1zZ7Z5adhlBXb41_NkA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: FbHNTj-2p3VHIkuMwxWdA5NdTSBoVSUX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-12_06,2025-11-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 malwarescore=0 adultscore=0 bulkscore=0
- phishscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511130043
+X-Received: by 2002:a05:6e02:3f06:b0:434:77cf:9df with SMTP id
+ e9e14a558f8ab-435b8e790f1mr18431775ab.32.1763716831338; Fri, 21 Nov 2025
+ 01:20:31 -0800 (PST)
+Date: Fri, 21 Nov 2025 01:20:31 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69202edf.a70a0220.2ea503.004c.GAE@google.com>
+Subject: [syzbot] [hams?] WARNING: refcount bug in nr_del_neigh (2)
+From: syzbot <syzbot+3f991c449d23d41216a2@syzkaller.appspotmail.com>
+To: davem@davemloft.net, edumazet@google.com, horms@kernel.org, 
+	kuba@kernel.org, linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 29 Oct 2025 10:59:04 +0800, Lizhi Xu wrote:
-> > > The root cause of the problem is that multiple different tasks initiate
-> > > SIOCADDRT & NETROM_NODE commands to add new routes, there is no lock
-> > > between them to protect the same nr_neigh.
-> > >
-> > > Task0 can add the nr_neigh.refcount value of 1 on Task1 to routes[2].
-> > > When Task2 executes nr_neigh_put(nr_node->routes[2].neighbour), it will
-> > > release the neighbour because its refcount value is 1.
-> > >
-> > > In this case, the following situation causes a UAF on Task2:
-> > >
-> > > Task0					Task1						Task2
-> > > =====					=====						=====
-> > > nr_add_node()
-> > > nr_neigh_get_dev()			nr_add_node()
-> > > 					nr_node_lock()
-> > > 					nr_node->routes[2].neighbour->count--
-> > > 					nr_neigh_put(nr_node->routes[2].neighbour);
-> > > 					nr_remove_neigh(nr_node->routes[2].neighbour)
-> > > 					nr_node_unlock()
-> > > nr_node_lock()
-> > > nr_node->routes[2].neighbour = nr_neigh
-> > > nr_neigh_hold(nr_neigh);								nr_add_node()
-> > > 											nr_neigh_put()
-> > > 											if (nr_node->routes[2].neighbour->count
-> > > Description of the UAF triggering process:
-> > > First, Task 0 executes nr_neigh_get_dev() to set neighbor refcount to 3.
-> > > Then, Task 1 puts the same neighbor from its routes[2] and executes
-> > > nr_remove_neigh() because the count is 0. After these two operations,
-> > > the neighbor's refcount becomes 1. Then, Task 0 acquires the nr node
-> > > lock and writes it to its routes[2].neighbour.
-> > > Finally, Task 2 executes nr_neigh_put(nr_node->routes[2].neighbour) to
-> > > release the neighbor. The subsequent execution of the neighbor->count
-> > > check triggers a UAF.
-> > 
-> > I looked at the code quite a bit and I think this could possibly avoid
-> > the above mentioned race, but this whole area looks quite confusing to me.
-> > 
-> > I think it would be helpful if you could better describe the relevant
-> > scenario starting from the initial setup (no nodes, no neighs).
-> OK. Let me fill in the origin of neigh.
-> 
-> Task3
-> =====
-> nr_add_node()
-> [146]if ((nr_neigh = kmalloc(sizeof(*nr_neigh), GFP_ATOMIC)) == NULL)
-> [253]nr_node->routes[2].neighbour = nr_neigh;
-> [255]nr_neigh_hold(nr_neigh);
-> [256]nr_neigh->count++;
-> 
-> neigh is created on line 146 in nr_add_node(), and added to node on
-> lines 253-256. It occurs before all Task0, Task1, and Task2.
-> 
-> Note:
-> 1. [x], x is line number.
-> 2. During my debugging process, I didn't pay attention to where the node
-> was created, and I apologize that I cannot provide the relevant creation
-> process.
-Hi everyone, 
-Today is my last day at WindRiver. Starting tomorrow, my email address
-lizhi.xu@windriver.com will no longer be used;
-I will use eadavis@qq.com thereafter.
+Hello,
 
-BR,
-Lizhi
+syzbot found the following issue on:
+
+HEAD commit:    407a06507c23 mlxsw: spectrum: Fix memory leak in mlxsw_sp_..
+git tree:       net
+console output: https://syzkaller.appspot.com/x/log.txt?x=10c11b42580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e46b8a1c645465a9
+dashboard link: https://syzkaller.appspot.com/bug?extid=3f991c449d23d41216a2
+compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/62d11ae9564e/disk-407a0650.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/997cf054bfb9/vmlinux-407a0650.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/827a9f03aefe/bzImage-407a0650.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+3f991c449d23d41216a2@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+refcount_t: underflow; use-after-free.
+WARNING: CPU: 1 PID: 13218 at lib/refcount.c:28 refcount_warn_saturate+0x11a/0x1d0 lib/refcount.c:28
+Modules linked in:
+CPU: 1 UID: 0 PID: 13218 Comm: syz.3.2115 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/02/2025
+RIP: 0010:refcount_warn_saturate+0x11a/0x1d0 lib/refcount.c:28
+Code: 40 58 be 8b e8 07 a4 f9 fc 90 0f 0b 90 90 eb d7 e8 1b 88 36 fd c6 05 b9 84 dd 0a 01 90 48 c7 c7 a0 58 be 8b e8 e7 a3 f9 fc 90 <0f> 0b 90 90 eb b7 e8 fb 87 36 fd c6 05 96 84 dd 0a 01 90 48 c7 c7
+RSP: 0018:ffffc9001a9a7a58 EFLAGS: 00010246
+RAX: df5324e680d95e00 RBX: 0000000000000003 RCX: ffff88802f279e40
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000002
+RBP: 0000000000000000 R08: 0000000000000003 R09: 0000000000000004
+R10: dffffc0000000000 R11: fffffbfff1bba684 R12: dffffc0000000000
+R13: ffffffff8c7f8848 R14: ffff888056783c3c R15: 0000000000000000
+FS:  00007f267354c6c0(0000) GS:ffff88812623b000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 000000007e2f0000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ nr_del_neigh+0x16c/0x1d0 net/netrom/nr_route.c:440
+ nr_rt_ioctl+0xb1b/0xd50 net/netrom/nr_route.c:682
+ sock_do_ioctl+0xdc/0x300 net/socket.c:1254
+ sock_ioctl+0x576/0x790 net/socket.c:1375
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f267278f6c9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f267354c038 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f26729e5fa0 RCX: 00007f267278f6c9
+RDX: 00002000000000c0 RSI: 000000000000890c RDI: 0000000000000013
+RBP: 00007f2672811f91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f26729e6038 R14: 00007f26729e5fa0 R15: 00007fff2eed0978
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
