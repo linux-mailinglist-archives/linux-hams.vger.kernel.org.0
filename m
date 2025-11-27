@@ -1,86 +1,88 @@
-Return-Path: <linux-hams+bounces-710-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-711-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B23C8CA17
-	for <lists+linux-hams@lfdr.de>; Thu, 27 Nov 2025 03:04:42 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E77BC8CA76
+	for <lists+linux-hams@lfdr.de>; Thu, 27 Nov 2025 03:25:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9D388351527
-	for <lists+linux-hams@lfdr.de>; Thu, 27 Nov 2025 02:04:42 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D0E3D34EBBE
+	for <lists+linux-hams@lfdr.de>; Thu, 27 Nov 2025 02:25:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36A9E241691;
-	Thu, 27 Nov 2025 02:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k69k62Ir"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCA08261B9B;
+	Thu, 27 Nov 2025 02:25:07 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90AF23FC49
-	for <linux-hams@vger.kernel.org>; Thu, 27 Nov 2025 02:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5CC25C80D
+	for <linux-hams@vger.kernel.org>; Thu, 27 Nov 2025 02:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764209078; cv=none; b=aiJnjxUkkKwkMZejf+oB6lP2MHQRNJ/PSyAiXSNACqb4eT7LSLkYGtiqyyuNs+yPCDQ7qwfihXHk7eRzdn7J4S6jqOxaEQFIjrDMoiwoIc9FH5rQJNdm2h1nqwjXZhvtcZuYnMorCEbkseQ5FmucuINixnWxmZ0d247WozOETno=
+	t=1764210307; cv=none; b=nqIB79Yn5Se4wH3b+apL3kP6WaEUyT+wFh5fOJNHqywli21wgvnT+64AKSNmWNI4l/sqfxBFkx6rphNYjgFYQCvpLKICLQPjouQH0nDDMiF6/xaOtdLrZbBa7+OSYOxqTVzyp2gcfgPn0d4ZclSl0dRUFuLSVQbJFx5nv1SQdjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764209078; c=relaxed/simple;
-	bh=pzuk4D8xChoCtMC33I4B3UfE2cHrK87t2HZZxHOU47A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sGShYAxpvINj+YtSlX1u423TDcNRrTgz7VsYugUqjBa63sh0bNfAjSdr9QabY7igV5Wb1+wEMZHtv215r+affxqo0Y8xvk6dp7UbkgTc3x7b/oITeuXyjLnkBRZYxiVs6/tOYWonSA2BKugxUtDWNpczlFb5RhsVTHUM0eSh/MI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k69k62Ir; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764209077; x=1795745077;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=pzuk4D8xChoCtMC33I4B3UfE2cHrK87t2HZZxHOU47A=;
-  b=k69k62IromNGN5lX3SmCaJVXeaRZoe+h2Ao5VoiPuAeqKTobQEDmQCdd
-   rOcH+pWk56k+AceiVIowgsHh2MOfdZrrrsKtN4e0Mc6hqNP9vP645UbmJ
-   5BmOs+gOIHrR0hZdcfJdAbKPATxnJ++m12h9FyWBrtwaRz+/a2pr0Aju2
-   qPEBolG6PYduwzJzTiLGRUs5+Hr5bn9LyFs8CIPJwhOVE5OfyVi0Wpvk2
-   GcnZ9jcjARiQ3p+5EI2xlLuLd0Z7kyynYudLVrBeaXWIamyqqpzQNaLhC
-   RnrGKwxrlYWkA85Hk8XcZlMkP8Aotk4YvZ14bD2HAcRSFIskbfayG09ZK
-   A==;
-X-CSE-ConnectionGUID: SUPahzW1T4yPJ7X2HL+3Cg==
-X-CSE-MsgGUID: Cbe1a6CiQMSJFiIsSvk7rQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="66146353"
-X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="66146353"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 18:04:36 -0800
-X-CSE-ConnectionGUID: I3VQzQypRRis0mc17+ludA==
-X-CSE-MsgGUID: z25QR8D1TrW32bgWtd/Gtg==
-X-ExtLoop1: 1
-Received: from junjie-nuc14rvs.bj.intel.com ([10.238.152.23])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 18:04:34 -0800
-From: Junjie Cao <junjie.cao@intel.com>
-To: syzbot+14afda08dc3484d5db82@syzkaller.appspotmail.com
-Cc: syzkaller-bugs@googlegroups.com,
-	linux-hams@vger.kernel.org
-Subject: Re: [syzbot] [hams?] possible deadlock in nr_rt_ioctl (2)
-Date: Thu, 27 Nov 2025 10:04:50 +0800
-Message-ID: <20251127020450.118479-1-junjie.cao@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <685d4c2a.a00a0220.2e5631.028c.GAE@google.com>
-References: 
+	s=arc-20240116; t=1764210307; c=relaxed/simple;
+	bh=c0KQ8T/M4WXFjjg+kIvWA0I5TSTPUPCp/vqmYNwhtF0=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=bXsLF0jpn8O3/WnZyPWKpfBMf8oc+/qYyMHmednwtfiwXs9qDIOXVp3t7Ps4AhzYjrkZSepqMfw2r+0wUje6DD1l/eqGGqDO3jysXf5hpOJfVMVQXZJDpxNBdahKhandpcC0Gj56va4YSQT9Bu/SgPHu3aflLG9GLw+AgCv3I20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-4331d49b5b3so3852765ab.0
+        for <linux-hams@vger.kernel.org>; Wed, 26 Nov 2025 18:25:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764210302; x=1764815102;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5qoesk12NMlwM7nNkl6e9P0XCKUFBF2i/seWbWJwzTU=;
+        b=nTeLNotIgdyTj452X/Zd2K0aPqVu2zFYSk9vAJAGeBc2lNtKgfwuB4ssDv+il3Apit
+         L0Zvr5GDJATFKGyl+uFHyLeRjPkjr7UxUjkcytRZsANlCfd+ECHnWtp8+mCcwbCQoKZQ
+         3npymnfb084pqDKNqi4VpzIaTdYKTWO7UAX3Choj1dnPp5ezgqoRoeH0PKzwtnFfWEGu
+         qwiLJoInrKpj33dvWg0JDSkIGX1r6MgARUwFoq+oK6ma2AKQZZatx2tqxCAEtSGSFRHF
+         EWRNQqFGV4pw/RWhPzHAOD7oQgeU4hEs8ZjUG0JjpuYlHQdXQs9PfyoyPyRIlgraENJi
+         z0Rw==
+X-Forwarded-Encrypted: i=1; AJvYcCUeo5qoYt8P18gD9mQh+NHjHOHYvYTkraY1BNtolU484ZwiNQ1gTH97T0Y7GIgIWQ1bxzI2PHTWoN6G@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzz4juoYzmojZ4CN9b5FoZyv84AqHmVc8FIIQzFOk0QsfOwpeZc
+	dgBCh8JzsMSf3eKpC1HDGLoLKD3RFAtYoywvUILIo/dGpMWxhQ/L7kmHErZkGemvz3uP20PvRbu
+	BWbhFHQti/zV/YiIT5vq8fHUNhg6pI+YOvmCB95RBRPMVSFjLVHh4rEMHOBc=
+X-Google-Smtp-Source: AGHT+IF/0CyR1eYO0Jwonqp0JIyT9uMpd1LMBtJsnDudsccN03fh5rT4fgH9cIKCYqTMJyzr61fPH+9nEAkucJu5NlPQqvqzVDgd
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:214e:b0:433:6f20:32cc with SMTP id
+ e9e14a558f8ab-435dd065a57mr67975855ab.16.1764210302375; Wed, 26 Nov 2025
+ 18:25:02 -0800 (PST)
+Date: Wed, 26 Nov 2025 18:25:02 -0800
+In-Reply-To: <20251127020450.118479-1-junjie.cao@intel.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6927b67e.a70a0220.d98e3.00e8.GAE@google.com>
+Subject: Re: [syzbot] [hams?] possible deadlock in nr_rt_ioctl (2)
+From: syzbot <syzbot+14afda08dc3484d5db82@syzkaller.appspotmail.com>
+To: junjie.cao@intel.com, linux-hams@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-#syz test: https://github.com/Junjie650/linux.git fix-netrom-deadlock
+Hello,
 
-Hi,
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-Please test the NetROM deadlock fix on the above tree/branch.
+Reported-by: syzbot+14afda08dc3484d5db82@syzkaller.appspotmail.com
+Tested-by: syzbot+14afda08dc3484d5db82@syzkaller.appspotmail.com
 
-Thanks,
-Junjie
+Tested on:
+
+commit:         a3aa8a52 net/netrom: Fix deadlock in nr_rt_ioctl
+git tree:       https://github.com/Junjie650/linux.git fix-netrom-deadlock
+console output: https://syzkaller.appspot.com/x/log.txt?x=17016e12580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=61603eec826f5965
+dashboard link: https://syzkaller.appspot.com/bug?extid=14afda08dc3484d5db82
+compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+
+Note: no patches were applied.
+Note: testing is done by a robot and is best-effort only.
 
