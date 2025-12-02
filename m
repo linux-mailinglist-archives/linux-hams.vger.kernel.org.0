@@ -1,133 +1,160 @@
-Return-Path: <linux-hams+bounces-717-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-719-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8253AC9377F
-	for <lists+linux-hams@lfdr.de>; Sat, 29 Nov 2025 04:52:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C052C9B420
+	for <lists+linux-hams@lfdr.de>; Tue, 02 Dec 2025 12:03:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A603D3A9381
-	for <lists+linux-hams@lfdr.de>; Sat, 29 Nov 2025 03:52:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 36B073A4908
+	for <lists+linux-hams@lfdr.de>; Tue,  2 Dec 2025 11:02:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0AE51B81D3;
-	Sat, 29 Nov 2025 03:52:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CAED30E854;
+	Tue,  2 Dec 2025 11:02:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Ox0yXWg+"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q65IGWuB";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="J56ww2ZM"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A2715A864;
-	Sat, 29 Nov 2025 03:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9DC291C07
+	for <linux-hams@vger.kernel.org>; Tue,  2 Dec 2025 11:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764388331; cv=none; b=KuBespvR+viZTYgQxmekKnvyM/c/8ywsc2eF9hBSWn041HUIJ7Pi55xgIwm+S5uahO1stn6+Usfy8XtmQQt0EhPA1nwIWSLmzEJ8DiUEsg1FZzLR3Q9qWxr0LvlXjAxrGpA1cKMTN1hYjYWst2NjYu7dN3LjTWT5mR2m/miwiDo=
+	t=1764673331; cv=none; b=RCTdhX4byUpfGlLxINj2gdTxXV39iZzyIpzuxUtJknQOQrkTH97zLNPLqaRcf5XklNH2hctk/BOCtu7Mi4J8ksFSNqbhwExGPVQGHBZ2Om1/RhNqWeH4CZOEJqhJ3Eyi8bMoXwE53pMQLkMnmAYO/lmt4FHL+bl4Ex9sSIdbn70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764388331; c=relaxed/simple;
-	bh=UcdZnP2wKdHIt5BZMfGDUxEGIodjgsA2zh4IMyYRj08=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qYCatPwg8cg0rLrHZ2+8YQFaxQBktHWCqW79qU9pAUutoEq0aQzk0mG+SZ0Y2bVKYawPrAasgmpCK5qCKCKi84uP189SaIEuzSmxcavX6k4J7vErgCNPUgMDCs6zIzN31lWiY8IlhL6NElPrlTHC6KcEpqkRkSvCrr45rHDUwVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Ox0yXWg+; arc=none smtp.client-ip=113.46.200.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=1mNJRAfvIbnJNCFsjrluULGbKW9aYcUOkpw+8htNpoY=;
-	b=Ox0yXWg+QBK2FX4LEGL70UPzj43pWMSNiB6b0TPDoa72mb5LaIE9a/0PDPTAttr6rNUEzYLZG
-	sOJ8VMJifmPsMQcj5o+ZNyr4j3jxA0veRr+0bZ2T+fxRSgNThRuDdpqnYtgZksE47+YfK5WHjL0
-	h5n9nCB9D8yYrKNo/1Fv/DY=
-Received: from mail.maildlp.com (unknown [172.19.88.105])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4dJGQ05xf8zcZyQ;
-	Sat, 29 Nov 2025 11:49:44 +0800 (CST)
-Received: from dggpemf500016.china.huawei.com (unknown [7.185.36.197])
-	by mail.maildlp.com (Postfix) with ESMTPS id F003F140275;
-	Sat, 29 Nov 2025 11:52:04 +0800 (CST)
-Received: from huawei.com (10.50.85.128) by dggpemf500016.china.huawei.com
- (7.185.36.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Sat, 29 Nov
- 2025 11:52:04 +0800
-From: Wang Liang <wangliang74@huawei.com>
-To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <horms@kernel.org>
-CC: <linux-hams@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <yuehaibing@huawei.com>,
-	<zhangchangzhong@huawei.com>, <wangliang74@huawei.com>
-Subject: [PATCH net] netrom: Fix memory leak in nr_sendmsg()
-Date: Sat, 29 Nov 2025 12:13:15 +0800
-Message-ID: <20251129041315.1550766-1-wangliang74@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1764673331; c=relaxed/simple;
+	bh=u189I7GcLWDoBonyyDr64/v8+mxN7E25UI0pgCBVgLs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XNjFyDEjqN7KfCvlKUfee5uNxeoADtiGq4V/xLJ3KlzlyF0zmI/bYP3gCOEg38pyfOb0oo5D6i0Oo2VLCHOxlgLO544CQjvjf1DaC+mXT54s6PYRr+VCrl/w2Pjb7lmyEhWMmb3DAH7fXfzhOqjKUiuK+bp/pvCiLTK/qARmt8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q65IGWuB; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=J56ww2ZM; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1764673328;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bFxFd8aATvzXg9pa8rXnfKDyOi/m6Ej3XHml7lh2HCg=;
+	b=Q65IGWuBDRmlI/nFSZxoex3dtJ6/LVpyQ9ztL3/Lg4xZybCwHRlcB1Hw8/suT9LoI5FFxJ
+	FeIZi36soGoO0Mu988i0fEk/9RjoPUHOGaseKHanHg7xzl81i4fvCSp8bg3J8YfveRf6nw
+	FACrL0mkcy5RBGstteO2lvn46stE+2A=
+Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
+ [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-549-7HjVZWUgONiToFn_OTf-yw-1; Tue, 02 Dec 2025 06:02:07 -0500
+X-MC-Unique: 7HjVZWUgONiToFn_OTf-yw-1
+X-Mimecast-MFC-AGG-ID: 7HjVZWUgONiToFn_OTf-yw_1764673327
+Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-63f9f128060so6289241d50.0
+        for <linux-hams@vger.kernel.org>; Tue, 02 Dec 2025 03:02:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1764673326; x=1765278126; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bFxFd8aATvzXg9pa8rXnfKDyOi/m6Ej3XHml7lh2HCg=;
+        b=J56ww2ZMqagi6mRho8TSFwPddZCGXlc/FKI+fELzncrZ746jKOvWF23Qo2lt8WzczQ
+         ej+daMSz6gwI6eQ3ArQYlaO2nfudclaIGX+H6nuPYavDAEUjS+8h2Wuapm8yUuteiirN
+         mHLrls9qGB0ki+Qe8UmTRXd6P0pRjoHsvjoZA71d2qsC8Tl86JdVQxMJIflb4X79onab
+         ZsVJ+/STMddmas8BcNPKqwM/kqBZLBfHcKwJpwsaSAL7SqJKC9lZmTrQ9yPiOrBhrGjS
+         M+Tmm4Ggm7aE62IDj45xN9xz6WxtsncEgQ8CdU7AwnuK/2kB9g/+0e9/jzTyNeBnEz1N
+         bb2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764673326; x=1765278126;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bFxFd8aATvzXg9pa8rXnfKDyOi/m6Ej3XHml7lh2HCg=;
+        b=SzvLgRQTzcW4ZVODd1sgFvXwUibOGQF38a25xiWa0R8yCec26mSkrlDoI7XcEJvIBJ
+         x8Lxafk8yHrXx6CAjJd8rVRNS24daYUbkkATu8g3kjGKt7Kt1pnt+wW4XKSjzVMblRoi
+         ZxXPyfV07oSD2Qu9GsTwUPpf6GB1vB5OixgA8DgN3BJvEmaO9IATjPDz8xXpInqlYI3l
+         dl6iC5xA5CGDZOaFHot0y+ZWWcc/iEhTDpiqrFfCZr1RLrV1KWJ80EAHO/z653iaypE6
+         lJn+QB4/j9QMuiyQnyNw6eN6fO1iuHa1OTchv04KQj8fxcnDWAopOi0wKbhIikM2AFFx
+         CZmA==
+X-Forwarded-Encrypted: i=1; AJvYcCUYfQelLt0lr3Z1KEKJDtl8a6LuHuJDLRO25qtAXsApoq+ocxtOBkabKguEg4snIRS08LsDJJ5eu5d1@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPVpqZsz4HhGEcB9e4ZcOMBfguvRkONx/O5HkJTJ2DHiRaYypH
+	NHP9xDUucpwatHbNIcV9GoMT89xWQqXsKPEAJkmMJ4H9GkqOoXEdE09hNdNLiPyNjriIWoDFJLq
+	Yc3TJLbk1znrawfzoikn5UA6e8E5we85lK63IyWa7xPrM52TefmgsC/twrscrQV0=
+X-Gm-Gg: ASbGnct1mM+66DfKSNGU93rbFqfwZPEL9kTMJK9HrDedPJr/tCoutMgeRtdsciOo7R3
+	zk10P43SEQQk11mxbaoRqUnDZuW78y6dbjA9DUDrRh+BaSfa9lik+JFU/CFrvb5yVVdA8+Ywdgs
+	Igbr2gUjLZqLvE3VB5lI8OJZHdj5lU2E8XCx7qMMlObEO35NM2QatJz2OgkPsINaXuGlYCuzEGG
+	URQD8SREWdfKsTQFsB9cx7AVepDkYFM5/b3ncxa/2x+0SGn3jDRhnBb/5Gj2WcFfWrbC8hzmZQM
+	e22d8BBGQeTqTQgaVGjQXwwGS8/S+TLcVZre/jLnxUqUBD2RUWAB5p3byRzHWnRk1JWPRNBYg+S
+	D71JUz7lYuxwifg==
+X-Received: by 2002:a05:690e:1519:b0:63c:f5a7:3da with SMTP id 956f58d0204a3-64329350169mr21110544d50.54.1764673326657;
+        Tue, 02 Dec 2025 03:02:06 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGCEBMuPTPwT5XthZm8fQk3CECPwJkDrZcIL6/tAF/WYZi7za3DdHwdl9IGvTCDekPEWg+48Q==
+X-Received: by 2002:a05:690e:1519:b0:63c:f5a7:3da with SMTP id 956f58d0204a3-64329350169mr21110529d50.54.1764673326249;
+        Tue, 02 Dec 2025 03:02:06 -0800 (PST)
+Received: from [192.168.88.32] ([212.105.155.136])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6433bf5f366sm6125689d50.0.2025.12.02.03.02.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Dec 2025 03:02:05 -0800 (PST)
+Message-ID: <29f61bac-ec6a-447d-a2f4-89328eaba688@redhat.com>
+Date: Tue, 2 Dec 2025 12:02:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- dggpemf500016.china.huawei.com (7.185.36.197)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] netrom: fix possible deadlock between nr_rt_ioctl() and
+ nr_rt_device_down()
+To: Junjie Cao <junjie.cao@intel.com>, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org,
+ syzbot+14afda08dc3484d5db82@syzkaller.appspotmail.com
+Cc: horms@kernel.org, linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ stable@vger.kernel.org
+References: <20251127084112.123837-1-junjie.cao@intel.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20251127084112.123837-1-junjie.cao@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-syzbot reported a memory leak [1].
+On 11/27/25 9:41 AM, Junjie Cao wrote:
+> syzbot reported a circular locking dependency involving
+> nr_neigh_list_lock, nr_node_list_lock and nr_node->node_lock in the
+> NET/ROM routing code [1].
+> 
+> One of the problematic scenarios looks like this:
+> 
+>   CPU0                               CPU1
+>   ----                               ----
+>   nr_rt_device_down()                nr_rt_ioctl()
+>     lock(nr_neigh_list_lock);          nr_del_node()
+>     ...                                  lock(nr_node_list_lock);
+>     lock(nr_node_list_lock);            nr_remove_neigh();
+>                                           lock(nr_neigh_list_lock);
+> 
+> This creates the following lock chain:
+> 
+>   nr_neigh_list_lock -> nr_node_list_lock -> &nr_node->node_lock
+> 
+> while the ioctl path may acquire the locks in the opposite order via
+> nr_dec_obs()/nr_del_node(), which makes lockdep complain about a
+> possible deadlock.
+> 
+> Refactor nr_rt_device_down() to avoid nested locking of
+> nr_neigh_list_lock and nr_node_list_lock.  The function now performs
+> two separate passes: one that walks all nodes under nr_node_list_lock
+> and drops routes / reference counts, and a second one that removes
+> unused neighbours under nr_neigh_list_lock.
+> 
+> This also fixes a reference count leak of nr_neigh in the node route
+> removal path.
 
-When function sock_alloc_send_skb() return NULL in nr_output(), the
-original skb is not freed, which was allocated in nr_sendmsg(). Fix this
-by freeing it before return.
+Please don't mix separate fixes; the latter need to go in a different
+patch to help reviewers. Also both of them need a suitable Fixes tag.
 
-[1]
-BUG: memory leak
-unreferenced object 0xffff888129f35500 (size 240):
-  comm "syz.0.17", pid 6119, jiffies 4294944652
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 10 52 28 81 88 ff ff  ..........R(....
-  backtrace (crc 1456a3e4):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4983 [inline]
-    slab_alloc_node mm/slub.c:5288 [inline]
-    kmem_cache_alloc_node_noprof+0x36f/0x5e0 mm/slub.c:5340
-    __alloc_skb+0x203/0x240 net/core/skbuff.c:660
-    alloc_skb include/linux/skbuff.h:1383 [inline]
-    alloc_skb_with_frags+0x69/0x3f0 net/core/skbuff.c:6671
-    sock_alloc_send_pskb+0x379/0x3e0 net/core/sock.c:2965
-    sock_alloc_send_skb include/net/sock.h:1859 [inline]
-    nr_sendmsg+0x287/0x450 net/netrom/af_netrom.c:1105
-    sock_sendmsg_nosec net/socket.c:727 [inline]
-    __sock_sendmsg net/socket.c:742 [inline]
-    sock_write_iter+0x293/0x2a0 net/socket.c:1195
-    new_sync_write fs/read_write.c:593 [inline]
-    vfs_write+0x45d/0x710 fs/read_write.c:686
-    ksys_write+0x143/0x170 fs/read_write.c:738
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xa4/0xfa0 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Thanks,
 
-Reported-by: syzbot+d7abc36bbbb6d7d40b58@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=d7abc36bbbb6d7d40b58
-Tested-by: syzbot+d7abc36bbbb6d7d40b58@syzkaller.appspotmail.com
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Wang Liang <wangliang74@huawei.com>
----
- net/netrom/nr_out.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/net/netrom/nr_out.c b/net/netrom/nr_out.c
-index 5e531394a724..2b3cbceb0b52 100644
---- a/net/netrom/nr_out.c
-+++ b/net/netrom/nr_out.c
-@@ -43,8 +43,10 @@ void nr_output(struct sock *sk, struct sk_buff *skb)
- 		frontlen = skb_headroom(skb);
- 
- 		while (skb->len > 0) {
--			if ((skbn = sock_alloc_send_skb(sk, frontlen + NR_MAX_PACKET_SIZE, 0, &err)) == NULL)
-+			if ((skbn = sock_alloc_send_skb(sk, frontlen + NR_MAX_PACKET_SIZE, 0, &err)) == NULL) {
-+				kfree_skb(skb);
- 				return;
-+			}
- 
- 			skb_reserve(skbn, frontlen);
- 
--- 
-2.34.1
+Paolo
 
 
