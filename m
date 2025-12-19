@@ -1,207 +1,150 @@
-Return-Path: <linux-hams+bounces-734-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-735-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87A2CC799E
-	for <lists+linux-hams@lfdr.de>; Wed, 17 Dec 2025 13:28:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C5CCCF24C
+	for <lists+linux-hams@lfdr.de>; Fri, 19 Dec 2025 10:31:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1122330671E0
-	for <lists+linux-hams@lfdr.de>; Wed, 17 Dec 2025 12:25:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4474830046ED
+	for <lists+linux-hams@lfdr.de>; Fri, 19 Dec 2025 09:28:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2258533E35D;
-	Wed, 17 Dec 2025 12:17:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE8AA2F28E3;
+	Fri, 19 Dec 2025 09:28:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PX/EJFlQ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OjtqKXjy";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="WRQL1dsI"
 X-Original-To: linux-hams@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91B333C533;
-	Wed, 17 Dec 2025 12:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861AB2F290B
+	for <linux-hams@vger.kernel.org>; Fri, 19 Dec 2025 09:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765973821; cv=none; b=iBE86aQxZEgvjv+jQc5QIKBb8mop+SmowP1bh6EhF6YtinQwZppZAn784ljDx+XjodazxVe+P3c6HMny8tAuCGzZ0xCjxiv7ljvs9P47Euzu2423nGCGCol5/fz9zOPUeQNo57W8xPkpqu98QHDU/d4Mvi1NZ6abiGtdoJI/EZM=
+	t=1766136523; cv=none; b=LGQYQhInihRo5BgrFHuVUtuS+HPGasR9at2zaAnGvKCVKburpPBZIdgxVEc6G+uspSX61W0o6DCVqdgOGMQcCPtMfC3yiwZ4ERbphhBrFWWCEzAV2UH+UJWnDQ3j1AUxgXcQrrQbJ0W5pC/xvrolOFUSMqpK+gGrF3RQH0OXIuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765973821; c=relaxed/simple;
-	bh=+N4sH+sHD/mZO0Dopjn0v7xWI8qX66vpH1TR36avIcM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kkPforGC+B2l2iX+9l2lsLkFawvjBYnKx3IlnMS1hpzY3oNSrMTiCjWFzGp+8dCJGCb50NNuK1D0tQrkByr8wbnETWCyh2lgSt0T47o67cj2xmzNDNfrRzhAWuQytyiIbM4pIyW21Y15rgVawg9JF5cRzGcgvlP6rMvp1x9T6T0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PX/EJFlQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2D4CCC113D0;
-	Wed, 17 Dec 2025 12:16:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765973819;
-	bh=+N4sH+sHD/mZO0Dopjn0v7xWI8qX66vpH1TR36avIcM=;
-	h=From:Date:Subject:To:Cc:From;
-	b=PX/EJFlQdIuBgyDARQas6jPR6/RoewsC7HadKO+icTia7eEJOVUDgH0NHanwK6WHq
-	 I6+mma7n9dPpK9KaTnCyCwpZAnZKommqNmqvbkwq9Ki3KNRFSXNH5tdvE/oUQo5EdW
-	 R2FZAA9OBebqk4yxX6GN5ZOJRyQ6t09SlmQsrOw7+77kXujs+Ffvj8itQ0j8SrB1dA
-	 3GTYsehdaup6CH/k4fBawqPNEg8KBHR9KcRkO/DjT5DloAhTjUjG3SAgJ2HYQxSELf
-	 2sKvCVjwcsa1D0K77SP6ivJWUrN3szeBX5A9nrGfbd7VnarXM2RpW2ljzBCVwRM95u
-	 xQPoJ/l7DIoAQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19AC2D65550;
-	Wed, 17 Dec 2025 12:16:59 +0000 (UTC)
-From: Joel Granados <joel.granados@kernel.org>
-Date: Wed, 17 Dec 2025 13:16:42 +0100
-Subject: [PATCH v2] sysctl: Remove unused ctl_table forward declarations
+	s=arc-20240116; t=1766136523; c=relaxed/simple;
+	bh=a9kGWB2VoIFD5H0J99TkVfZ6uDR6K/PyNGlZcO7cFag=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HUNq2XeP41S9y5Oa4abxhphSBoTapqiCBDSG+J8F35qy1uQwUkV+QVUxVxTw/ORgvO6/BfXKz/zr6p+tX35B8PYQxLfBiq5Fb5MbhHjWjTntmKKGrW27GCTiNQRy6JrLi7/TBHNYwb1qKLQ53Rj2XbFP5IGg0v9R3a+81xCiVyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OjtqKXjy; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=WRQL1dsI; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1766136518;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H7haCuyhI51FS9KbOrG4WJkMhKxZs4nFFL4lqUWoH9E=;
+	b=OjtqKXjyppEiWYKcionWlkJEg7sjAeg+j9USt2DcLdQRFEHtg5sIpgiziWofMrQL5SGWRi
+	0saZwRdbEBXtd9Kz+8q7bDLMnMFgQYX5oI3IgKo5K2uSRKx+/EG1gzrLpXQIDJvqzma1fx
+	FEAfPPBfAZXffCmnWSQajEPTzoUucJc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-387-w5ao5VkWPQKKd4GBX8_NpA-1; Fri, 19 Dec 2025 04:28:35 -0500
+X-MC-Unique: w5ao5VkWPQKKd4GBX8_NpA-1
+X-Mimecast-MFC-AGG-ID: w5ao5VkWPQKKd4GBX8_NpA_1766136514
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4776079ada3so11756515e9.1
+        for <linux-hams@vger.kernel.org>; Fri, 19 Dec 2025 01:28:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1766136514; x=1766741314; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=H7haCuyhI51FS9KbOrG4WJkMhKxZs4nFFL4lqUWoH9E=;
+        b=WRQL1dsIbkfiQi6LcB6gpdyawE6x4n+UwwgvUzeQpD5QfD2laai4OJWc2MbU7/JvAL
+         bbzFG4p3TlDYjWso6L6htwXlCyRfKgN1NP30O14icmeuem3/G0XYsxJHCMzl2ofiBO3k
+         ZQTv4+VcyDUZHnuyMydRCOtsIuYba7JiYC+H21H1+Q2mXnXiIyqK93AcrzOETbmEbGU+
+         AF34nXSR4ZVScn2AVdyb8ggSVkE3CgfW0Xe+oIUzZcROCig4LyIIrNKWj1p5R5nfJfa/
+         U2wCOoCGGITdAA6qalYDGZ3lChXFbBLxDIHNqVIRVCnnIvgLcw6OXUjbOoiLEZh3UO63
+         XuSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766136514; x=1766741314;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H7haCuyhI51FS9KbOrG4WJkMhKxZs4nFFL4lqUWoH9E=;
+        b=Up8GkdrcI8qW7rgGzJ8iG6bSuTmRF1LlMNOm6FuUkZwonIb3Alh0DBqoX4N05R+ZYD
+         uTpEQhs76VfYYYDvqtmWFse5T5X6q8CUrb3dHdQ4iXDV0iFB9jVmnmFE2k8OA+yAYYss
+         4tNC3shtN+Of1PSVTuBA3E1/UFzNGEw3WR6BDjvMRlU8ofIO5F0DdbMUIWMkwQIdRmt5
+         fSYVIiG9ISHrfjQpVEmlyfqUj+KMg41rW0zktWQ196MW3LP3d5bVUFuTQMHI3SXpqQo8
+         97R2xLVHGN4Fo7Xilg6ATRCa1DeroiAGIduBQsng8+6ZvgccJrKFxIw4p5uweOIWoiMj
+         NDsw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkZW1c/PK4yd2TOGHBRe9Q92gBMcqv5SsrRSj3qKUfB32VrICvpcs6RDbP/q741sHcVCBkFD6v5uk9@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxjw5kdwGPufjZv1jL/xqijAGEibGRu2ZS8h022X2fQLP3BA3xC
+	NDuvnny+/9CmwxkLrMyq923HAETCLH3tMlnFs4/I7RAos9ZTw8O7m+LpwI+JDrImS2ha4cQspib
+	e3H1rofqKn3jAN2xZ+Pg5/8H+wM4rpCl96ezEfKZUi4qtIZFZB37TyKkB8Ep31XI=
+X-Gm-Gg: AY/fxX6R2AqRAxIcgUi8GO52FAMZ5ZYrb++zOKlR3h5L49I2UwaGzReihoYFD9Yuchr
+	FqGHezZO/CAemPPMoFXzhRglTZZ/2ajaKni/vl7wCMXFK/BSEolHSYNh8fSdRwe9IRFGna8pAtn
+	5orNCNW3pe7ARWg4ICl3Z6sP/bPriC2e8x7OMfM26lWsTVAbP35+ubroRF41P//58ZFRzMaeFi2
+	FG0hGtGPsVNZVIlJ+rV1ta3rW1FJU0m91WW3CsuKBUpeIqgt3/eZz73oSXZyn/Jti1MmFiNeR0l
+	XbQQ0GdU1k1KZ5UK5w9FWBgQ1EkNX9ZDZYk3hmvsVzRO/LiqzXTEZR0ji2qFw3J9zZ6K8D6lxoS
+	6yFTAv8bCwiCb
+X-Received: by 2002:a05:600c:8107:b0:477:6374:6347 with SMTP id 5b1f17b1804b1-47d19594ce3mr17951305e9.22.1766136514144;
+        Fri, 19 Dec 2025 01:28:34 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGNoLKZcFi3Edz90O7ZAZd0UW0hmk7eXl1jBJlmWTqebq88oohMnYaPL71A6ehr5HyEB8Y1LQ==
+X-Received: by 2002:a05:600c:8107:b0:477:6374:6347 with SMTP id 5b1f17b1804b1-47d19594ce3mr17950875e9.22.1766136513687;
+        Fri, 19 Dec 2025 01:28:33 -0800 (PST)
+Received: from [192.168.88.32] ([216.128.11.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d19352306sm34590835e9.5.2025.12.19.01.28.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Dec 2025 01:28:33 -0800 (PST)
+Message-ID: <1491a7c7-3ff8-4aea-a6ee-4950f65c756f@redhat.com>
+Date: Fri, 19 Dec 2025 10:28:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] sysctl: Remove unused ctl_table forward declarations
+To: Joel Granados <joel.granados@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ David Hildenbrand <david@kernel.org>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>, John Ogness
+ <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-hams@vger.kernel.org, netdev@vger.kernel.org
+References: <20251217-jag-sysctl_fw_decl-v2-1-d917a73635bc@kernel.org>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20251217-jag-sysctl_fw_decl-v2-1-d917a73635bc@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251217-jag-sysctl_fw_decl-v2-1-d917a73635bc@kernel.org>
-X-B4-Tracking: v=1; b=H4sIACmfQmkC/32NQQrDIBBFrxJmXUtHIrFd9R4lBDGjsRUNGtKG4
- N1rc4Au34P//g6ZkqMMt2aHRKvLLoYK/NSAnlSwxNxYGfiFC+Qo2FNZlresFz+Y9zCS9kxI3aH
- sUGipoQ7nRMZ9juijrzy5vMS0HR8r/uzf3IoMGVdXZTrZttLI+4tSIH+OyUJfSvkCUBUTnLUAA
- AA=
-X-Change-ID: 20251215-jag-sysctl_fw_decl-58c718715c8c
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- David Hildenbrand <david@kernel.org>, Petr Mladek <pmladek@suse.com>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- John Ogness <john.ogness@linutronix.de>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, linux-hams@vger.kernel.org, netdev@vger.kernel.org, 
- Joel Granados <joel.granados@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4070;
- i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=+N4sH+sHD/mZO0Dopjn0v7xWI8qX66vpH1TR36avIcM=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGlCnzn3+gSU0+j0UAVfyYseAC+Luiy67oOfV
- qoKl7xQ38Gdt4kBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJpQp85AAoJELqXzVK3
- lkFP6CUL/2DCbeAT7eVMIUFZuqFbctu8L27EdqamYQi/f14ivfW67IvMpQd8Ecs34YCaZK0a57n
- VIl4Z4L0Ryr0Ft1STkGYh1/pbipbCooRk3yYNucpnyHHJZpNrh89htfwoo43BNMR7dR83TrEQT1
- NCvvC0oKxZkeHvhidOVij1Z5Sbon0SHgnBuTRa23Nn8EGG+LqerkB/k0iFGtLGp5y7tFOruDgzo
- M0oGggM5rMfY2qCxSnYjSUAOLtYXznHU+hNAAxVC17o8jf8UZRRLLOkiADhHIqFTbZrTjP/2QAF
- O/A49Iw58uDNGcNHrvqfIOfHQ/O41LM1wXsCo5+0ijFAr9Ba0GMFlIjz3hCVO327HR792KjIf8H
- BjvCs2nQs+AX2XhGgZ+G+kS7SCm76yJr3Djq4RVTNN/0t9cFixWp93vjU1N6N20awGC38ev6EwK
- h0OwtNUDISj1y7LaFQgLFCXs+0yIZjVPe5uzzq5qMhx0RcXJUP/1kVq20J4OxdFpLO3aoZIsKW8
- zo=
-X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
- fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
-X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
- auth_id=239
 
-Remove superfluous forward declarations of ctl_table from header files
-where they are no longer needed. These declarations were left behind
-after sysctl code refactoring and cleanup.
+On 12/17/25 1:16 PM, Joel Granados wrote:
+> Remove superfluous forward declarations of ctl_table from header files
+> where they are no longer needed. These declarations were left behind
+> after sysctl code refactoring and cleanup.
+> 
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Acked-by: Muchun Song <muchun.song@linux.dev>
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> Signed-off-by: Joel Granados <joel.granados@kernel.org>
+> ---
+> Apologies for such a big To: list. My idea is for this to go into
+> mainline through sysctl; get back to me if you prefer otherwise. On the
+> off chance that this has a V3, let me know if you want to be removed
+> from the To and I'll make that happen
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-Acked-by: Muchun Song <muchun.song@linux.dev>
-Reviewed-by: Petr Mladek <pmladek@suse.com>
-Signed-off-by: Joel Granados <joel.granados@kernel.org>
----
-Apologies for such a big To: list. My idea is for this to go into
-mainline through sysctl; get back to me if you prefer otherwise. On the
-off chance that this has a V3, let me know if you want to be removed
-from the To and I'll make that happen
----
-Changes in v2:
-- Replaced a ctl_table forward declaration in kernel/printk/internal.h
-  with an actual #include <linux/sysctl.h>
-- Link to v1: https://lore.kernel.org/r/20251215-jag-sysctl_fw_decl-v1-1-2a9af78448f8@kernel.org
----
- include/linux/fs.h       | 1 -
- include/linux/hugetlb.h  | 2 --
- include/linux/printk.h   | 1 -
- include/net/ax25.h       | 2 --
- kernel/printk/internal.h | 2 +-
- kernel/printk/sysctl.c   | 1 -
- 6 files changed, 1 insertion(+), 8 deletions(-)
+For the net bits:
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 04ceeca12a0d5caadb68643bf68b7a78e17c08d4..77f6302fdced1ef7e61ec1b35bed77c77b294124 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -3487,7 +3487,6 @@ ssize_t simple_attr_write(struct file *file, const char __user *buf,
- ssize_t simple_attr_write_signed(struct file *file, const char __user *buf,
- 				 size_t len, loff_t *ppos);
- 
--struct ctl_table;
- int __init list_bdev_fs_names(char *buf, size_t size);
- 
- #define __FMODE_EXEC		((__force int) FMODE_EXEC)
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 019a1c5281e4e6e04a9207dff7f7aa58c9669a80..18d1c4ecc4f948b179679b8fcc7870f3d466a4d9 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -16,8 +16,6 @@
- #include <linux/userfaultfd_k.h>
- #include <linux/nodemask.h>
- 
--struct ctl_table;
--struct user_struct;
- struct mmu_gather;
- struct node;
- 
-diff --git a/include/linux/printk.h b/include/linux/printk.h
-index 45c663124c9bd3b294031d839f1253f410313faa..63d516c873b4c412eead6ee4eb9f90a5c28f630c 100644
---- a/include/linux/printk.h
-+++ b/include/linux/printk.h
-@@ -78,7 +78,6 @@ extern void console_verbose(void);
- /* strlen("ratelimit") + 1 */
- #define DEVKMSG_STR_MAX_SIZE 10
- extern char devkmsg_log_str[DEVKMSG_STR_MAX_SIZE];
--struct ctl_table;
- 
- extern int suppress_printk;
- 
-diff --git a/include/net/ax25.h b/include/net/ax25.h
-index a7bba42dde153a2aeaf010a7ef8b48d39d15a835..beec9712e9c71d4be90acb6fc7113022527bc1ab 100644
---- a/include/net/ax25.h
-+++ b/include/net/ax25.h
-@@ -215,8 +215,6 @@ typedef struct {
- 	unsigned short		slave_timeout;		/* when? */
- } ax25_dama_info;
- 
--struct ctl_table;
--
- typedef struct ax25_dev {
- 	struct list_head	list;
- 
-diff --git a/kernel/printk/internal.h b/kernel/printk/internal.h
-index 5f5f626f427942ed8ea310f08c285775d8e095a6..29a3bd1799d426bc7b5ebdc28ff8b75214c57a57 100644
---- a/kernel/printk/internal.h
-+++ b/kernel/printk/internal.h
-@@ -4,9 +4,9 @@
-  */
- #include <linux/console.h>
- #include <linux/types.h>
-+#include <linux/sysctl.h>
- 
- #if defined(CONFIG_PRINTK) && defined(CONFIG_SYSCTL)
--struct ctl_table;
- void __init printk_sysctl_init(void);
- int devkmsg_sysctl_set_loglvl(const struct ctl_table *table, int write,
- 			      void *buffer, size_t *lenp, loff_t *ppos);
-diff --git a/kernel/printk/sysctl.c b/kernel/printk/sysctl.c
-index da77f3f5c1fe917d9ce2d777355403f123587757..f15732e93c2e9c0865c42e4af9cb6458d4402c0a 100644
---- a/kernel/printk/sysctl.c
-+++ b/kernel/printk/sysctl.c
-@@ -3,7 +3,6 @@
-  * sysctl.c: General linux system control interface
-  */
- 
--#include <linux/sysctl.h>
- #include <linux/printk.h>
- #include <linux/capability.h>
- #include <linux/ratelimit.h>
+Acked-by: Paolo Abeni <pabeni@redhat.com>
 
----
-base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-change-id: 20251215-jag-sysctl_fw_decl-58c718715c8c
+I'm ok with merging this via the sysctl tree, given that we don't see
+much action happening in the ax25 header (and very low chances of
+conflicts). But I would be also ok if you would split this into multiple
+patches, one for each affected subsystem.
 
-Best regards,
--- 
-Joel Granados <joel.granados@kernel.org>
+/P
 
 
 
