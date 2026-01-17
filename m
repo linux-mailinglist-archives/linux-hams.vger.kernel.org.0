@@ -1,123 +1,87 @@
-Return-Path: <linux-hams+bounces-749-lists+linux-hams=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hams+bounces-750-lists+linux-hams=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hams@lfdr.de
 Delivered-To: lists+linux-hams@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4051FD38D02
-	for <lists+linux-hams@lfdr.de>; Sat, 17 Jan 2026 07:53:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1124BD38D7E
+	for <lists+linux-hams@lfdr.de>; Sat, 17 Jan 2026 10:52:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3D97130319FE
-	for <lists+linux-hams@lfdr.de>; Sat, 17 Jan 2026 06:53:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A301B301FB4A
+	for <lists+linux-hams@lfdr.de>; Sat, 17 Jan 2026 09:52:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52DD5314D0F;
-	Sat, 17 Jan 2026 06:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hk83zeIu"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27F103346A2;
+	Sat, 17 Jan 2026 09:52:05 +0000 (UTC)
 X-Original-To: linux-hams@vger.kernel.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04842303C88
-	for <linux-hams@vger.kernel.org>; Sat, 17 Jan 2026 06:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00E0334683
+	for <linux-hams@vger.kernel.org>; Sat, 17 Jan 2026 09:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768632809; cv=none; b=AdBnVXjlvtiBxHXVEG+I24Gq5/AUBsYJGB7td8Cv71oOr+7vGYR6JwjloW/e5XVz4cnTeKKcZGBsIDLABhXt5RLFlc+uHVQHVREdPkGJV6DOq1GAwULzYR/r43a+lL0y2II7+Nk8AAVs91l3LgF/ljIfbDjpN/8Alh3NKFKBYWg=
+	t=1768643525; cv=none; b=g4N4bnK/83OJEZDQ3B3Oft+TqGsQNg43cV60LKgvF5tu87Z9Fgl7WZyqO0dFmdM8I9CVh52bxp2aU/oRzTWx9J2JNnXJCE3xzYx+Xpj2SRzU60w3i84O0wUpuUfXYhCI5m0Yu576nSD+W4cCt3oqe2PEoLgtzSy5q6lhSyhPoKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768632809; c=relaxed/simple;
-	bh=wa6vuB9JRnirEiTJdbuYjUdjPSbw4Z5u3/ha86tPljk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CQ9CEXtL+V6AEbLEEsXAtASLxMXZZcoNRJau/K5/bYgTjVsuka6isywsbA7s78Irn9Dk3PJww/g0jJj0jbtF0E9/42tN2SIs8t5EXiyGeyjRQ0wtniKh6k4Imod9gdMhN9nLQYyJ/YSuoioyoas0h+2tMHqOZieyAkzoQ7DwB4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hk83zeIu; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c0c24d0f4ceso1046530a12.1
-        for <linux-hams@vger.kernel.org>; Fri, 16 Jan 2026 22:53:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768632807; x=1769237607; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jl+ikO1mWiP4R9MtrTZgFyugi2SRJMPKhkoPAYsVxK0=;
-        b=hk83zeIu05NT3c5oEVgCvqdb057LaSEV+iUbDtsSMbXTjA7CGPrlDccB/lafZ5ROo/
-         /scNh5F4DIc8yuAyVzV0o7DzEpEPhTfRyjQ21BuVjiYytAZHhfzbuYwOC9JhfJ7ijg+j
-         RUGWPTJiL+UG3n6JmV5ZG7xa6FWWLOdi2uC4LtL9/u6wK8e99mSuy6I5BWNokd6XEln+
-         X1aZKZM413nPy9NNWeRIM77mcuLdQqFchmKk/ZcwMtS+ZxV2qvxk61ofpVytSpCCEQjO
-         OjohvTBonhIc7oSVdHQX0O6BOADj1tT3bZzODvA170rE0wRQmbHn3La3qI2+El3dW0uF
-         mYiw==
+	s=arc-20240116; t=1768643525; c=relaxed/simple;
+	bh=eGE6xwnWBaZef2Q9XaOEM+/ndlcgV1e5CHdr5Ad2SH8=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=HkljDK0+8AuupJOSGH50/paRYb+AemkMf7b/P5lJwSjxTinxpFlGcwTlgeDe7+hc4RkWKOksOgVJIziosG8Al2mZ0s1v9FD9ERHVokB+UK34lhK1tgUZSitTIDiF0BwTkidTM9cl41gzZCkZz/2yxkRiEL70gXiS1UnoIRwz4Ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-660feca27c9so4816123eaf.1
+        for <linux-hams@vger.kernel.org>; Sat, 17 Jan 2026 01:52:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768632807; x=1769237607;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Jl+ikO1mWiP4R9MtrTZgFyugi2SRJMPKhkoPAYsVxK0=;
-        b=U0RSSubqUn/VjnAhLe2xnfUj9XBG4XT9Ricp6gp65GV+0cOe4UQkmvDCIs8Ey6QZRV
-         2IUqx71/L2RIbKoaeevUkOGrSbbQZWAVkBWqeIZ1v3HZT3tXjq7zZMZ/ySmoBEVBJdC+
-         gzAgGyRtaPXnGmTbylwdEVSpMGJc6g45HEcrqbllsDZJC49Qr/Le7LHQltLTTBCU5R03
-         SchuHMbzU9Njrlxc0UpUBHgXTHflu0LZtJInpAvGUSmK9mE6f75xv/SjFyYUi91L4vZm
-         +CmJibnfmZym3lt6wh0K6m2lRLu3Pzs/uqlFapV7Rk58zsBi/mdZOrMu6wR4Klbr10yD
-         e/PA==
-X-Gm-Message-State: AOJu0Yxv+Fy/Fk3u5uIaBc3nsQJNtcSA+dpOtE3twEsjmqHhh18zc6nD
-	S9IpGe5K2d7Ki+hzyBpnlv8IPl6dtW0KBbYU8EetJi3/65tiO4JoldqWpHw0Fg==
-X-Gm-Gg: AY/fxX55gD04TW0gdP7XRIlo2hVraiyVe7h9qNjm2gFPm2n07fe7vD5p7lL8k2tnA6k
-	90YCvK49YM5WXFjoeISlfUfFaWptOSJ3kWZ7SUEsQfImx+c/SgZAJqgirve/VS/0MDMUVPy66db
-	RTGgwN4RY4NDYrHqwxkNO+p9WQ70mRi2YPbESvkxG5Nk5DFXN+wyIrmUySbfussvcUyxtygUPl/
-	ZXh2KERei0OV0dWtHLoTfhzJ9YySS9ExUu4u4j5kI/B0l4YtnbWxoMatSZHOjwKmo9v2ugQdI2I
-	01DK0ssy9iEwIsXnM0tx4YXmU3wmLKXWbU10SC4nVGu4AujPS3xNyyDhho1Md2G/LoJCGVerdRg
-	zwPO7xvoJt/RrshEelkNKbvog8ZdRFFVtT1rtetldAnU+uHbcLpsLhIwNbx40b6DtUDrBRtfKVg
-	0giyjbkR8Jj/l5STjk9sp0S7+2WXSt
-X-Received: by 2002:a17:90b:2e08:b0:340:54a1:d703 with SMTP id 98e67ed59e1d1-3527329cef9mr4740206a91.35.1768632807329;
-        Fri, 16 Jan 2026 22:53:27 -0800 (PST)
-Received: from localhost.localdomain ([111.125.235.106])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c5edf355ca7sm3711091a12.27.2026.01.16.22.53.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 22:53:27 -0800 (PST)
-From: Prithvi Tambewagh <activprithvi@gmail.com>
-To: syzbot+df52f4216bf7b4d768e7@syzkaller.appspotmail.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	horms@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: linux-hams@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	Prithvi Tambewagh <activprithvi@gmail.com>
-Subject: Testing for netrom: fix KASAN slab-use-after-free in nr_dec_obs()
-Date: Sat, 17 Jan 2026 12:23:13 +0530
-Message-Id: <20260117065313.32506-1-activprithvi@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <69694da9.050a0220.58bed.002a.GAE@google.com>
-References: <69694da9.050a0220.58bed.002a.GAE@google.com>
+        d=1e100.net; s=20230601; t=1768643522; x=1769248322;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YEPbtUYLx2Jm4/KlE923UzOmbnLMxWXF0DLZ1mFy3hk=;
+        b=kYMInEDfrzcvKI8BN5dmo3n7MPX3cBGwmjIw+eC+8CGH/ioL3C/xCnoiBsU84bQcQ+
+         fXs8dw6nFGTc7Iwpntpog2FY+CM7VUQmBcatw5PGyF36oLf7N4Co8dSs8NjW8gbS5MIl
+         MHDWVwtbYP1Y7JoCdmYHhWY91/O98hDeC/qa61bjEczFRChWCZiWJDOph1WNyybtyOqi
+         NtnTeb1Qm2aiUqVEz26MbcYuFujWUvvS834STgFOtn77uG28cHtuE7hmQ63ysddYIRQy
+         ZSue1A0RkvFrv1KxHGWXkBZbXoy9CPhN2B0UoHAjdjuv3JuffmC6l19awfpMPKSY2UNd
+         TsZw==
+X-Forwarded-Encrypted: i=1; AJvYcCVlyFxIktsF5cQv1mUpD6ilnr3nDPEk87vCRxrc3+0s/w84NxxsnL2zOQoFyT4AQqIkgkKFV0S6zRn4@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNvbryhPLvY7/+iygNfHrGSAu5JPMBvn1WNtcJ84gvW+OziVg3
+	8Rl+vKJyA+mKRzDC+M8x49GaKMetObmIgNLmB1DK5afRh89fhZp0jF35cBorlZwGGviupO06W+8
+	2wDn/wsp6U+5phNlGERxXC9sYkgw9jKqWZTUfNtt4Yjjqbi2jbW1A51RWdik=
 Precedence: bulk
 X-Mailing-List: linux-hams@vger.kernel.org
 List-Id: <linux-hams.vger.kernel.org>
 List-Subscribe: <mailto:linux-hams+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hams+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:2914:b0:65b:387a:835f with SMTP id
+ 006d021491bc7-661188be5cbmr1959340eaf.31.1768643522624; Sat, 17 Jan 2026
+ 01:52:02 -0800 (PST)
+Date: Sat, 17 Jan 2026 01:52:02 -0800
+In-Reply-To: <20260117065313.32506-1-activprithvi@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <696b5bc2.050a0220.3390f1.0008.GAE@google.com>
+Subject: Re: [syzbot] [hams?] KASAN: slab-use-after-free Read in nr_rt_ioctl
+From: syzbot <syzbot+df52f4216bf7b4d768e7@syzkaller.appspotmail.com>
+To: activprithvi@gmail.com, davem@davemloft.net, edumazet@google.com, 
+	horms@kernel.org, kuba@kernel.org, linux-hams@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-#syz test upstream be548645527a131a097fdc884b7fca40c8b86231
+Hello,
 
-Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
----
- net/netrom/nr_route.c | 1 -
- 1 file changed, 1 deletion(-)
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-diff --git a/net/netrom/nr_route.c b/net/netrom/nr_route.c
-index b94cb2ffbaf8..788e375537fe 100644
---- a/net/netrom/nr_route.c
-+++ b/net/netrom/nr_route.c
-@@ -466,7 +466,6 @@ static int nr_dec_obs(void)
- 				nr_neigh = s->routes[i].neighbour;
- 
- 				nr_neigh->count--;
--				nr_neigh_put(nr_neigh);
- 
- 				if (nr_neigh->count == 0 && !nr_neigh->locked)
- 					nr_remove_neigh(nr_neigh);
+Reported-by: syzbot+df52f4216bf7b4d768e7@syzkaller.appspotmail.com
+Tested-by: syzbot+df52f4216bf7b4d768e7@syzkaller.appspotmail.com
 
-base-commit: be548645527a131a097fdc884b7fca40c8b86231
--- 
-2.34.1
+Tested on:
 
+commit:         be548645 Merge tag 'for-linus' of git://git.kernel.org..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=149013fc580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=86243b7b185acc7e
+dashboard link: https://syzkaller.appspot.com/bug?extid=df52f4216bf7b4d768e7
+compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=16c6939a580000
+
+Note: testing is done by a robot and is best-effort only.
 
